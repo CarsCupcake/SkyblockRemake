@@ -24,10 +24,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 /**
  * Sets/Gets NBT tags from ItemStacks 
  * Supports 1.8-1.18
- * 
+ *
  * Github: https://github.com/BananaPuncher714/NBTEditor
- * Spigot: https://www.spigotmc.org/threads/269621/
- * 
+ * Spigot: <a href="https://www.spigotmc.org/threads/269621/">Spigot Page</a>
+ *
  * @version 7.18.2
  * @author BananaPuncher714
  */

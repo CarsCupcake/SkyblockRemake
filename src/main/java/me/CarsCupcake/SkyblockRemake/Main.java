@@ -266,25 +266,6 @@ public class Main extends JavaPlugin {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 
 				new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) player).getHandle());
-
-//				manainjection(player);
-//				healthinjection(player);
-//				definjection(player);
-//				speedinjection(player);
-//				strengthinjection(player);
-//				cdinjection(player);
-//				ccinjection(player);
-//				abilitydamageinjection(player);
-//				ferocityinjection(player);
-//				magicfindinjection(player);
-//				miningspeedinjection(player);
-//				miningfortuneinjection(player);
-//				titaniumchanceinjection(player);
-//				coinsinjection(player);
-//				bitsinjection(player);
-//				mithrilpowderinjection(player);
-//				mpristineinjection(player);
-//				attackspeedinjection(player);
 				absorbtion.put(player, 0);
 				absorbtionrunntime.put(player, 0);
 				shortbow_cd.put(player, false);
@@ -680,27 +661,11 @@ public class Main extends JavaPlugin {
 				entity.remove();
 
 			});
-
-//		currmana.clear();
-//		currhealth.clear();
-//		basedef.clear();
-//		basehealth.clear();
-//		basemana.clear();
-//		basespeed.clear();
-//		basecc.clear();
-//		basecd.clear();
-//		basestrength.clear();
-//		baseabilitydamage.clear();
 		absorbtion.clear();
 		absorbtionrunntime.clear();
-//		baseferocity.clear();
 		baseentityhealth.clear();
 		currentityhealth.clear();
-//		basemagicfind.clear();
 		shortbow_cd.clear();
-//		baseminingspeed.clear();
-//		baseminingfortune.clear();
-//		basepristine.clear();
 		termhits.clear();
 		Items.SkyblockItems.clear();
 		if (DwarvenEvent.ActiveEvent != null)
@@ -922,134 +887,6 @@ public class Main extends JavaPlugin {
 						if (speedpersentage > 5)
 							speedpersentage = 5;
 						player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
-
-
-//						float maxhealth = playerhealthcalc(player);
-//
-//						if (maxhealth < 125) {
-//							player.setMaxHealth(20);
-//						} else if (maxhealth < 165) {
-//							player.setMaxHealth(22);
-//						} else if (maxhealth < 230) {
-//							player.setMaxHealth(24);
-//						} else if (maxhealth < 300) {
-//							player.setMaxHealth(26);
-//						} else if (maxhealth < 400) {
-//							player.setMaxHealth(28);
-//						} else if (maxhealth < 500) {
-//							player.setMaxHealth(30);
-//						} else if (maxhealth < 650) {
-//							player.setMaxHealth(32);
-//						} else if (maxhealth < 800) {
-//							player.setMaxHealth(34);
-//						} else if (maxhealth < 1000) {
-//							player.setMaxHealth(36);
-//						} else if (maxhealth < 1250) {
-//							player.setMaxHealth(38);
-//						} else if (maxhealth >= 1250) {
-//							player.setMaxHealth(40);
-//						}
-//
-//						if (absorbtion.containsKey(player) && absorbtion.get(player) != 0) {
-//							int abs = absorbtion.get(player);
-//
-//							if (abs < 125) {
-//								player.setAbsorptionAmount(2);
-//							} else if (abs < 165) {
-//								player.setAbsorptionAmount(4);
-//							} else if (abs < 230) {
-//								player.setAbsorptionAmount(6);
-//							} else if (abs < 300) {
-//								player.setAbsorptionAmount(8);
-//							} else if (abs < 400) {
-//								player.setAbsorptionAmount(10);
-//							} else if (abs < 500) {
-//								player.setAbsorptionAmount(12);
-//							} else if (abs < 650) {
-//								player.setAbsorptionAmount(14);
-//							} else if (abs < 800) {
-//								player.setAbsorptionAmount(16);
-//							} else if (abs < 1000) {
-//								player.setAbsorptionAmount(18);
-//							} else if (abs < 1250) {
-//								player.setAbsorptionAmount(20);
-//							} else if (abs >= 1250) {
-//								player.setAbsorptionAmount(22);
-//							}
-//						} else {
-//							player.setAbsorptionAmount(0);
-//						}
-//						float health = player.currhealth;
-//
-//						float estimated = (float) ((health / maxhealth) * player.getMaxHealth());
-//
-//						if (estimated < 0)
-//							estimated = 0;
-//
-//						player.getPlayer().setHealth(estimated);
-//
-//						player.getAttribute(Attribute.GENERIC_ATTACK_SPEED)
-//								.setBaseValue(2.8 + (2.8 * (1D - playerattackspeed(player) / 100)));
-////					System.out.println("" +( 2.8   +(2.8 * (1D - playerattackspeed(player) / 100))));
-//
-//						String extraafterdef = "";
-//						if (termhits.get(player) != 0) {
-//							if (termhits.get(player) >= 3)
-//								extraafterdef = extraafterdef + "§a§lT3!  ";
-//							else
-//								extraafterdef = extraafterdef + "§6T" + termhits.get(player) + "  ";
-//						}
-//						
-//						String stackMsg = "";
-//						if(player.bonusAmounts.containsKey(Bonuses.Dominus) &&player.bonusAmounts.get(Bonuses.Dominus) > 1 && Dominus.playerDominus.containsKey(player)) {
-//							int stacks = Dominus.playerDominus.get(player).stacks;
-//							
-//							if(stacks != 0) {
-//								String large = "";
-//								if(stacks == 10)
-//									large = "§l";
-//								stackMsg += "§6" +large+ stacks +"§??§r";
-//							}
-//							
-//							
-//						}
-//						if(player.bonusAmounts.containsKey(Bonuses.HydraStrike) &&player.bonusAmounts.get(Bonuses.HydraStrike) > 1 ) {
-//							int stacks = HydraStrike.get(player).stacks;
-//							
-//							if(stacks != 0) {
-//								String large = "";
-//								if(stacks == 10)
-//									large = "§l";
-//								stackMsg += "§6" +large+ stacks +"§?§§r";
-//							}
-//							
-//							
-//						}
-//						if(player.bonusAmounts.containsKey(Bonuses.ArcaneVision) &&player.bonusAmounts.get(Bonuses.ArcaneVision) > 1 ) {
-//							int stacks = ArcaneVision.getArcaneVision(player).stacks;
-//							
-//							if(stacks != 0) {
-//								String large = "";
-//								if(stacks == 10)
-//									large = "§l";
-//								stackMsg += "§6" +large+ stacks +"Ѫ§r";
-//							}
-//							
-//							
-//						}
-//
-//						if (absorbtion.containsKey(player) && absorbtion.get(player) != 0) {
-//							player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-//									new TextComponent("§6" + (player.currhealth + absorbtion.get(player)) + "/"
-//											+ playerhealthcalc(player) + "§?§ " + stackMsg +"    §a" + playerdefcalc(player)
-//											+ "§?§ Defense  " + extraafterdef + "   §b" + player.currmana + "/"
-//											+ playermanacalc(player) + "✎ Mana"));
-//						} else
-//							player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-//									new TextComponent("§c" + player.currhealth + "/" + playerhealthcalc(player)
-//											+ "§?§ " + stackMsg +"    §a" + playerdefcalc(player) + "§?§ Defense  " + extraafterdef
-//											+ "   §b" + player.currmana + "/" + playermanacalc(player) + "✎ Mana"));
-//
 
 						updatebar(player);
 
@@ -2368,13 +2205,6 @@ public class Main extends JavaPlugin {
 						value = rawvalue;
 				}
 			}
-			/*} else {
-				Float rawvalue = data.get(new NamespacedKey(getMain(), stat.getDataName()), PersistentDataType.FLOAT);
-				if (rawvalue == null)
-					value = 0;
-				else
-					value = rawvalue;
-			}*/
 			}
 		}
 
@@ -3652,7 +3482,7 @@ public class Main extends JavaPlugin {
 
 		this.getServer().sendPluginMessage(this, "skyblock:main", stream.toByteArray());
 	}
-
+//Temporarily Not avaidable
 /*	@EventHandler
 	public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
 
