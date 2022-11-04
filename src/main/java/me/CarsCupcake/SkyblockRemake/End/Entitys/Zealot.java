@@ -56,6 +56,7 @@ public class Zealot implements SkyblockEntity {
 
         entity = loc.getWorld().spawn(loc, Enderman.class, enderman -> {
             enderman.setRemoveWhenFarAway(false);
+            enderman.addScoreboardTag("combatxp:40");
             if(isLoot)
                 enderman.setCarriedBlock(Material.ENDER_CHEST.createBlockData());
         });

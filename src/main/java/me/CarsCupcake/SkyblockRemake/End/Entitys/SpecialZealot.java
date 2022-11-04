@@ -55,7 +55,8 @@ public class SpecialZealot implements SkyblockEntity {
 
         entity = loc.getWorld().spawn(loc, Enderman.class, enderman -> {
             enderman.setRemoveWhenFarAway(false);
-                enderman.setCarriedBlock(Material.END_PORTAL_FRAME.createBlockData());
+            enderman.addScoreboardTag("combatxp:40");
+            enderman.setCarriedBlock(Material.END_PORTAL_FRAME.createBlockData());
         });
         SkyblockEntity.livingEntity.put(entity, this);
     }
@@ -67,7 +68,7 @@ public class SpecialZealot implements SkyblockEntity {
 
     @Override
     public String getName() {
-        return "Zealot";
+        return "Special Zealot";
     }
 
     @Override
