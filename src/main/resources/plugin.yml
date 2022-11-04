@@ -1,0 +1,60 @@
+main: me.CarsCupcake.SkyblockRemake.Main
+name: SkyblockRemake
+version: 0.8 - Bazzar Update
+author: CarsCupcake
+api-version: 1.17 
+depend:  [ LibsDisguises ]
+softdepend: [ FastAsyncWorldEdit ]
+
+commands:
+  start:
+  gm:
+    permission: gm.challange
+    describtion: "Quick Gamemode Toggle"
+  item:
+    describtion: "Get the Custom items"
+  timer:
+    permission: timer.challange
+    describtion: "Timer Operations"
+  soulsheep: 
+  npc: 
+  reloadchallengeplugin:
+  terminal:
+  lavabounce:
+  statsystem:
+  healthitems:
+  stats:
+   usage: /stats <stat> <heigh>
+  e:
+  testobject:
+  spawns:
+  part:
+  slayer:
+  beacon:
+  laser:
+  ench:
+   describtion: Enchant but with custom enchants
+   
+  av:
+   usage: /<command>
+   describtion: Opens an Anvil
+  reforge:
+  coins:
+  canon:
+  kuudra:
+  generate:
+  accessoryslots:
+  unlockpowers:
+  event:
+  addpetxp:
+  addskillxp:
+  dungeon:
+  giveeditionitem:
+  startboss:
+  craft:
+  selectmob:
+  entitynpc:
+  deliver:
+  mob:
+  setting:
+  
