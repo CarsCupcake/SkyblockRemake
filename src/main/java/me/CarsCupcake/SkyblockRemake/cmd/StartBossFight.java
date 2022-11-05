@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Phase1;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase2;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Maxor;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
@@ -31,6 +32,9 @@ public class StartBossFight implements CommandExecutor {
 			}
 			if(arg3[0].equals("dragon")) {
 				StartFight.startDragonFight();
+			}
+			if(arg3[0].equals("6")) {
+				new Phase1();
 			}
 		}else{
 			if(arg3[0].equals("7")) {

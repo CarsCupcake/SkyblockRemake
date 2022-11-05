@@ -178,6 +178,8 @@ public class SkyblockRemakeEvents implements Listener{
 		//F1 Bossroom
 		if(event.getPlayer().getServer().getPort() == 25567)
 			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -42.5,71.5,42.5,180, 0));
+		if(SkyblockServer.getServer().getType() == ServerType.F6)
+			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -8.5,69.5,-0.5,0, 0));
 		
 		
 		
@@ -1259,6 +1261,9 @@ public int dropAmount(int minigFortune, int amount) {
 		//F1 Bossroom
 		if(event.getPlayer().getServer().getPort() == 25567)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -42.5,71.5,42.5,180, 0));
+		if(SkyblockServer.getServer().getType() == ServerType.F6)
+			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -8.5,69.5,-0.5,0, 0));
+
 		Main.updatebar(player);
 	}
 	@EventHandler

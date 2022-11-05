@@ -4,44 +4,37 @@ import org.jetbrains.annotations.Contract;
 
 public enum ServerType {
 
-    Hub("hub"),
-    DwarvenMines("dwarven"),
-    CrimsonIsle("crimsonilse"),
-    TheInstance("kuudra"),
-    DungeonHub("kuudra"),
-    F7("f7"),
-    End("EndIsle");
+    Hub("hub", 25565),
+    DwarvenMines("dwarven", 25564),
+    CrimsonIsle("crimsonilse", 25568),
+    TheInstance("kuudra", 25569),
+    DungeonHub("dh", 25570),
+    F7("f7", 25567),
+    F6("f6",25572),
+    End("EndIsle", 25571);
     public final String s;
-    ServerType(String s){
+    public final int ip;
+    ServerType(String s, int i){
         this.s = s;
+        ip = i;
 
     }
 
     @Contract(pure = true)
     public static ServerType getFromString(String s){
-        ServerType type;
-        switch (s){
-            case "hub" -> type = ServerType.Hub;
-            case "dwarven" -> type = ServerType.DwarvenMines;
-            case "crimsonisle" -> type = ServerType.CrimsonIsle;
-            case "EndIsle" -> type = ServerType.End;
-            default -> type = null;
-        }
+        ServerType type = null;
+
+        for (ServerType types : ServerType.values())
+            if(types.s.equals(s))
+                type = types;
 
         return type;
     }
     public static ServerType getServerByPort(int port){
-        ServerType type;
-        switch (port){
-            case 25565 -> type = ServerType.Hub;
-            case 25564 -> type = ServerType.DwarvenMines;
-            case 25568 -> type = ServerType.CrimsonIsle;
-            case 25567 -> type = ServerType.F7;
-            case 25569 -> type = ServerType.TheInstance;
-            case 25570 -> type = ServerType.DungeonHub;
-            case 25571 -> type = ServerType.End;
-            default -> type = null;
-        }
+        ServerType type = null;
+        for (ServerType types : ServerType.values())
+            if(types.ip == port)
+                type = types;
         return type;
     }
 
