@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import java.util.Map;
 
+import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.DragonTracer;
 import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.Syphon;
 import me.CarsCupcake.SkyblockRemake.Enchantments.UltEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -29,6 +30,7 @@ public class SkyblockEnchants {
 
 
 	public static final Syphon SYPHON = new Syphon();
+	public static final DragonTracer DRAGON_TRACER = new DragonTracer();
 
 
 	private static void initEvents(){
@@ -40,6 +42,7 @@ public class SkyblockEnchants {
 		registerEvent(new ChimeraListener());
 		registerEvent(new SoulEater());
 		registerEvent(new NormalEnchantsListener());
+		registerEvent(DRAGON_TRACER);
 	}
 	private static void registerEvent(Listener listener){
 		Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
@@ -57,6 +60,7 @@ public class SkyblockEnchants {
 		registerEnchantment(CHIMERA);
 		registerEnchantment(SOUL_EATER);
 		registerEnchantment(SYPHON);
+		registerEnchantment(DRAGON_TRACER);
 }
 public static void unregister(){
 	for (Enchantment enchantment : enchantments)
