@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -35,6 +34,7 @@ public class StartFight {
     public static void startDragonFight() {
         playerDMG.clear();
         Loot.damage.clear();
+        Loot.resetBlocks(Loot.reset, Loot.resetData);
         HashMap<Location, Player> placedEyesClone = new HashMap<>(placedEyes);
         for (Location loc : placedEyesClone.keySet()) {
             Player p = placedEyes.get(loc);

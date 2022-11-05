@@ -46,6 +46,7 @@ public class Loot implements Listener {
     public static Map<Player, Double> damage = new HashMap<>();
     public static Location lootLoc;
     public static HashMap<Player,ArrayList<LootObject>> loots = new HashMap<>();
+    private static BukkitRunnable resetRunner;
 
 
     private static void strangeCircleStuff(ArrayList<Location> as, Player killer, Location middle) {
@@ -171,17 +172,35 @@ public class Loot implements Listener {
             }
         }.runTaskTimer(Main.getMain(), 0, 0);
     }
-
+    public static HashMap<Location, Material> reset;
+    public static HashMap<Location, BlockData> resetData;
     protected static void startBlockResetter(HashMap<Location, Material> reset, HashMap<Location, BlockData> resetData) {
+        Loot.reset = reset;
+        Loot.resetData = resetData;
+        resetRunner = new BukkitRunnable() {
+            @Override
+            public void run() {
+                resetBlocks(reset, resetData);
+            }
+        };
+        resetRunner.runTaskLater(Main.getMain(), 20*30);
 
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
 
+    }
+
+    public static void resetBlocks(HashMap<Location, Material> reset, HashMap<Location, BlockData> resetData){
+        try {
+            resetRunner.cancel();
             for (Location loc : reset.keySet()) {
                 loc.getBlock().setType(reset.get(loc));
                 loc.getBlock().setBlockData(resetData.get(loc));
             }
+            Loot.reset = null;
+            Loot.resetData = null;
 
-        }, 20 * 30);
+        }catch (Exception ignored){}
+
+
     }
 
     public static void dragonDownMessage(SkyblockDragon dragon, Player killer, Location location) {

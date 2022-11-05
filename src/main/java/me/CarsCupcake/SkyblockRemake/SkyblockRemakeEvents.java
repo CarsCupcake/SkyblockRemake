@@ -24,6 +24,7 @@ import org.bukkit.block.CommandBlock;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEnderDragonPart;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -2264,7 +2265,6 @@ public int dropAmount(int minigFortune, int amount) {
 	}
 	@EventHandler
 	public void ProjectileHitEvent(ProjectileHitEvent e) {
-
 		if(e.getHitBlock() != null){
 			e.getEntity().remove();
 			if(e.getEntity() instanceof FishHook &&  LavaFishingHook.contains((FishHook)e.getEntity()))
@@ -2281,6 +2281,7 @@ if(e.getEntity().getShooter() instanceof Player) {
 	}
 	if(e.getHitEntity() == null)
 		return;
+	
 
 		 HashMap<String, Integer> stats = new HashMap<String, Integer>();
 		 SkyblockPlayer player = null;
@@ -2366,14 +2367,7 @@ if(str.startsWith("power:"))
 		int cccalc = (int )(Math.random() * 100 + 1);
 		Calculator calculator = new Calculator(e.getEntity());
 		calculator.playerToEntityDamage((LivingEntity) e.getHitEntity(), player);
-		
-		/*if(cccalc <= cc) {
-    		damage = (5 + (float)dmg) * (1+((float)stre/100)) * (1+((float)cd/100));
-    		
-    	}else {
-    		damage = (5 + (float)dmg) * (1+((float)stre/100));
-    		
-    	}*/
+
     		double mult = 1;
     		double extramult = 0;
     		if(HydraStrike.hasHydraStrike(player)) {
@@ -2513,7 +2507,28 @@ if(str.startsWith("power:"))
 		  
 		  
 		  
-		}}else {
+		}else{
+				if(e.getHitEntity() instanceof CraftEnderDragonPart){
+					Calculator calculator = new Calculator(e.getEntity());
+					calculator.playerToEntityDamage(((CraftEnderDragonPart) e.getHitEntity()).getParent(), player);
+
+					double mult = 1;
+					double extramult = 0;
+					if(HydraStrike.hasHydraStrike(player)) {
+						extramult = 0.02*HydraStrike.get(player).stacks;
+					}
+					mult += extramult;
+
+					mult += power*0.08;
+
+					calculator.damage *= mult;
+
+					calculator.damageEntity(((CraftEnderDragonPart) e.getHitEntity()).getParent(), player, DamageCause.PROJECTILE);
+					calculator.showDamageTag(e.getHitEntity());
+				}
+			}
+
+		}else {
 			e.getEntity().remove();
 		}
 		}
