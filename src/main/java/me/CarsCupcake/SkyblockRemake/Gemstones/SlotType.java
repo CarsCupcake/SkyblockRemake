@@ -24,7 +24,7 @@ public String getSymbol() {
 	case Amber:
 		return "⸕";
 	case Amethyst:
-		return "§?§";
+		return "❈";
 	case Combat:
 		return "⚔";
 	case Defensive:
