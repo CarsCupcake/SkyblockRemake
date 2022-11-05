@@ -22,10 +22,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -111,7 +108,6 @@ public class Loot implements Listener {
                                 }
                                 StartFight.weight.remove(p);
                                 StartFight.weight.put(p, playerWeight);
-                                System.out.println(StartFight.weight.get(p));
                                 Double finalPlayerWeight = playerWeight;
 
                                 calculateDrop(p, b.getLocation(), finalPlayerWeight);
@@ -124,7 +120,7 @@ public class Loot implements Listener {
                         }
                         if (b.getX() + 3 == middle.getBlockX() && b.getZ() == middle.getBlockZ()) {
                             for(Player p : Bukkit.getOnlinePlayers()) {
-                                ItemStack item = EndItems.Items.SuperiorDragonFragment.getItem().createNewItemStack();
+                                ItemStack item = DragonTypes.dragonByEntity(StartFight.entityDragon).getFragment().createNewItemStack();
                                 item.setAmount(22);
                                 spawnLoot(p, b.getLocation(), item);
                             }
@@ -139,6 +135,11 @@ public class Loot implements Listener {
                         }
                         if (b.getZ() + 3 == middle.getBlockZ() && b.getX() == middle.getBlockX()) {
                             //Enchanted e pearl here
+                            for(Player p : Bukkit.getOnlinePlayers()) {
+                                ItemStack item = EndItems.Items.EnchantedEnderPearl.getItem().createNewItemStack();
+                                item.setAmount(5);
+                                spawnLoot(p, b.getLocation(), item);
+                            }
                         }
 
                         as.remove(armor);
@@ -473,6 +474,121 @@ public class Loot implements Listener {
                         }
                     }
                 }
+                case OLD -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.OldBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.OldHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.OldChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.OldLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                case PROTECTOR -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.ProtectorBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.ProtectorHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.ProtectorChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.ProtectorLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                case STRONG -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.StrongBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.StrongHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.StrongChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.StrongLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                case WISE -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.WiseBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.WiseHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.WiseChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.WiseLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                case UNSTABLE -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.UnstableBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.UnstableHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.UnstableChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.UnstableLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                case YOUNG -> {
+                    switch (this){
+                        case BOOTS -> {
+                            return EndItems.Items.YoungBoots.getItem().createNewItemStack();
+                        }
+                        case HELMET -> {
+                            return EndItems.Items.YoungHelmet.getItem().createNewItemStack();
+                        }
+                        case CHESTPLATE -> {
+                            return EndItems.Items.YoungChestplate.getItem().createNewItemStack();
+                        }
+                        case LEGGINGS -> {
+                            return EndItems.Items.YoungLeggings.getItem().createNewItemStack();
+                        }
+                        default -> {
+                            return null;
+                        }
+                    }
+                }
+                
 
                 default -> {
                     return null;

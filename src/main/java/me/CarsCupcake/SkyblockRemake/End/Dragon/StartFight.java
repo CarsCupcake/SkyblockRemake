@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.End.Dragon;
 
 import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.Loot;
+import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.PathFind;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.SkyblockDragon;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class StartFight {
     public static boolean fightActive = false;
@@ -52,7 +54,6 @@ public class StartFight {
             }
 
         }
-        System.out.println(weight);
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 5, 1);
             playerDMG.put(p,0D);
@@ -60,7 +61,6 @@ public class StartFight {
         fightActive = true;
 
         new BukkitRunnable() {
-            SkyblockDragon dragon = null;
 
             @Override
             public void run() {
@@ -80,48 +80,41 @@ public class StartFight {
 
 
                 }
-
-
                 int dragType = (int) (Math.random() * 100);
-
-                /*if (dragType >= 96) {
-                    dragon = (SkyblockDragon) DragonTypes.SUPERIOR.spawnEntity(spawnLoc);
-                } else if (dragType >= 80) {
-                    dragon = (SkyblockDragon) DragonTypes.STRONG.spawnEntity(spawnLoc);
-                } else if (dragType >= 64) {
-                    dragon= (SkyblockDragon) DragonTypes.WISE.spawnEntity(spawnLoc);
-                } else if (dragType >= 48) {
-                    dragon = (SkyblockDragon) DragonTypes.YOUNG.spawnEntity(spawnLoc);
-
-                } else if (dragType >= 32) {
-                    double random = Math.random() * 100;
-                    if (random > 60) {
-                        dragon = (SkyblockDragon) DragonTypes.UNSTABLE.spawnEntity(spawnLoc);
-                            *//*new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    {
-                                        if(!(activeDrag.isAlive())) {
-                                            this.cancel();
+                if(4 >= dragType){
+                    entityDragon = (SkyblockEntity) DragonTypes.SUPERIOR.spawnEntity(spawnLoc);
+                }else{
+                    int select = new Random().nextInt(6);
+                    switch (select){
+                        case 0 -> entityDragon = (SkyblockEntity) DragonTypes.STRONG.spawnEntity(spawnLoc);
+                        case 1 -> entityDragon= (SkyblockEntity) DragonTypes.WISE.spawnEntity(spawnLoc);
+                        case 2 -> entityDragon = (SkyblockEntity) DragonTypes.YOUNG.spawnEntity(spawnLoc);
+                        case 3 ->{
+                            double random = Math.random() * 100;
+                            entityDragon = (SkyblockEntity) DragonTypes.UNSTABLE.spawnEntity(spawnLoc);
+                            if (random > 60) {
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        {
+                                            if(!(activeDrag.isAlive())) {
+                                                this.cancel();
+                                            }
+                                            PathFind.randomizeMovement(((CustomDragon)entityDragon).getSkyblockDragon());
                                         }
-                                        PathFind.randomizeMovement(dragon);
                                     }
-                                }
-                            }.runTaskTimer(Items.getInstance(),50L,150L);*//*
-                    } else {
-                        dragon = (SkyblockDragon) DragonTypes.UNSTABLE.spawnEntity(spawnLoc);
+                                }.runTaskTimer(Main.getMain(),50L,150L);
+                            }
+                        }
+                        case 4 -> entityDragon = (SkyblockEntity) DragonTypes.PROTECTOR.spawnEntity(spawnLoc);
+                        default ->  entityDragon = (SkyblockEntity) DragonTypes.OLD.spawnEntity(spawnLoc);
                     }
+                }
+                activeDrag = ((CustomDragon)entityDragon).getSkyblockDragon();
+                as = ((CustomDragon)entityDragon).getFollower();
+                maxDragHealth = entityDragon.getMaxHealth();
+                dragonHealth = entityDragon.getHealth();
 
-                } else if (dragType >= 16) {
-                    dragon = (SkyblockDragon) DragonTypes.PROTECTOR.spawnEntity(spawnLoc);
-                } else if (dragType >= 0) {
-                    dragon = (SkyblockDragon) DragonTypes.OLD.spawnEntity(spawnLoc);
-
-                }*/
-                entityDragon = (SkyblockEntity) DragonTypes.SUPERIOR.spawnEntity(spawnLoc);
-                dragon = ((CustomDragon)entityDragon).getSkyblockDragon();
-                activeDrag = dragon;
-                //PathFind.goToLocation(activeDrag, as);
 
             }
 

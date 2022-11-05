@@ -51,6 +51,13 @@ public class PathFind {
     }
 
     public static void getDragDirection(SkyblockDragon dragon, ArmorStand as,double moveSpeed) {
+        cooldwon = true;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                cooldwon = false;
+            }
+        }.runTaskLater(Main.getMain(), 60);
         new BukkitRunnable() {
 
             @Override

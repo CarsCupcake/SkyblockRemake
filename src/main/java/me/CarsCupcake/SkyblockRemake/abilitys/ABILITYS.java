@@ -26,6 +26,7 @@ public class ABILITYS {
         registerEvent(new EndermanT1(null));
         registerEvent(new Teleporters());
         registerEvent(new Loot());
+        registerEvent(new ProtectiveBlood());
     }
     public static void disable(){
         Totem.stopAll();

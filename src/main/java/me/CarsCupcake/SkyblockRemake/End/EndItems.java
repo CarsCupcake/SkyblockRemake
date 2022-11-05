@@ -5,11 +5,13 @@ import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.abilitys.DragonsRage;
+import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import org.bukkit.Color;
 import org.bukkit.Material;
 
@@ -30,6 +32,8 @@ public class EndItems {
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
         manager = aspectOfTheDragons();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+
+        //Superior Items
         manager = superiorDragonFragment();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
         manager = superiorChestplate();
@@ -39,6 +43,27 @@ public class EndItems {
         manager = superiorHelmet();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
         manager = superiorBoots();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+
+        //Protector Items
+        ProtectiveBlood.addItems();
+
+        //Old Items
+        OldBlood.addItems();
+
+        //Strong Items
+        StrongBlood.addItems();
+
+        //Wise Items
+        WiseBlood.addItems();
+
+        //Unstable Items
+        UnstableBlood.addItems();
+
+        //Young Items
+        YoungBlood.addItems();
+
+        manager = enchantedEnderPearl();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
 
 
@@ -212,6 +237,14 @@ public class EndItems {
 
         return manager;
     }
+    private ItemManager enchantedEnderPearl(){
+        ItemManager manager = new ItemManager("Enchanted Ender Pearl", "ENCHANTED_ENDER_PEARL", ItemType.Non, null,
+                null, null, null, 0, 0,0,0,Material.ENDER_PEARL ,ItemRarity.UNCOMMON);
+        manager.setNpcSellPrice(140);
+        manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+        return manager;
+    }
+
     public enum Items{
         SummoningEye("SUMMONING_EYE"),
         InfinityEye("INFINITY_EYE"),
@@ -222,7 +255,43 @@ public class EndItems {
         SuperiorHelmet("SUPERIOR_DRAGON_HELMET"),
         SuperiorChestplate("SUPERIOR_DRAGON_CHESTPLATE"),
         SuperiorLeggings("SUPERIOR_DRAGON_LEGGINGS"),
-        SuperiorBoots("SUPERIOR_DRAGON_BOOTS");
+        SuperiorBoots("SUPERIOR_DRAGON_BOOTS"),
+        ProtectorDragonFragment("PROTECTOR_FRAGMENT"),
+        ProtectorHelmet("PROTECTOR_DRAGON_HELMET"),
+        ProtectorChestplate("PROTECTOR_DRAGON_CHESTPLATE"),
+        ProtectorLeggings("PROTECTOR_DRAGON_LEGGINGS"),
+        ProtectorBoots("PROTECTOR_DRAGON_BOOTS"),
+        OldDragonFragment("OLD_FRAGMENT"),
+        OldHelmet("OLD_DRAGON_HELMET"),
+        OldChestplate("OLD_DRAGON_CHESTPLATE"),
+        OldLeggings("OLD_DRAGON_LEGGINGS"),
+        OldBoots("OLD_DRAGON_BOOTS"),
+
+        StrongDragonFragment("STRONG_FRAGMENT"),
+        StrongHelmet("STRONG_DRAGON_HELMET"),
+        StrongChestplate("STRONG_DRAGON_CHESTPLATE"),
+        StrongLeggings("STRONG_DRAGON_LEGGINGS"),
+        StrongBoots("STRONG_DRAGON_BOOTS"),
+
+        WiseDragonFragment("WISE_FRAGMENT"),
+        WiseHelmet("WISE_DRAGON_HELMET"),
+        WiseChestplate("WISE_DRAGON_CHESTPLATE"),
+        WiseLeggings("WISE_DRAGON_LEGGINGS"),
+        WiseBoots("WISE_DRAGON_BOOTS"),
+
+        UnstableDragonFragment("UNSTABLE_FRAGMENT"),
+        UnstableHelmet("UNSTABLE_DRAGON_HELMET"),
+        UnstableChestplate("UNSTABLE_DRAGON_CHESTPLATE"),
+        UnstableLeggings("UNSTABLE_DRAGON_LEGGINGS"),
+        UnstableBoots("UNSTABLE_DRAGON_BOOTS"),
+
+        YoungDragonFragment("YOUNG_FRAGMENT"),
+        YoungHelmet("YOUNG_DRAGON_HELMET"),
+        YoungChestplate("YOUNG_DRAGON_CHESTPLATE"),
+        YoungLeggings("YOUNG_DRAGON_LEGGINGS"),
+        YoungBoots("YOUNG_DRAGON_BOOTS"),
+        EnchantedEnderPearl("ENCHANTED_ENDER_PEARL");
+
 
         private final String id;
         Items(String id) {
@@ -230,6 +299,9 @@ public class EndItems {
         }
         public ItemManager getItem(){
             return me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.get(id);
+        }
+        public String getId(){
+            return id;
         }
     }
 }

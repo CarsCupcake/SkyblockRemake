@@ -87,7 +87,7 @@ public class SuperiorDragon implements SkyblockEntity, Defensive, CustomDragon {
         bar = new CraftBossBar(getName(), BarColor.RED, BarStyle.SOLID);
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
-        PathFind.getDragDirection(dragon, as, 0.75);
+        PathFind.getDragDirection(dragon, as, 1.8);
         SkyblockEntity.livingEntity.put(entity, this);
     }
 
@@ -140,5 +140,9 @@ public class SuperiorDragon implements SkyblockEntity, Defensive, CustomDragon {
     @Override
     public SkyblockDragon getSkyblockDragon() {
         return dragon;
+    }
+    @Override
+    public ArmorStand getFollower() {
+        return as;
     }
 }

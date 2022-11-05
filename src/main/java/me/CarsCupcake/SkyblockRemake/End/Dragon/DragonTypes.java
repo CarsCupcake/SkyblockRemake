@@ -1,12 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.End.Dragon;
 
-import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.SkyblockDragon;
+import me.CarsCupcake.SkyblockRemake.End.EndItems;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import net.minecraft.world.entity.EntityTypes;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-
-import java.util.Map;
 
 public enum DragonTypes {
     PROTECTOR("protector", "Protector Dragon"),
@@ -26,7 +23,7 @@ public enum DragonTypes {
     }
     public CustomDragon spawnEntity(Location loc) {
         switch (this){
-            /*case OLD -> {
+            case OLD -> {
                 OldDragon dragon = new OldDragon();
                 dragon.spawn(loc);
                 return dragon;
@@ -40,13 +37,13 @@ public enum DragonTypes {
                 StrongDragon dragon = new StrongDragon();
                 dragon.spawn(loc);
                 return dragon;
-            }*/
+            }
             case SUPERIOR -> {
                 SuperiorDragon dragon = new SuperiorDragon();
                 dragon.spawn(loc);
                 return dragon;
             }
-            /*case UNSTABLE -> {
+            case UNSTABLE -> {
                 UnstableDragon dragon = new UnstableDragon();
                 dragon.spawn(loc);
                 return dragon;
@@ -60,7 +57,7 @@ public enum DragonTypes {
                 YoungDragon dragon = new YoungDragon();
                 dragon.spawn(loc);
                 return dragon;
-            }*/
+            }
         }
         return null;
 
@@ -71,6 +68,33 @@ public enum DragonTypes {
                 return types;
             }
         }
+        return null;
+    }
+    public ItemManager getFragment(){
+        switch (this){
+            case OLD -> {
+                return EndItems.Items.OldDragonFragment.getItem();
+            }
+            case STRONG -> {
+                return EndItems.Items.StrongDragonFragment.getItem();
+            }
+            case PROTECTOR -> {
+                return EndItems.Items.ProtectorDragonFragment.getItem();
+            }
+            case SUPERIOR -> {
+                return EndItems.Items.SuperiorDragonFragment.getItem();
+            }
+            case WISE -> {
+                return EndItems.Items.WiseDragonFragment.getItem();
+            }
+            case UNSTABLE -> {
+                return EndItems.Items.UnstableDragonFragment.getItem();
+            }
+            case YOUNG -> {
+                return EndItems.Items.YoungDragonFragment.getItem();
+            }
+        }
+
         return null;
     }
 
