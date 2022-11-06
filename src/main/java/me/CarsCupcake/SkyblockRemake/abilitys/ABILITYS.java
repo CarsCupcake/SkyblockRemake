@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.JerryListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.TabListManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Teleporters;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import org.bukkit.event.Listener;
@@ -27,6 +28,7 @@ public class ABILITYS {
         registerEvent(new Teleporters());
         registerEvent(new Loot());
         registerEvent(new ProtectiveBlood());
+        registerEvent(new TabListManager());
     }
     public static void disable(){
         Totem.stopAll();

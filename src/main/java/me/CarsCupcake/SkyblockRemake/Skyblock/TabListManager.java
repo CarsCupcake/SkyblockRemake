@@ -40,24 +40,25 @@ import net.minecraft.server.network.PlayerConnection;
 
 public class TabListManager implements Listener{
 	public static HashMap<Player, TabListManager> managers = new HashMap<>();
-	private Player player;
+	private SkyblockPlayer player;
 //	private static  HashMap<UUID, String> teams = new HashMap<>();
 	private static ArrayList<EntityPlayer> fakePlayers = new ArrayList<>();
 	public static HashMap<UUID, String> teams = new HashMap<>();
 
 	
-	private ArrayList<EntityPlayer> playerCounts= new ArrayList<EntityPlayer>();
-	private ArrayList<EntityPlayer> playerSlots= new ArrayList<EntityPlayer>();
+	private ArrayList<EntityPlayer> playerCounts= new ArrayList<>();
+	private ArrayList<EntityPlayer> playerSlots= new ArrayList<>();
 	private HashMap<Player, EntityPlayer> playerShow = new HashMap<>();
 	
-	private EntityPlayer speed;
-	private EntityPlayer strength;
-	private EntityPlayer cc;
-	private EntityPlayer cd;
+	private final EntityPlayer speed;
+	private final EntityPlayer strength;
+	private final EntityPlayer cc;
+	private final EntityPlayer cd;
 
-	private EntityPlayer as;
+	private final EntityPlayer as;
 	private int count;
 	private int maxInt = 0;
+	public TabListManager(){speed = null; strength = null; cc = null; cd = null; as=null;}
 	public TabListManager(SkyblockPlayer player) {
 		managers.put(player, this);
 		this.player = player;
@@ -107,7 +108,7 @@ public class TabListManager implements Listener{
 		addFakePlayer("§§§§", 28+ 1, TablistIcons.Grey, player);
 		addFakePlayer("§e§lSkills ", 29+ 1, TablistIcons.Grey, player);
 
-	    speed = 	addFakePlayer(" Speed §l✦" + Main.playerspeedcalc(player), 30+ 1, TablistIcons.Grey, player);
+	    speed = 	addFakePlayer(" Speed ✦" + Main.playerspeedcalc(player), 30+ 1, TablistIcons.Grey, player);
 	    strength = addFakePlayer(" Strength §c❁" + Main.playerstrengthcalc(player), 31+ 1, TablistIcons.Grey, player);
 	    cc = addFakePlayer(" Crit Chance §9☣" + Main.playercccalc(player), 32+ 1, TablistIcons.Grey, player);
 	    cd = addFakePlayer(" Crit Damage §9☠" + Main.playercdcalc(player), 33+ 1, TablistIcons.Grey, player);
@@ -146,15 +147,15 @@ public class TabListManager implements Listener{
 	@EventHandler
 	public void hidePlayer(PlayerJoinEvent event) {
 		for(TabListManager manager : managers.values()) {
-			if(event.getPlayer() != manager.player)
-			manager.playerJoin(event.getPlayer());
+			if(!event.getPlayer().equals(manager.player.getPlayer()))
+				manager.playerJoin(event.getPlayer());
 		}
 	}
 	@EventHandler 
 	public void hidePlayer(PlayerQuitEvent event) {
 		for(TabListManager manager : managers.values()) {
-			if(event.getPlayer() != manager.player)
-			manager.removePlayer(player);
+			if(!event.getPlayer().equals(manager.player.getPlayer()))
+				manager.removePlayer(player);
 		}
 	}
 	
@@ -162,22 +163,13 @@ public class TabListManager implements Listener{
 
 		for(Player player : Bukkit.getOnlinePlayers()) {
 		for(EntityPlayer entityPlayer : playerCounts) {
-			
 			String name = "§a§l        Players §f(" + Bukkit.getOnlinePlayers().size() + ")";
-	
-			
-			
-
-
-
-			
-			
 			String s = teams.get(entityPlayer.getUniqueID());
-			player.getScoreboard().getTeam(s).setPrefix(name);
-
-
-			
-
+			 Team t = player.getScoreboard().getTeam(s);
+			 if(t != null) {
+				 t.setPrefix(name);
+				 System.out.println("renamed");
+			 }
 		}
 		}
 	}
@@ -186,33 +178,37 @@ public class TabListManager implements Listener{
 		int count = Bukkit.getOnlinePlayers().size() -1;
 		if(count < 37) {
 		replace(playerSlots.get(count), player.getName(), TablistIcons.Players, player);
-		playerShow.put(player, playerSlots.get(count));}
+		playerShow.put(player, playerSlots.get(count));
+		}
 		updatePlayerCount();
 		hidePlayer(player);
 	}
 	
 	
 	private void replace(EntityPlayer entityPlayer, String str, TablistIcons icon, Player target) {
-		
-		
+
+
 			((CraftPlayer)player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e , entityPlayer));
-		
+
 		entityPlayer.getProfile().getProperties().removeAll("textures");
 		entityPlayer.getProfile().getProperties().put("textures", new Property("textures", icon.getSkinTexture(target), icon.getSkinSignature(target)));
-		
-		
+
+
 			((CraftPlayer)player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.a , entityPlayer));
 			
-			
+
+
 		
 		String s = teams.get(entityPlayer.getUniqueID());
-		     player.getScoreboard().getTeam(s).unregister();
+		     Team r = player.getScoreboard().getTeam(s);
+			if(r != null)
+				r.unregister();
 		     System.out.println(s.split("n")[0]);
 		     String newS = s.split("n")[0] +"a" + str.substring(1, 5);
-				
+
 
 				if(player.getScoreboard().getTeam(newS) != null) {
-					player.getScoreboard().getTeam(newS).unregister();;
+					player.getScoreboard().getTeam(newS).unregister();
 				}
 				Team team = player.getScoreboard().registerNewTeam(newS);
 
@@ -322,7 +318,7 @@ connection.sendPacket(new PacketPlayOutEntityMetadata(entityPlayer.getId(), watc
 			prioString = "0" + Priority;
 		}
 		
-String s = prioString +"n" + entityPlayer.getUniqueID().toString().substring(1, 5);
+String s = prioString + "n" + entityPlayer.getUniqueID().toString().substring(1, 5);
 		
 
 		if(player.getScoreboard().getTeam(s) != null) {
@@ -351,7 +347,6 @@ String s = prioString +"n" + entityPlayer.getUniqueID().toString().substring(1, 
 	
 	public void removePlayers() {
 		for(EntityPlayer p : fakePlayers) {
-			
 			PlayerConnection connection = ((CraftPlayer)player).getHandle().b;
 			connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.e, p));
 		}
@@ -359,7 +354,7 @@ String s = prioString +"n" + entityPlayer.getUniqueID().toString().substring(1, 
 	public void registerTeam(Player p, String prefix, ChatColor color, String suffix, int level) {
 		String s = level + "n" + p.getUniqueId().toString().substring(1, 5);
 		
-		Scoreboard scoreboard = p.getScoreboard();
+		Scoreboard scoreboard = player.getScoreboard();
 		if(scoreboard == null)
 			scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
 		if(scoreboard.getTeam(s) != null) {
@@ -385,6 +380,21 @@ String s = prioString +"n" + entityPlayer.getUniqueID().toString().substring(1, 
 		  
 		  playerJoin(p);
 		  }
+	}
+
+	public void tick(){
+		Team t = player.getScoreboard().getTeam(teams.get(strength.getUniqueID()));
+		t.setPrefix(" Strength §c❁" + Main.playerstrengthcalc(player));
+//
+		setName(speed, " Speed ✦" + Main.playerspeedcalc(player));
+		setName(as, " Attack Speed §e⚔" + Main.playerattackspeed(player));
+		setName(cc, " Crit Chance §9☣" + Main.playercccalc(player));
+		setName(cd, " Crit Damage §9☠" + Main.playercdcalc(player));
+
+	}
+	private void setName(EntityPlayer eP, String newName){
+		Team t = player.getScoreboard().getTeam(teams.get(eP.getUniqueID()));
+		t.setPrefix(newName);
 	}
 	
 	

@@ -889,6 +889,9 @@ public class Main extends JavaPlugin {
 						player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
 
 						updatebar(player);
+						if(TabListManager.managers.containsKey(player)) {
+							TabListManager.managers.get(player).tick();
+						}
 
 					}
 				});
