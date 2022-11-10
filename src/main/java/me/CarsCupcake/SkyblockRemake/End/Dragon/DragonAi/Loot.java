@@ -333,7 +333,7 @@ public class Loot implements Listener {
 
         //clientside stand
         EntityArmorStand entityArmorStand = new EntityArmorStand(EntityTypes.c, ((CraftWorld) player.getWorld()).getHandle());
-        entityArmorStand.setCustomName(new ChatComponentText(item.getItemMeta().getDisplayName()));
+        entityArmorStand.setCustomName(new ChatComponentText(item.getItemMeta().getDisplayName() + ((item.getAmount() > 1) ? " §8" + item.getAmount() + "x" : "")));
         entityArmorStand.setCustomNameVisible(true);
 
         entityArmorStand.setInvisible(true);

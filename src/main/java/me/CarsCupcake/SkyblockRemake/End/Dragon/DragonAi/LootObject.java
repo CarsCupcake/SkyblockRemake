@@ -25,7 +25,6 @@ public class LootObject {
         this.location = location;
     }
     public void pickup(){
-        System.out.println("pickup();");
         CraftPlayer entityPlayer = (CraftPlayer) p;
         PacketPlayOutEntityDestroy itemPacket = new PacketPlayOutEntityDestroy(entityItem.getId());
         (entityPlayer.getHandle()).b.sendPacket(itemPacket);
