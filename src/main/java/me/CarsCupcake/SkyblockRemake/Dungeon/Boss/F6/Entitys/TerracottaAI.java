@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys;
 
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.ai.goal.PathfinderGoalLookAtPlayer;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalMeleeAttack;
 import net.minecraft.world.entity.ai.goal.target.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.world.entity.monster.EntityZombie;
@@ -19,6 +20,6 @@ public class TerracottaAI extends EntityZombie {
     @Override
     public void initPathfinder(){
         this.bP.a(0,new PathfinderGoalMeleeAttack(this, 1,true));
-        this.bQ.a(1,new PathfinderGoalNearestAttackableTarget<>(this, EntityHuman.class, false));
+        this.bQ.a(1,new PathfinderGoalLookAtPlayer(this, TerracottaAI.class, 16));
     }
 }

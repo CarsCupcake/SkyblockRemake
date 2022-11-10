@@ -2790,7 +2790,7 @@ if(str.startsWith("power:"))
 				
 				float ehp = (float) (float)Main.playerhealthcalc(player)*(1+((float)Main.playerdefcalc(player)/100));
 				float effectivedmg = (float)Main.playerhealthcalc(player)/(float)ehp ;
-				int totaldmg = (int) ((int) damage*effectivedmg);
+				int totaldmg = (int) (damage*effectivedmg);
 				
 				if(SkyblockEntity.livingEntity.containsKey(event.getDamager())) {
 					SkyblockEntity se = SkyblockEntity.livingEntity.get(event.getDamager());

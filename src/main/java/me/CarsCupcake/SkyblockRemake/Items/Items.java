@@ -12,6 +12,7 @@ import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -278,6 +279,8 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		new EndItems();
 
 		new EndermanSlayerItems();
+
+		new F6Items();
 	}
 
 	public static void raygun() {

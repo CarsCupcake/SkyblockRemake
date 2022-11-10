@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import com.google.common.annotations.Beta;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -17,7 +16,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -96,22 +94,21 @@ public class Calculator {
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
         e = entity.getEntity();
         type = SkyblockDamageEvent.DamageType.EntityToPlayer;
-       double damage = stats.getLast();
+       double damage = stats.getFirst();
 
         float ehp =  (float)Main.playerhealthcalc(player)*(1+((float)Main.playerdefcalc(player)/100));
         float effectivedmg = (float)Main.playerhealthcalc(player)/ehp ;
         int totaldmg = (int) ((int) damage*effectivedmg);
 
 
-            SkyblockEntity se = entity;
             int truedamage = stats.getLast();
             if(truedamage != 0) {
                 float trueehp =  (float)Main.playerhealthcalc(player)*(1+((float)Main.playertruedefense(player)/100));
                 float effectivetruedmg = (float)Main.playerhealthcalc(player)/trueehp;
                 totaldmg += (int) ( truedamage*effectivetruedmg);
-
         }
            this.damage = totaldmg;
+        System.out.println(damage);
     }
 
     public void damagePlayer(SkyblockPlayer player){
@@ -127,6 +124,10 @@ public class Calculator {
 
         if(result.isCancelled())
             return;
+
+        if(damage > 0)
+            player.damage(0.0001);
+
         if(Main.absorbtion.get(player) - damage  < 0) {
             float restdamage =   (float)damage - (float) Main.absorbtion.get(player);
             Main.absorbtion.replace(player, 0);
@@ -134,9 +135,6 @@ public class Calculator {
         }else {
             Main.absorbtion.replace(player, Main.absorbtion.get(player) - (int)damage);
         }
-
-
-
 
 
             Main.updatebar(player);
@@ -175,12 +173,16 @@ public class Calculator {
             Main.currentityhealth.replace(e, live);
             newHealth = Main.currentityhealth.get(e);
         }
+        e.damage(0.00001, player);
 
         if(newHealth <= 0)
             e.addScoreboardTag("killer:" + player.getName());
         else
             Main.updateentitystats(e);
-        if((SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0) || (!SkyblockEntity.livingEntity.containsKey(e)&&Main.currentityhealth.get(e) <= 0) ) {
+
+
+        if((SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0)
+                || (Main.currentityhealth.containsKey(e)&&Main.currentityhealth.get(e) <= 0) ) {
             e.addScoreboardTag("killer:" + player.getName());
             Main.EntityDeath(e);
             e.damage(9999999,player);
@@ -198,7 +200,7 @@ public class Calculator {
 
 
 
-                        if(Main.SlayerCurrXp.containsKey(player) == true && Main.SlayerName.containsKey(player) == true && Main.SlayerName.get(player).equals("Revenant Horror") && e.getType() == EntityType.ZOMBIE) {
+                        if(Main.SlayerCurrXp.containsKey(player) && Main.SlayerName.containsKey(player) && Main.SlayerName.get(player).equals("Revenant Horror") && e.getType() == EntityType.ZOMBIE) {
                             Main.SlayerCurrXp.replace(player, Main.SlayerCurrXp.get(player) + Integer.parseInt(tag.split(":")[1]));
                             SkyblockScoreboard.updateScoreboard(player);
                             Random r = new Random();
@@ -259,13 +261,13 @@ public class Calculator {
                         });
                     }
                     if(tag.startsWith("voidgloomt2")) {
-                        if( Main.beaconPicketUp.containsKey(e) && Main.beaconPicketUp.get(e) == false) {
+                        if( Main.beaconPicketUp.containsKey(e) && Main.beaconPicketUp.get(e)) {
                             if(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)) != null)
                                 Main.beaconLocation.get(e).getBlock().setType(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)).getType());
                             else
                                 Main.beaconLocation.get(e).getBlock().setType(Material.AIR);
                         }
-                        if(Main.beaconThrown.containsKey(e) && Main.beaconThrown.get(e) == true)
+                        if(Main.beaconThrown.containsKey(e) && Main.beaconThrown.get(e))
                             SkyblockRemakeEvents.kill_voidgloom_beacon(e);
                         Main.beaconBeforeBlock.remove(Main.beaconLocation.get(e));
                         Main.beaconLocation.remove(e);
@@ -325,37 +327,32 @@ public class Calculator {
 
             armorstand.setInvulnerable(true);
             if(isCrit) {
-                String name = "§f✧";
+                StringBuilder name = new StringBuilder("§f✧");
                 String num = "" + str;
                 int col =1;
                 int coltype = 1;
                 String colstr = "§f";
 
                 for (char x : num.toCharArray()) {
-                    name = name + colstr + x;
+                    name.append(colstr).append(x);
                     ++col;
                     if(col ==2) {
                         col = 0;
                         ++coltype;
-                        switch(coltype) {
-                            case 1:
-                                colstr = "§f";
-                                break;
-                            case 2:
-                                colstr = "§e";
-                                break;
-                            case 3:
+                        switch (coltype) {
+                            case 1 -> colstr = "§f";
+                            case 2 -> colstr = "§e";
+                            case 3 -> {
                                 colstr = "§6";
                                 coltype = 0;
-                                break;
-
+                            }
                         }
 
                     }
                 }
                 String x = "✧";
-                name = name + colstr + x;
-                armorstand.setCustomName(name);
+                name.append(colstr).append(x);
+                armorstand.setCustomName(name.toString());
             }else
                 armorstand.setCustomName("§7" + str);
 
@@ -384,8 +381,7 @@ public class Calculator {
         double inteligens = Main.playermanacalc(player);
 
         double baseMult = 0;
-        double postMult = abilityDamage;
-        damage = magicDamage * (1 + (inteligens/100)* abilityScaling) * (1+(baseMult/100)) * (1+(postMult/100));
+        damage = magicDamage * (1 + (inteligens/100)* abilityScaling) * (1+(baseMult/100)) * (1+(abilityDamage /100));
 
     }
     public void setMagic(String str){

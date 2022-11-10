@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys.*;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.SuperiorDragon;
 import me.CarsCupcake.SkyblockRemake.Entitys.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
@@ -29,6 +30,26 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "SUPERIOR_DRAGON" ->{
                     SuperiorDragon walker = new SuperiorDragon();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "LASR" ->{
+                    GiantLASR walker = new GiantLASR();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "BIGFOOT" ->{
+                    GiantBigFoot walker = new GiantBigFoot();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "DIAMOND" ->{
+                    GiantDiamond walker = new GiantDiamond();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "JOLLY" ->{
+                    GiantJollyPink walker = new GiantJollyPink();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "SADAN" ->{
+                    Sadan walker = new Sadan();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

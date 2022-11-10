@@ -1,11 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Entitys.IceWalker;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +14,7 @@ public class SpawnEntityTAB implements TabCompleter {
     List<String> arguments = new ArrayList<>();
     @Nullable
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         List<String> result = new ArrayList<>();
         if(arguments.isEmpty()) {
@@ -25,6 +22,11 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("THUNDER");
             arguments.add("LORD_JAWBUS");
             arguments.add("SUPERIOR_DRAGON");
+            arguments.add("LASR");
+            arguments.add("BIGFOOT");
+            arguments.add("DIAMOND");
+            arguments.add("JOLLY");
+            arguments.add("SADAN");
         }
 
         if(args.length == 1) {

@@ -20,6 +20,7 @@ public class Golem implements SkyblockEntity, Defensive {
     private boolean isAsleep = true;
     private org.bukkit.entity.Golem entity;
     private int health = 20000000;
+    private JumpAI ai;
     @Override
     public int getMaxHealth() {
         return 20000000;
@@ -55,6 +56,8 @@ public class Golem implements SkyblockEntity, Defensive {
         entity.setRemoveWhenFarAway(false);
         SkyblockEntity.livingEntity.put(entity, this);
         Main.updateentitystats(entity);
+        this.ai = new JumpAI(entity);
+
     }
 
     @Override
@@ -88,7 +91,9 @@ public class Golem implements SkyblockEntity, Defensive {
 
     @Override
     public void kill() {
-
+        try {
+            ai.cancel();
+        }catch (Exception ignored){}
     }
 
     @Override
