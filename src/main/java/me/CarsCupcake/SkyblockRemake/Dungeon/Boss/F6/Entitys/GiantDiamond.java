@@ -130,7 +130,7 @@ public class GiantDiamond implements SkyblockEntity {
         try {
             stabRunner.cancel();
         }catch (Exception ignored){}
-        for (StabPlayer sP : swords)
+        for (GiantDiamond.StabPlayer sP : (ArrayList<GiantDiamond.StabPlayer>)swords.clone())
             sP.cancel();
     }
 

@@ -6,10 +6,10 @@ import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys.Terracotta;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.craftbukkit.v1_17_R1.boss.CraftBossBar;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -52,11 +52,15 @@ public class Phase1 {
     }
     private void phaseSwitch(){
         bar.removeAll();
-        for(Terracotta t : terracottas)
+        for(Terracotta t : terracottas) {
             t.getEntity().remove();
+            t.getEntity().getWorld().spawnParticle(Particle.ASH, t.getEntity().getLocation(),10, 5,5,5);
+        }
         terracottas.clear();
-        for (TerraTransition t : dead)
+        for (TerraTransition t : dead) {
             t.remove();
+            t.getL().getWorld().spawnParticle(Particle.ASH, t.getL(),10, 5,5,5);
+        }
         new Phase2();
     }
     private void init(){

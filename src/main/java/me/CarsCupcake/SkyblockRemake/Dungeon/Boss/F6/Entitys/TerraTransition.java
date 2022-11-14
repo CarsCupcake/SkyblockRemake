@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Phase1;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -7,16 +8,15 @@ import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TerraTransition {
     private int phase = 0;
     private final BukkitRunnable run;
+    @Getter
     private final Location l;
     private final ArrayList<Bundle<Block, Material>> dataHolder = new ArrayList<>();
 
