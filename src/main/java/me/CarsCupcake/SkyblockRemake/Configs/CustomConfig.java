@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Configs;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -16,7 +15,7 @@ public class CustomConfig {
         init();
     }
     public CustomConfig(String name){
-        file = new File(Main.getMain().getDataFolder().getPath() , name + ".yml");
+        file = new File(Main.getMain().getDataFolder().toPath().getParent().getParent().getParent().toString() + "/files" , name + ".yml");
         init();
     }
     private void init(){
@@ -29,7 +28,9 @@ public class CustomConfig {
 
         if(!file.exists()) {
             try {
-                file.createNewFile();
+
+                if(file.createNewFile())
+                    System.out.println("new file " + file.getName() + " has been created");
             }catch (IOException ignored) {
 
             }

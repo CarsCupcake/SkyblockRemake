@@ -1,46 +1,26 @@
 package me.CarsCupcake.SkyblockRemake.Configs;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import java.io.File;
-import java.io.IOException;
 
 
 public class ExtraInformations {
-	private static File file;
-	private static FileConfiguration customFile;
-	
+	private static CustomConfig c;
+
 	public static void setup() {
-		file = new File(Bukkit.getServer().getPluginManager().getPlugin("SkyblockRemake").getDataFolder(), "ExtraInformations.yml");
-		
-		if(!file.exists()) {
-			try {
-			file.createNewFile();
-			}catch (IOException e) {
-				
-			}
-		}
-		
-		customFile = YamlConfiguration.loadConfiguration(file);
-		
+		c = new CustomConfig("ExtraInfos");
+
 	}
-	
+
 	public static FileConfiguration get() {
-		return customFile;
+		return c.get();
 	}
-	
+
 	public static void save() {
-		try {
-		customFile.save(file);
-		}catch(IOException e) {
-			System.out.println(file.getName() + " has saving errors");
-		}
+		c.save();
 	}
-	
+
 	public static void reload() {
-		customFile = YamlConfiguration.loadConfiguration(file);
+		c.reload();
 	}
 
 }
