@@ -62,7 +62,7 @@ public void inventoryClickEvent(InventoryClickEvent event) {
 				
 				event.setCancelled(true);
 				ItemStack item = event.getWhoClicked().getInventory().getItem(event.getSlot());
-				if(item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer() != null &&item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING) != null) {
+				if(item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer() != null &&item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING) != null) {
 					ItemManager manager = Items.SkyblockItems.get(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
 					if(manager.type == ItemType.Helmet && manager.material != Material.LEATHER_HELMET && manager.material != Material.IRON_HELMET && manager.material != Material.GOLDEN_HELMET && manager.material != Material.DIAMOND_HELMET && manager.material != Material.NETHERITE_HELMET&& manager.material != Material.PLAYER_HEAD)
 				{
