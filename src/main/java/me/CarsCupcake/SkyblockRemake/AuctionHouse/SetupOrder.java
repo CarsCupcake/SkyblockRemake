@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.AuctionHouse;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Tools;
@@ -96,10 +95,10 @@ public class SetupOrder {
             }
         });
         gui.inventoryClickAction(31, type1 -> {
-            SignManager manager = new SignManager(Main.getMain());
+            SignManager manager = new SignManager();
             new SignGUI(manager, event -> {
                 Bukkit.getScheduler().runTask(Main.getMain(), () -> {
-                    double newCost = Tools.StringToDouble(event.getLines()[0]);
+                    double newCost = Tools.StringToDouble(event.lines()[0]);
                     if (newCost < 0) {
                         player.sendMessage("§cNot a valid number!");
                         return;

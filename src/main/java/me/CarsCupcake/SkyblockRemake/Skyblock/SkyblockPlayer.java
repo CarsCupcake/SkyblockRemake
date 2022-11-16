@@ -6,18 +6,26 @@ import java.util.HashMap;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
+import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
-import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
+import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.CrimsonIsle.CrimsonIsleAreas;
+import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -28,9 +36,6 @@ import me.CarsCupcake.SkyblockRemake.Tools;
 import me.CarsCupcake.SkyblockRemake.Areas.DwarvenAreas;
 import me.CarsCupcake.SkyblockRemake.Commission.Commission;
 import me.CarsCupcake.SkyblockRemake.Commission.DwarvenCommissions;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
-import me.CarsCupcake.SkyblockRemake.Configs.MiningSystem;
-import me.CarsCupcake.SkyblockRemake.Configs.SkillsSave;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
 import net.minecraft.server.level.EntityPlayer;
 
@@ -113,6 +118,7 @@ public class SkyblockPlayer extends CraftPlayer{
 
 	public EquipmentManager equipmentManager = new EquipmentManager(this);
 	private double baseTrophyFishChance;
+	private final CustomConfig inventory;
 
 	
 	
@@ -148,7 +154,8 @@ public class SkyblockPlayer extends CraftPlayer{
 		initHotM();
 		equipmentManager.loadEquipment();
 		CollectHandler.initPlayer(this);
-		
+		inventory = new CustomConfig("inv");
+		loadInventory();
 		new MiningSys(this);
 		AbilityListener.checkArmor(this);
 		SkyblockScoreboard.createScoreboard(this);
@@ -166,6 +173,123 @@ public class SkyblockPlayer extends CraftPlayer{
 		
 		player.setPlayerListHeaderFooter("§bYou are Playing on §e§llocalhost:25565 \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
 	
+	}
+	private void loadInventory(){
+
+		try{
+			if (inventory.get().getConfigurationSection(getUniqueId().toString()) != null) {
+				for (String k : inventory.get().getConfigurationSection(getUniqueId().toString()).getKeys(false)) {
+					if (inventory.get().get(getUniqueId() + "." + k + ".pdc.id") == null) {
+						getInventory().setItem(Integer.parseInt(k.split("_")[1]), null);
+						continue;
+					}
+					String auctionPointer = getUniqueId() + "." + k;
+					HashMap<String, String> map = new HashMap<>();
+					if (inventory.get().getConfigurationSection(auctionPointer + ".pdc") != null)
+						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".pdc").getKeys(false)) {
+							map.put(t, inventory.get().getString(auctionPointer + ".pdc." + t));
+						}
+					ItemStack item = buildItem(map, null);
+					ItemMeta meta = item.getItemMeta();
+					if (inventory.get().getConfigurationSection(auctionPointer + ".ench") != null)
+						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".ench").getKeys(false)) {
+							NamespacedKey key;
+							if (SkyblockEnchants.skyblockEnchantIds.contains(t)) {
+								key = new NamespacedKey(Main.getMain(), t);
+							} else {
+								key = NamespacedKey.minecraft(t);
+							}
+							meta.addEnchant(Enchantment.getByKey(key), inventory.get().getInt(auctionPointer + ".ench." + t), false);
+						}
+					item.setItemMeta(meta);
+					item = Main.item_updater(item, null);
+					getInventory().setItem(Integer.parseInt(k.split("_")[1]), item);
+
+				}
+			} else
+				getInventory().clear();
+		}catch (Exception e){e.printStackTrace();}
+		player.getInventory().setItem(8, Items.SkyblockMenu());player.updateInventory();
+	}
+	private ItemStack buildItem(HashMap<String, String> map, SkyblockPlayer player){
+		ItemStack item = new ItemStack(Material.FEATHER);
+
+		for(String str : map.keySet())
+			if(str.equals("id"))
+				item = Items.SkyblockItems.get(map.get(str)).getRawItemStack();
+		ItemMeta meta = item.getItemMeta();
+		PersistentDataContainer data = meta.getPersistentDataContainer();
+		map.forEach((t, k)->{
+			if(t.equals("dmg")){
+				data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, k);
+				return;
+			}
+			boolean isParaseble = false;
+			try{
+				int integer = Integer.parseInt(k);
+				if(integer != 0){
+					isParaseble = true;
+					data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.INTEGER, integer);
+				}
+			}catch(Exception ignored){
+
+			}
+			if(!isParaseble){
+				try{
+					double doubl = Double.parseDouble(k);
+					if(doubl != 0){
+						isParaseble = true;
+						data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.DOUBLE, doubl);
+					}
+				}catch(Exception ignored){
+
+				}
+			}
+			if(!isParaseble){
+				data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.STRING, k);
+			}
+		} );
+
+		item.setItemMeta(meta);
+
+		return Main.item_updater(item, player);
+
+	}
+	public void saveInventory(){
+		int i = 0;
+		for (ItemStack item : getInventory().getContents()){
+			if(item == null || item.getType() == Material.AIR) {
+				inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
+				continue;
+			}
+			for(Enchantment enchantment : item.getItemMeta().getEnchants().keySet())
+				inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
+			saveItem(i, getItemAsMap(item));
+			i++;
+		}
+		inventory.save();
+		inventory.reload();
+	}
+	private  HashMap<String, String> getItemAsMap(ItemStack item){
+		PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
+		HashMap<String, String> map = new HashMap<>();
+		for(NamespacedKey key : data.getKeys()) {
+			if(data.has(key, PersistentDataType.STRING))
+				map.put(key.getKey(), data.get(key, PersistentDataType.STRING));
+			if(data.has(key, PersistentDataType.DOUBLE))
+				map.put(key.getKey(), data.get(key, PersistentDataType.DOUBLE).toString());
+			if(data.has(key, PersistentDataType.FLOAT))
+				map.put(key.getKey(), data.get(key, PersistentDataType.FLOAT).toString());
+            /*if(data.has(key, PersistentDataType.INTEGER))
+                map.put(key.getKey(), data.get(key, PersistentDataType.INTEGER).toString());*/
+
+		}
+
+
+		return map;
+	}
+	private void saveItem(int Pointer,HashMap<String, String> bundle){
+		bundle.forEach((t,k) -> inventory.get().set(getUniqueId() + ".SLOT_" + Pointer + ".pdc." + t, k));
 	}
 
 	public void setSpeedCap(int i){

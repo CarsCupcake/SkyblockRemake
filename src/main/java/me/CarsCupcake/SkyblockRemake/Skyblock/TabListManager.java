@@ -219,16 +219,16 @@ public class TabListManager implements Listener{
 		
 		
 	}
-	public void removePlayer(Player player) {
-		EntityPlayer entityPlayer = playerShow.get(player);
+	public void removePlayer(Player p) {
+		EntityPlayer entityPlayer = playerShow.get(p);
 		
-((CraftPlayer)player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e , entityPlayer));
+((CraftPlayer)this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e , entityPlayer));
 		
 		entityPlayer.getProfile().getProperties().removeAll("textures");
 		entityPlayer.getProfile().getProperties().put("textures", new Property("textures", TablistIcons.Grey.getSkinTexture(null), TablistIcons.Grey.getSkinSignature(null)));
 		
 		
-			((CraftPlayer)player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.a , entityPlayer));
+			((CraftPlayer)this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.a , entityPlayer));
 			
 			
 		
@@ -247,7 +247,7 @@ public class TabListManager implements Listener{
 				team.setSuffix("");
 				teams.put(entityPlayer.getUniqueID(), newS);
 				update();
-				playerShow.remove(player);
+				playerShow.remove(p);
 				updatePlayerCount();
 	}
 	

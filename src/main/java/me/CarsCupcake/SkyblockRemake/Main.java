@@ -412,7 +412,7 @@ public class Main extends JavaPlugin {
 
 			}
 		}, this);
-		new SignManager(this).init();
+		new SignManager().init();
 		Dominus.setEvent();
 		BazaarManager.init();
 		ABILITYS.init();
@@ -652,6 +652,9 @@ public class Main extends JavaPlugin {
 			} catch (Exception e) {
 				System.out.println("Error: " + e);
 			}
+			try{
+				SkyblockPlayer.getSkyblockPlayer(player).saveInventory();
+			}catch(Exception e){e.printStackTrace();}
 			for (EntityPlayer npc : NPC.getNPCs())
 				NPC.removeNPC(player, npc);
 		}

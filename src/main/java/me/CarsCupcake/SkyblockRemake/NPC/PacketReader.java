@@ -4,10 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 
-import me.CarsCupcake.SkyblockRemake.API.PacketRecieveEvent;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
@@ -37,7 +34,7 @@ public class PacketReader {
 		return readers.get(player);
 	}
 	
-	public boolean inject() {
+	public void inject() {
 		
 		readers.put(player, this);
 		
@@ -66,17 +63,16 @@ public class PacketReader {
 
 			
 		};
-		channel2.pipeline().addAfter("decoder", "PacketInjector",channelDuplexHandler);
-		
-		
-		return true;
+		channel2.pipeline().addBefore("packet_handler", player.getName(),channelDuplexHandler);
+
+
 	}
 
 	public void uninject(Player player) {
 		CraftPlayer nmsPlayer = (CraftPlayer) player;
 		Channel channel = nmsPlayer.getHandle().b.a.k;
-		if (channel.pipeline().get("PacketInjector") != null)
-			channel.pipeline().remove("PacketInjector");
+		if (channel.pipeline().get(player.getName()) != null)
+			channel.pipeline().remove(player.getName());
 	}
 	
 	private void read(PacketPlayInUseEntity packetPlayInUseEntity ) {

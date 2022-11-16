@@ -1231,6 +1231,10 @@ public int dropAmount(int minigFortune, int amount) {
 		Main.saveCoins(player);
 		Main.saveBits(player);
 		Main.saveMithrilPowder(player);
+
+		try{
+			player.saveInventory();
+		}catch(Exception e){e.printStackTrace();}
 		if(Main.petstand.containsKey(player))
 		Main.petstand.get(player).remove();
 		
@@ -1683,8 +1687,8 @@ public int dropAmount(int minigFortune, int amount) {
 			  SkyblockPlayer.getSkyblockPlayer(player).setSearching(SearchTopic.CustomItems);
 			  player.closeInventory();
 
-			  new SignGUI(new SignManager(Main.getMain()), e -> {
-				  Bukkit.getScheduler().runTask(Main.getMain(), ()-> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.getLines()[0] + e.getLines()[1]));
+			  new SignGUI(new SignManager(), e -> {
+				  Bukkit.getScheduler().runTask(Main.getMain(), ()-> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.lines()[0] + e.lines()[1]));
 				  
 
 			  })

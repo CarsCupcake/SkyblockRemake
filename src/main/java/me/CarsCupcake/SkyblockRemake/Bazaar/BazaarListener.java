@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 
 public class BazaarListener implements Listener {
-    private static ArrayList<GUI> bazzarGUIs = new ArrayList<>();
+    private static final ArrayList<GUI> bazzarGUIs = new ArrayList<>();
     @EventHandler
     public void onNpcInteract(RightClickNPC event){
         final SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
@@ -101,12 +101,12 @@ public class BazaarListener implements Listener {
         if(Tools.getItemInPlayerInventory(offer.getItem(), player) > 0)
             offerGUI.inventoryClickAction(16, (type) -> {
                 if(type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT){
-                    new SignGUI(new SignManager(Main.getMain()),event ->{
+                    new SignGUI(new SignManager(), event ->{
                         Bukkit.getScheduler().runTask(Main.getMain(), ()->{
 
                             int amount = 0;
                             try{
-                                amount = Integer.parseInt(event.getLines()[0]);
+                                amount = Integer.parseInt(event.lines()[0]);
                             }catch (Exception e){
 
                                 player.sendMessage("§cError! Invalid amount!");
@@ -161,9 +161,9 @@ public class BazaarListener implements Listener {
             preBuyScreen.inventoryClickAction(10, (type) -> buyScreen(offer,player,offer.getItemSizes()[0]));
             preBuyScreen.inventoryClickAction(12, (type) -> buyScreen(offer,player,offer.getItemSizes()[1]));
             preBuyScreen.inventoryClickAction(14, (type) -> buyScreen(offer,player,offer.getItemSizes()[2]));
-            preBuyScreen.inventoryClickAction(16, (type -> new SignGUI(new SignManager(Main.getMain()), event -> Bukkit.getScheduler().runTask(Main.getMain(), () ->{
+            preBuyScreen.inventoryClickAction(16, (type -> new SignGUI(new SignManager(), event -> Bukkit.getScheduler().runTask(Main.getMain(), () ->{
                 try {
-                    Integer i = Integer.parseInt(event.getLines()[0]);
+                    Integer i = Integer.parseInt(event.lines()[0]);
 
                     if(i < 1){
                         player.sendMessage("§cError! Invalid amount!");
@@ -251,9 +251,9 @@ public class BazaarListener implements Listener {
 
 
         });
-        buyOrder.inventoryClickAction(16,(type)-> new SignGUI(new SignManager(Main.getMain()), event -> Bukkit.getScheduler().runTask(Main.getMain(), () -> Bukkit.getScheduler().runTask(Main.getMain(),()->{ try {
+        buyOrder.inventoryClickAction(16,(type)-> new SignGUI(new SignManager(), event -> Bukkit.getScheduler().runTask(Main.getMain(), () -> Bukkit.getScheduler().runTask(Main.getMain(),()->{ try {
             double coins;
-            coins = Tools.StringToDouble(event.getLines()[0]);
+            coins = Tools.StringToDouble(event.lines()[0]);
             if (coins <=0) {
 
                     player.sendMessage("§cError! Invalid amount!");

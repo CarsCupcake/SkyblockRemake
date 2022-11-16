@@ -159,7 +159,7 @@ public class ItemsSearch implements Listener{
 		  }
 		  if(event.getSlot() == 49) {
 
-			  new SignGUI(new SignManager(Main.getMain()), e -> Bukkit.getScheduler().runTask(Main.getMain(), ()-> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.getLines()[0] + e.getLines()[1])))
+			  new SignGUI(new SignManager(), e -> Bukkit.getScheduler().runTask(Main.getMain(), ()-> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.lines()[0] + e.lines()[1])))
 					  .withLines("", "", "^^^^^^^^^^^^^^^", "Enter Item Name")
 					  .open(SkyblockPlayer.getSkyblockPlayer(player));
 		  }

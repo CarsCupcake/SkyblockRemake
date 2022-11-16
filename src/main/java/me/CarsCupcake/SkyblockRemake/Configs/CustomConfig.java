@@ -15,7 +15,7 @@ public class CustomConfig {
         init();
     }
     public CustomConfig(String name){
-        file = new File(Main.getMain().getDataFolder().toPath().getParent().getParent().getParent().toString() + "/files" , name + ".yml");
+        file = new File("C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files" , name + ".yml");
         init();
     }
     private void init(){
