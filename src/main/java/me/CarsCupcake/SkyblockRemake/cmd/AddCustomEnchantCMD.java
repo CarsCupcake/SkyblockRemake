@@ -12,14 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
+import org.jetbrains.annotations.NotNull;
 
 
 public class AddCustomEnchantCMD implements CommandExecutor{
 
-
-	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+	public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, String arg2, String[] arg3) {
 		
 	
 		
@@ -38,6 +37,8 @@ public class AddCustomEnchantCMD implements CommandExecutor{
 			ItemMeta meta = player.getItemInHand().getItemMeta();
 			meta.addEnchant(SkyblockEnchants.enchantments.get(SkyblockEnchants.skyblockEnchantIds.indexOf(arg3[0])), Integer.parseInt(arg3[1]), true);
 			player.getItemInHand().setItemMeta(meta);
+			Main.item_updater(player.getItemInHand(), player);
+
 		}else
 			player.sendMessage(arg3[0] + " dosent exist");
 		
