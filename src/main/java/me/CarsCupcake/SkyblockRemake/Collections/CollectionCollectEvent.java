@@ -11,15 +11,15 @@ public class CollectionCollectEvent extends Event implements Cancellable {
     private final static HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
     private final SkyblockPlayer player;
-    private final Collection collection;
+    private final ICollection collection;
     private int amount;
 
-    public CollectionCollectEvent(@NotNull SkyblockPlayer player, @Positive int amount,@NotNull Collection collection){
+    public CollectionCollectEvent(@NotNull SkyblockPlayer player, @Positive int amount,@NotNull ICollection collection){
         this.player = player;
         this.amount = amount;
         this.collection = collection;
     }
-    public Collection getCollection(){
+    public ICollection getCollection(){
         return collection;
     }
     public SkyblockPlayer getPlayer(){

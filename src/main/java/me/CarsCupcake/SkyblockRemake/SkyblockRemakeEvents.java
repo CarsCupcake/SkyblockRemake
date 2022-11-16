@@ -124,11 +124,13 @@ public class SkyblockRemakeEvents implements Listener{
 	public static void readBeakBlock(PacketPlayInBlockDig packet,Player player) {
 
 		Location loc = new Location(player.getWorld(), packet.b().getX(), packet.b().getY(), packet.b().getZ());
-		
-		if(packet.d() == EnumPlayerDigType.a)
-			MiningSys.getMiningSystem(player).startMining(loc.getBlock());
-		if(packet.d() == EnumPlayerDigType.b || packet.d() == EnumPlayerDigType.c)
-			MiningSys.getMiningSystem(player).stopMinig();
+
+		Bukkit.getScheduler().runTask(Main.getMain(), () ->{
+			if (packet.d() == EnumPlayerDigType.a)
+				MiningSys.getMiningSystem(player).startMining(loc.getBlock());
+			if (packet.d() == EnumPlayerDigType.b || packet.d() == EnumPlayerDigType.c)
+				MiningSys.getMiningSystem(player).stopMinig();
+		});
 		
 	}
 	@EventHandler
@@ -349,7 +351,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 				item = Main.item_updater(item,player);
 				item = Main.item_updater(item,player);
 				if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-					player.getInventory().addItem(item);
+					player.addItem(item);
 					else
 					event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 				new BukkitRunnable() {
@@ -370,7 +372,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -390,7 +392,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -410,7 +412,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -430,7 +432,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -453,7 +455,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -476,7 +478,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			new BukkitRunnable() {
@@ -500,7 +502,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			
@@ -535,7 +537,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-			player.getInventory().addItem(item);
+			player.addItem(item);
 			else
 			event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			
@@ -593,7 +595,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
@@ -654,7 +656,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
@@ -712,7 +714,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
@@ -770,7 +772,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
@@ -827,7 +829,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_WOOL_BREAK, 1, 1);
@@ -884,7 +886,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 2, 4));
 			
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.getInventory().addItem(item);
+				player.addItem(item);
 				else
 				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
 			
@@ -1397,7 +1399,7 @@ public int dropAmount(int minigFortune, int amount) {
 			});
 				 
 			if(!p.isEmpty()) {
-			Player player = p.get(0);
+			SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p.get(0));
 
 
 
@@ -1409,7 +1411,7 @@ public int dropAmount(int minigFortune, int amount) {
 				for(ItemStack d : e.getDrops()) {
 					d = Main.item_updater(d,SkyblockPlayer.getSkyblockPlayer(player));
 					d = Main.item_updater(d,SkyblockPlayer.getSkyblockPlayer(player));
-					player.getInventory().addItem(d);
+					player.addItem(d);
 					
 				}
 				e.getDrops().clear();

@@ -11,7 +11,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Material;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.SkullType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -98,9 +97,8 @@ public class Tools {
 		SkullMeta meta = (SkullMeta) head.getItemMeta();
 		GameProfile profile = new GameProfile(UUID.randomUUID(), "");
 		profile.getProperties().put("textures", new Property("textures", value));
-		Field profileField = null;
 		try {
-			profileField = meta.getClass().getDeclaredField("profile");
+			Field profileField = meta.getClass().getDeclaredField("profile");
 			profileField.setAccessible(true);
 			profileField.set(meta, profile);
 		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
@@ -195,6 +193,24 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 			}
 	}
 
+	public static String intToRoman(int num) {
+	 if(num == 0)
+		 return "0";
+
+		int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+		String[] romanLetters = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+		StringBuilder roman = new StringBuilder();
+		for(int i=0;i<values.length;i++)
+		{
+			while(num >= values[i])
+			{
+				num = num - values[i];
+				roman.append(romanLetters[i]);
+			}
+		}
+		return roman.toString();
+	}
+
 	public static String addDigits(int number) {
 		String str = number + "";
 		StringBuilder sb = new StringBuilder(str);
@@ -215,6 +231,28 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 
 		return sb.reverse().toString();
 	}
+
+	public static String addDigits(long number) {
+		String str = number + "";
+		StringBuilder sb = new StringBuilder(str);
+		sb.reverse();
+		str = sb.toString();
+		String newString = "";
+		int digitRunner = 0;
+		for(int i = 0; i < str.toCharArray().length; i++) {
+			newString = newString + str.toCharArray()[i];
+			digitRunner++;
+			if(digitRunner == 3 && (i+ 1) != str.toCharArray().length) {
+				digitRunner = 0;
+				newString = newString + ",";
+			}
+		}
+		sb = new StringBuilder(newString);
+
+
+		return sb.reverse().toString();
+	}
+
 	public static String addDigits(double number) {
 		String str = ((int)(number)) + "";
 		StringBuilder sb = new StringBuilder(str);
@@ -275,10 +313,7 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 	 if(ran1 > number && number > ran2) {
  		return true;
  	}
- 	if(ran1 < number && number < ran2) {
- 		return true;
- 	}
- 	return false;
+	 return ran1 < number && number < ran2;
  }
 
 

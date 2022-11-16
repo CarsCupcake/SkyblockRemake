@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInv;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -1469,6 +1470,12 @@ public class OpenMenu implements CommandExecutor, Listener {
 			  
 		  
 		  }
+		  if (event.getSlot() == 20){
+
+			  CollectHandler.openAllCollections(SkyblockPlayer.getSkyblockPlayer(player));
+			  return;
+		  }
+
 		  if (event.getSlot() == 30) {
 
 			  player.updateInventory();

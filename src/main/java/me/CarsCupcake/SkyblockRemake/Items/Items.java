@@ -1672,7 +1672,7 @@ public static ItemStack Divans_Drill() {
 	return manager.getRawItemStack();
 }
 public static ItemStack Mithril() {
-	ItemManager manager = new ItemManager("Mithril", "MITHRIL", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_CRYSTALS, ItemRarity.COMMON);
+	ItemManager manager = new ItemManager("Mithril", "MITHRIL_ORE", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_CRYSTALS, ItemRarity.COMMON);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }

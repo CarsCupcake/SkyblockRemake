@@ -27,6 +27,7 @@ import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarManager;
+import me.CarsCupcake.SkyblockRemake.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
@@ -261,7 +262,7 @@ public class Main extends JavaPlugin {
 		eventRegister();
 		EntityNPC.loadNPC();
 
-
+		ICollection.init();
 		if (!Bukkit.getOnlinePlayers().isEmpty())
 			for (Player player : Bukkit.getOnlinePlayers()) {
 
@@ -2983,11 +2984,11 @@ public class Main extends JavaPlugin {
 						String Name = makeStringFromID(enchant.getKey());
 						if (operator.get("amount") == 0) {
 
-							enchantLore.add(prefix + Name + " " + level);
+							enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
 							operator.replace("amount", 1);
 						} else {
 							enchantLore.set(operator.get("line"),
-									enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + level);
+									enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + Tools.intToRoman(level));
 
 							if (operator.get("amount") == 1)
 								operator.replace("amount", 2);

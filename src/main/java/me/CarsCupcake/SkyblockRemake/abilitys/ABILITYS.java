@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
@@ -29,6 +30,7 @@ public class ABILITYS {
         registerEvent(new Loot());
         registerEvent(new ProtectiveBlood());
         registerEvent(new TabListManager());
+        registerEvent(new CollectHandler());
     }
     public static void disable(){
         Totem.stopAll();

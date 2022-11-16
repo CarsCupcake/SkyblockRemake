@@ -6,6 +6,7 @@ import java.util.HashMap;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
+import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
@@ -16,6 +17,7 @@ import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -145,6 +147,7 @@ public class SkyblockPlayer extends CraftPlayer{
 		initSkills();
 		initHotM();
 		equipmentManager.loadEquipment();
+		CollectHandler.initPlayer(this);
 		
 		new MiningSys(this);
 		AbilityListener.checkArmor(this);
@@ -382,8 +385,21 @@ public class SkyblockPlayer extends CraftPlayer{
 		
 		return null;
 	}
-	
-	
+	public void addItem(ItemManager manager){
+		addItem(manager, 1);
+	}
+	public void addItem(ItemManager manager, int amount){
+		ItemStack item = manager.createNewItemStack();
+		item = Main.item_updater(item, this);
+		item.setAmount(amount);
+		addItem(item);
+	}
+	public void addItem(ItemStack item){
+		CollectHandler.collectItem(item, this);
+		getInventory().addItem(item);
+	}
+
+
 	public static SkyblockPlayer getSkyblockPlayer(Player player) {
 		
 			return players.get(player);
