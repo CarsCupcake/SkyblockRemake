@@ -1,17 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.utils.SignGUI;
 
-import me.CarsCupcake.SkyblockRemake.API.PacketRecieveEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.core.BlockPosition;
-import net.minecraft.network.chat.IChatBaseComponent;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
@@ -19,24 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.bukkit.Bukkit;
-import io.netty.channel.Channel;
-import org.checkerframework.checker.units.qual.A;
 
 
 public class SignManager {
-    private final Plugin             plugin;
     private static  Map<UUID, SignGUI> guiMap;
-    private       PluginManager      pluginManager;
-    private static ArrayList<SignManager> managers = new ArrayList<>();
+    private static final ArrayList<SignManager> managers = new ArrayList<>();
 
 
 
     @ConstructorProperties({"plugin"})
-    public SignManager(Plugin plugin)
+    public SignManager()
     {
-        this.plugin = plugin;
-        this.guiMap = new HashMap<>();
-        this.pluginManager = Bukkit.getPluginManager();
+        guiMap = new HashMap<>();
     }
 
     public void init()
@@ -78,11 +63,7 @@ public class SignManager {
      */
     void addGui(UUID uuid, SignGUI signGUI)
     {
-        this.guiMap.put(uuid, signGUI);
+        guiMap.put(uuid, signGUI);
     }
 
-    protected Map<UUID, SignGUI> getGUIMap()
-    {
-        return guiMap;
-    }
 }
