@@ -20,13 +20,11 @@ public class Slender implements Powers {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Slender";
 	}
 
 	@Override
 	public ItemStack getItem() {
-		// TODO Auto-generated method stub
 		return Tools.CustomHeadTexture("http://textures.minecraft.net/texture/71e72890a79e500cf13a97d1374c5ac8a4f15a9e0d6885997fc6f2e3c11254c");
 	}
 	

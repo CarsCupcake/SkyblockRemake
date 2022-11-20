@@ -22,7 +22,6 @@ public class laser implements CommandExecutor{
 				new GuardianLaser(player.getLocation(),player.getLocation().add(0,0,5), 5, -1).start(Main.getMain());
 				
 			} catch (ReflectiveOperationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		

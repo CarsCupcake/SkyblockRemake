@@ -44,19 +44,16 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 	private BukkitRunnable aoeRunner;
 	@Override
 	public int getMaxHealth() {
-		// TODO Auto-generated method stub
 		return 2500000;
 	}
 
 	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
 		return health;
 	}
 
 	@Override
 	public LivingEntity getEntity() {
-		// TODO Auto-generated method stub
 		return entity;
 	}
 
@@ -105,13 +102,11 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return "blazeslayert1";
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Inferno Demonlord";
 	}
 
@@ -119,7 +114,6 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 
 	@Override
 	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
-		// TODO Auto-generated method stub
 		return null;
 		}
 	
@@ -416,7 +410,6 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 
 	@Override
 	public boolean hasNoKB() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

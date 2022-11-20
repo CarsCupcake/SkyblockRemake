@@ -9,55 +9,46 @@ public class enchant_glient extends Enchantment{
 
 	public enchant_glient(NamespacedKey key) {
 		super(key);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean canEnchantItem(ItemStack arg0) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean conflictsWith(Enchantment arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public EnchantmentTarget getItemTarget() {
-		// TODO Auto-generated method stub
 		return EnchantmentTarget.ALL;
 	}
 
 	@Override
 	public int getMaxLevel() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "non";
 	}
 
 	@Override
 	public int getStartLevel() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	public boolean isCursed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isTreasure() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

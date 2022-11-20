@@ -40,7 +40,6 @@ public class DctrSpaceHelmet implements FullSetBonus {
 
 	@Override
 	public int getPieces() {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
@@ -52,7 +51,6 @@ public class DctrSpaceHelmet implements FullSetBonus {
 
 	@Override
 	public Bonuses getBonus() {
-		// TODO Auto-generated method stub
 		return Bonuses.DctrSpaceHelmet;
 	}
 	

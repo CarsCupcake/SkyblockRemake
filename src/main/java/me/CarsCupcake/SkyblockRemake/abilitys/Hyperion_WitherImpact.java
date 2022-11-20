@@ -98,7 +98,6 @@ public class Hyperion_WitherImpact implements AbilityManager{
 
 	@Override
 	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

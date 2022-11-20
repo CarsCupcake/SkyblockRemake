@@ -10,7 +10,6 @@ Flawless(3),
 Perfect(4);
 
 GemState(int i) {
-	// TODO Auto-generated constructor stub
 }
 
 public ItemRarity getRarity() {

@@ -54,19 +54,16 @@ public class BonzoPhase1 implements SkyblockEntity {
 	private BossBar bar;
 	@Override
 	public int getMaxHealth() {
-		// TODO Auto-generated method stub
 		return 250000;
 	}
 
 	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
 		return health;
 	}
 
 	@Override
 	public LivingEntity getEntity() {
-		// TODO Auto-generated method stub
 		return entity;
 	}
 
@@ -81,7 +78,6 @@ public class BonzoPhase1 implements SkyblockEntity {
 
 	@Override
 	public int getDamage() {
-		// TODO Auto-generated method stub
 		return 8000;
 	}
 	private void pillar() {
@@ -307,19 +303,16 @@ public class BonzoPhase1 implements SkyblockEntity {
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return "bonzop1";
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Bonzo";
 	}
 
 	@Override
 	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -420,13 +413,11 @@ public class BonzoPhase1 implements SkyblockEntity {
 
 	@Override
 	public boolean hasNoKB() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public int getTrueDamage() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

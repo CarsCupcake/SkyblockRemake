@@ -20,7 +20,6 @@ public class PlayerTurnEvent extends Event{
 	
 	@Override
 	public HandlerList getHandlers() {
-		// TODO Auto-generated method stub
 		return HANDLERS;
 	}
 	public static HandlerList getHandlerList() {

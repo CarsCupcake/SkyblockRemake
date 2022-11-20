@@ -9,13 +9,11 @@ public class WhatThaFuck implements AbilityManager {
 
 	@Override
 	public boolean executeAbility(PlayerInteractEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -19,7 +19,6 @@ public class Bloody implements Powers {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "Bloody";
 	}
 
