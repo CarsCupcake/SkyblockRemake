@@ -7,13 +7,13 @@ import java.util.ListIterator;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
-import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Combat;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -102,6 +102,9 @@ public class SkyblockPlayer extends CraftPlayer{
 	private Skill alchemy;
 	private Skill foraging;
 	private Skill fishing;
+	private Skill enchanting;
+	private Skill farming;
+	private Skill taming;
 	
 	
 	public String defenseString = "";
@@ -424,6 +427,9 @@ public class SkyblockPlayer extends CraftPlayer{
 		alchemy = Skill.getInstance(Skills.Alchemy, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Alchemy.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Alchemy.toString().toLowerCase() + ".xp"));
 		foraging = Skill.getInstance(Skills.Foraging, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Foraging.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Foraging.toString().toLowerCase() + ".xp"));
 		fishing = Skill.getInstance(Skills.Fishing, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Fishing.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Fishing.toString().toLowerCase() + ".xp"));
+		enchanting = Skill.getInstance(Skills.Fishing, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Enchanting.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Enchanting.toString().toLowerCase() + ".xp"));
+		farming = Skill.getInstance(Skills.Fishing, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Farming.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Farming.toString().toLowerCase() + ".xp"));
+		taming = Skill.getInstance(Skills.Fishing, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Taming.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." +Skills.Taming.toString().toLowerCase() + ".xp"));
 		int reaperPepperAmount = ExtraInformations.get().getInt(player.getUniqueId() + ".reaperpepper");
 		setBaseStat(Stats.Health, reaperPepperAmount + basehealth);
 		for (FullSetBonus bonus : activeBonuses) {
@@ -491,7 +497,8 @@ public class SkyblockPlayer extends CraftPlayer{
 				showDefenceString = true;
 				hideDefenceString();
 				Main.updatebar(this);
-		Pet.addPetXP(this, amount, skill);
+			if(skill == Skills.Mining || skill == Skills.Fishing || skill == Skills.Combat || skill == Skills.Farming || skill == Skills.Foraging || skill == Skills.Enchanting || skill == Skills.Alchemy)
+				Pet.addPetXP(this, amount, skill);
 		
 	}
 	
@@ -523,18 +530,44 @@ public class SkyblockPlayer extends CraftPlayer{
 	}
 	
 	public Skill getSkill(Skills skill) {
-		
-		if(Skills.Mining == skill)
-			return mining;
-		if(Skills.Combat == skill)
-			return combat;
-		if(Skills.Foraging== skill)
-			return foraging;
-		if(Skills.Alchemy == skill)
-			return alchemy;
-		if(Skills.Fishing == skill)
-			return fishing;
-		
+		switch (skill){
+			case Farming -> {
+				return farming;
+			}
+			case Fishing -> {
+				return fishing;
+			}
+			case Enchanting -> {
+				return enchanting;
+			}
+			case Taming ->{
+				return taming;
+			}
+			case Alchemy -> {
+				return alchemy;
+			}
+			case Carpentry -> {
+				return null;
+			}
+			case Combat -> {
+				return combat;
+			}
+			case Dungeoneering -> {
+				return null;
+			}
+			case Foraging -> {
+				return foraging;
+			}
+			case Mining -> {
+				return mining;
+			}
+			case Runecrafting -> {
+				return null;
+			}
+			case Social -> {
+				return null;
+			}
+		}
 		return null;
 	}
 	public void addItem(ItemManager manager){

@@ -330,6 +330,11 @@ private ArrayList<String> abilityName = new ArrayList<>();
 			
 		}
 		result = Tools.round(result, 1);
+
+		switch (skill){
+			case Farming, Mining, Combat, Foraging, Fishing, Enchanting -> player.addSkillXp(xp*0.25, Skills.Taming);
+			case Alchemy -> player.addSkillXp(xp*0.025, Skills.Taming);
+		}
 		
 		addPetXP(player, result);
 	}
