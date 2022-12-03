@@ -1,11 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys;
 
-import it.unimi.dsi.fastutil.Hash;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +14,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.nio.Buffer;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -29,7 +27,7 @@ public class GUIListener implements Listener {
            player.kickPlayer("§cehhh error beep beep");
         }
 
-        if(!registerClick((Player) event.getWhoClicked())){
+        if(!registerClick((Player) event.getWhoClicked()) && event.getWhoClicked().getGameMode() != GameMode.CREATIVE){
             event.getWhoClicked().sendMessage("§cWow! Slow down!");
             if(clicks.get((Player) event.getWhoClicked()) >= 10)
                 ((Player) event.getWhoClicked()).kickPlayer("§cStop clicking that often!");

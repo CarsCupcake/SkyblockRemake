@@ -1,6 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase3;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.LightsTerminal;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.SimonSaysTerminal;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
@@ -31,6 +34,9 @@ public class ABILITYS {
         registerEvent(new ProtectiveBlood());
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
+        registerEvent(new F7Phase3());
+        registerEvent(new SimonSaysTerminal(null, -1));
+        registerEvent(new LightsTerminal(null, -1));
     }
     public static void disable(){
         Totem.stopAll();

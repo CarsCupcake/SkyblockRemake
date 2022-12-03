@@ -208,7 +208,7 @@ public class Main extends JavaPlugin {
 		config.addDefault("StatSystem", false);
 		config.options().copyDefaults(true);
 		saveConfig();
-
+		SkyblockEnchants.register();
 
 		if (data.getConfig().contains("data"))
 			loadNPC();
@@ -258,9 +258,10 @@ public class Main extends JavaPlugin {
 		Items.init();
 		itemCMD.createItemInvs();
 		registerReforge.init();
-		SkyblockEnchants.register();
+
 		eventRegister();
 		EntityNPC.loadNPC();
+		SkyblockPlayer.init();
 
 		ICollection.init();
 		if (!Bukkit.getOnlinePlayers().isEmpty())
@@ -377,8 +378,6 @@ public class Main extends JavaPlugin {
 
 		// terminal listenders:
 		this.getServer().getPluginManager().registerEvents(new maze(), this);
-		this.getServer().getPluginManager().registerEvents(new color(), this);
-		this.getServer().getPluginManager().registerEvents(new order(), this);
 		this.getServer().getPluginManager().registerEvents(new SpawnEggEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
 		this.getServer().getPluginManager().registerEvents(new GemstoneGrinder(), this);

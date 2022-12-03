@@ -154,7 +154,7 @@ public class TabListManager implements Listener{
 	@EventHandler 
 	public void hidePlayer(PlayerQuitEvent event) {
 		for(TabListManager manager : managers.values()) {
-			if(!event.getPlayer().equals(manager.player.getPlayer()))
+			if(event.getPlayer()!=manager.player.getPlayer())
 				manager.removePlayer(player);
 		}
 	}
@@ -221,15 +221,16 @@ public class TabListManager implements Listener{
 	}
 	public void removePlayer(Player p) {
 		EntityPlayer entityPlayer = playerShow.get(p);
-		
-((CraftPlayer)this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e , entityPlayer));
+		try {
+			((CraftPlayer) this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e, entityPlayer));
+		}catch (Exception ignored){}
 		
 		entityPlayer.getProfile().getProperties().removeAll("textures");
 		entityPlayer.getProfile().getProperties().put("textures", new Property("textures", TablistIcons.Grey.getSkinTexture(null), TablistIcons.Grey.getSkinSignature(null)));
-		
-		
+
+		try {
 			((CraftPlayer)this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.a , entityPlayer));
-			
+		}catch (Exception ignored){}
 			
 		
 		String s = teams.get(entityPlayer.getUniqueID());

@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ListIterator;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -118,7 +119,7 @@ public class SkyblockPlayer extends CraftPlayer{
 
 	public EquipmentManager equipmentManager = new EquipmentManager(this);
 	private double baseTrophyFishChance;
-	private final CustomConfig inventory;
+	private static CustomConfig inventory;
 
 	
 	
@@ -154,7 +155,6 @@ public class SkyblockPlayer extends CraftPlayer{
 		initHotM();
 		equipmentManager.loadEquipment();
 		CollectHandler.initPlayer(this);
-		inventory = new CustomConfig("inv");
 		loadInventory();
 		new MiningSys(this);
 		AbilityListener.checkArmor(this);
@@ -174,8 +174,12 @@ public class SkyblockPlayer extends CraftPlayer{
 		player.setPlayerListHeaderFooter("§bYou are Playing on §e§llocalhost:25565 \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
 	
 	}
+	public static void init(){
+		inventory = new CustomConfig("inv");
+	}
 	private void loadInventory(){
-
+		getInventory().clear();
+		inventory.reload();
 		try{
 			if (inventory.get().getConfigurationSection(getUniqueId().toString()) != null) {
 				for (String k : inventory.get().getConfigurationSection(getUniqueId().toString()).getKeys(false)) {
@@ -187,27 +191,34 @@ public class SkyblockPlayer extends CraftPlayer{
 					HashMap<String, String> map = new HashMap<>();
 					if (inventory.get().getConfigurationSection(auctionPointer + ".pdc") != null)
 						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".pdc").getKeys(false)) {
+							System.out.println(t);
 							map.put(t, inventory.get().getString(auctionPointer + ".pdc." + t));
 						}
-					ItemStack item = buildItem(map, null);
+					ItemStack item = buildItem(map, this);
 					ItemMeta meta = item.getItemMeta();
+					if(meta == null)
+						continue;
+
 					if (inventory.get().getConfigurationSection(auctionPointer + ".ench") != null)
 						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".ench").getKeys(false)) {
-							NamespacedKey key;
-							if (SkyblockEnchants.skyblockEnchantIds.contains(t)) {
-								key = new NamespacedKey(Main.getMain(), t);
-							} else {
-								key = NamespacedKey.minecraft(t);
+
+							try{
+								if (SkyblockEnchants.skyblockEnchantIds.contains(t)) {
+									meta.addEnchant(SkyblockEnchants.enchantments.get(SkyblockEnchants.skyblockEnchantIds.indexOf(t)), inventory.get().getInt(auctionPointer + ".ench." + t), false);
+								} else {
+									meta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(t)), inventory.get().getInt(auctionPointer + ".ench." + t), false);
+								}
+							}catch (Exception e){
+								e.printStackTrace();
+								sendMessage("§cThere was an error with your " + item.getItemMeta().getDisplayName() + " §cwith the encahnt " + t);
 							}
-							meta.addEnchant(Enchantment.getByKey(key), inventory.get().getInt(auctionPointer + ".ench." + t), false);
 						}
 					item.setItemMeta(meta);
-					item = Main.item_updater(item, null);
+					item = Main.item_updater(item, this);
 					getInventory().setItem(Integer.parseInt(k.split("_")[1]), item);
 
 				}
-			} else
-				getInventory().clear();
+			}
 		}catch (Exception e){e.printStackTrace();}
 		player.getInventory().setItem(8, Items.SkyblockMenu());player.updateInventory();
 	}
@@ -215,8 +226,17 @@ public class SkyblockPlayer extends CraftPlayer{
 		ItemStack item = new ItemStack(Material.FEATHER);
 
 		for(String str : map.keySet())
-			if(str.equals("id"))
-				item = Items.SkyblockItems.get(map.get(str)).getRawItemStack();
+			if(str.equals("id")) {
+				if(map.get(str).equals("SKYBLOCK_MENU"))
+					return new ItemStack(Material.AIR);
+
+				if(Items.SkyblockItems.containsKey(map.get(str)))
+					item = Items.SkyblockItems.get(map.get(str)).getRawItemStack();
+				else {
+					player.sendMessage("§cThere was an issue while loading the item with the is: " + map.get(str));
+					return new ItemStack(Material.AIR);
+				}
+			}
 		ItemMeta meta = item.getItemMeta();
 		PersistentDataContainer data = meta.getPersistentDataContainer();
 		map.forEach((t, k)->{
@@ -227,23 +247,15 @@ public class SkyblockPlayer extends CraftPlayer{
 			boolean isParaseble = false;
 			try{
 				int integer = Integer.parseInt(k);
-				if(integer != 0){
 					isParaseble = true;
 					data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.INTEGER, integer);
-				}
-			}catch(Exception ignored){
-
-			}
+			}catch(Exception ignored){}
 			if(!isParaseble){
 				try{
 					double doubl = Double.parseDouble(k);
-					if(doubl != 0){
-						isParaseble = true;
-						data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.DOUBLE, doubl);
-					}
-				}catch(Exception ignored){
-
-				}
+					isParaseble = true;
+					data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.DOUBLE, doubl);
+				}catch(Exception ignored){}
 			}
 			if(!isParaseble){
 				data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.STRING, k);
@@ -256,15 +268,28 @@ public class SkyblockPlayer extends CraftPlayer{
 
 	}
 	public void saveInventory(){
+		inventory.reload();
+		inventory.get().set(getUniqueId().toString(), null);
+		inventory.save();
+		inventory.reload();
+		ListIterator<ItemStack> s = getInventory().iterator();
 		int i = 0;
-		for (ItemStack item : getInventory().getContents()){
-			if(item == null || item.getType() == Material.AIR) {
+		while (s.hasNext()){
+			ItemStack item = s.next();
+			try{
+				if (item == null || item.getType() == Material.AIR) {
+					inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
+					continue;
+				}
+				for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
+					System.out.println(enchantment.getKey().getKey());
+					inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
+				}
+				saveItem(i, getItemAsMap(item));
+			}catch (Exception e){
+				e.printStackTrace();
 				inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
-				continue;
 			}
-			for(Enchantment enchantment : item.getItemMeta().getEnchants().keySet())
-				inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
-			saveItem(i, getItemAsMap(item));
 			i++;
 		}
 		inventory.save();
@@ -276,12 +301,15 @@ public class SkyblockPlayer extends CraftPlayer{
 		for(NamespacedKey key : data.getKeys()) {
 			if(data.has(key, PersistentDataType.STRING))
 				map.put(key.getKey(), data.get(key, PersistentDataType.STRING));
+			else
 			if(data.has(key, PersistentDataType.DOUBLE))
 				map.put(key.getKey(), data.get(key, PersistentDataType.DOUBLE).toString());
+			else
 			if(data.has(key, PersistentDataType.FLOAT))
 				map.put(key.getKey(), data.get(key, PersistentDataType.FLOAT).toString());
-            /*if(data.has(key, PersistentDataType.INTEGER))
-                map.put(key.getKey(), data.get(key, PersistentDataType.INTEGER).toString());*/
+			else
+            if(data.has(key, PersistentDataType.INTEGER))
+                map.put(key.getKey(), data.get(key, PersistentDataType.INTEGER).toString());
 
 		}
 

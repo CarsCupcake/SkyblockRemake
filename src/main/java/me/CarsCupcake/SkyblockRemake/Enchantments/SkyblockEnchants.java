@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Enchantments;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import java.util.Locale;
 import java.util.Map;
 
 import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.DragonTracer;
@@ -69,8 +70,8 @@ public static void unregister(){
 }
 public static void registerEnchantment(Enchantment enchantment) {
 	if(enchantment instanceof UltimateEnchant)
-		ultEnchantIDs.add(enchantment.getKey().getKey());
-	skyblockEnchantIds.add(enchantment.getKey().getKey());
+		ultEnchantIDs.add(enchantment.getKey().getKey().toLowerCase(Locale.ROOT));
+	skyblockEnchantIds.add(enchantment.getKey().getKey().toLowerCase(Locale.ROOT));
 	enchantments.add(enchantment);
 	boolean registered = true;
 	try {
@@ -78,6 +79,15 @@ public static void registerEnchantment(Enchantment enchantment) {
 		f.setAccessible(true);
 		f.set(null, true);
 		Enchantment.registerEnchantment(enchantment);
+		f = Enchantment.class.getDeclaredField("byKey");
+		f.setAccessible(true);
+		Map<NamespacedKey, Enchantment> map = (Map<NamespacedKey, Enchantment>) f.get(null);
+		map.put(enchantment.getKey(), enchantment);
+
+		Field f2 = Enchantment.class.getDeclaredField("byName");
+		f2.setAccessible(true);
+		Map<String, Enchantment> map2 = (Map<String, Enchantment>) f2.get(null);
+		map2.put(enchantment.getName(), enchantment);
 	}catch(Exception e) {
 		registered = false;
 		e.printStackTrace();
@@ -87,7 +97,7 @@ public static void registerEnchantment(Enchantment enchantment) {
 	}
 }
 public static void unregisterEnchant(Enchantment enchantment){
-		skyblockEnchantIds.remove(enchantment);
+		skyblockEnchantIds.remove(enchantment.getKey().getKey());
 
 	try {
 		Field f = Enchantment.class.getDeclaredField("byKey");

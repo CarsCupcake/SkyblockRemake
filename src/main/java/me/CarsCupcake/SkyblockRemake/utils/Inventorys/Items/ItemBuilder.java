@@ -49,10 +49,7 @@ public class ItemBuilder {
             addLoreRow(l);
         return this;
     }
-    public ItemBuilder clearLore(){
-        lore.clear();
-        return this;
-    }
+
     public ItemBuilder addItemFlag(ItemFlag flag){
         flags.add(flag);
         return this;
@@ -64,7 +61,8 @@ public class ItemBuilder {
     public ItemStack build(){
         ItemStack item = (isHead) ? Tools.CustomHeadTexture(headURL) : new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(name);
+        if (!name.equals("N/A"))
+            meta.setDisplayName(name);
         meta.setLore(lore);
         for(ItemFlag itemFlag : flags)
             meta.addItemFlags(itemFlag);

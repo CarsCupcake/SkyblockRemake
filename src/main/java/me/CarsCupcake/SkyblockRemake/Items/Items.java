@@ -2,10 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Items;
 
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
@@ -13,6 +10,7 @@ import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.F6Items;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.TextTerminal;
 import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -3583,6 +3581,15 @@ public static void initAllItems() {
         ItemManager manager = new ItemManager(newString,mat.name(), ItemType.Non,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, mat,ItemRarity.COMMON);
         manager.setBaseItem();
     	SkyblockItems.put(manager.itemID, manager);
+		ArrayList<String> m = new ArrayList<>();
+		for(String s : mat.toString().split("_"))
+			m.add(s);
+		if(m.contains("WOOL") || (m.contains("GLASS") && !m.contains("PANE")) || m.contains("DYE") || m.contains("TERRACOTTA")) {
+			if(!m.get(0).equals("TINTED") && !m.get(0).equals("TERRACOTTA") && !m.get(0).equals("LIGHT"))
+				TextTerminal.colorItems.put(mat, m.get(0));
+		}
+
+
 
 	}
 }
