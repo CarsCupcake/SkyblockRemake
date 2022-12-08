@@ -72,7 +72,7 @@ public class LockInSlotTerminal extends Terminal {
                                 if (layer > 41) {
                                     gui.closeInventory();
                                     if (phase != null)
-                                        phase.solveTerminal(LockInSlotTerminal.this);
+                                        phase.solveTerminal(LockInSlotTerminal.this, player);
                                 } else {
                                     target = r.nextInt(high - low) + low;
                                     for (int i = layer - 9 + 1; i < layer - 9 + 5 + 1; i++)

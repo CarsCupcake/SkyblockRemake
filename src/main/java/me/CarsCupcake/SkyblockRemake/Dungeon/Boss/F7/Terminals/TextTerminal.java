@@ -100,7 +100,7 @@ public class TextTerminal extends Terminal {
             System.out.println(correct);
             if (correct.isEmpty()) {
                 gui.closeInventory();
-                finish();
+                finish(player);
             }
         });
         gui.closeAction(type -> isOpen = false);

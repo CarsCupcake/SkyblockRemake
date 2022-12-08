@@ -54,7 +54,7 @@ public class ColorTerminal extends Terminal {
             gui.getInventory().getItem(slot).setType(getNextColor(gui.getInventory().getItem(slot).getType()));
             if(isSame(gui.getInventory())){
                 gui.closeInventory();
-                finish();
+                finish(player);
             }
         });
         gui.showGUI(player);

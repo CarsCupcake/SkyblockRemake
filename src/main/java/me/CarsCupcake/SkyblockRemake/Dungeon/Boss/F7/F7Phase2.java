@@ -28,7 +28,6 @@ public class F7Phase2 implements Listener {
 
     @EventHandler
     public void tntExplode(EntityExplodeEvent event) {
-        System.out.println(event.getEntity().getScoreboardTags());
         event.setCancelled(true);
         if(event.getEntity() instanceof TNTPrimed && event.getEntity().getScoreboardTags().contains("storm")){
 
@@ -57,7 +56,7 @@ public class F7Phase2 implements Listener {
     @EventHandler
     public void fireballHit(ProjectileHitEvent event){
         if(event.getEntity().getType() == EntityType.FIREBALL && event.getEntity().getScoreboardTags().contains("storm")&& event.getHitBlock() != null){
-            event.getEntity().getWorld().spawn(event.getEntity().getLocation(), LightningStrike.class);
+            event.getEntity().getWorld().strikeLightningEffect(event.getEntity().getLocation());
             List<Entity> entities = event.getEntity().getNearbyEntities(4,4,4).stream().filter(e -> e instanceof Player).toList();
 
             for (Entity entity : entities){
@@ -86,9 +85,8 @@ public class F7Phase2 implements Listener {
         double y = Math.sin(pitch) * Math.sin(yaw);
         double z = Math.cos(pitch);
 
-        Vector vector = new Vector(x, z, y);
         //If you want to: vector = vector.normalize();
 
-        return vector;
+        return new Vector(x, z, y);
     }
 }

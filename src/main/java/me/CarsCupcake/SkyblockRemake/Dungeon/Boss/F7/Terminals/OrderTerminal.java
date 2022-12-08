@@ -61,7 +61,7 @@ public class OrderTerminal extends Terminal {
                     if(current == 14) {
                         gui.closeInventory();
                         if(phase != null)
-                            phase.solveTerminal(OrderTerminal.this);
+                            phase.solveTerminal(OrderTerminal.this, player);
                     }
             }
 

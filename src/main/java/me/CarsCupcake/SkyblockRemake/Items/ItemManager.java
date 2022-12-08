@@ -30,7 +30,7 @@ import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemManager {
+public class ItemManager implements ItemGenerator{
 	public static String pattern = "MMMMMMMMM yyyy";
 	public static SimpleDateFormat df = new SimpleDateFormat(pattern);
 public String name;

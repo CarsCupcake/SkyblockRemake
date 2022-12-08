@@ -4,5 +4,7 @@ public enum HealthChangeReason {
     Regenerate,
     Damage,
     Creative,
-    Ability
+    Ability,
+    //Only use in nessesary situations!
+    Force
 }

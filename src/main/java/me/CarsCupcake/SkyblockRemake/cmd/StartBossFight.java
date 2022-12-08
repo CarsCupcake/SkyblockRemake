@@ -1,10 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Phase1;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase2;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Maxor;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Storm;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.*;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.StartFight;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
@@ -44,7 +41,10 @@ public class StartBossFight implements CommandExecutor {
 					Storm m = new Storm();
 					m.spawn(((Player)arg0).getLocation());
 
-					 Main.getMain().getServer().getPluginManager().registerEvents(new F7Phase2(m), Main.getMain());
+					Main.getMain().getServer().getPluginManager().registerEvents(new F7Phase2(m), Main.getMain());
+				}
+				if(arg3[1].equalsIgnoreCase("goldor")){
+					new F7Phase3();
 				}
 
 			}

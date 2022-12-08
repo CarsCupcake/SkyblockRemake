@@ -10,6 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -76,9 +77,9 @@ public class SimonSaysTerminal extends Terminal implements Listener {
 
                 run++;
             }
-        }.runTaskTimer(Main.getMain(), 0, 20);
+        }.runTaskTimer(Main.getMain(), 0, 10);
     }
-    public boolean press(Block block){
+    public boolean press(Block block, Player player){
         if(isInShowMode)
             return false;
 
@@ -87,7 +88,7 @@ public class SimonSaysTerminal extends Terminal implements Listener {
             if(current == await) {
                 await++;
                 if(await == 6){
-                    finish();
+                    finish(SkyblockPlayer.getSkyblockPlayer(player));
                     isOpen = false;
                     F7Phase3.simonSaysTerminal = null;
                     for (Location l : possibleLocs)
@@ -112,7 +113,7 @@ public class SimonSaysTerminal extends Terminal implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event){
         if(event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.STONE_BUTTON && possibleLocs.contains(event.getClickedBlock().getLocation()) && F7Phase3.simonSaysTerminal != null)
-            event.setCancelled(F7Phase3.simonSaysTerminal.press(event.getClickedBlock()));
+            event.setCancelled(F7Phase3.simonSaysTerminal.press(event.getClickedBlock(), event.getPlayer()));
 
 
     }

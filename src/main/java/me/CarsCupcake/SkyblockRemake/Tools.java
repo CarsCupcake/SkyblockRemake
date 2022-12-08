@@ -1,16 +1,32 @@
 package me.CarsCupcake.SkyblockRemake;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Base64;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -53,6 +69,104 @@ public class Tools {
 	 return Double.parseDouble(str)*mult ;
 
 
+ }
+	public static boolean isInRect(Player player, Location loc1, Location loc2)
+	{
+		double[] dim = new double[2];
+
+		dim[0] = loc1.getX();
+		dim[1] = loc2.getX();
+		Arrays.sort(dim);
+		if(player.getLocation().getX() > dim[1] || player.getLocation().getX() < dim[0])
+			return false;
+
+		dim[0] = loc1.getZ();
+		dim[1] = loc2.getZ();
+		Arrays.sort(dim);
+		if(player.getLocation().getZ() > dim[1] || player.getLocation().getZ() < dim[0])
+			return false;
+
+		dim[0] = loc1.getY();
+		dim[1] = loc2.getY();
+		Arrays.sort(dim);
+		return !(player.getLocation().getY() > dim[1]) && !(player.getLocation().getY() < dim[0]);
+	}
+ public static void loadShematic(File file, Location base){
+	 Clipboard clipboard = null;
+	 ClipboardFormat format = ClipboardFormats.findByFile(file);
+
+	 try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
+		 clipboard = reader.read();
+	 } catch (IOException e) {
+		 Bukkit.broadcastMessage("§c A schematic failed to load");
+		 e.printStackTrace();
+	 }
+
+	 try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()))) {
+
+		 Operation operation = new ClipboardHolder(clipboard)
+				 .createPaste(editSession)
+				 .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
+				 .build();
+
+		 Operations.complete(operation);
+
+	 }catch (Exception e) {
+		 Bukkit.broadcastMessage("§c A schematic failed to load");
+	 }
+ }
+ public static ArrayList<Block> getBlocksBetween(Block b1, Block b2){
+	 if (b1.getWorld() != b2.getWorld())
+		 return null;
+	 ArrayList<Block> b = new ArrayList<>();
+	 /*for (int x = b1.getX(); x <= b2.getX(); x++) {
+		 for (int y = b1.getY(); y <= b2.getY(); y++) {
+			 for (int z = b1.getZ(); z <= b2.getZ(); z++) {
+				 Location lll = new Location(b1.getWorld(), x , y , z);
+				 b.add(lll.getBlock());
+			 }
+		 }
+	 }*/
+	 if(b2.getX() > b1.getX()){
+		 for(int x = b1.getX(); x <= b2.getX(); x++)
+			 getBlocksBetweenY(b1,b2, b, x);
+	 }else if(b2.getX() == b1.getX()){
+		 getBlocksBetweenY(b1,b2, b, b1.getX());
+	 }else for(int x = b1.getX(); x >= b2.getX(); x--)
+		 getBlocksBetweenY(b1,b2, b, x);
+		 
+	 
+	 return b;
+ }
+ private static void getBlocksBetweenY(Block b1, Block b2, ArrayList<Block> curr, int x){
+	 if(b2.getY() > b1.getY()){
+		 for(int y = b1.getY(); y <= b2.getY(); y++)
+			 getBlocksBetweenZ(b1,b2, curr, x,y);
+	 }else if(b2.getY() == b1.getY()){
+		 getBlocksBetweenZ(b1,b2, curr, x, b1.getY());
+	 }else for(int y = b1.getY(); y >= b2.getY(); y--)
+		 getBlocksBetweenZ(b1,b2, curr, x,y);
+ }
+ private static void getBlocksBetweenZ(Block b1, Block b2, ArrayList<Block> curr, int x, int y){
+	 if(b2.getZ() > b1.getZ()){
+		 for(int z = b1.getZ(); z <= b2.getZ(); z++)
+			 curr.add(new Location(b1.getWorld(),x,y,z).getBlock());
+	 }else if(b2.getZ() == b1.getZ()){
+		 curr.add(new Location(b1.getWorld(),x,y,b1.getZ()).getBlock());
+	 }else for(int z = b1.getZ(); z >= b2.getZ(); z--)
+		 curr.add(new Location(b1.getWorld(),x,y,z).getBlock());
+ }
+ public static  <T> T  getOneItemFromLootTable(HashMap<T, Double> lootTable){
+	 double totalCount = 0;
+	 for (double d : lootTable.values())
+		 totalCount += d;
+	 double rand = new Random().nextDouble(totalCount);
+	 for(T loot : lootTable.keySet()){
+		 if(rand <= lootTable.get(loot))
+			 return loot;
+		 rand -= lootTable.get(loot);
+	 }
+	 return lootTable.keySet().iterator().next();
  }
  public static double getFallSpeedFromTimeElapsed(int tick){
 	 double part1 = 392d/5d;

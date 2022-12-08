@@ -51,7 +51,7 @@ public class PanesTerminal extends Terminal {
                 if(isDone(gui.getInventory())){
                     gui.closeInventory();
                     if(PanesTerminal.this.phase != null)
-                        PanesTerminal.this.phase.solveTerminal(PanesTerminal.this);
+                        PanesTerminal.this.phase.solveTerminal(PanesTerminal.this, player);
                 }
             }else
                 gui.getInventory().getItem(slot).setType(Material.RED_STAINED_GLASS_PANE);

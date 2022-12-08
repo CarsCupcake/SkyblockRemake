@@ -12,6 +12,7 @@ import org.bukkit.block.data.Lightable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -34,20 +35,24 @@ public class LightsTerminal extends Terminal implements Listener {
     @Override
     public void open(@NotNull SkyblockPlayer player) {}
 
-    public void flick(){
-        for(Location l : levers)
-            if(!((Lightable)l.clone().add(0,0,1).getBlock().getBlockData()).isLit())
-                return;
-        finish();
-        F7Phase3.lightsTerminal = null;
-        for(Location l : levers)
-            l.getBlock().setType(Material.AIR);
+    public void flick(SkyblockPlayer player){
+        new BukkitRunnable(){
+            public void run(){
+                for (Location l : levers)
+                    if (!((Lightable) l.clone().add(0, 0, 1).getBlock().getBlockData()).isLit())
+                        return;
+                finish(player);
+                F7Phase3.lightsTerminal = null;
+                for (Location l : levers)
+                    l.getBlock().setType(Material.AIR);
+            }
+        }.runTaskLater(Main.getMain(), 1);
     }
 
     @EventHandler
     public void leverFlick(PlayerInteractEvent event){
         if(event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.LEVER && levers.contains(event.getClickedBlock().getLocation()) && F7Phase3.lightsTerminal != null){
-            F7Phase3.lightsTerminal.flick();
+            F7Phase3.lightsTerminal.flick(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         }
     }
 }

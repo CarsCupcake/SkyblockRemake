@@ -21,9 +21,9 @@ public abstract class Terminal {
     public int getId(){
         return id;
     }
-    public void finish(){
+    public void finish(SkyblockPlayer player){
         if(phase != null)
-            phase.solveTerminal(this);
+            phase.solveTerminal(this, player);
     }
 
 }

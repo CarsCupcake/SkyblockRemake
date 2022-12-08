@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7;
 
+import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
@@ -16,27 +17,22 @@ import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 
-public class Maxor implements SkyblockEntity {
-    private int health = 100000000;
-
-    public boolean isInLaser = false;
-    public int laserTimes = 0;
+public class Goldor implements SkyblockEntity {
+    private int health = 750000000;
     private LivingEntity entity;
 
     private BukkitRunnable attacks;
-    private BukkitRunnable tntsummoner;
-    private BukkitRunnable spawnRunnable;
+    private boolean isDone = false;
+    private int gate = 0;
 
     @Override
     public int getMaxHealth() {
-        return 210000000;
+        return 750000000;
     }
 
     @Override
@@ -56,7 +52,10 @@ public class Maxor implements SkyblockEntity {
 
     @Override
     public int getDamage() {
-        return 30000;
+        return 50000;
+    }
+    public void setGate(int g){
+        gate = g;
     }
 
     @Override
@@ -68,28 +67,9 @@ public class Maxor implements SkyblockEntity {
         });
         SkyblockEntity.livingEntity.put(entity,this);
         Main.updateentitystats(entity);
-        phaseBridge();
-        ((CraftWither)entity).setTarget((Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);
+        entity.setAI(false);
+        killingWave();
 
-        tntsummoner = new BukkitRunnable() {
-            @Override
-            public void run() {
-                entity.getWorld().spawn(entity.getLocation(), TNTPrimed.class,tnt ->{
-                    tnt.setFuseTicks(3*20);
-                    tnt.addScoreboardTag("maxor");
-                });
-            }
-        };
-        tntsummoner.runTaskTimer(Main.getMain(),5*20,5*20);
-
-        spawnRunnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < 4; i++)
-                    new SpecialSpawnMob(Vector.getRandom().setY(0.3), WitherMiner.class,entity.getLocation());
-            }
-        };
-        spawnRunnable.runTaskTimer(Main.getMain(),5*20,13*20);
 
 
     }
@@ -98,22 +78,14 @@ public class Maxor implements SkyblockEntity {
 
     @Override
     public String getId() {
-        return "Maxor";
+        return "Goldor";
+    }
+    public void enableGoldor(){
+        isDone = true;
+        skillShoot();
     }
 
 
-    private void phaseBridge() {
-
-    attacks = new BukkitRunnable() {
-        @Override
-        public void run() {
-            skillShoot();
-        }
-    };
-    attacks.runTaskLater(Main.getMain(), (new Random().nextInt(5)+10) *20);
-
-
-    }
     private void skillShoot() {
         entity.setAI(false);
     attacks = new BukkitRunnable() {
@@ -125,16 +97,7 @@ public class Maxor implements SkyblockEntity {
         public void run() {
             runtime++;
             switchTarget++;
-            if (runtime > 20*2.5){
-                cancel();
-                entity.setAI(true);
-                phaseBridge();
-                if(target != null){
-                    ((CraftWither)entity).setTarget(target);
-                }
-                return;
-            }
-            if(switchTarget == 5){
+            if(switchTarget == 10){
                  target = (Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())];
                  switchTarget = 0;
             }
@@ -162,57 +125,24 @@ public class Maxor implements SkyblockEntity {
     attacks.runTaskTimer(Main.getMain(), 0,2);
 
     }
-    public void setLaser(){
-        laserTimes++;
-        isInLaser = true;
-        entity.setAI(false);
-        try{
-            attacks.cancel();
-        }catch(Exception ignored){
 
-        }
+
+    private void killingWave() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                isInLaser=false;
-                if(entity != null) {
-                    entity.setAI(true);
-                    F7Phase1.instance.respawnAll();
-                    phaseBridge();
-                    frenzy();
-                }else if(F7Phase1.instance != null)
-                    F7Phase1.instance.removeAll();
-
-            }
-        }.runTaskLater(Main.getMain(),5*20);
-    }
-
-    private void frenzy() {
-        new BukkitRunnable() {
-            private int runrime = 0;
-            @Override
-            public void run() {
-                runrime++;
-                if(runrime == 11){
-                    cancel();
-                    return;
-                }
                 entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation().add(0, 0.5, 0), 6, 0, 0, 0, 6, null, true);
                 for(Player p : Bukkit.getOnlinePlayers())
                     p.playSound(p.getLocation(), Sound.ENTITY_WITHER_HURT, 1, 1);
-                List<Entity> entities = entity.getNearbyEntities(10,10,10).stream().filter(entity -> entity instanceof Player).toList();
-                if(!entities.isEmpty()){
-                    for(Entity entity : entities){
-                        Player player = (Player) entity;
-                        player.damage(0.1);
-
-
-                        Calculator calc = new Calculator();
-                        calc.entityToPlayerDamage(Maxor.this, SkyblockPlayer.getSkyblockPlayer(player));
-                        calc.damagePlayer(SkyblockPlayer.getSkyblockPlayer(player));
-
-
+                for (Player rawPlayer : Bukkit.getOnlinePlayers()){
+                    SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(rawPlayer);
+                    boolean isInRange = false;
+                    switch (gate){
+                        case 0,2,5 -> isInRange = Tools.isInRange(entity.getLocation().getX() - 12, entity.getLocation().getX() + 12, player.getLocation().getX()) && Tools.isInRange(entity.getLocation().getZ() - 3, entity.getLocation().getZ() + 3, player.getLocation().getZ());
+                        case 1,3,4 -> isInRange = Tools.isInRange(entity.getLocation().getX() - 3, entity.getLocation().getX() + 3, player.getLocation().getX()) && Tools.isInRange(entity.getLocation().getZ() - 12, entity.getLocation().getZ() + 12, player.getLocation().getZ());
                     }
+                    if(isInRange)
+                        player.setHealth(0, HealthChangeReason.Force);
                 }
             }
         }.runTaskTimer(Main.getMain(),0,10);
@@ -220,7 +150,7 @@ public class Maxor implements SkyblockEntity {
 
     @Override
     public String getName() {
-        return "Maxor";
+        return "Goldor";
     }
 
     @Override
@@ -231,7 +161,7 @@ public class Maxor implements SkyblockEntity {
     @Override
     public void updateNameTag() {
 
-        entity.setCustomName("§cMaxor §a" + Tools.toShortNumber(health));
+        entity.setCustomName("§cGoldor §a" + Tools.toShortNumber(health));
         ((CraftWither)entity).getBossBar().removeFlag(BarFlag.DARKEN_SKY);
         ((CraftWither)entity).getBossBar().removeAll();
 
@@ -245,16 +175,6 @@ public class Maxor implements SkyblockEntity {
         }catch (Exception ignored){
 
         }
-        try{
-            tntsummoner.cancel();
-        }catch (Exception ignored){
-
-        }
-        try{
-            spawnRunnable.cancel();
-        }catch (Exception ignored){
-
-        }
 
 
         for(SkyblockEntity e : SkyblockEntity.livingEntity.values())
@@ -264,15 +184,9 @@ public class Maxor implements SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        if(isInLaser) {
-            if (laserTimes > 1)
-                health -= damage;
-            else if (health - damage < 25000000)
-                health = 25000000;
-            else
-                health -= damage;
-        }
-
+        if(isDone)
+            health -= damage;
+        F7Phase3.activePhase.hit();
 
     }
 

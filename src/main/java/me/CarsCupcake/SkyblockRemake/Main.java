@@ -367,6 +367,7 @@ public class Main extends JavaPlugin {
 		getCommand("mob").setTabCompleter(new SpawnEntityTAB());
 		getCommand("setting").setExecutor(new SettingsCMD());
 		getCommand("setting").setTabCompleter(new SettingsTAB());
+		getCommand("dummy").setExecutor(new DummyCMD());
 
 
 		getCommand("kuudra").setExecutor(new startKuudra());

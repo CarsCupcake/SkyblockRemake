@@ -165,9 +165,7 @@ public class Storm implements SkyblockEntity {
             public void run() {
                 Player player = (Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())];
                 Location lo = entity.getLocation().setDirection(player.getLocation().subtract(entity.getLocation()).toVector());
-                lo.getWorld().spawn(lo, Fireball.class, fireball -> {
-                    fireball.addScoreboardTag("storm");
-                });
+                lo.getWorld().spawn(lo, Fireball.class, fireball -> fireball.addScoreboardTag("storm"));
             }
         };
         fireballs.runTaskTimer(Main.getMain(), 20,40);
@@ -232,7 +230,7 @@ public class Storm implements SkyblockEntity {
                 if(i == 0) {
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         for (int i = 0; i < 11; i++)
-                        p.getWorld().spawn(p.getLocation(), LightningStrike.class);
+                        p.getWorld().strikeLightningEffect(p.getLocation());
                     }
                     cancel();
                     phaseBridge();
@@ -291,6 +289,7 @@ public class Storm implements SkyblockEntity {
     public void updateNameTag() {
         entity.setCustomName("§cStorm §a" + Tools.toShortNumber(health));
         ((CraftWither)entity).getBossBar().removeFlag(BarFlag.DARKEN_SKY);
+        ((CraftWither)entity).getBossBar().removeAll();
     }
 
     @Override

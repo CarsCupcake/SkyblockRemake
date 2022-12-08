@@ -15,6 +15,7 @@ import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
+import me.CarsCupcake.SkyblockRemake.WinterIsle.WinterItems;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import org.bukkit.*;
 import org.bukkit.block.banner.Pattern;
@@ -279,6 +280,10 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		new EndermanSlayerItems();
 
 		new F6Items();
+		CoinsItem.init();
+		SkillXpItem.init();
+		new WinterItems();
+
 	}
 
 	public static void raygun() {

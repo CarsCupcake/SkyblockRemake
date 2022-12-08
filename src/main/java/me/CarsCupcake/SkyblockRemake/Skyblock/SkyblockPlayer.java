@@ -760,38 +760,49 @@ public class SkyblockPlayer extends CraftPlayer{
 	}
 
 	public void setHealth(int value, HealthChangeReason reason) {
-		PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, currhealth - value, reason);
-		Bukkit.getPluginManager().callEvent(event);
-		if(event.isCancelled()) return;
+		if(reason != HealthChangeReason.Force){
+			PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, currhealth - value, reason);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
+			currhealth = currhealth - event.getHelthChangeAmount();
+		}else
+			currhealth = value;
 
-		currhealth = currhealth - event.getHelthChangeAmount();
+
 		if(currhealth < 0)
 			currhealth = 0;
 		if(currhealth > Main.playerhealthcalc(this))
 			currhealth = (int) Main.playerhealthcalc(this);
+		Main.updatebar(this);
 
 	}
 	public void setHealth(double value, HealthChangeReason reason) {
-		PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, (int) (currhealth - value), reason);
-		Bukkit.getPluginManager().callEvent(event);
-		if(event.isCancelled()) return;
-
-		currhealth = currhealth - event.getHelthChangeAmount();
+		if(reason != HealthChangeReason.Force){
+			PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, (int) (currhealth - value), reason);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
+			currhealth = currhealth - event.getHelthChangeAmount();
+		}else
+			currhealth = (int) value;
 		if(currhealth < 0)
 			currhealth = 0;
 		if(currhealth > Main.playerhealthcalc(this))
 			currhealth = (int) Main.playerhealthcalc(this);
+		Main.updatebar(this);
 	}
 	public void setHealth(float value, HealthChangeReason reason) {
-		PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, (int) (currhealth - value), reason);
-		Bukkit.getPluginManager().callEvent(event);
-		if(event.isCancelled()) return;
-
-		currhealth =  currhealth - event.getHelthChangeAmount();
+		if(reason != HealthChangeReason.Force){
+			PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, (int) (currhealth - value), reason);
+			Bukkit.getPluginManager().callEvent(event);
+			if (event.isCancelled()) return;
+			currhealth = currhealth - event.getHelthChangeAmount();
+		}else
+			currhealth = (int) value;
 		if(currhealth < 0)
 			currhealth = 0;
 		if(currhealth > Main.playerhealthcalc(this))
 			currhealth = (int) Main.playerhealthcalc(this);
+		Main.updatebar(this);
 	}
 	public void setMana(int value) {
 		currmana = value;
