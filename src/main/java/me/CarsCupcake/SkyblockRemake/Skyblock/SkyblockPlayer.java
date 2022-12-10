@@ -275,17 +275,13 @@ public class SkyblockPlayer extends CraftPlayer{
 		inventory.get().set(getUniqueId().toString(), null);
 		inventory.save();
 		inventory.reload();
-		ListIterator<ItemStack> s = getInventory().iterator();
-		int i = 0;
-		while (s.hasNext()){
-			ItemStack item = s.next();
+		for(int i = 0; i < 40; i++){
+			ItemStack item = player.getInventory().getItem(i);
 			try{
 				if (item == null || item.getType() == Material.AIR) {
-					inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
 					continue;
 				}
 				for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
-					System.out.println(enchantment.getKey().getKey());
 					inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
 				}
 				saveItem(i, getItemAsMap(item));
@@ -293,7 +289,6 @@ public class SkyblockPlayer extends CraftPlayer{
 				e.printStackTrace();
 				inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
 			}
-			i++;
 		}
 		inventory.save();
 		inventory.reload();

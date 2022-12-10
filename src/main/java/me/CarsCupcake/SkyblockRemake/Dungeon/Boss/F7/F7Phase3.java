@@ -4,6 +4,8 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.*;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.*;
+import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Tools;
@@ -20,6 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 
@@ -45,7 +48,33 @@ public class F7Phase3 implements Listener {
     private boolean isDone = false;
     private boolean isSlow = false;
     private BukkitRunnable lastSlow;
-    public F7Phase3(boolean isListener){}
+    public F7Phase3(boolean isListener){
+        if(!isListener){
+            ItemManager manager = new ItemManager("Helmet of the Universe", "ADMIN_HELMET", ItemType.Helmet, new ArrayList<>(List.of("§7Defenetly Legit ;)")), "Fly", "Fly",
+                    new ArrayList<>(List.of("§7I mean why not? its good :D")), 0,0,0,0, Material.GOLDEN_HELMET, ItemRarity.SPECIAL);
+            manager.setFullSetBonus(Bonuses.AdminArmor);
+            manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+            Items.SkyblockItems.put(manager.itemID, manager);
+
+            manager = new ItemManager("Chestplate of the Universe", "ADMIN_CHESTPLATE", ItemType.Chestplate, new ArrayList<>(List.of("§7Defenetly Legit ;)")), "Fly", "Fly",
+                    new ArrayList<>(List.of("§7I mean why not? its good :D")), 0,0,0,0, Material.GOLDEN_CHESTPLATE, ItemRarity.SPECIAL);
+            manager.setFullSetBonus(Bonuses.AdminArmor);
+            manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+            Items.SkyblockItems.put(manager.itemID, manager);
+
+            manager = new ItemManager("Leggings of the Universe", "ADMIN_LEGGINGS", ItemType.Leggings, new ArrayList<>(List.of("§7Defenetly Legit ;)")), "Fly", "Fly",
+                    new ArrayList<>(List.of("§7I mean why not? its good :D")), 0,0,0,0, Material.GOLDEN_LEGGINGS, ItemRarity.SPECIAL);
+            manager.setFullSetBonus(Bonuses.AdminArmor);
+            manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+            Items.SkyblockItems.put(manager.itemID, manager);
+
+            manager = new ItemManager("Boots of the Universe", "ADMIN_BOOTS", ItemType.Boots, new ArrayList<>(List.of("§7Defenetly Legit ;)")), "Fly", "Fly",
+                    new ArrayList<>(List.of("§7I mean why not? its good :D")), 0,0,0,0, Material.GOLDEN_BOOTS, ItemRarity.SPECIAL);
+            manager.setFullSetBonus(Bonuses.AdminArmor);
+            manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+            Items.SkyblockItems.put(manager.itemID, manager);
+        }
+    }
     public F7Phase3(){
         regenerate();
         for (Location l : tLocations){
@@ -106,7 +135,7 @@ public class F7Phase3 implements Listener {
                     double speed;
                     if (quickMove)
                         speed = 0.65;
-                    else if(isSlow)
+                    else if(isSlow && gate != 5)
                         speed = 0.01;
                     else
                         speed = 0.05;

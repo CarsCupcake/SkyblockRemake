@@ -35,9 +35,7 @@ public class QuaziiT1Goal<T extends EntityLiving> extends PathfinderGoal {
     public QuaziiT1Goal(QuaziiT1 q,EntityCreature var0, Class<T> var1, float var2, double var3, double var5) {
        
        
-        this(q,var0, var1, (var0x) -> {
-            return true;
-        }, var2, var3, var5, IEntitySelector.e::test);
+        this(q,var0, var1, (var0x) -> true, var2, var3, var5, IEntitySelector.e::test);
     }
 	
 	public QuaziiT1Goal(QuaziiT1 q,EntityCreature var0, Class<T> var1, Predicate<EntityLiving> var2, float var3, double var4, double var6, Predicate<EntityLiving> var8) {

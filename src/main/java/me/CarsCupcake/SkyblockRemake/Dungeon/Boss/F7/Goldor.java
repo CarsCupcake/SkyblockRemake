@@ -3,7 +3,6 @@ package me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Tools;
@@ -18,7 +17,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
 
 
@@ -89,13 +87,11 @@ public class Goldor implements SkyblockEntity {
     private void skillShoot() {
         entity.setAI(false);
     attacks = new BukkitRunnable() {
-        private int runtime = 0;
 
         private int switchTarget = 0;
         private Player target = (Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())];
         @Override
         public void run() {
-            runtime++;
             switchTarget++;
             if(switchTarget == 10){
                  target = (Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())];
@@ -122,7 +118,7 @@ public class Goldor implements SkyblockEntity {
 
 
     };
-    attacks.runTaskTimer(Main.getMain(), 0,2);
+    attacks.runTaskTimer(Main.getMain(), 0,4);
 
     }
 
@@ -131,15 +127,18 @@ public class Goldor implements SkyblockEntity {
         new BukkitRunnable() {
             @Override
             public void run() {
+                if(entity == null || entity.isDead()){
+                    cancel();
+                    return;
+                }
+
                 entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation().add(0, 0.5, 0), 6, 0, 0, 0, 6, null, true);
-                for(Player p : Bukkit.getOnlinePlayers())
-                    p.playSound(p.getLocation(), Sound.ENTITY_WITHER_HURT, 1, 1);
                 for (Player rawPlayer : Bukkit.getOnlinePlayers()){
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(rawPlayer);
                     boolean isInRange = false;
                     switch (gate){
                         case 0,2,5 -> isInRange = Tools.isInRange(entity.getLocation().getX() - 12, entity.getLocation().getX() + 12, player.getLocation().getX()) && Tools.isInRange(entity.getLocation().getZ() - 3, entity.getLocation().getZ() + 3, player.getLocation().getZ());
-                        case 1,3,4 -> isInRange = Tools.isInRange(entity.getLocation().getX() - 3, entity.getLocation().getX() + 3, player.getLocation().getX()) && Tools.isInRange(entity.getLocation().getZ() - 12, entity.getLocation().getZ() + 12, player.getLocation().getZ());
+                        case 1,3 -> isInRange = Tools.isInRange(entity.getLocation().getX() - 3, entity.getLocation().getX() + 3, player.getLocation().getX()) && Tools.isInRange(entity.getLocation().getZ() - 12, entity.getLocation().getZ() + 12, player.getLocation().getZ());
                     }
                     if(isInRange)
                         player.setHealth(0, HealthChangeReason.Force);

@@ -10,6 +10,7 @@ import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.F6Items;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.TextTerminal;
 import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
@@ -283,6 +284,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		CoinsItem.init();
 		SkillXpItem.init();
 		new WinterItems();
+		new F7Phase3(false);
 
 	}
 

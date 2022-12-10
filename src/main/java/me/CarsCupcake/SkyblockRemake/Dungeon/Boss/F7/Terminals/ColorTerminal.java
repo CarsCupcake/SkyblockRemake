@@ -37,7 +37,7 @@ public class ColorTerminal extends Terminal {
                 case 1 -> m = Material.RED_STAINED_GLASS_PANE;
                 case 2 -> m = Material.ORANGE_STAINED_GLASS_PANE;
                 case 3 -> m = Material.YELLOW_STAINED_GLASS_PANE;
-                case 4 -> m = Material.LIME_STAINED_GLASS_PANE;
+                case 4 -> m = Material.GREEN_STAINED_GLASS_PANE;
                 case 5 -> m = Material.BLUE_STAINED_GLASS_PANE;
                 default -> throw new RuntimeException("Illegal Number: " + target);
             }
@@ -72,9 +72,9 @@ public class ColorTerminal extends Terminal {
                 return Material.YELLOW_STAINED_GLASS_PANE;
             }
             case YELLOW_STAINED_GLASS_PANE -> {
-                return Material.LIME_STAINED_GLASS_PANE;
+                return Material.GREEN_STAINED_GLASS_PANE;
             }
-            case LIME_STAINED_GLASS_PANE -> {
+            case GREEN_STAINED_GLASS_PANE -> {
                 return Material.BLUE_STAINED_GLASS_PANE;
             }
             default -> throw new IllegalArgumentException("Wrong Material: " + m);

@@ -104,7 +104,6 @@ public class SimonSaysTerminal extends Terminal implements Listener {
             for (Location l : possibleLocs)
                 l.getBlock().setType(Material.AIR);
             isOpen = false;
-            F7Phase3.simonSaysTerminal = null;
             return true;
         }
         return false;

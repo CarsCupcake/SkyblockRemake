@@ -23,7 +23,8 @@ public enum Bonuses {
 	WiseBlood(new WiseBlood()),
 	UnstableBlood(new UnstableBlood()),
 	YoungBlood(new YoungBlood()),
-	StrongBlood(new StrongBlood());
+	StrongBlood(new StrongBlood()),
+	AdminArmor(new AdminArmorAbility());
 
 	private final FullSetBonus b;
 	Bonuses(FullSetBonus bonus) {
