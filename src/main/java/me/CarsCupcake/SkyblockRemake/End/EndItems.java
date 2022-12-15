@@ -32,6 +32,8 @@ public class EndItems {
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
         manager = aspectOfTheDragons();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+        manager = aspectOfTheDraconic();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
 
         //Superior Items
         manager = superiorDragonFragment();
@@ -105,11 +107,27 @@ public class EndItems {
         abilityLore.add("§7All Monsters in front of you");
         abilityLore.add("§7take §a%dmg% §7damage. Hit");
         abilityLore.add("§7monsters take large knockback.");
-        ItemManager manager = new ItemManager("Aspect Of The Dragons", "ASPECT_OF_THE_DRAGON", ItemType.Sword, null, "Dragon Rage", null, null, 100, 0,0,0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
+        ItemManager manager = new ItemManager("Aspect Of The Dragons", "ASPECT_OF_THE_DRAGON", ItemType.Sword, null, "Dragon Rage", null, null, 100, 30,0,0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
         manager.setNpcSellPrice(100000);
         manager.setDamage(225);
         manager.setStat(Stats.Strength, 100);
         AbilityLore lore = new AbilityLore(abilityLore, "%dmg%", new Bundle<>(12000d, 0.1));
+        manager.setAbility(new DragonsRage(), AbilityType.RightClick);
+        manager.setAbilityLore(lore);
+
+        return manager;
+    }
+
+    private ItemManager aspectOfTheDraconic(){
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7All Monsters in front of you");
+        abilityLore.add("§7take §a%dmg% §7damage. Hit");
+        abilityLore.add("§7monsters take large knockback.");
+        ItemManager manager = new ItemManager("Aspect Of The Dragons", "ASPECT_OF_THE_DRACONIC", ItemType.Sword, null, "Draconic Rage", null, null, 100, 0,0,0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
+        manager.setNpcSellPrice(100000);
+        manager.setDamage(260);
+        manager.setStat(Stats.Strength, 150);
+        AbilityLore lore = new AbilityLore(abilityLore, "%dmg%", new Bundle<>(20000d, 0.1));
         manager.setAbility(new DragonsRage(), AbilityType.RightClick);
         manager.setAbilityLore(lore);
 

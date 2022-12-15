@@ -128,7 +128,7 @@ public class F7Phase3 implements Listener {
         move = new BukkitRunnable() {
             @Override
             public void run() {
-                if(goldor.getEntity().isDead())
+                if(goldor.getEntity() == null || goldor.getEntity().isDead())
                     cancel();
 
                 if(!isDone){
@@ -213,8 +213,11 @@ public class F7Phase3 implements Listener {
                                 case 2 -> b = Tools.getBlocksBetween(new Location(Bukkit.getWorld("world") ,18, 115, 136).getBlock(), new Location(Bukkit.getWorld("world") ,16, 135, 128).getBlock());
                                 case 3 -> b = Tools.getBlocksBetween(new Location(Bukkit.getWorld("world") ,4, 115, 50).getBlock(), new Location(Bukkit.getWorld("world") ,12, 135, 48).getBlock());
                             }
-                            for(Block bbb : b)
+                            for(Block bbb : b) {
+                                if(bbb.getType() != Material.BARRIER)
+                                    new FallDownArmorstand(bbb.getType(), bbb.getLocation().clone().add(0,0.5,0));
                                 bbb.setType(Material.AIR);
+                            }
                             new BukkitRunnable() {
                                 private boolean isInRect = false;
                                 @Override

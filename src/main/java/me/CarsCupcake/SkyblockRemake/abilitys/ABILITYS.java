@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase3;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.FallDownArmorstand;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowPointing;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowShooting;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTerminals.LightsTerminal;
@@ -11,6 +12,8 @@ import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.JerryListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.TabListManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Teleporters;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
@@ -36,11 +39,14 @@ public class ABILITYS {
         registerEvent(new ProtectiveBlood());
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
-        registerEvent(new F7Phase3(true));
-        registerEvent(new SimonSaysTerminal(null, -1));
-        registerEvent(new LightsTerminal(null, -1));
-        registerEvent(new ArrowShooting(null, -1));
-        registerEvent(new ArrowPointing(null, -1));
+        if(SkyblockServer.getServer().getType() == ServerType.F7){
+            registerEvent(new F7Phase3(true));
+            registerEvent(new SimonSaysTerminal(null, -1));
+            registerEvent(new LightsTerminal(null, -1));
+            registerEvent(new ArrowShooting(null, -1));
+            registerEvent(new ArrowPointing(null, -1));
+            registerEvent(new FallDownArmorstand(null, null));
+        }
     }
     public static void disable(){
         Totem.stopAll();
