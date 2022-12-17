@@ -43,6 +43,9 @@ int runntime2 = 0;
 Graphics2D g2 = (Graphics2D) image.getGraphics();
 Color c1= new Color(183,165,130,255);
 Color c2 = new Color(161,144,114,255);
+Color trap = new Color(0xe68a00);
+Color puzzle = Color.MAGENTA;
+Color yellow = Color.YELLOW;
 
 for(int l = 0; l<128; l++)
 	for(int i = 0; i <128;i++) {
@@ -67,11 +70,19 @@ for(ArrayList<DungeonRoom> lists : DungeonGeneration.layers) {
 			g2.setColor(new Color(113,67,27,255));
 			if(room.type == DungeonRoomsTypes.fairy) 
 				g2.setColor(new Color(200,106,138,255));
-				
+
+			if(room.type == DungeonRoomsTypes.Trap)
+				g2.setColor(trap);
+
+			if(room.type == DungeonRoomsTypes.puzzle)
+				g2.setColor(puzzle);
+
+			if(room.type == DungeonRoomsTypes.miniboss)
+				g2.setColor(yellow);
 			
-				if(room.type == DungeonRoomsTypes.red) {
+				if(room.type == DungeonRoomsTypes.red)
 					g2.setColor(Color.red);
-				}
+
 				if(room.type == DungeonRoomsTypes.green)
 					g2.setColor(Color.GREEN);
 				

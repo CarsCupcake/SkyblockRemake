@@ -60,7 +60,7 @@ public class Hyperion_WitherImpact implements AbilityManager{
 		int i = 0;
 		int damage = 0;
 		for(Entity target : close){
-	         if(target instanceof LivingEntity && target.getType() != EntityType.ARMOR_STAND && !Main.entitydead.containsKey(target)  ){
+	         if(target instanceof LivingEntity && !(target instanceof Player) && target.getType() != EntityType.ARMOR_STAND && !Main.entitydead.containsKey(target)  ){
 				 Calculator calculator = new Calculator();
 				 calculator.setMagic("Implosion", 0.3);
 				 calculator.playerToEntityMagicDamage(SkyblockPlayer.getSkyblockPlayer(player), (LivingEntity) target, 10000);

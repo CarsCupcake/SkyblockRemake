@@ -28,7 +28,10 @@ public class DungeonDoors {
 				DungeonRoom r4 = null;
 				
 				DungeonRoom cr = DungeonGeneration.layers.get(loc.y ).get(loc.x);
-				
+				currdors.remove(loc);
+				DungeonRoomsTypes type = cr.type;
+				if(type == DungeonRoomsTypes.miniboss || type == DungeonRoomsTypes.puzzle || type == DungeonRoomsTypes.Trap)
+					continue;
 				if(loc.y + 1 < 6)
 				 r1 = DungeonGeneration.layers.get(loc.y +1).get(loc.x);
 				if(loc.y - 1 > -1)
@@ -37,12 +40,12 @@ public class DungeonDoors {
 				 r3 = DungeonGeneration.layers.get(loc.y ).get(loc.x-1);
 				 if(loc.x + 1 < 6)
 				 r4 = DungeonGeneration.layers.get(loc.y ).get(loc.x+1);
-				currdors.remove(loc);
+
 				
 				
 				if(r1 != null) {
 					
-				if(r1.door == false && !(r1.base != null && r1.base.door !=false)) {
+				if(!r1.door && !(r1.base != null && r1.base.door)) {
 					if(!((r1.base != null 
 							&& cr == r1.base )
 							||(cr.base != null && cr.base == r1.base)  

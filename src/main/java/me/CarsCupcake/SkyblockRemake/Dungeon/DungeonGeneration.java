@@ -1,6 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Dungeon;
+import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -38,18 +41,18 @@ public class DungeonGeneration {
     }
     public static ArrayList<DungeonRoom> addEmpty(ArrayList<DungeonRoom> list){
         for(int i = 0; i < 6; i++)
-        list.add(null);
+            list.add(null);
         return list;
     }
     
     public static ArrayList<String> addEmpty(ArrayList<String> list, String s){
         for(int i = 0; i < 6; i++)
-        list.add(s);
+            list.add(s);
         return list;
     }
     public static ArrayList<String> addNoDoors(ArrayList<String> list){
         for(int i = 0; i < 5; i++)
-        list.add("n");
+            list.add("n");
         return list;
     }
     public static void StartGeneration(){
@@ -60,14 +63,10 @@ public class DungeonGeneration {
         int greenPlace = rand.nextInt(5);
         try {
 			layers.get(5).set(greenPlace, new DungeonRoom(DungeonRoomsTypes.green, greenPlace, 5, true));
-		} catch (Exception e1) {
-			
-		}
+		} catch (Exception ignored) {}
         try {
 			layers.get(0).set(redPlace, new DungeonRoom(DungeonRoomsTypes.red, redPlace, 0, true));
-		} catch (Exception e1) {
-			
-		}
+		} catch (Exception ignored) {}
         int fairyx = rand.nextInt(5);
         int fairyy = rand.nextInt(5);
 
@@ -85,7 +84,6 @@ public class DungeonGeneration {
         try {
             layers.get(fairyy).set(fairyx, new DungeonRoom(DungeonRoomsTypes.fairy, fairyx, fairyy, true));
         } catch (Exception e) {
-            
             e.printStackTrace();
         }
         Pathfind( fairyx, fairyy,greenPlace, 5).forEach((s)->{
@@ -157,7 +155,6 @@ public class DungeonGeneration {
                 
             }} 
         });
-        System.err.println("kek");
         Pathfind( fairyx, fairyy,redPlace, 0).forEach((s)->{
             int l = Integer.parseInt(s.split(":")[1]);
             int i= Integer.parseInt(s.split(":")[0]);
@@ -243,9 +240,9 @@ public class DungeonGeneration {
         }
         
         
-        
+        ArrayList<Locs> oneByOne = new ArrayList<>();
         for(int l = 0; l < 6; l++)
-        for(int i = 0; i < 6; i++){
+            for(int i = 0; i < 6; i++){
             boolean blace = true;
 
             boolean r2x2 = true;
@@ -303,14 +300,29 @@ public class DungeonGeneration {
                     }
                     try {
                         layers.get(l).set(i, new DungeonRoom(DungeonRoomsTypes.r1x1, i, l));
+                        oneByOne.add(new Locs(l,i));
                     } catch (Exception e) {
                         break;
                     }
-                    System.out.println(layers.get(l).get(i).type.toString());
+
                     blace = false;
                     break;
                 
             }}
+        }
+        int puzzle = new Random().nextInt(3) + 2;
+        if(puzzle + 2 > oneByOne.size()){
+            Bukkit.broadcastMessage("§cGeneration Failed! Generation was not able to place enouth rooms!");
+            return;
+        }
+        Collections.shuffle(oneByOne);
+        Locs l = oneByOne.get(0);
+        layers.get(l.x).get(l.y).type = DungeonRoomsTypes.miniboss;
+        l = oneByOne.get(1);
+        layers.get(l.x).get(l.y).type = DungeonRoomsTypes.Trap;
+        for(int i = 0; i < puzzle; i++){
+            l = oneByOne.get(puzzle + 3);
+            layers.get(l.x).get(l.y).type = DungeonRoomsTypes.puzzle;
         }
         
         doorPathFind(fairyx, fairyy,redPlace, 0);
