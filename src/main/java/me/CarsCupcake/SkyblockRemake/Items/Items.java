@@ -286,6 +286,8 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		new WinterItems();
 		new F7Phase3(false);
 
+		diamondArachneHead();
+
 	}
 
 	public static void raygun() {
@@ -593,6 +595,19 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setUnstackeble(true);
 		SkyblockItems.put(manager.itemID, manager);
 
+	}
+
+	private static void diamondArachneHead(){
+		ItemManager manager = new ItemManager("Diamond Arachne Head", "DIAMOND_ARACHNE" , ItemType.Helmet, null,null,null,null,0,0,
+				0,0,ItemRarity.SPECIAL, "ewogICJ0aW1lc3RhbXAiIDogMTY3MTI5NzA3OTAyMSwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS85YjBiNzEyNDZkZDcyMTdjZDFhMzFiOGQ1NDUxNTc5NGMwOTZlZGExNTAyZmNhYTI2MDNiMTYwYTU0MGU3ZGMwIgogICAgfQogIH0KfQ==");
+		manager.setUnstackeble(true);
+		manager.setIsSkullValue(true);
+		manager.setStat(Stats.Health, 220);
+		manager.setStat(Stats.Defense, 190);
+		manager.setStat(Stats.Strength, 10);
+		manager.setStat(Stats.Ferocity, 50);
+
+		SkyblockItems.put(manager.itemID, manager);
 	}
 	
 	
@@ -1668,18 +1683,18 @@ return manager.getRawItemStack();
 public static ItemStack Divans_Drill() {
 	ItemManager manager = new ItemManager("Divan's Drill", "DIVAN_DRILL", ItemType.Drill, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10,1800,150,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_SHARD, ItemRarity.MYTHIC);
 	manager.customDataContainer.put(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+	manager.addSlot(new GemstoneSlot(SlotType.Amber));
+	manager.addSlot(new GemstoneSlot(SlotType.Amber));
+	manager.addSlot(new GemstoneSlot(SlotType.Jade));
+	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Mining));
-	manager.addSlot(new GemstoneSlot(SlotType.Amber));
-	manager.addSlot(new GemstoneSlot(SlotType.Amber));
-	manager.addSlot(new GemstoneSlot(SlotType.Jade));
-	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack Mithril() {
 	ItemManager manager = new ItemManager("Mithril", "MITHRIL_ORE", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_CRYSTALS, ItemRarity.COMMON);
 	SkyblockItems.put(manager.itemID, manager);
-	return manager.getRawItemStack();
+	return manager.createNewItemStack();
 }
 public static ItemStack Titanium() {
 	ItemManager manager = new ItemManager("Titanium", "TITANIUM", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, ItemRarity.RARE, "https://textures.minecraft.net/texture/a14c6e41a762d37863a9fff6888c738905b92cc6c3898892a38dfdfe2ac4bf", UUID.fromString("da5bd3bc-d2d2-11ec-9d64-0242ac120002"));

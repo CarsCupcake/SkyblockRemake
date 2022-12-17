@@ -2,6 +2,8 @@ package me.CarsCupcake.SkyblockRemake;
 
 import java.util.HashMap;
 
+import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -20,8 +22,12 @@ import net.minecraft.network.protocol.game.PacketPlayOutBlockBreakAnimation;
 
 public class MiningSys {
 	private static HashMap<SkyblockPlayer, MiningSys> mines = new HashMap<>();
+	@Getter
+	private static HashMap<Material, Class<? extends MiningBlock>> registeredBlocks = new HashMap<>();
 private final SkyblockPlayer player;
 private BukkitRunnable runn;
+@Getter
+private me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock block;
 public int ticks;
 public Block b;
 private boolean hasStoped = false;
@@ -36,9 +42,7 @@ public void stopMinig() {
 	runn.cancel();
 	PacketPlayOutBlockBreakAnimation animation = new PacketPlayOutBlockBreakAnimation(1,new BlockPosition(b.getX(), b.getY(), b.getZ()), 10);
     player.getHandle().b.sendPacket(animation);
-	}catch (Exception e) {
-
-	}
+	}catch (Exception ignored) {}
 }
 public static MiningSys getMiningSystem(SkyblockPlayer player) {
 	return mines.get(player);
@@ -46,6 +50,7 @@ public static MiningSys getMiningSystem(SkyblockPlayer player) {
 public static MiningSys getMiningSystem(Player player) {
 	return mines.get(SkyblockPlayer.getSkyblockPlayer(player));
 }
+@SuppressWarnings("deprecation")
 public void startMining(Block block) {
 	if(!checkValid(block)) return;
 	
@@ -58,18 +63,30 @@ public void startMining(Block block) {
 	}
 	}
 
-	if(getBlockBreakingPower(block) > Main.playerbreakingpower(player)) return;
 
+	try {
+		this.block = registeredBlocks.get(block.getType()).newInstance();
+	}catch (Exception e){
+		e.printStackTrace();
+		return;
+	}
+	if(this.block == null)
+		return;
+	if(this.block.getBreakingPower() > Main.playerbreakingpower(player)) {
+		return;
+	}
 	SkyblockPlayer p =  SkyblockPlayer.getSkyblockPlayer(player);
-	int[] data = getCustomBlockData(block);
 	final int ticks;
-
-	if(Main.getPlayerMiningSpeed(p.getPlayer()) >= data[1]) {
-		ticks = 1;
+	double speed = Main.getPlayerMiningSpeed(p.getPlayer());
+	if(speed >= this.block.getSoftCap()) {
+		if(speed >= this.block.getInstaMineSpeed())
+			ticks = 1;
+		else
+			ticks = 4;
 		
 
 	}else
-		ticks = estimateBreakingTime(player, data[0]);
+		ticks = this.block.getMiningTicks(player);
 	
 	this.ticks = ticks;
 	b = block;
@@ -101,7 +118,7 @@ public void startMining(Block block) {
 				{
 					@Override
 					public void run() {
-						if (checkValid(b.getLocation().getBlock()) && !hasStoped && getBlockBreakingPower(b.getLocation().getBlock()) <= Main.playerbreakingpower(player)) {
+						if (checkValid(b.getLocation().getBlock()) && !hasStoped && MiningSys.this.block.getBreakingPower() <= Main.playerbreakingpower(player)) {
 							startMining(block.getLocation().getBlock());
 						}
 					}
@@ -113,7 +130,8 @@ public void startMining(Block block) {
 					
             	
             }
-			p.getHandle().b.sendPacket(animation);
+			for (Player pp : Bukkit.getOnlinePlayers())
+			  ((CraftPlayer)pp).getHandle().b.sendPacket(animation);
 		}
 	};
 	runn.runTaskTimer(Main.getMain(), 0, 1);
@@ -143,7 +161,7 @@ public int getBlockBreakStage(int totalTicks, int currentTick) {
 	
 	
 	
-	public int getBlockBreakingPower(Block block) {
+	/*public int getBlockBreakingPower(Block block) {
 		if(block.getType()== Material.STONE || block.getType()== Material.COBBLESTONE || block.getType() == Material.COAL_ORE|| block.getType() == Material.GLOWSTONE)
 			return 1;
 		if(block.getType() == Material.IRON_ORE || block.getType() == Material.LAPIS_ORE)
@@ -212,12 +230,9 @@ public int getBlockBreakStage(int totalTicks, int currentTick) {
 		return (int) MiningTime;
 	}
    
-	
+	*/
 		public boolean checkValid(Block block) {
-			if(block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE || block.getType() == Material.DIAMOND_ORE || block.getType() == Material.GLOWSTONE || block.getType() == Material.LAPIS_ORE || block.getType() == Material.EMERALD_ORE
-					||( (Main.getMain().getServer().getPort() == 25564 || !Main.isLocalHost ) && (block.getType() == Material.GRAY_WOOL || block.getType() == Material.CYAN_TERRACOTTA || block.getType() == Material.PRISMARINE || block.getType() == Material.DARK_PRISMARINE || block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.LIGHT_BLUE_WOOL || block.getType() == Material.POLISHED_DIORITE)))
-				return true;
-			return false;
+			return registeredBlocks.containsKey(block.getType());
 		}
 
 

@@ -157,6 +157,7 @@ public class TabListManager implements Listener{
 			if(event.getPlayer()!=manager.player.getPlayer())
 				manager.removePlayer(player);
 		}
+		managers.remove(player.getPlayer());
 	}
 	
 	public void updatePlayerCount() {

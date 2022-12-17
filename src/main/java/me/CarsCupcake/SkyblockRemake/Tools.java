@@ -20,6 +20,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -70,6 +71,32 @@ public class Tools {
 
 
  }
+
+ public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed,int baseDropChance ,SkyblockPlayer player){
+	 double chance = Main.getplayerStat(player, Stats.Pristine) / 100d;
+	 double miningFortune = Main.getplayerStat(player, Stats.MiningFortune) / 100;
+	 int norm = 0;
+	 int pri = 0;
+	 Random r = new Random();
+	 for(int i = 0; i < baseDropChance; i++){
+		 if(chance <= r.nextDouble())
+			 pri += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) <= r.nextDouble()) ? 1 : 0);
+		 else
+			 norm += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) <= r.nextDouble()) ? 1 : 0);
+	 }
+
+	 ArrayList<ItemStack> ret = new ArrayList<>();
+	 ItemStack i = rough.createNewItemStack();
+	 i.setAmount(norm);
+	 ret.add(i);
+	 i = flawed.createNewItemStack();
+	 i.setAmount(pri);
+	 ret.add(i);
+
+	 return ret;
+ }
+
+
 	public static boolean isInRect(Player player, Location loc1, Location loc2)
 	{
 		double[] dim = new double[2];

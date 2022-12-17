@@ -53,6 +53,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -133,6 +134,7 @@ public class SkyblockRemakeEvents implements Listener{
 		});
 		
 	}
+
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
@@ -323,7 +325,8 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 		if(Main.getMain().getConfig().getBoolean("StatSystem") == true)
 		event.setCancelled(true);
 		
-		if(Main.getMain().getConfig().getBoolean("StatSystem") == true && event.getPlayer().getItemInHand().getItemMeta() != null && Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null) {
+		if(Main.getMain().getConfig().getBoolean("StatSystem") == true && event.getPlayer().getItemInHand().getItemMeta() != null &&
+				Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null) {
 			
 			
 			ItemManager manager = Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
@@ -338,7 +341,10 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 				
 			}
 			SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-			
+			MiningSys.getMiningSystem(player).getBlock().breakBlock(event.getBlock(), player);
+			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
+
+			/*
 			if(event.getBlock().getType() == Material.STONE || event.getBlock().getType() == Material.COBBLESTONE) {
 				
 				if(event.getBlock().getType() == Material.COBBLESTONE)
@@ -447,11 +453,12 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 		}
 		if(event.getBlock().getType() == Material.GLOWSTONE) {
 			event.getBlock().setType(Material.AIR);
+
+			player.addSkillXp(7, Skills.Mining);
 			ItemStack item = new ItemStack(Material.GLOWSTONE_DUST);
 			Random rand = new Random();
 			int amount = rand.nextInt(2)+2;
 			item.setAmount(amount);
-			player.addSkillXp(7, Skills.Mining);
 			item = Main.item_updater(item,player);
 			item = Main.item_updater(item,player);
 			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
@@ -897,9 +904,9 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 		}
 		
 			
-		}
+		}*/
 	}}
-public int dropAmount(int minigFortune, int lowest, int highest) {
+public static int dropAmount(int minigFortune, int lowest, int highest) {
 		
 		Random rand = new Random();
 		int dropBaseAmount =  rand.nextInt(highest-lowest) + lowest;
@@ -949,7 +956,7 @@ public int dropAmount(int minigFortune, int lowest, int highest) {
 		return dropBaseAmount;
 		
 	}
-public int dropAmount(int minigFortune, int amount) {
+public static int dropAmount(int minigFortune, int amount) {
 	
 
 	int dropBaseAmount =  amount;

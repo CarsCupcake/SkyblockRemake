@@ -11,15 +11,29 @@ import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.MiningSys;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Cobblestone;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilBlue;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilGeen;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilGrey;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.TitanumHandler;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Stone;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Titanium;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock;
+import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.JerryListener;
-import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.TabListManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Teleporters;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class ABILITYS {
+public class ABILITYS implements Listener{
     public static void init(){
         registerEvent(new DreadlordHandler());
         registerEvent(new PreAbilityExecution() {
@@ -39,6 +53,7 @@ public class ABILITYS {
         registerEvent(new ProtectiveBlood());
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
+        registerEvent(new ABILITYS());
         if(SkyblockServer.getServer().getType() == ServerType.F7){
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
@@ -56,6 +71,38 @@ public class ABILITYS {
             Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
         }catch (Exception ignored){
 
+        }
+    }
+    @EventHandler
+    public void disable(PluginDisableEvent event){
+        if(event.getPlugin().equals(Main.getMain())) {
+            MiningBlock.getBlocks().forEach(me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock::reset);
+            TitanumHandler.getHandlers().values().forEach(TitanumHandler::reset);
+        }
+        Main.petstand.values().forEach(PetFollowRunner::remove);
+    }
+    @EventHandler
+    public void enable(PluginEnableEvent event){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                TitanumHandler.getHandlers().values().forEach(TitanumHandler::tick);
+            }
+        }.runTaskTimer(Main.getMain(), 20, 20);
+        if(event.getPlugin().equals(Main.getMain())) {
+            MiningSys.getRegisteredBlocks().put(Material.STONE, Stone.class);
+            MiningSys.getRegisteredBlocks().put(Material.COBBLESTONE, Cobblestone.class);
+
+            MiningSys.getRegisteredBlocks().put(Material.CYAN_TERRACOTTA, MithrilGrey.class);
+            MiningSys.getRegisteredBlocks().put(Material.GRAY_WOOL, MithrilGrey.class);
+
+            MiningSys.getRegisteredBlocks().put(Material.DARK_PRISMARINE, MithrilGeen.class);
+            MiningSys.getRegisteredBlocks().put(Material.PRISMARINE, MithrilGeen.class);
+            MiningSys.getRegisteredBlocks().put(Material.PRISMARINE_BRICKS, MithrilGeen.class);
+
+            MiningSys.getRegisteredBlocks().put(Material.LIGHT_BLUE_WOOL, MithrilBlue.class);
+
+            MiningSys.getRegisteredBlocks().put(Material.POLISHED_DIORITE, Titanium.class);
         }
     }
 }

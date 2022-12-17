@@ -11,21 +11,20 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stone extends MiningBlock {
+public class Cobblestone extends MiningBlock {
 
     @Override
     public int blockStrength() {
-        return 15;
+        return 20;
     }
-
     @Override
     public int getInstaMineSpeed() {
-        return 450;
+        return 600;
     }
 
     @Override
     public Material getType() {
-        return Material.STONE;
+        return Material.COBBLESTONE;
     }
 
     @Override

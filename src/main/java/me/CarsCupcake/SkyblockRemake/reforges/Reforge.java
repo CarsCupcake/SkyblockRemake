@@ -25,9 +25,12 @@ public interface Reforge {
 		 if(s.equals("dmg")){
 			 return statPackage.getDamage();
 		 }else {
-			Stats stat = Stats.getFromDataName(s);
-			return statPackage.getStat(stat);
+			 if(!s.equals("breakingpower")) {
+				 Stats stat = Stats.getFromDataName(s);
+				 return statPackage.getStat(stat);
+			 }
 		 }
+		 return 0;
 	}
 	static float getReforgeAbilityDamageValue(Reforge reforge, ItemRarity rarity) {
 		 ReforgeStatPackage statPackage = AddReforges.getStatPackage(rarity, reforge);
