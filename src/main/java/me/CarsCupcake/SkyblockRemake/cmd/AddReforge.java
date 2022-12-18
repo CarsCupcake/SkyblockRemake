@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Jaded;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -54,11 +55,16 @@ public class AddReforge implements CommandExecutor{
 			player.setItemInHand(AddReforges.toItemStack(player.getItemInHand(), rarity, new Loving()));
 			 player.setItemInHand(Main.item_updater(player.getItemInHand(), SkyblockPlayer.getSkyblockPlayer(player)));
 			 break;
-		case "Auspicious":
-			 rarity = ItemRarity.valueOf(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-			player.setItemInHand(AddReforges.toItemStack(player.getItemInHand(), rarity, new Auspicious()));
-			 player.setItemInHand(Main.item_updater(player.getItemInHand(), SkyblockPlayer.getSkyblockPlayer(player)));
-			 break;
+			case "Auspicious":
+				rarity = ItemRarity.valueOf(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
+				player.setItemInHand(AddReforges.toItemStack(player.getItemInHand(), rarity, new Auspicious()));
+				player.setItemInHand(Main.item_updater(player.getItemInHand(), SkyblockPlayer.getSkyblockPlayer(player)));
+				break;
+			case "Jaded":
+				rarity = ItemRarity.valueOf(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
+				player.setItemInHand(AddReforges.toItemStack(player.getItemInHand(), rarity, new Jaded()));
+				player.setItemInHand(Main.item_updater(player.getItemInHand(), SkyblockPlayer.getSkyblockPlayer(player)));
+				break;
 	  default:
 		  rarity = ItemRarity.valueOf(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
 		  if(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null &&registerReforge.reforges.containsKey(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))

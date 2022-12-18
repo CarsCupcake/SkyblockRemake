@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.reforges;
 import java.util.HashMap;
 
 import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Auspicious;
+import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Jaded;
 import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Loving;
 import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Necrotic;
 import me.CarsCupcake.SkyblockRemake.reforges.blacksmith.epic;
@@ -33,9 +34,12 @@ private static void initReforgeStones() {
 	
 	reforgeStones_reforges.put("Loving", new Loving());
 	reforges.put("Loving", new Loving());
-	
+
 	reforgeStones_reforges.put("Auspicious", new Auspicious());
 	reforges.put("Auspicious", new Auspicious());
+
+	reforgeStones_reforges.put("Jaded", new Jaded());
+	reforges.put("Jaded", new Jaded());
 	
 }
 

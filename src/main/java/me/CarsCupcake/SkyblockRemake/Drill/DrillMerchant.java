@@ -371,8 +371,8 @@ public class DrillMerchant implements Listener{
 						ItemMeta meta = item.getItemMeta();
 						PersistentDataContainer data = meta.getPersistentDataContainer();
 						int newFuel = DrillPart.parts.get(manager2.itemID).applyminingspeed;
-						int currMiningspeed = data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.INTEGER);
-						data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.INTEGER, currMiningspeed +  newFuel);
+						double currMiningspeed = data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE);
+						data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, currMiningspeed +  newFuel);
 						data.set(new NamespacedKey(Main.getMain(), "drillengine"), PersistentDataType.STRING, manager2.itemID);
 						item.setItemMeta(meta);
 						return Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));

@@ -53,16 +53,18 @@ public abstract class MiningBlock {
             @Override
             public void run() {
                 b.setType(resetType());
+                b.getState().update();
             }
         }.runTaskLater(Main.getMain(), regenTime());
         dropItems(player);
     }
     protected void dropItems(SkyblockPlayer player){
         for(ItemStack item : getDrops(player))
-            if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-                player.addItem(item);
-            else
-                block.getWorld().dropItemNaturally(block.getLocation(),item);
+            if(item.getType() != Material.AIR && item.getAmount() > 0)
+                if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
+                    player.addItem(item);
+                else
+                    block.getWorld().dropItemNaturally(block.getLocation(),item);
     }
     public void reset(){
         block.setType(getType());

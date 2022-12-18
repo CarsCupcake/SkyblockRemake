@@ -185,6 +185,8 @@ public class SkyblockRemakeEvents implements Listener{
 			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -42.5,71.5,42.5,180, 0));
 		if(SkyblockServer.getServer().getType() == ServerType.F6)
 			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -8.5,69.5,-0.5,0, 0));
+		if(SkyblockServer.getServer().getType() == ServerType.F6)
+			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -200.5,83.5,-231.5,0, 0));
 		
 		
 		

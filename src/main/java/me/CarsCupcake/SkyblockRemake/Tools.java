@@ -79,8 +79,9 @@ public class Tools {
 	 int pri = 0;
 	 Random r = new Random();
 	 for(int i = 0; i < baseDropChance; i++){
-		 if(chance <= r.nextDouble())
-			 pri += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) <= r.nextDouble()) ? 1 : 0);
+		 if(r.nextDouble() <= chance) {
+			 pri += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) >= r.nextDouble()) ? 1 : 0);
+		 }
 		 else
 			 norm += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) <= r.nextDouble()) ? 1 : 0);
 	 }

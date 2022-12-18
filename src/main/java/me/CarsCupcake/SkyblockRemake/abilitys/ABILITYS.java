@@ -13,6 +13,8 @@ import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.MiningSys;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Cobblestone;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Gemstone.JadeGem;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Gemstone.JadeShart;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilBlue;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilGeen;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilGrey;
@@ -103,6 +105,9 @@ public class ABILITYS implements Listener{
             MiningSys.getRegisteredBlocks().put(Material.LIGHT_BLUE_WOOL, MithrilBlue.class);
 
             MiningSys.getRegisteredBlocks().put(Material.POLISHED_DIORITE, Titanium.class);
+
+            MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS_PANE, JadeShart.class);
+            MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS, JadeGem.class);
         }
     }
 }

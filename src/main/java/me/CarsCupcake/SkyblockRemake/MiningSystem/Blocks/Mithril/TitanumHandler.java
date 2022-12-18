@@ -1,10 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
