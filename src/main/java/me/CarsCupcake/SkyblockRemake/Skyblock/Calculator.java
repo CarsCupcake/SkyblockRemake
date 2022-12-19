@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -56,21 +57,23 @@ public class Calculator {
         double cd = Main.playercdcalc(player);
         int weapondmg =(int) Main.weapondamage(player.getItemInHand());
         weapondmg *= player.getRawDamageMult();
-        System.out.println(player.getAdititveMultiplier());
+        DamagePrepairEvent event = new DamagePrepairEvent(player);
+        event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
+        Bukkit.getPluginManager().callEvent(event);
 
         double cc = Main.playercccalc(player);
          cccalc = (int )(Math.random() * 100 + 1);
 
-        double preMultiplier = (float) SkyblockRemakeEvents.additiveMultiplier(player);
-        preMultiplier += SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier();
+        double preMultiplier = event.getPreMultiplier();
+        double postMult = event.getPostMultiplier();
 
         double damage;
             if(cccalc <= cc) {
                 isCrit = true;
-                damage = (5 + (float)weapondmg) * (1+((float)stre/100)) * (1+((float)cd/100)) * (1+(preMultiplier)) ;
+                damage = (5 + (float)weapondmg) * (1+((float)stre/100)) * (1+((float)cd/100)) * (1+(preMultiplier)) * (1+(postMult));
 
             }else {
-                damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier));
+                damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier)) * (1+(postMult));
             }
             if(SkyblockEntity.livingEntity.containsKey(e)){
                 SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);

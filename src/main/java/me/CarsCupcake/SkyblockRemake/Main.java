@@ -99,9 +99,7 @@ import me.CarsCupcake.SkyblockRemake.KuudraBossFight.Tentacles;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Pets.PetMenuListender;
-import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.color;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
-import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.order;
 import me.CarsCupcake.SkyblockRemake.Tabs.TabManager;
 import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
@@ -2375,16 +2373,10 @@ public class Main extends JavaPlugin {
 				item = Pet.pets.get(manager.itemID).updatePet(item);
 			}
 
-			ItemStack oritem = item;
-
-			int amount = item.getAmount();
-			item = manager.getRawItemStack();
-			ItemMeta m = item.getItemMeta();
-			m.setLore(new ArrayList<>());
-			item.setItemMeta(m);
-			meta = oritem.getItemMeta();
-
-			item.setAmount(amount);
+			if(manager.getFlags().contains(me.CarsCupcake.SkyblockRemake.Items.ItemFlag.SPECIAL_MATERIAL_GRABBER)) {
+				if(manager.getMaterialGrabber() != null)
+					item.setType(manager.getMaterialGrabber().getMaterial(item, player));
+			}else item.setType(manager.material);
 			meta.setLore(new ArrayList<String>());
 			meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
@@ -2405,13 +2397,13 @@ public class Main extends JavaPlugin {
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 								rarity, "breakingpower") != 0) {
 					lores.add(
-							"§8Breaking Power " + String.format("%.0f", itembreakingpower(oritem)) + " §9(+"
+							"§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+"
 									+ Reforge.getReforgeValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 											rarity, "breakingpower")
 									+ ")");
 				} else
-					lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(oritem)));
+					lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)));
 				lores.add(" ");
 			}
 			if(manager.type == ItemType.FishingRod){
@@ -2424,7 +2416,7 @@ public class Main extends JavaPlugin {
 			if (weapondamage(item) != 0) {
 				int potatobooks = 0;
 				try {
-					potatobooks = oritem.getItemMeta().getPersistentDataContainer()
+					potatobooks = item.getItemMeta().getPersistentDataContainer()
 
 							.get(new NamespacedKey(getMain(), "potatobooks"), PersistentDataType.INTEGER);
 					if(manager.type == ItemType.Helmet || manager.type == ItemType.Chestplate || manager.type == ItemType.Leggings || manager.type == ItemType.Boots) {
@@ -2438,13 +2430,13 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "dmg") != 0) {
-						lores.add("§7Damage §c+" + weapondamage(oritem) + " §9(+"
+						lores.add("§7Damage §c+" + weapondamage(item) + " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "dmg")
 								+ ")");
 					} else
-						lores.add("§7Damage §c+" + weapondamage(oritem));
+						lores.add("§7Damage §c+" + weapondamage(item));
 				}
 				if (potatobooks != 0) {
 					if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2452,21 +2444,21 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "dmg") != 0)
-						lores.add("§7Damage §c+" + weapondamage(oritem) + " §e(+" + (int) (potatobooks * 2) + ")"
+						lores.add("§7Damage §c+" + weapondamage(item) + " §e(+" + (int) (potatobooks * 2) + ")"
 								+ " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "dmg")
 								+ ")");
 					else
-						lores.add("§7Damage §c+" + weapondamage(oritem) + " §e(+" + (int) (potatobooks * 2) + ")");
+						lores.add("§7Damage §c+" + weapondamage(item) + " §e(+" + (int) (potatobooks * 2) + ")");
 				}
 
 			}
-			if (getItemStat(player, Stats.Strength, oritem) != 0) {
+			if (getItemStat(player, Stats.Strength, item) != 0) {
 				int potatobooks = 0;
 				try {
-					potatobooks = oritem.getItemMeta().getPersistentDataContainer()
+					potatobooks = item.getItemMeta().getPersistentDataContainer()
 							.get(new NamespacedKey(getMain(), "potatobooks"), PersistentDataType.INTEGER);
 					if(manager.type == ItemType.Helmet || manager.type == ItemType.Chestplate || manager.type == ItemType.Leggings || manager.type == ItemType.Boots){
 						potatobooks = 0;
@@ -2478,13 +2470,13 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "strength") != 0)
-						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, oritem) + " §9(+"
+						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, item) + " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "strength")
 								+ ")");
 					else
-						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, oritem));
+						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, item));
 				}
 				if (potatobooks != 0) {
 					if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2492,20 +2484,20 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "strength") != 0)
-						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, oritem) + " §e(+" + (int) (potatobooks * 2) + ")"
+						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, item) + " §e(+" + (int) (potatobooks * 2) + ")"
 								+ " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "strength")
 								+ ")");
 					else
-						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, oritem) + " §e(+" + (int) (potatobooks * 2) + ")");
+						lores.add("§7Strength §c+" + getItemStat(player, Stats.Strength, item) + " §e(+" + (int) (potatobooks * 2) + ")");
 				}
 
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Jasper) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2516,7 +2508,7 @@ public class Main extends JavaPlugin {
 				}
 
 			}
-			double value = getItemStat(player,Stats.CritChance, oritem);
+			double value = getItemStat(player,Stats.CritChance, item);
 
 			if (value != 0) {
 
@@ -2538,7 +2530,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Crit Chance §c" + plus + value + "%");
 			}
-			value = getItemStat(player,Stats.CritDamage, oritem);
+			value = getItemStat(player,Stats.CritDamage, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2554,7 +2546,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Crit Damage §c+" + value + "%");
 			}
-			value = getItemStat(player,Stats.AttackSpeed, oritem);
+			value = getItemStat(player,Stats.AttackSpeed, item);
 			if (value != 0) {
 				String prefix = (value < 0) ? "" : "+";
 
@@ -2572,7 +2564,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Bonus Attack Speed §c"+prefix + value + "%");
 			}
-			value = getItemStat(player,Stats.AbilityDamage, oritem);
+			value = getItemStat(player,Stats.AbilityDamage, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeAbilityDamageValue(
@@ -2617,10 +2609,10 @@ public class Main extends JavaPlugin {
 					lores.add("§7Ability Damage: §c+" + value + "%");
 			}
 
-			if (getItemStat(player, Stats.Health, oritem) != 0) {
+			if (getItemStat(player, Stats.Health, item) != 0) {
 				int potatobooks = 0;
 				try {
-					potatobooks = oritem.getItemMeta().getPersistentDataContainer()
+					potatobooks = item.getItemMeta().getPersistentDataContainer()
 							.get(new NamespacedKey(getMain(), "potatobooks"), PersistentDataType.INTEGER);
 				} catch (Exception e) {
 					if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2628,13 +2620,13 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "health") != 0)
-						lores.add("§7Health §a+" + getItemStat(player, Stats.Health, oritem) + " §9(+"
+						lores.add("§7Health §a+" + getItemStat(player, Stats.Health, item) + " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "health")
 								+ ")");
 					else
-						lores.add("§7Health §a+" + getItemStat(player, Stats.Health, oritem));
+						lores.add("§7Health §a+" + getItemStat(player, Stats.Health, item));
 				}
 
 				if (potatobooks != 0) {
@@ -2644,21 +2636,21 @@ public class Main extends JavaPlugin {
 								&& Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "health") != 0)
-							lores.add("§7Health §a+" + getItemStat(player, Stats.Health, oritem) + " §e(+" + (int) (potatobooks * 4) + ")"
+							lores.add("§7Health §a+" + getItemStat(player, Stats.Health, item) + " §e(+" + (int) (potatobooks * 4) + ")"
 									+ " §9(+"
 									+ Reforge.getReforgeValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 											rarity, "health")
 									+ ")");
 						else
-							lores.add("§7Health §a+" + getItemStat(player, Stats.Health, oritem) + " §e(+" + (int) (potatobooks * 4) + ")");
+							lores.add("§7Health §a+" + getItemStat(player, Stats.Health, item) + " §e(+" + (int) (potatobooks * 4) + ")");
 
 				}
 
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Ruby) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2669,10 +2661,10 @@ public class Main extends JavaPlugin {
 				}
 
 			}
-			if (getItemStat(player, Stats.Defense, oritem) != 0) {
+			if (getItemStat(player, Stats.Defense, item) != 0) {
 				int potatobooks = 0;
 				try {
-					potatobooks = oritem.getItemMeta().getPersistentDataContainer()
+					potatobooks = item.getItemMeta().getPersistentDataContainer()
 							.get(new NamespacedKey(getMain(), "potatobooks"), PersistentDataType.INTEGER);
 				} catch (Exception e) {
 					if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2680,13 +2672,13 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "def") != 0)
-						lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, oritem) + " §9(+"
+						lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, item) + " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "def")
 								+ ")");
 					else{
-						lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, oritem));
+						lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, item));
 
 					}
 
@@ -2698,23 +2690,23 @@ public class Main extends JavaPlugin {
 								&& Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 								rarity, "def") != 0)
-							lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, oritem) + " §e(+" + (int) (potatobooks * 2) + ")"
+							lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, item) + " §e(+" + (int) (potatobooks * 2) + ")"
 									+ " §9(+"
 									+ Reforge.getReforgeValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "def")
 									+ ")");
 						else
-							lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, oritem) + " §e(+" + (int) (potatobooks * 2) + ")");
+							lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, item) + " §e(+" + (int) (potatobooks * 2) + ")");
 					}else
-						 lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, oritem));
+						 lores.add("§7Defense §a+" + getItemStat(player, Stats.Defense, item));
 
 				}
 
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Amethyst) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2725,7 +2717,7 @@ public class Main extends JavaPlugin {
 				}
 
 			}
-			value = getItemStat(player,Stats.Speed, oritem);
+			value = getItemStat(player,Stats.Speed, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2741,24 +2733,24 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Speed §a+" + value);
 			}
-			if (getItemStat(player, Stats.Inteligence, oritem) != 0) {
+			if (getItemStat(player, Stats.Inteligence, item) != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
 								registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 								rarity, "mana") != 0)
 					lores.add(
-							"§7Intelligence §a+" + getItemStat(player, Stats.Inteligence, oritem) + " §9(+"
+							"§7Intelligence §a+" + getItemStat(player, Stats.Inteligence, item) + " §9(+"
 									+ Reforge.getReforgeValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 											rarity, "mana")
 									+ ")");
 				else
-					lores.add("§7Intelligence §a+" + getItemStat(player, Stats.Inteligence, oritem));
+					lores.add("§7Intelligence §a+" + getItemStat(player, Stats.Inteligence, item));
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Sapphire) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2769,7 +2761,7 @@ public class Main extends JavaPlugin {
 				}
 
 			}
-			value = getItemStat(player,Stats.MagicFind, oritem);
+			value = getItemStat(player,Stats.MagicFind, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2785,7 +2777,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Magic Find §a+" + value);
 			}
-			value = getItemStat(player,Stats.Ferocity, oritem);
+			value = getItemStat(player,Stats.Ferocity, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2801,7 +2793,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7Ferocity §a+" + value);
 			}
-			value = getItemStat(player,Stats.TrueDefense, oritem);
+			value = getItemStat(player,Stats.TrueDefense, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2817,7 +2809,7 @@ public class Main extends JavaPlugin {
 				else
 					lores.add("§7True Defense §a+" + value);
 			}
-			value = getItemStat(player,Stats.MiningSpeed, oritem);
+			value = getItemStat(player,Stats.MiningSpeed, item);
 
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2837,7 +2829,7 @@ public class Main extends JavaPlugin {
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Amber) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2848,7 +2840,7 @@ public class Main extends JavaPlugin {
 				}
 
 			}
-			value = getItemStat(player,Stats.Pristine, oritem);
+			value = getItemStat(player,Stats.Pristine, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2867,7 +2859,7 @@ public class Main extends JavaPlugin {
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					double total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Topaz) {
 							total += s.currGem.getDoubleStatBoost(rarity);
 						}
@@ -2877,7 +2869,7 @@ public class Main extends JavaPlugin {
 					}
 				}
 			}
-			value = getItemStat(player,Stats.MiningFortune, oritem);
+			value = getItemStat(player,Stats.MiningFortune, item);
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeValue(
@@ -2896,7 +2888,7 @@ public class Main extends JavaPlugin {
 				if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 					int total = 0;
 					for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
-							oritem.getItemMeta().getPersistentDataContainer())) {
+							item.getItemMeta().getPersistentDataContainer())) {
 						if (s.currGem != null && s.currGem.gemType == GemstoneType.Jade) {
 							total += s.currGem.getStatBoost(rarity);
 						}
@@ -2906,7 +2898,7 @@ public class Main extends JavaPlugin {
 					}
 				}
 			}
-			value = getItemStat(player,Stats.SeaCreatureChance, oritem);
+			value = getItemStat(player,Stats.SeaCreatureChance, item);
 			if (value != 0) {
 				String num = "";
 				if(value % 1 == 0)
@@ -2932,8 +2924,8 @@ public class Main extends JavaPlugin {
 					
 
 			}
-			if(getItemStat(player, Stats.FishingSpeed, oritem) != 0){
-				double num = getItemStat(player, Stats.FishingSpeed, oritem);
+			if(getItemStat(player, Stats.FishingSpeed, item) != 0){
+				double num = getItemStat(player, Stats.FishingSpeed, item);
 				if(num % 1 == 0)
 					lores.add("§7Fishing Speed §a+" + String.format("%.0f", num));
 				else
@@ -2976,10 +2968,10 @@ public class Main extends JavaPlugin {
 				operator.put("amount", 0);
 				operator.put("line", 0);
 
-				Bundle<ArrayList<UltimateEnchant>, ArrayList<Enchantment>> enchants = UltimateEnchant.splitEnchants(oritem.getItemMeta().getEnchants().keySet());
+				Bundle<ArrayList<UltimateEnchant>, ArrayList<Enchantment>> enchants = UltimateEnchant.splitEnchants(item.getItemMeta().getEnchants().keySet());
 
 				for(Enchantment enchant : UltimateEnchant.orderEnchants(enchants)){
-					int level = oritem.getItemMeta().getEnchants().get(enchant);
+					int level = item.getItemMeta().getEnchants().get(enchant);
 					String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
 
 
@@ -3040,7 +3032,7 @@ public class Main extends JavaPlugin {
 
 					ArrayList<String> firstAblilityLore;
 					if(manager.getAbilityLore() != null)
-						firstAblilityLore = manager.getAbilityLore().makeLore(player, oritem);
+						firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
 					else
 						firstAblilityLore = manager.abilityLore;
 					firstAblilityLore.forEach(str -> {
@@ -3061,7 +3053,7 @@ public class Main extends JavaPlugin {
 
 					ArrayList<String> firstAblilityLore;
 					if(manager.getAbilityLore() != null)
-						firstAblilityLore = manager.getAbilityLore().makeLore(player, oritem);
+						firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
 					else
 						firstAblilityLore = manager.abilityLore;
 					firstAblilityLore.forEach(str -> {
@@ -3076,7 +3068,7 @@ public class Main extends JavaPlugin {
 			if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || (manager.getAbilityLore() != null)) {
 				ArrayList<String> firstAblilityLore;
 				if(manager.getAbilityLore() != null)
-					firstAblilityLore = manager.getAbilityLore().makeLore(player, oritem);
+					firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
 				else
 					firstAblilityLore = manager.abilityLore;
 				firstAblilityLore.forEach(str -> {
@@ -3093,7 +3085,7 @@ public class Main extends JavaPlugin {
 					manastring =(int) manager.abilityManaCost;
 
 
-				ManaUpdateEvent event = new ManaUpdateEvent(oritem, manastring);
+				ManaUpdateEvent event = new ManaUpdateEvent(item, manastring);
 				Bukkit.getPluginManager().callEvent(event);
 				lores.add("§8Mana Cost §b" + event.getMana() + ((manager.abilityMana1AsPers) ? "%" : ""));
 				extraLine = true;
@@ -3115,7 +3107,7 @@ public class Main extends JavaPlugin {
 			}
 
 			if (manager.manacost2 != 0) {
-				ManaUpdateEvent event = new ManaUpdateEvent(oritem, manager.manacost2);
+				ManaUpdateEvent event = new ManaUpdateEvent(item, manager.manacost2);
 				Bukkit.getPluginManager().callEvent(event);
 				lores.add("§8Mana Cost §b" + event.getMana() + ((manager.abilityMana2AsPers) ? "%" : ""));
 				extraLine = true;
@@ -3130,7 +3122,7 @@ public class Main extends JavaPlugin {
 
 			if(Pet.pets.containsKey(manager.itemID)){
 				Pet pet = Pet.pets.get(manager.itemID);
-				lores.addAll(pet.buildAbilityLore(player, oritem));
+				lores.addAll(pet.buildAbilityLore(player, item));
 			}
 
 			if(manager.getTrophyFishChance()  != 0 && manager.type != ItemType.Pet){

@@ -1,11 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
@@ -101,6 +100,11 @@ private AbilityLore newAbilityLore;
 	private HashMap<Stats, Double> stats = new HashMap<>();
 	private double trophyFishChance = 0;
 	private RodType rodType = RodType.Normal;
+	@Getter
+	private final Set<me.CarsCupcake.SkyblockRemake.Items.ItemFlag> flags = new HashSet<>();
+	@Getter
+	@Setter
+	private MaterialGrabber materialGrabber;
 	
 public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material, ItemRarity rarity) {
 	this.dmg = dmg;
@@ -235,6 +239,7 @@ public ItemManager(String name,String itemID,ItemType itemType,int dmg,int healt
 	this.abilitymultiplier = abilitymultiplyer;
 	this.rarity = rarity;
 	isHead = true;
+	material = Material.PLAYER_HEAD;
 	enchants = new HashMap<>();
 	this.attackspeed = attackspeed;
 	this.breakingpower = breakingpower;
@@ -259,6 +264,7 @@ public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String
 	this.abilitymultiplier = abilitymultiplyer;
 	this.rarity = rarity;
 	isHead = true;
+	material = Material.PLAYER_HEAD;
 	enchants = new HashMap<>();
 	
 }
@@ -289,6 +295,7 @@ public ItemManager(String name,String itemID,ItemType itemType,int dmg,int healt
 	this.abilitymultiplier = abilitymultiplyer;
 	this.rarity = rarity;
 	isHead = true;
+	material = Material.PLAYER_HEAD;
 	enchants = new HashMap<>();
 	this.attackspeed = attackspeed;
 	this.breakingpower = breakingpower;
@@ -316,6 +323,7 @@ public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String
 	this.abilitymultiplier = abilitymultiplyer;
 	this.rarity = rarity;
 	isHead = true;
+	material = Material.PLAYER_HEAD;
 	enchants = new HashMap<>();
 	
 	
@@ -1098,5 +1106,7 @@ public void setEditions(boolean bol) {
 	return npcSellPrice;
 	}
 	
-	
+	public static interface MaterialGrabber{
+		public Material getMaterial(ItemStack item, SkyblockPlayer player);
+	}
 }

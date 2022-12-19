@@ -56,6 +56,7 @@ public class ABILITYS implements Listener{
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
         registerEvent(new ABILITYS());
+        registerEvent(new KatanaDamagingAbilitys());
         if(SkyblockServer.getServer().getType() == ServerType.F7){
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));

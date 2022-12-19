@@ -329,6 +329,9 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 		
 		if(Main.getMain().getConfig().getBoolean("StatSystem") == true && event.getPlayer().getItemInHand().getItemMeta() != null &&
 				Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null) {
+
+			if(!MiningSys.getRegisteredBlocks().containsKey(event.getBlock().getType()))
+				return;
 			
 			
 			ItemManager manager = Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
@@ -3197,12 +3200,12 @@ if(str.startsWith("power:"))
 	public static double additiveMultiplier(Player player) {
 		double multi = 0;
 		if(player.getItemInHand() != null && player.getItemInHand().getItemMeta() != null && player.getItemInHand().getItemMeta().getEnchants() != null) {
-			
+
 			//Check weapon enchants
 			for(Enchantment ench : player.getItemInHand().getItemMeta().getEnchants().keySet()) {
-				
+
 				if(ench.getName().equals(Enchantment.DAMAGE_ALL.getName())) {
-				
+
 					switch(player.getItemInHand().getItemMeta().getEnchantLevel(ench)) {
 					case 1:
 						multi = multi + 0.05;
@@ -3225,14 +3228,14 @@ if(str.startsWith("power:"))
 					case 7:
 						multi = multi + 0.65;
 						break;
-						
-						
-						
+
+
+
 					}
 				}
 			}
 		}
-		
+
 		System.out.println(multi);
 		return multi;
 	}
@@ -3330,27 +3333,15 @@ if(str.startsWith("power:"))
 		  };runnable.runTaskLater(Main.getMain(), 2);
 		}
 	@EventHandler
-	public void inventoryUpdate(InventoryOpenEvent event) {
-		Player player = (Player) event.getPlayer();
-		HashMap<Player, Integer> slot = new HashMap<>();
-		slot.put(player, 0);
-		player.getInventory().forEach(item->{
-			Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));
-		});
-	}
-	@EventHandler
 	public void inventoryUpdate(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
-		HashMap<Player, Integer> slot = new HashMap<>();
-		slot.put(player, 0);
 		new BukkitRunnable(){
 		@Override
 		public void run()
 		{
 		player.getInventory().forEach(item->{
-			if(slot.get(player) != event.getSlot())
-			  Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));
-			slot.put(player, slot.get(player) + 1);
+			  Main.item_updater(event.getCurrentItem(),SkyblockPlayer.getSkyblockPlayer(player));
+
 		});
 		}
 		}.runTaskLater(Main.getMain(), 1L);
