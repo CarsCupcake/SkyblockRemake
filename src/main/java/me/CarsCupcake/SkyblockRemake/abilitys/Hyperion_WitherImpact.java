@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -80,6 +81,8 @@ public class Hyperion_WitherImpact implements AbilityManager{
 				c.setMagic("Implosion");
 				c.sendMagicMessage(i, SkyblockPlayer.getSkyblockPlayer(player));
 		}
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.4f, 1.2f);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 0.2f, 2f);
 		return false;
 	}
 

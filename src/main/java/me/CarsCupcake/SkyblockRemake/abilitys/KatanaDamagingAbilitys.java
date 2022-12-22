@@ -14,6 +14,8 @@ import org.bukkit.persistence.PersistentDataType;
 public class KatanaDamagingAbilitys implements Listener {
     @EventHandler
     public void damage(DamagePrepairEvent event){
+        if(!(event.getEntity() instanceof Enderman))
+            return;
         ItemStack item = event.getPlayer().getItemInHand();
         if(item == null || item.getItemMeta() == null || item.getItemMeta().getPersistentDataContainer() == null)
             return;

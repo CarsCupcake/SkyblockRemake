@@ -1,14 +1,12 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
+import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
-import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,7 +55,7 @@ public class Calculator {
         double cd = Main.playercdcalc(player);
         int weapondmg =(int) Main.weapondamage(player.getItemInHand());
         weapondmg *= player.getRawDamageMult();
-        DamagePrepairEvent event = new DamagePrepairEvent(player);
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e);
         event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
         Bukkit.getPluginManager().callEvent(event);
 
@@ -183,6 +181,45 @@ public class Calculator {
         else
             Main.updateentitystats(e);
 
+        if(!isMagic && !isFerocity && projectile == null)
+                if(Main.playerferocitycalc(player) != 0) {
+                    int ferocity =(int) Main.playerferocitycalc(player);
+
+                    if(ferocity < 100) {
+                        Random r = new Random();
+                        int low = 1;//includes 1
+                        int high = 100;// includes 100
+                        int result = r.nextInt(high-low) + low;
+                        if(ferocity >= result) {
+
+                            Ferocity.hit(e,(int) damage, cccalc <= Main.getplayerStat(player, Stats.CritChance), player);
+                            Main.updateentitystats(e);
+                        }
+                    }else {
+                        double hits =(double) ferocity / 100;
+                        if(hits % 1 == 0) {
+
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getplayerStat(player, Stats.CritChance), player, (int)hits);
+
+
+                        }else {
+                            int minus = ((int)hits * 100);
+                            double hitchance = (double)ferocity - (double)minus;
+
+                            Random r = new Random();
+                            int low = 1;//includes 1
+                            int high = 100;// includes 100
+                            int result = r.nextInt(high-low) + low;
+
+                            if(hitchance >= result) {
+                                hits = hits +1;
+                            }
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getplayerStat(player, Stats.CritChance), player, (int)hits);
+                        }
+                    }
+                }
+
+
 
         if((SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0)
                 || (Main.currentityhealth.containsKey(e)&&Main.currentityhealth.get(e) <= 0) ) {
@@ -307,14 +344,14 @@ public class Calculator {
 
     }
     public void showDamageTag(Entity e){
-        Location loc = new Location(e.getWorld(), e.getLocation().getX() ,e.getLocation().getY() + 0.5 , e.getLocation().getZ());
+        Location loc = new Location(e.getWorld(), e.getLocation().getX() ,e.getLocation().getY() + 0.7 , e.getLocation().getZ());
         showDamageTag(loc);
 
     }
     public void showDamageTag(Location loc){
         if(result != null && result.isCancelled())
             return;
-
+        loc = loc.clone().add(new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2);
         final String str = String.format("%.0f", (Tools.round(damage, 0)));
 
 

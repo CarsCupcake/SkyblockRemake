@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
@@ -122,12 +123,13 @@ public class SkyblockPlayer extends CraftPlayer{
 
 	public EquipmentManager equipmentManager = new EquipmentManager(this);
 	private double baseTrophyFishChance;
-	private static CustomConfig inventory;
+	private final CustomConfig inventory;
 
 	
 	
 	public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
 		super(server, entity);
+		inventory = new CustomConfig(new File("C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files\\invs" , getUniqueId() + ".yml"));
 		player = entity.getBukkitEntity().getPlayer();
 		players.put(player, this);
 		AbilityManager.additionalMana.put(this, new HashMap<>());
@@ -178,7 +180,7 @@ public class SkyblockPlayer extends CraftPlayer{
 	
 	}
 	public static void init(){
-		inventory = new CustomConfig("inv");
+
 	}
 	private void loadInventory(){
 		getInventory().clear();
@@ -194,13 +196,15 @@ public class SkyblockPlayer extends CraftPlayer{
 					HashMap<String, String> map = new HashMap<>();
 					if (inventory.get().getConfigurationSection(auctionPointer + ".pdc") != null)
 						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".pdc").getKeys(false)) {
-							System.out.println(t);
 							map.put(t, inventory.get().getString(auctionPointer + ".pdc." + t));
 						}
 					ItemStack item = buildItem(map, this);
+					item.setAmount(inventory.get().getInt(auctionPointer + ".amount"));
 					ItemMeta meta = item.getItemMeta();
 					if(meta == null)
 						continue;
+
+
 
 					if (inventory.get().getConfigurationSection(auctionPointer + ".ench") != null)
 						for (String t : inventory.get().getConfigurationSection(auctionPointer + ".ench").getKeys(false)) {
@@ -215,6 +219,7 @@ public class SkyblockPlayer extends CraftPlayer{
 								e.printStackTrace();
 								sendMessage("§cThere was an error with your " + item.getItemMeta().getDisplayName() + " §cwith the encahnt " + t);
 							}
+
 						}
 					item.setItemMeta(meta);
 					item = Main.item_updater(item, this);
@@ -284,6 +289,7 @@ public class SkyblockPlayer extends CraftPlayer{
 				for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
 					inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
 				}
+				inventory.get().set(getUniqueId() + ".SLOT_" + i + ".amount", item.getAmount());
 				saveItem(i, getItemAsMap(item));
 			}catch (Exception e){
 				e.printStackTrace();

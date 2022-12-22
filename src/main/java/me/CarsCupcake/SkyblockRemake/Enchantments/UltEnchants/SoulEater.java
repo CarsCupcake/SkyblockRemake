@@ -64,7 +64,7 @@ public class SoulEater extends UltimateEnchant implements Listener {
         return false;
     }
 
-    private static HashMap<SkyblockPlayer, Double> lastEntityDamage = new HashMap<>();
+    private static final HashMap<SkyblockPlayer, Double> lastEntityDamage = new HashMap<>();
 
     @EventHandler
     public void onDamage(SkyblockDamageEvent event){

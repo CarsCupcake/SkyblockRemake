@@ -2473,55 +2473,7 @@ if(str.startsWith("power:"))
 			  }
 		  
 		
-		Location loc = new Location(e.getEntity().getWorld(), e.getEntity().getLocation().getX() ,e.getEntity().getLocation().getY() + 0.5 , e.getEntity().getLocation().getZ());
-		ArmorStand stand = (ArmorStand) e.getEntity().getWorld().spawn(loc, ArmorStand.class, armorstand ->{armorstand.setVisible(false);
-		armorstand.setGravity(false);
-		   
-		armorstand.setCustomNameVisible(true);
-			
-		armorstand.setInvulnerable(true);
-			if(cccalc <= cc) {
-				String name = "§f✧";
-				String num = "" + (int) FINAL_DAMAGE;
-				int col =1;
-				int coltype = 1;
-				String colstr = "§f";
-				
-				for (char x : num.toCharArray()) {
-					name = name + colstr + x;
-					++col;
-					if(col ==2) {
-						col = 0;
-						++coltype;
-						switch(coltype) {
-						case 1:
-							colstr = "§f";
-							break;
-						case 2:
-							colstr = "§e";
-							break;
-						case 3:
-							colstr = "§6";
-							coltype = 0;
-							break;
-							
-						}
-						
-					}
-				}
-				String x = "✧";
-				name = name + colstr + x;
-				armorstand.setCustomName(name);
-				
-			}else
-				armorstand.setCustomName("§7" + (int)FINAL_DAMAGE);
-			armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
-			armorstand.addScoreboardTag("damage_tag");
-			armorstand.setArms(false);
-			armorstand.setBasePlate(false);
-			armorstand.setMarker(true);});
-			Main.getMain().killarmorstand(stand);
-		  stand.setCustomNameVisible(true);
+		calculator.showDamageTag(e.getHitEntity());
 		  
 		  
 		  
@@ -2725,6 +2677,8 @@ if(str.startsWith("power:"))
 			event.setCancelled(true);
 			return;
 		}
+		if(event.getDamage() < 0.1)
+			return;
 		if(event.getEntity() instanceof Player && event.getDamager() instanceof Player){
 			event.setDamage(0);
 		    event.setCancelled(true);
@@ -2854,7 +2808,7 @@ if(str.startsWith("power:"))
 				LivingEntity e = (LivingEntity) event.getEntity();
 				if(Main.entitydead.containsKey(e))
 					return;
-				
+
 				event.setDamage(0D);
 					  if(event.getDamager() instanceof Player) {
 						  if(e instanceof Player){
@@ -2869,10 +2823,6 @@ if(str.startsWith("power:"))
 						  Calculator calculator = new Calculator();
 						   calculator.playerToEntityDamage(e,SkyblockPlayer.getSkyblockPlayer(player));
 						  int cccalc = calculator.cccalc;
-						  SkyblockDamageEvent eventt = new SkyblockDamageEvent(SkyblockPlayer.getSkyblockPlayer(player), e, calculator, SkyblockDamageEvent.DamageType.PlayerToEntity, event.getCause());
-						  Bukkit.getPluginManager().callEvent(eventt);
-						  if(event.isCancelled())
-							  return;
 						  damage = calculator.damage;
 
 
@@ -2889,6 +2839,7 @@ if(str.startsWith("power:"))
 							  event.setCancelled(true);
 							  return;
 						  }
+
 						  if(e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") || e.getScoreboardTags().contains("voidgloomt4")) {
 							  voidgloom = true;
 							  final Vector vec = new Vector();
@@ -2920,12 +2871,10 @@ if(str.startsWith("power:"))
 							  }
 						  }else {
 							  voidgloom = false;
-
-
 						  }
+						  calculator.damageEntity(e, SkyblockPlayer.getSkyblockPlayer(player), DamageCause.ENTITY_ATTACK);
 				        	if(SkyblockEntity.livingEntity.containsKey(e)) {
 				        		SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
-				        		se.damage((int)damage,SkyblockPlayer.getSkyblockPlayer(player));
 				        		if(se.hasNoKB()) {
 				        			new BukkitRunnable() {
 										
@@ -2937,188 +2886,20 @@ if(str.startsWith("power:"))
 									}.runTaskLater(Main.getMain(), 1);}
 				        			
 				        		
-				        	}else {
-				        	int live = Main.currentityhealth.get(event.getEntity()) - (int) damage;
-				        	Main.currentityhealth.replace(e, live);}
+				        	}
 
 						  
 						 
 								
 						  
-				        	if((SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0) || (!SkyblockEntity.livingEntity.containsKey(e)&&Main.currentityhealth.get(event.getEntity()) <= 0) ) {
-				        		e.addScoreboardTag("killer:" + player.getName());
-				        		Main.EntityDeath(e);
-				        		e.damage(9999999,player);
-				        		
-				        		if(SkyblockEntity.livingEntity.containsKey(e))
-				        		SkyblockEntity.livingEntity.remove(e);
-				        		
-				        		if(e.getScoreboardTags() != null) {
-				        			Set<String> scores = e.getScoreboardTags();
-				        			ArrayList<Player> owners = new ArrayList<>();
-				        			scores.forEach(tag ->{
-										
-										if(tag.startsWith("combatxp:")) {
-											
 
-
-											if(Main.SlayerCurrXp.containsKey(player) == true && Main.SlayerName.containsKey(player) == true && Main.SlayerName.get(player).equals("Revenant Horror") && event.getEntityType() == EntityType.ZOMBIE) {
-												Main.SlayerCurrXp.replace(player, Main.SlayerCurrXp.get(player) + Integer.parseInt(tag.split(":")[1]));
-												SkyblockScoreboard.updateScoreboard(player);
-												 Random r = new Random();
-												  int low = 0;//includes 1
-												  int high = 100;// includes 100
-												  int result = r.nextInt(high-low) + low;
-												  if(result <= 15) {
-													  if(Main.SlayerLevel.get(player) == 4) {
-													 low = 1;
-													 high = 5;
-													 result = r.nextInt(high-low) + low;
-													 if(result == 5) {
-														 SpawnEggEntitys.SummonRevT4MiniBoss2(event.getEntity().getLocation());
-													 }else {
-														 SpawnEggEntitys.SummonRevT4MiniBoss1(event.getEntity().getLocation());
-													 }
-													 }else {
-														 SpawnEggEntitys.SummonRevT3MiniBoss1(event.getEntity().getLocation());
-													 }
-												  }
-													
-											if(Main.SlayerCurrXp.get(player) >= Main.SlayerRequireXp.get(player)) {
-											Main.SlayerCurrXp.remove(player);
-											BukkitRunnable runnable =new BukkitRunnable() {
-												@Override
-												public void run() {
-													System.out.println("runnn");
-												if(Main.SlayerLevel.get(player) == 1)
-													SpawnEggEntitys.SummonT1Rev(event.getEntity().getLocation(), player.getName());
-												if(Main.SlayerLevel.get(player) == 2)
-													SpawnEggEntitys.SummonT2Rev(event.getEntity().getLocation(), player.getName());
-												if(Main.SlayerLevel.get(player) == 3)
-													SpawnEggEntitys.SummonT3Rev(event.getEntity().getLocation(), player.getName());
-												if(Main.SlayerLevel.get(player) == 4)
-													SpawnEggEntitys.SummonT4Rev(event.getEntity().getLocation(), player.getName());
-												
-												}
-												};runnable.runTaskLater(Main.getMain(), 2*20);
-											
-												
-											}
-											
-											}
-										}
-										if(tag.startsWith("revslayer")) {
-											
-											scores.forEach(tags ->{
-												if(tags.startsWith("owner")) {
-													Player owner = Bukkit.getServer().getPlayer(tags.split(":")[1]);
-													owner.sendMessage("Your Rev slayer has ben killed");
-													owners.add(owner);
-													if(Main.SlayerName.containsKey(owner)) {
-													Main.SlayerName.remove(owner);
-													Main.SlayerLevel.remove(owner);
-													Main.SlayerRequireXp.remove(owner);}
-													SkyblockScoreboard.updateScoreboard(player);
-												}
-											});
-										}
-										if(tag.startsWith("voidgloomt2")) {
-											if( Main.beaconPicketUp.containsKey(e) && Main.beaconPicketUp.get(e) == false) {
-											if(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)) != null)
-											Main.beaconLocation.get(e).getBlock().setType(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)).getType());
-											else
-											Main.beaconLocation.get(e).getBlock().setType(Material.AIR);
-											}
-											if(Main.beaconThrown.containsKey(e) && Main.beaconThrown.get(e) == true)
-												kill_voidgloom_beacon(e);
-											Main.beaconBeforeBlock.remove(Main.beaconLocation.get(e));
-											Main.beaconLocation.remove(e);
-											Main.beaconOnGround.remove(e);
-											Main.beaconOwner.remove(player);
-											Main.beaconPicketUp.remove(e);
-											Main.beaconThrown.remove(e);
-											
-											
-										}
-									});
-				        			
-				        			if(owners != null) {
-				        				owners.forEach(owner->{
-				        					event.getEntity().addScoreboardTag("killer:" + owner.getName());
-				        				});
-				        			}
-								}
-				        		
-				        		if(!e.getScoreboardTags().contains("killer")) {
-				        			event.getEntity().addScoreboardTag("killer:" + player.getName());
-				        		}
-				        		
-				        	}
 				        	
 				        		
 					  Main.updateentitystats((LivingEntity)event.getEntity());
 					 
-						Location loc = new Location(event.getEntity().getWorld(), event.getEntity().getLocation().getX() ,event.getEntity().getLocation().getY() + 0.5 , event.getEntity().getLocation().getZ());
-
-						 
-						final String str = String.format("%.0f", (Tools.round(damage, 0)));
-						
-
-
-						ArmorStand stand = (ArmorStand) event.getEntity().getWorld().spawn(loc, ArmorStand.class, armorstand ->{
-							armorstand.setVisible(false);
-						
-							armorstand.setGravity(false);
-							armorstand.setMarker(true);
-							
-						  
-							armorstand.setCustomNameVisible(true);
-						
-							armorstand.setInvulnerable(true);
-						if(calculator.isCrit) {
-							String name = "§f✧";
-							String num = "" + str;
-							int col =1;
-							int coltype = 1;
-							String colstr = "§f";
-							
-							for (char x : num.toCharArray()) {
-								name = name + colstr + x;
-								++col;
-								if(col ==2) {
-									col = 0;
-									++coltype;
-									switch(coltype) {
-									case 1:
-										colstr = "§f";
-										break;
-									case 2:
-										colstr = "§e";
-										break;
-									case 3:
-										colstr = "§6";
-										coltype = 0;
-										break;
-										
-									}
-									
-								}
-							}
-							String x = "✧";
-							name = name + colstr + x;
-							armorstand.setCustomName(name);
-						}else
-							armorstand.setCustomName("§7" + str);
-						
-						armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
-						armorstand.addScoreboardTag("damage_tag");
-						armorstand.setArms(false);
-						
-						armorstand.setBasePlate(false);});
-						
-						Main.getMain().killarmorstand(stand);
+						calculator.showDamageTag(e);
 					  e.setCustomNameVisible(true);
-					  if(Main.playerferocitycalc(player) != 0) {
+					  /*if(Main.playerferocitycalc(player) != 0) {
 						  int ferocity =(int) Main.playerferocitycalc(player);
 						  if(voidgloom) {
 							  ferocity = (int) ((double)ferocity*0.25D);
@@ -3157,7 +2938,7 @@ if(str.startsWith("power:"))
 								  ferocity_call(e, damage, cccalc, cc, player, (int)hits);
 							  }
 						  }
-					  }
+					  }*/
 					  }
 				
 			}}
@@ -3281,7 +3062,8 @@ if(str.startsWith("power:"))
 			});
 		}
 	}
-	public static void ferocity_call(Entity e, double damage, int cccalc, int cc, Player player, int times) {  
+	public static void ferocity_call(Entity e, double damage, int cccalc, int cc, Player player, int times) {
+
 		 HashMap<Player,Integer> hits = new HashMap<>();
 		 hits.put(player, times);
 		if(!hits.containsKey(player))
