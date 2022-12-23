@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -31,5 +32,19 @@ public class ItemHandler {
             return item.getItemMeta().getEnchants().containsKey(enchantment);
         }
         return false;
+    }
+
+    public static boolean hasEnchantment(Enchantment enchantment, Projectile item){
+        for(String s : item.getScoreboardTags())
+            if(s.startsWith(enchantment.getKey().getKey()))
+                return true;
+        return false;
+    }
+
+    public static int getEnchantmentLevel(Enchantment enchantment, Projectile item){
+        for(String s : item.getScoreboardTags())
+            if(s.startsWith(enchantment.getKey().getKey()))
+                return Integer.parseInt(s.split(":")[1]);
+        return 0;
     }
 }

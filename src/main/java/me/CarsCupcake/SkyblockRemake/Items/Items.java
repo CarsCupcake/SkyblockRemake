@@ -64,6 +64,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	protection_book();
 	Bonemerang();
 	terminator();
+	jujuShortbow();
 	wither_googles();
 	HotPotatoBook();
 	Recombobulator3000();
@@ -1425,8 +1426,7 @@ public static ItemStack FakeArrow(String name) {
 	ItemMeta meta =  item.getItemMeta();
 	meta.setDisplayName(name);
 	meta.getPersistentDataContainer().set(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING, "fakearrow");
-
-	
+	meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING, "ARROW");
 	item.setItemMeta(meta);
 
 	return item;
@@ -1497,6 +1497,17 @@ public static ItemStack terminator() {
 
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
+}
+
+public static void jujuShortbow(){
+		ItemManager manager = new ItemManager("Juju Shortbow", "JUJU_SHORTBOW", ItemType.Bow, null, "Shortbow", "shortbow", null, 0, 0 ,0 ,0, Material.BOW, ItemRarity.EPIC);
+		manager.setDamage(310);
+		manager.setStat(Stats.Strength, 40);
+		manager.setStat(Stats.CritChance, 10);
+		manager.setStat(Stats.CritDamage, 110);
+
+		SkyblockItems.put(manager.itemID, manager);
+
 }
 	public static void PainReleaser(){
 		ArrayList<String> lore = new ArrayList<>();

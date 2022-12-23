@@ -38,6 +38,8 @@ public class FatalTempoListner implements Listener {
         if(pers > 2)
             pers = 2;
         pers++;
+        System.out.println("before: " + event.getValue());
         event.setValue(event.getValue() * pers);
+        System.out.println("after: " + event.getValue());
     }
 }

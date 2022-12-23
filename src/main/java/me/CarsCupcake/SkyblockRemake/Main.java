@@ -628,19 +628,6 @@ public class Main extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-
-		SkyblockEnchants.unregister();
-		EntityNPC.shutdown();
-
-		for (World world : Bukkit.getWorlds())
-			for(Entity entity : world.getEntities())
-				if(entity instanceof LivingEntity && !(entity instanceof ArmorStand) && !(entity instanceof Player))
-					entity.remove();
-
-		getConfig().set("TimerValue", time);
-		ConfigFile.reload();
-		saveConfig();
-		reloadConfig();
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			SkyblockPlayer.getSkyblockPlayer(player).saveCommissionProgress();
 			saveCoins(player);
@@ -658,6 +645,19 @@ public class Main extends JavaPlugin {
 			for (EntityPlayer npc : NPC.getNPCs())
 				NPC.removeNPC(player, npc);
 		}
+		SkyblockEnchants.unregister();
+		EntityNPC.shutdown();
+
+		for (World world : Bukkit.getWorlds())
+			for(Entity entity : world.getEntities())
+				if(entity instanceof LivingEntity && !(entity instanceof ArmorStand) && !(entity instanceof Player))
+					entity.remove();
+
+		getConfig().set("TimerValue", time);
+		ConfigFile.reload();
+		saveConfig();
+		reloadConfig();
+
 		if (DiguestMobsManager.getDiguested != null && !DiguestMobsManager.getDiguested.isEmpty())
 			DiguestMobsManager.getDiguested.forEach((entity, diguest) -> {
 
@@ -1868,9 +1868,7 @@ public class Main extends JavaPlugin {
 		}
 		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Ferocity);
 		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
+		Bukkit.getPluginManager().callEvent(event);
 		ferocity = event.getValue();
 		return ferocity;
 	}

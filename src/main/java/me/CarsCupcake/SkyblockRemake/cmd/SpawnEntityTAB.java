@@ -27,6 +27,8 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("DIAMOND");
             arguments.add("JOLLY");
             arguments.add("SADAN");
+            arguments.add("NECRON");
+            arguments.add("MASTERMODE_NECRON");
         }
 
         if(args.length == 1) {

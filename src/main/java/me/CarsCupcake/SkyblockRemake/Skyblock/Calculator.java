@@ -7,6 +7,7 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
 import org.bukkit.Bukkit;
@@ -25,6 +26,7 @@ import java.util.Set;
 
 public class Calculator {
     public boolean isCrit = false;
+    private boolean isCanceled = false;
     public int cccalc = 0;
     public double damage = 0;
     @Getter
@@ -38,6 +40,8 @@ public class Calculator {
     private boolean isFerocity = false;
     @Getter @Setter
     private boolean overload = false;
+    @Setter
+    private boolean applyFerocity = true;
     public Calculator(){}
     public Calculator(boolean setFerocity){
         isFerocity = setFerocity;
@@ -52,6 +56,10 @@ public class Calculator {
         isFerocity = b;
     }
     public  double playerToEntityDamage(LivingEntity e, SkyblockPlayer player){
+        return playerToEntityDamage(e, player, new Bundle<>(1d,1d));
+    }
+
+    public  double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, Bundle<Double, Double> multipyers){
         this.e = e;
         if(e.getScoreboardTags().contains("npc"))
             return 0d;
@@ -59,34 +67,34 @@ public class Calculator {
 
         int weapondmg =(int) Main.weapondamage(player.getItemInHand());
         weapondmg *= player.getRawDamageMult();
-        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this);
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, multipyers.getFirst(), multipyers.getLast());
         event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
         Bukkit.getPluginManager().callEvent(event);
         double stre = Main.playerstrengthcalc(player);
         double cd = Main.playercdcalc(player);
         double cc = Main.playercccalc(player);
-         cccalc = (int )(Math.random() * 100 + 1);
+        cccalc = (int )(Math.random() * 100 + 1);
 
         double preMultiplier = event.getPreMultiplier();
         double postMult = event.getPostMultiplier();
 
         double damage;
-            if(cccalc <= cc) {
-                isCrit = true;
-                damage = (5 + (float)weapondmg) * (1+((float)stre/100)) * (1+((float)cd/100)) * (1+(preMultiplier)) * (1+(postMult));
+        if(cccalc <= cc) {
+            isCrit = true;
+            damage = (5 + (float)weapondmg) * (1+((float)stre/100)) * (1+((float)cd/100)) * (1+(preMultiplier)) * (1+(postMult));
 
-            }else {
-                damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier)) * (1+(postMult));
+        }else {
+            damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier)) * (1+(postMult));
+        }
+        if(SkyblockEntity.livingEntity.containsKey(e)){
+            SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);
+            if(entity instanceof Defensive ed){
+                double defense = ed.getDefense();
+                double ehp = entity.getMaxHealth()*(1+(defense/100));
+                double effectivedmg = entity.getMaxHealth()/ehp ;
+                damage*=effectivedmg;
             }
-            if(SkyblockEntity.livingEntity.containsKey(e)){
-                SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);
-                if(entity instanceof Defensive ed){
-                    double defense = ed.getDefense();
-                    double ehp = entity.getMaxHealth()*(1+(defense/100));
-                    double effectivedmg = entity.getMaxHealth()/ehp ;
-                    damage*=effectivedmg;
-                }
-            }
+        }
         this.damage =  damage;
         return  damage;
     }
@@ -114,7 +122,6 @@ public class Calculator {
                 totaldmg += (int) ( truedamage*effectivetruedmg);
         }
            this.damage = totaldmg;
-        System.out.println(damage);
     }
 
     public void damagePlayer(SkyblockPlayer player){
@@ -158,7 +165,7 @@ public class Calculator {
         else
             result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
         Bukkit.getPluginManager().callEvent(result);
-
+        isCanceled = result.isCancelled();
         if(result.isCancelled())
             return;
 
@@ -180,13 +187,15 @@ public class Calculator {
             newHealth = Main.currentityhealth.get(e);
         }
         e.damage(0.00001, player);
+        SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
+        Bukkit.getPluginManager().callEvent(event);
 
         if(newHealth <= 0)
             e.addScoreboardTag("killer:" + player.getName());
         else
             Main.updateentitystats(e);
 
-        if(!isMagic && !isFerocity && projectile == null)
+        if(!isMagic && !isFerocity && projectile == null && applyFerocity)
                 if(Main.playerferocitycalc(player) != 0) {
                     int ferocity =(int) Main.playerferocitycalc(player);
 
@@ -272,7 +281,6 @@ public class Calculator {
                                 BukkitRunnable runnable =new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        System.out.println("runnn");
                                         if(Main.SlayerLevel.get(player) == 1)
                                             SpawnEggEntitys.SummonT1Rev(e.getLocation(), player.getName());
                                         if(Main.SlayerLevel.get(player) == 2)
@@ -354,6 +362,8 @@ public class Calculator {
 
     }
     public void showDamageTag(Location loc){
+        if(isCanceled)
+            return;
         if(result != null && result.isCancelled())
             return;
         loc = loc.clone().add(new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2);

@@ -12,15 +12,17 @@ public class DamagePrepairEvent extends PlayerEvent{
     @Getter
     private final LivingEntity entity;
     @Getter
-    private double preMultiplier = 1;
+    private double preMultiplier;
     @Getter
-    private double postMultiplier = 1;
+    private double postMultiplier;
     @Getter
     private final Calculator calculator;
-    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator) {
+    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator, double pre, double post) {
         super(player);
         this.entity = entity;
         this.calculator = calculator;
+        preMultiplier = pre;
+        postMultiplier = post;
     }
 
     @NotNull

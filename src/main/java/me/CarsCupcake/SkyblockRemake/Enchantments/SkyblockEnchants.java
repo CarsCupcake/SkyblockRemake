@@ -9,6 +9,7 @@ import java.util.Map;
 import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.DragonTracer;
 import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.Overload;
 import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.Syphon;
+import me.CarsCupcake.SkyblockRemake.Enchantments.NormalEnchants.Vicious;
 import me.CarsCupcake.SkyblockRemake.Enchantments.UltEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
@@ -30,6 +31,8 @@ public class SkyblockEnchants {
 	public static final Chimera CHIMERA = new Chimera();
 	public static final SoulEater SOUL_EATER = new SoulEater();
 	public static final Overload OVERLOAD = new Overload();
+	public static final Vicious VICIOUS = new Vicious();
+	public static final Duplex DUPLEX = new Duplex();
 
 
 	public static final Syphon SYPHON = new Syphon();
@@ -47,6 +50,8 @@ public class SkyblockEnchants {
 		registerEvent(new NormalEnchantsListener());
 		registerEvent(DRAGON_TRACER);
 		registerEvent(OVERLOAD);
+		registerEvent(DUPLEX);
+		registerEvent(VICIOUS);
 	}
 	private static void registerEvent(Listener listener){
 		Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
@@ -66,6 +71,8 @@ public class SkyblockEnchants {
 		registerEnchantment(SYPHON);
 		registerEnchantment(DRAGON_TRACER);
 		registerEnchantment(OVERLOAD);
+		registerEnchantment(VICIOUS);
+		registerEnchantment(DUPLEX);
 }
 public static void unregister(){
 	for (Enchantment enchantment : enchantments)

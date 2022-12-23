@@ -6,33 +6,26 @@ import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
-public class Overload extends Enchantment implements Listener {
-    public Overload() {
-        super(new NamespacedKey(Main.getMain(), "Overload"));
+public class Vicious extends Enchantment implements Listener {
+    public Vicious() {
+        super(new NamespacedKey(Main.getMain(), "Vicious"));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Overload";
+        return "Vicious";
     }
 
     @Override
@@ -42,7 +35,7 @@ public class Overload extends Enchantment implements Listener {
 
     @Override
     public int getStartLevel() {
-        return 1;
+        return 3;
     }
 
     @NotNull
@@ -71,26 +64,12 @@ public class Overload extends Enchantment implements Listener {
         return true;
     }
 
-    @EventHandler
-    public void onHit(DamagePrepairEvent event) {
-        if(event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && event.getCalculator().getProjectile() != null) {
-            if (ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile())){
-                if(Main.getplayerStat(event.getPlayer(), Stats.CritChance) > 100){
-                    Random r = new Random();
-                    if(r.nextBoolean()){
-                        event.getCalculator().setOverload(true);
-                        event.addPreMultiplier(ItemHandler.getEnchantmentLevel(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile()) * 10);
-                    }
-                }
-            }
-        }
-    }
 
     @EventHandler
     public void onStatsGain(GetStatFromItemEvent event){
-        if(event.getStat() == Stats.CritDamage || event.getStat() == Stats.CritChance){
-            if(ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getItem()))
-                event.setValue(event.getValue() + event.getItem().getItemMeta().getEnchants().get(SkyblockEnchants.OVERLOAD));
+        if(event.getStat() == Stats.Ferocity){
+            if(ItemHandler.hasEnchantment(SkyblockEnchants.VICIOUS, event.getItem()))
+                event.setValue(event.getValue() + event.getItem().getItemMeta().getEnchants().get(SkyblockEnchants.VICIOUS));
         }
     }
 

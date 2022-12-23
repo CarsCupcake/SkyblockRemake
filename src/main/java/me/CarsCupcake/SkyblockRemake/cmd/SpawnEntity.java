@@ -1,6 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys.*;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.MastermodeNecron;
+import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Necron;
 import me.CarsCupcake.SkyblockRemake.End.Dragon.SuperiorDragon;
 import me.CarsCupcake.SkyblockRemake.Entitys.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
@@ -50,6 +52,14 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "SADAN" ->{
                     Sadan walker = new Sadan();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "NECRON" ->{
+                    Necron walker = new Necron();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_NECRON" ->{
+                    MastermodeNecron walker = new MastermodeNecron();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

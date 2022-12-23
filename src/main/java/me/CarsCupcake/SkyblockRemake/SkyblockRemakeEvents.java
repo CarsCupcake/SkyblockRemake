@@ -1176,7 +1176,6 @@ public static int dropAmount(int minigFortune, int amount) {
 			
 			List<Entity> close = (List<Entity>)Main.beaconLocation.get(boss).getWorld().getNearbyEntities(Main.beaconLocation.get(boss), 1.2, 1.2, 1.2);
 			if(close.contains(e.getPlayer())) {
-				System.out.println("player is close");
 				Main.beaconPicketUp.replace(boss, true);
 				if(Main.beaconBeforeBlock.get(Main.beaconLocation.get(boss)) != null)
 					Main.beaconLocation.get(boss).getBlock().setType(Main.beaconBeforeBlock.get(Main.beaconLocation.get(boss)).getType());
@@ -1319,7 +1318,6 @@ public static int dropAmount(int minigFortune, int amount) {
 	    	});
 	    	Main.voidgloom_kill_beacon((Enderman) entity);
 	    	BEACON_LOCATION.getBlock().setType(Material.BEACON);
-	    	System.out.println(BEACON_LOCATION + " By SpawnEvent");
 	    	event.getEntity().remove();
 	    }
 	        
@@ -1548,7 +1546,7 @@ public static int dropAmount(int minigFortune, int amount) {
 				event.getPlayer().sendMessage("Your §5§lSoulchance§r has been increat by 1. You have now §5§l" + soulchance + "% §rto drop a §lSoul§r");
 				}catch (Exception e){
 					Bukkit.broadcastMessage("error");
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 			}
@@ -2065,6 +2063,8 @@ public static int dropAmount(int minigFortune, int amount) {
 			            				 arrow_entity2.addScoreboardTag(tag);
 			            				 arrow_entity3.addScoreboardTag(tag);
 			            			 });
+									 arrow_entity2.addScoreboardTag("custom_arrow");
+									 arrow_entity3.addScoreboardTag("custom_arrow");
 		            		 }}
 	            			  
 	            			  player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1);
@@ -2243,7 +2243,7 @@ public static int dropAmount(int minigFortune, int amount) {
 				
    
 			}catch (Exception e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 			event.getProjectile().addScoreboardTag("spiritual");
 			if(!(bow.getItemMeta().getEnchantLevel(Enchantment.ARROW_INFINITE) >= 1)){
@@ -2527,7 +2527,6 @@ if(str.startsWith("power:"))
 				int totaldmg = (int) ((int) SkyblockEntity.livingEntity.get(entity).getDamage()*effectivedmg);
 				
 					SkyblockEntity se = SkyblockEntity.livingEntity.get(entity);
-					System.out.println(se.getDamage());
 					int truedamage = se.getTrueDamage();
 					if(truedamage != 0) {
 						float trueehp = (float) (float)Main.playerhealthcalc(p)*(1+((float)Main.playertruedefense(p)/100));
@@ -2567,6 +2566,8 @@ if(str.startsWith("power:"))
 			}
 			return;
 		}
+		if(event.getCause() == DamageCause.ENTITY_ATTACK)
+			return;
 		
 		if(event.getEntity() instanceof Player) {
 			SkyblockPlayer player =SkyblockPlayer.getSkyblockPlayer((Player) event.getEntity()) ;
@@ -2669,8 +2670,9 @@ if(str.startsWith("power:"))
 			event.setCancelled(true);
 			return;
 		}
-		if(event.getDamage() < 0.1)
+		if(event.getDamage() < 0.1) {
 			return;
+		}
 		if(event.getEntity() instanceof Player && event.getDamager() instanceof Player){
 			event.setDamage(0);
 		    event.setCancelled(true);
@@ -2779,8 +2781,7 @@ if(str.startsWith("power:"))
 				
 
 				Main.updatebar(player);
-				
-				System.out.println(event.getDamager().getName() + "<-- Criminal");
+
 				if(Main.zombySlayerLiveDrainready.containsKey(event.getDamager()) && Main.zombySlayerLiveDrainready.get(event.getDamager())) {
 					Main.zombySlayerLiveDrainready.replace(event.getDamager(), false);
 					if(Main.currentityhealth.get(event.getDamager()) + damage > Main.baseentityhealth.get(event.getDamager()))
@@ -2865,6 +2866,7 @@ if(str.startsWith("power:"))
 							  voidgloom = false;
 						  }
 						  calculator.damageEntity(e, SkyblockPlayer.getSkyblockPlayer(player), DamageCause.ENTITY_ATTACK);
+						  System.out.println("damage :>");
 				        	if(SkyblockEntity.livingEntity.containsKey(e)) {
 				        		SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
 				        		if(se.hasNoKB()) {
@@ -2872,7 +2874,6 @@ if(str.startsWith("power:"))
 										
 										@Override
 										public void run() {
-											// TODO Auto-generated method stub
 											e.setVelocity(new Vector(0, 0, 0));
 										}
 									}.runTaskLater(Main.getMain(), 1);}
@@ -3009,7 +3010,6 @@ if(str.startsWith("power:"))
 			}
 		}
 
-		System.out.println(multi);
 		return multi;
 	}
 	public static void kill_voidgloom_beacon(Entity e) {
@@ -3031,7 +3031,6 @@ if(str.startsWith("power:"))
 		if(event.getEntity() instanceof FallingBlock) {
 			FallingBlock block = (FallingBlock) event.getEntity();
 			if(block.getScoreboardTags().contains("voidgloom_beacon"))
-			System.out.println(block.getLocation());
 			block.getScoreboardTags().forEach(tag ->{
 				if(tag.startsWith("entity:")) {
 					Main.beaconBeforeBlock.put(event.getBlock().getLocation(), null);
@@ -3044,7 +3043,6 @@ if(str.startsWith("power:"))
 					
 					if(tags.startsWith("owner:")) {
 			    			Main.beaconOwner.put(Bukkit.getPlayer(tags.split(":")[1]), Bukkit.getEntity(UUID.fromString(tag.split(":")[1])));
-			    			System.out.println(tags.split(":")[1]);
 			    			}
 			    		});
 			    	
