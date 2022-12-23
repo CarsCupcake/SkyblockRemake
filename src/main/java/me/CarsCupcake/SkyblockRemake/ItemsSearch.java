@@ -3,6 +3,8 @@ package me.CarsCupcake.SkyblockRemake;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import org.bukkit.Bukkit;
@@ -110,7 +112,7 @@ public class ItemsSearch implements Listener{
 			
 				if(!(list >= managers.size())) {
 					if(!managers.get(list).hasEdition)
-					inv.setItem(i, Main.item_updater(managers.get(list).createNewItemStack(),null) );
+					inv.setItem(i, Main.item_updater(managers.get(list).getRawItemStack(),null) );
 					else
 						i -= 1;
 					}
@@ -177,7 +179,7 @@ public class ItemsSearch implements Listener{
 			  }
 		  if (event.getCurrentItem().getType() == Material.AIR)
 			  return;
-		  player.getInventory().addItem(event.getCurrentItem());
+		player.getInventory().addItem(Main.item_updater(Items.SkyblockItems.get(ItemHandler.getPDC("id",event.getCurrentItem(),PersistentDataType.STRING)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
 		  player.updateInventory();
 	
 	}

@@ -33,6 +33,7 @@ import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
 import me.CarsCupcake.SkyblockRemake.Enchantments.UltimateEnchant;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInvListener;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
@@ -262,6 +263,7 @@ public class Main extends JavaPlugin {
 		SkyblockPlayer.init();
 
 		ICollection.init();
+		ABILITYS.init();
 		if (!Bukkit.getOnlinePlayers().isEmpty())
 			for (Player player : Bukkit.getOnlinePlayers()) {
 
@@ -413,7 +415,7 @@ public class Main extends JavaPlugin {
 		new SignManager().init();
 		Dominus.setEvent();
 		BazaarManager.init();
-		ABILITYS.init();
+
 
 		// Fishing System
 		this.getServer().getPluginManager().registerEvents(new FishingListender(), this);
@@ -2932,37 +2934,28 @@ public class Main extends JavaPlugin {
 					lores.add("§7Fishing Speed §a+" + String.format("%.1f", num));
 			}
 
-			boolean noExtraLine = false;
+
 			if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
 				ArrayList<GemstoneSlot> gemSlots = GemstoneSlot.getCurrGemstones(manager, data);
 				String gomstoneLine = "";
 				for (GemstoneSlot slot : gemSlots) {
 					if (slot.currGem == null) {
-						gomstoneLine += "§7[" + slot.type.getSymbol() + "] ";
+						gomstoneLine += "§8[§7" + slot.type.getSymbol() + "§8] ";
 					} else {
 						gomstoneLine += slot.currGem.rarity.getPrefix() + "[" + slot.currGem.gemType.getPrefix()
 								+ slot.type.getSymbol() + slot.currGem.rarity.getPrefix() + "] ";
 					}
 				}
-				if (!gomstoneLine.equals("")) {
+				if(!gomstoneLine.equals("") && !gomstoneLine.isEmpty())
 					lores.add(gomstoneLine);
-					lores.add("");
-					lores.add("");
-					noExtraLine = true;
-				}
+
 			}
 
-			if (manager.lore != null && !manager.lore.isEmpty()) {
+
+
+
+			if (item.getEnchantments() != null && !item.getEnchantments().isEmpty()) {
 				lores.add(" ");
-				manager.lore.forEach(l -> {
-					lores.add(l);
-				});
-				noExtraLine = false;
-			}
-
-			boolean isExtra = false;
-			if (item.getEnchantments() != null) {
-
 				ArrayList<String> enchantLore = new ArrayList<>();
 				HashMap<String, Integer> operator = new HashMap<>();
 				operator.put("amount", 0);
@@ -2995,16 +2988,24 @@ public class Main extends JavaPlugin {
 					}
 				}
 				if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
-					if (!noExtraLine)
-						lores.add("");
+
 					enchantLore.forEach(l -> {
 						lores.add(l);
 					});
-					lores.add("");
-					isExtra = true;
+
 				}
 
 			}
+
+			if(manager.isAttributable()){
+
+				for(Attribute attribute : Attribute.getAttributes(item, player)){
+					lores.add(" ");
+					lores.addAll(attribute.getAttributeLore());
+				}
+			}
+
+
 			if (Pet.pets.containsKey(manager.itemID)) {
 				meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER)
 						+ "] " + rarity.getPrefix() + Pet.pets.get(manager.itemID).name);
@@ -3021,10 +3022,9 @@ public class Main extends JavaPlugin {
 
 			//Tako was here
 			if(manager.bonus != null) {
-				if(!noExtraLine)
-					lores.add(" ");
-				if(manager.abilityName != null)
+				if(manager.abilityName != null) {lores.add(" ");
 					lores.add(manager.getAbilityHeadline(player));
+				}
 				if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || manager.getAbilityLore() != null) {
 
 
@@ -3037,17 +3037,14 @@ public class Main extends JavaPlugin {
 						firstAblilityLore = manager.abilityLore;
 					firstAblilityLore.forEach(str -> {
 						lores.add(str);
-					});if (!isExtra)
-						lores.add(" ");
+					});
 				}}
 
 			if(manager.getEquipmentAbility() != null) {
-				if(!noExtraLine)
-					lores.add(" ");
-				if(manager.abilityName != null)
+				if(manager.abilityName != null) {lores.add(" ");
 					lores.add("§6Ability: " + manager.abilityName);
+				}
 				if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || manager.getAbilityLore() != null) {
-
 
 
 
@@ -3058,13 +3055,14 @@ public class Main extends JavaPlugin {
 						firstAblilityLore = manager.abilityLore;
 					firstAblilityLore.forEach(str -> {
 						lores.add(str);
-					});if (!isExtra)
-						lores.add(" ");
+					});
 				}}
 
 			if(manager.ability != null) {
-				if(manager.abilityName != null)
-				lores.add(manager.getAbilityHeadline(player));
+				if(manager.abilityName != null) {
+					lores.add(" ");
+					lores.add(manager.getAbilityHeadline(player));
+				}
 			if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || (manager.getAbilityLore() != null)) {
 				ArrayList<String> firstAblilityLore;
 				if(manager.getAbilityLore() != null)
@@ -3073,10 +3071,9 @@ public class Main extends JavaPlugin {
 					firstAblilityLore = manager.abilityLore;
 				firstAblilityLore.forEach(str -> {
 					lores.add(str);
-				});if (!isExtra)
-					lores.add(" ");
+				});
 			}}
-			boolean extraLine = false;
+
 			if (manager.abilityManaCost != 0) {
 				int manastring;
 				if(manager.abilityMana1AsPers)
@@ -3087,12 +3084,12 @@ public class Main extends JavaPlugin {
 
 				ManaUpdateEvent event = new ManaUpdateEvent(item, manastring);
 				Bukkit.getPluginManager().callEvent(event);
-				lores.add("§8Mana Cost §b" + event.getMana() + ((manager.abilityMana1AsPers) ? "%" : ""));
-				extraLine = true;
+				lores.add("§8Mana Cost §3" + event.getMana() + ((manager.abilityMana1AsPers) ? "%" : ""));
+
 			}
 			if (manager.abilityCD != 0) {
 				lores.add("§8Ability Cooldown §a" + manager.abilityCD + "s");
-				extraLine = true;
+
 
 			}
 
@@ -3109,24 +3106,23 @@ public class Main extends JavaPlugin {
 			if (manager.manacost2 != 0) {
 				ManaUpdateEvent event = new ManaUpdateEvent(item, manager.manacost2);
 				Bukkit.getPluginManager().callEvent(event);
-				lores.add("§8Mana Cost §b" + event.getMana() + ((manager.abilityMana2AsPers) ? "%" : ""));
-				extraLine = true;
+				lores.add("§8Mana Cost §3" + event.getMana() + ((manager.abilityMana2AsPers) ? "%" : ""));
+
 			}
 			if (manager.cooldown2 != 0) {
 				lores.add("§8Ability Cooldown §a" + manager.cooldown2 + "s");
-				extraLine = true;
+
 
 			}
-			if (extraLine)
-				lores.add("");
 
 			if(Pet.pets.containsKey(manager.itemID)){
 				Pet pet = Pet.pets.get(manager.itemID);
+				lores.add(" ");
 				lores.addAll(pet.buildAbilityLore(player, item));
 			}
 
 			if(manager.getTrophyFishChance()  != 0 && manager.type != ItemType.Pet){
-				if(!extraLine)
+
 					lores.add(" ");
 				String num = "";
 				double catchMult = manager.getTrophyFishChance()*100;
@@ -3143,7 +3139,7 @@ public class Main extends JavaPlugin {
 			if (manager.type == ItemType.Drill) {
 
 				if (data.get(new NamespacedKey(Main, "fueltank"), PersistentDataType.STRING) != null) {
-
+					lores.add(" ");
 					DrillPart part = DrillPart.parts
 							.get(data.get(new NamespacedKey(Main, "fueltank"), PersistentDataType.STRING));
 					lores.add("§a" + part.name);
@@ -3233,11 +3229,11 @@ public class Main extends JavaPlugin {
 
 
 					}
-				lores.add(" ");
 			}
 
 
 			if(manager.hasEdition) {
+				lores.add(" ");
 				String to = "§7To: §f-";
 				if(data.get(new NamespacedKey(Main, "to"), PersistentDataType.STRING) != null)
 				{
@@ -3272,7 +3268,7 @@ public class Main extends JavaPlugin {
 
 
 			}
-
+			lores.add(" ");
 			String extra = "";
 			if(manager.isDungeonItem)
 				extra = "DUNGEON ";

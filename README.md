@@ -1,7 +1,7 @@
 # Hypixel Skyblock Remake
 This is a remake attempt of Hypixel Skyblock, some inspiration from Atlas <br>
 # Current Features:
-- Basic health mana damaging system
+- Basic health, mana, damaging system
 - Mining System
 - Ender Dragon
 - F1 

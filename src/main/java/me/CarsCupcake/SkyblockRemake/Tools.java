@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -37,6 +38,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 public class Tools {
@@ -143,6 +145,18 @@ public class Tools {
 		 Bukkit.broadcastMessage("§c A schematic failed to load");
 	 }
  }
+	@Nullable
+	public static <T> Constructor<T> getConstructorIfAvailable(Class<T> clazz, Class<?>... paramTypes) {
+		if(clazz == null)
+			throw new NullPointerException("Class should not be null");
+		try {
+			return clazz.getConstructor(paramTypes);
+		}
+		catch (NoSuchMethodException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+	}
  public static ArrayList<Block> getBlocksBetween(Block b1, Block b2){
 	 if (b1.getWorld() != b2.getWorld())
 		 return null;
@@ -396,7 +410,7 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 	}
 
 	public static String addDigits(double number) {
-		String str = ((int)(number)) + "";
+		String str = String.format("%.0f", number);
 		StringBuilder sb = new StringBuilder(str);
 		sb.reverse();
 		str = sb.toString();
@@ -413,8 +427,9 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 		sb = new StringBuilder(newString);
 
 		String finalString = sb.reverse().toString();
-
-		return finalString + "."  +((int)((number - ((int)number))*10));
+		String dotS = String.format("%.0f",number * 10);
+		int dot = Integer.parseInt(dotS.charAt(dotS.length() - 1) + "");
+		return finalString + ((dot != 0) ? ("." + dot) : "");
 	}
 	public static int getItemInPlayerInventory(ItemManager manager, SkyblockPlayer player){
 	 int amount = 0;

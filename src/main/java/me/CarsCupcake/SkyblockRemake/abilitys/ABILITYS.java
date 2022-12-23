@@ -10,6 +10,9 @@ import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.StationaryTermina
 import me.CarsCupcake.SkyblockRemake.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.MagicFind;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.ManaPool;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.MiningSys;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Cobblestone;
@@ -35,6 +38,8 @@ import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 public class ABILITYS implements Listener{
     public static void init(){
         registerEvent(new DreadlordHandler());
@@ -57,6 +62,37 @@ public class ABILITYS implements Listener{
         registerEvent(new CollectHandler());
         registerEvent(new ABILITYS());
         registerEvent(new KatanaDamagingAbilitys());
+        registerEvent(new Attribute() {
+            @Override
+            public String name() {
+                return null;
+            }
+
+            @Override
+            public int maxLevel() {
+                return 0;
+            }
+
+            @Override
+            public boolean isAllowed() {
+                return false;
+            }
+
+            @Override
+            public List<String> lore() {
+                return null;
+            }
+
+            @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void stop() {
+
+            }
+        });
         if(SkyblockServer.getServer().getType() == ServerType.F7){
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
@@ -65,6 +101,8 @@ public class ABILITYS implements Listener{
             registerEvent(new ArrowPointing(null, -1));
             registerEvent(new FallDownArmorstand(null, null));
         }
+        Attribute.registerAttribute(new ManaPool(null ,0, null));
+        Attribute.registerAttribute(new MagicFind(null ,0, null));
     }
     public static void disable(){
         Totem.stopAll();
@@ -110,5 +148,6 @@ public class ABILITYS implements Listener{
             MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS_PANE, JadeShart.class);
             MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS, JadeGem.class);
         }
+
     }
 }

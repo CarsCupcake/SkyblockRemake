@@ -62,7 +62,12 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		ScoreboardDisplayer.setScore(p,"§c   ",9);
 
 		/*ChatColor.GOLD + Tools.addDigits( (int) p.coins)*/
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(p.coins),8);
+		try {
+			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(p.coins), 8);
+		}
+		catch(Exception e){
+			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(p.coins), 8);
+		}
 		if(p.showMithrilPowder)
 			ScoreboardDisplayer.setScore(p,"§2᠅ §fMithril: §2" +Tools.addDigits(p.mithrilpowder),8);
 
@@ -135,7 +140,13 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		ScoreboardDisplayer.setScore(p,"§c   ",9);
 
 		/*ChatColor.GOLD + Tools.addDigits(  p.coins)*/
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(player.coins),8);
+		try {
+			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(player.coins), 8);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(player.coins), 8);
+		}
 		if(p.showMithrilPowder)
 			ScoreboardDisplayer.setScore(p,"§2á … §fMithril: §2" +Tools.addDigits(p.mithrilpowder),8);
 

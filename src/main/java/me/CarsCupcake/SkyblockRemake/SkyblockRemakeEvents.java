@@ -14,6 +14,7 @@ import java.util.UUID;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
+import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
@@ -73,10 +74,6 @@ import me.CarsCupcake.SkyblockRemake.Commission.Puzzler;
 import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.NPC.PacketReader;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
@@ -1723,7 +1720,7 @@ public static int dropAmount(int minigFortune, int amount) {
 			  }
 		  if (event.getCurrentItem().getType() == Material.AIR)
 			  return;
-		  player.getInventory().addItem(event.getCurrentItem());
+		  player.getInventory().addItem(Main.item_updater(Items.SkyblockItems.get(ItemHandler.getPDC("id",event.getCurrentItem(),PersistentDataType.STRING)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
 		  player.updateInventory();
 	
 	}
@@ -2126,16 +2123,11 @@ public static int dropAmount(int minigFortune, int amount) {
 	            	 continue;
     			
     			
-    				if(i.getItemMeta().hasDisplayName()) {
-    					player.getInventory().setItem(slot, new ItemStack(Material.ARROW));
-    					player.getInventory().getItem(slot).setAmount(i.getAmount());
-    					player.getInventory().getItem(slot).getItemMeta().setDisplayName(i.getItemMeta().getDisplayName());;
-    					player.updateInventory();
-    				}else {
-    					player.getInventory().setItem(slot, new ItemStack(Material.ARROW));
+
+    					player.getInventory().setItem(slot, Main.item_updater(Main.item_updater(new ItemStack(Material.ARROW), SkyblockPlayer.getSkyblockPlayer(player)), SkyblockPlayer.getSkyblockPlayer(player)));
     					player.getInventory().getItem(slot).setAmount(i.getAmount());
     					player.updateInventory();
-    				}
+
     			
     			
     		

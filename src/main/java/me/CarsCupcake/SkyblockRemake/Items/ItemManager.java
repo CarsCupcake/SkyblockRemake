@@ -7,13 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.banner.Pattern;
+import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -105,6 +108,9 @@ private AbilityLore newAbilityLore;
 	@Getter
 	@Setter
 	private MaterialGrabber materialGrabber;
+	@Getter
+	@Setter
+	private boolean attributable = false;
 	
 public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material, ItemRarity rarity) {
 	this.dmg = dmg;
@@ -813,8 +819,15 @@ public void setEditions(boolean bol) {
 					data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.INTEGER, arg2);
 				});
 			}
-			NBTEditor.set(item, itemID, "ExtraAtribute", "id");
 			item.setItemMeta(meta);
+			net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+			NBTTagCompound tag = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
+			NBTTagCompound d = tag.getCompound("ExtraAttributes") != null ? tag.getCompound("ExtraAttributes") : new NBTTagCompound();
+			d.setString("id", itemID);
+			tag.set("ExtraAttributes", d);
+			nmsItem.setTag(tag);
+			item = CraftItemStack.asBukkitCopy(nmsItem);
+
 			
 			return item;
 		}
@@ -962,8 +975,9 @@ public void setEditions(boolean bol) {
 				item.setItemMeta(bannerMeta);
 			}
 
-				NBTEditor.set(item, itemID, "ExtraAtribute", "id");
-
+				NBTEditor.set(item, itemID, "ExtraAttributes", "id");
+				if(isAttributable())
+					Attribute.rool(item, this);
 			return item;
 			}else {ItemStack item;
 				if(!isSkullValue)
@@ -1095,7 +1109,15 @@ public void setEditions(boolean bol) {
 				}
 				
 				item.setItemMeta(meta);
-				NBTEditor.set(item, itemID, "ExtraAtribute", "id");
+				net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+				NBTTagCompound tag = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
+				NBTTagCompound d = tag.getCompound("ExtraAttributes") != null ? tag.getCompound("ExtraAttributes") : new NBTTagCompound();
+				d.setString("id", itemID);
+				tag.set("ExtraAttributes", d);
+				nmsItem.setTag(tag);
+				item = CraftItemStack.asBukkitCopy(nmsItem);
+				if(isAttributable())
+					Attribute.rool(item, this);
 				return item;
 			}
 	}

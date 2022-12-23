@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
@@ -25,6 +27,7 @@ public class Calculator {
     public boolean isCrit = false;
     public int cccalc = 0;
     public double damage = 0;
+    @Getter
     private SkyblockDamageEvent.DamageType type;
     private LivingEntity e;
     private Projectile projectile;
@@ -33,6 +36,8 @@ public class Calculator {
     private String abilityName;
     private double abilityScaling = 1;
     private boolean isFerocity = false;
+    @Getter @Setter
+    private boolean overload = false;
     public Calculator(){}
     public Calculator(boolean setFerocity){
         isFerocity = setFerocity;
@@ -51,14 +56,14 @@ public class Calculator {
         if(e.getScoreboardTags().contains("npc"))
             return 0d;
         type = SkyblockDamageEvent.DamageType.PlayerToEntity;
-        double stre = Main.playerstrengthcalc(player);
-        double cd = Main.playercdcalc(player);
+
         int weapondmg =(int) Main.weapondamage(player.getItemInHand());
         weapondmg *= player.getRawDamageMult();
-        DamagePrepairEvent event = new DamagePrepairEvent(player, e);
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this);
         event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
         Bukkit.getPluginManager().callEvent(event);
-
+        double stre = Main.playerstrengthcalc(player);
+        double cd = Main.playercdcalc(player);
         double cc = Main.playercccalc(player);
          cccalc = (int )(Math.random() * 100 + 1);
 
@@ -367,7 +372,7 @@ public class Calculator {
 
             armorstand.setInvulnerable(true);
             if(isCrit) {
-                StringBuilder name = new StringBuilder("§f✧");
+                StringBuilder name = new StringBuilder("§f"+((isOverload()) ? "✯" : "✧"));
                 String num = "" + str;
                 int col =1;
                 int coltype = 1;
@@ -390,7 +395,7 @@ public class Calculator {
 
                     }
                 }
-                String x = "✧";
+                String x = ((isOverload()) ? "✯" : "✧");
                 name.append(colstr).append(x);
                 armorstand.setCustomName(name.toString());
             }else

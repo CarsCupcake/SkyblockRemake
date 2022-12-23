@@ -270,7 +270,7 @@ public class itemCMD implements CommandExecutor{
 
 				if(!(list >= managers.size())) {
 					if(!managers.get(list).hasEdition)
-					inv.setItem(i, Main.item_updater(managers.get(list).createNewItemStack(),null) );
+					inv.setItem(i, Main.item_updater(managers.get(list).getRawItemStack(),null) );
 					else
 						i -= 1;
 					}

@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.API.PlayerEvent;
 
 import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.HandlerList;
@@ -14,9 +15,12 @@ public class DamagePrepairEvent extends PlayerEvent{
     private double preMultiplier = 1;
     @Getter
     private double postMultiplier = 1;
-    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity) {
+    @Getter
+    private final Calculator calculator;
+    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator) {
         super(player);
         this.entity = entity;
+        this.calculator = calculator;
     }
 
     @NotNull

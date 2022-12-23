@@ -23,6 +23,8 @@ import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -1640,8 +1642,21 @@ public static ItemStack TestItem() {
 	ArrayList<String> abilitylore = new ArrayList<>();
 	abilitylore.add("Its the ultimate test");
 	
-	ItemManager manager = new ItemManager("Test Item","debug", ItemType.Sword,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1, lore, "Test", "lolxD", abilitylore, 69, 420, 0f, 0, Material.STICK,ItemRarity.SUPREME);
+	ItemManager manager = new ItemManager("Test Item","debug", ItemType.Sword,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			1,1,1,1,1, lore, "Test", "lolxD", abilitylore, 69, 420, 0f, 0, Material.STICK,ItemRarity.SUPREME);
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));
+	manager.setAttributable(true);
+	manager.setAbility(new AbilityManager() {
+		@Override
+		public boolean executeAbility(PlayerInteractEvent event) {
+			return false;
+		}
+
+		@Override
+		public boolean executeAbility(EntityDamageByEntityEvent event) {
+			return false;
+		}
+	}, AbilityType.RightClick);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }

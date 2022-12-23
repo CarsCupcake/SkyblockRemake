@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,40 +18,39 @@ public class CoinsCommand implements CommandExecutor{
 			if(arg3.length != 2 && !arg3[0].equals("reset")) return false;
 			if(!arg3[0].equals("reset"))
 		 	 try {
-				Integer.parseInt(arg3[1]);
+				Double.parseDouble(arg3[1]);
 			 }catch (Exception e) {
 				arg0.sendMessage("Wrong Args");
 				return false;
 			 }
 			SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player)arg0) ;
-			
+
 			switch (arg3[0]) {
-			case "add": {
-				player.setCoins(player.coins + Integer.parseInt(arg3[1]));
-				player.sendMessage("Succesfully added you §6" + arg3[1] + " Coins");
-				SkyblockScoreboard.updateScoreboard(player);
-				return true;}
-			case "reset": {
-				player.setCoins(0);
-				player.sendMessage("Succesfully resetet your §6Coins");
-				SkyblockScoreboard.updateScoreboard(player);
-				return true;
+				case "add" -> {
+					player.setCoins(player.coins + Tools.round(Double.parseDouble(arg3[1]), 1));
+					player.sendMessage("Succesfully added you §6" + arg3[1] + " Coins");
+					SkyblockScoreboard.updateScoreboard(player);
+					return true;
 				}
-			case "remove": {
-				player.setCoins( player.coins - Integer.parseInt(arg3[1]));
-				player.sendMessage("Succesfully removed you §6" + arg3[1] + " Coins");
-				SkyblockScoreboard.updateScoreboard(player);
-				return true;
-			}
-			case "set": {
-				player.setCoins(Integer.parseInt(arg3[1])); 
-				player.sendMessage("Succesfully set your §6Coins §fto §6" + arg3[1]);
-				SkyblockScoreboard.updateScoreboard(player);
-				return true;
-			}
-			default:
-				player.sendMessage("Wrong operator");
-				
+				case "reset" -> {
+					player.setCoins(0);
+					player.sendMessage("Succesfully resetet your §6Coins");
+					SkyblockScoreboard.updateScoreboard(player);
+					return true;
+				}
+				case "remove" -> {
+					player.setCoins(player.coins - Tools.round(Double.parseDouble(arg3[1]), 1));
+					player.sendMessage("Succesfully removed you §6" + arg3[1] + " Coins");
+					SkyblockScoreboard.updateScoreboard(player);
+					return true;
+				}
+				case "set" -> {
+					player.setCoins(Tools.round(Double.parseDouble(arg3[1]), 1));
+					player.sendMessage("Succesfully set your §6Coins §fto §6" + arg3[1]);
+					SkyblockScoreboard.updateScoreboard(player);
+					return true;
+				}
+				default -> player.sendMessage("Wrong operator");
 			}
 			
 			
