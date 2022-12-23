@@ -2568,9 +2568,9 @@ public class Main extends JavaPlugin {
 			if (value != 0) {
 				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
 						&& Reforge.getReforgeAbilityDamageValue(
-								registerReforge.reforges
-										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
-								rarity) != 0f)
+						registerReforge.reforges
+								.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+						rarity) != 0f)
 					if (value % 1 == 0) {
 
 						if (Reforge.getReforgeAbilityDamageValue(
@@ -2580,13 +2580,13 @@ public class Main extends JavaPlugin {
 							lores.add("§7Ability Damage: §c+" + (int) value + "%" + " §9(+"
 									+ (int) Reforge.getReforgeAbilityDamageValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
-											rarity)
+									rarity)
 									+ "%)");
 						else
 							lores.add("§7Ability Damage: §c+" + (int) value + "%" + " §9(+"
 									+ Reforge.getReforgeAbilityDamageValue(registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
-											rarity)
+									rarity)
 									+ "%)");
 					} else if (Reforge.getReforgeAbilityDamageValue(registerReforge.reforges
 							.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity)
@@ -2594,19 +2594,63 @@ public class Main extends JavaPlugin {
 						lores.add("§7Ability Damage: §c+" + value + "%" + " §9(+"
 								+ (int) Reforge.getReforgeAbilityDamageValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
-										rarity)
+								rarity)
 								+ "%)");
 					else
 						lores.add("§7Ability Damage: §c+" + value + "%" + " §9(+"
 								+ Reforge.getReforgeAbilityDamageValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
-										rarity)
+								rarity)
 								+ "%)");
 
 				else if (value % 1 == 0) {
-					lores.add("§7Ability Damage: §c+" + (int) value + "%");
+					lores.add("§7Ability Damage: §c+" + String.format("%.0f",value) + "%");
 				} else
 					lores.add("§7Ability Damage: §c+" + value + "%");
+			}
+
+			value = getItemStat(player,Stats.SwingRange, item);
+			if (value != 0) {
+				if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
+						&& Reforge.getReforgeValue(registerReforge.reforges.get(
+								data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+						rarity, "swingrange") != 0)
+					if (value % 1 == 0) {
+
+						if (Reforge.getReforgeValue(registerReforge.reforges.get(
+										data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+								rarity, "swingrange") % 1 == 0)
+							lores.add("§7Swing Range: §c+" + (int) value + "" + " §9(+"
+									+ (int) Reforge.getReforgeValue(registerReforge.reforges.get(
+											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+									rarity, "swingrange")
+									+ ")");
+						else
+							lores.add("§7Swing Range: §c+" + (int) value + "" + " §9(+"
+									+ Reforge.getReforgeValue(registerReforge.reforges.get(
+											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+									rarity, "swingrange")
+									+ ")");
+					} else if (Reforge.getReforgeValue(registerReforge.reforges.get(
+									data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+							rarity, "swingrange")
+							% 1 == 0)
+						lores.add("§7Swing Range: §c+" + value + "" + " §9(+"
+								+ (int) Reforge.getReforgeValue(registerReforge.reforges.get(
+										data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+								rarity, "swingrange")
+								+ ")");
+					else
+						lores.add("§7Swing Range: §c+" + value + "" + " §9(+"
+								+ Reforge.getReforgeValue(registerReforge.reforges.get(
+										data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
+								rarity, "swingrange")
+								+ ")");
+
+				else if (value % 1 == 0) {
+					lores.add("§7Swing Range: §c+" + String.format("%.0f",value) + "");
+				} else
+					lores.add("§7Swing Range: §c+" + value + "");
 			}
 
 			if (getItemStat(player, Stats.Health, item) != 0) {

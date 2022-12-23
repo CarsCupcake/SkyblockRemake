@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
+import net.minecraft.network.protocol.game.PacketPlayInUseItem;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;

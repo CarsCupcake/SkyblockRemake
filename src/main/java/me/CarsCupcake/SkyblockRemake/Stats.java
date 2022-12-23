@@ -19,10 +19,11 @@ public enum Stats {
     AttackSpeed,
     TrueDefense,
     SeaCreatureChance,
-    FishingSpeed;
+    FishingSpeed,
+    SwingRange;
     public String getDataName(){
-        switch (this){
 
+        switch (this){
             case Health -> {
                 return "health";
             }
@@ -74,8 +75,11 @@ public enum Stats {
             case FishingSpeed -> {
                 return "fishingspeed";
             }
+            case SwingRange -> {
+                return "swingrange";
+            }
+            default -> throw new IndexOutOfBoundsException("This error should not be appering!, if it did you should check the Stats enum!");
         }
-        return null;
 
     }
     public NamespacedKey getKey(){
@@ -133,6 +137,9 @@ public enum Stats {
             }
             case "fishingspeed" ->{
                 return FishingSpeed;
+            }
+            case "swingrange" -> {
+                return SwingRange;
             }
             default -> throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
         }

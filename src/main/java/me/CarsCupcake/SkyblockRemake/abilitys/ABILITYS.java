@@ -93,6 +93,7 @@ public class ABILITYS implements Listener{
 
             }
         });
+        registerEvent(new SwingRangeStat());
         if(SkyblockServer.getServer().getType() == ServerType.F7){
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));

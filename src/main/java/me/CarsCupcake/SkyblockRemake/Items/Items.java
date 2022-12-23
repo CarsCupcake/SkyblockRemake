@@ -290,6 +290,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		new F7Phase3(false);
 
 		diamondArachneHead();
+		darkClaymore();
 
 	}
 
@@ -3550,6 +3551,19 @@ public static void maidBoots(){
 
 		manager.setAbility(new EntityLocationSetter(), AbilityType.RightClick);
 		manager.set2Ability("Select Mob", new EntityLocationSelecter(),AbilityType.LeftClick,abilityLore,0,0);
+		SkyblockItems.put(manager.itemID,manager);
+	}
+	private static void darkClaymore(){
+		ItemManager manager = new ItemManager("Dark Claymore", "DARK_CLAYMORE", ItemType.Longsword, new ArrayList<>(List.of("§7§oThat thing was too big to be", "§7§ocalled a sword, it was more", "§7§oa large hunk of stone.")), null, null, null
+		,0,0,0,0,Material.STONE_SWORD, ItemRarity.LEGENDARY);
+		manager.setDungeonItem(true);
+		manager.setDamage(500);
+		manager.setStat(Stats.Strength, 100);
+		manager.setStat(Stats.CritDamage, 30);
+		manager.setStat(Stats.SwingRange, 5);
+		manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+		manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+
 		SkyblockItems.put(manager.itemID,manager);
 	}
 

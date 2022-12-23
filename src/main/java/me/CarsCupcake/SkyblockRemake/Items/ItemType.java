@@ -34,65 +34,42 @@ Bracelet(27),
 	Deployable(29),
 	FishingRod(30),
 	Axe(31),
-	Wand(32);
+	Wand(32),
+	Longsword(32);
 
 
 
 
 
 
-private ItemType(int i) {
-	// TODO Auto-generated constructor stub
+ItemType(int i) {
 }
 public String toString() {
-	switch(this) {
-	case Helmet:
-		return "Helmet";
-	case Chestplate:
-		return "Chestplate";
-	case Leggings:
-		return "Leggings";
-	case Boots:
-		return "Boots";
-	case Sword:
-		return "Sword";
-	case Bow:
-		return "Bow";
-		case Pickaxe:
-		return "Pickaxe";
-	case Drill:
-		return "Drill";
-	case Rune:
-		return "Rune";
-	case Gauntlet:
-		return "Gauntlet";
-	case Pet:
-		return "Pet";
-		case Accessory:
-		return "Accessory";
-	case Necklace:
-		return "Necklace";
-	case Cloak:
-		return "Cloak";
-	case Belt:
-		return "Belt";
-	case Gloves:
-		return "Gloves";
-		case Bracelet:
-			return "Bracelet";
-		case Deployable:
-			return "Deployable";
-		case FishingRod:
-			return "Fishing Rod";
-		case Axe:
-			return "Axe";
-		case Wand:
-			return "Wand";
-		
-	default:
-		return "";
-	
-	}
+	return switch (this) {
+		case Helmet -> "Helmet";
+		case Chestplate -> "Chestplate";
+		case Leggings -> "Leggings";
+		case Boots -> "Boots";
+		case Sword -> "Sword";
+		case Bow -> "Bow";
+		case Pickaxe -> "Pickaxe";
+		case Drill -> "Drill";
+		case Rune -> "Rune";
+		case Gauntlet -> "Gauntlet";
+		case Pet -> "Pet";
+		case Accessory -> "Accessory";
+		case Necklace -> "Necklace";
+		case Cloak -> "Cloak";
+		case Belt -> "Belt";
+		case Gloves -> "Gloves";
+		case Bracelet -> "Bracelet";
+		case Deployable -> "Deployable";
+		case FishingRod -> "Fishing Rod";
+		case Axe -> "Axe";
+		case Wand -> "Wand";
+		case Longsword -> "Longsword";
+		default -> "";
+	};
 	
 }
 	
