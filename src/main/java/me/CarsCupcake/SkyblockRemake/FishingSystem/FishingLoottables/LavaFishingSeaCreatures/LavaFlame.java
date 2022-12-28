@@ -13,7 +13,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LavaFlame implements SkyblockEntity, Corruptable {
+public class LavaFlame extends SkyblockEntity implements Corruptable {
     private boolean isCorrupted = false;
     private int maxHealth = 3000000;
     private int health = 3000000;
@@ -33,10 +33,6 @@ public class LavaFlame implements SkyblockEntity, Corruptable {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -51,10 +47,6 @@ public class LavaFlame implements SkyblockEntity, Corruptable {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Lava Flame";
-    }
 
     @Override
     public String getName() {
@@ -79,7 +71,7 @@ public class LavaFlame implements SkyblockEntity, Corruptable {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health *= damage;
 
     }
 

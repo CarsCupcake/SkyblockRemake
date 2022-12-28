@@ -18,7 +18,7 @@ import org.bukkit.entity.Wither;
 
 import java.util.HashMap;
 
-public class Necron implements SkyblockEntity {
+public class Necron extends SkyblockEntity {
     private int health = 1000000000;
     private BossBar display;
     private LivingEntity entity;
@@ -37,10 +37,6 @@ public class Necron implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -62,10 +58,6 @@ public class Necron implements SkyblockEntity {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Necron";
-    }
 
     @Override
     public String getName() {

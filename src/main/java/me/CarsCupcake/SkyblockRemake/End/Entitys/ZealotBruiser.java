@@ -16,7 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.HashMap;
 import java.util.Random;
 
-public class ZealotBruiser implements SkyblockEntity {
+public class ZealotBruiser extends SkyblockEntity {
     private int health = 65000;
     private Enderman entity;
     private SkyblockPlayer lastHit;
@@ -37,10 +37,6 @@ public class ZealotBruiser implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -60,10 +56,6 @@ public class ZealotBruiser implements SkyblockEntity {
         SkyblockEntity.livingEntity.put(entity, this);
     }
 
-    @Override
-    public String getId() {
-        return "Zealot Bruiser";
-    }
 
     @Override
     public String getName() {

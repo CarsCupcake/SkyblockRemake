@@ -813,7 +813,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 		meta = item.getItemMeta();
 		meta.setDisplayName("§aAccessory Bag");
 		lore.clear();
-		lore.add("§eMagical Power§7: §e" + Main.magicalpower.get(player));
+		lore.add("§eMagical Power§7: §e" + SkyblockPlayer.getSkyblockPlayer(player).getMagicalpower());
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 			inv.setItem(53, item);

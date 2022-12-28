@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class Maxor implements SkyblockEntity {
+public class Maxor extends SkyblockEntity {
     private int health = 100000000;
 
     public boolean isInLaser = false;
@@ -49,10 +49,6 @@ public class Maxor implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -96,10 +92,6 @@ public class Maxor implements SkyblockEntity {
 
 
 
-    @Override
-    public String getId() {
-        return "Maxor";
-    }
 
 
     private void phaseBridge() {

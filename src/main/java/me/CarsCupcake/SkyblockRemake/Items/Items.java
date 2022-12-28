@@ -14,6 +14,7 @@ import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.TextTerminal;
 import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
+import me.CarsCupcake.SkyblockRemake.Items.ItemRegistration.GiantsArmorSets;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
 import me.CarsCupcake.SkyblockRemake.WinterIsle.WinterItems;
@@ -291,6 +292,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 
 		diamondArachneHead();
 		darkClaymore();
+		ItemHandler.registerAll(GiantsArmorSets.class);
 
 	}
 
@@ -2533,6 +2535,7 @@ public static void CrimsonHelmet() {
 		}
 	});
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Hot Crimson Helmet","HOT_CRIMSON_HELMET", ItemType.Helmet,0, 202, 63, 19, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bbe6d66770a61bf56e6d4b476922b1c3b3dc9f78a26e56b36cd965b7ab20b417");
@@ -2547,6 +2550,7 @@ public static void CrimsonHelmet() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Fiery Crimson Helmet","FIERY_CRIMSON_HELMET", ItemType.Helmet,0, 320, 100, 30, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/91f0c7afff1782465d8cdb5eba261b65423a7a0712ee3a4c572c33f94c68c55");
@@ -2554,6 +2558,7 @@ public static void CrimsonHelmet() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Infernal Crimson Helmet","INFERNAL_CRIMSON_HELMET", ItemType.Helmet,0, 403, 126, 38, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/507d6bf7611190ed9c580d8c87c296059216230c9501eec6359e0d60ec84758e");
@@ -2561,6 +2566,7 @@ public static void CrimsonHelmet() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(15);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -2603,6 +2609,7 @@ public static void CrimsonChestplate() {
 		}
 	});
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Hot Crimson Chestplate","HOT_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 290, 82, 6, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
@@ -2610,6 +2617,7 @@ public static void CrimsonChestplate() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Burning Crimson Chestplate","BURNING_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 365, 103, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
@@ -2617,6 +2625,7 @@ public static void CrimsonChestplate() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Fiery Crimson Chestplate","FIERY_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 460, 130, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
@@ -2624,6 +2633,7 @@ public static void CrimsonChestplate() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Infernal Crimson Chestplate","INFERNAL_CRIMSON_CHESTPLATE", ItemType.Chestplate,0,
@@ -2633,6 +2643,7 @@ public static void CrimsonChestplate() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(15);
 	SkyblockItems.put(manager.itemID, manager);
 	
 }
@@ -2676,6 +2687,7 @@ public static void CrimsonLeggings() {
 		}
 	});
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	
@@ -2684,6 +2696,7 @@ public static void CrimsonLeggings() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Burning Crimson Leggings","BURNING_CRIMSON_LEGGINGS", ItemType.Leggings,0, 325, 87, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
@@ -2691,6 +2704,7 @@ public static void CrimsonLeggings() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Fiery Crimson Leggings","FIERY_CRIMSON_LEGGINGS", ItemType.Leggings,0, 410, 110, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
@@ -2698,6 +2712,7 @@ public static void CrimsonLeggings() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Infernal Crimson Leggings","INFERNAL_CRIMSON_LEGGINGS", ItemType.Leggings,0, 517, 139, 13, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
@@ -2705,6 +2720,7 @@ public static void CrimsonLeggings() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(15);
 	SkyblockItems.put(manager.itemID, manager);
 	
 }
@@ -2748,6 +2764,7 @@ public static void CrimsonBoots() {
 		}
 	});
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Hot Crimson Boots","HOT_CRIMSON_BOOTS", ItemType.Boots,0, 164, 50, 6, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
@@ -2755,6 +2772,7 @@ public static void CrimsonBoots() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Burning Crimson Boots","BURNING_CRIMSON_BOOTS", ItemType.Boots,0, 206, 64, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
@@ -2762,6 +2780,7 @@ public static void CrimsonBoots() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Fiery Crimson Boots","FIERY_CRIMSON_BOOTS", ItemType.Boots,0, 260, 80, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
@@ -2769,6 +2788,7 @@ public static void CrimsonBoots() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
 	manager = new ItemManager("Infernal Crimson Boots","INFERNAL_CRIMSON_BOOTS", ItemType.Boots,0, 328, 101, 13, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
@@ -2777,6 +2797,7 @@ public static void CrimsonBoots() {
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
+	manager.setMaxStars(15);
 	SkyblockItems.put(manager.itemID, manager);
 }
 

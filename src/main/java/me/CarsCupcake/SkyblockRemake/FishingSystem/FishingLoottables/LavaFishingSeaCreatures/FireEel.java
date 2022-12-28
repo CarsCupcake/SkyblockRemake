@@ -34,10 +34,6 @@ public class FireEel extends MultipleEntityHead implements Corruptable {
         return z;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -61,10 +57,6 @@ public class FireEel extends MultipleEntityHead implements Corruptable {
 
     }
 
-    @Override
-    public String getId() {
-        return "Fire Eel";
-    }
 
     @Override
     public String getName() {

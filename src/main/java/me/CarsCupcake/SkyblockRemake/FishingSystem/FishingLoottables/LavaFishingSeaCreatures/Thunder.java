@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
-public class Thunder implements SkyblockEntity {
+public class Thunder extends SkyblockEntity {
     private int health = 35000000;
     private LivingEntity entity;
     private BukkitRunnable phaseRunnable;
@@ -43,10 +43,6 @@ public class Thunder implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -143,10 +139,6 @@ public class Thunder implements SkyblockEntity {
 
     }
 
-    @Override
-    public String getId() {
-        return "Thunder";
-    }
 
     @Override
     public String getName() {
@@ -184,7 +176,7 @@ public class Thunder implements SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+       health -= damage;
 
     }
 

@@ -12,7 +12,7 @@ import org.bukkit.entity.Squid;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Plhlegblast implements SkyblockEntity, Corruptable {
+public class Plhlegblast extends SkyblockEntity implements Corruptable {
     private boolean isCorrupted = false;
     private int maxHealth = 500000000;
     private int health = 500000000;
@@ -32,10 +32,6 @@ public class Plhlegblast implements SkyblockEntity, Corruptable {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -50,10 +46,6 @@ public class Plhlegblast implements SkyblockEntity, Corruptable {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Plhlegblast";
-    }
 
     @Override
     public String getName() {
@@ -78,7 +70,7 @@ public class Plhlegblast implements SkyblockEntity, Corruptable {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health -= damage;
 
     }
 

@@ -7,7 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class MultipleEntityBodyPart implements SkyblockEntity {
+public abstract class MultipleEntityBodyPart extends SkyblockEntity {
     protected final MultipleEntityHead head;
 
     public MultipleEntityBodyPart(MultipleEntityHead main){
@@ -34,10 +34,6 @@ public abstract class MultipleEntityBodyPart implements SkyblockEntity {
     public int getDamage() {
         return head.getDamage();
     }
-    @Override
-    public void setHealth(int i){
-        head.setHealth(i);
-    }
 
     @Override
     public int getHealth() {
@@ -52,10 +48,6 @@ public abstract class MultipleEntityBodyPart implements SkyblockEntity {
     @Override
     public int getTrueDamage() {
         return head.getTrueDamage();
-    }
-    @Override
-    public String getId() {
-        return head.getId();
     }
 
     @Override

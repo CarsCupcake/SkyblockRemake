@@ -25,7 +25,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.HashMap;
 
-public class SuperiorDragon implements SkyblockEntity, Defensive, CustomDragon {
+public class SuperiorDragon extends SkyblockEntity implements Defensive, CustomDragon {
     private int health = 12000000;
     private EnderDragon entity;
     private ArmorStand as;
@@ -52,10 +52,6 @@ public class SuperiorDragon implements SkyblockEntity, Defensive, CustomDragon {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -91,10 +87,6 @@ public class SuperiorDragon implements SkyblockEntity, Defensive, CustomDragon {
         SkyblockEntity.livingEntity.put(entity, this);
     }
 
-    @Override
-    public String getId() {
-        return "SUPERIOR_DRAGON";
-    }
 
     @Override
     public String getName() {

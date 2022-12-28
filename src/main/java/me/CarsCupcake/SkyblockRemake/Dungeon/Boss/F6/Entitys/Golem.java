@@ -16,7 +16,7 @@ import javax.tools.Tool;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Golem implements SkyblockEntity, Defensive {
+public class Golem extends SkyblockEntity implements Defensive {
     private boolean isAsleep = true;
     private org.bukkit.entity.Golem entity;
     private int health = 20000000;
@@ -36,10 +36,6 @@ public class Golem implements SkyblockEntity, Defensive {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -60,10 +56,6 @@ public class Golem implements SkyblockEntity, Defensive {
 
     }
 
-    @Override
-    public String getId() {
-        return null;
-    }
 
     @Override
     public String getName() {

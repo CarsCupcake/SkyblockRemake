@@ -18,13 +18,12 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class BlazeSlayerT1 implements SkyblockEntity{
+public class BlazeSlayerT1 extends SkyblockEntity{
 
 	
 	private int health = 2500000;
 	private LivingEntity entity;
 	public SkyblockPlayer owner;
-	private final String name= "Inferno Demonlord";
 	private BukkitRunnable run;
 	private int ticks = 0;
 	public int time = 260;
@@ -55,17 +54,6 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 	@Override
 	public LivingEntity getEntity() {
 		return entity;
-	}
-
-	@Override
-	public void setHealth(int i) {
-		if(isInvincible)
-			return;
-		int beforehealth = i + 0;
-		health = i;
-		demonsplit(beforehealth);
-		
-		
 	}
 
 	@Override
@@ -100,10 +88,6 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 		owner = player;
 	}
 
-	@Override
-	public String getId() {
-		return "blazeslayert1";
-	}
 
 	@Override
 	public String getName() {
@@ -121,6 +105,7 @@ public class BlazeSlayerT1 implements SkyblockEntity{
 	
 	@Override
 	public void updateNameTag() {
+		String name = "Inferno Demonlord";
 		if (health > 999) {
 			if (health > 9999) {
 				if (health > 999999) {

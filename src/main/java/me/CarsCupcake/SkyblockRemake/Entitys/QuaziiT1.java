@@ -25,7 +25,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.world.entity.player.EntityHuman;
 
-public class QuaziiT1 implements SkyblockEntity{
+public class QuaziiT1 extends SkyblockEntity{
 
 	
 	private int health = 500000;
@@ -60,11 +60,7 @@ public class QuaziiT1 implements SkyblockEntity{
 	
 	
 
-	@Override
-	public void setHealth(int i) {
-		health = i;
-		
-	}
+
 	private void startTimer() {
 		tpRun = new BukkitRunnable() {
 			
@@ -171,11 +167,7 @@ public class QuaziiT1 implements SkyblockEntity{
 	startTimer();
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return "quaziit1";
-	}
+
 
 	@Override
 	public String getName() {

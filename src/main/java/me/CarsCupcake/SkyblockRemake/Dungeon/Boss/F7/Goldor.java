@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 
-public class Goldor implements SkyblockEntity {
+public class Goldor extends SkyblockEntity {
     private int health = 750000000;
     private LivingEntity entity;
 
@@ -43,10 +43,6 @@ public class Goldor implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -74,10 +70,6 @@ public class Goldor implements SkyblockEntity {
 
 
 
-    @Override
-    public String getId() {
-        return "Goldor";
-    }
     public void enableGoldor(){
         isDone = true;
         skillShoot();

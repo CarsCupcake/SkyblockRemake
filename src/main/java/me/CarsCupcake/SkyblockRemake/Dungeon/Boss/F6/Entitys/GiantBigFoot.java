@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class GiantBigFoot implements SkyblockEntity {
+public class GiantBigFoot extends SkyblockEntity {
     private int health = 25000000;
     Giant entity;
     private BukkitRunnable run;
@@ -54,10 +54,6 @@ public class GiantBigFoot implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -123,10 +119,6 @@ public class GiantBigFoot implements SkyblockEntity {
         .runTaskTimer(Main.getMain(), 5, 1);
     }
 
-    @Override
-    public String getId() {
-        return null;
-    }
 
     @Override
     public String getName() {

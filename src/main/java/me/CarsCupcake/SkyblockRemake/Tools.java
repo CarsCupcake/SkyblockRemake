@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -21,7 +20,6 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,10 +40,10 @@ import org.jetbrains.annotations.Nullable;
 
 
 public class Tools {
- public static float round(double num, int digit) {
+ public static double round(double num, int digit) {
 	 double d = Math.pow(10, digit);
 	 
-	 return (float) (Math.round(num * d) / d);
+	 return Math.round(num * d) / d;
  }
  
  public static Double StringToDouble(String str){
@@ -75,8 +73,8 @@ public class Tools {
  }
 
  public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed,int baseDropChance ,SkyblockPlayer player){
-	 double chance = Main.getplayerStat(player, Stats.Pristine) / 100d;
-	 double miningFortune = Main.getplayerStat(player, Stats.MiningFortune) / 100;
+	 double chance = Main.getPlayerStat(player, Stats.Pristine) / 100d;
+	 double miningFortune = Main.getPlayerStat(player, Stats.MiningFortune) / 100;
 	 int norm = 0;
 	 int pri = 0;
 	 Random r = new Random();

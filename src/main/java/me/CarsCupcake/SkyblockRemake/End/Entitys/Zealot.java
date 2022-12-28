@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.logging.Level;
 
-public class Zealot implements SkyblockEntity {
+public class Zealot extends SkyblockEntity {
     public static HashMap<SkyblockPlayer, Double> specialZealotSpawnRateModifier = new HashMap<>();
     public static final HashMap<SkyblockPlayer, Integer> pityBonusStage = new HashMap<>();
     private int health = 13000;
@@ -40,10 +40,6 @@ public class Zealot implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -63,10 +59,6 @@ public class Zealot implements SkyblockEntity {
         SkyblockEntity.livingEntity.put(entity, this);
     }
 
-    @Override
-    public String getId() {
-        return "Zealot";
-    }
 
     @Override
     public String getName() {

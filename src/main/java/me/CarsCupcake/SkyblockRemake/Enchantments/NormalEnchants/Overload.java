@@ -6,23 +6,16 @@ import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 public class Overload extends Enchantment implements Listener {
     public Overload() {
@@ -75,7 +68,7 @@ public class Overload extends Enchantment implements Listener {
     public void onHit(DamagePrepairEvent event) {
         if(event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && event.getCalculator().getProjectile() != null) {
             if (ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile())){
-                if(Main.getplayerStat(event.getPlayer(), Stats.CritChance) > 100){
+                if(Main.getPlayerStat(event.getPlayer(), Stats.CritChance) > 100){
                     Random r = new Random();
                     if(r.nextBoolean()){
                         event.getCalculator().setOverload(true);

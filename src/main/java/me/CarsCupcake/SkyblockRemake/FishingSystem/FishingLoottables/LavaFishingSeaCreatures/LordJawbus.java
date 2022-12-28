@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class LordJawbus implements SkyblockEntity {
+public class LordJawbus extends SkyblockEntity {
     private int health = 100000000;
     private LivingEntity entity;
     @Override
@@ -35,10 +35,6 @@ public class LordJawbus implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -53,10 +49,6 @@ public class LordJawbus implements SkyblockEntity {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Lord Jawbus";
-    }
 
     @Override
     public String getName() {
@@ -84,7 +76,7 @@ public class LordJawbus implements SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health -= damage;
 
     }
 

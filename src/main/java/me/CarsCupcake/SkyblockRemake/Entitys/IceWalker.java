@@ -22,7 +22,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class IceWalker implements SkyblockEntity, Corruptable {
+public class IceWalker extends SkyblockEntity implements Corruptable {
 
 	private int maxHealht = 888;
 	private int health = 888;
@@ -48,11 +48,7 @@ public class IceWalker implements SkyblockEntity, Corruptable {
 		return z;
 	}
 
-	@Override
-	public void setHealth(int i) {
-		this.health = i;
 
-	}
 
 	@Override
 	public int getDamage() {
@@ -99,11 +95,7 @@ public class IceWalker implements SkyblockEntity, Corruptable {
 		
 	}
 
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return "IceWalker";
-	}
+
 
 
 

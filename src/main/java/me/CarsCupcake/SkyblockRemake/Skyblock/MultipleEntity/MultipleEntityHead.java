@@ -4,7 +4,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 
 import java.util.ArrayList;
 
-public abstract class MultipleEntityHead implements SkyblockEntity {
+public abstract class MultipleEntityHead extends SkyblockEntity {
     protected final ArrayList<MultipleEntityBodyPart> parts = new ArrayList<>();
 
 }

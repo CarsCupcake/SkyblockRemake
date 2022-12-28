@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
@@ -124,6 +126,9 @@ public class SkyblockPlayer extends CraftPlayer{
 	public EquipmentManager equipmentManager = new EquipmentManager(this);
 	private double baseTrophyFishChance;
 	private final CustomConfig inventory;
+	@Getter
+	@Setter
+	private int magicalpower = 0;
 
 	
 	

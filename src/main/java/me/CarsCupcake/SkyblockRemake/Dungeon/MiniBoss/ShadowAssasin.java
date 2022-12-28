@@ -15,7 +15,7 @@ import org.bukkit.entity.Zombie;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ShadowAssasin implements SkyblockEntity {
+public class ShadowAssasin extends SkyblockEntity {
     private Zombie entity;
     private int health = 700000;
     @Override
@@ -33,10 +33,6 @@ public class ShadowAssasin implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -64,10 +60,6 @@ public class ShadowAssasin implements SkyblockEntity {
 
     }
 
-    @Override
-    public String getId() {
-        return null;
-    }
 
     @Override
     public String getName() {
@@ -92,7 +84,7 @@ public class ShadowAssasin implements SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health -= damage;
     }
 
     @Override

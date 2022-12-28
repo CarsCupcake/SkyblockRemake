@@ -28,7 +28,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.world.entity.player.EntityHuman;
 
 
-public class TyphoesT1 implements SkyblockEntity{
+public class TyphoesT1 extends SkyblockEntity{
 
 	
 	private int health = 500000;
@@ -61,11 +61,7 @@ public class TyphoesT1 implements SkyblockEntity{
 		return entity;
 	}
 
-	@Override
-	public void setHealth(int i) {
-		health = i;
-		
-	}
+
 
 	@Override
 	public int getDamage() {
@@ -133,11 +129,7 @@ public class TyphoesT1 implements SkyblockEntity{
 	}
 
 	
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return "quaziit1";
-	}
+
 	public void startAttack(SkyblockPlayer player) {
 		entity.setAngry(true);
 		entity.attack(player);

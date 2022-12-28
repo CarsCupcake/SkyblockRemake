@@ -111,7 +111,9 @@ private AbilityLore newAbilityLore;
 	@Getter
 	@Setter
 	private boolean attributable = false;
-	
+	@Getter
+	@Setter
+	private int maxStars = 0;
 public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material, ItemRarity rarity) {
 	this.dmg = dmg;
 	this.name = name;

@@ -13,7 +13,7 @@ import org.bukkit.entity.Pig;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TaurusPig implements SkyblockEntity, Corruptable {
+public class TaurusPig extends SkyblockEntity implements Corruptable {
     private boolean isCorrupted = false;
     private int maxHealth = 100;
     private int health = 100;
@@ -34,10 +34,6 @@ public class TaurusPig implements SkyblockEntity, Corruptable {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        main.setHealth(i);
-    }
 
     @Override
     public int getDamage() {
@@ -54,10 +50,6 @@ public class TaurusPig implements SkyblockEntity, Corruptable {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Thunder";
-    }
 
     @Override
     public String getName() {

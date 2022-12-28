@@ -11,7 +11,7 @@ import org.bukkit.entity.Zombie;
 
 import java.util.HashMap;
 
-public class DummyEntity implements SkyblockEntity {
+public class DummyEntity extends SkyblockEntity {
     private LivingEntity entity;
     private final Class<? extends LivingEntity> type;
     private final int maxHealth;
@@ -39,10 +39,8 @@ public class DummyEntity implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
 
-    }
+
 
     @Override
     public int getDamage() {
@@ -60,10 +58,6 @@ public class DummyEntity implements SkyblockEntity {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "dummy";
-    }
 
     @Override
     public String getName() {

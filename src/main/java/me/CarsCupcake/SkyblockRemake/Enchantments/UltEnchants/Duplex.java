@@ -7,13 +7,11 @@ import me.CarsCupcake.SkyblockRemake.Enchantments.UltimateEnchant;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Arrow;
@@ -162,7 +160,7 @@ public class Duplex extends UltimateEnchant implements Listener {
 
                Calculator c = new Calculator();
                c.setApplyFerocity(false);
-               c.damage =  (5 + (float)weaponDamage) * (1+((float)Main.getplayerStat(event.getPlayer(), Stats.Strength)/100));
+               c.damage =  (5 + (float)weaponDamage) * (1+((float)Main.getPlayerStat(event.getPlayer(), Stats.Strength)/100));
                c.damage *= 1.5;
                c.damageEntity(event.getEntity(), event.getPlayer());
 

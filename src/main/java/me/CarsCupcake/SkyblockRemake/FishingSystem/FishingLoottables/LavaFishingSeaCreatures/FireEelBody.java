@@ -12,9 +12,7 @@ public class FireEelBody extends MultipleEntityBodyPart {
     }
 
     @Override
-    public void move() {
-
-    }
+    public void move() {}
 
     @Override
     public LivingEntity getEntity() {

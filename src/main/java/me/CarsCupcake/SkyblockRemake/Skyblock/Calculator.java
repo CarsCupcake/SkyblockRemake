@@ -206,14 +206,14 @@ public class Calculator {
                         int result = r.nextInt(high-low) + low;
                         if(ferocity >= result) {
 
-                            Ferocity.hit(e,(int) damage, cccalc <= Main.getplayerStat(player, Stats.CritChance), player);
+                            Ferocity.hit(e,(int) damage, cccalc <= Main.getPlayerStat(player, Stats.CritChance), player);
                             Main.updateentitystats(e);
                         }
                     }else {
                         double hits =(double) ferocity / 100;
                         if(hits % 1 == 0) {
 
-                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getplayerStat(player, Stats.CritChance), player, (int)hits);
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getPlayerStat(player, Stats.CritChance), player, (int)hits);
 
 
                         }else {
@@ -228,7 +228,7 @@ public class Calculator {
                             if(hitchance >= result) {
                                 hits = hits +1;
                             }
-                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getplayerStat(player, Stats.CritChance), player, (int)hits);
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc,(int) Main.getPlayerStat(player, Stats.CritChance), player, (int)hits);
                         }
                     }
                 }
@@ -250,87 +250,9 @@ public class Calculator {
                 ArrayList<Player> owners = new ArrayList<>();
                 scores.forEach(tag ->{
 
-                    if(tag.startsWith("combatxp:")) {
 
 
 
-                        if(Main.SlayerCurrXp.containsKey(player) && Main.SlayerName.containsKey(player) && Main.SlayerName.get(player).equals("Revenant Horror") && e.getType() == EntityType.ZOMBIE) {
-                            Main.SlayerCurrXp.replace(player, Main.SlayerCurrXp.get(player) + Integer.parseInt(tag.split(":")[1]));
-                            SkyblockScoreboard.updateScoreboard(player);
-                            Random r = new Random();
-                            int low = 0;//includes 1
-                            int high = 100;// includes 100
-                            int result = r.nextInt(high-low) + low;
-                            if(result <= 15) {
-                                if(Main.SlayerLevel.get(player) == 4) {
-                                    low = 1;
-                                    high = 5;
-                                    result = r.nextInt(high-low) + low;
-                                    if(result == 5) {
-                                        SpawnEggEntitys.SummonRevT4MiniBoss2(e.getLocation());
-                                    }else {
-                                        SpawnEggEntitys.SummonRevT4MiniBoss1(e.getLocation());
-                                    }
-                                }else {
-                                    SpawnEggEntitys.SummonRevT3MiniBoss1(e.getLocation());
-                                }
-                            }
-
-                            if(Main.SlayerCurrXp.get(player) >= Main.SlayerRequireXp.get(player)) {
-                                Main.SlayerCurrXp.remove(player);
-                                BukkitRunnable runnable =new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        if(Main.SlayerLevel.get(player) == 1)
-                                            SpawnEggEntitys.SummonT1Rev(e.getLocation(), player.getName());
-                                        if(Main.SlayerLevel.get(player) == 2)
-                                            SpawnEggEntitys.SummonT2Rev(e.getLocation(), player.getName());
-                                        if(Main.SlayerLevel.get(player) == 3)
-                                            SpawnEggEntitys.SummonT3Rev(e.getLocation(), player.getName());
-                                        if(Main.SlayerLevel.get(player) == 4)
-                                            SpawnEggEntitys.SummonT4Rev(e.getLocation(), player.getName());
-
-                                    }
-                                };runnable.runTaskLater(Main.getMain(), 2*20);
-
-
-                            }
-
-                        }
-                    }
-                    if(tag.startsWith("revslayer")) {
-
-                        scores.forEach(tags ->{
-                            if(tags.startsWith("owner")) {
-                                Player owner = Bukkit.getServer().getPlayer(tags.split(":")[1]);
-                                owner.sendMessage("Your Rev slayer has ben killed");
-                                owners.add(owner);
-                                if(Main.SlayerName.containsKey(owner)) {
-                                    Main.SlayerName.remove(owner);
-                                    Main.SlayerLevel.remove(owner);
-                                    Main.SlayerRequireXp.remove(owner);}
-                                SkyblockScoreboard.updateScoreboard(player);
-                            }
-                        });
-                    }
-                    if(tag.startsWith("voidgloomt2")) {
-                        if( Main.beaconPicketUp.containsKey(e) && Main.beaconPicketUp.get(e)) {
-                            if(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)) != null)
-                                Main.beaconLocation.get(e).getBlock().setType(Main.beaconBeforeBlock.get(Main.beaconLocation.get(e)).getType());
-                            else
-                                Main.beaconLocation.get(e).getBlock().setType(Material.AIR);
-                        }
-                        if(Main.beaconThrown.containsKey(e) && Main.beaconThrown.get(e))
-                            SkyblockRemakeEvents.kill_voidgloom_beacon(e);
-                        Main.beaconBeforeBlock.remove(Main.beaconLocation.get(e));
-                        Main.beaconLocation.remove(e);
-                        Main.beaconOnGround.remove(e);
-                        Main.beaconOwner.remove(player);
-                        Main.beaconPicketUp.remove(e);
-                        Main.beaconThrown.remove(e);
-
-
-                    }
                 });
 
                 if(owners != null) {

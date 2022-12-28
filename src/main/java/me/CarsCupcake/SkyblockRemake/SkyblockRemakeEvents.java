@@ -142,10 +142,10 @@ public class SkyblockRemakeEvents implements Listener{
 		Main.shortbow_cd.put(player, false);
 		Main.termhits.put(player, 0);
 		Powers.initPower(player);
-		Main.initAccessoryBag(player);
+
 		
 		new SkyblockPlayer((CraftServer) Main.getMain().getServer(),((CraftPlayer )event.getPlayer()).getHandle());
-		
+		Main.initAccessoryBag(player);
 		if(PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null ||!PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
 			PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
 			PetMenus.save();
@@ -1170,21 +1170,7 @@ public static int dropAmount(int minigFortune, int amount) {
 	public void move(PlayerMoveEvent e) {
 
 		
-		if(Main.beaconOwner.containsKey(e.getPlayer())) {
-			Entity boss = Main.beaconOwner.get(e.getPlayer());
-			if( Main.beaconPicketUp.get(boss) == false) {
-			
-			List<Entity> close = (List<Entity>)Main.beaconLocation.get(boss).getWorld().getNearbyEntities(Main.beaconLocation.get(boss), 1.2, 1.2, 1.2);
-			if(close.contains(e.getPlayer())) {
-				Main.beaconPicketUp.replace(boss, true);
-				if(Main.beaconBeforeBlock.get(Main.beaconLocation.get(boss)) != null)
-					Main.beaconLocation.get(boss).getBlock().setType(Main.beaconBeforeBlock.get(Main.beaconLocation.get(boss)).getType());
-					else
-					Main.beaconLocation.get(boss).getBlock().setType(Material.AIR);
-				Main.beaconLocation.remove(boss);
-			}
-		}
-		}
+
 		
 		
 		Player player = e.getPlayer();
@@ -1297,29 +1283,6 @@ public static int dropAmount(int minigFortune, int amount) {
 	}
 	@EventHandler
 	public void onItemSpawn(ItemSpawnEvent event){
-	    if(event.getEntity().getItemStack().getType() == Material.BEACON && event.getEntity().getScoreboardTags() != null && !event.getEntity().getScoreboardTags().contains("player")) {
-	    	final Location BEACON_LOCATION = event.getLocation().getBlock().getLocation().add(0,1,0);
-	    	Main.beaconBeforeBlock.put(BEACON_LOCATION, BEACON_LOCATION.getBlock());
-	    	ArrayList<Entity> e = new ArrayList<>();
-	    	Main.beaconThrown.forEach((entity, throwe) ->{
-	    		if(throwe == true) {
-	    			Main.beaconLocation.put(entity, BEACON_LOCATION);
-	    			e.add(entity);
-	    		}
-	    	});
-	    	Entity entity = e.get(0);
-	    	Main.beaconOnGround.put(entity, true);
-	    	Main.beaconPicketUp.put(entity, false);
-	    	Main.beaconThrown.remove(entity);
-	    	entity.getScoreboardTags().forEach(tag ->{
-	    		if(tag.startsWith("owner:")) {
-	    			Main.beaconOwner.put(Bukkit.getPlayer(tag.split(":")[1]), entity);
-	    		}
-	    	});
-	    	Main.voidgloom_kill_beacon((Enderman) entity);
-	    	BEACON_LOCATION.getBlock().setType(Material.BEACON);
-	    	event.getEntity().remove();
-	    }
 	        
 	}
 	@EventHandler
@@ -1917,7 +1880,7 @@ public static int dropAmount(int minigFortune, int amount) {
 									damage *= 2;
 									if(SkyblockEntity.livingEntity.containsKey(e))
 										if(SkyblockEntity.livingEntity.get(e).getHealth() - damage < 0){
-											SkyblockEntity.livingEntity.get(e).setHealth(0);
+											SkyblockEntity.livingEntity.get(e).damage(SkyblockEntity.livingEntity.get(e).getHealth(),SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 									}else
 										if(Main.currentityhealth.get(e) != null)
 									if(Main.currentityhealth.get(e) - damage < 0 ) {
@@ -1928,7 +1891,7 @@ public static int dropAmount(int minigFortune, int amount) {
 										if(!SkyblockEntity.livingEntity.containsKey(e))
 										Main.currentityhealth.replace(e,(int) (Main.currentityhealth.get(e) -damage));
 										else
-											SkyblockEntity.livingEntity.get(e).setHealth((int) (SkyblockEntity.livingEntity.get(e).getHealth() - damage));
+											SkyblockEntity.livingEntity.get(e).damage(damage, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 									Main.updateentitystats(e);
 									alrHitEntitys.add(entity);
 									final int FINAL_DAMAGE = (int)damage;
@@ -2781,16 +2744,6 @@ if(str.startsWith("power:"))
 				
 
 				Main.updatebar(player);
-
-				if(Main.zombySlayerLiveDrainready.containsKey(event.getDamager()) && Main.zombySlayerLiveDrainready.get(event.getDamager())) {
-					Main.zombySlayerLiveDrainready.replace(event.getDamager(), false);
-					if(Main.currentityhealth.get(event.getDamager()) + damage > Main.baseentityhealth.get(event.getDamager()))
-						Main.currentityhealth.replace(event.getDamager(), Main.baseentityhealth.get(event.getDamager()));
-					else {
-						Main.currentityhealth.replace(damager, (int) (Main.currentityhealth.get(damager) + damage));
-					Main.updateentitystats((LivingEntity) damager);	
-					}
-				}
 				
 				}}
 			}
@@ -2833,7 +2786,8 @@ if(str.startsWith("power:"))
 							  return;
 						  }
 
-						  if(e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") || e.getScoreboardTags().contains("voidgloomt4")) {
+						  if(e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") ||
+								  e.getScoreboardTags().contains("voidgloomt4")) {
 							  voidgloom = true;
 							  final Vector vec = new Vector();
 							    e.setVelocity(vec);
@@ -2859,9 +2813,7 @@ if(str.startsWith("power:"))
 				        	}else {
 				        		damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier));
 				        	}*/
-							  if(Main.voidgloomHitphase.get(e)){
-							  Main.voidgloomHitphaseHits.replace(e, Main.voidgloomHitphaseHits.get(e) - 1);damage = 0;
-							  }
+
 						  }else {
 							  voidgloom = false;
 						  }
@@ -3024,33 +2976,6 @@ if(str.startsWith("power:"))
 				});
 			}
 		});
-	}
-	@EventHandler
-	public void DetectBeacon(EntityChangeBlockEvent event) {
-		
-		if(event.getEntity() instanceof FallingBlock) {
-			FallingBlock block = (FallingBlock) event.getEntity();
-			if(block.getScoreboardTags().contains("voidgloom_beacon"))
-			block.getScoreboardTags().forEach(tag ->{
-				if(tag.startsWith("entity:")) {
-					Main.beaconBeforeBlock.put(event.getBlock().getLocation(), null);
-					Main.beaconLocation.put(Bukkit.getEntity(UUID.fromString(tag.split(":")[1])), event.getBlock().getLocation());
-					Main.beaconOnGround.put(Bukkit.getEntity(UUID.fromString(tag.split(":")[1])), true);
-					Main.beaconPicketUp.put(Bukkit.getEntity(UUID.fromString(tag.split(":")[1])), false);
-					Main.beaconThrown.remove(Bukkit.getEntity(UUID.fromString(tag.split(":")[1])));
-					Bukkit.getEntity(UUID.fromString(tag.split(":")[1])).getScoreboardTags().forEach(tags ->{
-						
-					
-					if(tags.startsWith("owner:")) {
-			    			Main.beaconOwner.put(Bukkit.getPlayer(tags.split(":")[1]), Bukkit.getEntity(UUID.fromString(tag.split(":")[1])));
-			    			}
-			    		});
-			    	
-					Main.voidgloom_kill_beacon((Enderman) Bukkit.getEntity(UUID.fromString(tag.split(":")[1])));
-				}
-				
-			});
-		}
 	}
 	public static void ferocity_call(Entity e, double damage, int cccalc, int cc, Player player, int times) {
 

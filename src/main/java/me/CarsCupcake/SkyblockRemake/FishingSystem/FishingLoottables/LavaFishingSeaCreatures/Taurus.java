@@ -12,7 +12,7 @@ import org.bukkit.entity.Zombie;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Taurus implements SkyblockEntity, Corruptable {
+public class Taurus extends SkyblockEntity implements Corruptable {
     private boolean isCorrupted = false;
     private int maxHealth = 5000000;
     private int health = 5000000;
@@ -33,10 +33,6 @@ public class Taurus implements SkyblockEntity, Corruptable {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -58,10 +54,6 @@ public class Taurus implements SkyblockEntity, Corruptable {
 
     }
 
-    @Override
-    public String getId() {
-        return "Taurus";
-    }
 
     @Override
     public String getName() {
@@ -86,7 +78,7 @@ public class Taurus implements SkyblockEntity, Corruptable {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health -= damage;
 
     }
 

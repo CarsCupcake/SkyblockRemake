@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Storm implements SkyblockEntity {
+public class Storm extends SkyblockEntity {
     private int health = 400000000;
     public boolean isCrushed = false;
     public int crushTimes = 0;
@@ -44,10 +44,6 @@ public class Storm implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -268,11 +264,6 @@ public class Storm implements SkyblockEntity {
 
             }
         }.runTaskLater(Main.getMain(),5*20);
-    }
-
-    @Override
-    public String getId() {
-        return null;
     }
 
     @Override

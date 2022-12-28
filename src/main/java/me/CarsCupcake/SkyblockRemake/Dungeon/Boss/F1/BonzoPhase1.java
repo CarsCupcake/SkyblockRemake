@@ -42,7 +42,7 @@ import net.minecraft.world.entity.Entity.RemovalReason;
 
 
 
-public class BonzoPhase1 implements SkyblockEntity {
+public class BonzoPhase1 extends SkyblockEntity {
 	
 	private int health = 250000;
 	private LivingEntity entity;
@@ -67,14 +67,7 @@ public class BonzoPhase1 implements SkyblockEntity {
 		return entity;
 	}
 
-	@Override
-	public void setHealth(int i) {
-		health = i;
-		if(health/getMaxHealth() < 0)
-			bar.removeAll();
-			else
-		bar.setProgress((double)health/(double)getMaxHealth());
-	}
+
 
 	@Override
 	public int getDamage() {
@@ -301,10 +294,6 @@ public class BonzoPhase1 implements SkyblockEntity {
 //		run.runTaskTimer(Main.getMain(), 10, 10);
 //	}
 
-	@Override
-	public String getId() {
-		return "bonzop1";
-	}
 
 	@Override
 	public String getName() {

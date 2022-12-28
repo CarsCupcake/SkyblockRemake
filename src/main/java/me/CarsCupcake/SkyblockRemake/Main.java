@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
@@ -33,6 +32,7 @@ import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
 import me.CarsCupcake.SkyblockRemake.Enchantments.UltimateEnchant;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInvListener;
+import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
@@ -45,7 +45,6 @@ import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import org.bukkit.*;
 
 
-import org.bukkit.block.Block;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
@@ -61,8 +60,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable; 
-import org.bukkit.util.Vector;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -86,15 +84,6 @@ import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListender;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneGrinder;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneType;
-import me.CarsCupcake.SkyblockRemake.Items.AbilityListener;
-import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
-import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.Items.Resepice;
-import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
-import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEvents;
 import me.CarsCupcake.SkyblockRemake.KuudraBossFight.CanonObject;
 import me.CarsCupcake.SkyblockRemake.KuudraBossFight.Tentacles;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
@@ -127,7 +116,6 @@ public class Main extends JavaPlugin {
 
 	public static boolean isLocalHost = true;
 
-	public static HashMap<Player, Integer> mithrilpowder = new HashMap<>();
 	public static HashMap<Player, PetFollowRunner> petstand = new HashMap<>();
 
 	public static HashMap<Player, Integer> absorbtion = new HashMap<>();
@@ -135,7 +123,6 @@ public class Main extends JavaPlugin {
 	public static final ArrayList<Player> deathPersons = new ArrayList<>();
 	public static HashMap<Player, Boolean> shortbow_cd = new HashMap<>();
 	public static HashMap<Player, Integer> termhits = new HashMap<>();
-	public static HashMap<Player, Integer> magicalpower = new HashMap<>();
 
 	// entity stats
 	public static HashMap<Entity, Integer> baseentityhealth = new HashMap<>();
@@ -143,31 +130,6 @@ public class Main extends JavaPlugin {
 	public static HashMap<Entity, Integer> entitydamage = new HashMap<>();
 	public static HashMap<Entity, Boolean> entitydead = new HashMap<>();
 	public static HashMap<Entity, ArmorStand> dinnerboneNametags = new HashMap<>();
-
-	// zombie slayer variables
-	public static HashMap<Entity, Integer> zombySlayerLiveDrainTimer = new HashMap<Entity, Integer>();
-	public static HashMap<Entity, Boolean> zombySlayerLiveDrainready = new HashMap<Entity, Boolean>();
-	public static HashMap<Entity, Integer> zombySlayerEnrageTimer = new HashMap<Entity, Integer>();
-	public static HashMap<Entity, Boolean> zombySlayerEnrageActive = new HashMap<Entity, Boolean>();
-
-	// slayer quest vars
-	public static HashMap<Player, String> SlayerName = new HashMap<>();
-	public static HashMap<Player, Integer> SlayerLevel = new HashMap<>();
-	public static HashMap<Player, Integer> SlayerRequireXp = new HashMap<>();
-	public static HashMap<Player, Integer> SlayerCurrXp = new HashMap<>();
-
-	// voidgloom slayer variables
-	public static HashMap<Entity, Boolean> beaconThrown = new HashMap<>();
-	public static HashMap<Entity, Boolean> beaconOnGround = new HashMap<>();
-	public static HashMap<Entity, Boolean> beaconPicketUp = new HashMap<>();
-	public static HashMap<Entity, Location> beaconLocation = new HashMap<>();
-	public static HashMap<Location, Block> beaconBeforeBlock = new HashMap<>();
-	public static HashMap<Player, Entity> beaconOwner = new HashMap<>();
-	public static HashMap<Entity, Boolean> voidgloomHitphase = new HashMap<>();
-	public static HashMap<Entity, Integer> voidgloomHitphaseHits = new HashMap<>();
-	public static HashMap<Entity, Integer> voidgloomHitphaseStage = new HashMap<>();
-	public static HashMap<Entity, Boolean> beaconPhase = new HashMap<>();
-	public static HashMap<Entity, Integer> voidgloomTeleport = new HashMap<>();
 
 	// Wither Stuff
 	public static HashMap<Wither, Integer> WitherSmallStuff = new HashMap<>();
@@ -368,6 +330,7 @@ public class Main extends JavaPlugin {
 		getCommand("setting").setExecutor(new SettingsCMD());
 		getCommand("setting").setTabCompleter(new SettingsTAB());
 		getCommand("dummy").setExecutor(new DummyCMD());
+		getCommand("star").setExecutor(new starItem());
 
 
 		getCommand("kuudra").setExecutor(new startKuudra());
@@ -529,7 +492,7 @@ public class Main extends JavaPlugin {
 
 			}
 		}
-		magicalpower.put(player, totmagpow);
+		SkyblockPlayer.getSkyblockPlayer(player).setMagicalpower(totmagpow);
 
 	}
 
@@ -590,7 +553,7 @@ public class Main extends JavaPlugin {
 
 			}
 		}
-		magicalpower.put(player, totmagpow);
+		SkyblockPlayer.getSkyblockPlayer(player).setMagicalpower(totmagpow);
 	}
 
 	public void eventRegister() {
@@ -912,163 +875,6 @@ public class Main extends JavaPlugin {
 									&& !(entity.getType() == EntityType.ARMOR_STAND)
 									&& !(entity.getType() == EntityType.WITHER_SKULL)) {
 								updateentitystats((LivingEntity) entity);
-								if (entity.getScoreboardTags() != null
-										&& (!entitydead.containsKey(entity) || entitydead.get(entity) == false))
-									entity.getScoreboardTags().forEach(tag -> {
-										if (tag.startsWith("revslayer")) {
-											if (zombySlayerLiveDrainready.get(entity) == false)
-												zombySlayerLiveDrainTimer.replace(entity,
-														zombySlayerLiveDrainTimer.get(entity) + 1);
-
-											if (zombySlayerLiveDrainTimer.get(entity) == 3) {
-												zombySlayerLiveDrainTimer.replace(entity, 0);
-												zombySlayerLiveDrainready.replace(entity, true);
-											}
-										}
-										if (tag.equals("revslayert2") || tag.equals("revslayert3")
-												|| tag.equals("revslayert4") || tag.equals("revslayert5")) {
-											List<Entity> close = (List<Entity>) entity.getWorld()
-													.getNearbyEntities(entity.getLocation(), 8.5, 8.5, 8.5);
-
-											for (Entity target : close) {
-												if (target instanceof Player
-														&& ((Player) target).getGameMode() != GameMode.CREATIVE) {
-													SkyblockPlayer player = SkyblockPlayer
-															.getSkyblockPlayer((Player) target);
-													player.damage(0.0000001);
-
-													float damage = entitydamage.get(entity);
-													if (zombySlayerEnrageActive.get(entity) == true)
-														damage = damage * 5;
-													float ehp = (float) ((float) (float) playerhealthcalc(player)
-															* (1 + (((float) playerdefcalc(player) * 0.75) / 100)));
-													float effectivedmg = (float) playerhealthcalc(player) / (float) ehp;
-													int totaldmg = (int) ((int) damage * effectivedmg);
-
-													if (absorbtion.get(player) - totaldmg < 0) {
-														float restdamage = (float) totaldmg
-																- (float) absorbtion.get(player);
-														absorbtion.replace(player, 0);
-														player.setHealth(player.currhealth - (int) restdamage);
-													} else {
-														absorbtion.replace(player, absorbtion.get(player) - totaldmg);
-													}
-
-													if (player.currhealth <= 0) {
-														player.setHealth(0);
-														deathPersons.add(player);
-													} else
-														updatebar(player);
-
-													if (zombySlayerLiveDrainready.containsKey(entity)
-															&& zombySlayerLiveDrainready.get(entity)) {
-														zombySlayerLiveDrainready.replace(entity, false);
-														if (currentityhealth.get(entity) + damage > baseentityhealth
-																.get(entity))
-															currentityhealth.replace(entity,
-																	baseentityhealth.get(entity));
-														else {
-															currentityhealth.replace(entity,
-																	(int) (currentityhealth.get(entity) + damage));
-															updateentitystats((LivingEntity) entity);
-														}
-													}
-												}
-											}
-
-										}
-										if (tag.equals("revslayert3") || tag.equals("revslayert4")
-												|| tag.equals("revslayert5")) {
-											if (zombySlayerEnrageActive.get(entity) == false) {
-												zombySlayerEnrageTimer.replace(entity,
-														zombySlayerEnrageTimer.get(entity) + 1);
-												if (zombySlayerEnrageTimer.get(entity) == 40) {
-													zombySlayerEnrageActive.replace(entity, true);
-													zombySlayerEnrageTimer.replace(entity, 0);
-													if (!tag.equals("revslayert5"))
-														SpawnEggEntitys.revSwitchEnragetOutfitOn((Zombie) entity);
-												}
-											} else {
-												zombySlayerEnrageTimer.replace(entity,
-														zombySlayerEnrageTimer.get(entity) + 1);
-												if (zombySlayerEnrageTimer.get(entity) == 12) {
-													zombySlayerEnrageActive.replace(entity, false);
-													zombySlayerEnrageTimer.replace(entity, 0);
-													if (!tag.equals("revslayert5"))
-														SpawnEggEntitys.revSwitchEnragetOutfitOff((Zombie) entity);
-												}
-											}
-										}
-
-										if (tag.startsWith("voidgloomt")) {
-											voidgloomTeleport.replace(entity, voidgloomTeleport.get(entity) + 1);
-											if (voidgloomTeleport.get(entity) == 5) {
-												voidgloomTeleport.replace(entity, 0);
-												entity.getScoreboardTags().forEach(tags -> {
-													if (tags.startsWith("owner:")) {
-
-														EntityAbilitys.voidgloomTeleport((Enderman) entity,
-																Bukkit.getPlayer(tags.split(":")[1]));
-													}
-												});
-											}
-											List<Entity> close = (List<Entity>) entity.getWorld()
-													.getNearbyEntities(entity.getLocation(), 6.5, 6.5, 6.5);
-
-											for (Entity target : close) {
-												if (target instanceof Player
-														&& ((Player) target).getGameMode() != GameMode.CREATIVE) {
-													SkyblockPlayer player = SkyblockPlayer
-															.getSkyblockPlayer((Player) target);
-													player.damage(0.0000001);
-													float damage = (float) ((double) entitydamage.get(entity) / 2D);
-													float ehp = (float) ((float) (float) playerhealthcalc(player)
-															* (1 + (((float) playerdefcalc(player) * 0.75) / 100)));
-													float effectivedmg = (float) playerhealthcalc(player) / (float) ehp;
-													int totaldmg = (int) ((int) damage * effectivedmg);
-													if (absorbtion.get(player) - totaldmg < 0) {
-														float restdamage = (float) totaldmg
-																- (float) absorbtion.get(player);
-														absorbtion.replace(player, 0);
-														player.setHealth(player.currhealth - (int) restdamage);
-													} else {
-														absorbtion.replace(player, absorbtion.get(player) - totaldmg);
-													}
-
-													if (player.currhealth <= 0) {
-														player.getPlayer().setHealth(0);
-														deathPersons.add(player);
-													} else
-														updatebar(player);
-
-												}
-											}
-
-											if (tag.equals("voidgloomt2")) {
-												if (!voidgloomHitphase.get(entity)) {
-													if (voidgloomHitphaseStage.get(entity) == 1
-															&& currentityhealth.get(entity) <= 9900000) {
-														voidgloomHitphase.replace(entity, true);
-														voidgloomHitphaseHits.replace(entity, 30);
-														updateentitystats((LivingEntity) entity);
-													}
-													if (voidgloomHitphaseStage.get(entity) == 2
-															&& currentityhealth.get(entity) <= 4950000) {
-														voidgloomHitphase.replace(entity, true);
-														voidgloomHitphaseHits.replace(entity, 30);
-														updateentitystats((LivingEntity) entity);
-													}
-													if (currentityhealth.get(entity) <= 7500000
-															&& beaconPhase.get(entity) == false) {
-														beaconPhase.replace(entity, true);
-														voidgloom_hold((Enderman) entity);
-													}
-												}
-											}
-
-										}
-
-									});
 							}
 						}
 					});
@@ -1310,11 +1116,7 @@ public class Main extends JavaPlugin {
 		float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
 		entity.setHealth(estimated);
 
-		if (voidgloomHitphase.containsKey(entity) && voidgloomHitphase.get(entity)
-				&& voidgloomHitphaseHits.get(entity) <= 0) {
-			voidgloomHitphase.replace(entity, false);
-			voidgloomHitphaseStage.replace(entity, voidgloomHitphaseStage.get(entity) + 1);
-		}
+
 
 		ArrayList<Boolean> hasCustomName = new ArrayList<>();
 		ArrayList<Boolean> isDinnerBone = new ArrayList<>();
@@ -1349,12 +1151,7 @@ public class Main extends JavaPlugin {
 				if (str.startsWith("CustomName")) {
 					String[] names = str.split(":");
 					String name = names[1];
-					if (voidgloomHitphase.containsKey(entity) && voidgloomHitphase.get(entity)) {
-
-						entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §r§l"
-								+ voidgloomHitphaseHits.get(entity) + "Hits");
-						hasCustomName.add(true);
-					} else {
+					{
 
 						if (currentityhealth.get(entity) > 999) {
 							if (currentityhealth.get(entity) > 9999) {
@@ -1520,100 +1317,8 @@ public class Main extends JavaPlugin {
 
 	}
 
-	public static void voidgloom_hold(Enderman entity) {
-		if (entity == null)
-			return;
-		entity.setCarriedMaterial(new ItemStack(Material.BEACON).getData());
 
-		BukkitRunnable runn = new BukkitRunnable() {
 
-			@SuppressWarnings({"deprecation", "unused"})
-			@Override
-			public void run() {
-				if (entity == null)
-					return;
-				ArrayList<String> check = new ArrayList<>();
-
-				if (!entity.getWorld().getEntities().contains(entity))
-					return;
-				if (!check.contains("yes")) {
-					entity.setCarriedMaterial(new ItemStack(Material.AIR).getData());
-					FallingBlock block = entity.getWorld().spawnFallingBlock(entity.getLocation(), Material.BEACON,
-							(byte) 0);
-
-					Random rand = new Random();
-					block.setVelocity(
-							block.getVelocity().add(new Vector(rand.nextDouble() - 0.5, .7, rand.nextDouble() - 0.5)));
-					block.addScoreboardTag("voidgloom_beacon");
-					block.addScoreboardTag("entity:" + entity.getUniqueId().toString());
-
-					beaconThrown.put(entity, true);
-				}
-
-			}
-
-		};
-		runn.runTaskLater(Main, 40);
-	}
-
-	public static void voidgloom_kill_beacon(Enderman entity) {
-		BukkitRunnable runn = new BukkitRunnable() {
-
-			@Override
-			public void run() {
-				if (entity == null)
-					return;
-				if (!entity.getWorld().getEntities().contains(entity))
-					return;
-				if (beaconPicketUp.get(entity) == true) {
-					System.out.println("player got beacon");
-					voidgloom_beacon_cooldoen(entity);
-				} else {
-					System.out.println("player wasnt fast enouth");
-					entity.getScoreboardTags().forEach(tag -> {
-
-						if (tag.startsWith("owner:")) {
-							SkyblockPlayer player = SkyblockPlayer
-									.getSkyblockPlayer(Bukkit.getPlayer(tag.split(":")[1]));
-							player.setHealth(-(player.currhealth * 1000));
-							updatebar(player);
-						}
-					});
-					if (beaconBeforeBlock.get(beaconLocation.get(entity)) != null)
-						beaconLocation.get(entity).getBlock()
-								.setType(beaconBeforeBlock.get(beaconLocation.get(entity)).getType());
-					else
-						beaconLocation.get(entity).getBlock().setType(Material.AIR);
-
-					entity.remove();
-
-				}
-
-			}
-
-		};
-		runn.runTaskLater(Main, 5 * 20);
-	}
-
-	public static void voidgloom_beacon_cooldoen(Enderman entity) {
-		if (entity == null)
-			return;
-		if (!entity.getWorld().getEntities().contains(entity))
-			return;
-		System.out.println("on cooldown");
-		BukkitRunnable runn = new BukkitRunnable() {
-
-			@Override
-			public void run() {
-
-				if (!entity.getWorld().getEntities().contains(entity))
-					return;
-				voidgloom_hold(entity);
-			}
-
-		};
-		runn.runTaskLater(Main, 3 * 20);
-	}
 
 	@SuppressWarnings("deprecation")
 	public static double playerhealthcalc(Player player) {
@@ -2117,7 +1822,7 @@ public class Main extends JavaPlugin {
 		return ferocity;
 	}
 
-	public static double getplayerStat(SkyblockPlayer player, Stats stat) {
+	public static double getPlayerStat(SkyblockPlayer player, Stats stat) {
 		double ferocity = player.getBaseStat(stat);
 		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
 		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
@@ -2212,13 +1917,13 @@ public class Main extends JavaPlugin {
 			}
 			}
 		}
-
+		value *= StarHandler.getStarBuff(item);
 		double val = value;
 		double kekw;
 			GetStatFromItemEvent event = new GetStatFromItemEvent(item, stat, val, player);
 			Bukkit.getPluginManager().callEvent(event);
 			kekw = event.getValue();
-
+			kekw = Tools.round(kekw, 1);
 		return kekw;
 		
 	}
@@ -2244,7 +1949,7 @@ public class Main extends JavaPlugin {
 
 			return 0;
 		} else {
-			return Double.parseDouble(speed);
+			return Tools.round(Double.parseDouble(speed) * StarHandler.getStarBuff(item), 1);
 		}
 	}
 
@@ -3056,9 +2761,9 @@ public class Main extends JavaPlugin {
 							.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)))
 				meta.setDisplayName(
 						rarity.getPrefix() + data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)
-								+ " " + rarity.getPrefix() + manager.name);
+								+ " " + rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
 			else
-				meta.setDisplayName(rarity.getPrefix() + manager.name);
+				meta.setDisplayName(rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
 
 
 

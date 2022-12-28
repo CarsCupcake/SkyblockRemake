@@ -13,7 +13,7 @@ import org.bukkit.entity.MagmaCube;
 import java.util.HashMap;
 import java.util.Random;
 
-public class BabyMagmaSlug implements SkyblockEntity, Corruptable {
+public class BabyMagmaSlug extends SkyblockEntity implements Corruptable {
     private boolean isCorrupted = false;
     private int maxHealth = 200000;
     private int health = 200000;
@@ -33,10 +33,6 @@ public class BabyMagmaSlug implements SkyblockEntity, Corruptable {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -53,10 +49,6 @@ public class BabyMagmaSlug implements SkyblockEntity, Corruptable {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Baby Magma Slug";
-    }
 
     @Override
     public String getName() {
@@ -85,7 +77,7 @@ public class BabyMagmaSlug implements SkyblockEntity, Corruptable {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        setHealth((int) (health - damage));
+        health -= damage;
 
     }
 

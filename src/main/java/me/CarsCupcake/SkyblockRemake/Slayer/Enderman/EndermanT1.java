@@ -93,10 +93,6 @@ public class EndermanT1 extends Slayer implements Listener {
 
     }
 
-    @Override
-    public String getId() {
-        return "null";
-    }
 
     @Override
     public String getName() {

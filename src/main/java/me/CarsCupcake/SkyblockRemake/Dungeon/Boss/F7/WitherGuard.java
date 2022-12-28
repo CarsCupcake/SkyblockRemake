@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class WitherGuard implements SkyblockEntity {
+public class WitherGuard extends SkyblockEntity {
     private int health = 3500000;
     private LivingEntity entity;
     @Override
@@ -40,10 +40,6 @@ public class WitherGuard implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -68,10 +64,6 @@ public class WitherGuard implements SkyblockEntity {
 
     }
 
-    @Override
-    public String getId() {
-        return "WitherGuard";
-    }
 
     @Override
     public String getName() {

@@ -11,7 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SpititBat implements SkyblockEntity {
+public class SpititBat extends SkyblockEntity {
     private Bat bat;
     @Override
     public int getMaxHealth() {
@@ -28,9 +28,7 @@ public class SpititBat implements SkyblockEntity {
         return bat;
     }
 
-    @Override
-    public void setHealth(int i) {
-    }
+
 
     @Override
     public int getDamage() {
@@ -51,10 +49,6 @@ public class SpititBat implements SkyblockEntity {
         Main.updateentitystats(bat);
     }
 
-    @Override
-    public String getId() {
-        return "SPIRIT_BAT";
-    }
 
     @Override
     public String getName() {

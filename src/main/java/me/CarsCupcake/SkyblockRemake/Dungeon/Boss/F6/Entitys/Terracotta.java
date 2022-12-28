@@ -19,7 +19,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Terracotta implements SkyblockEntity {
+public class Terracotta extends SkyblockEntity {
     private int health = 32000000;
     private LivingEntity entity;
     private boolean imune = false;
@@ -39,13 +39,7 @@ public class Terracotta implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        if(imune)
-            return;
 
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -67,10 +61,6 @@ public class Terracotta implements SkyblockEntity {
         this.ai = new JumpAI(entity);
     }
 
-    @Override
-    public String getId() {
-        return "null";
-    }
 
     @Override
     public String getName() {

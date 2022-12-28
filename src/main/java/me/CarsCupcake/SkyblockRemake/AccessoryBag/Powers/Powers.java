@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +21,8 @@ public interface Powers {
 	public String getName();
 	public ItemStack getItem();
 	public ItemManager getManager();
-	public default int CalculateStats(Stats stat, Player player) {
+	public default int CalculateStats(Stats stat, Player p) {
+		SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
 		double statval = 0;
 		if(getPackage().stats.get(stat) != null)
 		if(getPackage().stats.get(stat) == 0) {
@@ -37,7 +39,7 @@ public interface Powers {
 			}
 	}
 		
-		double multipl = Math.pow(29.97*(Math.log(0.0019*Main.magicalpower.get(player) + 1 )), 1.2);
+		double multipl = Math.pow(29.97*(Math.log(0.0019*player.getMagicalpower() + 1 )), 1.2);
 		
 		if(getPackage().stats.get(stat) != null)
 		 statval += getPackage().stats.get(stat) * multipl;

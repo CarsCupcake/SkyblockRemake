@@ -18,7 +18,7 @@ import org.bukkit.entity.Wither;
 
 import java.util.HashMap;
 
-public class MastermodeNecron implements SkyblockEntity, Defensive {
+public class MastermodeNecron extends SkyblockEntity implements Defensive {
     private int health = 1400000000;
     private BossBar display;
     private LivingEntity entity;
@@ -37,10 +37,6 @@ public class MastermodeNecron implements SkyblockEntity, Defensive {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -62,10 +58,6 @@ public class MastermodeNecron implements SkyblockEntity, Defensive {
         Main.updateentitystats(entity);
     }
 
-    @Override
-    public String getId() {
-        return "Necron";
-    }
 
     @Override
     public String getName() {

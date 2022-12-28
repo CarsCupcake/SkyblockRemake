@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class Sadan implements SkyblockEntity {
+public class Sadan extends SkyblockEntity {
     private int health = 40000000;
     Giant entity;
     private BukkitRunnable stabRunner;
@@ -63,10 +63,6 @@ public class Sadan implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -205,10 +201,6 @@ public class Sadan implements SkyblockEntity {
         swords.add(new Sadan.StabPlayer(player, this));
     }
 
-    @Override
-    public String getId() {
-        return null;
-    }
 
     @Override
     public String getName() {

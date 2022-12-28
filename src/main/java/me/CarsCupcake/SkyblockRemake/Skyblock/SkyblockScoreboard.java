@@ -79,7 +79,6 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 				
 			}
 			}
-		if(!Main.SlayerName.containsKey(player)) {
 			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
 		
 
@@ -95,16 +94,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		
 			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
 
-		}else {
-			ScoreboardDisplayer.setScore(p, ChatColor.GREEN + Main.SlayerName.get(player) +  " " + Main.SlayerLevel.get(player),3);
 
-			ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "(§e" + Main.SlayerCurrXp.get(player) +  "§7/§c" + Main.SlayerRequireXp.get(player) + "§7)",2);
-
-			ScoreboardDisplayer.setScore(p,"§r ",1);
-
-			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),0);
-
-		}
 		
 
 		
@@ -158,7 +148,6 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 				
 			}
 			}
-		if(Main.SlayerName.containsKey(player) == false) {
 			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
 		
 
@@ -174,16 +163,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		
 			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
 
-		}else {
-			ScoreboardDisplayer.setScore(p,ChatColor.GREEN + Main.SlayerName.get(player) +  " " + Main.SlayerLevel.get(player),3);
 
-			ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "(§e" + Main.SlayerCurrXp.get(player) +  "§7/§c" + Main.SlayerRequireXp.get(player) + "§7)",2);
-
-			ScoreboardDisplayer.setScore(p,"§r ",1);
-
-			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),0);
-
-		}
 		
 
 		

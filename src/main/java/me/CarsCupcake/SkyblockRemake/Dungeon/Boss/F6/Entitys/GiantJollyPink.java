@@ -19,7 +19,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class GiantJollyPink implements SkyblockEntity {
+public class GiantJollyPink extends SkyblockEntity {
     private int health = 25000000;
     Giant entity;
     private BukkitRunnable run;
@@ -50,10 +50,6 @@ public class GiantJollyPink implements SkyblockEntity {
         return entity;
     }
 
-    @Override
-    public void setHealth(int i) {
-        health = i;
-    }
 
     @Override
     public int getDamage() {
@@ -105,10 +101,6 @@ public class GiantJollyPink implements SkyblockEntity {
         yeets.add(new YeetPlayer(player, this));
     }
 
-    @Override
-    public String getId() {
-        return null;
-    }
 
     @Override
     public String getName() {

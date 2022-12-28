@@ -33,8 +33,6 @@ public class SpawnEggEntitys {
 		zombie.addScoreboardTag("revslayert1");
 		zombie.addScoreboardTag("owner:" + playerName);
 		zombie.setAdult();
-		Main.zombySlayerLiveDrainready.put(zombie, false);
-		Main.zombySlayerLiveDrainTimer.put(zombie, 0);
 		zombie.getEquipment().setBootsDropChance(0);
 	    zombie.getEquipment().setLeggingsDropChance(0);
 		zombie.getEquipment().setChestplateDropChance(0);
@@ -62,8 +60,6 @@ public class SpawnEggEntitys {
 		zombie.addScoreboardTag("CustomName:Revenant Horror");
 		zombie.addScoreboardTag("revslayert2");
 		zombie.addScoreboardTag("owner:" + playerName);
-		Main.zombySlayerLiveDrainready.put(zombie, false);
-		Main.zombySlayerLiveDrainTimer.put(zombie, 0);
 		zombie.getEquipment().setBootsDropChance(0);
 	    zombie.getEquipment().setLeggingsDropChance(0);
 		zombie.getEquipment().setChestplateDropChance(0);
@@ -89,10 +85,6 @@ public class SpawnEggEntitys {
 		zombie.addScoreboardTag("CustomName:Revenant Horror");
 		zombie.addScoreboardTag("revslayert3");
 		zombie.addScoreboardTag("owner:" + playerName);
-		Main.zombySlayerLiveDrainready.put(zombie, false);
-		Main.zombySlayerLiveDrainTimer.put(zombie, 0);
-		Main.zombySlayerEnrageActive.put(zombie, false);
-		Main.zombySlayerEnrageTimer.put(zombie, 0);
 		zombie.getEquipment().setBootsDropChance(0);
 	    zombie.getEquipment().setLeggingsDropChance(0);
 		zombie.getEquipment().setChestplateDropChance(0);
@@ -118,10 +110,6 @@ public class SpawnEggEntitys {
 		zombie.addScoreboardTag("CustomName:Revenant Horror");
 		zombie.addScoreboardTag("revslayert4");
 		zombie.addScoreboardTag("owner:" + playerName);
-		Main.zombySlayerLiveDrainready.put(zombie, false);
-		Main.zombySlayerLiveDrainTimer.put(zombie, 0);
-		Main.zombySlayerEnrageActive.put(zombie, false);
-		Main.zombySlayerEnrageTimer.put(zombie, 0);
 		zombie.getEquipment().setBootsDropChance(0);
 	    zombie.getEquipment().setLeggingsDropChance(0);
 		zombie.getEquipment().setChestplateDropChance(0);
@@ -245,11 +233,6 @@ public class SpawnEggEntitys {
 		zombie.getEquipment().setChestplateDropChance(0);
 		zombie.getEquipment().setHelmetDropChance(0);
 		zombie.getEquipment().setItemInHandDropChance(0);
-		Main.voidgloomHitphase.put(zombie, true);
-		Main.voidgloomHitphaseHits.put(zombie, 30);
-		Main.voidgloomHitphaseStage.put(zombie, 0);
-		Main.beaconPhase.put(zombie, false);
-		Main.voidgloomTeleport.put(zombie, 0);
 		zombie.attack(Bukkit.getPlayer(playerName));
 	});
 	Main.updateentitystats(zo);
