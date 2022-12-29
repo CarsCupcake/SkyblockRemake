@@ -22,16 +22,9 @@ import org.bukkit.util.Vector;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class UntiedChopstick implements AbilityManager {
+public class UntiedChopstick implements AbilityManager<EntityDamageByEntityEvent> {
 
-	private static HashMap<SkyblockPlayer, Integer> hits = new HashMap<>();
-	
-	@Override
-	public boolean executeAbility(PlayerInteractEvent event) {
-		
-		
-		return false;
-	}
+	private static final HashMap<SkyblockPlayer, Integer> hits = new HashMap<>();
 
 	@Override
 	public boolean executeAbility(EntityDamageByEntityEvent event) {

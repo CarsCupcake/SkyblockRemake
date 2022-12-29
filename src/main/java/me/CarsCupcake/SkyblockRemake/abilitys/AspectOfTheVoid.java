@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-public class AspectOfTheVoid extends PreAbilityExecution implements AbilityManager {
+public class AspectOfTheVoid extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
@@ -38,10 +38,7 @@ public class AspectOfTheVoid extends PreAbilityExecution implements AbilityManag
 
 
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
+
 
     @Override
     public void preEvent(AbilityPreExecuteEvent event) {

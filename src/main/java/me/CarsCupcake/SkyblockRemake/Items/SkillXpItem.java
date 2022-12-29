@@ -40,17 +40,9 @@ public class SkillXpItem implements ItemGenerator{
     }
     public static void init(){
         ItemManager manager = new ItemManager("Skill Xp", "SKILL_XP_ITEM", ItemType.Non, null, null, null, null, 0,0,0,0, Material.LIME_DYE, ItemRarity.SPECIAL);
-        manager.setAbility(new AbilityManager() {
-            @Override
-            public boolean executeAbility(PlayerInteractEvent event) {
-                new SkillXpItem(event.getItem()).add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-                return false;
-            }
-
-            @Override
-            public boolean executeAbility(EntityDamageByEntityEvent event) {
-                return false;
-            }
+        manager.setAbility((AbilityManager<PlayerInteractEvent>) event -> {
+            new SkillXpItem(event.getItem()).add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+            return false;
         }, AbilityType.LeftOrRightClick);
         Items.SkyblockItems.put(manager.itemID, manager);
 

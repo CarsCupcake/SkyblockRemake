@@ -13,7 +13,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.ArrayList;
 
 
-public class EntityLocationSetter implements AbilityManager {
+public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent> {
     private static Class<? extends SkyblockEntity> entity = null;
     public static final ArrayList<Location> locations = new ArrayList<>();
     @Override
@@ -61,9 +61,4 @@ public class EntityLocationSetter implements AbilityManager {
         entity = e;
     }
 
-    //Ignore
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 }

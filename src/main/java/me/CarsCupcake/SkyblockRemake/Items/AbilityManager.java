@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.abilitys.PreAbilityExecution;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -20,10 +21,9 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.AdditionalManaCosts;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public interface AbilityManager  {
+public interface AbilityManager<T extends Event>  {
 	
-	 boolean executeAbility(PlayerInteractEvent event);
-	boolean executeAbility(EntityDamageByEntityEvent event);
+	 boolean executeAbility(T event);
 	HashMap<SkyblockPlayer, HashMap<String, AdditionalManaCosts>> additionalMana = new HashMap<>();
 
 	

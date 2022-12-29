@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -23,6 +24,10 @@ public class Assert {
         if (object == null) {
             throw new IllegalArgumentException(nullSafeGet(messageSupplier));
         }
+    }
+    public static <T extends Throwable> void notNull(@Nullable Object object, @NotNull T e) throws T {
+        if(object == null)
+            throw e;
     }
     public static void notNull(@Nullable Object object) {
         notNull(object, "[Assertion failed] - this argument is required; it must not be null");

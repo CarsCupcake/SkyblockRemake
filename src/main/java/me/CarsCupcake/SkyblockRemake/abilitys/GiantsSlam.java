@@ -19,15 +19,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class GiantsSlam implements AbilityManager {
+public class GiantsSlam implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         new Sword(event.getPlayer().getTargetBlock(null, 6).getLocation(),SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-        return false;
-    }
-
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
         return false;
     }
 

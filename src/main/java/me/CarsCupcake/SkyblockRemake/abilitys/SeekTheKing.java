@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Commission.CommissionInv;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class SeekTheKing implements AbilityManager{
+public class SeekTheKing implements AbilityManager<PlayerInteractEvent>{
 
 	@Override
 	public boolean executeAbility(PlayerInteractEvent event) {
@@ -21,10 +21,6 @@ public class SeekTheKing implements AbilityManager{
 		return false;
 	}
 
-	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		
-		return false;
-	}
+
 
 }

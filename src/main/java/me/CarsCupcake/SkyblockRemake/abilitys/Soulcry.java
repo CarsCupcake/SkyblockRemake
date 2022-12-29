@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Soulcry implements AbilityManager, ItemManager.MaterialGrabber {
+public class Soulcry implements AbilityManager<PlayerInteractEvent>, ItemManager.MaterialGrabber {
     private static final Set<SkyblockPlayer> players = new HashSet<>();
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
@@ -31,10 +31,6 @@ public class Soulcry implements AbilityManager, ItemManager.MaterialGrabber {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 
     @Override
     public Material getMaterial(ItemStack item, SkyblockPlayer player) {

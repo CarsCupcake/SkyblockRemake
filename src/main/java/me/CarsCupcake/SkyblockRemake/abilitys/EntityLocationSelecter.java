@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-public class EntityLocationSelecter implements AbilityManager {
+public class EntityLocationSelecter implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         /*TextComponent text = new TextComponent("Wither Guard   §e§lSelect");
@@ -32,9 +32,4 @@ public class EntityLocationSelecter implements AbilityManager {
     }
 
 
-    //Ignore
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 }

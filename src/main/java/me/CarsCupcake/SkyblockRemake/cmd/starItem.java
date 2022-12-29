@@ -17,9 +17,18 @@ public class starItem implements CommandExecutor {
             return false;
 
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-
-        if(ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING))
-            StarHandler.setStars(player.getItemInHand(), Integer.parseInt(strings[0]));
+        if(strings.length == 2 || strings[0].equals("master"))
+            try{
+                StarHandler.setMasterStars(player.getItemInHand(), Integer.parseInt(strings[1]));
+            }catch (Exception e){
+                player.sendMessage("§c" +  e.getMessage() + " §7(" + e.getClass().getSimpleName() + ")");
+            }
+        else if(ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING))
+            try{
+                StarHandler.setStars(player.getItemInHand(), Integer.parseInt(strings[0]));
+            }catch (Exception e){
+                player.sendMessage("§c" +  e.getMessage() + " §7(" + e.getClass().getSimpleName() + ")");
+            }
 
         return false;
     }

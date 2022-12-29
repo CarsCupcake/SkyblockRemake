@@ -5,7 +5,7 @@ import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class DreadlordAbility implements AbilityManager {
+public class DreadlordAbility implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         WitherSkull skull = event.getPlayer().launchProjectile(WitherSkull.class);
@@ -13,8 +13,4 @@ public class DreadlordAbility implements AbilityManager {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 }

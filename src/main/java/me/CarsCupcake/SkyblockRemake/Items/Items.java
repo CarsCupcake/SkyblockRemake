@@ -1660,16 +1660,12 @@ public static ItemStack TestItem() {
 			1,1,1,1,1, lore, "Test", "lolxD", abilitylore, 69, 420, 0f, 0, Material.STICK,ItemRarity.SUPREME);
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));
 	manager.setAttributable(true);
-	manager.setAbility(new AbilityManager() {
+	manager.setAbility(new AbilityManager<PlayerInteractEvent>() {
 		@Override
 		public boolean executeAbility(PlayerInteractEvent event) {
 			return false;
 		}
 
-		@Override
-		public boolean executeAbility(EntityDamageByEntityEvent event) {
-			return false;
-		}
 	}, AbilityType.RightClick);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();

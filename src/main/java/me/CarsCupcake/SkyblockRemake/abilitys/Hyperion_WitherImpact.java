@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 
-public class Hyperion_WitherImpact implements AbilityManager{
+public class Hyperion_WitherImpact implements AbilityManager<PlayerInteractEvent>{
 
 	@Override
 	public boolean executeAbility(PlayerInteractEvent event) {
@@ -99,9 +99,5 @@ public class Hyperion_WitherImpact implements AbilityManager{
 				player.teleport(mainLoc);
 			}else break;}}
 
-	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		return false;
-	}
 
 }

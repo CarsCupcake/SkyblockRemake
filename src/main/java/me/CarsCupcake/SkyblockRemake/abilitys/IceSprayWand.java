@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -31,8 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class IceSprayWand implements AbilityManager, Listener {
-    private static HashMap<LivingEntity, BukkitRunnable> freezedEntitys = new HashMap<>();
+public class IceSprayWand implements AbilityManager<PlayerInteractEvent>, Listener {
+    private static final HashMap<LivingEntity, BukkitRunnable> freezedEntitys = new HashMap<>();
 
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
@@ -129,16 +130,11 @@ public class IceSprayWand implements AbilityManager, Listener {
 
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 
     @EventHandler
-    public void extraDamageEvent(SkyblockDamageEvent event) {
+    public void extraDamageEvent(DamagePrepairEvent event) {
         if(freezedEntitys.containsKey(event.getEntity())) {
-            System.out.println("yay");
-            event.getCalculator().damage *= 1.1;
+            event.addPreMultiplier(0.1);
         }
     }
     @EventHandler

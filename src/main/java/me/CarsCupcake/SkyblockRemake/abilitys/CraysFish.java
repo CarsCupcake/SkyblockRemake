@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-public class CraysFish implements AbilityManager {
+public class CraysFish implements AbilityManager<PlayerInteractEvent> {
     private static final String itemID = "AXE_OF_THE_SHREDDED";
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
@@ -235,10 +235,6 @@ public class CraysFish implements AbilityManager {
 
 
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
 
-        return false;
-    }
 
 }

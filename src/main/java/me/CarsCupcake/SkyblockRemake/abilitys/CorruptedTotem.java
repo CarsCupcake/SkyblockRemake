@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 
-public class CorruptedTotem extends PreAbilityExecution implements AbilityManager {
+public class CorruptedTotem extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         event.setCancelled(true);
@@ -56,10 +56,6 @@ public class CorruptedTotem extends PreAbilityExecution implements AbilityManage
             block.setPatterns(meta.getPatterns());
         }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 
     @Override
     public void preEvent(AbilityPreExecuteEvent event) {

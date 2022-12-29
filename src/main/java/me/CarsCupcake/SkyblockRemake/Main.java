@@ -1844,10 +1844,9 @@ public class Main extends JavaPlugin {
 		}
 		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(stat);
 		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), stat, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
+		Bukkit.getPluginManager().callEvent(event);
+
+		ferocity = event.getValue() * event.getMultiplier();
 		return ferocity;
 	}
 
@@ -1922,7 +1921,7 @@ public class Main extends JavaPlugin {
 		double kekw;
 			GetStatFromItemEvent event = new GetStatFromItemEvent(item, stat, val, player);
 			Bukkit.getPluginManager().callEvent(event);
-			kekw = event.getValue();
+			kekw = event.getValue() * event.getMultiplier();
 			kekw = Tools.round(kekw, 1);
 		return kekw;
 		

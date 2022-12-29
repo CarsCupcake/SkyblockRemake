@@ -7,13 +7,14 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;
 
-public class HollowSpirit implements AbilityManager {
+public class HollowSpirit implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
@@ -25,10 +26,6 @@ public class HollowSpirit implements AbilityManager {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 
     public static void addItem(){
         ArrayList<String> abilityLore = new ArrayList<>();

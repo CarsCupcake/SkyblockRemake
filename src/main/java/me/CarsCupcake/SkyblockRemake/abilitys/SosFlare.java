@@ -180,8 +180,4 @@ public class SosFlare implements Deployable {
         run.runTaskTimer(Main.getMain(), 0,1);
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 }

@@ -4,21 +4,15 @@ import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class LividDaggerability extends ExtraDamageAbility implements AbilityManager {
+public class LividDaggerability<T extends Event> extends ExtraDamageAbility implements AbilityManager<T> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean executeAbility(T event) {
         //throw ability
-        return false;
-    }
-
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-
-
         return false;
     }
 

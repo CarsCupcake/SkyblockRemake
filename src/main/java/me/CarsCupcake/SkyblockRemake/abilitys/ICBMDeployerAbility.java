@@ -28,7 +28,7 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 
-public class ICBMDeployerAbility implements AbilityManager {
+public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
@@ -40,10 +40,6 @@ public class ICBMDeployerAbility implements AbilityManager {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
     private static void addFuel(SkyblockPlayer player){
         Inventory inv = Bukkit.createInventory(null, 27, "Your Missle:");
         ItemStack emptyItem = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

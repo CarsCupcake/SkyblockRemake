@@ -18,7 +18,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class ArcaneZap implements AbilityManager {
+public class ArcaneZap implements AbilityManager<PlayerInteractEvent> {
 
 	
 	private boolean hasRightRune(LivingEntity entity, ArcaneRune rune) {
@@ -118,11 +118,7 @@ public class ArcaneZap implements AbilityManager {
 		return false;
 	}
 
-	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	
 	//mode particles:
 	//virtuoso: witch

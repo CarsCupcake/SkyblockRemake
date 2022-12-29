@@ -20,7 +20,7 @@ import org.bukkit.util.Vector;
 import java.util.Collection;
 import java.util.List;
 
-public class SpiritScepter implements AbilityManager {
+public class SpiritScepter implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
         event.setCancelled(true);
@@ -28,10 +28,6 @@ public class SpiritScepter implements AbilityManager {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 
     public void makeBat(SkyblockPlayer player){
         SpititBat bat = new SpititBat();

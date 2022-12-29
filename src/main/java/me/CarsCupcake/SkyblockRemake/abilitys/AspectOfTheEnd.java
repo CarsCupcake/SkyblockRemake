@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
-public class AspectOfTheEnd implements AbilityManager {
+public class AspectOfTheEnd implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
 
@@ -28,8 +28,4 @@ public class AspectOfTheEnd implements AbilityManager {
                 player.teleport(mainLoc);
             }else break;}}
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
 }

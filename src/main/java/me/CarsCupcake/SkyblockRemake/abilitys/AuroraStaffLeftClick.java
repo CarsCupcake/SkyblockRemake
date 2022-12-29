@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class AuroraStaffLeftClick implements AbilityManager {
+public class AuroraStaffLeftClick implements AbilityManager<PlayerInteractEvent> {
 
 	@Override
 	public boolean executeAbility(PlayerInteractEvent event) {
@@ -32,11 +32,4 @@ public class AuroraStaffLeftClick implements AbilityManager {
 		player.sendMessage("§aSwappet rune to the " +colorprefix + rune + " §arune.");
 		return false;
 	}
-
-	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

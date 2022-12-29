@@ -32,7 +32,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.AdditionalManaCosts;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManager {
+public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManager<PlayerInteractEvent> {
 private static final String itemID = "AXE_OF_THE_SHREDDED";
 	@Override
 	public boolean executeAbility(PlayerInteractEvent event) {
@@ -245,16 +245,6 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 				
 			
 		}.runTaskTimer(Main.getMain(),0, 2);
-	}
-	
-	
-
-	
-
-	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
-
-		return false;
 	}
 
 	@Override

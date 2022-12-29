@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 
-public class ChadIncoming implements AbilityManager {
+public class ChadIncoming implements AbilityManager<PlayerInteractEvent> {
     private static final ArrayList<SkyblockPlayer> players = new ArrayList<>();
 
     @Override
@@ -24,10 +24,6 @@ public class ChadIncoming implements AbilityManager {
         return false;
     }
 
-    @Override
-    public boolean executeAbility(EntityDamageByEntityEvent event) {
-        return false;
-    }
     public static ArrayList<SkyblockPlayer> getPlayers() {
         return players;
     }
