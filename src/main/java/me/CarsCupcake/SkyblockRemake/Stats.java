@@ -1,147 +1,49 @@
 package me.CarsCupcake.SkyblockRemake;
 
+import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 
 public enum Stats {
-    Health,
-    Defense,
-    Inteligence,
-    Speed,
-    Strength,
-    CritDamage,
-    CritChance,
-    AbilityDamage,
-    Ferocity,
-    MagicFind,
-    MiningSpeed,
-    MiningFortune,
-    Pristine,
-    AttackSpeed,
-    TrueDefense,
-    SeaCreatureChance,
-    FishingSpeed,
-    SwingRange;
-    public String getDataName(){
-
-        switch (this){
-            case Health -> {
-                return "health";
-            }
-            case Defense -> {
-                return "def";
-            }
-            case Inteligence -> {
-                return "mana";
-            }
-            case Speed -> {
-                return "speed";
-            }
-            case Strength -> {
-                return "strength";
-            }
-            case CritDamage -> {
-                return "cd";
-            }
-            case CritChance -> {
-                return "cc";
-            }
-            case AbilityDamage -> {
-                return "abilitydamage";
-            }
-            case Ferocity -> {
-                return "ferocity";
-            }
-            case MagicFind -> {
-                return "magicfind";
-            }
-            case MiningSpeed -> {
-                return "miningspeed";
-            }
-            case MiningFortune -> {
-                return "miningfortune";
-            }
-            case Pristine -> {
-                return "pristine";
-            }
-            case AttackSpeed -> {
-                return "as";
-            }
-            case TrueDefense -> {
-                return "truedefense";
-            }
-            case SeaCreatureChance -> {
-                return "seacreaturechance";
-            }
-            case FishingSpeed -> {
-                return "fishingspeed";
-            }
-            case SwingRange -> {
-                return "swingrange";
-            }
-            default -> throw new IndexOutOfBoundsException("This error should not be appering!, if it did you should check the Stats enum!");
-        }
-
+    Health("health", '❤', ChatColor.RED, "Health"),
+    Defense("def", '❈', ChatColor.GREEN, "Defense"),
+    Inteligence("mana", '✎', ChatColor.AQUA, "Inteligence"),
+    Speed("speed", '✦', ChatColor.WHITE, "Speed"),
+    Strength("strength", '❁', ChatColor.RED, "Strength"),
+    CritDamage("cd", '☠', ChatColor.BLUE, "Crit Damage"),
+    CritChance("cc", '☣', ChatColor.BLUE, "Crit Chance"),
+    AbilityDamage("abilitydamage", '๑', ChatColor.RED, "Ability Damage"),
+    Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity"),
+    MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find"),
+    MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed"),
+    MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune"),
+    Pristine("pristine", '✧', ChatColor.DARK_PURPLE, "Pristine"),
+    AttackSpeed("as", '⚔', ChatColor.YELLOW, "Attack Speed"),
+    TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense"),
+    SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance"),
+    FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed"),
+    SwingRange("swingrange", ' ', ChatColor.GOLD, "Swing Range");
+    @Getter
+    private final String dataName;
+    @Getter
+    private final char symbol;
+    @Getter
+    private final ChatColor color;
+    @Getter
+    private final String name;
+    Stats(String dataName, char symbol, ChatColor color, String name){
+        this.dataName = dataName;
+        this.symbol = symbol;
+        this.color = color;
+        this.name = name;
     }
     public NamespacedKey getKey(){
         return new NamespacedKey(Main.getMain(), getDataName());
     }
     public static Stats getFromDataName(String data){
-        switch (data){
-            case "health" ->{
-                return Health;
-            }
-            case "def"->{
-                return Defense;
-            }
-            case "mana" ->{
-                return Inteligence;
-            }
-            case "speed" ->{
-                return Speed;
-            }
-            case "strength" ->{
-                return Strength;
-            }
-            case "cd" ->{
-                return CritDamage;
-            }
-            case "cc" ->{
-                return CritChance;
-            }
-            case "abilitydamage" ->{
-                return AbilityDamage;
-            }
-            case "ferocity" ->{
-                return Ferocity;
-            }
-            case "magicfind" ->{
-                return MagicFind;
-            }
-            case "miningspeed" ->{
-                return MiningSpeed;
-            }
-            case "miningfortune" ->{
-                return MiningFortune;
-            }
-            case "pristine" ->{
-                return Pristine;
-            }
-            case "as" ->{
-                return AttackSpeed;
-            }
-            case "truedefense" ->{
-                return TrueDefense;
-            }
-            case "seacreaturechance" ->{
-                return SeaCreatureChance;
-            }
-            case "fishingspeed" ->{
-                return FishingSpeed;
-            }
-            case "swingrange" -> {
-                return SwingRange;
-            }
-            default -> throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
-        }
+        for(Stats s : Stats.values())
+            if(s.getDataName().equals(data))
+                return s;
+        throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
     }
 }

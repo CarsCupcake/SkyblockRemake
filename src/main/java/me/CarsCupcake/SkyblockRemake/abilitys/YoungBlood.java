@@ -83,7 +83,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -91,7 +91,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.YoungDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -108,7 +108,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -116,7 +116,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.YoungDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -133,7 +133,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -141,7 +141,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.YoungDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -158,7 +158,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -166,7 +166,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.YoungDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

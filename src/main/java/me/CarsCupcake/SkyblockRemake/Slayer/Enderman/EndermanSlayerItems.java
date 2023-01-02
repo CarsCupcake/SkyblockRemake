@@ -52,7 +52,7 @@ public class EndermanSlayerItems {
         encoder.setKey('v', new CraftingObject(NullSphere(), 16));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get(Material.STICK.toString()), 1));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

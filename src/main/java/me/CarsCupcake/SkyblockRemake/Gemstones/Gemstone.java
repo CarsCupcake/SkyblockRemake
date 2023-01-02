@@ -13,7 +13,7 @@ public class Gemstone extends ItemManager{
 	public GemstoneType gemType;
 	public GemState gemState;
 	public Gemstone(String name,String id,ArrayList<String> lore, GemstoneType type, GemState state, String texture) {
-		super(name, id, ItemType.Gemstone, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0, lore, null, null, null, 0, 0, 0, 0, state.getRarity(), texture, UUID.fromString("fbf14e46-d852-11ec-9d64-0242ac120002"));
+		super(name, id, ItemType.Gemstone, state.getRarity(), texture, UUID.fromString("fbf14e46-d852-11ec-9d64-0242ac120002"));
 		gemType = type;
 		gemState = state;
 		gemstones.put(id, this);

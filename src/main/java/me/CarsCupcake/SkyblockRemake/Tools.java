@@ -215,37 +215,93 @@ public class Tools {
 
 	 return mainpart1 /20;
  }
- 
 
- public static @NotNull ItemStack CustomHeadTexture(String url) {
-			 //, (short) 3
-	ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
 
-	    if (url == null || url.isEmpty())
-	        return skull;
+	public static @NotNull ItemStack CustomHeadTexture(String url) {
+		//, (short) 3
+		ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
 
-	    ItemMeta skullMeta = skull.getItemMeta();
-	    GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-	    byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
-	    profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-	    Field profileField = null;
+		if (url == null || url.isEmpty())
+			return skull;
 
-	    try {
-	        profileField = skullMeta.getClass().getDeclaredField("profile");
-	    } catch (NoSuchFieldException | SecurityException e) {
-	        e.printStackTrace();
-	    }
+		ItemMeta skullMeta = skull.getItemMeta();
+		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+		byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+		profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+		Field profileField = null;
 
-	    profileField.setAccessible(true);
+		try {
+			profileField = skullMeta.getClass().getDeclaredField("profile");
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
 
-	    try {
-	        profileField.set(skullMeta, profile);
-	    } catch (IllegalArgumentException | IllegalAccessException e) {
-	        e.printStackTrace();
-	    }
-	    skull.setItemMeta(skullMeta);
-	    return skull;
- }
+		profileField.setAccessible(true);
+
+		try {
+			profileField.set(skullMeta, profile);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		skull.setItemMeta(skullMeta);
+		return skull;
+	}
+	public static @NotNull ItemMeta CustomHeadTextureMeta(String url) {
+		//, (short) 3
+		ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+
+		if (url == null || url.isEmpty())
+			return skull.getItemMeta();
+
+		ItemMeta skullMeta = skull.getItemMeta();
+		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+		byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+		profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+		Field profileField = null;
+
+		try {
+			profileField = skullMeta.getClass().getDeclaredField("profile");
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		profileField.setAccessible(true);
+
+		try {
+			profileField.set(skullMeta, profile);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return skullMeta;
+	}
+	public static @NotNull ItemMeta CustomHeadTextureMeta(String url, String id) {
+		//, (short) 3
+		ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+
+		if (url == null || url.isEmpty())
+			return skull.getItemMeta();
+
+		ItemMeta skullMeta = skull.getItemMeta();
+		GameProfile profile = new GameProfile(UUID.fromString(id), null);
+		byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+		profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+		Field profileField = null;
+
+		try {
+			profileField = skullMeta.getClass().getDeclaredField("profile");
+		} catch (NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+
+		profileField.setAccessible(true);
+
+		try {
+			profileField.set(skullMeta, profile);
+		} catch (IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return skullMeta;
+	}
 	public static ItemStack getCustomTexturedHeadFromSkullValue(String value) {
 		ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
 		SkullMeta meta = (SkullMeta) head.getItemMeta();
@@ -260,6 +316,21 @@ public class Tools {
 		}
 		head.setItemMeta(meta);
 		return head;
+	}
+	public static ItemMeta getCustomTexturedHeadFromSkullValueMeta(String value) {
+		ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
+		SkullMeta meta = (SkullMeta) head.getItemMeta();
+		GameProfile profile = new GameProfile(UUID.randomUUID(), "");
+		profile.getProperties().put("textures", new Property("textures", value));
+		try {
+			Field profileField = meta.getClass().getDeclaredField("profile");
+			profileField.setAccessible(true);
+			profileField.set(meta, profile);
+		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+			e.printStackTrace();
+		}
+		head.setItemMeta(meta);
+		return meta;
 	}
  @SuppressWarnings("deprecation")
 public static ItemStack PlayerHeadTexture(String playerName) {
@@ -282,31 +353,33 @@ public static ItemStack PlayerHeadTexture(String playerName) {
  }
  
  public static ItemStack CustomHeadTexture(String url, String customUUID) {
-	ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
-	    if (url == null || url.isEmpty())
-	        return skull;
+	 //, (short) 3
+	 ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
 
-	    ItemMeta skullMeta = skull.getItemMeta();
-	    GameProfile profile = new GameProfile(UUID.fromString(customUUID), null);
-	    byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
-	    profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-	    Field profileField = null;
+	 if (url == null || url.isEmpty())
+		 return skull;
 
-	    try {
-	        profileField = skullMeta.getClass().getDeclaredField("profile");
-	    } catch (NoSuchFieldException | SecurityException e) {
-	        e.printStackTrace();
-	    }
+	 ItemMeta skullMeta = skull.getItemMeta();
+	 GameProfile profile = new GameProfile(UUID.fromString(customUUID), null);
+	 byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
+	 profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
+	 Field profileField = null;
 
-	    profileField.setAccessible(true);
+	 try {
+		 profileField = skullMeta.getClass().getDeclaredField("profile");
+	 } catch (NoSuchFieldException | SecurityException e) {
+		 e.printStackTrace();
+	 }
 
-	    try {
-	        profileField.set(skullMeta, profile);
-	    } catch (IllegalArgumentException | IllegalAccessException e) {
-	        e.printStackTrace();
-	    }
-	    skull.setItemMeta(skullMeta);
-	    return skull;
+	 profileField.setAccessible(true);
+
+	 try {
+		 profileField.set(skullMeta, profile);
+	 } catch (IllegalArgumentException | IllegalAccessException e) {
+		 e.printStackTrace();
+	 }
+	 skull.setItemMeta(skullMeta);
+	 return skull;
  }
  public static double[] rotatePoint2D(double[] arr, double angle) {
      angle = Math.toRadians(angle);

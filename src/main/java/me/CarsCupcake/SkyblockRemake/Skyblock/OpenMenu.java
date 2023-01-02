@@ -10,6 +10,7 @@ import java.util.List;
 
 import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInv;
+import me.CarsCupcake.SkyblockRemake.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -330,7 +331,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 		lore.add("§7View your equipment, stats,");
 		lore.add("§7and more!");
 		lore.add(" ");
-		lore.add(" §c❤ Health §f" + Main.playerhealthcalc(player));
+		/*lore.add(" §c❤ Health §f" + Main.playerhealthcalc(player));
 		lore.add(" §a❈ Defense §f" + Main.playerdefcalc(player));
 		lore.add(" §c❁ Strength §f" + Main.playerstrengthcalc(player));
 		int speed = (int) Main.playerspeedcalc(player);
@@ -348,7 +349,9 @@ public class OpenMenu implements CommandExecutor, Listener {
 		lore.add(" §c⫽ Ferocity §f" + Tools.addDigits(Main.playerferocitycalc(player)));
 		lore.add(" §c๑ Ability Damage §f" + Main.playerabilitydamagecalc(player) + "%");
 		lore.add(" §6☘ Mining Fortune §f" + Main.getPlayerMiningFortune(player));
-		lore.add(" §5✧ Pristine §f" + Main.playerpristine(player));
+		lore.add(" §5✧ Pristine §f" + Main.playerpristine(player));*/
+		for(Stats s : Stats.values())
+			lore.add(" " + s.getColor() + s.getSymbol() + " " + s.getName() + " §f" + Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), s));
 		lore.add(" ");
 		lore.add(ChatColor.YELLOW + "Click to view your profile!");
 		Smeta.setLore(lore);

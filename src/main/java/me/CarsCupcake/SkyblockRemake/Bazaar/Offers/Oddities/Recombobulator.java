@@ -13,7 +13,7 @@ public class Recombobulator extends BazaarOffer {
 
     @Override
     public ItemManager getItem() {
-        return Items.SkyblockItems.get("rocombobulator3000");
+        return Items.SkyblockItems.get("RECOMBOBULATOR_3000");
     }
     @Override
     public int[] getItemSizes(){

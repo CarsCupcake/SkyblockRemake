@@ -53,7 +53,140 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class Items {
 public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
+	private static AbilityLore terrorLore;
+	private static AbilityLore auroraLore;
+	
 	public static void init() {
+		ArrayList<String> abiliyLore = new ArrayList<>();
+		abiliyLore.add("§7Hitting enimies grants §c1 §7stack of");
+		abiliyLore.add("§6Hydra Strike §?§§7.");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7Each §6Hydra Strike §?§ §7stack makes your");
+		abiliyLore.add("§7arrows fly §c%speed%% §7faster, and ");
+		abiliyLore.add("§7deal §c+%damage%% §7more damage.");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7At §c10 §7stacks your bow fires §d2 ");
+		abiliyLore.add("§7extra arrows");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
+		abiliyLore.add("§7gaining a stack.");
+		terrorLore = new AbilityLore(abiliyLore);
+		UpdateFlag time = new UpdateFlag() {
+			@Override
+			public String getReplaceValue(SkyblockPlayer player, ItemStack itemStack) {
+				if(player == null)
+					return "4";
+				if(player.bonusAmounts == null)
+					return "4";
+				if(player.bonusAmounts.get(Bonuses.HydraStrike) == null)
+					return "4";
+				int pieces = player.bonusAmounts.get(Bonuses.HydraStrike);
+
+				if(pieces == 3)
+					return "7";
+				if(pieces >= 4)
+					return "10";
+
+				return "4";
+			}
+		};
+		terrorLore.addPlaceholder("%time%", time);
+		terrorLore.addPlaceholder("%speed%", (player, itemStack) -> {
+			if(player == null)
+				return "30";
+			if(player.bonusAmounts == null)
+				return "30";
+			if(player.bonusAmounts.get(Bonuses.HydraStrike) == null)
+				return "30";
+			int pieces = player.bonusAmounts.get(Bonuses.HydraStrike);
+
+			switch(pieces){
+				case 0,1,2 -> {
+					return "30";
+				}
+				case 3 -> {
+					return "35";
+				}
+				case 4 -> {
+					return "40";
+				}
+				default -> {
+					return "30";
+				}
+			}
+		});
+		terrorLore.addPlaceholder("%damage%", (player, itemStack) -> {
+			if(player == null)
+				return "10";
+			if(player.bonusAmounts == null)
+				return "10";
+			if(player.bonusAmounts.get(Bonuses.HydraStrike) == null)
+				return "10";
+			int pieces = player.bonusAmounts.get(Bonuses.HydraStrike);
+
+			switch(pieces){
+				case 0,1,2 -> {
+					return "10";
+				}
+				case 3 -> {
+					return "15";
+				}
+				case 4 -> {
+					return "20";
+				}
+				default -> {
+					return "10";
+				}
+			}
+		});
+
+		abiliyLore = new ArrayList<>();
+		abiliyLore.add("§7Gives you the ability to see the runic");
+		abiliyLore.add("§7affinity of enimies.");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7Using the proper §bRunic Spells §fof");
+		abiliyLore.add("§7the §6Aurora Staff §7grants 1 stack of");
+		abiliyLore.add("§6Arcane Vision Ѫ§f.");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7each §6Arcane Vision Ѫ §7stack grants");
+		abiliyLore.add("§7you §c+%dmg%% §7damage on your next Runic");
+		abiliyLore.add("§7Spell");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7At §c10 §7stacks the §6Aurora Staff");
+		abiliyLore.add("§7spells explode on hit.");
+		abiliyLore.add(" ");
+		abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
+		abiliyLore.add("§7gaining a stack.");
+		auroraLore = new AbilityLore(abiliyLore);
+		auroraLore.addPlaceholder("%time%", time);
+		auroraLore.addPlaceholder("%dmg%", (player, itemStack) -> {
+			if(player == null)
+				return "2";
+			if(player.bonusAmounts == null)
+				return "2";
+			if(player.bonusAmounts.get(Bonuses.HydraStrike) == null)
+				return "2";
+			int pieces = player.bonusAmounts.get(Bonuses.HydraStrike);
+
+			switch(pieces){
+				case 0,1,2 -> {
+					return "2";
+				}
+				case 3 -> {
+					return "3";
+				}
+				case 4 -> {
+					return "5";
+				}
+				default -> {
+					return "2";
+				}
+			}
+		});
+		
+		
+		
+		
 		initAllItems();
 		initBaseItems();
 		storm_boots();
@@ -63,7 +196,6 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	TestItem();
 	live_steal_book();
 	protection_book();
-	Bonemerang();
 	terminator();
 	jujuShortbow();
 	wither_googles();
@@ -74,7 +206,6 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	Titanium();
 	Gemstone_Gauntlet();
 	SwordOfTheUniverse();
-	CannonTestItem();
 	RoughRuby();
 	FlawedRuby();
 	FineRuby();
@@ -143,8 +274,6 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	AmberPolishedDrillEngine();
 	TakoPowerdDrillEngine();
 	
-	JerryChineGun();
-	
 	EnderDragonLegendary();
 	CarsCupcakeSpetial();
 	
@@ -158,13 +287,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	
 	Zoom();
 	raygun();
-	
-	Chopstick();
-	
-	TestHelmet();
-	TestChestplate();
-	TestLeggings();
-	TestBoots();
+
 	
 	ReaperMask();
 	
@@ -297,8 +420,8 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 	}
 
 	public static void raygun() {
-		ItemManager manager = new ItemManager("Raygun", "RAYGUN", ItemType.Bow, 99999999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, 0, 0, 0, 0, Material.BOW, ItemRarity.SPECIAL);
-		SkyblockItems.put(manager.itemID, manager);
+		ItemManager manager = new ItemManager("Raygun", "RAYGUN", ItemType.Bow, Material.BOW, ItemRarity.SPECIAL);
+		manager.setDamage(99999999d);
 	}
 	private static void lividDagger(){
 		ArrayList<String> abilityLore = new ArrayList<>();
@@ -387,7 +510,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Health, 40);
 		manager.setStat(Stats.Defense, 30);
 		manager.setStat(Stats.SeaCreatureChance, 1.5);
-		manager.setFullSetBonus(Bonuses.StaticCharge, true);
+		manager.setFullSetBonus(Bonuses.StaticCharge, "Static Charge",true);
 		manager.setNpcSellPrice(75000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%time%", StaticCharge.Placeholders.time.getFlag());
@@ -400,7 +523,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_NECKLACE", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void thunderHelmet(){
@@ -422,7 +545,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Defense, 170);
 		manager.setStat(Stats.Strength, 25);
 		manager.setStat(Stats.SeaCreatureChance, 4);
-		manager.setFullSetBonus(Bonuses.StaticCharge, true);
+		manager.setFullSetBonus(Bonuses.StaticCharge, "Static Charge",true);
 		manager.setNpcSellPrice(125000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%time%", StaticCharge.Placeholders.time.getFlag());
@@ -436,7 +559,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_HELMET", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void thunderChestplate(){
@@ -457,7 +580,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Defense, 230);
 		manager.setStat(Stats.Strength, 25);
 		manager.setStat(Stats.SeaCreatureChance, 4);
-		manager.setFullSetBonus(Bonuses.StaticCharge, true);
+		manager.setFullSetBonus(Bonuses.StaticCharge, "Static Charge",true);
 		manager.setNpcSellPrice(200000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%time%", StaticCharge.Placeholders.time.getFlag());
@@ -470,7 +593,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_CHESTPLATE", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void thunderLeggings(){
@@ -491,7 +614,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Defense, 200);
 		manager.setStat(Stats.Strength, 25);
 		manager.setStat(Stats.SeaCreatureChance, 4);
-		manager.setFullSetBonus(Bonuses.StaticCharge, true);
+		manager.setFullSetBonus(Bonuses.StaticCharge, "Static Charge",true);
 		manager.setNpcSellPrice(175000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%time%", StaticCharge.Placeholders.time.getFlag());
@@ -504,7 +627,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_LEGGINGS", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 	}
 	private static void thunderBoots(){
 		ArrayList<String> abilityLore = new ArrayList<>();
@@ -524,7 +647,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Defense, 150);
 		manager.setStat(Stats.Strength, 25);
 		manager.setStat(Stats.SeaCreatureChance, 4);
-		manager.setFullSetBonus(Bonuses.StaticCharge, true);
+		manager.setFullSetBonus(Bonuses.StaticCharge, "Static Charge", true);
 		manager.setNpcSellPrice(100000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%time%", StaticCharge.Placeholders.time.getFlag());
@@ -537,7 +660,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_BOOTS", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void lavaShell(){
@@ -638,7 +761,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Strength, 10);
 		manager.setStat(Stats.CritDamage, 35);
 		manager.setStat(Stats.SeaCreatureChance, 4.5);
-		manager.setFullSetBonus(Bonuses.MagmaLordArmor, true);
+		manager.setFullSetBonus(Bonuses.MagmaLordArmor, "Fireproof",true);
 		manager.setNpcSellPrice(250000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%prefix%", MagmaLordArmor.Placeholders.prefix.getFlag());
@@ -652,7 +775,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_HELMET", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void magmaLordChestplate(){
@@ -675,7 +798,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Strength, 10);
 		manager.setStat(Stats.CritDamage, 35);
 		manager.setStat(Stats.SeaCreatureChance, 4.5);
-		manager.setFullSetBonus(Bonuses.MagmaLordArmor, true);
+		manager.setFullSetBonus(Bonuses.MagmaLordArmor, "Fireproof",true);
 		manager.setNpcSellPrice(350000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%prefix%", MagmaLordArmor.Placeholders.prefix.getFlag());
@@ -689,7 +812,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_CHESTPLATE", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void magmaLordLeggings(){
@@ -711,7 +834,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Strength, 10);
 		manager.setStat(Stats.CritDamage, 35);
 		manager.setStat(Stats.SeaCreatureChance, 4.5);
-		manager.setFullSetBonus(Bonuses.MagmaLordArmor, true);
+		manager.setFullSetBonus(Bonuses.MagmaLordArmor,"Fireproof", true);
 		manager.setNpcSellPrice(350000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%prefix%", MagmaLordArmor.Placeholders.prefix.getFlag());
@@ -725,7 +848,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_LEGGINGS", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void magmaLordBoots(){
@@ -746,7 +869,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.Strength, 10);
 		manager.setStat(Stats.CritDamage, 35);
 		manager.setStat(Stats.SeaCreatureChance, 4.5);
-		manager.setFullSetBonus(Bonuses.MagmaLordArmor, true);
+		manager.setFullSetBonus(Bonuses.MagmaLordArmor, "Fireproof",true);
 		manager.setNpcSellPrice(250000);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%prefix%", MagmaLordArmor.Placeholders.prefix.getFlag());
@@ -760,7 +883,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_BOOTS", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 	private static void magmaLordGauntlet(){
@@ -781,7 +904,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		manager.setStat(Stats.CritDamage, 30);
 		manager.setStat(Stats.SeaCreatureChance, 1.5);
 		manager.setStat(Stats.Ferocity, 2);
-		manager.setFullSetBonus(Bonuses.MagmaLordArmor, true);
+		manager.setFullSetBonus(Bonuses.MagmaLordArmor, "Fireproof", true);
 		manager.setNpcSellPrice(93750);
 		AbilityLore lore = new AbilityLore(abilityLore);
 		lore.addPlaceholder("%prefix%", MagmaLordArmor.Placeholders.prefix.getFlag());
@@ -795,7 +918,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
 		SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_BOOTS", manager, 1);
 		shapedRecipe.setRecipe(encoder.encode());
-		SkyblockRecipe.recipes.put(shapedRecipe.getId(),shapedRecipe);
+		SkyblockRecipe.recipes.add(shapedRecipe);
 
 	}
 
@@ -1144,7 +1267,7 @@ public static void necrons_handle() {
 		ItemManager manager = new ItemManager("Warden Helmet", "WARDEN_HELMET" , ItemType.Helmet,null, "Brute Force", null,lore,300,0,0.3f, 10000,ItemRarity.LEGENDARY,"https://textures.minecraft.net/texture/aeb56444326b5f461449039752f26227a24b0679ac0778ac690a56f96a0c21ca" );
 		manager.setStat(Stats.Health,300);
 		manager.setStat(Stats.Defense,100);
-		manager.setFullSetBonus(Bonuses.BruteForce);
+		manager.setFullSetBonus(Bonuses.BruteForce, "Brute Force");
 		SkyblockItems.put(manager.itemID, manager);
 
 
@@ -1190,8 +1313,10 @@ public static ItemStack wither_googles() {
     
     skull.setItemMeta(skullMeta);
     
-    ItemManager manager = new ItemManager("Wither Googles", "wither_googles", ItemType.Helmet, 0, 0, 0, 300, 0, 0, 0, 0, 45f, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, ItemRarity.EPIC, "http://textures.minecraft.net/texture/37ceb8f0758e2d8ac49de6f977603c7bfc23fd82a8574810a45f5e97c6436d79");
-    SkyblockItems.put(manager.itemID, manager);
+    ItemManager manager = new ItemManager("Wither Googles", "wither_googles", ItemType.Helmet, ItemRarity.EPIC, "http://textures.minecraft.net/texture/37ceb8f0758e2d8ac49de6f977603c7bfc23fd82a8574810a45f5e97c6436d79");
+    manager.setStat(Stats.Inteligence, 300);
+	manager.setStat(Stats.AbilityDamage, 45);
+	SkyblockItems.put(manager.itemID, manager);
     return manager.getRawItemStack();
     
     
@@ -1220,8 +1345,10 @@ public static ItemStack storm_chestplate() {
    data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER, 250);
    data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER, 260);
    data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER, 120);
-   ItemManager manager = new ItemManager("Storm's Chestplate", "STORM_CHESTPLATE", ItemType.Chestplate, 0, 260, 120, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x1793C4), ItemRarity.LEGENDARY);
-	
+   ItemManager manager = new ItemManager("Storm's Chestplate", "STORM_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x1793C4), ItemRarity.LEGENDARY);
+   manager.setStat(Stats.Health, 260);
+   manager.setStat(Stats.Defense, 120);
+   manager.setStat(Stats.Inteligence, 250);
    item.setItemMeta(meta);
 
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
@@ -1243,8 +1370,11 @@ public static ItemStack storm_leggings() {
    data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER, 230);
    data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER, 105);
 	
-   ItemManager manager = new ItemManager("Storm's Leggings", "STORM_LEGGINGS", ItemType.Leggings, 0, 230, 105, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.LEATHER_LEGGINGS, Color.fromRGB(0x17A8C4), ItemRarity.LEGENDARY);
+   ItemManager manager = new ItemManager("Storm's Leggings", "STORM_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x17A8C4), ItemRarity.LEGENDARY);
 	manager.setDungeonItem(true);
+	manager.setStat(Stats.Health, 230);
+	manager.setStat(Stats.Defense, 105);
+	manager.setStat(Stats.Inteligence, 250);
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
    SkyblockItems.put(manager.itemID, manager);
@@ -1265,8 +1395,12 @@ public static ItemStack storm_boots() {
    data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER, 250);
    data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER, 260);
    data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER, 120);
-   ItemManager manager = new ItemManager("Storm's Boots", "STORM_BOOTS", ItemType.Boots, 0, 145, 65, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.LEATHER_BOOTS, Color.fromRGB(0x1CD4E4), ItemRarity.LEGENDARY);
+   ItemManager manager = new ItemManager("Storm's Boots", "STORM_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x1CD4E4), ItemRarity.LEGENDARY);
 	manager.setDungeonItem(true);
+	manager.setMaxStars(5);
+	manager.setStat(Stats.Health, 145);
+	manager.setStat(Stats.Defense, 65);
+	manager.setStat(Stats.Inteligence, 250);
    item.setItemMeta(meta);
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
@@ -1278,7 +1412,7 @@ public static ItemStack storm_boots() {
 
 public static ItemStack live_steal_book() {
 	
-	ItemManager manager = new ItemManager("Enchanted Book", "LIFE_STEAL", ItemType.EnchantBook, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
+	ItemManager manager = new ItemManager("Enchanted Book", "LIFE_STEAL", ItemType.EnchantBook, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
 	manager.addBaseEnchantment(SkyblockEnchants.LIFESTEAL, 1);
 	
 
@@ -1287,8 +1421,8 @@ public static ItemStack live_steal_book() {
 }
 public static ItemStack protection_book() {
 	
-	ItemManager manager = new ItemManager("Enchanted Book", "PROTECTION", ItemType.EnchantBook, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
-	manager.addBaseEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1);
+	ItemManager manager = new ItemManager("Enchanted Book", "PROTECTION", ItemType.EnchantBook, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
+	manager.addBaseEnchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 7);
 	
 
 	SkyblockItems.put("PROTECTION", manager);
@@ -1309,7 +1443,7 @@ public static ItemStack Foul_Flesh() {
 	ItemStack item = new ItemStack(Material.CHARCOAL);
 	ItemMeta meta =  item.getItemMeta();
 	meta.setDisplayName("Foul Flesh");
-	ItemManager manager = new ItemManager("Foul Flesh", "FOUL_FLESH", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.CHARCOAL, ItemRarity.RARE);
+	ItemManager manager = new ItemManager("Foul Flesh", "FOUL_FLESH", ItemType.Non, Material.CHARCOAL, ItemRarity.RARE);
 
 	SkyblockItems.put(manager.itemID, manager);
 	
@@ -1319,7 +1453,7 @@ public static ItemStack Foul_Flesh() {
 }
 public static ItemStack Pestilence_Rune() {
 	ItemStack item = Tools.CustomHeadTexture("https://textures.minecraft.net/texture/a8c4811395fbf7f620f05cc3175cef1515aaf775ba04a01045027f0693a90147", "a5f18638-c7df-11ec-9d64-0242ac120004");
-	ItemManager manager = new ItemManager("Pestilence Rune I", "PESTILENCE_RUNE", ItemType.Rune, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,  ItemRarity.RARE,"https://textures.minecraft.net/texture/a8c4811395fbf7f620f05cc3175cef1515aaf775ba04a01045027f0693a90147", UUID.fromString("a5f18638-c7df-11ec-9d64-0242ac120004"));
+	ItemManager manager = new ItemManager("Pestilence Rune I", "PESTILENCE_RUNE", ItemType.Rune, ItemRarity.RARE,"https://textures.minecraft.net/texture/a8c4811395fbf7f620f05cc3175cef1515aaf775ba04a01045027f0693a90147", UUID.fromString("a5f18638-c7df-11ec-9d64-0242ac120004"));
 
 	ItemMeta meta =  item.getItemMeta();
 	meta.setDisplayName("Pestilence Rune I");
@@ -1359,7 +1493,8 @@ public static ItemStack Beheaded_Horror() {
 	meta.setDisplayName("Beheaded Horror");
 	
 
-	ItemManager manager = new ItemManager("Beheaded Horror", "BEHEADED_HORROR", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,  ItemRarity.RARE,"https://textures.minecraft.net/texture/dbad99ed3c820b7978190ad08a934a68dfa90d9986825da1c97f6f21f49ad626");
+	ItemManager manager = new ItemManager("Beheaded Horror", "BEHEADED_HORROR", ItemType.Non, ItemRarity.RARE, 
+			"https://textures.minecraft.net/texture/dbad99ed3c820b7978190ad08a934a68dfa90d9986825da1c97f6f21f49ad626");
 
 	SkyblockItems.put(manager.itemID, manager);
 	
@@ -1419,7 +1554,12 @@ public static ItemStack juju_shortbow() {
 	data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.INTEGER, 110);
 	item.setItemMeta(meta);
 
-	ItemManager manager = new ItemManager("Juju Shortbow", "JUJU_SHORTBOW", ItemType.Bow, 310, 0, 0, 0, 0, 50, 10, 110, 0, 0, 0,0,0,0,0,0, null, "Shortbow", "shortbow", null, 0, 0, 0, 0, Material.BOW, ItemRarity.EPIC);
+	ItemManager manager = new ItemManager("Juju Shortbow", "JUJU_SHORTBOW", ItemType.Bow, Material.BOW, ItemRarity.EPIC);
+	manager.setStat(Stats.Strength, 40);
+	manager.setStat(Stats.CritChance, 10);
+	manager.setStat(Stats.CritDamage, 110);
+	manager.setDamage(310);
+	manager.customDataContainer.put("ability", "shortbow");
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
@@ -1439,7 +1579,7 @@ public static ItemStack SkyblockMenu() {
 	ItemMeta meta =  item.getItemMeta();
 	meta.setDisplayName("§eSkyblock Menu");
 	meta.getPersistentDataContainer().set(NamespacedKey.minecraft("ability"), PersistentDataType.STRING, "skyblockmenu");item.setItemMeta(meta);
-	ItemManager manager = new ItemManager("Skyblock Menu", "SKYBLOCK_MENU", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,null, "Open Menu", "skyblockmenu", null, 0, 0, 0, 0, Material.NETHER_STAR, ItemRarity.SPECIAL);
+	ItemManager manager = new ItemManager("Skyblock Menu", "SKYBLOCK_MENU", ItemType.Non, Material.NETHER_STAR, ItemRarity.SPECIAL);
 	SkyblockItems.put(manager.itemID, manager);
 
 	
@@ -1448,7 +1588,7 @@ public static ItemStack SkyblockMenu() {
 	return manager.getRawItemStack();
 }
 public static ItemStack MagicalMap() {
-	ItemManager manager = new ItemManager("Magical Map", "MAGICAL_MAP", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, null, "Open Menu", "skyblockmenu", null, 0, 0, 0, 0, Material.FILLED_MAP, ItemRarity.DIVINE);
+	ItemManager manager = new ItemManager("Magical Map", "MAGICAL_MAP", ItemType.Non, Material.FILLED_MAP, ItemRarity.DIVINE);
 	SkyblockItems.put(manager.itemID, manager);
 
 	
@@ -1481,22 +1621,17 @@ public static ItemStack TwilightArrowPoison() {
 }
 
 public static ItemStack terminator() {
-	ItemStack item = new ItemStack(Material.BOW);
-	ItemMeta meta =  item.getItemMeta();
-    PersistentDataContainer data = meta.getPersistentDataContainer();
-    
-	meta.setDisplayName("§6Terminator");
-	
-	ItemManager manager = new ItemManager("Terminator", "terminator", ItemType.Bow, 310, 0, 0, 0, 0, 50, 0, 250, 0, 0, 0,0,0,0,0,0, null, "Shortbow", "shortbow", null, 0, 0, 0, 0, Material.BOW, ItemRarity.LEGENDARY);
 
-	data.set(NamespacedKey.minecraft("ability"), PersistentDataType.STRING, "shortbow");
-	data.set(NamespacedKey.minecraft("shoottype"), PersistentDataType.STRING, "term");
-	data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "310");
-	data.set(new NamespacedKey(Main.getMain(), "strenght"), PersistentDataType.INTEGER, 50);
-	data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.INTEGER, 250);
-	data.set(new NamespacedKey(Main.getMain(), "atspeed"), PersistentDataType.INTEGER, 250);
-	item.setItemMeta(meta);
+    
+
+	
+	ItemManager manager = new ItemManager("Terminator", "terminator", ItemType.Bow, Material.BOW, ItemRarity.LEGENDARY);
+	manager.setDamage(310);
+	manager.setStat(Stats.Strength, 50);
+	manager.setStat(Stats.CritDamage, 250);
+	manager.setStat(Stats.AttackSpeed, 40);
 	manager.customDataContainer.put("shoottype", "term");
+	manager.customDataContainer.put("ability", "shortbow");
 
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
@@ -1637,14 +1772,18 @@ public static ItemStack Hyperion() {
 	lore.add("§7shield scroll ability reducing");
 	lore.add("§7damage taken and granting an");
 	lore.add("§7absorption shield for §e5 §7seconds.");
-	ItemManager manager = new ItemManager("Hyperion","hyperion", ItemType.Sword,260, 0, 0, 250, 0, 150, 0, 0, 0, 30, 0,0,0,0,0,0, null,
-			"Wither Impact", "hyperion", lore, 300, 0, 0.3f, 10000, Material.IRON_SWORD,ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Hyperion","HYPERION", ItemType.Sword, Material.IRON_SWORD,ItemRarity.LEGENDARY);
+	manager.setDamage(260);
+	manager.setStat(Stats.Inteligence, 350);
+	manager.setStat(Stats.Strength, 150);
+	manager.setStat(Stats.Ferocity, 30);
 	manager.setAbilityLore(new AbilityLore(lore, "%dmg%", new Bundle<>(10000d, 0.3)));
 	manager.getAbilityLore().addFlag(AbilityLore.LoreFlags.AsShortInteger);
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.setAbility(new Hyperion_WitherImpact(), AbilityType.RightClick);
-	SkyblockItems.put("hyperion", manager);
+	manager.setMaxStars(5);
+	manager.setAbility(new Hyperion_WitherImpact(), AbilityType.RightClick, "Wither Impact", 300, 0);
+	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 
@@ -1656,9 +1795,13 @@ public static ItemStack TestItem() {
 	ArrayList<String> abilitylore = new ArrayList<>();
 	abilitylore.add("Its the ultimate test");
 	
-	ItemManager manager = new ItemManager("Test Item","debug", ItemType.Sword,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			1,1,1,1,1, lore, "Test", "lolxD", abilitylore, 69, 420, 0f, 0, Material.STICK,ItemRarity.SUPREME);
+	ItemManager manager = new ItemManager("Test Item","debug", ItemType.Sword, Material.STICK,ItemRarity.SUPREME);
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));
+	manager.setUnstackeble(true);
+	manager.setDamage(1);
+	manager.setMaxStars(15);
+	for(Stats s : Stats.values())
+		manager.setStat(s, 1);
 	manager.setAttributable(true);
 	manager.setAbility(new AbilityManager<PlayerInteractEvent>() {
 		@Override
@@ -1666,26 +1809,13 @@ public static ItemStack TestItem() {
 			return false;
 		}
 
-	}, AbilityType.RightClick);
+	}, AbilityType.RightClick, "Test", 69, 420);
+	manager.setAbilityLore(new AbilityLore(abilitylore));
+	manager.setLore(lore);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
-public static ItemStack Bonemerang() {
-	
-	
-	ArrayList<String> abilitylore = new ArrayList<>();
-	abilitylore.add("§7Throw bone a short distance,");
-	abilitylore.add("§7dealing the damage an arrow");
-	abilitylore.add("§7would.");
-	abilitylore.add("");
-	abilitylore.add("§7Deals §cdouble damage §7when");
-	abilitylore.add("§7coming back. Pierces up to §e10");
-	abilitylore.add("§7foes");
-	
-	ItemManager manager = new ItemManager("Bonemerang","bonemerang", ItemType.Bow,270, 0, 0, 0, 0, 130, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Swing", "swing", abilitylore, 0, 0, 0f, 0, Material.BONE,ItemRarity.LEGENDARY);
-	SkyblockItems.put(manager.itemID, manager);
-	return manager.getRawItemStack();
-}
+
 
 public static ItemStack HotPotatoBook() {
 	ArrayList<String> lore = new ArrayList<>();
@@ -1693,36 +1823,43 @@ public static ItemStack HotPotatoBook() {
 	lore.add("§7with a weapon or armor piece to");
 	lore.add("§7gain a small but permanent stat");
 	lore.add("§7boost!");
-	ItemManager manager = new ItemManager("§5Hot Potato Book","HOT_POTATO_BOOK", ItemType.PotatoBook,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, lore, null, null, null, 0, 0, 0f, 0, Material.BOOK, ItemRarity.EPIC);
+	ItemManager manager = new ItemManager("§5Hot Potato Book","HOT_POTATO_BOOK", ItemType.PotatoBook, Material.BOOK, ItemRarity.EPIC);
 	manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
-	manager.customDataContainer.put(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+	manager.setUnstackeble(true);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack Recombobulator3000() {
-	ItemManager manager = new ItemManager("Recombobulator 3000", "rocombobulator3000", ItemType.Recom, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/57ccd36dc8f72adcb1f8c8e61ee82cd96ead140cf2a16a1366be9b5a8e3cc3fc");
-SkyblockItems.put(manager.itemID, manager);
+	ItemManager manager = new ItemManager("Recombobulator 3000", "RECOMBOBULATOR_3000", ItemType.Recom, ItemRarity.LEGENDARY, 
+			"https://textures.minecraft.net/texture/57ccd36dc8f72adcb1f8c8e61ee82cd96ead140cf2a16a1366be9b5a8e3cc3fc");
+	manager.setUnstackeble(true);
+	manager.setMaxStars(5);
+	SkyblockItems.put(manager.itemID, manager);
 return manager.getRawItemStack();
 }
 
 public static ItemStack Divans_Drill() {
-	ItemManager manager = new ItemManager("Divan's Drill", "DIVAN_DRILL", ItemType.Drill, 70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10,1800,150,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_SHARD, ItemRarity.MYTHIC);
-	manager.customDataContainer.put(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+	ItemManager manager = new ItemManager("Divan's Drill", "DIVAN_DRILL", ItemType.Drill,Material.PRISMARINE_SHARD, ItemRarity.MYTHIC);
+	manager.setUnstackeble(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Mining));
+	manager.setStat(Stats.MiningSpeed, 1800);
+	manager.setStat(Stats.MiningFortune, 150);
+	manager.setBreakingPower(10);
+	manager.setDamage(70);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack Mithril() {
-	ItemManager manager = new ItemManager("Mithril", "MITHRIL_ORE", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0,Material.PRISMARINE_CRYSTALS, ItemRarity.COMMON);
+	ItemManager manager = new ItemManager("Mithril", "MITHRIL_ORE", ItemType.Non, Material.PRISMARINE_CRYSTALS, ItemRarity.COMMON);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.createNewItemStack();
 }
 public static ItemStack Titanium() {
-	ItemManager manager = new ItemManager("Titanium", "TITANIUM", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, ItemRarity.RARE, "https://textures.minecraft.net/texture/a14c6e41a762d37863a9fff6888c738905b92cc6c3898892a38dfdfe2ac4bf", UUID.fromString("da5bd3bc-d2d2-11ec-9d64-0242ac120002"));
+	ItemManager manager = new ItemManager("Titanium", "TITANIUM", ItemType.Non, ItemRarity.RARE, "https://textures.minecraft.net/texture/a14c6e41a762d37863a9fff6888c738905b92cc6c3898892a38dfdfe2ac4bf", UUID.fromString("da5bd3bc-d2d2-11ec-9d64-0242ac120002"));
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
@@ -1737,7 +1874,7 @@ public static ItemStack Gemstone_Gauntlet() {
 	lore.add("§eCan be used as both a §c sword §eand");
 	lore.add("§ea §9pickaxe");
 	
-	ItemManager manager = new ItemManager("Gemstone Gauntlet", "GEMSTONE_GAUNTLET", ItemType.Gauntlet, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,9,1600,0,0,0, lore, null, null, null, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/7bf01c198f6e16965e230235cd22a5a9f4a40e40941234478948ff9a56e51775");
+	ItemManager manager = new ItemManager("Gemstone Gauntlet", "GEMSTONE_GAUNTLET", ItemType.Gauntlet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/7bf01c198f6e16965e230235cd22a5a9f4a40e40941234478948ff9a56e51775");
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
@@ -1746,57 +1883,65 @@ public static ItemStack Gemstone_Gauntlet() {
 	
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
 	manager.addSlot(new GemstoneSlot(SlotType.Amethyst));
+	manager.setDamage(200);
+	manager.setStat(Stats.MiningSpeed, 1600);
+	manager.setBreakingPower(9);
+	manager.setUnstackeble(true);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack SwordOfTheUniverse() {
-	ItemManager manager = new ItemManager("Sword of the Universe", "NOVA_SWORD", ItemType.Sword,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_SWORD, ItemRarity.SPECIAL);
-	manager.addSlot(new GemstoneSlot(SlotType.Ruby));
+	ItemManager manager = new ItemManager("Sword of the Universe", "NOVA_SWORD", ItemType.Sword, Material.GOLDEN_SWORD, ItemRarity.SPECIAL);
 	manager.setDamage(Double.POSITIVE_INFINITY);
-	SkyblockItems.put(manager.itemID, manager);
-	return manager.getRawItemStack();
-}
-public static ItemStack CannonTestItem() {
-	ArrayList<String> abilityLore = new ArrayList<>();
-	abilityLore.add("§7Shoots a Cannonball");
-	ItemManager manager = new ItemManager("Totaly a Cannon", "CANNON", ItemType.Bow,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Cannon Ball", "cannon", abilityLore, 0, 0, 0, 0, Material.STICK, ItemRarity.SPECIAL);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 
 public static ItemStack SorrowHelmet() {
-	ItemManager manager = new ItemManager("Sorrow Helmet", "SORROW_HELMET", ItemType.Helmet, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 50, 20, 0, 0,null, null, null, null, 0, 0, 0, 0, Material.CHAINMAIL_HELMET, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Sorrow Helmet", "SORROW_HELMET", ItemType.Helmet, Material.CHAINMAIL_HELMET, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));
-	manager.setStat(Stats.TrueDefense, 100);
+	manager.setStat(Stats.MiningSpeed, 50);
+	manager.setStat(Stats.MagicFind, 5);
+	manager.setStat(Stats.MiningFortune, 20);
+	manager.setStat(Stats.TrueDefense, 50);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack SorrowChestplate() {
-	ItemManager manager = new ItemManager("Sorrow Chestplate", "SORROW_CHESTPLATE", ItemType.Chestplate, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 50, 20, 0, 0,null, null, null, null, 0, 0, 0, 0, Material.CHAINMAIL_CHESTPLATE, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Sorrow Chestplate", "SORROW_CHESTPLATE", ItemType.Chestplate, Material.CHAINMAIL_CHESTPLATE, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));
-	manager.setStat(Stats.TrueDefense, 200);
+	manager.setStat(Stats.TrueDefense, 80);
+	manager.setStat(Stats.MiningFortune, 20);
+	manager.setStat(Stats.MiningSpeed, 50);
+	manager.setStat(Stats.MagicFind, 5);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack SorrowLeggings() {
-	ItemManager manager = new ItemManager("Sorrow Leggings", "SORROW_LEGGINGS", ItemType.Leggings, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 50, 20, 0,0, null, null, null, null, 0, 0, 0, 0, Material.CHAINMAIL_LEGGINGS, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Sorrow Leggings", "SORROW_LEGGINGS", ItemType.Leggings, Material.CHAINMAIL_LEGGINGS, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));
-	manager.setStat(Stats.TrueDefense, 150);
+	manager.setStat(Stats.TrueDefense, 70);
+	manager.setStat(Stats.MagicFind, 5);
+	manager.setStat(Stats.MiningSpeed, 50);
+	manager.setStat(Stats.MiningFortune, 20);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack SorrowBoots() {
-	ItemManager manager = new ItemManager("Sorrow Boots", "SORROW_Boots", ItemType.Boots, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 50, 20, 0, 0,null, null, null, null, 0, 0, 0, 0, Material.CHAINMAIL_BOOTS, ItemRarity.LEGENDARY);
-	manager.setStat(Stats.TrueDefense, 75);
+	ItemManager manager = new ItemManager("Sorrow Boots", "SORROW_Boots", ItemType.Boots, Material.CHAINMAIL_BOOTS, ItemRarity.LEGENDARY);
+	manager.setStat(Stats.TrueDefense, 40);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));
+	manager.setStat(Stats.MiningFortune, 20);
+	manager.setStat(Stats.MiningSpeed, 50);
+	manager.setStat(Stats.MagicFind, 5);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
@@ -1804,42 +1949,59 @@ public static ItemStack SorrowBoots() {
 
 
 public static ItemStack DivanHelmet() {
-	ItemManager manager = new ItemManager("Helmet of Divan", "DIVAN_HELMET", ItemType.Helmet, 0, 100, 130, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 30, 0, 0,null, null, null, null, 0, 0, 0, 0, ItemRarity.LEGENDARY, "http://textures.minecraft.net/texture/83f69ef27f3120a51050e6be66a0e3f8e89af888d4806716bf86f590da638317");
+	ItemManager manager = new ItemManager("Helmet of Divan", "DIVAN_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "http://textures.minecraft.net/texture/83f69ef27f3120a51050e6be66a0e3f8e89af888d4806716bf86f590da638317");
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Topaz));
+	manager.setStat(Stats.MiningSpeed, 80);
+	manager.setStat(Stats.MiningFortune, 30);
+	manager.setStat(Stats.Health, 100);
+	manager.setStat(Stats.Defense, 130);
+	manager.setUnstackeble(true);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack DivanChestplate() {
-	ItemManager manager = new ItemManager("Chestplate of Divan", "DIVAN_CHESTPLATE", ItemType.Chestplate, 0, 200, 130, 0, 0, 0, 0, 0, 0, 0, 5, 0, 80, 30, 0, 0,null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Chestplate of Divan", "DIVAN_CHESTPLATE", ItemType.Chestplate, Material.GOLDEN_CHESTPLATE, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Topaz));
+	manager.setStat(Stats.MiningSpeed, 80);
+	manager.setStat(Stats.MiningFortune, 30);
+	manager.setStat(Stats.Defense, 130);
+	manager.setStat(Stats.Health, 200);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack DivanLeggings() {
-	ItemManager manager = new ItemManager("Leggings of Divan", "DIVAN_LEGGINGS", ItemType.Leggings, 0, 130, 170, 0, 0, 0, 0, 0, 0, 0, 5, 0, 80, 30, 0,0, null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_LEGGINGS, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Leggings of Divan", "DIVAN_LEGGINGS", ItemType.Leggings,Material.GOLDEN_LEGGINGS, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Topaz));
+	manager.setStat(Stats.MiningSpeed, 80);
+	manager.setStat(Stats.MiningFortune, 30);
+	manager.setStat(Stats.Health, 130);
+	manager.setStat(Stats.Defense, 170);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
 public static ItemStack DivanBoots() {
-	ItemManager manager = new ItemManager("Boots of Divan", "DIVAN_Boots", ItemType.Boots, 0, 80, 110, 0, 0, 0, 0, 0, 0, 0, 5, 0, 80, 30, 0, 0,null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_BOOTS, ItemRarity.LEGENDARY);
+	ItemManager manager = new ItemManager("Boots of Divan", "DIVAN_Boots", ItemType.Boots, Material.GOLDEN_BOOTS, ItemRarity.LEGENDARY);
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Amber));
 	manager.addSlot(new GemstoneSlot(SlotType.Jade));
 	manager.addSlot(new GemstoneSlot(SlotType.Topaz));
+	manager.setStat(Stats.MiningSpeed, 80);
+	manager.setStat(Stats.MiningFortune, 30);
+	manager.setStat(Stats.Defense, 110);
+	manager.setStat(Stats.Health, 80);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
@@ -1847,24 +2009,15 @@ public static ItemStack DivanBoots() {
 
 
 public static ItemStack ManaFluxPowerOrb() {
-	ItemManager manager = new ItemManager("Mana Flux Power Orb", "MANAFLUX", ItemType.Non, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, null, "Orb", "orb", null, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/1d5a09884cb83ef5c908dddd385f246fefdee221712c010177f54376da238fdd");
+	ItemManager manager = new ItemManager("Mana Flux Power Orb", "MANAFLUX", ItemType.Non, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/1d5a09884cb83ef5c908dddd385f246fefdee221712c010177f54376da238fdd");
 
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
-public static ItemStack JerryChineGun() {
-	ArrayList<String> abilityLore = new ArrayList<>();
-	abilityLore.add("§7Shoots a jerry bullet, dealing");
-	abilityLore.add("§c500 §7damage on impact and");
-	abilityLore.add("§7knocking you back.");
-	ItemManager manager = new ItemManager("Jerry-chine Gun", "JERRY_STAFF", ItemType.Sword, 80, 0, 0, 200, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, null, "Rapid-Fire", "jerrystaff", abilityLore, 30, 0, 0, 500, Material.GOLDEN_HORSE_ARMOR ,ItemRarity.EPIC);
-	manager.customDataContainer.put(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-	SkyblockItems.put(manager.itemID, manager);
-	return manager.getRawItemStack();
-}
+
 
 public static ItemStack Volta() {
-	ItemManager manager = new ItemManager("Volta", "VOLTA", ItemType.DrillFuel, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, null, null, null, null, 0, 0, 0, 0, ItemRarity.RARE, "https://textures.minecraft.net/texture/7b3328d3e9d710420322555b17239307f12270adf81bf63afc50faa04b5c06e1", UUID.fromString("d0f23c32-d9dd-11ec-9d64-0242ac120002"));
+	ItemManager manager = new ItemManager("Volta", "VOLTA", ItemType.DrillFuel, ItemRarity.RARE, "https://textures.minecraft.net/texture/7b3328d3e9d710420322555b17239307f12270adf81bf63afc50faa04b5c06e1", UUID.fromString("d0f23c32-d9dd-11ec-9d64-0242ac120002"));
 manager.customDataContainer.put("refuel", "10000");
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
@@ -2393,7 +2546,10 @@ public static ItemStack PerfectTopaz() {
 }
 
 public static ItemStack Zoom() {
-	ItemManager manager = new ItemManager("Zoom", "ZOOM", ItemType.Pickaxe, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3000, 0, 0, 0, null, null, null, null, 0, 0, 0, 0, Material.WOODEN_PICKAXE, ItemRarity.SPECIAL);
+	ItemManager manager = new ItemManager("Zoom", "ZOOM", ItemType.Pickaxe, Material.WOODEN_PICKAXE, ItemRarity.SPECIAL);
+	manager.setStat(Stats.MiningSpeed, 3000);
+	manager.setDamage(30);
+	manager.setBreakingPower(10);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 }
@@ -2401,8 +2557,11 @@ public static ItemStack Zoom() {
 
 public static ItemStack TestAccessory() {
 	
-	ItemManager manager = new ItemManager("Test Accesory","ADMIN_ACCESORY", ItemType.Accessory,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1,1,1,1,1, null, null, null, null, 0, 0, 0f, 0, Material.NETHER_STAR,ItemRarity.SPECIAL);
+	ItemManager manager = new ItemManager("Test Accesory","ADMIN_ACCESORY", ItemType.Accessory, Material.NETHER_STAR,ItemRarity.SPECIAL);
 	manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Combat));manager.addSlot(new GemstoneSlot(SlotType.Defensive));manager.addSlot(new GemstoneSlot(SlotType.Mining));manager.addSlot(new GemstoneSlot(SlotType.Offensive));manager.addSlot(new GemstoneSlot(SlotType.Universal));manager.addSlot(new GemstoneSlot(SlotType.Universal));
+	for(Stats s : Stats.values())
+		manager.setStat(s, 1);
+
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 	
@@ -2412,8 +2571,8 @@ public static ItemStack RoyalPigeon() {
 	ArrayList<String> abilitylore = new ArrayList<>();
 	abilitylore.add("§7Reach out to the King and open");
 	abilitylore.add("§7the Commissions menu");
-	ItemManager manager = new ItemManager("Royal Pigeon","ROYAL_PIGEON", ItemType.Non,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Seek The King", "OPEN_COMMISSIONS", abilitylore, 0, 5, 0f, 0, ItemRarity.LEGENDARY,"http://textures.minecraft.net/texture/b7ea4c017e3456cf09a5c263f34d3cc5f41577b74d60f6f8196c60e07f8c5a96" );
-	manager.setAbility(new SeekTheKing(), AbilityType.RightClick);
+	ItemManager manager = new ItemManager("Royal Pigeon","ROYAL_PIGEON", ItemType.Non, ItemRarity.LEGENDARY,"http://textures.minecraft.net/texture/b7ea4c017e3456cf09a5c263f34d3cc5f41577b74d60f6f8196c60e07f8c5a96" );
+	manager.setAbility(new SeekTheKing(), AbilityType.RightClick, "Seek The King", 0, 5);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 	
@@ -2423,55 +2582,17 @@ public static ItemStack InsaneDisc() {
 	ArrayList<String> abilitylore = new ArrayList<>();
 	abilitylore.add("§7Just Yibe~");
 
-	ItemManager manager = new ItemManager("Insane Disc","INSANE_DISC", ItemType.Non,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Play Music", "PLAY_MUSIC", abilitylore, 0, 5, 0f, 0, Material.MUSIC_DISC_BLOCKS ,ItemRarity.SPECIAL);
-	manager.setAbility(new SeekTheKing(), AbilityType.RightClick);
+	ItemManager manager = new ItemManager("Insane Disc","INSANE_DISC", ItemType.Non, Material.MUSIC_DISC_BLOCKS ,ItemRarity.SPECIAL);
+	manager.setAbility(new SeekTheKing(), AbilityType.RightClick, "Play Music", 0, 0);
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
 	
 
 }
 
-public static void Chopstick() {
-	ArrayList<String> lore = new ArrayList<>();
-	lore.add("§7Requested by 1mod2#3872");
-	ArrayList<String> abilityLore = new ArrayList<>();
-	abilityLore.add("§7Shot §a2 §7Arrow after 5 hits,");
-	abilityLore.add("§7in the direction of the §a2 nearest");
-	abilityLore.add("§7Enimies");
-	ItemManager manager = new ItemManager("Chopstick", "CHOPSTICK", ItemType.Sword, 300, 0, 0, 0, 0, 70, -50, 75, 0, 0, 0, 0, 0, 0, 0, 0, lore, "United Chopstick", "CHOPSTICK", abilityLore, 0, 0, 0, 0, Material.STICK, ItemRarity.EPIC);
-	manager.setAbility(new UntiedChopstick(), AbilityType.EntityHit);
-	SkyblockItems.put(manager.itemID, manager);
-}
 
 
-public static void TestHelmet() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Is just for debuging...");
-	ItemManager manager = new ItemManager("Test Helmet","TEST_HELMET", ItemType.Helmet,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Debuging", "debuglol", abiliyLore, 0, 0, 0, 0, Material.LEATHER_HELMET, ItemRarity.SPECIAL);
-	manager.setFullSetBonus(Bonuses.TestBonus);
-	SkyblockItems.put(manager.itemID, manager);
-}
-public static void TestChestplate() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Is just for debuging...");
-	ItemManager manager = new ItemManager("Test Chestplate","TEST_CHESTPLATE", ItemType.Chestplate,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Debuging", "debuglol", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE, ItemRarity.SPECIAL);
-	manager.setFullSetBonus(Bonuses.TestBonus);
-	SkyblockItems.put(manager.itemID, manager);
-}
-public static void TestLeggings() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Is just for debuging...");
-	ItemManager manager = new ItemManager("Test Leggings","TEST_LEGGINGS", ItemType.Leggings,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Debuging", "debuglol", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS, ItemRarity.SPECIAL);
-	manager.setFullSetBonus(Bonuses.TestBonus);
-	SkyblockItems.put(manager.itemID, manager);
-}
-public static void TestBoots() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Is just for debuging...");
-	ItemManager manager = new ItemManager("Test Boots","TEST_BOOTS", ItemType.Boots,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Debuging", "debuglol", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS, ItemRarity.SPECIAL);
-	manager.setFullSetBonus(Bonuses.TestBonus);
-	SkyblockItems.put(manager.itemID, manager);
-}
+
 
 public static void ReaperMask() {
 	ArrayList<String> abiliyLore = new ArrayList<>();
@@ -2484,10 +2605,16 @@ public static void ReaperMask() {
 	abiliyLore.add("§7- Upgrades Zombie Armor");
 	abiliyLore.add("§7effect to trigger on all");
 	abiliyLore.add("§7hits.");
-	ItemManager manager = new ItemManager("Reaper Mask","REAPER_MASK", ItemType.Helmet,0, 150, 100, 100, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Disgusting Healing", "Disgusting Healing", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/d8bee23b5c726ae8e3d021e8b4f7525619ab102a4e04be983b61414349aaac67");
-	manager.setFullSetBonus(Bonuses.DisgustingHealing);
+	ItemManager manager = new ItemManager("Reaper Mask","REAPER_MASK", ItemType.Helmet, ItemRarity.LEGENDARY,
+	 "https://textures.minecraft.net/texture/d8bee23b5c726ae8e3d021e8b4f7525619ab102a4e04be983b61414349aaac67");
+	manager.setFullSetBonus(Bonuses.DisgustingHealing, "Disgusting Healing");
 	manager.addSlot(new GemstoneSlot(SlotType.Ruby));
 	manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
+	manager.setStat(Stats.Health, 150);
+	manager.setStat(Stats.Defense, 100);
+	manager.setStat(Stats.Inteligence, 100);
+	manager.setMaxStars(5);
+	manager.setUnstackeble(true);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -2506,10 +2633,16 @@ public static void CrimsonHelmet() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Crimson Helmet","CRIMSON_HELMET", ItemType.Helmet,0, 160, 50, 15, 0, 30, 0, 20, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/5051c83d9ebf69013f1ec8c9efc979ec2d925a921cc877ff64abe09aadd2f6cc");
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	ItemManager manager = new ItemManager("Crimson Helmet","CRIMSON_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/5051c83d9ebf69013f1ec8c9efc979ec2d925a921cc877ff64abe09aadd2f6cc");
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus",true);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setStat(Stats.Health, 160);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 15);
+	manager.setStat(Stats.CritDamage, 20);
+	manager.setStat(Stats.Strength, 30);
 	AbilityLore lore = new AbilityLore(abiliyLore);
 	lore.addPlaceholder("%time%", new UpdateFlag() {
 		@Override
@@ -2534,35 +2667,62 @@ public static void CrimsonHelmet() {
 	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Hot Crimson Helmet","HOT_CRIMSON_HELMET", ItemType.Helmet,0, 202, 63, 19, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bbe6d66770a61bf56e6d4b476922b1c3b3dc9f78a26e56b36cd965b7ab20b417");
-	manager.setFullSetBonus(Bonuses.Dominus, true);
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.setAbilityLore(lore);
-	SkyblockItems.put(manager.itemID, manager);
-	
-	manager = new ItemManager("Burning Crimson Helmet","BURNING_CRIMSON_HELMET", ItemType.Helmet,0, 254, 79, 24, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/eb034a5d97c24fe0ec902bd02fec52a09d917366be060c51f9a1a276b284a9d7");
-	manager.setFullSetBonus(Bonuses.Dominus, true);
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.setAbilityLore(lore);
+	manager = new ItemManager("Hot Crimson Helmet","HOT_CRIMSON_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bbe6d66770a61bf56e6d4b476922b1c3b3dc9f78a26e56b36cd965b7ab20b417");
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
 	manager.setMaxStars(10);
-	SkyblockItems.put(manager.itemID, manager);
-	
-	manager = new ItemManager("Fiery Crimson Helmet","FIERY_CRIMSON_HELMET", ItemType.Helmet,0, 320, 100, 30, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/91f0c7afff1782465d8cdb5eba261b65423a7a0712ee3a4c572c33f94c68c55");
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 202);
+	manager.setStat(Stats.Defense, 63);
+	manager.setStat(Stats.Inteligence, 19);
+	manager.setStat(Stats.CritDamage, 25);
+	manager.setStat(Stats.Strength, 38);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Infernal Crimson Helmet","INFERNAL_CRIMSON_HELMET", ItemType.Helmet,0, 403, 126, 38, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/507d6bf7611190ed9c580d8c87c296059216230c9501eec6359e0d60ec84758e");
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Burning Crimson Helmet","BURNING_CRIMSON_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/eb034a5d97c24fe0ec902bd02fec52a09d917366be060c51f9a1a276b284a9d7");
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(lore);
+	manager.setStat(Stats.Strength, 48);
+	manager.setStat(Stats.CritDamage, 32);
+	manager.setStat(Stats.Inteligence, 24);
+	manager.setStat(Stats.Defense, 79);
+	manager.setStat(Stats.Health, 254);
+	SkyblockItems.put(manager.itemID, manager);
+	
+	manager = new ItemManager("Fiery Crimson Helmet","FIERY_CRIMSON_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/91f0c7afff1782465d8cdb5eba261b65423a7a0712ee3a4c572c33f94c68c55");
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(lore);
+	manager.setStat(Stats.Health, 320);
+	manager.setStat(Stats.Defense, 100);
+	manager.setStat(Stats.Inteligence, 30);
+	manager.setStat(Stats.Strength, 60);
+	manager.setStat(Stats.CritDamage, 40);
+	manager.setUnstackeble(true);
+	SkyblockItems.put(manager.itemID, manager);
+	
+	manager = new ItemManager("Infernal Crimson Helmet","INFERNAL_CRIMSON_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/507d6bf7611190ed9c580d8c87c296059216230c9501eec6359e0d60ec84758e");
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
 	manager.setMaxStars(15);
+	manager.setStat(Stats.Health, 403);
+	manager.setStat(Stats.Defense, 126);
+	manager.setStat(Stats.Strength, 76);
+	manager.setStat(Stats.Inteligence, 38);
+	manager.setStat(Stats.CritDamage, 50);
+	manager.setUnstackeble(true);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -2580,8 +2740,15 @@ public static void CrimsonChestplate() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Crimson Chestplate","CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 230, 65, 5, 0, 30, 0, 20, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	ItemManager manager = new ItemManager("Crimson Chestplate","CRIMSON_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 230);
+	manager.setStat(Stats.Defense, 65);
+	manager.setStat(Stats.Inteligence, 5);
+	manager.setStat(Stats.Strength, 30);
+	manager.setStat(Stats.CritDamage, 20);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	AbilityLore lore = new AbilityLore(abiliyLore);
@@ -2608,38 +2775,61 @@ public static void CrimsonChestplate() {
 	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Hot Crimson Chestplate","HOT_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 290, 82, 6, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Hot Crimson Chestplate","HOT_CRIMSON_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 290);
+	manager.setStat(Stats.Defense, 82);
+	manager.setStat(Stats.Inteligence, 6);
+	manager.setStat(Stats.CritDamage, 38);
+	manager.setStat(Stats.Strength, 25);
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(lore);
+	SkyblockItems.put(manager.itemID, manager);
+	
+	manager = new ItemManager("Burning Crimson Chestplate","BURNING_CRIMSON_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(lore);
+	manager.setStat(Stats.Health, 365);
+	manager.setStat(Stats.Defense, 103);
+	manager.setStat(Stats.Inteligence, 8);
+	manager.setStat(Stats.Strength, 48);
+	manager.setStat(Stats.CritDamage, 32);
+	SkyblockItems.put(manager.itemID, manager);
+	
+	manager = new ItemManager("Fiery Crimson Chestplate","FIERY_CRIMSON_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
 	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 460);
+	manager.setStat(Stats.Defense, 130);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Strength, 60);
+	manager.setStat(Stats.CritDamage, 40);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Burning Crimson Chestplate","BURNING_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 365, 103, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
-	SkyblockItems.put(manager.itemID, manager);
-	
-	manager = new ItemManager("Fiery Crimson Chestplate","FIERY_CRIMSON_CHESTPLATE", ItemType.Chestplate,0, 460, 130, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.addSlot(new GemstoneSlot(SlotType.Combat));
-	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
-	SkyblockItems.put(manager.itemID, manager);
-	
-	manager = new ItemManager("Infernal Crimson Chestplate","INFERNAL_CRIMSON_CHESTPLATE", ItemType.Chestplate,0,
-			580, 164, 13, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null,
-            "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Infernal Crimson Chestplate","INFERNAL_CRIMSON_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xFF6F0C),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
 	manager.setMaxStars(15);
+	manager.setStat(Stats.Health, 580);
+	manager.setStat(Stats.Defense, 164);
+	manager.setStat(Stats.Inteligence, 13);
+	manager.setStat(Stats.Strength, 76);
+	manager.setStat(Stats.CritDamage, 50);
 	SkyblockItems.put(manager.itemID, manager);
 	
 }
@@ -2658,8 +2848,15 @@ public static void CrimsonLeggings() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Crimson Leggings","CRIMSON_LEGGINGS", ItemType.Leggings,0, 205, 55, 5, 0, 30, 0, 20, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	ItemManager manager = new ItemManager("Crimson Leggings","CRIMSON_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 205);
+	manager.setStat(Stats.Defense, 55);
+	manager.setStat(Stats.Inteligence, 5);
+	manager.setStat(Stats.Strength, 30);
+	manager.setStat(Stats.CritDamage, 20);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	AbilityLore lore = new AbilityLore(abiliyLore);
@@ -2687,36 +2884,59 @@ public static void CrimsonLeggings() {
 	SkyblockItems.put(manager.itemID, manager);
 	
 	
-	manager = new ItemManager("Hot Crimson Leggings","HOT_CRIMSON_LEGGINGS", ItemType.Leggings,0, 258, 69, 6, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Hot Crimson Leggings","HOT_CRIMSON_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 258);
+	manager.setStat(Stats.Defense, 69);
+	manager.setStat(Stats.Inteligence, 6);
+	manager.setStat(Stats.Strength, 38);
+	manager.setStat(Stats.CritDamage, 25);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Burning Crimson Leggings","BURNING_CRIMSON_LEGGINGS", ItemType.Leggings,0, 325, 87, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Burning Crimson Leggings","BURNING_CRIMSON_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 325);
+	manager.setStat(Stats.Defense, 87);
+	manager.setStat(Stats.Inteligence, 8);
+	manager.setStat(Stats.Strength, 48);
+	manager.setStat(Stats.CritDamage, 32);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Fiery Crimson Leggings","FIERY_CRIMSON_LEGGINGS", ItemType.Leggings,0, 410, 110, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Fiery Crimson Leggings","FIERY_CRIMSON_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 410);
+	manager.setStat(Stats.Defense, 110);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Strength, 60);
+	manager.setStat(Stats.CritDamage, 40);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Infernal Crimson Leggings","INFERNAL_CRIMSON_LEGGINGS", ItemType.Leggings,0, 517, 139, 13, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Infernal Crimson Leggings","INFERNAL_CRIMSON_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xE66105),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(15);
+	manager.setStat(Stats.Health, 517);
+	manager.setStat(Stats.Defense, 139);
+	manager.setStat(Stats.Inteligence, 13);
+	manager.setStat(Stats.Strength, 76);
+	manager.setStat(Stats.CritDamage, 50);
 	SkyblockItems.put(manager.itemID, manager);
 	
 }
@@ -2735,8 +2955,15 @@ public static void CrimsonBoots() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c%time%s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Crimson Boots","CRIMSON_BOOTS", ItemType.Boots,0, 130, 40, 5, 0, 30, 0, 20, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	ItemManager manager = new ItemManager("Crimson Boots","CRIMSON_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.CritDamage, 20);
+	manager.setStat(Stats.Strength, 30);
+	manager.setStat(Stats.Health, 130);
+	manager.setStat(Stats.Defense, 40);
+	manager.setStat(Stats.Inteligence, 5);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	AbilityLore lore = new AbilityLore(abiliyLore);
@@ -2763,33 +2990,56 @@ public static void CrimsonBoots() {
 	manager.setMaxStars(10);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Hot Crimson Boots","HOT_CRIMSON_BOOTS", ItemType.Boots,0, 164, 50, 6, 0, 38, 0, 25, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Hot Crimson Boots","HOT_CRIMSON_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.CritDamage, 25);
+	manager.setStat(Stats.Strength, 38);
+	manager.setStat(Stats.Health, 164);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 6);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Burning Crimson Boots","BURNING_CRIMSON_BOOTS", ItemType.Boots,0, 206, 64, 8, 0, 48, 0, 32, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Burning Crimson Boots","BURNING_CRIMSON_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.CritDamage, 32);
+	manager.setStat(Stats.Strength, 48);
+	manager.setStat(Stats.Health, 206);
+	manager.setStat(Stats.Defense, 64);
+	manager.setStat(Stats.Inteligence, 8);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Fiery Crimson Boots","FIERY_CRIMSON_BOOTS", ItemType.Boots,0, 260, 80, 10, 0, 60, 0, 40, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Fiery Crimson Boots","FIERY_CRIMSON_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
-	manager.setMaxStars(10);
+	manager.setStat(Stats.Health, 260);
+	manager.setStat(Stats.Defense, 80);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Strength, 60);
+	manager.setStat(Stats.CritDamage, 40);
 	SkyblockItems.put(manager.itemID, manager);
 	
-	manager = new ItemManager("Infernal Crimson Boots","INFERNAL_CRIMSON_BOOTS", ItemType.Boots,0, 328, 101, 13, 0, 76, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Dominus", "Dominus", abiliyLore, 0, 0, 0, 0,   Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
-
-	manager.setFullSetBonus(Bonuses.Dominus, true);
+	manager = new ItemManager("Infernal Crimson Boots","INFERNAL_CRIMSON_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xE65300),ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.Dominus, "Dominus", true);
+	manager.setAttributable(true);
+	manager.setStat(Stats.CritDamage, 50);
+	manager.setStat(Stats.Strength, 76);
+	manager.setStat(Stats.Health, 328);
+	manager.setStat(Stats.Defense, 101);
+	manager.setStat(Stats.Inteligence, 13);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setAbilityLore(lore);
@@ -2798,84 +3048,139 @@ public static void CrimsonBoots() {
 }
 
 public static void TerrorHelmet() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Hitting enimies grants §c1 §7stack of");
-	abiliyLore.add("§6Hydra Strike §?§§7.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Each §6Hydra Strike §?§ §7stack makes your");
-	abiliyLore.add("§7arrows fly §c40% §7faster, and ");
-	abiliyLore.add("§7deal §c+20% §7more damage.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7At §c10 §7stacks your bow fires §d2 ");
-	abiliyLore.add("§7extra arrows");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
-	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Terror Helmet","TERROR_HELMET", ItemType.Helmet,0, 160, 50, 15, 12, 0, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/52af8833697c81b46e83c8f1895266e606efbb3a59f1c3b4ca2816da2bcfa9d6");
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	ItemManager manager = new ItemManager("Terror Helmet","TERROR_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/52af8833697c81b46e83c8f1895266e606efbb3a59f1c3b4ca2816da2bcfa9d6");
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 160);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 15);
+	manager.setStat(Stats.Speed, 12);
+	manager.setStat(Stats.CritDamage, 50);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Terror Helmet","HOT_TERROR_HELMET", ItemType.Helmet,0, 202, 63, 19, 15, 0, 0, 63, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bdea30e305483713ac9a5295ae698d4109766c9ae2bc744ac58f6bb4cf93a9f1");
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Hot Terror Helmet","HOT_TERROR_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bdea30e305483713ac9a5295ae698d4109766c9ae2bc744ac58f6bb4cf93a9f1");
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 202);
+	manager.setStat(Stats.Defense, 63);
+	manager.setStat(Stats.Inteligence, 19);
+	manager.setStat(Stats.Speed, 15);
+	manager.setStat(Stats.CritDamage, 63);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Terror Helmet","BURNING_TERROR_HELMET", ItemType.Helmet,0, 254, 79, 24, 19, 0, 0, 79, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/4482ec351f353445775b439ebc909d5702732f8bae9d32b0b08860b3d6439061");
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Burning Terror Helmet","BURNING_TERROR_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY,
+			"https://textures.minecraft.net/texture/4482ec351f353445775b439ebc909d5702732f8bae9d32b0b08860b3d6439061");
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 254);
+	manager.setStat(Stats.Defense, 79);
+	manager.setStat(Stats.Inteligence, 24);
+	manager.setStat(Stats.Speed, 19);
+	manager.setStat(Stats.CritDamage, 79);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Terror Helmet","FIERY_TERROR_HELMET", ItemType.Helmet,0, 320, 100, 30, 24, 0, 0, 100, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/b46902e1756a242f401d0c2567ec6481c65084af9b1aaabb9732f56cade542f3");
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Fiery Terror Helmet","FIERY_TERROR_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/b46902e1756a242f401d0c2567ec6481c65084af9b1aaabb9732f56cade542f3");
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 320);
+	manager.setStat(Stats.Defense, 100);
+	manager.setStat(Stats.Inteligence, 30);
+	manager.setStat(Stats.Speed, 24);
+	manager.setStat(Stats.CritDamage, 100);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Terror Helmet","INFERNAL_TERROR_HELMET", ItemType.Helmet,0, 403, 126, 38, 30, 0, 0, 126, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/4eadf2954f1629d793d7f467181c449e18d89aa4941bec3ea5211e5909bb567");
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Infernal Terror Helmet","INFERNAL_TERROR_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/4eadf2954f1629d793d7f467181c449e18d89aa4941bec3ea5211e5909bb567");
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 403);
+	manager.setStat(Stats.Defense, 126);
+	manager.setStat(Stats.Inteligence, 38);
+	manager.setStat(Stats.Speed, 30);
+	manager.setStat(Stats.CritDamage, 126);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
 public static void TerrorChestplate() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Hitting enimies grants §c1 §7stack of");
-	abiliyLore.add("§6Hydra Strike §?§§7.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Each §6Hydra Strike §?§ §7stack makes your");
-	abiliyLore.add("§7arrows fly §c40% §7faster, and ");
-	abiliyLore.add("§7deal §c+20% §7more damage.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7At §c10 §7stacks your bow fires §d2 ");
-	abiliyLore.add("§7extra arrows");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
-	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Terror Chestplate","TERROR_CHESTPLATE", ItemType.Chestplate,0, 230, 65, 5, 12, 0, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	ItemManager manager = new ItemManager("Terror Chestplate","TERROR_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 230);
+	manager.setStat(Stats.Defense, 65);
+	manager.setStat(Stats.Inteligence, 5);
+	manager.setStat(Stats.Speed, 12);
+	manager.setStat(Stats.CritDamage, 50);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Terror Chestplate","HOT_TERROR_CHESTPLATE", ItemType.Chestplate,0, 290, 82, 6, 15, 0, 0, 63, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Hot Terror Chestplate","HOT_TERROR_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 290);
+	manager.setStat(Stats.Defense, 82);
+	manager.setStat(Stats.Inteligence, 6);
+	manager.setStat(Stats.Speed, 15);
+	manager.setStat(Stats.CritDamage, 63);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Terror Chestplate","BURNING_TERROR_CHESTPLATE", ItemType.Chestplate,0, 365, 103, 8, 19, 0, 0, 79, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Burning Terror Chestplate","BURNING_TERROR_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 365);
+	manager.setStat(Stats.Defense, 103);
+	manager.setStat(Stats.Inteligence, 8);
+	manager.setStat(Stats.Speed, 19);
+	manager.setStat(Stats.CritDamage, 79);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Terror Chestplate","FIERY_TERROR_CHESTPLATE", ItemType.Chestplate,0, 460, 130, 10, 24, 0, 0, 100, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Fiery Terror Chestplate","FIERY_TERROR_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 460);
+	manager.setStat(Stats.Defense, 130);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Speed, 12*2);
+	manager.setStat(Stats.CritDamage, 100);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Terror Chestplate","INFERNAL_TERROR_CHESTPLATE", ItemType.Chestplate,0, 580, 164, 13, 30, 0, 0, 126, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Infernal Terror Chestplate","INFERNAL_TERROR_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE,Color.fromRGB(0x3E05AF) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 580);
+	manager.setStat(Stats.Defense, 164);
+	manager.setStat(Stats.Inteligence, 13);
+	manager.setStat(Stats.Speed, 30);
+	manager.setStat(Stats.CritDamage, 126);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
 	
 }
@@ -2893,30 +3198,70 @@ public static void TerrorLeggings() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Terror Leggings","TERROR_LEGGINGS", ItemType.Leggings,0, 205, 55, 5, 12, 0, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	ItemManager manager = new ItemManager("Terror Leggings","TERROR_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 205);
+	manager.setStat(Stats.Defense, 55);
+	manager.setStat(Stats.Inteligence, 5);
+	manager.setStat(Stats.Speed, 12);
+	manager.setStat(Stats.CritDamage, 50);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Terror Leggings","HOT_TERROR_LEGGINGS", ItemType.Leggings,0, 258, 69, 6, 15, 0, 0, 63, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Hot Terror Leggings","HOT_TERROR_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 258);
+	manager.setStat(Stats.Defense, 69);
+	manager.setStat(Stats.Inteligence, 6);
+	manager.setStat(Stats.Speed, 15);
+	manager.setStat(Stats.CritDamage, 63);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Terror Leggings","BURNING_TERROR_LEGGINGS", ItemType.Leggings,0, 325, 87, 8, 19, 0, 0, 79, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Burning Terror Leggings","BURNING_TERROR_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 325);
+	manager.setStat(Stats.Defense, 87);
+	manager.setStat(Stats.Inteligence, 8);
+	manager.setStat(Stats.Speed, 19);
+	manager.setStat(Stats.CritDamage, 79);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Terror Leggings","FIERY_TERROR_LEGGINGS", ItemType.Leggings,0, 410, 110, 10, 24, 0, 0, 100, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Fiery Terror Leggings","FIERY_TERROR_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 410);
+	manager.setStat(Stats.Defense, 110);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Speed, 12 * 2);
+	manager.setStat(Stats.CritDamage, 100);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Terror Leggings","INFERNAL_TERROR_LEGGINGS", ItemType.Leggings,0, 517, 139, 13, 30, 0, 0, 126, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Infernal Terror Leggings","INFERNAL_TERROR_LEGGINGS",  ItemType.Leggings, Material.LEATHER_LEGGINGS,Color.fromRGB(0x5D23D1) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 517);
+	manager.setStat(Stats.Defense, 139);
+	manager.setStat(Stats.Inteligence, 13);
+	manager.setStat(Stats.Speed, 30);
+	manager.setStat(Stats.CritDamage, 126);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -2934,30 +3279,70 @@ public static void TerrorBoots() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Terror Boots","TERROR_BOOTS", ItemType.Boots,0, 130, 40, 5, 12, 0, 0, 50, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	ItemManager manager = new ItemManager("Terror Boots","TERROR_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 130);
+	manager.setStat(Stats.Defense, 40);
+	manager.setStat(Stats.Inteligence, 5);
+	manager.setStat(Stats.Speed, 12);
+	manager.setStat(Stats.CritDamage, 50);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Terror Boots","HOT_TERROR_BOOTS", ItemType.Boots,0, 164, 50, 6, 15, 0, 0, 63, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Hot Terror Boots","HOT_TERROR_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 164);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 6);
+	manager.setStat(Stats.Speed, 15);
+	manager.setStat(Stats.CritDamage, 63);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Terror Boots","BURNING_TERROR_BOOTS", ItemType.Boots,0, 206, 64, 8, 19, 0, 0, 79, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Burning Terror Boots","BURNING_TERROR_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 206);
+	manager.setStat(Stats.Defense, 64);
+	manager.setStat(Stats.Inteligence, 8);
+	manager.setStat(Stats.Speed, 19);
+	manager.setStat(Stats.CritDamage, 79);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Terror Boots","FIERY_TERROR_BOOTS", ItemType.Boots,0, 260, 80, 10, 24, 0, 0, 100, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Fiery Terror Boots","FIERY_TERROR_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 260);
+	manager.setStat(Stats.Defense, 80);
+	manager.setStat(Stats.Inteligence, 10);
+	manager.setStat(Stats.Speed, 12 * 2);
+	manager.setStat(Stats.CritDamage, 100);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Terror Boots","INFERNAL_TERROR_BOOTS", ItemType.Boots,0, 328, 101, 13, 30, 0, 0, 126, 0, 0, 0,0,0,0,0,0, null, "Hydra Strike", "HydraStrike", abiliyLore, 0, 0, 0, 0, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.HydraStrike, true);
+	manager = new ItemManager("Infernal Terror Boots","INFERNAL_TERROR_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS,Color.fromRGB(0x7C44EC) ,  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.HydraStrike, "Hydra Strike", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 328);
+	manager.setStat(Stats.Defense, 101);
+	manager.setStat(Stats.Inteligence, 13);
+	manager.setStat(Stats.Speed, 30);
+	manager.setStat(Stats.CritDamage, 126);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(terrorLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -2969,9 +3354,11 @@ public static void AuroraStaff() {
 	lore.add("§7Defender and Virtuoso. Using the");
 	lore.add("§7proper Runic Spell on enemies");
 	lore.add("§7can have great benefits.");
-	ItemManager manager = new ItemManager("Aurora Staff","RUNIC_STAFF", ItemType.Sword,20, 0, 0, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, lore, "Rune Swap", "runeswap", new ArrayList<>(), 0, 0, 0, 0, Material.BLAZE_ROD ,  ItemRarity.LEGENDARY);
-	manager.customDataContainer.put(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-	manager.setAbility(new AuroraStaffLeftClick(), AbilityType.LeftClick);
+	ItemManager manager = new ItemManager("Aurora Staff","RUNIC_STAFF",  ItemType.Sword, Material.BLAZE_ROD, ItemRarity.LEGENDARY);
+	manager.setUnstackeble(true);
+	manager.setDamage(20);
+	manager.setStat(Stats.Inteligence, 250);
+	manager.setAbility(new AuroraStaffLeftClick(), AbilityType.LeftClick, "Rune Swap", 0, 0);
 	ArrayList<String> abilityLore = new ArrayList<>();
 	abilityLore.add("§7Fires a beam of runic energy and");
 	abilityLore.add("§7hits the first enemy in its");
@@ -2985,47 +3372,61 @@ public static void AuroraStaff() {
 }
 
 public static void AuroraHelmet() {
-	ArrayList<String> abiliyLore = new ArrayList<>();
-	abiliyLore.add("§7Gives you the ability to see the runic");
-	abiliyLore.add("§7affinity of enimies.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Using the proper §bRunic Spells §fof");
-	abiliyLore.add("§7the §6Aurora Staff §7grants 1 stack of");
-	abiliyLore.add("§6Arcane Vision Ѫ§f.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7each §6Arcane Vision Ѫ §7stack grants");
-	abiliyLore.add("§7you §c+2% §7damage on your next Runic");
-	abiliyLore.add("§7Spell");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7At §c10 §7stacks the §6Aurora Staff");
-	abiliyLore.add("§7spells explode on hit.");
-	abiliyLore.add(" ");
-	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
-	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Aurora Helmet","AURORA_HELMET", ItemType.Helmet,0, 160, 50, 190, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/763d2fe93881b4f26cbe1dd3b09da7cc48dbcdc568d19852ad635d5d16859611");
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	ItemManager manager = new ItemManager("Aurora Helmet","AURORA_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/763d2fe93881b4f26cbe1dd3b09da7cc48dbcdc568d19852ad635d5d16859611");
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 160);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 190);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Aurora Helmet","HOT_AURORA_HELMET", ItemType.Helmet,0, 202, 63, 239, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/30b6e2d43ee24c9a246a83515f9b7414846f315ad954400c38ca65cdf08e919e");
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Hot Aurora Helmet","HOT_AURORA_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/30b6e2d43ee24c9a246a83515f9b7414846f315ad954400c38ca65cdf08e919e");
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 202);
+	manager.setStat(Stats.Defense, 63);
+	manager.setStat(Stats.Inteligence, 239);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Aurora Helmet","BURNRNG_AURORA_HELMET", ItemType.Helmet,0, 254, 79, 302, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/f886b484b750c367107892586930a5e50cd57e9be843bd3db7eb217cb782f0a1");
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Burning Aurora Helmet","BURNRNG_AURORA_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY,
+			"https://textures.minecraft.net/texture/f886b484b750c367107892586930a5e50cd57e9be843bd3db7eb217cb782f0a1");
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 254);
+	manager.setStat(Stats.Defense, 79);
+	manager.setStat(Stats.Inteligence, 302);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Aurora Helmet","FIERY_AURORA_HELMET", ItemType.Helmet,0, 320, 100, 380, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/1855aabafa461d35b864291d494ca36a2f46307ceadad3a28774054f86788e8");
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Fiery Aurora Helmet","FIERY_AURORA_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/1855aabafa461d35b864291d494ca36a2f46307ceadad3a28774054f86788e8");
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 320);
+	manager.setStat(Stats.Defense, 100);
+	manager.setStat(Stats.Inteligence, 380);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Aurora Helmet","INFERNAL_AURORA_HELMET", ItemType.Helmet,0, 403, 129, 479, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,  ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/2cc3ea5345c288c24f1aa7dd8fc63295597d3fb374e314f605640b8dea06fe3f");
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Infernal Aurora Helmet","INFERNAL_AURORA_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/2cc3ea5345c288c24f1aa7dd8fc63295597d3fb374e314f605640b8dea06fe3f");
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 403);
+	manager.setStat(Stats.Defense, 129);
+	manager.setStat(Stats.Inteligence, 479);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 public static void AuroraChestplate() {
@@ -3046,30 +3447,60 @@ public static void AuroraChestplate() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Aurora Chestplate","AURORA_CHESTPLATE", ItemType.Chestplate,0, 230, 65, 125, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	ItemManager manager = new ItemManager("Aurora Chestplate","AURORA_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 230);
+	manager.setStat(Stats.Defense, 65);
+	manager.setStat(Stats.Inteligence, 125);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Aurora Chestplate","HOT_AURORA_CHESTPLATE", ItemType.Chestplate,0, 290, 82, 158, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Hot Aurora Chestplate","HOT_AURORA_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 290);
+	manager.setStat(Stats.Defense, 82);
+	manager.setStat(Stats.Inteligence, 158);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Aurora Chestplate","BURNING_AURORA_CHESTPLATE", ItemType.Chestplate,0, 365, 103, 198, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Burning Aurora Chestplate","BURNING_AURORA_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 365);
+	manager.setStat(Stats.Defense, 103);
+	manager.setStat(Stats.Inteligence, 198);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Aurora Chestplate","FIERY_AURORA_CHESTPLATE", ItemType.Chestplate,0, 460, 130, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Fiery Aurora Chestplate","FIERY_AURORA_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 460);
+	manager.setStat(Stats.Defense, 130);
+	manager.setStat(Stats.Inteligence, 250);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Aurora Chestplate","INFERNAL_AURORA_CHESTPLATE", ItemType.Chestplate,0, 580, 164, 315, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Infernal Aurora Chestplate","INFERNAL_AURORA_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x2841F1), ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 580);
+	manager.setStat(Stats.Defense, 164);
+	manager.setStat(Stats.Inteligence, 315);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 public static void AuroraLeggings() {
@@ -3090,30 +3521,57 @@ public static void AuroraLeggings() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Aurora Leggings","AURORA_LEGGINGS", ItemType.Leggings,0, 205, 55, 125, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	ItemManager manager = new ItemManager("Aurora Leggings","AURORA_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 205);
+	manager.setStat(Stats.Defense, 55);
+	manager.setStat(Stats.Inteligence, 125);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Aurora Leggings","HOT_AURORA_LEGGINGS", ItemType.Leggings,0, 258, 69, 158, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Hot Aurora Leggings","HOT_AURORA_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 258);
+	manager.setStat(Stats.Defense, 69);
+	manager.setStat(Stats.Inteligence, 158);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Aurora Leggings","BURNING_AURORA_LEGGINGS", ItemType.Leggings,0, 325, 87, 198, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Burning Aurora Leggings","BURNING_AURORA_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 325);
+	manager.setStat(Stats.Defense, 87);
+	manager.setStat(Stats.Inteligence, 198);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Aurora Leggings","FIERY_AURORA_LEGGINGS", ItemType.Leggings,0, 410, 110, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Fiery Aurora Leggings","FIERY_AURORA_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Aurora Leggings","INFERNAL_AURORA_LEGGINGS", ItemType.Leggings,0, 517, 139, 315, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Infernal Aurora Leggings","INFERNAL_AURORA_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x3F56FB),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 517);
+	manager.setStat(Stats.Defense, 139);
+	manager.setStat(Stats.Inteligence, 315);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 public static void AuroraBoots() {
@@ -3134,30 +3592,60 @@ public static void AuroraBoots() {
 	abiliyLore.add(" ");
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
-	ItemManager manager = new ItemManager("Aurora Boots","AURORA_BOOTS", ItemType.Boots,0, 130, 40, 125, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	ItemManager manager = new ItemManager("Aurora Boots","AURORA_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 130);
+	manager.setStat(Stats.Defense, 40);
+	manager.setStat(Stats.Inteligence, 125);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Hot Aurora Boots","HOT_AURORA_BOOTS", ItemType.Boots,0, 164, 50, 158, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Hot Aurora Boots","HOT_AURORA_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 164);
+	manager.setStat(Stats.Defense, 50);
+	manager.setStat(Stats.Inteligence, 158);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Burning Aurora Boots","BURNING_AURORA_BOOTS", ItemType.Boots,0, 206, 64, 198, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Burning Aurora Boots","BURNING_AURORA_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 206);
+	manager.setStat(Stats.Defense, 64);
+	manager.setStat(Stats.Inteligence, 198);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Fiery Aurora Boots","FIERY_AURORA_BOOTS", ItemType.Boots,0, 260, 80, 250, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Fiery Aurora Boots","FIERY_AURORA_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 260);
+	manager.setStat(Stats.Defense, 80);
+	manager.setStat(Stats.Inteligence, 250);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Infernal Aurora Boots","INFERNAL_AURORA_BOOTS", ItemType.Boots,0, 328, 101, 315, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, "Arcane Vision", "ArcaneVision", abiliyLore, 0, 0, 0, 0,Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
-	manager.setFullSetBonus(Bonuses.ArcaneVision, true);
+	manager = new ItemManager("Infernal Aurora Boots","INFERNAL_AURORA_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x6184FC),  ItemRarity.LEGENDARY);
+	manager.setFullSetBonus(Bonuses.ArcaneVision, "Arcane Vision", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
+	manager.setStat(Stats.Health, 328);
+	manager.setStat(Stats.Defense, 101);
+	manager.setStat(Stats.Inteligence, 315);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
+	manager.setAbilityLore(auroraLore);
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -3180,7 +3668,9 @@ public static void FervorHelmet() {
 	abiliyLore.add("§7Lose 1 stack after §c4s §7of not");
 	abiliyLore.add("§7gaining a stack.");
 	ItemManager manager = new ItemManager("Fervor Helmet", "FERVOR_HELMET", ItemType.Helmet, null, "Fervor", "fervor", abiliyLore, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/bc6e137e2a6a501dfc854ca900b5b681227dea4d5a9616849a3a68f09c6dc327");
-	manager.setFullSetBonus(Bonuses.Fervor, true);
+	manager.setFullSetBonus(Bonuses.Fervor, "Fervor", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setStat(Stats.Health, 180);
@@ -3188,7 +3678,9 @@ public static void FervorHelmet() {
 	manager.setStat(Stats.Inteligence, 15);
 	SkyblockItems.put(manager.itemID, manager);
 	manager = new ItemManager("Hot Fervor Helmet", "HOT_FERVOR_HELMET", ItemType.Helmet, null, "Fervor", "fervor", abiliyLore, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/3030c3217a2ac070e404cf8c21eafba3a0f6b579dbf4ec9fdc1633ad2180cf28");
-	manager.setFullSetBonus(Bonuses.Fervor, true);
+	manager.setFullSetBonus(Bonuses.Fervor, "Fervor", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setStat(Stats.Health, 227);
@@ -3196,7 +3688,9 @@ public static void FervorHelmet() {
 	manager.setStat(Stats.Inteligence, 19);
 	SkyblockItems.put(manager.itemID, manager);
 	manager = new ItemManager("Burning Fervor Helmet", "BURNING_FERVOR_HELMET", ItemType.Helmet, null, "Fervor", "fervor", abiliyLore, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/97e2d177faac867c9e49542aa4ec831b458d8537f20672014c9149e4ddba43d6");
-	manager.setFullSetBonus(Bonuses.Fervor, true);
+	manager.setFullSetBonus(Bonuses.Fervor, "Fervor", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setStat(Stats.Health, 286);
@@ -3204,7 +3698,9 @@ public static void FervorHelmet() {
 	manager.setStat(Stats.Inteligence, 24);
 	SkyblockItems.put(manager.itemID, manager);
 	manager = new ItemManager("Fiery Fervor Helmet", "FIERY_FERVOR_HELMET", ItemType.Helmet, null, "Fervor", "fervor", abiliyLore, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/73f65fffe8fb4e70ee1c1edb8d8f5ef7bb66d0fd1807fb2568b09f1ab976d64f");
-	manager.setFullSetBonus(Bonuses.Fervor, true);
+	manager.setFullSetBonus(Bonuses.Fervor, "Fervor", true);
+	manager.setMaxStars(10);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setStat(Stats.Health, 360);
@@ -3215,7 +3711,9 @@ public static void FervorHelmet() {
 	
 	
 	manager = new ItemManager("Infernal Fervor Helmet", "INFERNAL_FERVOR_HELMET", ItemType.Helmet, null, "Fervor", "fervor", abiliyLore, 0, 0, 0, 0, ItemRarity.LEGENDARY, "https://textures.minecraft.net/texture/1d47cf6e12d12a5eb161759ba95689a9237ec111473e92a140ecab0158dfd258");
-	manager.setFullSetBonus(Bonuses.Fervor, true);
+	manager.setFullSetBonus(Bonuses.Fervor, "Fervor", true);
+	manager.setMaxStars(15);
+	manager.setAttributable(true);
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.addSlot(new GemstoneSlot(SlotType.Combat));
 	manager.setStat(Stats.Health, 454);
@@ -3232,7 +3730,7 @@ public static void dctrSpaceHelmet(){
 	lore.add("§7§oA rare space helmet forged");
 	lore.add("§7§ofrom shards of moon glass");
 	ItemManager manager = new ItemManager("Dctr's Space Helmet", "DCTR_SPACE_HELM", ItemType.Helmet, lore, null, null, null, 0, 0, 0, 0, Material.RED_STAINED_GLASS, ItemRarity.SPECIAL);
-	manager.setFullSetBonus(Bonuses.DctrSpaceHelmet);
+	manager.setFullSetBonus(Bonuses.DctrSpaceHelmet, null);
 	manager.customDataContainer.put("uuid", UUID.randomUUID().toString());
 	manager.setEditions(true);
 	SkyblockItems.put(manager.itemID, manager);
@@ -3269,7 +3767,7 @@ public static void maidHelmet(){
 
 	manager.customDataContainer.put("uuid", UUID.randomUUID().toString());
 
-	manager.setFullSetBonus(Bonuses.Maid);
+	manager.setFullSetBonus(Bonuses.Maid, "Maid");
 	SkyblockItems.put(manager.itemID, manager);
 }
 
@@ -3330,7 +3828,7 @@ public static void maidChestplate(){
 			manager.setStat(stat, 5);
 	}
 	
-	manager.setFullSetBonus(Bonuses.Maid);
+	manager.setFullSetBonus(Bonuses.Maid, "Maid");
 	
 	SkyblockItems.put(manager.itemID, manager);
 }
@@ -3354,7 +3852,7 @@ public static void maidLeggings(){
 			manager.setStat(stat, 5);
 	}
 	
-	manager.setFullSetBonus(Bonuses.Maid);
+	manager.setFullSetBonus(Bonuses.Maid, "Maid");
 	
 	SkyblockItems.put(manager.itemID, manager);
 }
@@ -3378,7 +3876,7 @@ public static void maidBoots(){
 			manager.setStat(stat, 5);
 	}
 	
-	manager.setFullSetBonus(Bonuses.Maid);
+	manager.setFullSetBonus(Bonuses.Maid, "Maid");
 	
 	SkyblockItems.put(manager.itemID, manager);
 }
@@ -3587,53 +4085,65 @@ public static void maidBoots(){
 @SuppressWarnings("deprecation")
 public static void initBaseItems() {
 	//Swords
-	ItemManager manager = new ItemManager("Wooden Sword","WOODEN_SWORD", ItemType.Sword,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.WOODEN_SWORD, ItemRarity.COMMON);
+	ItemManager manager = new ItemManager("Wooden Sword","WOODEN_SWORD", ItemType.Sword, Material.WOODEN_SWORD, ItemRarity.COMMON);
+	manager.setDamage(20);
 	SkyblockItems.put("WOODEN_SWORD", manager);
 	manager.setBaseItem();
-	manager = new ItemManager("Golden Sword","GOLDEN_SWORD", ItemType.Sword,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_SWORD,ItemRarity.COMMON);
+	manager = new ItemManager("Golden Sword","GOLDEN_SWORD", ItemType.Sword, Material.GOLDEN_SWORD,ItemRarity.COMMON);
 	manager.setBaseItem();
+	manager.setDamage(20);
 	SkyblockItems.put("GOLDEN_SWORD", manager);
-	manager = new ItemManager("Stone Sword","STONE_SWORD", ItemType.Sword,25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.STONE_SWORD,ItemRarity.COMMON);
+	manager = new ItemManager("Stone Sword","STONE_SWORD", ItemType.Sword, Material.STONE_SWORD,ItemRarity.COMMON);
 manager.setBaseItem();
+	manager.setDamage(25);
 	SkyblockItems.put("STONE_SWORD", manager);
-	manager = new ItemManager("Iron Sword","IRON_SWORD", ItemType.Sword,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0, 0,null, null, null, null, 0, 0, 0, 0, Material.IRON_SWORD,ItemRarity.COMMON);
+	manager = new ItemManager("Iron Sword","IRON_SWORD", ItemType.Sword, Material.IRON_SWORD,ItemRarity.COMMON);
 manager.setBaseItem();
-
+	manager.setDamage(30);
 	SkyblockItems.put("IRON_SWORD", manager);
-	manager = new ItemManager("Diamond Sword","DIAMOND_SWORD", ItemType.Sword,35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0, 0,null, null, null, null, 0, 0, 0, 0, Material.DIAMOND_SWORD,ItemRarity.UNCOMMON);
+	manager = new ItemManager("Diamond Sword","DIAMOND_SWORD", ItemType.Sword, Material.DIAMOND_SWORD,ItemRarity.UNCOMMON);
 manager.setBaseItem();
-
+	manager.setDamage(35);
 	SkyblockItems.put("DIAMOND_SWORD", manager);
-	manager = new ItemManager("Netherite Sword","NETHERITE_SWORD", ItemType.Sword,40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.NETHERITE_SWORD, ItemRarity.UNCOMMON);
+	manager = new ItemManager("Netherite Sword","NETHERITE_SWORD", ItemType.Sword, Material.NETHERITE_SWORD, ItemRarity.UNCOMMON);
 manager.setBaseItem();
-
+	manager.setDamage(40);
 	SkyblockItems.put("NETHERITE_SWORD", manager);
-	manager = new ItemManager("Enchanted Book","ENCHANTED_BOOK", ItemType.EnchantBook,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.ENCHANTED_BOOK,ItemRarity.COMMON);
+	manager = new ItemManager("Enchanted Book","ENCHANTED_BOOK", ItemType.EnchantBook, Material.ENCHANTED_BOOK,ItemRarity.COMMON);
 manager.setBaseItem();
-
 	SkyblockItems.put("ENCHANTED_BOOK", manager);
 	//Pickaxes
-	manager = new ItemManager("Wooden Pickaxe","WOODEN_PICKAXE", ItemType.Pickaxe,15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,1,70,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.WOODEN_PICKAXE, ItemRarity.COMMON);
+	manager = new ItemManager("Wooden Pickaxe","WOODEN_PICKAXE", ItemType.Pickaxe, Material.WOODEN_PICKAXE, ItemRarity.COMMON);
 manager.setBaseItem();
-
+	manager.setDamage(15);
+	manager.setBreakingPower(1);
+	manager.setStat(Stats.MiningSpeed, 70);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Golden Pickaxe","GOLDEN_PICKAXE", ItemType.Pickaxe,15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,1,250,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.GOLDEN_PICKAXE, ItemRarity.COMMON);
+	manager = new ItemManager("Golden Pickaxe","GOLDEN_PICKAXE", ItemType.Pickaxe, Material.GOLDEN_PICKAXE, ItemRarity.COMMON);
 manager.setBaseItem();
-
+	manager.setDamage(15);
+	manager.setBreakingPower(1);
+	manager.setStat(Stats.MiningSpeed, 250);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Stone Pickaxe","STONE_PICKAXE", ItemType.Pickaxe,20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,2,110,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.STONE_PICKAXE, ItemRarity.COMMON);
+	manager = new ItemManager("Stone Pickaxe","STONE_PICKAXE", ItemType.Pickaxe, Material.STONE_PICKAXE, ItemRarity.COMMON);
 manager.setBaseItem();
-
+	manager.setDamage(20);
+	manager.setBreakingPower(2);
+	manager.setStat(Stats.MiningSpeed, 110);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Iron Pickaxe","IRON_PICKAXE", ItemType.Pickaxe,25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,3,160,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.IRON_PICKAXE, ItemRarity.COMMON);
+	manager = new ItemManager("Iron Pickaxe","IRON_PICKAXE", ItemType.Pickaxe, Material.IRON_PICKAXE, ItemRarity.COMMON);
 manager.setBaseItem();
-
+	manager.setDamage(25);
+	manager.setBreakingPower(3);
+	manager.setStat(Stats.MiningSpeed, 160);
 	SkyblockItems.put(manager.itemID, manager);
-	manager = new ItemManager("Diamond Pickaxe","DIAMOND_PICKAXE", ItemType.Pickaxe,30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,4,230,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.DIAMOND_PICKAXE, ItemRarity.UNCOMMON);
+	manager = new ItemManager("Diamond Pickaxe","DIAMOND_PICKAXE", ItemType.Pickaxe, Material.DIAMOND_PICKAXE, ItemRarity.UNCOMMON);
 	manager.setBaseItem();
-
+	manager.setDamage(30);
+	manager.setBreakingPower(4);
+	manager.setStat(Stats.MiningSpeed, 230);
 		SkyblockItems.put(manager.itemID, manager);
-		manager = new ItemManager("Skull Item","LEGACY_SKULL_ITEM", ItemType.Non,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,4,230,0,0,0, null, null, null, null, 0, 0, 0, 0, Material.LEGACY_SKULL_ITEM, ItemRarity.COMMON);
+		manager = new ItemManager("null","LEGACY_SKULL_ITEM", ItemType.Non, Material.LEGACY_SKULL_ITEM, ItemRarity.COMMON);
 		manager.setBaseItem();
 
 			SkyblockItems.put(manager.itemID, manager);
@@ -3657,7 +4167,7 @@ public static void initAllItems() {
 
         }
 
-        ItemManager manager = new ItemManager(newString,mat.name(), ItemType.Non,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0,0,0,0, null, null, null, null, 0, 0, 0, 0, mat,ItemRarity.COMMON);
+        ItemManager manager = new ItemManager(newString,mat.name(), ItemType.Non, mat,ItemRarity.COMMON);
         manager.setBaseItem();
     	SkyblockItems.put(manager.itemID, manager);
 		ArrayList<String> m = new ArrayList<>();

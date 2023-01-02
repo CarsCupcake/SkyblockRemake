@@ -79,7 +79,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 110);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -87,7 +87,7 @@ public class OldBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -105,7 +105,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 160);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -113,7 +113,7 @@ public class OldBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -131,7 +131,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 140);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -139,7 +139,7 @@ public class OldBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -157,7 +157,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 90);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -165,7 +165,7 @@ public class OldBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

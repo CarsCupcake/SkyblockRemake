@@ -82,7 +82,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -90,7 +90,7 @@ public class StrongBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add( recipe);
 
         return manager;
     }
@@ -111,7 +111,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -119,7 +119,7 @@ public class StrongBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -140,7 +140,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -148,7 +148,7 @@ public class StrongBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -169,7 +169,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -177,7 +177,7 @@ public class StrongBlood implements FullSetBonus {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

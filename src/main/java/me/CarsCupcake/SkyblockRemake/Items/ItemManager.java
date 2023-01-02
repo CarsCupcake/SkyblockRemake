@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -36,29 +37,19 @@ public class ItemManager implements ItemGenerator{
 	public static String pattern = "MMMMMMMMM yyyy";
 	public static SimpleDateFormat df = new SimpleDateFormat(pattern);
 public String name;
+@Setter
 public  ArrayList<String> lore = new ArrayList<>();
 public ArrayList<GemstoneSlot> gemstoneSlots = new ArrayList<>();
 public double dmg;
-public double health;
-public double def;
-public double mana;
-public double speed;
-public double strength;
-public double cc;
-public double cd;
-public float abilitydamage;
-public double ferocity;
-public double magicfind;
+@Setter
 public double breakingpower;
-public double miningspeed;
-public double miningfortune;
-public double attackspeed;
-	public double truedefense;
-	public double seacreaturechance;
+	@Setter
 public String abilityName;
 public String abilityID;
-public final ArrayList<String> abilityLore;
+public ArrayList<String> abilityLore = null;
+@Setter
 public double abilityManaCost;
+@Setter
 public int abilityCD;
 public double abilitymultiplyer;
 public String itemID;
@@ -70,7 +61,6 @@ private boolean isSkullValue = false;
 public UUID customUUID;
 public float abilitymultiplier;
 public int baseabilitydamage;
-public double pristine;
 public HashMap<Enchantment, Integer> enchants = new HashMap<>();
 public HashMap<String, String> customDataContainer= new HashMap<>();
 public HashMap<String, Integer> customIntContainer= new HashMap<>();
@@ -114,42 +104,6 @@ private AbilityLore newAbilityLore;
 	@Getter
 	@Setter
 	private int maxStars = 0;
-public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material, ItemRarity rarity) {
-	this.dmg = dmg;
-	this.name = name;
-	this.itemID = itemID;
-	this.type = itemType;
-	this.health = health;
-	this.def = def;
-	this.mana = mana;
-	this.speed = speed;
-	this.strength = strength;
-	this.cc = cc;
-	this.cd = cd;
-	this.abilitydamage = abilitydamage;
-	this.ferocity = ferocity;
-	this.magicfind = magicfind;
-	this.lore = lore;
-	this.abilityName = abilityName;
-	this.abilityID = abilityID;
-	this.abilityLore = abilityLore;
-	this.abilityManaCost = abilityManaCost;
-	this.abilityCD = abilityCD;
-	this.baseabilitydamage = baseabilitydamage;
-	this.abilitymultiplier = abilitymultiplyer;
-	this.material = material;
-	this.rarity = rarity;
-	isHead = false;
-	enchants = new HashMap<>();
-	this.attackspeed = attackspeed;
-	this.breakingpower = breakingpower;
-	this.miningspeed = miningspeed;
-	this.miningfortune = miningfortune;
-	
-	this.pristine = pristine;
-	
-	
-}
 public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, double abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material, ItemRarity rarity) {
 	this.name = name;
 	this.itemID = itemID;
@@ -166,43 +120,17 @@ public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String
 	this.rarity = rarity;
 	isHead = false;	
 }
-public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine, int attackspeed,ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material,Color color, ItemRarity rarity) {
-	this.dmg = dmg;
-	this.name = name;
-	this.itemID = itemID;
-	this.type = itemType;
-	this.health = health;
-	this.def = def;
-	this.mana = mana;
-	this.speed = speed;
-	this.strength = strength;
-	this.cc = cc;
-	this.cd = cd;
-	this.abilitydamage = abilitydamage;
-	this.ferocity = ferocity;
-	this.magicfind = magicfind;
-	this.lore = lore;
-	this.abilityName = abilityName;
-	this.abilityID = abilityID;
-	this.abilityLore = abilityLore;
-	this.abilityManaCost = abilityManaCost;
-	this.abilityCD = abilityCD;
-	this.baseabilitydamage = baseabilitydamage;
-	this.abilitymultiplier = abilitymultiplyer;
-	this.material = material;
-	this.rarity = rarity;
-	this.color = color;
-	isHead = false;
-	enchants = new HashMap<>();
-	this.attackspeed = attackspeed;
-	this.breakingpower = breakingpower;
-	this.miningspeed = miningspeed;
-	this.miningfortune = miningfortune;
-	
-	this.pristine = pristine;
-	
-}
-public ItemManager(String name,String itemID,ItemType itemType,ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, double abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material,Color color, ItemRarity rarity) {
+	public ItemManager(String name, String itemID, ItemType itemType, Material material, ItemRarity rarity){
+		this.name = name;
+		this.itemID = itemID;
+		this.type = itemType;
+		this.material = material;
+		this.rarity = rarity;
+		Items.SkyblockItems.put(itemID, this);
+	}
+
+public ItemManager(String name,String itemID,ItemType itemType,ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, double abilityManaCost,
+				   int abilityCD,float abilitymultiplyer,int baseabilitydamage, Material material,Color color, ItemRarity rarity) {
 	this.name = name;
 	this.itemID = itemID;
 	this.type = itemType;
@@ -219,45 +147,19 @@ public ItemManager(String name,String itemID,ItemType itemType,ArrayList<String>
 	this.color = color;
 	isHead = false;
 	enchants = new HashMap<>();
-	
 }
-public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, ItemRarity rarity, String headTexture) {
-	this.dmg = dmg;
-	this.name = name;
-	this.itemID = itemID;
-	this.type = itemType;
-	this.health = health;
-	this.def = def;
-	this.mana = mana;
-	this.speed = speed;
-	this.strength = strength;
-	this.cc = cc;
-	this.cd = cd;
-	this.abilitydamage = abilitydamage;
-	this.ferocity = ferocity;
-	this.magicfind = magicfind;
-	this.lore = lore;
-	this.abilityName = abilityName;
-	this.abilityID = abilityID;
-	this.abilityLore = abilityLore;
-	this.abilityManaCost = abilityManaCost;
-	this.abilityCD = abilityCD;
-	this.headTexture = headTexture;
-	this.baseabilitydamage = baseabilitydamage;
-	this.abilitymultiplier = abilitymultiplyer;
-	this.rarity = rarity;
-	isHead = true;
-	material = Material.PLAYER_HEAD;
-	enchants = new HashMap<>();
-	this.attackspeed = attackspeed;
-	this.breakingpower = breakingpower;
-	this.miningspeed = miningspeed;
-	this.miningfortune = miningfortune;
-	
-	this.pristine = pristine;
-	
-}
-public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, double abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, ItemRarity rarity, String headTexture) {
+	public ItemManager(String name, String itemID, ItemType itemType, Material material,Color color, ItemRarity rarity){
+		this.name = name;
+		this.itemID = itemID;
+		this.type = itemType;
+		this.material = material;
+		this.rarity = rarity;
+		this.color = color;
+		Items.SkyblockItems.put(itemID, this);
+	}
+
+public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore,
+				   double abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, ItemRarity rarity, String headTexture) {
 	this.name = name;
 	this.itemID = itemID;
 	this.type = itemType;
@@ -276,44 +178,19 @@ public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String
 	enchants = new HashMap<>();
 	
 }
-public ItemManager(String name,String itemID,ItemType itemType,int dmg,int health, int def,int mana,int speed, int strength,int cc, int cd,float abilitydamage,int ferocity, int magicfind,int breakingpower, int miningspeed, int miningfortune,double pristine,int attackspeed, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, int abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, ItemRarity rarity, String headTexture, UUID CustomUUID) {
-	this.dmg = dmg;
-	this.name = name;
-	this.itemID = itemID;
-	this.type = itemType;
-	this.health = health;
-	this.def = def;
-	this.mana = mana;
-	this.speed = speed;
-	this.strength = strength;
-	this.cc = cc;
-	this.cd = cd;
-	this.abilitydamage = abilitydamage;
-	this.ferocity = ferocity;
-	this.magicfind = magicfind;
-	this.lore = lore;
-	this.abilityName = abilityName;
-	this.abilityID = abilityID;
-	this.abilityLore = abilityLore;
-	this.abilityManaCost = abilityManaCost;
-	this.abilityCD = abilityCD;
-	this.headTexture = headTexture;
-	this.customUUID = CustomUUID;
-	this.baseabilitydamage = baseabilitydamage;
-	this.abilitymultiplier = abilitymultiplyer;
-	this.rarity = rarity;
-	isHead = true;
-	material = Material.PLAYER_HEAD;
-	enchants = new HashMap<>();
-	this.attackspeed = attackspeed;
-	this.breakingpower = breakingpower;
-	this.miningspeed = miningspeed;
-	this.miningfortune = miningfortune;
-	
-	this.pristine = pristine;
-	
-	
-}
+	public ItemManager(String name, String itemID, ItemType itemType, ItemRarity rarity, String headTexture){
+		this.name = name;
+		this.itemID = itemID;
+		this.type = itemType;
+		material = Material.PLAYER_HEAD;
+		this.rarity = rarity;
+		this.headTexture = headTexture;
+		if(itemType == ItemType.Helmet)
+			setUnstackeble(true);
+		isHead = true;
+		Items.SkyblockItems.put(itemID, this);
+	}
+
 public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID,ArrayList<String> abilityLore, double abilityManaCost, int abilityCD,float abilitymultiplyer,int baseabilitydamage, ItemRarity rarity, String headTexture, UUID CustomUUID) {
 
 	this.name = name;
@@ -336,6 +213,18 @@ public ItemManager(String name,String itemID,ItemType itemType, ArrayList<String
 	
 	
 }
+	public ItemManager(String name, String itemID, ItemType itemType, ItemRarity rarity, String headTexture, UUID customId){
+		this.name = name;
+		this.itemID = itemID;
+		this.type = itemType;
+		material = Material.PLAYER_HEAD;
+		this.rarity = rarity;
+		this.headTexture = headTexture;
+		this.customUUID = customId;
+		isHead = true;
+		Items.SkyblockItems.put(itemID, this);
+	}
+
 
 public void setEquipmentAbility(EquipmentAbility ability){
 	startStopAbility = ability;
@@ -405,118 +294,11 @@ public void setEditions(boolean bol) {
 	return trophyFishChance;
 	}
 	public void setStat(Stats stat, double value) {
-		switch(stat) {
-		case AbilityDamage:
-			abilitydamage = (float) value;
-			break;
-		case AttackSpeed:
-			attackspeed = (int) value;
-			break;
-		case CritChance:
-			cc = (int)value;
-			break;
-		case CritDamage:
-			cd = (int)value;
-			break;
-		case Defense:
-			def = (int)value;
-			break;
-		case Ferocity:
-			ferocity = (int) value;
-			break;
-		case Health:
-			health = (int)value;
-			break;
-		case Inteligence:
-			mana = (int) value;
-			break;
-		case MagicFind:
-			magicfind = (int) value;
-			break;
-		case MiningFortune:
-			miningfortune = (int)value;
-			break;
-		case MiningSpeed:
-			miningspeed = (int)value;
-			break;
-		case Pristine:
-			pristine = (int) value;
-			break;
-		case Speed:
-			speed = (int) value;
-			break;
-		case Strength:
-			strength = (int) value;
-			break;
-			case TrueDefense:
-				truedefense = (int) value;
-				break;
-			case SeaCreatureChance:
-				seacreaturechance = value;
-			break;
-		default:
-			stats.put(stat, value);
-			break;
-		
-		}
+	stats.put(stat, value);
 	}
 
 	public double getStat(@NotNull Stats stat){
-
-		switch(stat) {
-			case AbilityDamage:
-				return abilitydamage;
-
-			case AttackSpeed:
-				return attackspeed;
-
-			case CritChance:
-				return cc;
-
-			case CritDamage:
-				return cd;
-
-			case Defense:
-				return def;
-
-			case Ferocity:
-				return ferocity;
-
-			case Health:
-				return health;
-
-			case Inteligence:
-				return mana;
-
-			case MagicFind:
-				return magicfind;
-
-			case MiningFortune:
-				return miningfortune;
-
-			case MiningSpeed:
-				return miningspeed;
-
-			case Pristine:
-				return pristine;
-
-			case Speed:
-				return speed;
-
-			case Strength:
-				return strength;
-
-			case TrueDefense:
-				return truedefense;
-
-			case SeaCreatureChance:
-				return seacreaturechance;
-
-
-
-
-	}
-	return 0;
+	return stats.getOrDefault(stat, 0d);
 	}
 	public void setUnstackeble(boolean b){
 	isUnstackeble = b;
@@ -547,6 +329,13 @@ public void setEditions(boolean bol) {
 		this.ability = ability;
 		abilityType = type;
 	}
+	public void setAbility(AbilityManager ability, AbilityType type, String name, int manacost, int cooldown) {
+		this.ability = ability;
+		abilityType = type;
+		abilityName = name;
+		manacost = manacost;
+		cooldown = cooldown;
+	}
 	public void setCatchMultiplier(double d){
 	catchMult = d;
 	}
@@ -559,16 +348,16 @@ public void setEditions(boolean bol) {
 		cooldown2 = cooldown;
 	}
 	
-	public void setFullSetBonus(Bonuses bonus) {
-		this.bonus = bonus;
-		abilityType = AbilityType.FullSetBonus;
-		
+	public void setFullSetBonus(Bonuses bonus, String name) {
+	this.bonus = bonus;
+	abilityType = AbilityType.FullSetBonus;
+	abilityName = name;
 	}
-	public void setFullSetBonus(Bonuses bonus,boolean isTiered) {
+	public void setFullSetBonus(Bonuses bonus,String name, boolean isTiered) {
 		TieredBonus = isTiered;
 		this.bonus = bonus;
 		abilityType = AbilityType.FullSetBonus;
-		
+		abilityName = name;
 	}
 	
 	
@@ -607,51 +396,21 @@ public void setEditions(boolean bol) {
 		data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
 		if(dmg != 0)
 			data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, ""+dmg);
-		if(health != 0)
-			data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, health);
-		if(def != 0)
-			data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, def);
-		if(mana != 0)
-			data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, mana);
-		if(speed != 0)
-			data.set(new NamespacedKey(Main.getMain(), "speed"), PersistentDataType.DOUBLE, speed);
-		if(strength != 0)
-			data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, strength);
-		if(cc != 0)
-			data.set(new NamespacedKey(Main.getMain(), "cc"), PersistentDataType.DOUBLE, cc);
-		if(cd != 0)
-			data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.DOUBLE, cd);
-		if(abilitydamage != 0f)
-			data.set(new NamespacedKey(Main.getMain(), "abilitydamage"), PersistentDataType.FLOAT, abilitydamage);
-		if(ferocity != 0)
-			data.set(new NamespacedKey(Main.getMain(), "ferocity"), PersistentDataType.DOUBLE, ferocity);
-		if(magicfind != 0)
-			data.set(new NamespacedKey(Main.getMain(), "magicfind"), PersistentDataType.DOUBLE, magicfind);
 		if(breakingpower != 0)
 			data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-		if(miningspeed != 0)
-			data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, miningspeed);
-		if(miningfortune != 0)
-			data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, miningfortune);
-		if(attackspeed != 0)
-			data.set(new NamespacedKey(Main.getMain(), "as"), PersistentDataType.DOUBLE, attackspeed);
 		if(abilityID != null)
 			data.set(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING, abilityID);
 
-		if(truedefense != 0)
-			data.set(new NamespacedKey(Main.getMain(), "truedefense"), PersistentDataType.DOUBLE, truedefense);
-			if(seacreaturechance != 0)
-				data.set(new NamespacedKey(Main.getMain(), "seacreaturechance"), PersistentDataType.DOUBLE, seacreaturechance);
-			if(catchMult != 0)
-				data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
+		for(Stats s : stats.keySet())
+			data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
+		if(catchMult != 0)
+			data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
 		if(abilityCD != 0)
 			data.set(new NamespacedKey(Main.getMain(), "abilitycd"), PersistentDataType.INTEGER, abilityCD);
 		if(baseabilitydamage != 0)
 			data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
 		if(abilitymultiplier != 0f)
 			data.set(new NamespacedKey(Main.getMain(), "abilityscaling"), PersistentDataType.FLOAT, abilitymultiplier);
-		if(pristine != 0)
-			data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, pristine);
 		data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
 		data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
 		if(isUnstackeble)
@@ -714,7 +473,14 @@ public void setEditions(boolean bol) {
 			else
 				item = Tools.getCustomTexturedHeadFromSkullValue(headTexture);
 
-			ItemMeta meta = item.getItemMeta();
+			ItemMeta meta;
+			if(!isSkullValue)
+				if(customUUID == null)
+					meta = Tools.CustomHeadTextureMeta(headTexture);
+				else
+					meta = Tools.CustomHeadTextureMeta(headTexture, customUUID.toString());
+			else
+				meta = Tools.getCustomTexturedHeadFromSkullValueMeta(headTexture);
 			meta.setDisplayName(rarity.getPrefix() + name);
 			enchants.forEach((enchant, level)->{
 				meta.addEnchant(enchant, level, true);
@@ -725,32 +491,10 @@ public void setEditions(boolean bol) {
 			data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
 			if(dmg != 0)
 				data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, ""+dmg);
-			if(health != 0)
-				data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, health);
-			if(def != 0)
-				data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, def);
-			if(mana != 0)
-				data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, mana);
-			if(speed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "speed"), PersistentDataType.DOUBLE, speed);
-			if(strength != 0)
-				data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, strength);
-			if(cc != 0)
-				data.set(new NamespacedKey(Main.getMain(), "cc"), PersistentDataType.DOUBLE, cc);
-			if(cd != 0)
-				data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.DOUBLE, cd);
-			if(abilitydamage != 0)
-				data.set(new NamespacedKey(Main.getMain(), "abilitydamage"), PersistentDataType.FLOAT, abilitydamage);
-			if(ferocity != 0)
-				data.set(new NamespacedKey(Main.getMain(), "ferocity"), PersistentDataType.DOUBLE, ferocity);
-			if(magicfind != 0)
-				data.set(new NamespacedKey(Main.getMain(), "magicfind"), PersistentDataType.DOUBLE, magicfind);
+
 			if(breakingpower != 0)
 				data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-			if(miningspeed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, miningspeed);
-			if(miningfortune != 0)
-				data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, miningfortune);
+
 			if(abilityID != null)
 				data.set(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING, abilityID);
 
@@ -760,16 +504,10 @@ public void setEditions(boolean bol) {
 				data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
 			if(abilitymultiplier != 0)
 				data.set(new NamespacedKey(Main.getMain(), "abilityscaling"), PersistentDataType.FLOAT, abilitymultiplier);
-			if(pristine != 0)
-				data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, pristine);
-			if(truedefense != 0)
-				data.set(new NamespacedKey(Main.getMain(), "truedefense"), PersistentDataType.DOUBLE, truedefense);
-			if(seacreaturechance != 0)
-				data.set(new NamespacedKey(Main.getMain(), "seacreaturechance"), PersistentDataType.DOUBLE, seacreaturechance);
+			for(Stats s : stats.keySet())
+				data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
 			if(catchMult != 0)
 				data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-			if(attackspeed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "as"), PersistentDataType.DOUBLE, attackspeed);
 			data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
 			data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
 			ArrayList<String> lore= new ArrayList<>();
@@ -867,38 +605,11 @@ public void setEditions(boolean bol) {
 			data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
 			if(dmg != 0)
 				data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, ""+dmg);
-			if(health != 0)
-				data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, health);
-			if(def != 0)
-				data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, def);
-			if(mana != 0)
-				data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, mana);
-			if(speed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "speed"), PersistentDataType.DOUBLE, speed);
-			if(strength != 0)
-				data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, strength);
-			if(cc != 0)
-				data.set(new NamespacedKey(Main.getMain(), "cc"), PersistentDataType.DOUBLE, cc);
-			if(cd != 0)
-				data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.DOUBLE, cd);
-			if(abilitydamage != 0f)
-				data.set(new NamespacedKey(Main.getMain(), "abilitydamage"), PersistentDataType.FLOAT, abilitydamage);
-			if(ferocity != 0)
-				data.set(new NamespacedKey(Main.getMain(), "ferocity"), PersistentDataType.DOUBLE, ferocity);
-			if(magicfind != 0)
-				data.set(new NamespacedKey(Main.getMain(), "magicfind"), PersistentDataType.DOUBLE, magicfind);
+
 			if(breakingpower != 0)
 				data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-			if(miningspeed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, miningspeed);
-			if(miningfortune != 0)
-				data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, miningfortune);
-			if(attackspeed != 0)
-				data.set(new NamespacedKey(Main.getMain(), "as"), PersistentDataType.DOUBLE, attackspeed);
-			if(truedefense != 0)
-				data.set(new NamespacedKey(Main.getMain(), "truedefense"), PersistentDataType.DOUBLE, truedefense);
-				if(seacreaturechance != 0)
-					data.set(new NamespacedKey(Main.getMain(), "seacreaturechance"), PersistentDataType.DOUBLE, seacreaturechance);
+				for(Stats s : stats.keySet())
+					data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
 				if(catchMult != 0)
 					data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
 			if(abilityID != null)
@@ -910,8 +621,7 @@ public void setEditions(boolean bol) {
 				data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
 			if(abilitymultiplier != 0f)
 				data.set(new NamespacedKey(Main.getMain(), "abilityscaling"), PersistentDataType.FLOAT, abilitymultiplier);
-			if(pristine != 0)
-				data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, pristine);
+
 			data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
 			data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
 			
@@ -989,7 +699,14 @@ public void setEditions(boolean bol) {
 						item = Tools.CustomHeadTexture(headTexture, customUUID.toString());
 				else
 					item = Tools.getCustomTexturedHeadFromSkullValue(headTexture);
-				ItemMeta meta = item.getItemMeta();
+				ItemMeta meta;
+				if(!isSkullValue)
+					if(customUUID == null)
+						meta = Tools.CustomHeadTextureMeta(headTexture);
+					else
+						meta = Tools.CustomHeadTextureMeta(headTexture, customUUID.toString());
+				else
+					meta = Tools.getCustomTexturedHeadFromSkullValueMeta(headTexture);
 				meta.setDisplayName(rarity.getPrefix() + name);
 				enchants.forEach((enchant, level)->{
 					meta.addEnchant(enchant, level, true);
@@ -1000,32 +717,11 @@ public void setEditions(boolean bol) {
 				data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
 				if(dmg != 0)
 					data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, ""+dmg);
-				if(health != 0)
-					data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, health);
-				if(def != 0)
-					data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, def);
-				if(mana != 0)
-					data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, mana);
-				if(speed != 0)
-					data.set(new NamespacedKey(Main.getMain(), "speed"), PersistentDataType.DOUBLE, speed);
-				if(strength != 0)
-					data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, strength);
-				if(cc != 0)
-					data.set(new NamespacedKey(Main.getMain(), "cc"), PersistentDataType.DOUBLE, cc);
-				if(cd != 0)
-					data.set(new NamespacedKey(Main.getMain(), "cd"), PersistentDataType.DOUBLE, cd);
-				if(abilitydamage != 0)
-					data.set(new NamespacedKey(Main.getMain(), "abilitydamage"), PersistentDataType.FLOAT, abilitydamage);
-				if(ferocity != 0)
-					data.set(new NamespacedKey(Main.getMain(), "ferocity"), PersistentDataType.DOUBLE, ferocity);
-				if(magicfind != 0)
-					data.set(new NamespacedKey(Main.getMain(), "magicfind"), PersistentDataType.DOUBLE, magicfind);
+				for(Stats s : stats.keySet())
+					data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
 				if(breakingpower != 0)
 					data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-				if(miningspeed != 0)
-					data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, miningspeed);
-				if(miningfortune != 0)
-					data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, miningfortune);
+
 				if(abilityID != null)
 					data.set(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING, abilityID);
 
@@ -1035,16 +731,10 @@ public void setEditions(boolean bol) {
 					data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
 				if(abilitymultiplier != 0)
 					data.set(new NamespacedKey(Main.getMain(), "abilityscaling"), PersistentDataType.FLOAT, abilitymultiplier);
-				if(pristine != 0)
-					data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, pristine);
-				if(truedefense != 0)
-					data.set(new NamespacedKey(Main.getMain(), "truedefense"), PersistentDataType.DOUBLE, truedefense);
-				if(seacreaturechance != 0)
-					data.set(new NamespacedKey(Main.getMain(), "seacreaturechance"), PersistentDataType.DOUBLE, seacreaturechance);
+
 				if(catchMult != 0)
 					data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-				if(attackspeed != 0)
-					data.set(new NamespacedKey(Main.getMain(), "as"), PersistentDataType.DOUBLE, attackspeed);
+
 				data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
 				data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
 				ArrayList<String> lore= new ArrayList<>();

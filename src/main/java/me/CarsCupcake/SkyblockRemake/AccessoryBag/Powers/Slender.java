@@ -31,7 +31,7 @@ public class Slender implements Powers {
 	@Override
 	public ItemManager getManager() {
 		
-		return new ItemManager("Biohazard Enderman", "BIOHAZARD_ENDERMAN", ItemType.PowerStone, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null,null, null, 0, 0, 0, 0, ItemRarity.RARE, "http://textures.minecraft.net/texture/71e72890a79e500cf13a97d1374c5ac8a4f15a9e0d6885997fc6f2e3c11254c");
+		return new ItemManager("Biohazard Enderman", "BIOHAZARD_ENDERMAN", ItemType.PowerStone, ItemRarity.RARE, "http://textures.minecraft.net/texture/71e72890a79e500cf13a97d1374c5ac8a4f15a9e0d6885997fc6f2e3c11254c");
 	}
 
 }

@@ -84,7 +84,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -92,7 +92,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.UnstableDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -109,7 +109,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -117,7 +117,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.UnstableDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -134,7 +134,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -142,7 +142,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.UnstableDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -159,7 +159,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -167,7 +167,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.UnstableDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

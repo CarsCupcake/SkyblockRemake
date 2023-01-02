@@ -31,7 +31,7 @@ public class Bloody implements Powers {
 	@Override
 	public ItemManager getManager() {
 		
-		return new ItemManager("Beating Heart", "BEATING_HEART", ItemType.PowerStone, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, null, null,null, null, 0, 0, 0, 0, ItemRarity.RARE, "http://textures.minecraft.net/texture/a338347c8a8456602f3bd9ae78ad383a7de6b569bb60bcf7f7b4345f0ef64045");
+		return new ItemManager("Beating Heart", "BEATING_HEART", ItemType.PowerStone, ItemRarity.RARE, "http://textures.minecraft.net/texture/a338347c8a8456602f3bd9ae78ad383a7de6b569bb60bcf7f7b4345f0ef64045");
 	}
 
 }

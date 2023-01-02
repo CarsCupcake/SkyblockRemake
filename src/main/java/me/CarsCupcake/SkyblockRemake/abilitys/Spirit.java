@@ -164,7 +164,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 130);
         manager.setStat(Stats.Speed, 5);
         manager.setStat(Stats.CritDamage, 10);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -178,7 +178,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 164);
         manager.setStat(Stats.Speed, 6);
         manager.setStat(Stats.CritDamage, 13);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -192,7 +192,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 206);
         manager.setStat(Stats.Speed, 8);
         manager.setStat(Stats.CritDamage, 16);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -206,7 +206,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 260);
         manager.setStat(Stats.Speed, 10);
         manager.setStat(Stats.CritDamage, 20);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -220,7 +220,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 328);
         manager.setStat(Stats.Speed, 13);
         manager.setStat(Stats.CritDamage, 25);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
     }
@@ -234,7 +234,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 85);
         manager.setStat(Stats.Speed, 5);
         manager.setStat(Stats.CritDamage, 10);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -247,7 +247,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 107);
         manager.setStat(Stats.Speed, 6);
         manager.setStat(Stats.CritDamage, 13);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -260,7 +260,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 135);
         manager.setStat(Stats.Speed, 8);
         manager.setStat(Stats.CritDamage, 16);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -273,7 +273,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 170);
         manager.setStat(Stats.Speed, 10);
         manager.setStat(Stats.CritDamage, 20);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -286,7 +286,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 214);
         manager.setStat(Stats.Speed, 13);
         manager.setStat(Stats.CritDamage, 25);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
     }
@@ -300,7 +300,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 85);
         manager.setStat(Stats.Speed, 5);
         manager.setStat(Stats.CritDamage, 10);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -313,7 +313,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 85);
         manager.setStat(Stats.Speed, 5);
         manager.setStat(Stats.CritDamage, 10);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -326,7 +326,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 107);
         manager.setStat(Stats.Speed, 6);
         manager.setStat(Stats.CritDamage, 13);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -339,7 +339,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 135);
         manager.setStat(Stats.Speed, 8);
         manager.setStat(Stats.CritDamage, 16);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -352,7 +352,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 170);
         manager.setStat(Stats.Speed, 10);
         manager.setStat(Stats.CritDamage, 20);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -365,7 +365,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 214);
         manager.setStat(Stats.Speed, 13);
         manager.setStat(Stats.CritDamage, 25);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
     }
@@ -380,7 +380,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 85);
         manager.setStat(Stats.Speed, 5);
         manager.setStat(Stats.CritDamage, 10);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -393,7 +393,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 107);
         manager.setStat(Stats.Speed, 6);
         manager.setStat(Stats.CritDamage, 13);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -406,7 +406,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 135);
         manager.setStat(Stats.Speed, 8);
         manager.setStat(Stats.CritDamage, 16);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -419,7 +419,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 170);
         manager.setStat(Stats.Speed, 10);
         manager.setStat(Stats.CritDamage, 20);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
 
@@ -432,7 +432,7 @@ public class Spirit implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 214);
         manager.setStat(Stats.Speed, 13);
         manager.setStat(Stats.CritDamage, 25);
-        manager.setFullSetBonus(Bonuses.Spirit, true);
+        manager.setFullSetBonus(Bonuses.Spirit, "Spirit", true);
         manager.setAbilityLore(lore);
         Items.SkyblockItems.put(manager.itemID, manager);
     }

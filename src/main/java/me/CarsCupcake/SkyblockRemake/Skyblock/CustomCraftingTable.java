@@ -22,6 +22,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public class CustomCraftingTable implements Listener {
@@ -43,78 +44,75 @@ public class CustomCraftingTable implements Listener {
                 craftingGrid.add(event.getView().getTopInventory().getItem(i));
             for (int i = 28; i < 31; i++)
                 craftingGrid.add(event.getView().getTopInventory().getItem(i));
-            ArrayList<String> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
-            if(managers.isEmpty())
-                event.getView().getTopInventory().setItem(23,CustomCraftingTableInvenotry.CraftDenie());
-            else{
-                ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(managers.get(0)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
-                item.setAmount(SkyblockRecipe.recipes.get(managers.get(1)).getAmount());
-                event.getView().getTopInventory().setItem(23, Main.item_updater(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
-            }
-            if(managers.isEmpty())
+            Set<SkyblockRecipe> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
+            if(managers.isEmpty()) {
+                event.getView().getTopInventory().setItem(23, CustomCraftingTableInvenotry.CraftDenie());
                 return;
-            else{
+            }
 
+                SkyblockRecipe entry = managers.iterator().next();
+                ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(entry.getResult().itemID).createNewItemStack(),
+                        SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+                item.setAmount(entry.getAmount());
+                event.getView().getTopInventory().setItem(23, Main.item_updater(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
 
-
-                SkyblockRecipe recipe = SkyblockRecipe.recipes.get(managers.get(1));
+            if(!managers.isEmpty()){
                 if(event.getCursor() != null && event.getCursor().getType() != Material.AIR &&
-                        event.getCursor().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(),"id") , PersistentDataType.STRING).equals(recipe.getResult().itemID) &&
-                        (event.getCursor().getAmount() + recipe.getAmount() > recipe.getResult().getRawItemStack().getMaxStackSize()))
+                        event.getCursor().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(),"id") , PersistentDataType.STRING).equals(entry.getResult().itemID) &&
+                        (event.getCursor().getAmount() + entry.getAmount() > entry.getResult().getRawItemStack().getMaxStackSize()))
                     return;
 
                 int runner = 0;
                 for (int i = 10; i < 13; i++) {
 
-                    if(recipe instanceof SkyblockShapedRecipe){
-                        SkyblockShapedRecipe shapedRecipe = (SkyblockShapedRecipe) recipe;
+                    if(entry instanceof SkyblockShapedRecipe){
+                        SkyblockShapedRecipe shapedRecipe = (SkyblockShapedRecipe) entry;
                         if(shapedRecipe.getRecipe().get(runner) != null){
-                            ItemStack item = event.getView().getTopInventory().getItem(i);
-                            if(item != null){
+                            ItemStack is = event.getView().getTopInventory().getItem(i);
+                            if(is != null){
 
-                            item.setAmount(item.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
-                            event.getView().getTopInventory().setItem(i,item);
+                            is.setAmount(is.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
+                            event.getView().getTopInventory().setItem(i,is);
                             }
                         }runner++;
                     }
 
                 }
                 for (int i = 19; i < 22; i++) {
-                    if(recipe instanceof SkyblockShapedRecipe){
-                        SkyblockShapedRecipe shapedRecipe = (SkyblockShapedRecipe) recipe;
+                    if(entry instanceof SkyblockShapedRecipe){
+                        SkyblockShapedRecipe shapedRecipe = (SkyblockShapedRecipe) entry;
                         if(shapedRecipe.getRecipe().get(runner) != null){
-                            ItemStack item = event.getView().getTopInventory().getItem(i);
-                            if(item != null){
+                            ItemStack ite = event.getView().getTopInventory().getItem(i);
+                            if(ite != null){
 
-                                item.setAmount(item.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
-                                event.getView().getTopInventory().setItem(i,item);
+                                ite.setAmount(ite.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
+                                event.getView().getTopInventory().setItem(i,ite);
                             }
                         }runner++;
                     }
 
                 }
                 for (int i = 28; i < 31; i++) {
-                    if(recipe instanceof SkyblockShapedRecipe){
-                        SkyblockShapedRecipe shapedRecipe = (SkyblockShapedRecipe) recipe;
+                    if(entry instanceof SkyblockShapedRecipe shapedRecipe){
                         if(shapedRecipe.getRecipe().get(runner) != null){
-                            ItemStack item = event.getView().getTopInventory().getItem(i);
-                            if(item != null){
+                            ItemStack ite = event.getView().getTopInventory().getItem(i);
+                            if(ite != null){
 
-                                item.setAmount(item.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
-                                event.getView().getTopInventory().setItem(i,item);
+                                ite.setAmount(ite.getAmount() - shapedRecipe.getRecipe().get(runner).amount());
+                                event.getView().getTopInventory().setItem(i,ite);
                             }
                         } runner++;
                     }
 
                 }
                 if(event.getCursor() != null && event.getCursor().getType() != Material.AIR){
-                    ItemStack item = event.getCursor();
-                    item.setAmount(item.getAmount() + recipe.getAmount());
-                    event.setCursor(item);
+                    ItemStack it = event.getCursor();
+                    it.setAmount(it.getAmount() + entry.getAmount());
+                    event.setCursor(it);
                 }else {
-                    ItemStack item = Main.item_updater(recipe.getResult().createNewItemStack(),  SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
-                    item.setAmount(recipe.getAmount());
-                    event.setCursor(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
+                    ItemStack it = Main.item_updater(entry.getResult().createNewItemStack(),  SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+                    it.setAmount(entry.getAmount());
+                    event.setCursor(Main.item_updater(it, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
                 }
                 refreshCraft(event);
             }
@@ -131,12 +129,13 @@ public class CustomCraftingTable implements Listener {
                     craftingGrid.add(event.getView().getTopInventory().getItem(i));
                 for (int i = 28; i < 31; i++)
                     craftingGrid.add(event.getView().getTopInventory().getItem(i));
-                ArrayList<String> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
+                Set<SkyblockRecipe> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
                 if(managers.isEmpty())
                     event.getView().getTopInventory().setItem(23,CustomCraftingTableInvenotry.CraftDenie());
                 else{
-                    ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(managers.get(0)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
-                    item.setAmount(SkyblockRecipe.recipes.get(managers.get(1)).getAmount());
+                    SkyblockRecipe entry = managers.iterator().next();
+                    ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(entry.getResult().itemID).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+                    item.setAmount(entry.getAmount());
                     event.getView().getTopInventory().setItem(23, Main.item_updater(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
                 }
             }
@@ -153,12 +152,13 @@ public class CustomCraftingTable implements Listener {
             craftingGrid.add(event.getView().getTopInventory().getItem(i));
         for (int i = 28; i < 31; i++)
             craftingGrid.add(event.getView().getTopInventory().getItem(i));
-        ArrayList<String> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
+        Set<SkyblockRecipe> managers = SkyblockRecipe.checkForRecipe(craftingGrid);
         if(managers.isEmpty())
             event.getView().getTopInventory().setItem(23,CustomCraftingTableInvenotry.CraftDenie());
         else{
-            ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(managers.get(0)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
-            item.setAmount(SkyblockRecipe.recipes.get(managers.get(1)).getAmount());
+            SkyblockRecipe entry = managers.iterator().next();
+            ItemStack item = Main.item_updater(Main.item_updater(Items.SkyblockItems.get(entry.getResult().itemID).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+            item.setAmount(entry.getAmount());
             event.getView().getTopInventory().setItem(23, Main.item_updater(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
         }
     

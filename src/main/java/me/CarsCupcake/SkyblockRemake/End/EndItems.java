@@ -156,7 +156,7 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -164,7 +164,7 @@ public class EndItems {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -186,14 +186,14 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
         manager.setAbilityLore(lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_CHESTPLATE", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -215,14 +215,14 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
         manager.setAbilityLore(lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_LEGGINGS", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -244,14 +244,14 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
         manager.setAbilityLore(lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_BOOTS", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

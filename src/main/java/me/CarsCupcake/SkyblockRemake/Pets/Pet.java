@@ -53,7 +53,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 		
 		
 		
-		super(name, itemID, ItemType.Pet, 0, health, def, mana, speed, strength, cc, cd, abilitydamage, ferocity, magicfind, breakingpower, miningspeed, miningfortune, pristine,attackspeed, null, null, null, null, 0, 0, 0, 0 ,rarity, headTexture);
+		super(name, itemID, ItemType.Pet,rarity, headTexture);
 		this.MaxLevel = MaxLevel;
 		super.setUnstackeble(true);
 		this.maxhealth = maxhealth;
@@ -114,8 +114,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 		
 		
 		
-		super(name, itemID, ItemType.Pet, 0, health, def, mana, speed, strength, cc, cd, abilitydamage, ferocity, magicfind, breakingpower, miningspeed, miningfortune,
-				pristine,attackspeed, null, null, null, null, 0, 0, 0, 0 ,rarity, headTexture);
+		super(name, itemID, ItemType.Pet ,rarity, headTexture);
 		this.MaxLevel = MaxLevel;
 		super.setUnstackeble(true);
 		this.maxhealth = maxhealth;
@@ -340,7 +339,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 	}
 	public ItemStack updatePet(ItemStack item) {
 		
-		final int level = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER);
+		final int level = item.getItemMeta().getPersistentDataContainer().getOrDefault(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
 		ItemMeta meta = item.getItemMeta();
 		PersistentDataContainer data = meta.getPersistentDataContainer();
 		
@@ -367,40 +366,41 @@ private ArrayList<String> abilityName = new ArrayList<>();
 	}
 	
 	public double getStat(Stats stat, int level){
+
 		
 		switch (stat) {
 		case AbilityDamage:
 			
-			return ((double)level*0.01)*maxabilitydamage+abilitydamage;
+			return ((double)level*0.01)*maxabilitydamage+super.getStat(stat);
 			
 			
 		case CritChance:
-			return ((double)((level-1)/(MaxLevel-1)))*maxcc+cc;
+			return ((double)((level-1)/(MaxLevel-1)))*maxcc+super.getStat(stat);
 		case CritDamage:
-			return ((double)((level-1)/(MaxLevel-1)))*maxcd+cd;
+			return ((double)((level-1)/(MaxLevel-1)))*maxcd+super.getStat(stat);
 		case Defense:
-			return ((double)((level-1)/(MaxLevel-1)))*maxdef+def;
+			return ((double)((level-1)/(MaxLevel-1)))*maxdef+super.getStat(stat);
 		case Ferocity:
-			return ((double)((level-1)/(MaxLevel-1)))*maxferocity+ferocity;
+			return ((double)((level-1)/(MaxLevel-1)))*maxferocity+super.getStat(stat);
 		case Health:
-			return ((double)((level-1)/(MaxLevel-1)))*maxhealth+health;
+			return ((double)((level-1)/(MaxLevel-1)))*maxhealth+super.getStat(stat);
 		case Inteligence:
-			return ((double)((level-1)/(MaxLevel-1)))*maxmana+mana;
+			return ((double)((level-1)/(MaxLevel-1)))*maxmana+super.getStat(stat);
 		case MagicFind:
-			return ((double)((level-1)/(MaxLevel-1)))*maxmagicfind+magicfind;
+			return ((double)((level-1)/(MaxLevel-1)))*maxmagicfind+super.getStat(stat);
 		case MiningFortune:
-			return ((double)((level-1)/(MaxLevel-1)))*maxminingfortune+miningfortune;
+			return ((double)((level-1)/(MaxLevel-1)))*maxminingfortune+super.getStat(stat);
 		case MiningSpeed:
-			return ((double)((level-1)/(MaxLevel-1)))*maxminingspeed+miningspeed;
+			return ((double)((level-1)/(MaxLevel-1)))*maxminingspeed+super.getStat(stat);
 		case Pristine:
-			return ((double)((level-1)/(MaxLevel-1)))*maxpristine+pristine;
+			return ((double)((level-1)/(MaxLevel-1)))*maxpristine+super.getStat(stat);
 		case Speed:
-			return ((double)((level-1)/(MaxLevel-1)))*maxspeed+speed;
+			return ((double)((level-1)/(MaxLevel-1)))*maxspeed+super.getStat(stat);
 		case Strength:
 
-			return (((double)((level-1)/(MaxLevel-1)))*maxstrength)+strength;
+			return (((double)((level-1)/(MaxLevel-1)))*maxstrength)+super.getStat(stat);
 			case SeaCreatureChance:
-				return (((double)((level-1)/(MaxLevel-1)))*maxseacreaturechance) + seacreaturechance;
+				return (((double)((level-1)/(MaxLevel-1)))*maxseacreaturechance) + super.getStat(stat);
 		default:
 			break;
 		

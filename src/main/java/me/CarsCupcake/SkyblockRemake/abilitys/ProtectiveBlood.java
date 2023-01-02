@@ -108,7 +108,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Defense, 135);
         manager.addSlot(new GemstoneSlot(SlotType.Amethyst));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.ProtectiveBlood);
+        manager.setFullSetBonus(Bonuses.ProtectiveBlood, "Protective Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -116,7 +116,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.ProtectorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -133,7 +133,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Defense, 185);
         manager.addSlot(new GemstoneSlot(SlotType.Amethyst));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.ProtectiveBlood);
+        manager.setFullSetBonus(Bonuses.ProtectiveBlood, "Protective Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -141,7 +141,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.ProtectorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -158,7 +158,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Defense, 165);
         manager.addSlot(new GemstoneSlot(SlotType.Amethyst));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.ProtectiveBlood);
+        manager.setFullSetBonus(Bonuses.ProtectiveBlood,"Protective Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -166,7 +166,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.ProtectorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -183,7 +183,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Defense, 165);
         manager.addSlot(new GemstoneSlot(SlotType.Amethyst));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.ProtectiveBlood);
+        manager.setFullSetBonus(Bonuses.ProtectiveBlood, "Protective Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -191,7 +191,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.ProtectorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

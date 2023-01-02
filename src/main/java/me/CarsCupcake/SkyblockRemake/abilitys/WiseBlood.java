@@ -88,7 +88,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 125);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -96,7 +96,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.WiseDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -112,7 +112,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -120,7 +120,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.WiseDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -136,7 +136,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -144,7 +144,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.WiseDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }
@@ -160,7 +160,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
         manager.setAbilityLore(lore);
         manager.setUnstackeble(true);
 
@@ -168,7 +168,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.WiseDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
-        SkyblockRecipe.recipes.put(recipe.getId(), recipe);
+        SkyblockRecipe.recipes.add(recipe);
 
         return manager;
     }

@@ -19,7 +19,7 @@ public class DrillPart extends ItemManager{
 	public ArrayList<String> appliedLore = new ArrayList<>();
 	
 	public DrillPart(String name, String id, ItemType type, ArrayList<String> lore, ArrayList<String> applyLore, ItemRarity rarity, String headTexture) {
-		super(name, id, type, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,lore, null, null, null, 0, 0, 0, 0, rarity, headTexture);
+		super(name, id, type,  rarity, headTexture);
 		this.appliedLore = applyLore;
 		parts.put(id, this);
 	}

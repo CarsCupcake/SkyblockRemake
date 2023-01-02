@@ -1822,7 +1822,7 @@ public class Main extends JavaPlugin {
 		return ferocity;
 	}
 
-	public static double getPlayerStat(SkyblockPlayer player, Stats stat) {
+	public synchronized static double getPlayerStat(SkyblockPlayer player, Stats stat) {
 		double ferocity = player.getBaseStat(stat);
 		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
 		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
@@ -1882,7 +1882,7 @@ public class Main extends JavaPlugin {
 	}
 
 	
-	public static double getItemStat(SkyblockPlayer player, Stats stat, ItemStack item){
+	public synchronized static double getItemStat(SkyblockPlayer player, Stats stat, ItemStack item){
 		double value = 0;
 		if (item == null) {
 			return 0;
@@ -2066,7 +2066,6 @@ public class Main extends JavaPlugin {
 
 		List<String> lore = new ArrayList<>();
 
-		item.setItemMeta(meta);
 		if (data.get(new NamespacedKey(Main, "id"), PersistentDataType.STRING) != null) {
 			ItemManager manager = Items.SkyblockItems
 					.get(data.get(new NamespacedKey(Main, "id"), PersistentDataType.STRING));
@@ -2947,15 +2946,15 @@ public class Main extends JavaPlugin {
 
 			if (Pet.pets.containsKey(manager.itemID)) {
 				lores.add(" ");
-				if (data.get(new NamespacedKey(Main, "level"),
-						PersistentDataType.INTEGER) == (Pet.pets.get(manager.itemID).MaxLevel))
+				if (data.getOrDefault(new NamespacedKey(Main, "level"),
+						PersistentDataType.INTEGER, 1) == (Pet.pets.get(manager.itemID).MaxLevel))
 					lores.add("§b§lMax Level!");
-				else if (data.get(new NamespacedKey(Main, "level"),
-						PersistentDataType.INTEGER) > (Pet.pets.get(manager.itemID).MaxLevel))
+				else if (data.getOrDefault(new NamespacedKey(Main, "level"),
+						PersistentDataType.INTEGER, 1) > (Pet.pets.get(manager.itemID).MaxLevel))
 					lores.add("§c§l§k l §r§c§lOver Leveled! §kl");
 				else {
-				    double currxp = data.get(new NamespacedKey(Main, "currxp"), PersistentDataType.DOUBLE);
-				    double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.get(new NamespacedKey(Main, "level"),PersistentDataType.INTEGER));
+				    double currxp = data.getOrDefault(new NamespacedKey(Main, "currxp"), PersistentDataType.DOUBLE, 0d);
+				    double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.getOrDefault(new NamespacedKey(Main, "level"),PersistentDataType.INTEGER, 1));
 				    double pers = currxp/reqxp;
 				    int colored = (int)(20 * pers);
 					String str = "";
