@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Configs;
 
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,6 +18,9 @@ public class CustomConfig {
     public CustomConfig(String name){
         file = new File("C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files" , name + ".yml");
         init();
+    }
+    public CustomConfig(SkyblockPlayer player, String name){
+        this(new File("C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files\\playerData\\" + player.getUniqueId(), name + ".yml"));
     }
     private void init(){
         setup();

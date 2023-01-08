@@ -2,6 +2,8 @@ package me.CarsCupcake.SkyblockRemake.Items;
 
 import java.util.ArrayList;
 
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -26,6 +28,14 @@ public class AbilityListener implements Listener {
 	}
 	@EventHandler
 	public void listener(EntityDamageByEntityEvent event) {
+		AbilityManager.abilityTrigger(event);
+	}
+	@EventHandler
+	public void a(DamagePrepairEvent event){
+		AbilityManager.abilityTrigger(event);
+	}
+	@EventHandler
+	public void a(SkyblockDamagePlayerToEntityExecuteEvent event){
 		AbilityManager.abilityTrigger(event);
 	}
 	

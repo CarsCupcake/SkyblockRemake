@@ -576,6 +576,12 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 	 return (slot < 55 && slot >= 0);
  }
 
+ public static String ticksAsTime(long l){
+	 double seconds = l / 20;
+	 int minutes = (int) (seconds / 60d);
+
+	 return minutes + ":" + ((int) (seconds - (minutes * 60)));
+ }
  
  
 }

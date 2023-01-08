@@ -9,10 +9,12 @@ Sneak,
 EntityHit,
 FullSetBonus,
 	LeftOrRightClick,
-	SneakLeftOrRightClick;
+	SneakLeftOrRightClick,
+	SkyblockPreHit,
+	AfterHit;
 	public String toString() {
 		return switch (this) {
-			case EntityHit -> "Hit";
+			case EntityHit, SkyblockPreHit, AfterHit -> "Hit";
 			case LeftClick -> "Left Click";
 			case RightClick -> "Right Click";
 			case Sneak -> "Sneak";
@@ -24,9 +26,6 @@ FullSetBonus,
 		};
 	}
 	public static boolean isNoSneak(AbilityType type){
-		if(type == SneakLeftClick || type == SneakLeftOrRightClick || type == Sneak || type == SneakRightClick)
-			return false;
-		else
-			return true;
+		return type != SneakLeftClick && type != SneakLeftOrRightClick && type != Sneak && type != SneakRightClick;
 	}
 }

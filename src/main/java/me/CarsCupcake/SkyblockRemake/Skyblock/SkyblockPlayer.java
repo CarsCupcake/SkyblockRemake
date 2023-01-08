@@ -1,9 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.ListIterator;
+import java.util.*;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +14,7 @@ import me.CarsCupcake.SkyblockRemake.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Combat;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
 import org.bukkit.Bukkit;
@@ -129,6 +128,8 @@ public class SkyblockPlayer extends CraftPlayer{
 	@Getter
 	@Setter
 	private int magicalpower = 0;
+	@Getter
+	private final SortedSet<Effect> activeEffects = new TreeSet<>((o1, o2) -> o1.name().compareTo(o2.name()));
 
 	
 	
@@ -177,7 +178,7 @@ public class SkyblockPlayer extends CraftPlayer{
 				
 			}
 		}.runTaskLater(Main.getMain(), 10);
-
+		Effect.load(this);
 		
 		
 		

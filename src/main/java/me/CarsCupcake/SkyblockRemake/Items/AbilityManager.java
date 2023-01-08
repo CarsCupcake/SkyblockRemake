@@ -1,11 +1,12 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.abilitys.PreAbilityExecution;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
+import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -470,103 +471,311 @@ if(!hasActivated)
 	@SuppressWarnings("deprecation")
 	static void abilityTrigger(EntityDamageByEntityEvent event) {
 		if(event.getDamager() instanceof Player) {
-SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getDamager());
+			SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getDamager());
 
 			if(player.getItemInHand().getItemMeta() == null || player.getItemInHand().getItemMeta().getPersistentDataContainer() == null)
 				return;
 
 			ItemManager manager = Items.SkyblockItems.get(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
 			if(manager!= null)
-			if(manager.ability != null) {
-				if(manager.abilityType == AbilityType.EntityHit) {
-					int totalManaCost;
-					if(manager.abilityMana1AsPers)
-						totalManaCost = ((int) ( Main.playermanacalc(player) * manager.abilityManaCost));
-					else
-						totalManaCost = (int) manager.abilityManaCost;
-					AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
-					Bukkit.getPluginManager().callEvent(executeEvent);
-					if(executeEvent.isCancelled())
-						return;
-					totalManaCost = executeEvent.getPayedMana();
-if(player.currmana >= totalManaCost) {
-	if(!allowToFire(player, manager.ability.getClass(), AbilityType.EntityHit)){
-		player.sendMessage("§cOn Coolown!");
-		return;
-	}
-	if(manager.abilityCD > 0)
-		startCooldown(SkyblockPlayer.getSkyblockPlayer(player), manager.ability.getClass(), manager.abilityCD * 20L, AbilityType.EntityHit);
+				if(manager.ability != null) {
+					if(manager.abilityType == AbilityType.EntityHit) {
+						int totalManaCost;
+						if(manager.abilityMana1AsPers)
+							totalManaCost = ((int) ( Main.playermanacalc(player) * manager.abilityManaCost));
+						else
+							totalManaCost = (int) manager.abilityManaCost;
+						AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+						Bukkit.getPluginManager().callEvent(executeEvent);
+						if(executeEvent.isCancelled())
+							return;
+						totalManaCost = executeEvent.getPayedMana();
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability.getClass(), AbilityType.EntityHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(SkyblockPlayer.getSkyblockPlayer(player), manager.ability.getClass(), manager.abilityCD * 20L, AbilityType.EntityHit);
 
-	player.setMana(player.currmana - totalManaCost);
-						Main.updatebar(player);
-	try {
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
+							try {
 
-		manager.ability.getClass().newInstance().executeAbility(event);
-		if(totalManaCost > 0)
-			player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName + "§b)");
-	} catch (InstantiationException | IllegalAccessException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
-	}
+								manager.ability.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
 
-}else{
-	player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
 					}
 				}
-			}
 
 
 
 
 
 			if(manager!= null)
-			if(manager.ability2 != null) {
-				int totalManaCost;
-				if(manager.abilityMana2AsPers)
-					totalManaCost = ((int) ( Main.playermanacalc(player) * manager.manacost2));
-				else
-					totalManaCost = (int) manager.manacost2;
+				if(manager.ability2 != null) {
+					int totalManaCost;
+					if(manager.abilityMana2AsPers)
+						totalManaCost = ((int) ( Main.playermanacalc(player) * manager.manacost2));
+					else
+						totalManaCost = (int) manager.manacost2;
 
-				if(additionalMana.get(player).containsKey(manager.itemID)) {
-					totalManaCost += additionalMana.get(player).get(manager.itemID).amount;
+					if(additionalMana.get(player).containsKey(manager.itemID)) {
+						totalManaCost += additionalMana.get(player).get(manager.itemID).amount;
 
-				}
-				AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
-				Bukkit.getPluginManager().callEvent(executeEvent);
-				totalManaCost = executeEvent.getPayedMana();
-				if(executeEvent.isCancelled())
-					return;
-				if(manager.abilityType2 == AbilityType.EntityHit) {
-if(player.currmana >= totalManaCost) {
-	if(!allowToFire(player, manager.ability2.getClass(), AbilityType.EntityHit)){
-		player.sendMessage("§cOn Coolown!");
-		return;
-	}
-	if(manager.abilityCD > 0)
-		startCooldown(player, manager.ability2.getClass(), manager.cooldown2 * 20L, AbilityType.EntityHit);
-	player.setMana(player.currmana - totalManaCost);
-						Main.updatebar(player);
+					}
+					AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+					Bukkit.getPluginManager().callEvent(executeEvent);
+					totalManaCost = executeEvent.getPayedMana();
+					if(executeEvent.isCancelled())
+						return;
+					if(manager.abilityType2 == AbilityType.EntityHit) {
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability2.getClass(), AbilityType.EntityHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(player, manager.ability2.getClass(), manager.cooldown2 * 20L, AbilityType.EntityHit);
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
 
-	try {
+							try {
 
-		manager.ability2.getClass().newInstance().executeAbility(event);
-		if(totalManaCost > 0)
-			player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName2 + "§b)");
-	} catch (InstantiationException | IllegalAccessException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
-	}
-						
-					}else{
-						player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+								manager.ability2.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName2 + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
+
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
 					}
 				}
-			}
-			
-			
-			
+
+
+
+		}
+	}
+	@SuppressWarnings("deprecation")
+	static void abilityTrigger(DamagePrepairEvent event) {
+		if(event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity)
+		{
+			SkyblockPlayer player = event.getPlayer();
+
+			if(player.getItemInHand().getItemMeta() == null || player.getItemInHand().getItemMeta().getPersistentDataContainer() == null)
+				return;
+
+			ItemManager manager = Items.SkyblockItems.get(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
+			if(manager!= null)
+				if(manager.ability != null) {
+					if(manager.abilityType == AbilityType.SkyblockPreHit) {
+						int totalManaCost;
+						if(manager.abilityMana1AsPers)
+							totalManaCost = ((int) ( Main.playermanacalc(player) * manager.abilityManaCost));
+						else
+							totalManaCost = (int) manager.abilityManaCost;
+						AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+						Bukkit.getPluginManager().callEvent(executeEvent);
+						if(executeEvent.isCancelled())
+							return;
+						totalManaCost = executeEvent.getPayedMana();
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability.getClass(), AbilityType.SkyblockPreHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(SkyblockPlayer.getSkyblockPlayer(player), manager.ability.getClass(), manager.abilityCD * 20L, AbilityType.SkyblockPreHit);
+
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
+							try {
+
+								manager.ability.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
+
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
+					}
+				}
+
+
+
+
+
+			if(manager!= null)
+				if(manager.ability2 != null) {
+					int totalManaCost;
+					if(manager.abilityMana2AsPers)
+						totalManaCost = ((int) ( Main.playermanacalc(player) * manager.manacost2));
+					else
+						totalManaCost = (int) manager.manacost2;
+
+					if(additionalMana.get(player).containsKey(manager.itemID)) {
+						totalManaCost += additionalMana.get(player).get(manager.itemID).amount;
+
+					}
+					AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+					Bukkit.getPluginManager().callEvent(executeEvent);
+					totalManaCost = executeEvent.getPayedMana();
+					if(executeEvent.isCancelled())
+						return;
+					if(manager.abilityType2 == AbilityType.SkyblockPreHit) {
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability2.getClass(), AbilityType.SkyblockPreHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(player, manager.ability2.getClass(), manager.cooldown2 * 20L, AbilityType.SkyblockPreHit);
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
+
+							try {
+
+								manager.ability2.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName2 + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
+
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
+					}
+				}
+
+
+
+		}
+	}
+
+	@SuppressWarnings("deprecation")
+	static void abilityTrigger(SkyblockDamagePlayerToEntityExecuteEvent event) {
+		if(event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && !event.getCalculator().isMagic())
+		{
+			SkyblockPlayer player = event.getPlayer();
+
+			if(player.getItemInHand().getItemMeta() == null || player.getItemInHand().getItemMeta().getPersistentDataContainer() == null)
+				return;
+
+			ItemManager manager = Items.SkyblockItems.get(player.getItemInHand().getItemMeta().getPersistentDataContainer()
+					.get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
+			if(manager!= null)
+				if(manager.ability != null) {
+					if(manager.abilityType == AbilityType.AfterHit) {
+						int totalManaCost;
+						if(manager.abilityMana1AsPers)
+							totalManaCost = ((int) ( Main.playermanacalc(player) * manager.abilityManaCost));
+						else
+							totalManaCost = (int) manager.abilityManaCost;
+						AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+						Bukkit.getPluginManager().callEvent(executeEvent);
+						if(executeEvent.isCancelled())
+							return;
+						totalManaCost = executeEvent.getPayedMana();
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability.getClass(), AbilityType.AfterHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(SkyblockPlayer.getSkyblockPlayer(player), manager.ability.getClass(), manager.abilityCD * 20L, AbilityType.AfterHit);
+
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
+							try {
+
+								manager.ability.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
+
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
+					}
+				}
+
+
+
+
+
+			if(manager!= null)
+				if(manager.ability2 != null) {
+					int totalManaCost;
+					if(manager.abilityMana2AsPers)
+						totalManaCost = ((int) ( Main.playermanacalc(player) * manager.manacost2));
+					else
+						totalManaCost = (int) manager.manacost2;
+
+					if(additionalMana.get(player).containsKey(manager.itemID)) {
+						totalManaCost += additionalMana.get(player).get(manager.itemID).amount;
+
+					}
+					AbilityPreExecuteEvent executeEvent = new AbilityPreExecuteEvent(manager.ability, totalManaCost, player, Action.PHYSICAL);
+					Bukkit.getPluginManager().callEvent(executeEvent);
+					totalManaCost = executeEvent.getPayedMana();
+					if(executeEvent.isCancelled())
+						return;
+					if(manager.abilityType2 == AbilityType.AfterHit) {
+						if(player.currmana >= totalManaCost) {
+							if(!allowToFire(player, manager.ability2.getClass(), AbilityType.AfterHit)){
+								player.sendMessage("§cOn Coolown!");
+								return;
+							}
+							if(manager.abilityCD > 0)
+								startCooldown(player, manager.ability2.getClass(), manager.cooldown2 * 20L, AbilityType.AfterHit);
+							player.setMana(player.currmana - totalManaCost);
+							Main.updatebar(player);
+
+							try {
+
+								manager.ability2.getClass().newInstance().executeAbility(event);
+								if(totalManaCost > 0)
+									player.setTempDefenceString("§b-" + totalManaCost + " Mana (§6" + manager.abilityName2 + "§b)");
+							} catch (InstantiationException | IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+							}
+
+						}else{
+							player.setTempDefenceString("§c§lNOT ENOUGHT MANA");
+						}
+					}
+				}
+
+
+
 		}
 	}
 

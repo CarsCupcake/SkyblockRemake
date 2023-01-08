@@ -7,26 +7,25 @@ import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class AbilityLore {
     public enum LoreFlags{
         AsShortInteger
     }
-    private final ArrayList<String> baseList;
+    private final List<String> baseList;
     private final String placeholder;
     private final Bundle<Double,Double> infos;
-    private final ArrayList<LoreFlags> flags = new ArrayList<>();
+    private final Set<LoreFlags> flags = new HashSet<>();
     private final HashMap<String, UpdateFlag> placeholders = new HashMap<>();
 
     //Bundle: BaseAbilityDamage - AbilityScaling
-    public AbilityLore(ArrayList<String> base, String placeholder, Bundle<Double, Double> infos){
+    public AbilityLore(List<String> base, String placeholder, Bundle<Double, Double> infos){
         baseList = base;
         this.placeholder = placeholder;
         this.infos = infos;
     }
-    public AbilityLore(ArrayList<String> base){
+    public AbilityLore(List<String> base){
         this(base, null, null);
     }
     public ArrayList<String> makeLore(@Nullable SkyblockPlayer player, ItemStack item){

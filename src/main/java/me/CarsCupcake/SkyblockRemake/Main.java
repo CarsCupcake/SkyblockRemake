@@ -36,6 +36,8 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
+import me.CarsCupcake.SkyblockRemake.Potion.Potion;
+import me.CarsCupcake.SkyblockRemake.Potion.PotionCommand;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
@@ -331,6 +333,7 @@ public class Main extends JavaPlugin {
 		getCommand("setting").setTabCompleter(new SettingsTAB());
 		getCommand("dummy").setExecutor(new DummyCMD());
 		getCommand("star").setExecutor(new starItem());
+		getCommand("potion").setExecutor(new PotionCommand());
 
 
 		getCommand("kuudra").setExecutor(new startKuudra());
@@ -2696,6 +2699,10 @@ public class Main extends JavaPlugin {
 
 			}
 
+			if(item.getType() == Material.POTION){
+				lores.addAll(Potion.craftLore(player, item));
+			}
+
 
 
 
@@ -3019,9 +3026,13 @@ public class Main extends JavaPlugin {
 				extra = "DUNGEON ";
 
 			if (data.get(new NamespacedKey(Main, "recomed"), PersistentDataType.INTEGER) == 0)
-				lores.add(manager.rarity.getRarityName() + " "+extra + manager.type.toString().toUpperCase());
+				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : manager.rarity.getRarityName()) + " "
+						+extra + manager.type.toString().toUpperCase());
 			else {
-				lores.add(rarity.getPrefix() + "§k§lr§r " + rarity.getRarityName() + " " + extra
+				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra
 						+ manager.type.toString().toUpperCase() + " §kr");
 			}
 			meta.setLore(lores);

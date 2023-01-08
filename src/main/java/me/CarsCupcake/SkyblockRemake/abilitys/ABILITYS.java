@@ -26,8 +26,13 @@ import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Stone;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Titanium;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.MiningBlock;
 import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Potion.Effect;
+import me.CarsCupcake.SkyblockRemake.Potion.PotionEffect;
+import me.CarsCupcake.SkyblockRemake.Potion.PotionItems;
+import me.CarsCupcake.SkyblockRemake.Potion.PotionListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.JerryListener;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.TwilightDaggerHit;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -94,6 +99,7 @@ public class ABILITYS implements Listener{
             }
         });
         registerEvent(new SwingRangeStat());
+        registerEvent(new TwilightDaggerHit.DaggerHit());
         if(SkyblockServer.getServer().getType() == ServerType.F7){
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
@@ -104,6 +110,9 @@ public class ABILITYS implements Listener{
         }
         Attribute.registerAttribute(new ManaPool(null ,0, null));
         Attribute.registerAttribute(new MagicFind(null ,0, null));
+        Effect.init();
+        new PotionItems();
+        registerEvent(new PotionListener());
     }
     public static void disable(){
         Totem.stopAll();

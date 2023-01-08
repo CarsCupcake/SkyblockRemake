@@ -16,6 +16,7 @@ import me.CarsCupcake.SkyblockRemake.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRegistration.GiantsArmorSets;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.BlazeSlayerItems;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
 import me.CarsCupcake.SkyblockRemake.WinterIsle.WinterItems;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
@@ -416,6 +417,8 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		diamondArachneHead();
 		darkClaymore();
 		ItemHandler.registerAll(GiantsArmorSets.class);
+
+		new BlazeSlayerItems();
 
 	}
 

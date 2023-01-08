@@ -15,7 +15,6 @@ public class SwingRangeStat implements Listener {
     public void onInteract(PlayerInteractEvent event){
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         double swingrange = Main.getPlayerStat(player, Stats.SwingRange);
-        System.out.println(swingrange);
         if(swingrange == 0)
             return;
         if(event.getAction() == Action.PHYSICAL)

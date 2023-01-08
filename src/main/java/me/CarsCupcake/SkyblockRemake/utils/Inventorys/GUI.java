@@ -7,13 +7,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 
 public class GUI {
-    private final Inventory inv;
+    private Inventory inv;
     private SkyblockPlayer player;
     private final HashMap<Integer, GUIAction> inventoryClickAction = new HashMap<>();
     private final HashMap<Integer, GUIAction> playerInventoryClickAction = new HashMap<>();
     private GUIAction closeAction;
     private InventoryGUIAction generalAction;
-    private static HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
+    private static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
     private boolean isCanceled = false;
 
     public GUI(Inventory inventory){
@@ -22,7 +22,6 @@ public class GUI {
     public void showGUI(SkyblockPlayer player){
         this.player = player;
         player.openInventory(inv);
-
         opened.put(player, this);
     }
     public SkyblockPlayer getPlayer(){
@@ -82,6 +81,10 @@ public class GUI {
     }
     public void setGeneralAction(InventoryGUIAction action){
         generalAction = action;
+    }
+    public void swapInventory(Inventory i){
+        inv = i;
+        player.openInventory(inv);
     }
     public Inventory getInventory(){
         return inv;
