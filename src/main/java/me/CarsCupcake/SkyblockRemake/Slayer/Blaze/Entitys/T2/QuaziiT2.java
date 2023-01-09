@@ -1,15 +1,19 @@
-package me.CarsCupcake.SkyblockRemake.Entitys;
+package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import net.minecraft.world.entity.boss.wither.EntityWither;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.DemonsGoal;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1;
+import me.CarsCupcake.SkyblockRemake.Tools;
+import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
-
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftWitherSkeleton;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
@@ -18,20 +22,15 @@ import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import net.minecraft.world.entity.player.EntityHuman;
+import java.util.HashMap;
 
-public class QuaziiT1 extends SkyblockEntity{
+public class QuaziiT2 extends SkyblockEntity implements Demons {
 
 	
-	private int health = 500000;
+	private int health = 1750000;
 	private WitherSkeleton entity;
 	
-	private BlazeSlayerT1 baseSlayer;
+	private BlazeSlayerT2 baseSlayer;
 	private final String name = "§3ⓆⓊⒶ§?ⒾⒾ";
 	
 	private BukkitRunnable tpRun;
@@ -39,11 +38,16 @@ public class QuaziiT1 extends SkyblockEntity{
 	private ArmorStand timer;
 	
 	public boolean isInvincible = true;
+
+	@Override
+	public boolean isInvinceble() {
+		return isInvincible;
+	}
 	
 	@Override
 	public int getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 500000;
+		return 1750000;
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class QuaziiT1 extends SkyblockEntity{
 	@Override
 	public int getDamage() {
 		// TODO Auto-generated method stub
-		return 2500;
+		return 8000;
 	}
 	public void startAttack(SkyblockPlayer player) {
 
@@ -107,28 +111,28 @@ public class QuaziiT1 extends SkyblockEntity{
 		if (duration >= 1)
 			seconds = duration;
 		if (hours == 0) {
-			string = String.valueOf(string) + "";
+			string = string + "";
 		} else {
 			if (hours <= 9) {
-				string = String.valueOf(string) + "0" + hours + ":";
+				string = string + "0" + hours + ":";
 			} else {
-				string = String.valueOf(string) + hours + ":";
+				string = string + hours + ":";
 			}
 		}
 		if (minutes == 0) {
-			string = String.valueOf(string) + "";
+			string = string + "";
 		} else {
 			if (minutes <= 9) {
-				string = String.valueOf(string) + "0" + minutes + ":";
+				string = string + "0" + minutes + ":";
 			} else {
-				string = String.valueOf(string) + minutes + ":";
+				string = string + minutes + ":";
 			}
 		}
 		
 			if (seconds <= 9) {
-				string = String.valueOf(string) + "0" + seconds ;
+				string = string + "0" + seconds ;
 			} else {
-				string = String.valueOf(string) + seconds ;
+				string = string + seconds ;
 			
 		}
 		return string;
@@ -151,7 +155,7 @@ public class QuaziiT1 extends SkyblockEntity{
 			s.setTarget(baseSlayer.owner);
 			s.setRemoveWhenFarAway(false);
 		});
-		((CraftWitherSkeleton)entity).getHandle().bP.a(0,new QuaziiT1Goal<EntityHuman>(this, ((CraftWitherSkeleton)entity).getHandle(), EntityHuman.class, 5,1,1));
+		((CraftWitherSkeleton)entity).getHandle().bP.a(0,new DemonsGoal<EntityHuman>(this, ((CraftWitherSkeleton)entity).getHandle(), EntityHuman.class, 5,1,1));
 		Attributable zombieAt = entity;
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		attributeSpeed.setBaseValue(0.35);
@@ -222,7 +226,7 @@ public class QuaziiT1 extends SkyblockEntity{
 		
 	}
 	
-	public void setBlazeSlayer(BlazeSlayerT1 slayer) {
+	public void setBlazeSlayer(BlazeSlayerT2 slayer) {
 		baseSlayer = slayer;
 	}
 

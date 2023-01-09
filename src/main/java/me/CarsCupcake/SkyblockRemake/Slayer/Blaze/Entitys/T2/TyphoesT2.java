@@ -1,9 +1,15 @@
-package me.CarsCupcake.SkyblockRemake.Entitys;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.DemonsGoal;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1;
+import me.CarsCupcake.SkyblockRemake.Tools;
+import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -20,21 +26,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import net.minecraft.world.entity.player.EntityHuman;
+import java.util.HashMap;
 
 
-public class TyphoesT1 extends SkyblockEntity{
+public class TyphoesT2 extends SkyblockEntity implements Demons {
 
 	
-	private int health = 500000;
+	private int health = 1750000;
 	private PigZombie entity;
 	
-	private BlazeSlayerT1 baseSlayer;
+	private BlazeSlayerT2 baseSlayer;
 	private final String name = "§6ⓉⓎⓅⒽⓄⒺⓊⓈ";
 
 	private BukkitRunnable tpRun;
@@ -46,7 +47,7 @@ public class TyphoesT1 extends SkyblockEntity{
 	@Override
 	public int getMaxHealth() {
 		// TODO Auto-generated method stub
-		return 500000;
+		return 1750000;
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class TyphoesT1 extends SkyblockEntity{
 	@Override
 	public int getDamage() {
 		// TODO Auto-generated method stub
-		return 2500;
+		return 8000;
 	}
 	private void startTimer() {
 		tpRun = new BukkitRunnable() {
@@ -109,7 +110,7 @@ public class TyphoesT1 extends SkyblockEntity{
 			
 		});
 		
-		((CraftPigZombie)entity).getHandle().bP.a(0,new TyphoesT1Goal<>(this, ((CraftPigZombie)entity).getHandle(), EntityHuman.class, 5,1,1));
+		((CraftPigZombie)entity).getHandle().bP.a(0,new DemonsGoal<>(this, ((CraftPigZombie)entity).getHandle(), EntityHuman.class, 5,1,1));
 		
 		Attributable zombieAt = (Attributable) entity;
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
@@ -244,7 +245,7 @@ public class TyphoesT1 extends SkyblockEntity{
 		
 	}
 	
-	public void setBlazeSlayer(BlazeSlayerT1 slayer) {
+	public void setBlazeSlayer(BlazeSlayerT2 slayer) {
 		baseSlayer = slayer;
 	}
 
@@ -303,4 +304,8 @@ public class TyphoesT1 extends SkyblockEntity{
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);
 	}
 
+	@Override
+	public boolean isInvinceble() {
+		return isInvincible;
+	}
 }

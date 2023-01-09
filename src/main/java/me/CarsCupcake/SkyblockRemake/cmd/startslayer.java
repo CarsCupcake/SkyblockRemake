@@ -1,18 +1,17 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2.BlazeSlayerT2;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Entitys.BlazeSlayerT1;
-import me.CarsCupcake.SkyblockRemake.Entitys.QuaziiT1;
-import me.CarsCupcake.SkyblockRemake.Entitys.TyphoesT1;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.QuaziiT1;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 
 public class startslayer implements CommandExecutor{
 
@@ -33,6 +32,11 @@ public class startslayer implements CommandExecutor{
 				case "blaze" -> {
 					if (args[1].equals("1")) {
 						BlazeSlayerT1 slayer = new BlazeSlayerT1();
+						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
+						slayer.spawn(player.getLocation());
+					}
+					if (args[1].equals("2")) {
+						BlazeSlayerT2 slayer = new BlazeSlayerT2();
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.spawn(player.getLocation());
 					}

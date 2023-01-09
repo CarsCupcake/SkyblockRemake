@@ -42,6 +42,9 @@ public class Potion implements ItemGenerator {
         for(NamespacedKey key : ItemHandler.getPDC("potion", item, PersistentDataType.TAG_CONTAINER).getKeys()){
             PersistentDataContainer c = ItemHandler.getPDC("potion", item, PersistentDataType.TAG_CONTAINER).get(key, PersistentDataType.TAG_CONTAINER);
             PotionEffect effect = PotionEffect.getPotionEffects().get(key.getKey());
+            if(effect == null) {
+                continue;
+            }
             int level = c.get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER);
             long duration = c.get(new NamespacedKey(Main.getMain(), "duration"), PersistentDataType.LONG);
             Effect e = effect.getDummyEffect();
@@ -56,8 +59,10 @@ public class Potion implements ItemGenerator {
     @Override
     public ItemStack createNewItemStack() {
         ItemStack item = base.effect().createNewItemStack();
-        for (PotionData data : rest)
+        PotionEffect.addEffectToBottle(item, base.effect(), base.level(), base.duration());
+        for (PotionData data : rest) {
             PotionEffect.addEffectToBottle(item, data.effect(), data.level(), data.duration());
+        }
         ItemHandler.setPDC("potion_name", item, PersistentDataType.STRING, name);
         return item;
     }

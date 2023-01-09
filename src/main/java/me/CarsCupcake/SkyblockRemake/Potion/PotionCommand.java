@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.Potion;
 
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.cmd.itemCMD;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

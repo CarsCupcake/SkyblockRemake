@@ -103,7 +103,7 @@ public class PotionEffect implements ItemGenerator {
 
     public Effect getDummyEffect(){
         Constructor<? extends Effect> constructor = Tools.getConstructorIfAvailable(effect, SkyblockPlayer.class, Integer.class, Long.class);
-        return ClassUtils.instantiateClass(constructor, null, 0, 0);
+        return ClassUtils.instantiateClass(constructor, null, 0, 0L);
     }
 
     public static ItemStack addEffectToBottle(ItemStack item, PotionEffect effect, int level, long duration){

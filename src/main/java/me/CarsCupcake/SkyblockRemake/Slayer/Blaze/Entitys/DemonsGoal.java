@@ -1,8 +1,9 @@
-package me.CarsCupcake.SkyblockRemake.Entitys;
+package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys;
 
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.function.Predicate;
+
 import net.minecraft.world.entity.EntityCreature;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.IEntitySelector;
@@ -15,10 +16,10 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.level.pathfinder.PathEntity;
 import net.minecraft.world.phys.Vec3D;
 
-public class TyphoesT1Goal<T extends EntityLiving> extends PathfinderGoal {
+public class DemonsGoal<T extends EntityLiving> extends PathfinderGoal {
 
 	
-	private final TyphoesT1 entity;
+	private final Demons entity;
 	protected final EntityCreature a;
     private final double i;
     private final double j;
@@ -32,15 +33,13 @@ public class TyphoesT1Goal<T extends EntityLiving> extends PathfinderGoal {
     private final PathfinderTargetCondition k;
 
 
-    public TyphoesT1Goal(TyphoesT1 q,EntityCreature var0, Class<T> var1, float var2, double var3, double var5) {
+    public DemonsGoal(Demons q, EntityCreature var0, Class<T> var1, float var2, double var3, double var5) {
        
        
-        this(q,var0, var1, (var0x) -> {
-            return true;
-        }, var2, var3, var5, IEntitySelector.e::test);
+        this(q,var0, var1, (var0x) -> true, var2, var3, var5, IEntitySelector.e::test);
     }
 	
-	public TyphoesT1Goal(TyphoesT1 q,EntityCreature var0, Class<T> var1, Predicate<EntityLiving> var2, float var3, double var4, double var6, Predicate<EntityLiving> var8) {
+	public DemonsGoal(Demons q, EntityCreature var0, Class<T> var1, Predicate<EntityLiving> var2, float var3, double var4, double var6, Predicate<EntityLiving> var8) {
 		entity = q;
 		 Objects.requireNonNull(var8);
 	        this.a = var0;
@@ -59,7 +58,7 @@ public class TyphoesT1Goal<T extends EntityLiving> extends PathfinderGoal {
 	
 	@Override
 	public boolean a() {
-		if(entity.isInvincible) {
+		if(entity.isInvinceble()) {
 			
 			
 			

@@ -18,7 +18,7 @@ public abstract class Effect {
     private final SkyblockPlayer player;
     @Getter
     private final int level;
-    public Effect(SkyblockPlayer player, int level, long duration){
+    public Effect(SkyblockPlayer player, Integer level, Long duration){
         this.player = player;
         this.level = level;
         this.duration = duration;

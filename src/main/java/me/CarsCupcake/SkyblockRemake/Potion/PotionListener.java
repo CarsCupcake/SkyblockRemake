@@ -34,7 +34,7 @@ public class PotionListener implements Listener {
 
         int list = 0;
         for(int invCount = 1; invCount <= invs; invCount++) {
-            Inventory inv = Bukkit.createInventory(null, 54, "Custom Items Menu - Page " + invCount);
+            Inventory inv = Bukkit.createInventory(null, 54, "Potions Menu - Page " + invCount);
             ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer data = meta.getPersistentDataContainer();
@@ -103,6 +103,7 @@ public class PotionListener implements Listener {
         for(NamespacedKey key : ItemHandler.getPDC("potion", item, PersistentDataType.TAG_CONTAINER).getKeys()){
             PersistentDataContainer c = ItemHandler.getPDC("potion", item, PersistentDataType.TAG_CONTAINER).get(key, PersistentDataType.TAG_CONTAINER);
             PotionEffect effect = PotionEffect.getPotionEffects().get(key.getKey());
+            System.out.println(c.get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER));
             effect.applyEffect(player, c.get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER), c.get(new NamespacedKey(Main.getMain(), "duration"), PersistentDataType.LONG));
         }
     }

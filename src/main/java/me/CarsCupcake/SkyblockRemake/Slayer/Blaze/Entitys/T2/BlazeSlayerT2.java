@@ -1,9 +1,12 @@
-package me.CarsCupcake.SkyblockRemake.Entitys;
+package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.QuaziiT1;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
+import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
@@ -12,16 +15,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import java.util.HashMap;
+import java.util.Random;
 
-public class BlazeSlayerT1 extends SkyblockEntity{
+public class BlazeSlayerT2 extends SkyblockEntity{
 
 	
-	private int health = 2500000;
+	private int health = 10000000;
 	private LivingEntity entity;
 	public SkyblockPlayer owner;
 	private BukkitRunnable run;
@@ -37,13 +37,13 @@ public class BlazeSlayerT1 extends SkyblockEntity{
 	
 	private BukkitRunnable teleportRunnable;
 	
-	private QuaziiT1 quazii;
-	private TyphoesT1 typhoes;
+	private QuaziiT2 quazii;
+	private TyphoesT2 typhoes;
 	
 	private BukkitRunnable aoeRunner;
 	@Override
 	public int getMaxHealth() {
-		return 2500000;
+		return 10000000;
 	}
 
 	@Override
@@ -244,22 +244,22 @@ public class BlazeSlayerT1 extends SkyblockEntity{
 						});
 					entity.getLocation().getWorld().spawnParticle(Particle.EXPLOSION_HUGE,typhoeusStand.getLocation().add(0,0.5,0), 0, 0, 0, 5, 0, null);
 					
-					QuaziiT1 quazii = new QuaziiT1();
-					quazii.setBlazeSlayer(BlazeSlayerT1.this);
+					QuaziiT2 quazii = new QuaziiT2();
+					quazii.setBlazeSlayer(BlazeSlayerT2.this);
 					quazii.spawn(quazziLoc);
 //					quazii.startAttack(SkyblockPlayer.getSkyblockPlayer(owner));
 					quaziiAlive = true;
-					BlazeSlayerT1.this.quazii = quazii;
+					BlazeSlayerT2.this.quazii = quazii;
 					quaziiStand.setPassenger(quazii.getEntity());
 					
-					TyphoesT1 typhoes = new TyphoesT1();
-					typhoes.setBlazeSlayer(BlazeSlayerT1.this);
+					TyphoesT2 typhoes = new TyphoesT2();
+					typhoes.setBlazeSlayer(BlazeSlayerT2.this);
 					
 					typhoes.spawn(typhoeusLoc);
 //					typhoes.startAttack(SkyblockPlayer.getSkyblockPlayer(owner));
 					typhoeusAlive = true;
 					typhoeusStand.setPassenger(typhoes.getEntity());
-					BlazeSlayerT1.this.typhoes = typhoes;	
+					BlazeSlayerT2.this.typhoes = typhoes;
 					boolean bol = new Random().nextBoolean();
 					System.out.println(bol);
 					if(bol) {
@@ -415,10 +415,10 @@ public class BlazeSlayerT1 extends SkyblockEntity{
 			return 100;
 		double mult = 0;
 		if(getMaxHealth()*0.33>health )
-			mult = 0.12;
+			mult = 0.15;
 		else
 			if(getMaxHealth()*0.66>health)
-				mult = 0.08;
+				mult = 0.1;
 			else mult = 0.05;
 		return (int)(100 + ( Main.playerhealthcalc(owner) * mult ));
 	}

@@ -6,13 +6,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class JumpBoost extends Effect {
-    public JumpBoost(SkyblockPlayer player, int level, long duration) {
+    public JumpBoost(SkyblockPlayer player, Integer level, Long duration) {
         super(player, level, duration);
     }
 
     @Override
     public void start() {
-        getPlayer().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Math.toIntExact(getDuration() + 1), getLevel()));
+        getPlayer().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, Math.toIntExact(getDuration() + 1), getLevel() - 1));
     }
 
     @Override
@@ -27,6 +27,6 @@ public class JumpBoost extends Effect {
 
     @Override
     public String id() {
-        return "JUMP";
+        return "jump";
     }
 }

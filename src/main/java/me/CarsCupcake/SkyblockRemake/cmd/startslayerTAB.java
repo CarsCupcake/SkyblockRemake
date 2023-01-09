@@ -6,15 +6,16 @@ import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 public class startslayerTAB implements TabCompleter{
-	List<String> arguments = new ArrayList<String>();
-	List<String> arguments1 = new ArrayList<String>();
-	List<String> arguments2 = new ArrayList<String>();
-	List<String> slayer = new ArrayList<String>();
-public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	List<String> arguments = new ArrayList<>();
+	List<String> arguments1 = new ArrayList<>();
+	List<String> arguments2 = new ArrayList<>();
+	List<String> slayer = new ArrayList<>();
+public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(slayer.isEmpty()) {
 			slayer.add("zombie");
 			slayer.add("blaze");
@@ -29,10 +30,7 @@ public List<String> onTabComplete(CommandSender sender, Command cmd, String labe
 	}
 		if(arguments1.isEmpty()) {
 			arguments1.add("1");
-			arguments1.add("quazii");
-			arguments1.add("typhoeus");
-
-
+			arguments1.add("2");
 		}
 	if(arguments2.isEmpty()) {
 		arguments2.add("1");
