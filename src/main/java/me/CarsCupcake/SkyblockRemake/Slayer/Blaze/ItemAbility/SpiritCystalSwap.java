@@ -28,7 +28,7 @@ public class SpiritCystalSwap implements AbilityManager<PlayerInteractEvent>, Up
             event.getItem().setType(Material.IRON_SWORD);
             ItemHandler.setPDC("attuned", event.getItem(), PersistentDataType.STRING, "spirit");
             event.getPlayer().sendTitle("§fSpirit", "", 0, 20, 0);
-        }else if(shield == HellionShield.Ashen){
+        }else if(shield == HellionShield.Spirit){
             event.getItem().setType(Material.DIAMOND_SWORD);
             ItemHandler.setPDC("attuned", event.getItem(), PersistentDataType.STRING, "crystal");
             event.getPlayer().sendTitle("§bCrystal", "", 0, 20, 0);

@@ -56,6 +56,7 @@ public class BlazeSlayerItems {
         manager.setAbilityLore(lore);
         manager.set2Ability("Wraith Drain", new TwilightDaggerHit(), AbilityType.AfterHit, new ArrayList<>(List.of("§7On hit, heal for §c200 §7+", "§c4%" +
                 Stats.Health.getSymbol() + " §7after §a6s §7if the", "§7Hellion Shield has switched", "§7attunement")), 0, 0);
-
+        manager.getFlags().add(ItemFlag.SPECIAL_MATERIAL_GRABBER);
+        manager.setMaterialGrabber(new SpiritCystalSwap());
     }
 }

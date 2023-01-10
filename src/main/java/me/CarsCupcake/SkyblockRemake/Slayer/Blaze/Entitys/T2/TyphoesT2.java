@@ -1,8 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.API.HellionShield;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
@@ -24,12 +27,14 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 
-public class TyphoesT2 extends SkyblockEntity implements Demons {
+public class TyphoesT2 extends SkyblockEntity implements Demons, FinalDamageDesider {
 
 	
 	private int health = 1750000;
@@ -44,6 +49,8 @@ public class TyphoesT2 extends SkyblockEntity implements Demons {
 	
 	public boolean isInvincible = false;
 	private BukkitRunnable aoeRunner;
+	private HellionShield shield = HellionShield.Ashen;
+	private int hits = 8;
 	@Override
 	public int getMaxHealth() {
 		// TODO Auto-generated method stub
@@ -137,9 +144,11 @@ public class TyphoesT2 extends SkyblockEntity implements Demons {
 		
 	}
 	public void updateTimer() {
-		String str = "";
+		String str;
 		if(isInvincible)
 			str = "§4§lIMMUNE ";
+		else
+			str = shield.getName() + " " + hits + " ";
 		timer.setCustomName(str +"§c" +shortInteger(baseSlayer.time));
 	}
 
@@ -269,6 +278,31 @@ public class TyphoesT2 extends SkyblockEntity implements Demons {
 	public void damage(double damage, SkyblockPlayer player) {
 		if(!isInvincible)
 			health -= damage;
+		if(health > 0) {
+			if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING)) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+					PersistentDataType.STRING));
+			if(hellionShield != shield) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			hits--;
+			if(hits == 0){
+				hits = 8;
+				shield = getNext();
+				if(baseSlayer.isQuaziiAlive()){
+					setInvinceble(true);
+					baseSlayer.getQuazii().setInvinceble(false);
+				}
+			}
+			updateTimer();
+
+		}
 		
 	}
 
@@ -307,5 +341,47 @@ public class TyphoesT2 extends SkyblockEntity implements Demons {
 	@Override
 	public boolean isInvinceble() {
 		return isInvincible;
+	}
+
+	@Override
+	public double getFinalDamage(SkyblockPlayer player, double damage) {
+		if(isInvincible)
+			return 0;
+
+		if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING))
+			return damage * 0.01;
+		HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+				PersistentDataType.STRING));
+		if(hellionShield == shield)
+			return damage;
+
+		return 0.01 * damage;
+	}
+	private HellionShield getShieldFromString(String str){
+		switch (str){
+			case "ashen" -> {
+				return HellionShield.Ashen;
+			}
+			case "auric" -> {
+				return HellionShield.Auric;
+			}
+			case "crystal" -> {
+				return HellionShield.Crystal;
+			}
+			case "spirit" -> {
+				return HellionShield.Spirit;
+			}
+			default -> {
+
+				return null;
+			}
+		}
+	}
+
+	private HellionShield getNext(){
+		if (Objects.requireNonNull(shield) == HellionShield.Ashen) {
+			return HellionShield.Auric;
+		}
+		return HellionShield.Ashen;
 	}
 }

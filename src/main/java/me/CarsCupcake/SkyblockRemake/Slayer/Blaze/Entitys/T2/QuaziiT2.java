@@ -1,7 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
+import me.CarsCupcake.SkyblockRemake.API.HellionShield;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
@@ -20,11 +23,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
+import java.util.Objects;
 
-public class QuaziiT2 extends SkyblockEntity implements Demons {
+public class QuaziiT2 extends SkyblockEntity implements Demons, FinalDamageDesider {
 
 	
 	private int health = 1750000;
@@ -38,6 +43,8 @@ public class QuaziiT2 extends SkyblockEntity implements Demons {
 	private ArmorStand timer;
 	
 	public boolean isInvincible = true;
+	private HellionShield shield = HellionShield.Spirit;
+	private int hits = 8;
 
 	@Override
 	public boolean isInvinceble() {
@@ -87,10 +94,12 @@ public class QuaziiT2 extends SkyblockEntity implements Demons {
 		entity.attack(player);
 	}
 	public void updateTimer() {
-		String str = "";
+		String str;
 		if(isInvincible)
 			str = "§4§lIMMUNE ";
-		timer.setCustomName(str + "§c" +shortInteger(baseSlayer.time));
+		else
+			str = shield.getName() + " " + hits + " ";
+		timer.setCustomName(str +"§c" +shortInteger(baseSlayer.time));
 	}
 	private String shortInteger(int duration) {
 		String string = "";
@@ -250,12 +259,38 @@ public class QuaziiT2 extends SkyblockEntity implements Demons {
 	public void damage(double damage, SkyblockPlayer player) {
 		if(!isInvincible)
 			health -= damage;
+
+		if(health > 0) {
+			if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING)) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+					PersistentDataType.STRING));
+			if(hellionShield != shield) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			hits--;
+			if(hits == 0){
+				hits = 8;
+				shield = getNext();
+				if(baseSlayer.isTyphoeusAlive()){
+					setInvinceble(true);
+					baseSlayer.getTyphoes().setInvinceble(false);
+				}
+			}
+			updateTimer();
+
+		}
 		
 	}
 	public void setInvinceble(boolean bol) {
 		isInvincible = bol;
 		updateTimer();
-		if(isInvincible == false)
+		if(!isInvincible)
 			entity.attack(baseSlayer.owner);
 	}
 
@@ -263,6 +298,46 @@ public class QuaziiT2 extends SkyblockEntity implements Demons {
 	public int getTrueDamage() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	@Override
+	public double getFinalDamage(SkyblockPlayer player, double damage) {
+		if(isInvincible)
+			return 0;
+
+		if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING))
+			return damage * 0.01;
+		HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+				PersistentDataType.STRING));
+		if(hellionShield == shield)
+			return damage;
+
+		return 0.01 * damage;
+	}
+	private HellionShield getShieldFromString(String str){
+		switch (str){
+			case "ashen" -> {
+				return HellionShield.Ashen;
+			}
+			case "auric" -> {
+				return HellionShield.Auric;
+			}
+			case "crystal" -> {
+				return HellionShield.Crystal;
+			}
+			case "spirit" -> {
+				return HellionShield.Spirit;
+			}
+			default -> {
+
+				return null;
+			}
+		}
+	}
+	private HellionShield getNext(){
+		if (Objects.requireNonNull(shield) == HellionShield.Spirit) {
+			return HellionShield.Crystal;
+		}
+		return HellionShield.Spirit;
 	}
 
 }

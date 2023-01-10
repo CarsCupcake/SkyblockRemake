@@ -171,12 +171,16 @@ public class Calculator {
 
 
 
+
         if(e.getScoreboardTags().contains("invinc")) {
             return;
         }
         int newHealth;
         if(SkyblockEntity.livingEntity.containsKey(e)) {
             SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
+            if(se instanceof FinalDamageDesider desider)
+                damage = desider.getFinalDamage(player, damage);
+
             se.damage((int)damage,SkyblockPlayer.getSkyblockPlayer(player));
             newHealth = se.getHealth();
 

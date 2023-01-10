@@ -150,6 +150,8 @@ public class FirePillar {
                     cancel();
                     player.setHealth(0, HealthChangeReason.Ability);
                     setRemoved();
+                    if(entity instanceof PillarThrower thrower)
+                        thrower.setPillarExploded();
                     return;
                 }
                 timer.setCustomName("§e§l"+seconds+"s §c§l" + hits + " Hits");
@@ -169,10 +171,18 @@ public class FirePillar {
     }
     public void hit(){
         hits--;
-        if(hits == 0)
+        if(hits == 0) {
             setRemoved();
+            if(entity instanceof PillarThrower thrower)
+                thrower.setPillarDestroied();
+        }
         else
             timer.setCustomName("§e§l"+seconds+"s §c§l" + hits + " Hits");
+    }
+
+    public static interface PillarThrower{
+        void setPillarDestroied();
+        void setPillarExploded();
     }
 
 }

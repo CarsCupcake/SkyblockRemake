@@ -1,9 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
+import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.API.HellionShield;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.QuaziiT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.Tools;
@@ -12,13 +17,14 @@ import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Random;
 
-public class BlazeSlayerT2 extends SkyblockEntity{
+public class BlazeSlayerT2 extends SkyblockEntity implements FinalDamageDesider, FirePillar.PillarThrower {
 
 	
 	private int health = 10000000;
@@ -29,18 +35,22 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 	public int time = 260;
 	private ArmorStand stand;
 	private boolean demonsplitHasActivated = false;
-	
+	@Getter
 	private boolean quaziiAlive = false;
+	@Getter
 	private boolean typhoeusAlive = false;
 	
 	private boolean isInvincible = false;
 	
 	private BukkitRunnable teleportRunnable;
-	
+	@Getter
 	private QuaziiT2 quazii;
+	@Getter
 	private TyphoesT2 typhoes;
 	
 	private BukkitRunnable aoeRunner;
+	private HellionShield shield = HellionShield.Ashen;
+	private int hits = 8;
 	@Override
 	public int getMaxHealth() {
 		return 10000000;
@@ -78,7 +88,7 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 			s.setInvisible(true);
 			s.setInvulnerable(true);
 			s.setCustomNameVisible(true);
-			s.setCustomName("§c" +shortInteger(time));
+			s.setCustomName(shield.getName() +" "+ hits +" §c" +shortInteger(time));
 		});
 		timeTag();
 		Main.updateentitystats(entity);
@@ -177,7 +187,7 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 						return;
 					}else {
 						if(stand != null)
-						stand.setCustomName("§c" + shortInteger(time));
+						stand.setCustomName(shield.getName() +" "+ hits +" §c" +shortInteger(time));
 						if(quaziiAlive)
 							quazii.updateTimer();
 						if(typhoeusAlive)
@@ -341,9 +351,18 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 			s.setInvisible(true);
 			s.setInvulnerable(true);
 			s.setCustomNameVisible(true);
-			s.setCustomName("§c" +shortInteger(time));
+			s.setCustomName(shield.getName() +" "+ hits +" §c" +shortInteger(time));
 		});
 		Main.updateentitystats(entity);
+
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if(entity == null || entity.isDead())
+					return;
+				new FirePillar(BlazeSlayerT2.this, owner);
+			}
+		}.runTaskLater(Main.getMain(), 60);
 	}
 	
 	
@@ -404,8 +423,28 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 			return;
 		int beforehealth = health;
 		health -= damage;
-		if(health > 0)
-		demonsplit(beforehealth);
+		if(health > 0) {
+			demonsplit(beforehealth);
+			if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING)) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+					PersistentDataType.STRING));
+			if(hellionShield != shield) {
+				player.sendMessage("§cYour hit was reduced by Hellion Shield");
+				player.sendMessage("§cStrike using the " + shield.getName() + " §cattunement on your dagger!");
+				return;
+			}
+			hits--;
+			if(hits == 0){
+				hits = 8;
+				shield = getNext();
+			}
+			stand.setCustomName(shield.getName() +" "+ hits +" §c" +shortInteger(time));
+
+		}
 		
 	}
 
@@ -452,4 +491,70 @@ public class BlazeSlayerT2 extends SkyblockEntity{
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);
 	}
 
+	@Override
+	public double getFinalDamage(SkyblockPlayer player, double damage) {
+		if(!ItemHandler.hasPDC("attuned", player.getItemInHand(), PersistentDataType.STRING))
+			return damage * 0.01;
+		HellionShield hellionShield = getShieldFromString(ItemHandler.getPDC("attuned", player.getItemInHand(),
+				PersistentDataType.STRING));
+		if(hellionShield == shield)
+			return damage;
+
+		return 0.01 * damage;
+	}
+	private HellionShield getShieldFromString(String str){
+		switch (str){
+			case "ashen" -> {
+				return HellionShield.Ashen;
+			}
+			case "auric" -> {
+				return HellionShield.Auric;
+			}
+			case "crystal" -> {
+				return HellionShield.Crystal;
+			}
+			case "spirit" -> {
+				return HellionShield.Spirit;
+			}
+			default -> {
+
+				return null;
+			}
+		}
+	}
+	private HellionShield getNext(){
+		switch (shield){
+			case  Ashen -> {
+				return HellionShield.Spirit;
+			}
+			case Spirit -> {
+				return HellionShield.Auric;
+			}
+			case Auric -> {
+				return HellionShield.Crystal;
+			}
+			default -> {
+				return HellionShield.Ashen;
+			}
+		}
+	}
+
+	@Override
+	public void setPillarDestroied() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				if(entity == null || entity.isDead())
+					return;
+				new FirePillar(BlazeSlayerT2.this, owner);
+			}
+		}.runTaskLater(Main.getMain(), 200);
+	}
+
+	@Override
+	public void setPillarExploded() {
+		kill();
+		entity.remove();
+		owner.sendMessage("§cYou failed!");
+	}
 }
