@@ -13,7 +13,7 @@ public class SkyblockServer {
         if(type == null){
             for (Player p : Bukkit.getOnlinePlayers())
                 p.sendTitle("§cThere is no Server type!", "§ePlease set a server type in the files!",20,400,20);
-            Bukkit.broadcastMessage("§cSkyblock Plugin is shutting down!");
+            Bukkit.broadcastMessage("§cNo Server type provided! Skyblock Plugin is shutting down!");
             Main.getMain().getServer().getPluginManager().disablePlugin(Main.getMain());
         }
         server = this;
@@ -33,5 +33,6 @@ public class SkyblockServer {
         else
             return new SkyblockServer(ServerType.getServerByPort(port));
     }
+
 
 }

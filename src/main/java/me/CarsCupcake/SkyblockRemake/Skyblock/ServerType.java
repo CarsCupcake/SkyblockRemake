@@ -6,7 +6,7 @@ public enum ServerType {
 
     Hub("hub", 25565),
     DwarvenMines("dwarven", 25564),
-    CrimsonIsle("crimsonilse", 25568),
+    CrimsonIsle("crimsonisle", 25568),
     TheInstance("kuudra", 25569),
     DungeonHub("dh", 25570),
     F7("f7", 25567),

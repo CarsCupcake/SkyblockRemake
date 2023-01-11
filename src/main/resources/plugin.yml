@@ -3,22 +3,15 @@ name: SkyblockRemake
 version: 0.8 - Bazzar Update
 author: CarsCupcake
 api-version: 1.17 
-depend:  [ LibsDisguises ]
-softdepend: [ FastAsyncWorldEdit ]
+depend:  [ LibsDisguises, FastAsyncWorldEdit]
 
 commands:
-  start:
   gm:
     permission: gm.challange
     describtion: "Quick Gamemode Toggle"
   item:
     describtion: "Get the Custom items"
-  timer:
-    permission: timer.challange
-    describtion: "Timer Operations"
-  soulsheep: 
-  npc: 
-  reloadchallengeplugin:
+  npc:
   terminal:
   lavabounce:
   statsystem:

@@ -95,10 +95,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Tabs.TabManager;
 import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
-import me.CarsCupcake.SkyblockRemake.timer.TimerCommand;
-import me.CarsCupcake.SkyblockRemake.timer.TimerCommandTab;
-import me.CarsCupcake.SkyblockRemake.timer.timer;
-import me.CarsCupcake.SkyblockRemake.timer.timerTab;
+
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
@@ -145,8 +142,19 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
+		reloadConfig();
+		config.addDefault("JoinSpawn", false);
+		config.addDefault("LavaBounce", false);
+		config.addDefault("StatSystem", true);
+		if(config.get("SkyblockDataPath") == null)
+			config.addDefault("SkyblockDataPath", ".\\data");
+		config.addDefault("ServerType", "");
+		config.options().copyDefaults(true);
+		saveConfig();
 		Main = this;
-		SkyblockServer.makeServerFromPort(getServer().getPort());
+		new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
+		if(SkyblockServer.getServer().getType() == null)
+			return;
 		sql = new SQL();
 		try {
 			sql.connect();
@@ -164,21 +172,12 @@ public class Main extends JavaPlugin {
 		bazaarFile = new CustomConfig("bazaarData");
 
 
-		config.addDefault("TimerValue", 0);
-		config.addDefault("TimerActive", false);
-		config.addDefault("JoinSpawn", false);
-		config.addDefault("LavaBounce", false);
-		config.addDefault("StatSystem", false);
-		config.options().copyDefaults(true);
-		saveConfig();
+
+
 		SkyblockEnchants.register();
 
 		if (data.getConfig().contains("data"))
 			loadNPC();
-		ConfigFile.setup();
-		ConfigFile.get().addDefault("SoulActive", false);
-		ConfigFile.get().options().copyDefaults(true);
-		ConfigFile.save();
 		PetMenus.setup();
 		PetMenus.save();
 		PetMenus.setup();
@@ -190,11 +189,6 @@ public class Main extends JavaPlugin {
 		MiningSystem.setup();
 		MiningSystem.save();
 		MiningSystem.reload();
-
-		SkillsSave.setup();
-		SkillsSave.save();
-		SkillsSave.reload();
-
 
 		EditionItems.setup();
 		EditionItems.save();
@@ -274,24 +268,18 @@ public class Main extends JavaPlugin {
 
 		SkyblockRecipe.init();
 
-		getCommand("start").setExecutor(new TimerCommand());
-		getCommand("start").setTabCompleter(new TimerCommandTab());
+
 		getCommand("gm").setExecutor(new gmComand());
 		getCommand("gm").setTabCompleter(new gmTab());
 		getCommand("item").setExecutor(new itemCMD());
 		getCommand("item").setTabCompleter(new itemTab());
-		getCommand("timer").setExecutor(new timer());
-		getCommand("timer").setTabCompleter(new timerTab());
-		getCommand("soulsheep").setExecutor(new soulsheepSpawnCMD());
 		getCommand("npc").setExecutor(new npcCommand());
-		getCommand("reloadchallengeplugin").setExecutor(new NPCtreload());
 		getCommand("terminal").setExecutor(new openterminal());
 		getCommand("terminal").setTabCompleter(new openterminaltab());
 		getCommand("lavabounce").setExecutor(new lavabouncetoggle());
 		getCommand("lavabounce").setTabCompleter(new lavabouncetoggletab());
 		getCommand("statsystem").setExecutor(new togglestats());
 		getCommand("statsystem").setTabCompleter(new lavabouncetoggletab());
-		getCommand("healthitems").setExecutor(new healthitems());
 		getCommand("stats").setExecutor(new statsCMD());
 		getCommand("stats").setTabCompleter(new statsTAB());
 		getCommand("e").setExecutor(new OpenMenu());
@@ -399,11 +387,7 @@ public class Main extends JavaPlugin {
 		ArmorStandTeleportation();
 
 
-		if (getConfig().getBoolean("TimerActive") == true) {
-			time = getConfig().getInt("TimerValue");
-			Timer();
 
-		}
 		if (getConfig().getBoolean("StatSystem") == true) {
 
 			Stats();
@@ -620,7 +604,6 @@ public class Main extends JavaPlugin {
 					entity.remove();
 
 		getConfig().set("TimerValue", time);
-		ConfigFile.reload();
 		saveConfig();
 		reloadConfig();
 
@@ -2034,23 +2017,26 @@ public class Main extends JavaPlugin {
 
 	public static void saveCoins(Player player) {
 		double coin = SkyblockPlayer.getSkyblockPlayer(player).coins;
-		ConfigFile.get().set(player.getUniqueId().toString() + ".coins", coin);
-		ConfigFile.save();
-		ConfigFile.reload();
+		CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+		c.get().set(player.getUniqueId().toString() + ".coins", coin);
+		c.save();
+		c.reload();
 	}
 
 	public static void saveBits(Player player) {
 		int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).bits;
-		ConfigFile.get().set(player.getUniqueId().toString() + ".bits", bit);
-		ConfigFile.save();
-		ConfigFile.reload();
+		CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+		c.get().set(player.getUniqueId().toString() + ".bits", bit);
+		c.save();
+		c.reload();
 	}
 
 	public static void saveMithrilPowder(Player player) {
 		int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).mithrilpowder;
-		ConfigFile.get().set(player.getUniqueId().toString() + ".mithrilpowder", bit);
-		ConfigFile.save();
-		ConfigFile.reload();
+		CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+		c.get().set(player.getUniqueId().toString() + ".mithrilpowder", bit);
+		c.save();
+		c.reload();
 	}
 
 	@SuppressWarnings({ "deprecation" })
@@ -3175,15 +3161,7 @@ public class Main extends JavaPlugin {
 		return string;
 	}
 
-	public static boolean getsoulchalangeboolean() {
-		ConfigFile.reload();
-		if (ConfigFile.get().getString("SoulActive") == "true") {
-			soulchallengeacctive = true;
-		} else {
-			soulchallengeacctive = false;
-		}
-		return soulchallengeacctive;
-	}
+
 
 	public static FileConfiguration getData() {
 		return data.getConfig();

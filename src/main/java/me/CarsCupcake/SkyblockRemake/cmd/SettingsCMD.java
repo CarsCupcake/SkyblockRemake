@@ -1,11 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 
 public class SettingsCMD implements CommandExecutor {
     @Override
@@ -53,9 +56,29 @@ public class SettingsCMD implements CommandExecutor {
                 EntityNPC.isKillable = b;
 
             }
+            case "setDataPath" ->{
+                if(!commandSender.isOp())
+                    return false;
+
+                Main.getMain().reloadConfig();
+                String path = getStringFromArgs(Arrays.copyOfRange(strings, 1, strings.length - 1));
+                Main.getMain().getConfig().set("SkyblockDataPath", path);
+                Main.getMain().saveConfig();
+
+                commandSender.sendMessage("§aDatapath is now " + path);
+
+            }
             default -> commandSender.sendMessage("§cThe setting: " + strings[0] + " does not exist.");
         }
 
         return false;
+    }
+    private String getStringFromArgs(String[] args){
+        StringBuilder builder = new StringBuilder();
+        for(String s : args){
+            builder.append(s).append(" ");
+        }
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
     }
 }

@@ -130,6 +130,7 @@ public class SkyblockPlayer extends CraftPlayer{
 	private int magicalpower = 0;
 	@Getter
 	private final SortedSet<Effect> activeEffects = new TreeSet<>((o1, o2) -> o1.name().compareTo(o2.name()));
+	private final CustomConfig statsConfig = new CustomConfig(this, "stats");
 
 	
 	
@@ -395,6 +396,8 @@ public class SkyblockPlayer extends CraftPlayer{
 	public void addAdititveMultiplier(double value) {
 		additiveMultiplier += value;
 	}
+
+	private final CustomConfig SkillsSave = new CustomConfig(this, "Skills");
 	public void initSkills() {
 		SkillsSave.reload();
 		for (FullSetBonus bonus : activeBonuses)
@@ -739,10 +742,10 @@ public class SkyblockPlayer extends CraftPlayer{
 	
 	
 	public void saveMithrilPowder() {
-		ConfigFile.reload();
-		ConfigFile.get().set(getUniqueId() +  ".mithrilpowder", mithrilpowder);
-		ConfigFile.save();
-		ConfigFile.reload();
+		statsConfig.reload();
+		statsConfig.get().set(getUniqueId() +  ".mithrilpowder", mithrilpowder);
+		statsConfig.save();
+		statsConfig.reload();
 	}
 	
 	public void setHealingMult(double d) {
@@ -937,21 +940,21 @@ public class SkyblockPlayer extends CraftPlayer{
 	public void manainjection(Player player) {
 		int filebasemana;
 		try {
-			 filebasemana = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basemana");
+			 filebasemana = statsConfig.get().getInt(player.getUniqueId().toString() + ".basemana");
 			 if(filebasemana == 0) {
-				 ConfigFile.get().set(player.getUniqueId().toString() + ".basemana", 100);
-					ConfigFile.save();
+				 statsConfig.get().set(player.getUniqueId().toString() + ".basemana", 100);
+					statsConfig.save();
 					filebasemana = 100;
 			 }
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basemana", 100);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basemana", 100);
+			statsConfig.save();
 			filebasemana = 100;
 		}
 			
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basemana=filebasemana;
 
 		currmana = (int) Main.playermanacalc(player);
@@ -962,21 +965,21 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void healthinjection(Player player) {
 		int filebasehealth;
 		try {
-			filebasehealth = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basehealth");
+			filebasehealth = statsConfig.get().getInt(player.getUniqueId().toString() + ".basehealth");
 			if(filebasehealth == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basehealth", 100);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basehealth", 100);
+				statsConfig.save();
 				filebasehealth = 100;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basehealth", 100);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basehealth", 100);
+			statsConfig.save();
 			filebasehealth = 100;
 		}
 			
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basehealth = filebasehealth;
 		
 		currhealth= (int) Main.playerhealthcalc(player);
@@ -985,22 +988,22 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void definjection(Player player) {
 		int filebasedef;
 		try {
-			filebasedef = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basedef");
+			filebasedef = statsConfig.get().getInt(player.getUniqueId().toString() + ".basedef");
 			if(filebasedef == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basedef", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basedef", 0);
+				statsConfig.save();
 				filebasedef = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basedef", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basedef", 0);
+			statsConfig.save();
 			filebasedef = 0;
 		}
 			
 			
 		
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basedef=filebasedef;
 		
 		
@@ -1008,22 +1011,22 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void strengthinjection(Player player) {
 		int filebasestrength;
 		try {
-			filebasestrength = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basestrength");
+			filebasestrength = statsConfig.get().getInt(player.getUniqueId().toString() + ".basestrength");
 			if(filebasestrength == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basestrength", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basestrength", 0);
+				statsConfig.save();
 				filebasestrength = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basestrength", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basestrength", 0);
+			statsConfig.save();
 			filebasestrength = 0;
 		}
 			
 			
 		
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basestrength=filebasestrength;
 		
 		
@@ -1031,22 +1034,22 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void ccinjection(Player player) {
 		int filebasecc;
 		try {
-			filebasecc = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basecc");
+			filebasecc = statsConfig.get().getInt(player.getUniqueId().toString() + ".basecc");
 			if(filebasecc == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basecc", 30);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basecc", 30);
+				statsConfig.save();
 				filebasecc = 30;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basecc", 30);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basecc", 30);
+			statsConfig.save();
 			filebasecc = 30;
 		}
 			
 			
 		
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basecc= filebasecc;
 		
 		
@@ -1054,22 +1057,22 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void cdinjection(Player player) {
 		int filebasecd;
 		try {
-			filebasecd = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basecd");
+			filebasecd = statsConfig.get().getInt(player.getUniqueId().toString() + ".basecd");
 			if(filebasecd == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basecd", 50);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basecd", 50);
+				statsConfig.save();
 				filebasecd = 50;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basecd", 50);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basecd", 50);
+			statsConfig.save();
 			filebasecd = 50;
 		}
 			
 			
 		
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basecd=filebasecd;
 		
 		
@@ -1077,20 +1080,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void speedinjection(Player player) {
 		int filebasespeed;
 		try {
-			filebasespeed = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basespeed");
+			filebasespeed = statsConfig.get().getInt(player.getUniqueId().toString() + ".basespeed");
 			if(filebasespeed == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basespeed", 100);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basespeed", 100);
+				statsConfig.save();
 				filebasespeed = 100;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basespeed", 100);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basespeed", 100);
+			statsConfig.save();
 			filebasespeed = 100;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basespeed=filebasespeed;
 		float speedpersentage = (float)Main.playerspeedcalc(player)/100;
 		if (speedpersentage > 5)
@@ -1101,20 +1104,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void abilitydamageinjection(Player player) {
 		float filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".baseabilitydamage");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".baseabilitydamage");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".baseabilitydamage", 0f);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".baseabilitydamage", 0f);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".baseabilitydamage", 0f);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".baseabilitydamage", 0f);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		baseabilitydamage=filebaseabilitydaamge;
 
 		
@@ -1124,20 +1127,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void ferocityinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".baseferocity");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".baseferocity");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".baseferocity", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".baseferocity", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".baseferocity", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".baseferocity", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		baseferocity=filebaseabilitydaamge;
 
 		
@@ -1147,20 +1150,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void magicfindinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".basemagicfind");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".basemagicfind");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".basemagicfind", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".basemagicfind", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".basemagicfind", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".basemagicfind", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 		basemagicfind=filebaseabilitydaamge;
 
 		
@@ -1170,20 +1173,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void miningspeedinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".baseminingspeed");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".baseminingspeed");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".baseminingspeed", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".baseminingspeed", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".baseminingspeed", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".baseminingspeed", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			baseminingspeed=filebaseabilitydaamge;
 
 		
@@ -1193,20 +1196,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void miningfortuneinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".baseminingfortune");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".baseminingfortune");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".baseminingfortune", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".baseminingfortune", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".baseminingfortune", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".baseminingfortune", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			baseminingfortune=filebaseabilitydaamge;
 
 		
@@ -1216,20 +1219,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void titaniumchanceinjection(Player player) {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + ".titaniumchance");
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + ".titaniumchance");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".titaniumchance", 2D);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".titaniumchance", 2D);
+				statsConfig.save();
 				filebaseabilitydaamge = 2;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".titaniumchance", 2D);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".titaniumchance", 2D);
+			statsConfig.save();
 			filebaseabilitydaamge = 2;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			titaniumchance=filebaseabilitydaamge;
 
 		
@@ -1239,20 +1242,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void coinsinjection(Player player) {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + ".coins");
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + ".coins");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".coins", 0d);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".coins", 0d);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".coins", 0d);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".coins", 0d);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			coins=filebaseabilitydaamge;
 
 		
@@ -1262,20 +1265,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void bitsinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".bits");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".bits");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".bits", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".bits", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".bits", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".bits", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			bits=filebaseabilitydaamge;
 
 		
@@ -1285,20 +1288,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void mithrilpowderinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".mithrilpowder");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".mithrilpowder");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".mithrilpowder", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".mithrilpowder", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".mithrilpowder", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".mithrilpowder", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			mithrilpowder =filebaseabilitydaamge;
 
 		
@@ -1308,20 +1311,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void mpristineinjection(Player player) {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + ".pristine");
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + ".pristine");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".pristine", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".pristine", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".pristine", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".pristine", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			basepristine =filebaseabilitydaamge;
 
 		
@@ -1331,20 +1334,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void attackspeedinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".as");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".as");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".as", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".as", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".as", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".as", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 			
 			
-			ConfigFile.reload();
+			statsConfig.reload();
 			baseattackspeed=filebaseabilitydaamge;
 
 		
@@ -1354,20 +1357,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void truedefenseinjection(Player player) {
 		int filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getInt(player.getUniqueId().toString() + ".truedefense");
+			filebaseabilitydaamge = statsConfig.get().getInt(player.getUniqueId().toString() + ".truedefense");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".truedefense", 0);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".truedefense", 0);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".truedefense", 0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".truedefense", 0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 
 
-		ConfigFile.reload();
+		statsConfig.reload();
 		basetruedefense=filebaseabilitydaamge;
 
 
@@ -1377,20 +1380,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void seacreaturechanceinjection(Player player) {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + ".seacreaturechance");
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + ".seacreaturechance");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".seacreaturechance", 20D);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".seacreaturechance", 20D);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".seacreaturechance",20D);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".seacreaturechance",20D);
+			statsConfig.save();
 			filebaseabilitydaamge = 20;
 		}
 
 
-		ConfigFile.reload();
+		statsConfig.reload();
 		baseseacreaturechance=filebaseabilitydaamge;
 
 
@@ -1400,20 +1403,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	public  void initTrophyFishChance() {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + ".trophyfishchance");
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + ".trophyfishchance");
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + ".trophyfishchance", 1D);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + ".trophyfishchance", 1D);
+				statsConfig.save();
 				filebaseabilitydaamge = 1;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + ".trophyfishchance",1D);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + ".trophyfishchance",1D);
+			statsConfig.save();
 			filebaseabilitydaamge = 10;
 		}
 
 
-		ConfigFile.reload();
+		statsConfig.reload();
 		baseTrophyFishChance=filebaseabilitydaamge;
 
 
@@ -1423,20 +1426,20 @@ public class SkyblockPlayer extends CraftPlayer{
 	private  void fishingspeedinjection(Player player) {
 		double filebaseabilitydaamge;
 		try {
-			filebaseabilitydaamge = ConfigFile.get().getDouble(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName());
+			filebaseabilitydaamge = statsConfig.get().getDouble(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName());
 			if(filebaseabilitydaamge == 0) {
-				ConfigFile.get().set(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName(), 0D);
-				ConfigFile.save();
+				statsConfig.get().set(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName(), 0D);
+				statsConfig.save();
 				filebaseabilitydaamge = 0;
 			}
 		}catch(Exception e) {
-			ConfigFile.get().set(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName(),0);
-			ConfigFile.save();
+			statsConfig.get().set(player.getUniqueId().toString() + "." + Stats.FishingSpeed.getDataName(),0);
+			statsConfig.save();
 			filebaseabilitydaamge = 0;
 		}
 
 
-		ConfigFile.reload();
+		statsConfig.reload();
 		setBaseStat(Stats.FishingSpeed, filebaseabilitydaamge);
 
 

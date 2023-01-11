@@ -1,32 +1,27 @@
 package me.CarsCupcake.SkyblockRemake.NPC;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Main;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityLiving;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Wither;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EntityNPC  extends CraftLivingEntity {
-    private static final CustomConfig file = new CustomConfig("EntityNpc");
+    private static final CustomConfig file = new CustomConfig("EntityNpc", true);
     private static final HashMap<LivingEntity,EntityNPC> npcs = new HashMap<>();
     private final LivingEntity entity;
     public static boolean isKillable = false;
 
     public EntityNPC(String name, Location location, EntityLiving entity,Class<? extends LivingEntity> e,LivingEntity base, boolean isAlrSaved) {
 
-        super((CraftServer) Main.getMain().getServer(), (EntityLiving) entity);
+        super((CraftServer) Main.getMain().getServer(), entity);
         this.entity = base;
 
         npcs.put(this.entity, this);
@@ -83,7 +78,8 @@ public class EntityNPC  extends CraftLivingEntity {
         Location loc = new Location(Bukkit.getWorld(file.get().getString("data." + var + ".world")), file.get().getDouble("data." + var + ".x"),file.get().getDouble("data." + var + ".y")
                 ,file.get().getDouble("data." + var + ".z") ,(float)file.get().getInt("data." + var + ".ya") ,(float)file.get().getInt("data." + var + ".p"));
             try {
-                LivingEntity entity = loc.getWorld().spawn(loc, (Class<? extends LivingEntity>) Class.forName(file.get().getString("data." + var + ".entity")), r->{
+                LivingEntity entity = loc.getWorld().spawn(loc, (Class<? extends LivingEntity>)
+                        Class.forName(file.get().getString("data." + var + ".entity")), r->{
                     r.setAI(false);
                     r.setGravity(false);
                     r.setRemoveWhenFarAway(false);

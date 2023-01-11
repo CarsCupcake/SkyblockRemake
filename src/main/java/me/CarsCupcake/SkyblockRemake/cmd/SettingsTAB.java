@@ -18,6 +18,7 @@ public class SettingsTAB implements TabCompleter {
         if(arguments.isEmpty()) {
             arguments.add("bazaar");
             arguments.add("killnpcs");
+            arguments.add("setDataPath");
         }
 
         if(args.length == 1) {

@@ -1,8 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
+import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skills;
 import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.Configs.SkillsSave;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
@@ -15,6 +15,7 @@ public class Combat implements Skill {
 	private final int maxlevel = 60;
 	
 	private final double cdPerLevel = 0.5;
+	private CustomConfig skill;
 
 	
 	
@@ -28,10 +29,10 @@ public class Combat implements Skill {
 	@Override
 	public void setXp(double xp) {
 		
-		SkillsSave.reload();
-		SkillsSave.get().set(player.getUniqueId() + "." +Skills.Combat.toString().toLowerCase()+".xp", xp);
-		SkillsSave.save();
-		SkillsSave.reload();
+		skill.reload();
+		skill.get().set(player.getUniqueId() + "." +Skills.Combat.toString().toLowerCase()+".xp", xp);
+		skill.save();
+		skill.reload();
 		
 		this.xp = xp;
 		
@@ -40,10 +41,10 @@ public class Combat implements Skill {
 	@Override
 	public void reset() {
 
-		SkillsSave.reload();
-		SkillsSave.get().set(player.getUniqueId() +"."+ Skills.Combat.toString().toLowerCase() + ".xp", 0);SkillsSave.get().set(player.getUniqueId() +"." +Skills.Combat.toString().toLowerCase()+ ".level", 0);
-		SkillsSave.save();
-		SkillsSave.reload();
+		skill.reload();
+		skill.get().set(player.getUniqueId() +"."+ Skills.Combat.toString().toLowerCase() + ".xp", 0);skill.get().set(player.getUniqueId() +"." +Skills.Combat.toString().toLowerCase()+ ".level", 0);
+		skill.save();
+		skill.reload();
 		
 		level = 0;
 		xp = 0;
@@ -66,19 +67,20 @@ public class Combat implements Skill {
 
 		return maxlevel;
 	}
-	
+
 	@Override
 	public void setPlayer(SkyblockPlayer player) {
 		this.player = player;
+		skill = new CustomConfig(player, "Skills");
 	}
 
 	@Override
 	public void setLevel(int level) {
 		
-		SkillsSave.reload();
-		SkillsSave.get().set(player.getUniqueId() + "."+Skills.Combat.toString().toLowerCase()+".level", (int)level);
-		SkillsSave.save();
-		SkillsSave.reload();
+		skill.reload();
+		skill.get().set(player.getUniqueId() + "."+Skills.Combat.toString().toLowerCase()+".level", (int)level);
+		skill.save();
+		skill.reload();
 		
 		this.level = level;
 		

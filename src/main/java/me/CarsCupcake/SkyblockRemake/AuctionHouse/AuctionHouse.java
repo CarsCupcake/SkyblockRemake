@@ -30,9 +30,8 @@ public class AuctionHouse implements Listener {
     private final NamespacedKey pointerKey;
     public AuctionHouse(){
         if(main != null){
-            throw new AuctionHouseException("Can not reassing Auction Hause");
+            throw new AuctionHouseException("Can not start Auction Hause!");
         }
-
         main = this;
         file = new CustomConfig("ah");
         pointerKey = new NamespacedKey(Main.getMain(), "pointer");
