@@ -19,6 +19,7 @@ public class SettingsTAB implements TabCompleter {
             arguments.add("bazaar");
             arguments.add("killnpcs");
             arguments.add("setDataPath");
+            arguments.add("ah");
         }
 
         if(args.length == 1) {
@@ -31,7 +32,7 @@ public class SettingsTAB implements TabCompleter {
 
         if (args.length == 2) {
             switch (args[0]){
-                case "bazaar", "killnpcs" ->{
+                case "bazaar", "killnpcs", "ah" ->{
                     ArrayList<String> ar = new ArrayList<>();
                     ar.add("enable");
                     ar.add("disable");

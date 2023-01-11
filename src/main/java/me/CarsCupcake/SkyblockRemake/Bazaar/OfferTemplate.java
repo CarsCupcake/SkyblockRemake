@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Range;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+import java.util.UUID;
 import java.util.function.ToDoubleBiFunction;
 
 public class OfferTemplate implements InventoryTemplate {
@@ -29,8 +30,8 @@ public class OfferTemplate implements InventoryTemplate {
         type = offer.getType();
         name = offer.getItem().name;
         TreeMap<Double, Integer> sellOffers = new BazaarManager().getBestSellOffers(offer.getItem());
-        Bundle<Double, Bundle<SkyblockPlayer, Integer>> bestSell = new BazaarManager().getBestOffer(offer.getItem());
-        Bundle<Double, Bundle<SkyblockPlayer, Integer>> bestBuy = new BazaarManager().getBestBuyOffer(offer.getItem());
+        Bundle<Double, Bundle<UUID, Integer>> bestSell = new BazaarManager().getBestOffer(offer.getItem());
+        Bundle<Double, Bundle<UUID, Integer>> bestBuy = new BazaarManager().getBestBuyOffer(offer.getItem());
         System.out.println(new BazaarManager().getSellPoolAmount(offer));
         if(sellOffers == null)
             System.out.println("null :(");
@@ -111,7 +112,7 @@ public class OfferTemplate implements InventoryTemplate {
         return type + " ➜ " + name;
     }
     public static Inventory getSellOfferScreen(BazaarOffer offer, int amount){
-        Bundle<Double, Bundle<SkyblockPlayer, Integer>> bestOffer = new BazaarManager().getBestOffer(offer.getItem());
+        Bundle<Double, Bundle<UUID, Integer>> bestOffer = new BazaarManager().getBestOffer(offer.getItem());
         return new InventoryBuilder(4, "At what price are you selling?")
                 .fill(TemplateItems.EmptySlot.getItem())
                 .setItem((offer.getItem().isHead) ?new ItemBuilder(Material.PLAYER_HEAD)
@@ -214,7 +215,7 @@ public class OfferTemplate implements InventoryTemplate {
     }
 
     public static Inventory getBuyOrderScreen(BazaarOffer offer, int amount){
-        Bundle<Double, Bundle<SkyblockPlayer, Integer>> bestOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
+        Bundle<Double, Bundle<UUID, Integer>> bestOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
         return new InventoryBuilder(4, "How much do you want to pay?")
                 .fill(TemplateItems.EmptySlot.getItem())
                 .setItem((offer.getItem().isHead) ?new ItemBuilder(Material.PLAYER_HEAD)

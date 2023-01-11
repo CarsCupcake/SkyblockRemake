@@ -30,12 +30,13 @@ public class AuctionManager {
         CustomConfig file = AuctionHouse.getInstance().getFile();
         Player player = auction.getPlayer();
         int var = 1;
-        if (file.get().getConfigurationSection(player.getUniqueId() + ".bin") != null && file.get().contains(player.getUniqueId() + ".bin"))
-            var = file.get().getConfigurationSection(player.getUniqueId() + ".bin").getKeys(false).size() + 1;
+        if (file.get().getConfigurationSection(player.getUniqueId() + ".bin") != null &&
+                file.get().contains(player.getUniqueId() + ".bin"))
+            var = file.get().getConfigurationSection(player.getUniqueId() + ".bin").getKeys(false).size() + 2;
         int playerPointer = var;
         var = 1;
         if (file.get().getConfigurationSection("auction.bin") != null && file.get().contains("auction.bin"))
-            var = file.get().getConfigurationSection("auction.bin").getKeys(false).size() + 1;
+            var = file.get().getConfigurationSection("auction.bin").getKeys(false).size() + 2;
         int auctionPointer = var;
 
         file.get().set(player.getUniqueId() + ".bin." + playerPointer + ".pointer", auctionPointer);
@@ -111,7 +112,10 @@ public class AuctionManager {
             }else {
                 key = NamespacedKey.minecraft(t);
             }
-            meta.addEnchant(Enchantment.getByKey(key), AuctionHouse.getInstance().getFile().get().getInt(auctionPointer + ".ench." + t), false);
+            if(Enchantment.getByKey(key) == null)
+                continue;
+            meta.addEnchant(Enchantment.getByKey(key),
+                    AuctionHouse.getInstance().getFile().get().getInt(auctionPointer + ".ench." + t), false);
         }
         item.setItemMeta(meta);
         item = Main.item_updater(item, null);
@@ -194,12 +198,14 @@ public class AuctionManager {
                             Bukkit.getPlayer(UUID.fromString(
                                     AuctionHouse.getInstance().getFile().get().getString("auction.bin."+str+".uuid")
                             ))));
+
                 }catch (Exception e){
                     e.printStackTrace();
                     request.sendMessage("§cThere was an errer while loading an auction §7(" + e.getClass().getSimpleName() + ")");
                 }
             }
         }
+
         return auctionBins;
     }
 }

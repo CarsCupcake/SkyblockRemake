@@ -12,7 +12,7 @@ public class AuctionBrowser {
     private final SkyblockPlayer player;
     private ArrayList<IAuction> auctions = new ArrayList<>();
     private int site = 0;
-    private ArrayList<Inventory> pages = new ArrayList<>();
+    private final ArrayList<Inventory> pages = new ArrayList<>();
     public AuctionBrowser(SkyblockPlayer player){
         this.player = player;
         refresh();
@@ -26,11 +26,9 @@ public class AuctionBrowser {
             return;
         InventoryBuilder builder = new InventoryBuilder(6, "Auction Browser Page " + (site + 1));
         builder.fill(TemplateItems.EmptySlot.getItem(),45, 53);
-
         for (int i = 0; i < 45; i++){
             if(auctions.size() <= pointer)
                 break;
-
             builder.setItem(auctions.get(pointer).craftShowItem(), i);
             pointer++;
         }
@@ -56,28 +54,33 @@ public class AuctionBrowser {
         if(page != pages.size() - 1){
             gui.inventoryClickAction(53, type -> openInventory(page + 1));
         }
+        gui.setGeneralAction((slot, actionType, type) -> {
+            if(actionType != GUI.GUIActions.Click)
+                return;
+            int pointer = site * 45 + slot ;
+            if(auctions.size() <= pointer)
+                return;
+
+            IAuction auction = auctions.get(pointer);
+            if(auction == null)
+                return;
+            auction.openManager(player);
+        });
         gui.setCanceled(true);
+        gui.closeAction(type -> AuctionHouse.getInstance().getGuis().remove(gui));
+        AuctionHouse.getInstance().getGuis().add(gui);
         gui.showGUI(player);
 
 
     }
     public void refresh(){
-        auctions = AuctionManager.getAllAuctions(player);
+        auctions = new ArrayList<>(AuctionManager.getAllAuctions(player));
     }
     public void sortByCoins(){
-        sortByCoins(null);
+        sortAuction((o1, o2) ->
+                (int) (o1.getCost() - o2.getCost()));
     }
-    public void sortByCoins(Comparator<? super Double> comparator){
-        TreeMap<Double, IAuction> map;
-        if(comparator == null){
-            map = new TreeMap<>();
-        }else
-            map = new TreeMap<>(comparator);
-        for(IAuction auction : auctions)
-            map.put(auction.getCost(), auction);
-        auctions.clear();
-
-        auctions.addAll(map.values());
-
+    public void sortAuction(Comparator<? super IAuction> comparator){
+        auctions.sort(comparator);
     }
 }

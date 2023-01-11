@@ -53,30 +53,30 @@ public class BazaarManager {
      * @param manager is the item manager for the item
      * @return returns the coins with the avaideble items
      */
-    public TreeMap<Double, HashMap<SkyblockPlayer, Integer>> getSellOffers(ItemManager manager){
+    public TreeMap<Double, HashMap<UUID, Integer>> getSellOffers(ItemManager manager){
         if(Main.bazaarFile.get().getConfigurationSection(manager.itemID + ".sell") == null)
             return null;
         Set<String> offers = Main.bazaarFile.get().getConfigurationSection(manager.itemID + ".sell").getKeys(false);
         if(offers == null || offers.isEmpty())
             return null;
         Iterator<String> iterator = offers.iterator();
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offer = new TreeMap<>();
+        TreeMap<Double, HashMap<UUID, Integer>> offer = new TreeMap<>();
         while (iterator.hasNext()){
             String id = iterator.next();
             String[] segments = id.split("/");
-            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(Bukkit.getPlayer(UUID.fromString(segments[0])));
+            UUID uuid = UUID.fromString(segments[0]);
             int amount = Integer.parseInt(segments[1]);
             double cost = Double.parseDouble(fromFileString(segments[2]));
             if(!offer.containsKey(cost)) {
-                HashMap<SkyblockPlayer, Integer> data = new HashMap<>();
-                data.put(player, amount);
+                HashMap<UUID, Integer> data = new HashMap<>();
+                data.put(uuid, amount);
                 offer.put(cost, data);
             }else {
-                HashMap<SkyblockPlayer, Integer> data = offer.get(cost);
-                if(data.containsKey(player))
-                    data.replace(player, data.get(player) + amount);
+                HashMap<UUID, Integer> data = offer.get(cost);
+                if(data.containsKey(uuid))
+                    data.replace(uuid, data.get(uuid) + amount);
                 else
-                    data.put(player,amount);
+                    data.put(uuid,amount);
                 offer.replace(cost, data);
             }
 
@@ -85,18 +85,18 @@ public class BazaarManager {
 
         return offer;
     }
-    public Bundle<Double, Bundle<SkyblockPlayer, Integer>> getBestOffer(ItemManager manager){
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offers = getSellOffers(manager);
+    public Bundle<Double, Bundle<UUID, Integer>> getBestOffer(ItemManager manager){
+        TreeMap<Double, HashMap<UUID, Integer>> offers = getSellOffers(manager);
         if(offers == null)
             return null;
         double coins = offers.firstKey();
-        SkyblockPlayer player = offers.get(coins).keySet().stream().iterator().next();
+        UUID player = offers.get(coins).keySet().stream().iterator().next();
 
         return new Bundle<>(coins, new Bundle<>(player, offers.get(coins).get(player)));
     }
 
     public TreeMap<Double, Integer> getBestSellOffers(ItemManager manager){
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> base = getSellOffers(manager);
+        TreeMap<Double, HashMap<UUID, Integer>> base = getSellOffers(manager);
         if(base == null) {
             System.out.println("the base is null");
             return null;
@@ -111,17 +111,19 @@ public class BazaarManager {
         return amounts;
     }
 
-    public int fillSellOffer(@NotNull BazaarOffer offer, @NotNull SkyblockPlayer player, double prize, int amount){
+    public int fillSellOffer(@NotNull BazaarOffer offer, @NotNull UUID player, double prize, int amount){
         double oldAmount = amount;
-        StringBuilder buyOrdersString = new StringBuilder(Main.bazaarFile.get().getString(player.getUniqueId() + "." + offer.getItem().itemID + ".sell"));
+        StringBuilder buyOrdersString = new StringBuilder(Main.bazaarFile.get().getString(player + "." +
+                offer.getItem().itemID + ".sell"));
         if(buyOrdersString == null)
-            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID + " at the player: " + player.getName());
+            throw new BazaarOrderException("There is no order for the item with the id: " +
+                    offer.getItem().itemID + " at the player: " + player);
         ArrayList<String> buyOrders = new ArrayList<>();
         if(buyOrdersString.toString().contains("|"))
             buyOrders.addAll(Arrays.asList(buyOrdersString.toString().split("\\|")));
         else
             buyOrders.add(buyOrdersString.toString());
-        ArrayList<String> temp = (ArrayList<String>) buyOrders.clone();
+        ArrayList<String> temp = new ArrayList(buyOrders);
         int i = 0;
         ArrayList<String> qualified = new ArrayList<>();
         for (String s : temp){
@@ -135,7 +137,8 @@ public class BazaarManager {
             i++;
         }
         if(qualified.isEmpty())
-            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID + " at the player: " + player.getName() + " for the price: " + String.format("%.1f",prize));
+            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID + " at the player: "
+                    + player + " for the price: " + String.format("%.1f",prize));
         temp = (ArrayList<String>) qualified.clone();
         i = 0;
         for (String s : temp){
@@ -176,7 +179,7 @@ public class BazaarManager {
         Set<String> offers = Main.bazaarFile.get().getConfigurationSection(offer.getItem().itemID +  ".sell" ).getKeys(false);
         ArrayList<String> newOffers = new ArrayList<>();
         for(String str : offers){
-            if(!str.startsWith(player.getUniqueId() + "/")) {
+            if(!str.startsWith(player + "/")) {
                 newOffers.add(str);
                 continue;
             }
@@ -200,7 +203,7 @@ public class BazaarManager {
             offers.remove(oldString);
             if(am == 0)
                 continue;
-            str = player.getUniqueId() + "/" + am + "/" + toFileString(c+"") + "/" + components[3];
+            str = player + "/" + am + "/" + toFileString(c+"") + "/" + components[3];
             newOffers.add(str);
             if(amountRemoved == 0)
                 break;
@@ -210,7 +213,7 @@ public class BazaarManager {
         Main.bazaarFile.get().set(offer.getItem().itemID + ".sell", null);
         for(String str : newOffers)
             Main.bazaarFile.get().set(offer.getItem().itemID + ".sell." + str,0);
-        Main.bazaarFile.get().set(player.getUniqueId() + "." + offer.getItem().itemID + ".sell", buyOrdersString.toString());
+        Main.bazaarFile.get().set(player + "." + offer.getItem().itemID + ".sell", buyOrdersString.toString());
         Main.bazaarFile.save();
         Main.bazaarFile.reload();
         return amount;
@@ -241,20 +244,20 @@ public class BazaarManager {
 
     public int getSellPoolAmount(BazaarOffer offer){
         int amount = 0;
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offers = getSellOffers(offer.getItem());
+        TreeMap<Double, HashMap<UUID, Integer>> offers = getSellOffers(offer.getItem());
         if(offers == null)
             return 0;
         for(Double d : offers.keySet()){
-            for(SkyblockPlayer player : offers.get(d).keySet())
+            for(UUID player : offers.get(d).keySet())
                 amount+=offers.get(d).get(player);
         }
         return amount;
     }
 
     public void instaBuy(BazaarOffer offer, int amount){
-        TreeMap<Double, HashMap<SkyblockPlayer,Integer>> offers = getSellOffers(offer.getItem());
+        TreeMap<Double, HashMap<UUID,Integer>> offers = getSellOffers(offer.getItem());
         for(Double d : offers.keySet()){
-            for (SkyblockPlayer player : offers.get(d).keySet()) {
+            for (UUID player : offers.get(d).keySet()) {
                 amount = fillSellOffer(offer, player, d, amount);
                 if(amount == 0)
                     break;
@@ -318,7 +321,8 @@ public class BazaarManager {
         }
         //Syntax: <cost>(per item)/<wanted amount>/<filled state>
         System.out.println("//"+Main.bazaarFile.get().get(player.getUniqueId() + "." + manager.itemID + ".buy") + "//");
-        if(Main.bazaarFile.get().getString(player.getUniqueId() + "." + manager.itemID + ".buy").isEmpty()
+
+        if(Main.bazaarFile.get().get(player.getUniqueId() + "." + manager.itemID + ".buy") == null || Main.bazaarFile.get().getString(player.getUniqueId() + "." + manager.itemID + ".buy").isEmpty()
                 ||Main.bazaarFile.get().getString(player.getUniqueId() + "." + manager.itemID + ".buy") == null
                 ||Main.bazaarFile.get().getString(player.getUniqueId() + "." + manager.itemID + ".buy").equals(""))
             Main.bazaarFile.get().set(player.getUniqueId() + "." + manager.itemID + ".buy", coins + "/" + dataAmount + "/" + 0);
@@ -336,26 +340,26 @@ public class BazaarManager {
      * @param manager is the item manager for the item
      * @return returns the coins with the avaideble items
      */
-    public TreeMap<Double, HashMap<SkyblockPlayer, Integer>> getBuyOffers(ItemManager manager){
+    public TreeMap<Double, HashMap<UUID, Integer>> getBuyOffers(ItemManager manager){
         if(Main.bazaarFile.get().getConfigurationSection(manager.itemID + ".buy") == null)
             return null;
         Set<String> offers = Main.bazaarFile.get().getConfigurationSection(manager.itemID + ".buy").getKeys(false);
         if(offers == null || offers.isEmpty())
             return null;
         Iterator<String> iterator = offers.iterator();
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offer = new TreeMap<>(Collections.reverseOrder());
+        TreeMap<Double, HashMap<UUID, Integer>> offer = new TreeMap<>(Collections.reverseOrder());
         while (iterator.hasNext()){
             String id = iterator.next();
             String[] segments = id.split("/");
-            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(Bukkit.getPlayer(UUID.fromString(segments[0])));
+            UUID player = UUID.fromString(segments[0]);
             int amount = Integer.parseInt(segments[1]);
             double cost = Double.parseDouble(fromFileString(segments[2]));
             if(!offer.containsKey(cost)) {
-                HashMap<SkyblockPlayer, Integer> data = new HashMap<>();
+                HashMap<UUID, Integer> data = new HashMap<>();
                 data.put(player, amount);
                 offer.put(cost, data);
             }else {
-                HashMap<SkyblockPlayer, Integer> data = offer.get(cost);
+                HashMap<UUID, Integer> data = offer.get(cost);
                 if(data.containsKey(player))
                     data.replace(player, data.get(player) + amount);
                 else
@@ -368,18 +372,18 @@ public class BazaarManager {
 
         return offer;
     }
-    public Bundle<Double, Bundle<SkyblockPlayer, Integer>> getBestBuyOffer(ItemManager manager){
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offers = getBuyOffers(manager);
+    public Bundle<Double, Bundle<UUID, Integer>> getBestBuyOffer(ItemManager manager){
+        TreeMap<Double, HashMap<UUID, Integer>> offers = getBuyOffers(manager);
         if(offers == null)
             return null;
         double coins = offers.firstKey();
-        SkyblockPlayer player = offers.get(coins).keySet().stream().iterator().next();
+        UUID player = offers.get(coins).keySet().stream().iterator().next();
 
         return new Bundle<>(coins, new Bundle<>(player, offers.get(coins).get(player)));
     }
 
     public TreeMap<Double, Integer> getBestBuyOffers(ItemManager manager){
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> base = getBuyOffers(manager);
+        TreeMap<Double, HashMap<UUID, Integer>> base = getBuyOffers(manager);
         if(base == null) {
             System.out.println("the base is null");
             return null;
@@ -395,11 +399,12 @@ public class BazaarManager {
     }
 
 
-    public int fillBuyOffer(@NotNull BazaarOffer offer, @NotNull SkyblockPlayer player, double prize, int amount){
+    public int fillBuyOffer(@NotNull BazaarOffer offer, @NotNull UUID player, double prize, int amount){
         double oldAmount = amount;
-        StringBuilder buyOrdersString = new StringBuilder(Main.bazaarFile.get().getString(player.getUniqueId() + "." + offer.getItem().itemID + ".buy"));
+        StringBuilder buyOrdersString = new StringBuilder(Main.bazaarFile.get().getString(player + "." + offer.getItem().itemID + ".buy"));
         if(buyOrdersString == null)
-            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID + " at the player: " + player.getName());
+            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID +
+                    " at the player: " + player);
         ArrayList<String> buyOrders = new ArrayList<>();
         if(buyOrdersString.toString().contains("|"))
             buyOrders.addAll(Arrays.asList(buyOrdersString.toString().split("\\|")));
@@ -419,7 +424,8 @@ public class BazaarManager {
             i++;
         }
         if(qualified.isEmpty())
-            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID + " at the player: " + player.getName() + " for the price: " + String.format("%.1f",prize));
+            throw new BazaarOrderException("There is no order for the item with the id: " + offer.getItem().itemID +
+                    " at the player: " + player + " for the price: " + String.format("%.1f",prize));
         temp = (ArrayList<String>) qualified.clone();
         i = 0;
         for (String s : temp){
@@ -460,7 +466,7 @@ public class BazaarManager {
         Set<String> offers = Main.bazaarFile.get().getConfigurationSection(offer.getItem().itemID +  ".buy" ).getKeys(false);
         ArrayList<String> newOffers = new ArrayList<>();
         for(String str : offers){
-            if(!str.startsWith(player.getUniqueId() + "/")) {
+            if(!str.startsWith(player + "/")) {
                 newOffers.add(str);
                 continue;
             }
@@ -484,7 +490,7 @@ public class BazaarManager {
 
             if(am == 0)
                 continue;
-            str = player.getUniqueId() + "/" + am + "/" + toFileString(c+"") + "/" + components[3];
+            str = player + "/" + am + "/" + toFileString(c+"") + "/" + components[3];
             newOffers.add(str);
             if(amountRemoved == 0)
                 break;
@@ -494,7 +500,7 @@ public class BazaarManager {
         Main.bazaarFile.get().set(offer.getItem().itemID + ".buy", null);
         for(String str : newOffers)
             Main.bazaarFile.get().set(offer.getItem().itemID + ".buy." + str,0);
-        Main.bazaarFile.get().set(player.getUniqueId() + "." + offer.getItem().itemID + ".buy", buyOrdersString.toString());
+        Main.bazaarFile.get().set(player + "." + offer.getItem().itemID + ".buy", buyOrdersString.toString());
         Main.bazaarFile.save();
         Main.bazaarFile.reload();
         return amount;
@@ -525,21 +531,21 @@ public class BazaarManager {
 
     public int getBuyPoolAmount(BazaarOffer offer){
         int amount = 0;
-        TreeMap<Double, HashMap<SkyblockPlayer, Integer>> offers = getBuyOffers(offer.getItem());
+        TreeMap<Double, HashMap<UUID, Integer>> offers = getBuyOffers(offer.getItem());
         if(offers == null)
             return 0;
 
         for(Double d : offers.keySet()){
-            for(SkyblockPlayer player : offers.get(d).keySet())
+            for(UUID player : offers.get(d).keySet())
                 amount+=offers.get(d).get(player);
         }
         return amount;
     }
 
     public void instaSell(BazaarOffer offer, int amount){
-        TreeMap<Double, HashMap<SkyblockPlayer,Integer>> offers = getBuyOffers(offer.getItem());
+        TreeMap<Double, HashMap<UUID,Integer>> offers = getBuyOffers(offer.getItem());
         for(Double d : offers.keySet()){
-            for (SkyblockPlayer player : offers.get(d).keySet()) {
+            for (UUID player : offers.get(d).keySet()) {
                 amount = fillBuyOffer(offer, player, d, amount);
                 if(amount == 0)
                     break;

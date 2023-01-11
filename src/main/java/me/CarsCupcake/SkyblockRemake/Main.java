@@ -322,6 +322,8 @@ public class Main extends JavaPlugin {
 		getCommand("dummy").setExecutor(new DummyCMD());
 		getCommand("star").setExecutor(new starItem());
 		getCommand("potion").setExecutor(new PotionCommand());
+		getCommand("ah").setExecutor(new AhCMD());
+		getCommand("bz").setExecutor(new BzCMD());
 
 
 		getCommand("kuudra").setExecutor(new startKuudra());

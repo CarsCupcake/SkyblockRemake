@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Settings;
 
+import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 
@@ -17,6 +18,11 @@ public class InfoManager {
         if(!b)
             BazaarListener.shutdownBazzar();
     }
+    public static void setAhEnabled(boolean b){
+        setValue("ah", b);
+        if(!b)
+            AuctionHouse.getInstance().shutdown();
+    }
     public static boolean isSkyblockMenuEnabled(){
         return getValue("sbmenu", true);
     }
@@ -24,7 +30,7 @@ public class InfoManager {
         setValue("sbmenu", b);
     }
 
-    private static  <T> T getValue(String key, T def){
+    public static  <T> T getValue(String key, T def){
         T value = (T)config.get().get(key);
         if(config.get().get(key) == null) {
             config.get().set(key, def);

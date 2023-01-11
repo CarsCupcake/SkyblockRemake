@@ -6,12 +6,12 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class BazaarOrder {
     private final SkyblockPlayer player;
@@ -35,7 +35,7 @@ public class BazaarOrder {
         ItemBuilder builder = (offer.getItem().isHead) ?new ItemBuilder(Material.PLAYER_HEAD)
                 .setHead(offer.getItem().headTexture) :
                 new ItemBuilder(offer.getItem().material);
-        Bundle<Double,Bundle<SkyblockPlayer, Integer>> bestBundle = (isSell) ? new BazaarManager().getBestOffer(offer.getItem()) : new BazaarManager().getBestBuyOffer(offer.getItem());
+        Bundle<Double,Bundle<UUID, Integer>> bestBundle = (isSell) ? new BazaarManager().getBestOffer(offer.getItem()) : new BazaarManager().getBestBuyOffer(offer.getItem());
         return builder
                 .setName(((isSell) ? "§6§lSELL §r" : "§a§lBUY §r")  + offer.getItem().rarity.getPrefix() + offer.getItem().name)
                 .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)

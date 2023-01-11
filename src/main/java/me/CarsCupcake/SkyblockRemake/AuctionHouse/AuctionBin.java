@@ -79,6 +79,9 @@ public class AuctionBin implements IAuction{
         lore.add("§7Seller: §f" + player.getName());
         lore.add("§7Buy it now: §6" + Tools.addDigits(cost) + " coins");
         lore.add(" ");
+        if(isSold()){
+            lore.add("§7Status: §aSold!");
+        }else
         if(diff > 0) {
             lore.add("§7Ends in §e" + shortInteger((int) (diff / (1000))));
         }else
@@ -220,10 +223,14 @@ public class AuctionBin implements IAuction{
                     AuctionHouse.getInstance().getFile().get().set("auction.bin." + pointer, null);
                     AuctionHouse.getInstance().getFile().save();
                     AuctionHouse.getInstance().getFile().reload();
+                    AuctionHouse.getInstance().getFile().get().set(
+                            AuctionHouse.getInstance().getFile().get().getString("auction.bin." + pointer + ".uuid") + ".bin."
+                                    + AuctionHouse.getInstance().getFile().get().getInt("auction.bin." + pointer + ".pointer")
+                            , null);
                     return;
                 }
                 if(isExpired()){
-                    player.getInventory().addItem(item);
+                    player.addItem(item);
                     player.sendMessage("§aYou succesfully claimed your auction!");
                     gui.closeInventory();
                     AuctionHouse.getInstance().getFile().get().set(
@@ -240,6 +247,8 @@ public class AuctionBin implements IAuction{
             }
 
         });
+        gui.closeAction(type -> AuctionHouse.getInstance().getGuis().remove(gui));
+        AuctionHouse.getInstance().getGuis().add(gui);
         gui.showGUI(player);
     }
     private void sell(SkyblockPlayer player){
@@ -249,7 +258,7 @@ public class AuctionBin implements IAuction{
             ).rarity.getPrefix()
             + item.getItemMeta().getDisplayName() + " §ahas been filled!");
         isSold = true;
-        AuctionHouse.getInstance().getFile().get().set("auctiob.bin." + pointer + ".status", "filled");
+        AuctionHouse.getInstance().getFile().get().set("auction.bin." + pointer + ".status", "filled");
         AuctionHouse.getInstance().getFile().save();
         AuctionHouse.getInstance().getFile().reload();
         player.getInventory().addItem(item);

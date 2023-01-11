@@ -23,6 +23,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 public class BazaarListener implements Listener {
@@ -82,7 +83,59 @@ public class BazaarListener implements Listener {
             gui.showGUI(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         }
     }
-    private void manageOffer(BazaarOffer offer, SkyblockPlayer player){
+    public static void openBazzar(SkyblockPlayer player){
+
+        if(!InfoManager.isBazaarEnabled()){
+            player.sendMessage("§cBazzar is temporarely disabled!");
+            return;
+        }
+
+        /*event.getPlayer().openInventory(new InventoryBuilder(new BazaarInventoryTemplate("Test Bazaar", Material.LIME_STAINED_GLASS_PANE, 0)).build());*/
+        GUI gui = new GUI(new InventoryBuilder(new BazaarInventoryTemplate("Test Bazaar", Material.LIME_STAINED_GLASS_PANE, 0, player))
+                .setItem(new Recombobulator().getItem(), 11)
+                .setItem(new StockOfStonk().getItem(), 12)
+                .build());
+
+        gui.inventoryClickAction(11,(type) -> {
+
+                /*GUI offer = new GUI(new InventoryBuilder(new OfferTemplate(new Recombobulator()))
+
+                        .build());
+                offer.setCanceled(true);
+                if(Tools.getItemInPlayerInventory(new Recombobulator().getItem(), player) > 0)
+                 offer.inventoryClickAction(16, () -> {
+                    GUI sellOffer = new GUI(OfferTemplate.getSellOfferScreen(new Recombobulator(), Tools.getItemInPlayerInventory(new Recombobulator().getItem(), player)));
+                    sellOffer.setCanceled(true);
+                    sellOffer.inventoryClickAction(10, new GUIAction() {
+                        @Override
+                        public void run() {
+                            Bundle<Double, Bundle<SkyblockPlayer,Integer>> topOffer = new BazaarManager().getBestOffer(new Recombobulator().getItem());
+                            new BazaarManager().addSellOffer(new Recombobulator().getItem(),Tools.getItemInPlayerInventory(new Recombobulator().getItem(), player), (topOffer == null) ? 500000000 : topOffer.getFirst() ,player);
+                            Tools.removeAllItemsFromInventory(player,new Recombobulator().getItem());
+                            player.sendMessage("§aSell offer was setuped for §6" + topOffer.getFirst() + " coins");
+                        }
+                    });
+                    sellOffer.showGUI(player);
+                });
+                offer.showGUI(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));*/
+            manageOffer(new Recombobulator(), player);
+        });
+        gui.inventoryClickAction(12,(type -> manageOffer(new StockOfStonk(), player)));
+        gui.setGeneralAction((slot, actionType, type) -> {
+            if(actionType == GUI.GUIActions.Click)
+                if(slot == 50)
+                    bazaarOrders(player);
+            if(actionType == GUI.GUIActions.Close)
+                bazzarGUIs.remove(gui);
+
+        });
+        gui.setCanceled(true);
+        bazzarGUIs.add(gui);
+
+
+        gui.showGUI(SkyblockPlayer.getSkyblockPlayer(player));
+    }
+    private static void manageOffer(BazaarOffer offer, SkyblockPlayer player){
 
 
 
@@ -135,14 +188,14 @@ public class BazaarListener implements Listener {
                     GUI sellOffer = new GUI(OfferTemplate.getSellOfferScreen(offer, Tools.getItemInPlayerInventory(offer.getItem(), player)));
                     sellOffer.setCanceled(true);
                     sellOffer.inventoryClickAction(10, (type2) -> {
-                        Bundle<Double, Bundle<SkyblockPlayer, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
+                        Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
                         new BazaarManager().addSellOffer(offer.getItem(), Tools.getItemInPlayerInventory(offer.getItem(), player), (topOffer == null) ? 500000000 : topOffer.getFirst(), player);
                         Tools.removeAllItemsFromInventory(player, offer.getItem());
                         player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
                         sellOffer.closeInventory();
                     });
                     sellOffer.inventoryClickAction(12, (type3) -> {
-                        Bundle<Double, Bundle<SkyblockPlayer, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
+                        Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
                         new BazaarManager().addSellOffer(offer.getItem(), Tools.getItemInPlayerInventory(offer.getItem(), player), (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1, player);
                         Tools.removeAllItemsFromInventory(player, offer.getItem());
                         player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1) + " coins §aper");
@@ -190,6 +243,25 @@ public class BazaarListener implements Listener {
             intaBuyPreScreen.inventoryClickAction(10, (type2) -> intaBuyScreen(offer,player,offer.getItemSizes()[0]));
             intaBuyPreScreen.inventoryClickAction(12, (type2) -> intaBuyScreen(offer,player,offer.getItemSizes()[1]));
             intaBuyPreScreen.inventoryClickAction(14, (type2) -> intaBuyScreen(offer,player,offer.getItemSizes()[2]));
+            intaBuyPreScreen.inventoryClickAction(16, type1 -> {
+                new SignGUI(new SignManager(), event -> Bukkit.getScheduler().runTask(Main.getMain(), () ->{
+                    try {
+                        Integer i = Integer.parseInt(event.lines()[0]);
+
+                        if(i < 1){
+                            player.sendMessage("§cError! Invalid amount!");
+                            offerGUI.closeInventory();
+                            return;
+                        }
+
+                        intaBuyScreen(offer,player,i);
+                    } catch (Exception ignored) {
+                        intaBuyPreScreen.closeInventory();
+                        player.sendMessage("§cThis is not a number");
+                    }
+                })).withLines("", "^^^^^^^^^^^^^^^", "Your Bazaar buy", "amount")
+                        .open(SkyblockPlayer.getSkyblockPlayer(player));
+            });
             intaBuyPreScreen.setGeneralAction((slot, actionType, t) -> {
                 if (actionType == GUI.GUIActions.Close)
                     bazzarGUIs.remove(intaBuyPreScreen);
@@ -206,7 +278,7 @@ public class BazaarListener implements Listener {
 
 
     }
-    private void buyScreen(BazaarOffer offer, SkyblockPlayer player, int amount){
+    private static void buyScreen(BazaarOffer offer, SkyblockPlayer player, int amount){
 
 
         GUI buyOrder = new GUI(OfferTemplate.getBuyOrderScreen(offer,amount));
@@ -214,7 +286,7 @@ public class BazaarListener implements Listener {
         buyOrder.inventoryClickAction(10,(type)->{
 
 
-            Bundle<Double, Bundle<SkyblockPlayer,Integer>> topOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
+            Bundle<Double, Bundle<UUID,Integer>> topOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
             double coins = (topOffer == null) ? 500000000 : topOffer.getFirst();
 
 
@@ -234,7 +306,7 @@ public class BazaarListener implements Listener {
         buyOrder.inventoryClickAction(12,(type)->{
 
 
-            Bundle<Double, Bundle<SkyblockPlayer,Integer>> topOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
+            Bundle<Double, Bundle<UUID,Integer>> topOffer = new BazaarManager().getBestBuyOffer(offer.getItem());
             double coins = (topOffer == null) ? 500000000 + 0.1 : topOffer.getFirst() + 0.1;
 
 
@@ -283,21 +355,21 @@ public class BazaarListener implements Listener {
         });
         buyOrder.showGUI(player);
     }
-    private void sellWithCustomAmount(int amount, SkyblockPlayer player, BazaarOffer offer){
+    private static void sellWithCustomAmount(int amount, SkyblockPlayer player, BazaarOffer offer){
         if(amount > Tools.getItemInPlayerInventory(offer.getItem(), player))
             throw new BazaarOrderException("Amount is larger than items in inventory");
 
         GUI sellOffer = new GUI(OfferTemplate.getSellOfferScreen(offer, amount));
         sellOffer.setCanceled(true);
         sellOffer.inventoryClickAction(10, (type2) -> {
-            Bundle<Double, Bundle<SkyblockPlayer, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
+            Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
             new BazaarManager().addSellOffer(offer.getItem(),amount, (topOffer == null) ? 500000000 : topOffer.getFirst(), player);
             Tools.removeItemsFromInventory(player, offer.getItem(),amount);
             player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
             sellOffer.closeInventory();
         });
         sellOffer.inventoryClickAction(12, (type3) -> {
-            Bundle<Double, Bundle<SkyblockPlayer, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
+            Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
             new BazaarManager().addSellOffer(offer.getItem(),amount, (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1, player);
             Tools.removeItemsFromInventory(player, offer.getItem(),amount);
             player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", (topOffer.getFirst() - 0.1)) + " coins §aper");
@@ -310,7 +382,7 @@ public class BazaarListener implements Listener {
         sellOffer.showGUI(player);
 
     }
-    private void intaBuyScreen(BazaarOffer offer, SkyblockPlayer player, int amount){
+    private static void intaBuyScreen(BazaarOffer offer, SkyblockPlayer player, int amount){
 
 
             if(new BazaarManager().getSellPoolAmount(offer) < amount)
@@ -331,19 +403,26 @@ public class BazaarListener implements Listener {
             }
             new BazaarManager().instaBuy(offer,amount);
             player.setCoins(player.coins-coins);
+        System.out.println(amount + " OOO");
             if(amount < 64 && !offer.getItem().isUnstackeble()){
                 ItemStack item = offer.getItem().createNewItemStack();
                 item.setAmount(amount);
-                player.getInventory().addItem(item);
+                player.addItem(item, false);
+            }else{
+                for(int i = 0;i < amount; i++){
+                    ItemStack item = offer.getItem().createNewItemStack();
+                    player.addItem(item, false);
+                }
             }
 
             player.sendMessage("§6[Bazaar] §7Bought §a" + amount +"§7x §a" + offer.getItem().name + " §7for §6" + String.format("%.1f", coins) + " coins§7!");
+
             player.closeInventory();
 
 
 
     }
-    private void instaSellInventory(SkyblockPlayer player, BazaarOffer offer, GUI gui){
+    private static void instaSellInventory(SkyblockPlayer player, BazaarOffer offer, GUI gui){
         BazaarManager manager = new BazaarManager();
         int maxAmount = manager.getBuyPoolAmount(offer);
         if(maxAmount == 0){
@@ -372,7 +451,7 @@ public class BazaarListener implements Listener {
 
 
     }
-    private void bazaarOrders(SkyblockPlayer player){
+    private static void bazaarOrders(SkyblockPlayer player){
         final Bundle<Inventory, Bundle<ArrayList<BazaarOrder>,ArrayList<BazaarOrder>>> infos = OfferTemplate.makeOrderInv(player);
         final ArrayList<BazaarOrder> sOrder = infos.getLast().getFirst();
         final ArrayList<BazaarOrder> bOrder = infos.getLast().getLast();

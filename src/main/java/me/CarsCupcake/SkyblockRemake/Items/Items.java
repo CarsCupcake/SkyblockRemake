@@ -1776,6 +1776,7 @@ public static ItemStack Hyperion() {
 	lore.add("§7damage taken and granting an");
 	lore.add("§7absorption shield for §e5 §7seconds.");
 	ItemManager manager = new ItemManager("Hyperion","HYPERION", ItemType.Sword, Material.IRON_SWORD,ItemRarity.LEGENDARY);
+	manager.setDungeonItem(true);
 	manager.setDamage(260);
 	manager.setStat(Stats.Inteligence, 350);
 	manager.setStat(Stats.Strength, 150);

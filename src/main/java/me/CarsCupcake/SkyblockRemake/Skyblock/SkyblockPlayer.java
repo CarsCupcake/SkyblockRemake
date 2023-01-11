@@ -460,7 +460,8 @@ public class SkyblockPlayer extends CraftPlayer{
 		
 		
 		
-		
+		if(skil == null)
+			return;
 		double currxp = skil.getXp();
 		int level = skil.getLevel();
 		boolean skip = level + 1 > skil.getMaxLevel();
@@ -590,7 +591,11 @@ public class SkyblockPlayer extends CraftPlayer{
 		addItem(item);
 	}
 	public void addItem(ItemStack item){
-		CollectHandler.collectItem(item, this);
+		addItem(item, true);
+	}
+	public void addItem(ItemStack item, boolean countAsCollection){
+		if(countAsCollection)
+			CollectHandler.collectItem(item, this);
 		getInventory().addItem(item);
 	}
 

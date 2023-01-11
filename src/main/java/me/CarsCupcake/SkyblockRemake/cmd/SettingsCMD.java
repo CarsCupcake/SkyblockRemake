@@ -39,6 +39,27 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§eBazzar is now disabled!");
 
             }
+            case "ah" ->{
+
+                boolean b;
+                if(strings[1].equals("enable")){
+                    b = true;
+                }else if(strings[1].equals("disable")){
+                    b = false;
+                }else {
+
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+
+                }
+
+                InfoManager.setAhEnabled(b);
+                if(b)
+                    commandSender.sendMessage("§aAh is now enabled!");
+                else
+                    commandSender.sendMessage("§cAh is now disabled!");
+
+            }
             case "killnpcs" ->{
 
                 boolean b;

@@ -1,9 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.AuctionHouse;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
+import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
@@ -22,12 +24,17 @@ import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.checker.units.qual.N;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AuctionHouse implements Listener {
     private static AuctionHouse main = null;
 
     private final CustomConfig file;
     private final NamespacedKey pointerKey;
+    @Getter
+    private Set<GUI> guis = new HashSet<>();
+
     public AuctionHouse(){
         if(main != null){
             throw new AuctionHouseException("Can not start Auction Hause!");
@@ -39,6 +46,10 @@ public class AuctionHouse implements Listener {
     }
     public static AuctionHouse getInstance(){
         return main;
+    }
+    public void shutdown(){
+        for (GUI gui : guis)
+            gui.closeInventory();
     }
     public CustomConfig getFile(){
         return file;
@@ -52,6 +63,12 @@ public class AuctionHouse implements Listener {
         }
     }
     public void openInv(SkyblockPlayer player){
+        if(!InfoManager.getValue("ah", true)){
+            player.sendMessage("§cAuction Hause is currently disabled");
+            return;
+        }
+
+
         GUI gui = new GUI(new AuctionHouseTemplate().getCompiledItems());
         gui.setCanceled(true);
         gui.inventoryClickAction(11, type -> new AuctionBrowser(player).openInventory());
@@ -63,6 +80,8 @@ public class AuctionHouse implements Listener {
             }else
                 new SetupOrder(player);
         });
+        gui.closeAction(type -> guis.remove(gui));
+        guis.add(gui);
         gui.showGUI(player);
     }
     private void auctionList(ArrayList<IAuction> auctions, SkyblockPlayer player){
@@ -121,6 +140,8 @@ public class AuctionHouse implements Listener {
             auctions.get(data.get(pointerKey, PersistentDataType.INTEGER)).openManager(player);
         });
         gui.inventoryClickAction(r * 9 + 5, type -> new SetupOrder(player));
+        gui.closeAction(type -> guis.remove(gui));
+        guis.add(gui);
         gui.showGUI(player);
     }
 
