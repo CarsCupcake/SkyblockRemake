@@ -150,7 +150,7 @@ public class EndermanT1 extends Slayer implements Listener {
         }
     }
     private boolean toNextHitPhase(){
-        System.out.println((health < (health * 0.66)));
+
         if(hitsPhase == 1 && health <=198000){
             return true;
         }

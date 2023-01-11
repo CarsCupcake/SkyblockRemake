@@ -40,26 +40,26 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 		SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 		if(!AbilityManager.additionalMana.get(player).containsKey(itemID)) {
 			AbilityManager.additionalMana.get(player).put(itemID, new AdditionalManaCosts(player, itemID, 20, 60, -1));
-			System.out.println("addidtional mananananana");
+
 			multi = 1;
 		}else {
-			switch(AbilityManager.additionalMana.get(player).get(itemID).amount){
-			case 20:
-				AbilityManager.additionalMana.get(player).get(itemID).addAmount(20);
-				multi = 2;
-				break;
-			case 40:
-				AbilityManager.additionalMana.get(player).get(itemID).addAmount(20);
-				multi = 4;
-				break;
-			case 60:
-				AbilityManager.additionalMana.get(player).get(itemID).addAmount(80);
-				multi = 8;
-				break;
-				default:
+			switch (AbilityManager.additionalMana.get(player).get(itemID).amount) {
+				case 20 -> {
+					AbilityManager.additionalMana.get(player).get(itemID).addAmount(20);
+					multi = 2;
+				}
+				case 40 -> {
+					AbilityManager.additionalMana.get(player).get(itemID).addAmount(20);
+					multi = 4;
+				}
+				case 60 -> {
+					AbilityManager.additionalMana.get(player).get(itemID).addAmount(80);
+					multi = 8;
+				}
+				default -> {
 					AbilityManager.additionalMana.get(player).get(itemID).resetTimer();
 					multi = 16;
-					break;
+				}
 			}
 		}
 		thrower(player, multi);
@@ -127,7 +127,7 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 		        		Main.EntityDeath(entity);
 		        		entity.damage(9999999,player);
 		        		
-		        		if(SkyblockEntity.livingEntity.containsKey(e))
+
 		        		SkyblockEntity.livingEntity.remove(e);
 		        		
 		        		entity.addScoreboardTag("killer:" + player.getName());
@@ -149,7 +149,6 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 							if(calculator.isCrit) {
 								String name = "§f✧";
 								String num = "" + String.format("%.0f",Tools.round( FINAL_DAMAGE, 0));
-								num.substring(1, num.length() -2);
 								int col =1;
 								int coltype = 1;
 								String colstr = "§f";
@@ -160,18 +159,13 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 									if(col ==2) {
 										col = 0;
 										++coltype;
-										switch(coltype) {
-										case 1:
-											colstr = "§f";
-											break;
-										case 2:
-											colstr = "§e";
-											break;
-										case 3:
-											colstr = "§6";
-											coltype = 0;
-											break;
-											
+										switch (coltype) {
+											case 1 -> colstr = "§f";
+											case 2 -> colstr = "§e";
+											case 3 -> {
+												colstr = "§6";
+												coltype = 0;
+											}
 										}
 										
 									}
@@ -214,7 +208,7 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 									   
 									 
 								  }else {
-									 int minus = (int) ((int)hits * 100);
+									 int minus = ((int)hits * 100);
 									 double hitchance = (double)ferocity - (double)minus;
 									
 									 Random r = new Random();

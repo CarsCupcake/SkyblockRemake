@@ -165,6 +165,7 @@ public class Calculator {
         else
             result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
         Bukkit.getPluginManager().callEvent(result);
+
         isCanceled = result.isCancelled();
         if(result.isCancelled())
             return;
@@ -193,6 +194,7 @@ public class Calculator {
         e.damage(0.00001, player);
         SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
         Bukkit.getPluginManager().callEvent(event);
+
 
         if(newHealth <= 0)
             e.addScoreboardTag("killer:" + player.getName());

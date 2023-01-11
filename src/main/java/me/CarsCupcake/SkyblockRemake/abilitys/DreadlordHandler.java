@@ -12,7 +12,6 @@ public class DreadlordHandler implements Listener {
     @EventHandler
     public void skyblockEvent(SkyblockDamageEvent event){
         if(event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
-            System.out.println(event.getEntity() + "lelele");
             Projectile projectile = event.getProjectile();
             if(projectile.getType() == EntityType.WITHER_SKULL)
                 if(projectile.getScoreboardTags().contains("dreadlord")){

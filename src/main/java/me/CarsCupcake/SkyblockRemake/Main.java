@@ -589,7 +589,7 @@ public class Main extends JavaPlugin {
 				PacketReader reader = new PacketReader(player);
 				reader.uninject(player);
 			} catch (Exception e) {
-				System.out.println("Error: " + e);
+				e.printStackTrace();
 			}
 			try{
 				SkyblockPlayer.getSkyblockPlayer(player).saveInventory();
@@ -1300,7 +1300,6 @@ public class Main extends JavaPlugin {
 
 		if (stand != null) {
 			stand.setCustomName(StandName.get(0));
-			System.out.println(stand.getCustomName());
 		}
 
 	}
@@ -3033,7 +3032,7 @@ public class Main extends JavaPlugin {
 
 				if (item.getItemMeta() instanceof EnchantmentStorageMeta) {
 					EnchantmentStorageMeta enchStorage = (EnchantmentStorageMeta) item.getItemMeta();
-					System.out.println("hasEnchants " + enchStorage.getStoredEnchants());
+
 					ArrayList<String> enchantLore = new ArrayList<>();
 					HashMap<String, Integer> operator = new HashMap<>();
 					operator.put("amount", 0);

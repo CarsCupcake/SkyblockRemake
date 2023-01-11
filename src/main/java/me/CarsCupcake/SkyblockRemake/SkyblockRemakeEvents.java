@@ -344,568 +344,6 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 			SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 			MiningSys.getMiningSystem(player).getBlock().breakBlock(event.getBlock(), player);
 			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-
-			/*
-			if(event.getBlock().getType() == Material.STONE || event.getBlock().getType() == Material.COBBLESTONE) {
-				
-				if(event.getBlock().getType() == Material.COBBLESTONE)
-				event.getBlock().setType(Material.BEDROCK);
-				else
-					event.getBlock().setType(Material.COBBLESTONE);
-				
-				player.addSkillXp(1, Skills.Mining);
-				ItemStack item = new ItemStack(Material.COBBLESTONE);
-				item = Main.item_updater(item,player);
-				item = Main.item_updater(item,player);
-				if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-					player.addItem(item);
-					else
-					event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-				new BukkitRunnable() {
-					
-					@Override
-					public void run() {
-						if(event.getBlock().getLocation().getBlock().getType()== Material.COBBLESTONE)
-						event.getBlock().setType(Material.STONE);
-						else
-							event.getBlock().setType(Material.COBBLESTONE);
-					}
-				}.runTaskLater(Main.getMain(), 5*20);
-			}
-		if(event.getBlock().getType() == Material.COAL_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			player.addSkillXp(5, Skills.Mining);
-			ItemStack item = new ItemStack(Material.COAL);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.COAL_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		if(event.getBlock().getType() == Material.DIAMOND_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			player.addSkillXp(10, Skills.Mining);
-			ItemStack item = new ItemStack(Material.DIAMOND);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.DIAMOND_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		if(event.getBlock().getType() == Material.IRON_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			player.addSkillXp(5, Skills.Mining);
-			ItemStack item = new ItemStack(Material.IRON_ORE);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.IRON_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		if(event.getBlock().getType() == Material.GOLD_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			player.addSkillXp(5, Skills.Mining);
-			ItemStack item = new ItemStack(Material.GOLD_ORE);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.GOLD_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		if(event.getBlock().getType() == Material.GLOWSTONE) {
-			event.getBlock().setType(Material.AIR);
-
-			player.addSkillXp(7, Skills.Mining);
-			ItemStack item = new ItemStack(Material.GLOWSTONE_DUST);
-			Random rand = new Random();
-			int amount = rand.nextInt(2)+2;
-			item.setAmount(amount);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.GLOWSTONE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		if(event.getBlock().getType() == Material.LAPIS_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			ItemStack item = new ItemStack(Material.LAPIS_LAZULI);
-			Random rand = new Random();
-			int amount = rand.nextInt(2)+2;
-			item.setAmount(amount);
-			player.addSkillXp(7, Skills.Mining);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.LAPIS_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		
-		if(event.getBlock().getType() == Material.EMERALD_ORE) {
-			event.getBlock().setType(Material.BEDROCK);
-			ItemStack item = new ItemStack(Material.EMERALD);
-			Random rand = new Random();
-			int amount = rand.nextInt(2)+2;
-			item.setAmount(amount);
-			player.addSkillXp(9, Skills.Mining);
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-						event.getBlock().setType(Material.EMERALD_ORE);
-				}
-			}.runTaskLater(Main.getMain(), 5*20);
-		
-		}
-		
-		if(event.getPlayer().getServer().getPort() == 25564 || !Main.isLocalHost) {
-		
-		if(event.getBlock().getType() == Material.GRAY_WOOL) {
-			Commission.updateMiningCommission(player, true);
-			ItemStack item = Items.Mithril();
-			player.addSkillXp(45, Skills.Mining);
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_WOOD_BREAK, 1, 1);
-
-			Random r = new Random();
-			int mithrilpowder = 0;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			
-			
-			
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 1));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-			player.addItem(item);
-			else
-			event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			
-			
-			
-			//Titanium Spawning System
-			
-			double chance = player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(), Material.GRAY_WOOL));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.GRAY_WOOL);
-					    	
-					    }else
-						event.getBlock().setType(Material.GRAY_WOOL);
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-		return;
-		}
-		if(event.getBlock().getType() == Material.CYAN_TERRACOTTA) {
-			event.getBlock().setType(Material.BEDROCK);
-			Commission.updateMiningCommission(player, true);
-			Random r = new Random();
-			int mithrilpowder = 0;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			ItemStack item = Items.Mithril();
-			player.addSkillXp(45, Skills.Mining);
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 1));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-//Titanium Spawning System
-			
-			double chance =player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(), Material.CYAN_TERRACOTTA));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.CYAN_TERRACOTTA);
-					    	
-					    }else
-						event.getBlock().setType(Material.CYAN_TERRACOTTA);
-					    
-					    
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-			return;
-		}
-		if(event.getBlock().getType() == Material.PRISMARINE) {
-			event.getBlock().setType(Material.BEDROCK);
-			Commission.updateMiningCommission(player, true);
-			
-			Random r = new Random();
-			int mithrilpowder = 1;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			
-			ItemStack item = Items.Mithril();
-		
-			player.addSkillXp(45, Skills.Mining);
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 2));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-//Titanium Spawning System
-			
-			double chance = player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(),Material.PRISMARINE));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.PRISMARINE);
-					    	
-					    }else
-						event.getBlock().setType(Material.PRISMARINE);
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-			return;
-		}
-		if(event.getBlock().getType() == Material.DARK_PRISMARINE) {
-			event.getBlock().setType(Material.BEDROCK);
-			Commission.updateMiningCommission(player, true);
-			
-			Random r = new Random();
-			int mithrilpowder = 1;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			
-			ItemStack item = Items.Mithril();
-			player.addSkillXp(45, Skills.Mining);
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 2));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-//Titanium Spawning System
-			
-			double chance = player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(), event.getBlock().getType()));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.DARK_PRISMARINE);
-					    	
-					    }else
-						event.getBlock().setType(Material.DARK_PRISMARINE);
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-			return;
-		}
-		if(event.getBlock().getType() == Material.PRISMARINE_BRICKS) {
-			event.getBlock().setType(Material.BEDROCK);
-			Commission.updateMiningCommission(player, true);
-			
-			Random r = new Random();
-			int mithrilpowder = 1;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			
-			ItemStack item = Items.Mithril();
-			player.addSkillXp(45, Skills.Mining);
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 2));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-//Titanium Spawning System
-			
-			double chance = player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(),  Material.DARK_PRISMARINE));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.PRISMARINE_BRICKS);
-					    	
-					    }else
-						event.getBlock().setType(Material.PRISMARINE_BRICKS);
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-			return;
-		}
-		if(event.getBlock().getType() == Material.LIGHT_BLUE_WOOL) {
-			event.getBlock().setType(Material.BEDROCK);
-			Commission.updateMiningCommission(player, true);
-			
-			Random r = new Random();
-			int mithrilpowder = 2;
-			if(r.nextBoolean())
-				mithrilpowder += 1;
-			player.addMithrilPowder(mithrilpowder);
-			player.addSkillXp(12, Skills.Mining);
-			ItemStack item = Items.Mithril();
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 5));
-			item = Main.item_updater(item,player);
-			item = Main.item_updater(item,player);
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_WOOL_BREAK, 1, 1);
-//Titanium Spawning System
-			
-			double chance = player.titaniumchance / 100;
-			
-			final boolean isTitanium; 
-			double i = new Random().nextDouble();
-	
-			if(i <= chance) {
-				isTitanium = true;
-				
-				
-				Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getLocation().getX(), (int)event.getBlock().getLocation().getY(), (int)event.getBlock().getLocation().getZ());
-				TitaniumRegen.put(loc, Material.BEDROCK);
-				TitaniumObject.put(loc, new Titanium(event.getBlock().getLocation(), Material.LIGHT_BLUE_WOOL));
-				
-				event.getBlock().setType(Material.POLISHED_DIORITE);
-				
-			}
-			else {
-				event.getBlock().setType(Material.BEDROCK);
-				isTitanium = false;
-				}
-			
-			
-			new BukkitRunnable() {
-				
-				@Override
-				public void run() {
-					
-					    if(event.getBlock().getLocation().getBlock().getType() == Material.POLISHED_DIORITE && isTitanium == true) {
-					    	TitaniumRegen.replace(event.getBlock().getLocation(), Material.LIGHT_BLUE_WOOL);
-					    	
-					    }else
-						event.getBlock().setType(Material.LIGHT_BLUE_WOOL);
-				}
-			}.runTaskLater(Main.getMain(), 8*20);
-			return;
-		}
-		if(event.getBlock().getType() == Material.POLISHED_DIORITE) {
-			player.addSkillXp(100, Skills.Mining);
-			Location loc = new Location(event.getBlock().getWorld(), (int)event.getBlock().getX(), (int)event.getBlock().getY(), (int)event.getBlock().getZ());
-			
-			if(!TitaniumObject.containsKey(loc) )
-				
-				return;
-			if(!TitaniumRegen.containsKey(loc))
-				return;
-			player.playSound(event.getBlock().getLocation(), Sound.BLOCK_STONE_BREAK, 1, 1);
-			Commission.updateMiningCommission(player, false);
-			ItemStack item = Items.Titanium();
-			item.setAmount(dropAmount((int)Main.getPlayerMiningFortune(event.getPlayer()), 2, 4));
-			
-			if(player.getItemInHand().getEnchantments().containsKey(SkyblockEnchants.TELIKINESIS))
-				player.addItem(item);
-				else
-				event.getBlock().getLocation().getWorld().dropItemNaturally(event.getBlock().getLocation(),item);	
-			
-			Titanium e = TitaniumObject.get(event.getBlock().getLocation());
-			e.cancle();
-			event.getBlock().setType(TitaniumRegen.get(event.getBlock().getLocation()));
-		
-		}
-		
-			
-		}*/
 	}}
 public static int dropAmount(int minigFortune, int lowest, int highest) {
 		
@@ -1420,16 +858,7 @@ public static int dropAmount(int minigFortune, int amount) {
 			}
 			}
 		}
-		if (itemStack.getType() == Material.GHAST_TEAR) {
-			if (itemStack.hasItemMeta()) {
-			if(itemStack.getItemMeta().hasCustomModelData()) {
-
-			}
-			}
 		}
-
-		if(   event.getAction() == Action.RIGHT_CLICK_BLOCK ||  event.getAction() == Action.RIGHT_CLICK_AIR ) {
-		}}
 	public static void teleport(Player player) {
 		for(int i=1;i<=10;i++) {
 		Location loc = player.getLocation();
@@ -1480,9 +909,7 @@ public static int dropAmount(int minigFortune, int amount) {
 		
 
 		}
-	public SkyblockRemakeEvents getEvents() {
-		return Events;
-	}
+
 
 	@EventHandler
 	public void InventoryClickLEL(InventoryClickEvent event) {
@@ -1555,26 +982,6 @@ public static int dropAmount(int minigFortune, int amount) {
 		  player.updateInventory();
 	
 	}
-	@EventHandler
-	public void ShopMenu(InventoryClickEvent event) {
-		  if (!event.getView().getTitle().contains("Soul Shop"))
-			  return;
-		  if (event.getCurrentItem() == null)
-			  return;
-		  if (event.getCurrentItem().getItemMeta() == null)
-			  return;
-		  
-		  Player player = (Player) event.getWhoClicked();
-		  event.setCancelled(true);
-		  
-		  if(event.getClickedInventory().getType() == InventoryType.PLAYER)
-			  return;
-		  if (event.getSlot() == 22) {
-			  player.sendMessage("there is sadly nothing");
-		  }
-		  
-	
-	}
 	public boolean hasfreeSlot(Player p){
 		 return Arrays.asList(p.getInventory().getStorageContents()).contains(null);
 		}
@@ -1617,68 +1024,7 @@ public static int dropAmount(int minigFortune, int amount) {
 		
 		event.getPlayer().updateInventory();
 	}
-	public static ItemStack getHyperion() {
-		ItemStack item = new ItemStack(Material.IRON_SWORD);
-		ItemMeta meta = item.getItemMeta();
-		
-		
-		PersistentDataContainer data = meta.getPersistentDataContainer();
-		data.set(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING, "hyperion");
-		data.set(new NamespacedKey(Main.getMain(), "HYPERION"), PersistentDataType.STRING, "HYPERION");
-		data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER, 350);
-		data.set(new NamespacedKey(Main.getMain(), "manacost"), PersistentDataType.INTEGER, 300);
-		data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "260");
-		data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.INTEGER, 150);
-		data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, 10000);
-		data.set(new NamespacedKey(Main.getMain(), "abilityscaling"), PersistentDataType.FLOAT, 0.3f);
-		meta.setDisplayName("§6Hyperion");
-		List<String> lore = new ArrayList<>();
-		lore.add(" ");
-		lore.add("§aScroll Abilities:");
-		lore.add("§6Ability: Wither Impact " + ChatColor.BOLD + "§eRIGHT CLICK");
-		lore.add("§7Teleports §a10 blocks §7ahead of");
-		lore.add("§7you. Then implode dealing");
-		lore.add("§7§c10000 §7damage to nearby");
-		lore.add("§7enemies. Also applies the wither");
-		lore.add("§7shield scroll ability reducing");
-		lore.add("§7damage taken and granting an");
-		lore.add("§7absorption shield for §e5 §7seconds.");
-		lore.add("§8Mana Cost: §b300");
-		meta.setLocalizedName("HYPERION");
-		meta.setLore(lore);
-		meta.setUnbreakable(true);
-		lore.clear();
-		item.setItemMeta(meta);
 
-		net.minecraft.world.item.ItemStack nmsApple = CraftItemStack.asNMSCopy(item);
-		NBTTagCompound applecompound = (nmsApple.hasTag()) ? nmsApple.getTag() : new NBTTagCompound();
-
-
-
-
-		meta.setLocalizedName("HYPERION");
-		
-		applecompound.setString("SKYBLOCK", "HYPERION");
-		nmsApple.setTag(applecompound);
-		nmsApple.a("HYPERION");
-		return CraftItemStack.asBukkitCopy(nmsApple);
-	}
-	@EventHandler
-	public void inventoryClose(InventoryCloseEvent event) {
-		if (!event.getView().getTitle().contains("Soul Reforging")) {
-			return;
-		}
-		if(iteminforge == true) {
-			ItemStack getback = event.getInventory().getItem(22);
-			if(hasfreeSlot((Player)event.getPlayer()) == true) {
-			event.getPlayer().getInventory().addItem(getback);
-			}else {
-				((CraftWorld)event.getPlayer().getLocation().getWorld()).dropItem(event.getPlayer().getLocation(), getback);
-			}
-			iteminforge = false;
-		
-		}
-		}
 	@EventHandler
 	public void onDraw(PlayerInteractEvent event) {
 	      //On interact
@@ -1891,11 +1237,7 @@ public static int dropAmount(int minigFortune, int amount) {
 
 	            });
 	            }
-	            catch(RuntimeException e) {
-	            	
-	            }
-	           
-	            
+	            catch(RuntimeException ignored) {}
 	      }
 	}
 	@EventHandler
@@ -1926,16 +1268,9 @@ public static int dropAmount(int minigFortune, int amount) {
     					player.getInventory().setItem(slot, Main.item_updater(Main.item_updater(new ItemStack(Material.ARROW), SkyblockPlayer.getSkyblockPlayer(player)), SkyblockPlayer.getSkyblockPlayer(player)));
     					player.getInventory().getItem(slot).setAmount(i.getAmount());
     					player.updateInventory();
-
-    			
-    			
-    		
-       	 }
-			
-			
+			   }
        	 }
 		else {
-		
 		for(int slot = 0; slot<player.getInventory().getSize()-1; ++slot){
 			ItemStack i = player.getInventory().getItem(slot);
 			if(i != null)
@@ -2009,56 +1344,8 @@ public static int dropAmount(int minigFortune, int amount) {
   			 });
 		 }}
 		  
-		
-		ItemStack bow = event.getBow();
-		if(bow.getItemMeta() == null)
-			  return;
-		ItemMeta meta = bow.getItemMeta();
-		PersistentDataContainer data = meta.getPersistentDataContainer();
-		if(data == null)
-			return;
-		String reforge = data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING);
-		if(reforge == null)
-			return;
-		if(reforge.equalsIgnoreCase("spiritual")) {
 
-				
-			
-				
-			
-				
-
-				try {
-					player.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, player.getLocation().add(0, 0.5, 0), 5, 0, 0, 0, 3, null, true);
-					Location loc = player.getLocation();
-					List<Entity> close = (List<Entity>) player.getWorld().getNearbyEntities(loc, 4, 4, 4);
-					close.remove(player);
-					for(Entity target : close){
-				         if(target instanceof LivingEntity){
-				      ((LivingEntity) target).damage(5, player);
-				         }
-					}
-					
-				
-   
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-			event.getProjectile().addScoreboardTag("spiritual");
-			if(!(bow.getItemMeta().getEnchantLevel(Enchantment.ARROW_INFINITE) >= 1)){
-			if ((int) (Math.random() * 4) == 1) {
-				ItemStack arrow = event.getConsumable();
-				int ammount = arrow.getAmount();
-				if(ammount >= 64) {
-					player.getInventory().addItem(newarrow(arrow.getType(), arrow));
-				}else {
-				arrow.setAmount(ammount + 1);
-			}
-				player.updateInventory();
-			
-			}}
-			
-		}}
+		}
 	public static ItemStack newarrow(Material material, @NotNull ItemStack old) {
 		ItemStack item = new ItemStack(material);
 		ItemMeta meta = item.getItemMeta();
@@ -2102,19 +1389,19 @@ if(str.startsWith("cd:")) {
 			}
 if(str.startsWith("cc:")) {
 	String[] num = str.split(":");
-	 stats.put("cc", Integer.parseInt(num[1])) ;
+	 stats.put("cc", (int) Double.parseDouble(num[1])) ;
 }
 if(str.startsWith("strength:")) {
 	String[] num = str.split(":");
-	 stats.put("stre", Integer.parseInt(num[1])) ;
+	 stats.put("stre", (int) Double.parseDouble(num[1])) ;
 }
 if(str.startsWith("dmg:")) {
 	String[] num = str.split(":");
-	stats.put("dmg", Integer.parseInt(num[1]));
+	stats.put("dmg", (int) Double.parseDouble(num[1]));
 }
 if(str.startsWith("ferocity:")) {
 	String[] num = str.split(":");
-	stats.put("ferocity", Integer.parseInt(num[1]));
+	stats.put("ferocity", (int) Double.parseDouble(num[1]));
 }
 if(str.startsWith("term:")) {
 	stats.put("term", 1);
@@ -2187,26 +1474,9 @@ if(str.startsWith("power:"))
     		mult += power*0.08;
 
 				calculator.damage *= mult;
-
 				calculator.damageEntity((LivingEntity) e.getHitEntity(), player, DamageCause.PROJECTILE);
 
-    	/*if(SkyblockEntity.livingEntity.containsKey(e.getHitEntity()))
-    		SkyblockEntity.livingEntity.get(e.getHitEntity()).damage( damage,player);
-    	else
-    	Main.currentityhealth.replace((LivingEntity) e.getHitEntity(), (int) (Main.currentityhealth.get(e.getHitEntity()) - damage));
-		  if((!SkyblockEntity.livingEntity.containsKey(e.getHitEntity()) &&Main.currentityhealth.get(e.getHitEntity()) <= 0) || (SkyblockEntity.livingEntity.containsKey(e.getHitEntity()) &&SkyblockEntity.livingEntity.get(e.getHitEntity()).getHealth() <= 0)  ) {
-			  LivingEntity entity = (LivingEntity) e.getHitEntity();
-			  Main.EntityDeath(entity);
-			  entity.addScoreboardTag("arrowkill:" + player.getName());
-			  entity.setHealth(1);
-			  entity.damage(1);
-			  if(SkyblockEntity.livingEntity.containsKey(e.getHitEntity()))
-				  SkyblockEntity.livingEntity.remove(e.getHitEntity());
-			  
-		  }
-		  else
-		  Main.updateentitystats((LivingEntity)e.getHitEntity());
-		  */
+
 		  double damage = calculator.damage;
 
 		  if(calculator.getResult().isCancelled())
@@ -2480,30 +1750,6 @@ if(str.startsWith("power:"))
 
 		Entity damager = event.getDamager();
 
-		if(damager instanceof Player) {
-			Player player = ((Player) damager).getPlayer();
-
-			ItemStack curenditem = player.getItemInHand();
-			if(curenditem.getItemMeta() != null) {
-				  
-			ItemMeta meta = curenditem.getItemMeta();
-			PersistentDataContainer data = meta.getPersistentDataContainer();
-			if(data != null) {
-				
-			String reforge = data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING);
-			if(reforge != null) {
-				
-			if(reforge.equalsIgnoreCase("souled")) {
-				double abs = event.getDamage();
-				abs = abs*0.25;
-				double absadd = player.getAbsorptionAmount();
-				abs = abs + absadd;
-				if(abs > 20) {
-					abs = 20;
-				}
-				player.setAbsorptionAmount(abs);
-			}}}}
-		}
 		if(event.getEntity() instanceof Player && event.getDamager() instanceof LivingEntity ) {
 			SkyblockPlayer player =SkyblockPlayer.getSkyblockPlayer((Player) event.getEntity());
 			if(SkyblockEntity.isOnCooldown((LivingEntity)event.getDamager())){
@@ -2634,27 +1880,12 @@ if(str.startsWith("power:"))
 							                 }
 							               }.runTaskLater(Main.getMain(), 1l);
 
-						  /*int stre = Main.playerstrengthcalc(player);
-						  double cd = Main.playercdcalc(player);
-						  int weapondmg = Main.weapondamage(player.getItemInHand());
-						  
-						  float preMultiplier = (float) additiveMultiplier(player);
-						  
-						  
-						  if(!Main.voidgloomHitphase.containsKey(e) || !Main.voidgloomHitphase.get(e)) {
-						 
-				        	if(cccalc <= cc) {
-				        		damage = (5 + (float)weapondmg) * (1+((float)stre/100)) * (1+((float)cd/100)) * (1+(preMultiplier)) * (1+(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier()));
-				        		
-				        	}else {
-				        		damage = (5 + (float)weapondmg) * (1+((float)stre/100))* (1+(preMultiplier));
-				        	}*/
 
 						  }else {
 							  voidgloom = false;
 						  }
 						  calculator.damageEntity(e, SkyblockPlayer.getSkyblockPlayer(player), DamageCause.ENTITY_ATTACK);
-						  System.out.println("damage :>");
+
 				        	if(SkyblockEntity.livingEntity.containsKey(e)) {
 				        		SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
 				        		if(se.hasNoKB()) {
@@ -2669,57 +1900,11 @@ if(str.startsWith("power:"))
 				        		
 				        	}
 
-						  
-						 
-								
-						  
-
-				        	
 				        		
 					  Main.updateentitystats((LivingEntity)event.getEntity());
 					 
 						calculator.showDamageTag(e);
 					  e.setCustomNameVisible(true);
-					  /*if(Main.playerferocitycalc(player) != 0) {
-						  int ferocity =(int) Main.playerferocitycalc(player);
-						  if(voidgloom) {
-							  ferocity = (int) ((double)ferocity*0.25D);
-							
-						  }
-						  
-						  if(ferocity < 100) {
-							  Random r = new Random();
-							  int low = 1;//includes 1
-							  int high = 100;// includes 100
-							  int result = r.nextInt(high-low) + low;
-							  if(ferocity >= result) {
-								  
-								  Ferocity.hit(e,(int) damage, cccalc <= cc, player);
-								  Main.updateentitystats((LivingEntity)e);
-							  }
-						  }else {
-							 double hits =(double) ferocity / 100;
-							  if(hits % 1 == 0) {
-								  
-								  ferocity_call(e, damage, cccalc, cc, player, (int)hits);
-								   
-								 
-							  }else {
-								 int minus = (int) ((int)hits * 100);
-								 double hitchance = (double)ferocity - (double)minus;
-								
-								 Random r = new Random();
-								  int low = 1;//includes 1
-								  int high = 100;// includes 100
-								  int result = r.nextInt(high-low) + low;
-								 
-								  if(hitchance >= result) {
-									  hits = hits +1;
-								  }
-								  ferocity_call(e, damage, cccalc, cc, player, (int)hits);
-							  }
-						  }
-					  }*/
 					  }
 				
 			}}
@@ -2729,77 +1914,8 @@ if(str.startsWith("power:"))
 		
 		
 
-			if(event.getEntity() instanceof Player) {
-				Player player = (Player) event.getEntity();
-				ItemStack useitem = player.getItemInUse();
-				if(useitem == null)
-					return;
-				if(useitem.getItemMeta() == null)
-					  return;
-				ItemMeta meta = useitem.getItemMeta();
-				
-				PersistentDataContainer data = meta.getPersistentDataContainer();
-				if(data == null)
-					return;
-				String reforge = data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING);
-				if(reforge == null)
-					return;
-				if(reforge.equalsIgnoreCase("protective")) {
-
-				Double newdamage = event.getDamage()/2;
-				
-				
-				      event.setDamage(newdamage);
-				      
-				         
-
-				 
-
-				}
-			
-		
-	}}
-	public static double additiveMultiplier(Player player) {
-		double multi = 0;
-		if(player.getItemInHand() != null && player.getItemInHand().getItemMeta() != null && player.getItemInHand().getItemMeta().getEnchants() != null) {
-
-			//Check weapon enchants
-			for(Enchantment ench : player.getItemInHand().getItemMeta().getEnchants().keySet()) {
-
-				if(ench.getName().equals(Enchantment.DAMAGE_ALL.getName())) {
-
-					switch(player.getItemInHand().getItemMeta().getEnchantLevel(ench)) {
-					case 1:
-						multi = multi + 0.05;
-						break;
-					case 2:
-						multi = multi + 0.1;
-						break;
-					case 3:
-						multi = multi + 0.15;
-						break;
-					case 4:
-						multi = multi + 0.20;
-						break;
-					case 5:
-						multi = multi + 0.30;
-						break;
-					case 6:
-						multi = multi + 0.45;
-						break;
-					case 7:
-						multi = multi + 0.65;
-						break;
-
-
-
-					}
-				}
 			}
-		}
 
-		return multi;
-	}
 	public static void kill_voidgloom_beacon(Entity e) {
 		e.getWorld().getEntities().forEach(entity->{
 			if(entity.getScoreboardTags() != null) {
@@ -2880,125 +1996,4 @@ if(str.startsWith("power:"))
 		}.runTaskLater(Main.getMain(), 1L);
 		
 	}
-	//reforge item process
-	public static ItemStack reforge(ItemStack original) {
-		ItemStack item = original;
-		ItemMeta meta = item.getItemMeta();
-		PersistentDataContainer data = meta.getPersistentDataContainer();
-		if(item.getType() == Material.WOODEN_AXE || item.getType() == Material.STONE_AXE || item.getType() == Material.GOLDEN_AXE || item.getType() == Material.IRON_AXE || item.getType() == Material.DIAMOND_AXE || item.getType() == Material.NETHERITE_AXE) {
-		if(meta.getDisplayName() == "") {
-			meta.setDisplayName("§r§lSouled §r" + getItem(original));
-		}else {
-		meta.setDisplayName("§r§lSouled §r" + original.getItemMeta().getDisplayName());
-		
-
-		}
-		data.set(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING, "souled");
-		item.setItemMeta(meta);
-		return item;
-		}
-		if(item.getType() == Material.BOW) {
-			if(meta.getDisplayName() == "") {
-				meta.setDisplayName("§r§lSpiritual §r" + getItem(original));
-			}else {
-			meta.setDisplayName("§r§lSpiritual §r" + original.getItemMeta().getDisplayName());
-
-			}
-			data.set(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING, "spiritual");
-			item.setItemMeta(meta);
-			return item;
-			}
-		if(item.getType() == Material.SHIELD) {
-			if(meta.getDisplayName() == "") {
-				meta.setDisplayName("§r§lProtective §r" + getItem(original));
-			}else {
-			meta.setDisplayName("§r§lProtective §r" + original.getItemMeta().getDisplayName());
-
-			}
-			data.set(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING, "protective");
-			item.setItemMeta(meta);
-			return item;
-			}
-		
-		
-		
-		
-		
-		
-		return null;
-	}
-	public static String getItem(ItemStack item){
-		String itemname = "Error";
-		if(item.getType() == Material.WOODEN_AXE) itemname = "Wooden Axe";
-		if(item.getType() == Material.STONE_AXE) itemname = "Stone Axe";
-		if(item.getType() == Material.GOLDEN_AXE) itemname = "Golden Axe";
-		if(item.getType() == Material.IRON_AXE) itemname = "Iron Axe";
-		if(item.getType() == Material.DIAMOND_AXE) itemname = "Diamond Axe";
-		if(item.getType() == Material.NETHERITE_AXE) itemname = "Netherite Axe";
-		if(item.getType() == Material.BOW) itemname = "Bow";
-		if(item.getType() == Material.SHIELD) itemname = "Shield";
-		
-			
-		return itemname;
-	}
-	//soul shop item item stack
-		 public static ItemStack getSoulShop() {
-		  ItemStack sword = new ItemStack(Material.EMERALD);
-		  ItemMeta meta = sword.getItemMeta();
-		  
-		  meta.setDisplayName("§7§lSoul §r§aShop");
-		  meta.addEnchant(Enchantment.DURABILITY, 1, true);
-		  meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-		  meta.setCustomModelData(10);
-		  sword.setItemMeta(meta);
-		  
-		  return sword;
-
-	}
-		 //soul reforge confirm button
-		 public static ItemStack getConfirmButton(int SoulCost) {
-			 ItemStack item = new ItemStack(Material.GREEN_CONCRETE);
-			 ItemMeta meta = item.getItemMeta();
-			 List<String> lore = new ArrayList<String>();
-			 meta.setDisplayName("§r§aConfirm!");
-			 meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-			 lore.add(ChatColor.WHITE + "Soul Cost: " + SoulCost);
-			 lore.add("");
-			 lore.add("§7Click to Reforge!");
-			 meta.setLore(lore);
-			 item.setItemMeta(meta);
-			 return item;
-		 }
-		 //deny field item stack
-		 public static ItemStack getDenyButton() {
-			 ItemStack item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
-			 ItemMeta meta = item.getItemMeta();			
-			    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-			    meta.setDisplayName("§r" + ChatColor.RED + "Put an Item in the slots");
-			    item.setItemMeta(meta);
-			 return item;
-		 }
-		 //click item field
-		 public static ItemStack getDenyfield() {
-			 ItemStack item = new ItemStack(Material.BARRIER);
-			 ItemMeta meta = item.getItemMeta();			
-			    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-			    meta.setDisplayName("§rKlick on an Sword/Axe/Armor to Reforge it");
-			   
-			    item.setItemMeta(meta);
-			 return item;
-		 }
-
-
-
-
-		 
-		 
-		       
-		    }
-			 
-	
-	
-
-
-
+}

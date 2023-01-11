@@ -4,6 +4,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -16,6 +17,7 @@ public class DummyEntity extends SkyblockEntity {
     private final Class<? extends LivingEntity> type;
     private final int maxHealth;
     private int health;
+    private double lastDamage = 0;
     public DummyEntity(int health){
         this(health, Zombie.class);
     }
@@ -71,7 +73,7 @@ public class DummyEntity extends SkyblockEntity {
 
     @Override
     public void updateNameTag() {
-        entity.setCustomName(SkyblockEntity.getBaseName(this));
+        entity.setCustomName("§aLast Damage: §c" + Tools.addDigits(lastDamage));
     }
 
     @Override
@@ -81,7 +83,7 @@ public class DummyEntity extends SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-
+        lastDamage = damage;
     }
 
     @Override

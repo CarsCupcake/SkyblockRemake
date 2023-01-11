@@ -34,14 +34,12 @@ public class InfernoListener implements Listener {
 
 
             hits = InfernoListener.hits.getOrDefault(event.getPlayer(), 0) + 1;
-            System.out.println(hits);
             if (hits >= 10) {
                 final double lastDamage = event.getCalculator().damage;
                 final LivingEntity entity = event.getEntity();
                 final int enchantLevel = event.getPlayer().getItemInHand().getItemMeta().getEnchantLevel(SkyblockEnchants.INFERNO);
                 InfernoListener.hits.remove(event.getPlayer());
-                Attributable zombieAt = entity;
-                final AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+                final AttributeInstance attributeSpeed = entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
                 InfernoListener.infernos.put(event.getEntity(), new BukkitRunnable() {
                     private int i = 0;
                     private double y = 0;
