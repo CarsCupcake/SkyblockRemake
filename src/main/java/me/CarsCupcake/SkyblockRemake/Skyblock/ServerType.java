@@ -9,6 +9,7 @@ public enum ServerType {
     CrimsonIsle("crimsonisle", 25568),
     TheInstance("kuudra", 25569),
     DungeonHub("dh", 25570),
+    F1("f1", 25567),
     F7("f7", 25567),
     F6("f6",25572),
     SpidersDen("spidersden",25573),

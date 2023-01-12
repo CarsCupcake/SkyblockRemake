@@ -23,7 +23,7 @@ public class StartFight {
     public static HashMap<Location, SkyblockPlayer> placedEyes = new HashMap<>();
     public static SkyblockDragon activeDrag;
     public static SkyblockEntity entityDragon;
-    public static HashMap<Player, Double> weight = new HashMap<>();
+    public static HashMap<SkyblockPlayer, Double> weight = new HashMap<>();
     public static HashMap<Player, Double> aotdChance = new HashMap<>();
     public static double maxDragHealth;
     public static double dragonHealth;
@@ -37,7 +37,7 @@ public class StartFight {
         Loot.resetBlocks(Loot.reset, Loot.resetData);
         HashMap<Location, Player> placedEyesClone = new HashMap<>(placedEyes);
         for (Location loc : placedEyesClone.keySet()) {
-            Player p = placedEyes.get(loc);
+            SkyblockPlayer p = placedEyes.get(loc);
             placedEyes.remove(loc);
             if (aotdChance.containsKey(p)) {
                 aotdChance.put(p, aotdChance.get(p) + 10D);

@@ -333,7 +333,7 @@ public void setEditions(boolean bol) {
 		this.ability = ability;
 		abilityType = type;
 		abilityName = name;
-		manacost = manacost;
+		abilityManaCost = manacost;
 		cooldown = cooldown;
 	}
 	public void setCatchMultiplier(double d){

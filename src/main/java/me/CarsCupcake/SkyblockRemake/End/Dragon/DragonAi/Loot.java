@@ -77,8 +77,8 @@ public class Loot implements Listener {
                         b.setType(Material.TERRACOTTA);
 
                         if (b.getX() - 3 == middle.getBlockX() && b.getZ() == middle.getBlockZ()) {
-                            HashMap<Player, Double> weightCopy = new HashMap<>(StartFight.weight);
-                            for (Player p : weightCopy.keySet()) {
+                            HashMap<SkyblockPlayer, Double> weightCopy = new HashMap<>(StartFight.weight);
+                            for (SkyblockPlayer p : weightCopy.keySet()) {
                                 Double playerWeight = StartFight.weight.get(p);
                                 damage = sortByValue(damage);
                                 List<Player> damagers = new ArrayList<>(damage.keySet());
@@ -360,7 +360,7 @@ public class Loot implements Listener {
 
     }
 
-    static void calculateDrop(Player p, Location spawnLoc, double playerWeight) {
+    static void calculateDrop(SkyblockPlayer p, Location spawnLoc, double playerWeight) {
         Location loc = spawnLoc.clone();
 
         ItemStack drop = null;

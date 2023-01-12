@@ -43,12 +43,14 @@ public class EnderAltarFrame {
         }
         alrPlaced++;
         Bukkit.broadcastMessage("§5☬ §d"+player.getName()+" placed a Summoning Eye! " + ((alrPlaced == 8) ? "Brace yourselve! §7(§a8§7/§a8§7)" : "§7(§e" + alrPlaced + "§7/§a8§7)"));
+        StartFight.placedEyes.put(location, placer);
         if(alrPlaced == 8)
             startBoss();
     }
     public void pickup(){
         if(placer == null)
             throw new IllegalArgumentException("There is no eye placed!");
+        StartFight.placedEyes.remove(location);
         EndPortalFrame frame = (EndPortalFrame) location.getBlock().getBlockData();
         frame.setEye(false);
         location.getBlock().setBlockData(frame);
@@ -66,7 +68,6 @@ public class EnderAltarFrame {
         alrPlaced--;
     }
     public void transform(){
-        StartFight.placedEyes.put(location, placer);
 
         EndPortalFrame frame = (EndPortalFrame) location.getBlock().getBlockData();
         frame.setEye(false);

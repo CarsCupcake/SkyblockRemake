@@ -174,10 +174,8 @@ public class F7Phase3 implements Listener {
     }
     public void solveTerminal(Terminal t, SkyblockPlayer player){
         if(terminalBlockHashMap.containsKey(t)) {
-            System.out.println("Contains :o");
             terminals.remove(terminalBlockHashMap.get(t));
             terminalBlockHashMap.remove(t);
-            System.out.println(terminalBlockHashMap.containsKey(t));
         }else if(t instanceof LeverTerminal) {
             for (Terminal llllllll : terminalBlockHashMap.keySet())
                 if (llllllll instanceof LeverTerminal)
