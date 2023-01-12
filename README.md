@@ -8,3 +8,5 @@ This is a remake attempt of Hypixel Skyblock, some inspiration from Atlas <br>
 - F6
 - F7 Phase 1 - 3
 - and more...
+
+Setup Guide: https://www.youtube.com/watch?v=3v_HwDCJLqE
