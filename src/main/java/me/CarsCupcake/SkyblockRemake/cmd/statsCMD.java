@@ -44,7 +44,6 @@ public class statsCMD implements CommandExecutor{
 					statsConfig.get().set(player.getUniqueId().toString() + ".basehealth", Integer.parseInt(args[1]));
 					statsConfig.save();
 					statsConfig.reload();
-					SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "mana":
@@ -53,7 +52,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basemana", Integer.parseInt(args[1]));
 					 statsConfig.save();
 						statsConfig.reload();
-						SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "def":
@@ -62,7 +60,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basedef", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "speed":
@@ -71,7 +68,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basespeed", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "strength":
@@ -80,7 +76,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basestrength", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "critchance":
@@ -89,7 +84,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basecc", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "critdamage":
@@ -98,7 +92,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basecd", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "ferocity":
@@ -107,8 +100,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".baseferocity", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "magicfind":
@@ -117,7 +108,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".basemagicfind", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "miningspeed":
@@ -126,7 +116,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".baseminingspeed", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "miningfortune":
@@ -135,7 +124,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".baseminingfortune", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "titaniumchance":
@@ -144,7 +132,6 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".titaniumchance", Double.parseDouble(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "pristine":
@@ -153,25 +140,22 @@ public class statsCMD implements CommandExecutor{
 					 statsConfig.get().set(player.getUniqueId().toString() + ".pristine", Double.parseDouble(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "attackspeed":
 					 player.sendMessage("Set Base Attack Speed to: " + args[1]);
 					 p.setBaseStat(Stats.AttackSpeed, value);
-					 statsConfig.get().set(player.getUniqueId().toString() + ".attackspeed", Integer.parseInt(args[1]));
+					 statsConfig.get().set(player.getUniqueId() + ".attackspeed", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				 case "truedefense":
 					 player.sendMessage("Set Base True Defense to: " + args[1]);
 					 p.setBaseStat(Stats.TrueDefense, value);
-					 statsConfig.get().set(player.getUniqueId().toString() + ".truedefense", Integer.parseInt(args[1]));
+					 statsConfig.get().set(player.getUniqueId() + ".truedefense", Integer.parseInt(args[1]));
 					 statsConfig.save();
 					 statsConfig.reload();
-					 SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					 Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					 return true;
 				case "abilitydamage":
@@ -180,7 +164,6 @@ public class statsCMD implements CommandExecutor{
 					statsConfig.get().set(player.getUniqueId().toString() + ".abilitydamage", Float.parseFloat(args[1]));
 					statsConfig.save();
 					statsConfig.reload();
-					SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					return true;
 				case "seacreaturechance":
@@ -189,7 +172,6 @@ public class statsCMD implements CommandExecutor{
 					statsConfig.get().set(player.getUniqueId() + ".seacreaturechance", Double.parseDouble(args[1]));
 					statsConfig.save();
 					statsConfig.reload();
-					SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					return true;
 				case "fishingspeed":
@@ -198,7 +180,6 @@ public class statsCMD implements CommandExecutor{
 					statsConfig.get().set(player.getUniqueId() + "." + Stats.FishingSpeed.getDataName(), Double.parseDouble(args[1]));
 					statsConfig.save();
 					statsConfig.reload();
-					SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					return true;
 				case "TrophyFishingChance":
@@ -210,7 +191,6 @@ public class statsCMD implements CommandExecutor{
 					statsConfig.get().set(player.getUniqueId() + "." + Stats.FishingSpeed.getDataName(), d);
 					statsConfig.save();
 					statsConfig.reload();
-					SkyblockPlayer.getSkyblockPlayer(player).initSkills();
 					Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 					return true;
 					

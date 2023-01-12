@@ -92,7 +92,6 @@ import me.CarsCupcake.SkyblockRemake.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Pets.PetMenuListender;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
-import me.CarsCupcake.SkyblockRemake.Tabs.TabManager;
 import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
 
@@ -107,7 +106,6 @@ public class Main extends JavaPlugin {
 	private static Main Main;
 	private BukkitRunnable runnable;
 	private BukkitRunnable statrunnable;
-	public TabManager tab;
 	public int time;
 	public static DataManager data;
 	public static boolean soulchallengeacctive;
@@ -260,9 +258,7 @@ public class Main extends JavaPlugin {
 
 			}
 
-		this.tab = new TabManager(this);
-		tab.addHeader("§bYou are Playing on §e§llocalhost:25565 \n ");
-		tab.addFooter(" \n§a§lCarsCupcake's Challenge Server");
+
 
 		SkyblockRecipe.init();
 
@@ -2730,6 +2726,11 @@ public class Main extends JavaPlugin {
 
 				}
 
+			}
+
+			if(manager.getLore() != null && !manager.getLore().isEmpty()){
+				lores.add(" ");
+				lores.addAll(manager.getLore());
 			}
 
 			if(manager.isAttributable()){

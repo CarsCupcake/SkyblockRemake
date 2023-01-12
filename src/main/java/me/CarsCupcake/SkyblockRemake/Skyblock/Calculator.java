@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -182,7 +183,7 @@ public class Calculator {
             if(se instanceof FinalDamageDesider desider)
                 damage = desider.getFinalDamage(player, damage);
 
-            se.damage((int)damage,SkyblockPlayer.getSkyblockPlayer(player));
+            se.damage(damage,SkyblockPlayer.getSkyblockPlayer(player));
             newHealth = se.getHealth();
 
 
@@ -191,7 +192,11 @@ public class Calculator {
             Main.currentityhealth.replace(e, live);
             newHealth = Main.currentityhealth.get(e);
         }
+
         e.damage(0.00001, player);
+        if(SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).hasNoKB())
+            e.setVelocity(new Vector(0,0,0));
+
         SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
         Bukkit.getPluginManager().callEvent(event);
 

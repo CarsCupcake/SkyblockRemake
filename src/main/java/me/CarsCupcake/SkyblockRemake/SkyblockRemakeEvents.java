@@ -1984,6 +1984,8 @@ if(str.startsWith("power:"))
 	@EventHandler
 	public void inventoryUpdate(InventoryClickEvent event) {
 		Player player = (Player) event.getWhoClicked();
+		if(event.getClickedInventory().getType() != InventoryType.PLAYER || event.getClickedInventory().getType() != InventoryType.CREATIVE)
+			return;
 		new BukkitRunnable(){
 		@Override
 		public void run()

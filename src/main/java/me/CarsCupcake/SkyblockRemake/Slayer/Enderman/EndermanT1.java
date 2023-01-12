@@ -130,6 +130,9 @@ public class EndermanT1 extends Slayer implements Listener {
         try {
             aoe.cancel();
         }catch (Exception ignored){}
+        try {
+            tp.cancel();
+        }catch (Exception ignored){}
     }
 
     @Override

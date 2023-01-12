@@ -81,19 +81,18 @@ public class LavaFishingHook implements Listener {
         int low = -1;
         int high = 3;
         Random r = new Random();
-        int x = r.nextInt(1);
-        int z = r.nextInt(1);
+        double x = r.nextDouble();
+        double z = r.nextDouble();
         if(x == 0)
             x = -1;
         if(z == 0)
             z = -1;
         x *= 4;
         z *= 4;
-        final int FINAL_X = x;
-        final int FINAL_Z = x;
+        final double FINAL_X = x;
+        final double FINAL_Z = z;
         final Particle.DustOptions dust = new Particle.DustOptions(
                 Color.fromRGB(0x2d2d2e),2);
-
         lavaRunnable.cancel();
         lavaRunnable = new BukkitRunnable() {
             private boolean isDone = false;
@@ -126,10 +125,6 @@ public class LavaFishingHook implements Listener {
                     hooktime--;
                 }
                 if(hook.getLocation().getBlock().getType() == Material.LAVA){
-                    /*hook.teleport(new Location(hook.getWorld(),
-                            hook.getLocation().getZ(),
-                            hook.getLocation().getBlock().getY()+ 0.9,
-                            hook.getLocation().getZ()));*/
                     int y = hook.getLocation().getBlockY();
                     double space = hook.getLocation().getY() - y;
                     if((space < 0.85 && !hookReady) || (space < 0.6 && hookReady))
@@ -156,11 +151,6 @@ public class LavaFishingHook implements Listener {
 
         }
         if(hookReady){
-            System.out.println("You (probably) hokked something");
-            /*hook.setHookedEntity(hook.getWorld().spawn(hook.getLocation(), TropicalFish.class, i ->{
-                i.setFireTicks(0);
-                i.setVisualFire(false);
-            }));*/
             double seaCreatureChance = Main.playerseacreaturechance(player) / 100;
             if(seaCreatureChance > new Random().nextDouble()){
                 new LavaFishing().summonSeaCreature(player, hook.getLocation().add(0,0.5,0),

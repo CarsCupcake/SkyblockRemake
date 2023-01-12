@@ -182,12 +182,13 @@ public abstract class Attribute implements Listener {
         ArrayList<Attribute> attributes = new ArrayList<>();
         if(ItemHandler.hasPDC("attribute_1", item, STRING)) {
             Constructor<? extends Attribute> constructor = Tools.getConstructorIfAvailable(registeredAttributes.get(ItemHandler.getPDC("attribute_1", item, STRING)), ItemType.class, Integer.class, SkyblockPlayer.class);
-            Attribute attribute = ClassUtils.instantiateClass(constructor, manager.type, ItemHandler.getPDC("attribute_1_level", item, INTEGER), player);
+            Attribute attribute = ClassUtils.instantiateClass(constructor, manager.type,
+                    ItemHandler.getOrDefaultPDC("attribute_1_level", item, INTEGER, 1), player);
             attributes.add(attribute);
         }
         if(ItemHandler.hasPDC("attribute_2", item, STRING)) {
             Constructor<? extends Attribute> constructor = Tools.getConstructorIfAvailable(registeredAttributes.get(ItemHandler.getPDC("attribute_2", item, STRING)), ItemType.class, Integer.class, SkyblockPlayer.class);
-            Attribute attribute = ClassUtils.instantiateClass(constructor, manager.type, ItemHandler.getPDC("attribute_2_level", item, INTEGER), player);
+            Attribute attribute = ClassUtils.instantiateClass(constructor, manager.type, ItemHandler.getOrDefaultPDC("attribute_2_level", item, INTEGER, 1), player);
             attributes.add(attribute);
         }
         return attributes;

@@ -59,7 +59,7 @@ public class Hyperion_WitherImpact implements AbilityManager<PlayerInteractEvent
 		List<Entity> close = (List<Entity>) event.getPlayer().getWorld().getNearbyEntities(loc, 6, 6, 6);
 		close.remove(event.getPlayer());
 		int i = 0;
-		int damage = 0;
+		double damage = 0;
 		for(Entity target : close){
 	         if(target instanceof LivingEntity && !(target instanceof Player) && target.getType() != EntityType.ARMOR_STAND && !Main.entitydead.containsKey(target)  ){
 				 Calculator calculator = new Calculator();

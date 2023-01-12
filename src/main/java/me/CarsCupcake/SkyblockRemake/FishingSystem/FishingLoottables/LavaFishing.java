@@ -66,7 +66,7 @@ public class LavaFishing implements FishingLoottable {
             return entity.getEntity();
         }
         if(new Random().nextDouble() < 0.0694){
-            player.sendMessage("§aA Lava Flame flies out from beneath the lava.\t");
+            player.sendMessage("§aA Lava Flame flies out from beneath the lava.");
             LavaFlame entity = new LavaFlame();
             entity.spawn(spawnLoc);
             entity.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20, 20, false, false, false));
@@ -195,14 +195,13 @@ public class LavaFishing implements FishingLoottable {
             return manager;
         }
         pool -= 170;
+        ItemManager manager;
         if(pool < 150){
-            ItemManager manager = Items.SkyblockItems.get("LAVA_SHELL");
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
-            return manager;
+            manager = Items.SkyblockItems.get("LAVA_SHELL");
         }else {
-            ItemManager manager = Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
-            return manager;
+            manager = Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
         }
+        player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+        return manager;
     }
 }
