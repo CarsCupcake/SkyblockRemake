@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
@@ -17,6 +18,7 @@ public class Taurus extends SkyblockEntity implements Corruptable {
     private int maxHealth = 5000000;
     private int health = 5000000;
     private LivingEntity entity;
+    @Getter
     private TaurusPig pig;
     @Override
     public int getMaxHealth() {

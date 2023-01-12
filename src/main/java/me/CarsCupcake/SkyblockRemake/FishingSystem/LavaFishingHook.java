@@ -132,9 +132,8 @@ public class LavaFishingHook implements Listener {
                             hook.getLocation().getZ()));*/
                     int y = hook.getLocation().getBlockY();
                     double space = hook.getLocation().getY() - y;
-                    if(space < 0.6) {
-                        hook.setVelocity(new Vector(0, 0.05, 0));
-                    }
+                    if((space < 0.85 && !hookReady) || (space < 0.6 && hookReady))
+                        hook.setVelocity(new Vector(0,0.05,0));
 
 
 
@@ -164,7 +163,6 @@ public class LavaFishingHook implements Listener {
             }));*/
             double seaCreatureChance = Main.playerseacreaturechance(player) / 100;
             if(seaCreatureChance > new Random().nextDouble()){
-                player.sendMessage("SeaCreature Here pls");
                 new LavaFishing().summonSeaCreature(player, hook.getLocation().add(0,0.5,0),
                         new Vector(player.getEyeLocation().getX() - hook.getLocation().getX(), (player.getEyeLocation().getY() - hook.getLocation().getY()) - 0.5, player.getEyeLocation().getZ() - hook.getLocation().getZ()).multiply(0.15));
             }else{

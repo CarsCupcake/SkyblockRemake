@@ -142,12 +142,10 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
-		reloadConfig();
 		config.addDefault("JoinSpawn", false);
 		config.addDefault("LavaBounce", false);
 		config.addDefault("StatSystem", true);
-		if(config.get("SkyblockDataPath") == null)
-			config.addDefault("SkyblockDataPath", ".\\data");
+		config.addDefault("SkyblockDataPath", ".\\data");
 		config.addDefault("ServerType", "");
 		config.options().copyDefaults(true);
 		saveConfig();
@@ -605,9 +603,7 @@ public class Main extends JavaPlugin {
 				if(entity instanceof LivingEntity && !(entity instanceof ArmorStand) && !(entity instanceof Player))
 					entity.remove();
 
-		getConfig().set("TimerValue", time);
-		saveConfig();
-		reloadConfig();
+
 
 		if (DiguestMobsManager.getDiguested != null && !DiguestMobsManager.getDiguested.isEmpty())
 			DiguestMobsManager.getDiguested.forEach((entity, diguest) -> {

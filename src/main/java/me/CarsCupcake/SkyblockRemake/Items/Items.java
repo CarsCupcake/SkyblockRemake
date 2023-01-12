@@ -759,6 +759,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 
 		manager.setIsSkullValue(true);
 		manager.setUnstackeble(true);
+		manager.setMaxStars(10);
 		manager.setStat(Stats.Health, 220);
 		manager.setStat(Stats.Defense, 190);
 		manager.setStat(Stats.Strength, 10);
@@ -795,7 +796,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 				0,0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x6F0F08),ItemRarity.LEGENDARY);
 
 
-		manager.setIsSkullValue(true);
+		manager.setMaxStars(10);
 		manager.setStat(Stats.Health, 250);
 		manager.setStat(Stats.Defense, 240);
 		manager.setStat(Stats.Strength, 10);
@@ -831,7 +832,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		ItemManager manager = new ItemManager("Magma Lord Leggings", "MAGMA_LORD_LEGGINGS" , ItemType.Leggings, null,"Fireproof","",abilityLore,0,0,
 				0,0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x6F0F08),ItemRarity.LEGENDARY);
 
-		manager.setIsSkullValue(true);
+		manager.setMaxStars(10);
 		manager.setStat(Stats.Health, 235);
 		manager.setStat(Stats.Defense, 210);
 		manager.setStat(Stats.Strength, 10);
@@ -866,7 +867,8 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		abilityLore.add("§7Lava Sea Creatures.");
 		ItemManager manager = new ItemManager("Magma Lord Boots", "MAGMA_LORD_BOOTS" , ItemType.Boots, null,"Fireproof","",abilityLore,0,0,
 				0,0,Material.LEATHER_BOOTS, Color.fromRGB(0x6F0F08),ItemRarity.LEGENDARY);
-		manager.setIsSkullValue(true);
+
+		manager.setMaxStars(10);
 		manager.setStat(Stats.Health, 190);
 		manager.setStat(Stats.Defense, 165);
 		manager.setStat(Stats.Strength, 10);
@@ -1319,6 +1321,8 @@ public static ItemStack wither_googles() {
     ItemManager manager = new ItemManager("Wither Googles", "wither_googles", ItemType.Helmet, ItemRarity.EPIC, "http://textures.minecraft.net/texture/37ceb8f0758e2d8ac49de6f977603c7bfc23fd82a8574810a45f5e97c6436d79");
     manager.setStat(Stats.Inteligence, 300);
 	manager.setStat(Stats.AbilityDamage, 45);
+	manager.setMaxStars(5);
+	manager.setDungeonItem(true);
 	SkyblockItems.put(manager.itemID, manager);
     return manager.getRawItemStack();
     
@@ -1635,6 +1639,7 @@ public static ItemStack terminator() {
 	manager.setStat(Stats.AttackSpeed, 40);
 	manager.customDataContainer.put("shoottype", "term");
 	manager.customDataContainer.put("ability", "shortbow");
+	manager.setMaxStars(5);
 
 	SkyblockItems.put(manager.itemID, manager);
 	return manager.getRawItemStack();
@@ -4038,6 +4043,7 @@ public static void maidBoots(){
 		manager.setTrophyFishChance(0.2);
 		manager.setNpcSellPrice(5634000);
 		manager.setRodType(RodType.LavaRod);
+		manager.setMaxStars(10);
 		SkyblockItems.put(manager.itemID, manager);
 	}
 	private static void craysFish(){

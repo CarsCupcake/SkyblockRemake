@@ -136,7 +136,7 @@ public class SkyblockPlayer extends CraftPlayer{
 	
 	public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
 		super(server, entity);
-		inventory = new CustomConfig(new File("C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files\\invs" , getUniqueId() + ".yml"));
+		inventory = new CustomConfig(this, "inv");
 		player = entity.getBukkitEntity().getPlayer();
 		players.put(player, this);
 		AbilityManager.additionalMana.put(this, new HashMap<>());

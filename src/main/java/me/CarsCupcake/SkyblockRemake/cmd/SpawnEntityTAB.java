@@ -21,7 +21,6 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("ICE_WALKER");
             arguments.add("THUNDER");
             arguments.add("LORD_JAWBUS");
-            arguments.add("SUPERIOR_DRAGON");
             arguments.add("LASR");
             arguments.add("BIGFOOT");
             arguments.add("DIAMOND");

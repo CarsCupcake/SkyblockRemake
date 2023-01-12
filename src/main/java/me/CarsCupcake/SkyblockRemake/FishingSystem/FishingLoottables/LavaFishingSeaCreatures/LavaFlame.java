@@ -71,7 +71,7 @@ public class LavaFlame extends SkyblockEntity implements Corruptable {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        health *= damage;
+        health -= damage;
 
     }
 

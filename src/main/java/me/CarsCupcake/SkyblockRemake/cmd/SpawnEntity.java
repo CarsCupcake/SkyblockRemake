@@ -30,10 +30,6 @@ public class SpawnEntity implements CommandExecutor {
                     LordJawbus walker = new LordJawbus();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
-                case "SUPERIOR_DRAGON" ->{
-                    SuperiorDragon walker = new SuperiorDragon();
-                    walker.spawn(((Player)commandSender).getLocation());
-                }
                 case "LASR" ->{
                     GiantLASR walker = new GiantLASR();
                     walker.spawn(((Player)commandSender).getLocation());

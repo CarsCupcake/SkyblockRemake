@@ -54,6 +54,7 @@ public class LavaFishing implements FishingLoottable {
             entity.spawn(spawnLoc);
             entity.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20, 20, false, false, false));
             entity.getEntity().setVelocity(vector);
+            entity.getPig().getEntity().setVelocity(vector);
             return entity.getEntity();
         }
         if(new Random().nextDouble() < 0.0608){
@@ -147,19 +148,19 @@ public class LavaFishing implements FishingLoottable {
     private ItemManager treasurePool(SkyblockPlayer player){
         int pool = new Random().nextInt(48);
         if(pool < 25) {
-            player.sendMessage("§e§lGOOD GATCH! §fYou cought §9Random Bait §8(Comming Soon)");
+            player.sendMessage("§e§lGOOD CATCH! §fYou cought §9Random Bait §8(Comming Soon)");
             return Items.SkyblockItems.get(Material.MAGMA_CREAM.toString());
         }
         pool -= 25;
         if(pool < 15) {
             int coins = new Random().nextInt(10000) + 10000;
-            player.sendMessage("§e§lGOOD GATCH! §fYou cought §6"+ Tools.addDigits(coins)+" coins");
+            player.sendMessage("§e§lGOOD CATCH! §fYou cought §6"+ Tools.addDigits(coins)+" coins");
             player.setCoins(player.coins + coins);
             return Items.SkyblockItems.get(Material.AIR.toString());
         }
         pool -= 15;
         if(pool < 5){
-            player.sendMessage("§e§lGOOD GATCH! §fYou cought §aGrand Experience Bottle! §8(Comming Soon)");
+            player.sendMessage("§e§lGOOD CATCH! §fYou cought §aGrand Experience Bottle! §8(Comming Soon)");
             return Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
         }else {
             ItemManager manager = Items.SkyblockItems.get("MAGMA_FISH_SILVER");
@@ -172,35 +173,35 @@ public class LavaFishing implements FishingLoottable {
         int pool = new Random().nextInt(1230);
         if(pool < 400){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_MAGMA_CREAM");
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 400;
         if(pool < 300){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_BLAZE_POWDER");
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 300;
         if(pool < 170){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_NETHER_STALK");
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 170;
         if(pool < 170){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_COAL");
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 170;
         if(pool < 150){
             ItemManager manager = Items.SkyblockItems.get("LAVA_SHELL");
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }else {
             ItemManager manager = Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
-            player.sendMessage("§5§lGREAT GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
             return manager;
         }
     }
