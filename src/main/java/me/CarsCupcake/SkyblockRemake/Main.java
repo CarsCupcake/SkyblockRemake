@@ -152,13 +152,7 @@ public class Main extends JavaPlugin {
 		if(SkyblockServer.getServer().getType() == null)
 			return;
 		sql = new SQL();
-		try {
-			sql.connect();
-		} catch (ClassNotFoundException | SQLException e1) {
 
-			Bukkit.getLogger().info("SQL server is not reacheble, plugin is useless without it!");
-
-		}
 		for (World world : Bukkit.getWorlds())
 			for(Entity entity : world.getEntities())
 				if(entity instanceof LivingEntity && !(entity instanceof ArmorStand) && !(entity instanceof Player))
