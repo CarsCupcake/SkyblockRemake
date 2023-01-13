@@ -419,6 +419,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		ItemHandler.registerAll(GiantsArmorSets.class);
 
 		new BlazeSlayerItems();
+		ferocity500();
 
 	}
 
@@ -4080,7 +4081,7 @@ public static void maidBoots(){
 	}
 	private static void darkClaymore(){
 		ItemManager manager = new ItemManager("Dark Claymore", "DARK_CLAYMORE", ItemType.Longsword, new ArrayList<>(List.of("§7§oThat thing was too big to be", "§7§ocalled a sword, it was more", "§7§oa large hunk of stone.")), null, null, null
-		,0,0,0,0,Material.STONE_SWORD, ItemRarity.LEGENDARY);
+				,0,0,0,0,Material.STONE_SWORD, ItemRarity.LEGENDARY);
 		manager.setDungeonItem(true);
 		manager.setDamage(500);
 		manager.setStat(Stats.Strength, 100);
@@ -4088,6 +4089,16 @@ public static void maidBoots(){
 		manager.setStat(Stats.SwingRange, 5);
 		manager.addSlot(new GemstoneSlot(SlotType.Jasper));
 		manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+
+		SkyblockItems.put(manager.itemID,manager);
+	}
+	private static void ferocity500(){
+		ItemManager manager = new ItemManager("Ferocity Sword 500", "FEROCITY_SWORD_500", ItemType.Sword,
+				null, null, null, null
+				,0,0,0,0,Material.GOLDEN_SWORD, ItemRarity.ADMIN);
+
+		manager.setDamage(10);
+		manager.setStat(Stats.Ferocity, 500);
 
 		SkyblockItems.put(manager.itemID,manager);
 	}
