@@ -240,7 +240,7 @@ public class DungeonGeneration {
         }
         
         
-        ArrayList<Locs> oneByOne = new ArrayList<>();
+        ArrayList<Locations> oneByOne = new ArrayList<>();
         for(int l = 0; l < 6; l++)
             for(int i = 0; i < 6; i++){
             boolean blace = true;
@@ -300,7 +300,7 @@ public class DungeonGeneration {
                     }
                     try {
                         layers.get(l).set(i, new DungeonRoom(DungeonRoomsTypes.r1x1, i, l));
-                        oneByOne.add(new Locs(l,i));
+                        oneByOne.add(new Locations(l,i));
                     } catch (Exception e) {
                         break;
                     }
@@ -316,7 +316,7 @@ public class DungeonGeneration {
             return;
         }
         Collections.shuffle(oneByOne);
-        Locs l = oneByOne.get(0);
+        Locations l = oneByOne.get(0);
         layers.get(l.x).get(l.y).type = DungeonRoomsTypes.miniboss;
         l = oneByOne.get(1);
         layers.get(l.x).get(l.y).type = DungeonRoomsTypes.Trap;
@@ -428,7 +428,7 @@ public class DungeonGeneration {
                            if(!DungeonRoom.isSame(cr, r1)) {
                         	   layers.get(i).get(startx).setDoors(true);
                         	   betweendoors.get(i).set(startx, "y");
-                        	   DungeonDoors.currdors.add(new Locs(startx,i));
+                        	   DungeonDoors.currdors.add(new Locations(startx,i));
                            }}
                         	
                             
@@ -445,7 +445,7 @@ public class DungeonGeneration {
                            if(!DungeonRoom.isSame(cr, r1)) {
                         	   layers.get(i).get(startx).setDoors(true);
                         	   betweendoors.get(i-1).set(startx, "y");
-                        	   DungeonDoors.currdors.add(new Locs(startx,i));
+                        	   DungeonDoors.currdors.add(new Locations(startx,i));
                            }}
                             
                             
@@ -467,7 +467,7 @@ public class DungeonGeneration {
                    if(!DungeonRoom.isSame(cr, r1)) {
                 	   layers.get(endy).get(i).setDoors(true);
                 	   doors.get(endy).set(i, "y");
-                	   DungeonDoors.currdors.add(new Locs(i,endy));}
+                	   DungeonDoors.currdors.add(new Locations(i,endy));}
                    }
                    
                     System.out.println("-4");
@@ -482,7 +482,7 @@ public class DungeonGeneration {
                    if(!DungeonRoom.isSame(cr, r1)) {
                 	   layers.get(endy).get(i).setDoors(true);
                 	   doors.get(endy).set(i-1, "y");
-                	   DungeonDoors.currdors.add(new Locs(i,endy));
+                	   DungeonDoors.currdors.add(new Locations(i,endy));
                    }}
                    
                     System.out.println("-3");

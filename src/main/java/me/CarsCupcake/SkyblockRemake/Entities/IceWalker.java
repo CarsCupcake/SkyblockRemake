@@ -1,6 +1,5 @@
-package me.CarsCupcake.SkyblockRemake.Entitys;
+package me.CarsCupcake.SkyblockRemake.Entities;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.CarsCupcake.SkyblockRemake.Main;

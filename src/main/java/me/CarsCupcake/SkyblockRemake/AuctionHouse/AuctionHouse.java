@@ -37,7 +37,7 @@ public class AuctionHouse implements Listener {
 
     public AuctionHouse(){
         if(main != null){
-            throw new AuctionHouseException("Can not start Auction Hause!");
+            throw new AuctionHouseException("Can not start Auction House!");
         }
         main = this;
         file = new CustomConfig("ah");

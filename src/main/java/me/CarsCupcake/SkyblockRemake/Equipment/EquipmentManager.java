@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Equipment;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Configs.EquiomentFile;
+import me.CarsCupcake.SkyblockRemake.Configs.EquipmentFile;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityListener;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
@@ -10,7 +10,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -19,7 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EquipmentManager implements Listener {
@@ -93,12 +91,12 @@ public class EquipmentManager implements Listener {
     }
 
     public Bundle<ItemManager, HashMap<String, String>> loadByID(String str){
-        EquiomentFile.reload();
-        String id = EquiomentFile.get().getString(player.getUniqueId() + "."+str+".id");
+        EquipmentFile.reload();
+        String id = EquipmentFile.get().getString(player.getUniqueId() + "."+str+".id");
         if(id != null){
             HashMap<String, String> map = new HashMap<>();
-            EquiomentFile.get().getConfigurationSection(player.getUniqueId() + "." + str).getKeys(false).forEach(key ->
-                    map.put(key,EquiomentFile.get().getString(player.getUniqueId() + "."+str+"." + key)));
+            EquipmentFile.get().getConfigurationSection(player.getUniqueId() + "." + str).getKeys(false).forEach(key ->
+                    map.put(key, EquipmentFile.get().getString(player.getUniqueId() + "."+str+"." + key)));
 
             return new Bundle<>(Items.SkyblockItems.get(id), map);
 
@@ -156,16 +154,16 @@ public class EquipmentManager implements Listener {
     }
     private void saveEquipmentID(String str, Bundle<ItemManager, HashMap<String, String>> bundle){
         if(bundle == null){
-            EquiomentFile.get().set(player.getUniqueId() + "." + str, null);
-            EquiomentFile.save();
-            EquiomentFile.reload();
+            EquipmentFile.get().set(player.getUniqueId() + "." + str, null);
+            EquipmentFile.save();
+            EquipmentFile.reload();
             return;
         }
 
-        EquiomentFile.get().set(player.getUniqueId() + "."+ str +".id", bundle.getFirst().itemID);
-        bundle.getLast().forEach((t,k) -> EquiomentFile.get().set(player.getUniqueId() + "."+ str +"." + t, k));
-        EquiomentFile.save();
-        EquiomentFile.reload();
+        EquipmentFile.get().set(player.getUniqueId() + "."+ str +".id", bundle.getFirst().itemID);
+        bundle.getLast().forEach((t,k) -> EquipmentFile.get().set(player.getUniqueId() + "."+ str +"." + t, k));
+        EquipmentFile.save();
+        EquipmentFile.reload();
     }
     public static Bundle<ItemManager, HashMap<String, String>> getItemAsBundle(ItemStack item){
         PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();

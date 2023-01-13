@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 
-public class EventListender implements Listener {
+public class EventListener implements Listener {
 
 	
 	@EventHandler

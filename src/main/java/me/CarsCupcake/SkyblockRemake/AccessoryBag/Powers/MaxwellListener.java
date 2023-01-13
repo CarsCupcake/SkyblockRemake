@@ -10,7 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 
-public class MaxwellListender implements Listener{
+public class MaxwellListener implements Listener{
 @EventHandler
 public void invClick(InventoryClickEvent event) {
 	 if (!event.getView().getTitle().contains("Accessory Bag Thaumatologist"))

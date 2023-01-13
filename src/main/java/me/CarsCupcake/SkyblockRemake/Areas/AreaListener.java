@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 
-public class AreaListender implements Listener{
+public class AreaListener implements Listener{
 
 	
 @EventHandler

@@ -2,8 +2,8 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliverys.CoinsDelivery;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliverys.ItemDelivery;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliveries.CoinsDelivery;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliveries.ItemDelivery;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.IDelivery;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Tools;
@@ -12,8 +12,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-
-import javax.tools.Tool;
 
 public class DeliverCMD implements CommandExecutor {
     @Override

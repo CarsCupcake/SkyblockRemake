@@ -10,14 +10,14 @@ commands:
     permission: gm.challange
     describtion: "Quick Gamemode Toggle"
   item:
-    describtion: "Get the Custom items"
+    describtion: "Get Custom items"
   npc:
   terminal:
   lavabounce:
   statsystem:
   healthitems:
   stats:
-   usage: /stats <stat> <heigh>
+   usage: /stats <stat> <amount>
   e:
   testobject:
   spawns:
@@ -26,11 +26,9 @@ commands:
   beacon:
   laser:
   ench:
-   describtion: Enchant but with custom enchants
-   
+   describtion: Custom enchants
   av:
-   usage: /<command>
-   describtion: Opens an Anvil
+   describtion: Opens an anvil
   reforge:
   coins:
   canon:

@@ -3,19 +3,19 @@ package me.CarsCupcake.SkyblockRemake.Dungeon;
 import java.util.ArrayList;
 
 public class DungeonDoors {
-	public static ArrayList<Locs> currdors = new ArrayList<>();
+	public static ArrayList<Locations> currdors = new ArrayList<>();
 	@SuppressWarnings("unchecked")
 	public static void initDoors(int x, int y) {
 		DungeonGeneration.betweendoors.get(y - 1).set(x, "y");
 		DungeonGeneration.layers.get(y ).get(x).setDoors(true);
 		
-		ArrayList<Locs> newDoors = new ArrayList<>();
+		ArrayList<Locations> newDoors = new ArrayList<>();
 
-		currdors.add(new Locs(x, y-1));
+		currdors.add(new Locations(x, y-1));
 		for(int i = 0; i < 10; i++){
-                newDoors = (ArrayList<Locs>) currdors.clone();
+                newDoors = (ArrayList<Locations>) currdors.clone();
 			if(!currdors.isEmpty())
-			for(Locs loc :newDoors) {
+			for(Locations loc :newDoors) {
 				
 				if(DungeonGeneration.layers.get(loc.y ).get(loc.x).type == DungeonRoomsTypes.red)
 					continue;
@@ -53,7 +53,7 @@ public class DungeonDoors {
 						
 					DungeonGeneration.betweendoors.get(r1.y-1).set(r1.x , "y");
 					DungeonGeneration.layers.get(r1.y).get(r1.x).setDoors(true);
-					currdors.add(new Locs(r1.x, r1.y));
+					currdors.add(new Locations(r1.x, r1.y));
 					if(r1.base != null) {
 						DungeonGeneration.layers.get(r1.base.y).get(r1.base.x).setDoors(true);
 					}
@@ -64,7 +64,7 @@ public class DungeonDoors {
 					&& cr == r1.base )
 					||(cr.base != null && cr.base == r1.base)  
 							||( r1.base != null && r1.base==cr )||(r1.base != null && r1.base==cr.base)))
-				currdors.add(new Locs(r1.x, r1.y));}
+				currdors.add(new Locations(r1.x, r1.y));}
 				if(r2 != null) {
 					
 				if(r2.door == false && !(r2.base != null && r2.base.door !=false)) {
@@ -75,7 +75,7 @@ public class DungeonDoors {
 						
 					DungeonGeneration.betweendoors.get(r2.y).set(r2.x, "y");
 					DungeonGeneration.layers.get(r2.y).get(r2.x).setDoors(true);
-					currdors.add(new Locs(r2.x, r2.y));
+					currdors.add(new Locations(r2.x, r2.y));
 					if(r2.base != null) {
 						DungeonGeneration.layers.get(r2.base.y).get(r2.base.x).setDoors(true);
 					}
@@ -86,7 +86,7 @@ public class DungeonDoors {
 					&&cr == r2.base )
 					||(cr.base != null && cr.base == r2.base)  
 							||(r2.base != null && r2.base==cr) ||(r2.base != null && r2.base==cr.base)))
-				currdors.add(new Locs(r2.x, r2.y));
+				currdors.add(new Locations(r2.x, r2.y));
 				}
 				if(r3 != null) {
 					
@@ -100,7 +100,7 @@ public class DungeonDoors {
 					DungeonGeneration.layers.get(r3.y).get(r3.x).setDoors(true);
 					if(r3.base != null) {
 						DungeonGeneration.layers.get(r3.base.y).get(r3.base.x).setDoors(true);
-					}currdors.add(new Locs(r3.x, r3.y));
+					}currdors.add(new Locations(r3.x, r3.y));
 					}
 					
 				}else
@@ -108,7 +108,7 @@ public class DungeonDoors {
 					&& cr == r3.base )
 					||(cr.base != null && cr.base == r3.base)  
 							||( r3.base != null && r3.base==cr )||(r3.base != null && r3.base==cr.base)))
-				currdors.add(new Locs(r3.x, r3.y));
+				currdors.add(new Locations(r3.x, r3.y));
 				}
 				if(r4 != null) {
 					
@@ -122,7 +122,7 @@ public class DungeonDoors {
 					DungeonGeneration.layers.get(r4.y).get(r4.x  ).setDoors(true);
 					if(r4.base != null) {
 						DungeonGeneration.layers.get(r4.base.y).get(r4.base.x).setDoors(true);
-					}currdors.add(new Locs(r4.x, r4.y));
+					}currdors.add(new Locations(r4.x, r4.y));
 					}
 					
 				}else
@@ -130,7 +130,7 @@ public class DungeonDoors {
 					&& cr == r4.base )
 					||(cr.base != null && cr.base == r4.base)  
 							||( r4.base != null && r4.base==cr )||(r4.base != null && r4.base==cr.base)))
-				currdors.add(new Locs(r4.x, r4.y));}
+				currdors.add(new Locations(r4.x, r4.y));}
 			}
 		}
 	}

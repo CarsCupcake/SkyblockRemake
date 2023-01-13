@@ -25,7 +25,7 @@ public class spawneggsCMD implements CommandExecutor{
 			}
 			Player player = (Player) sender;
 			if(!player.getName().equals("CarsCupcake")){
-				player.sendMessage("§cTemporarely unavaidable!");
+				player.sendMessage("§cTemporarily not available!");
 				return false;
 			}
 
