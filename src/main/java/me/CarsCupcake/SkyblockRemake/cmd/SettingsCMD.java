@@ -77,6 +77,25 @@ public class SettingsCMD implements CommandExecutor {
                 EntityNPC.isKillable = b;
 
             }
+            case "clickCooldown" ->{
+
+                boolean b;
+                if(strings[1].equals("enable")){
+                    b = true;
+                }else if(strings[1].equals("disable")){
+                    b = false;
+                }else {
+
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+
+                }
+
+                InfoManager.setClickCooldownEnabled(true);
+
+
+
+            }
             case "setDataPath" ->{
                 if(!commandSender.isOp())
                     return false;

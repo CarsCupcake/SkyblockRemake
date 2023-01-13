@@ -5,10 +5,12 @@ import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 
 public class InfoManager {
+    private static boolean isClickCooldownEnabled;
     private static CustomConfig config;
 
     public InfoManager(){
         config = new CustomConfig("settings");
+        isClickCooldownEnabled = getValue("clickCooldown", true);
     }
     public static boolean isBazaarEnabled(){
         return getValue("bazaar", true);
@@ -22,6 +24,13 @@ public class InfoManager {
         setValue("ah", b);
         if(!b)
             AuctionHouse.getInstance().shutdown();
+    }
+    public static void setClickCooldownEnabled(boolean b){
+        setValue("clickCooldown", b);
+        isClickCooldownEnabled = b;
+    }
+    public static boolean isClickCooldownEnabled(){
+        return isClickCooldownEnabled;
     }
     public static boolean isSkyblockMenuEnabled(){
         return getValue("sbmenu", true);

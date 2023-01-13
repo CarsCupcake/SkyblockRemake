@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys;
 
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -27,13 +28,14 @@ public class GUIListener implements Listener {
            player.kickPlayer("§cehhh error beep beep");
         }
 
-        if(!registerClick((Player) event.getWhoClicked()) && event.getWhoClicked().getGameMode() != GameMode.CREATIVE){
-            event.getWhoClicked().sendMessage("§cWow! Slow down!");
-            if(clicks.get((Player) event.getWhoClicked()) >= 10)
-                ((Player) event.getWhoClicked()).kickPlayer("§cStop clicking that often!");
-            event.setCancelled(true);
-            return;
-        }
+        if(InfoManager.isClickCooldownEnabled())
+            if(!registerClick((Player) event.getWhoClicked()) && event.getWhoClicked().getGameMode() != GameMode.CREATIVE){
+                event.getWhoClicked().sendMessage("§cWow! Slow down!");
+                if(clicks.get((Player) event.getWhoClicked()) >= 10)
+                    ((Player) event.getWhoClicked()).kickPlayer("§cStop clicking that often!");
+                event.setCancelled(true);
+                return;
+            }
 
         if(!GUI.getGUIs().containsKey(SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())))
             return;
