@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 
-public class PetMenuListender implements Listener {
+public class PetMenuListener implements Listener {
 	@EventHandler
 		public void addToPetMenu(PlayerInteractEvent event) {
 		if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {

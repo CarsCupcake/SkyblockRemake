@@ -12,10 +12,9 @@ DIVINE(),
 SPECIAL(),
 VERY_SPECIAL(),
 SUPREME(),
-	ADMIN();
+ADMIN();
 
-	ItemRarity() {
-	}
+	ItemRarity() {}
 	public String getRarityName() {
 		return switch (this) {
 			case COMMON -> "§f§lCOMMON";

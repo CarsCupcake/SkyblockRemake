@@ -9,7 +9,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Stats;
 import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
-import net.kyori.adventure.key.Namespaced;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,14 +17,14 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 
-public class ItemParaser {
+public class ItemParser {
     private ItemStack item;
     //Type - Value
     private HashMap<ParaseType, String> types = new HashMap<>();
     public void ItemParaser(ItemStack item){
         this.item = item;
     }
-    public  ItemParaser(HashMap<ParaseType,String> types){
+    public ItemParser(HashMap<ParaseType,String> types){
         this.types = types;
     }
 

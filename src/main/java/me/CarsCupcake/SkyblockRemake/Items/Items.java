@@ -193,148 +193,148 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 		storm_boots();
 		storm_leggings();
 		storm_chestplate();
-	Hyperion();
-	TestItem();
-	live_steal_book();
-	protection_book();
-	terminator();
-	jujuShortbow();
-	wither_googles();
-	HotPotatoBook();
-	Recombobulator3000();
-	Divans_Drill();
-	Mithril();
-	Titanium();
-	Gemstone_Gauntlet();
-	SwordOfTheUniverse();
-	RoughRuby();
-	FlawedRuby();
-	FineRuby();
-	FlawlessRuby();
-	PerfectRuby();
-	
-	RoughAmber();
-	FlawedAmber();
-	FineAmber();
-	FlawlessAmber();
-	PerfectAmber();
-	
-	RoughJade();
-	FlawedJade();
-	FineJade();
-	FlawlessJade();
-	PerfectJade();
-	
-	
-	RoughSapphire();
-	FlawedSapphire();
-	FineSapphire();
-	FlawlessSapphire();
-	PerfectSapphire();
-	
-	RoughAmethyst();
-	FlawedAmethyst();
-	FineAmethyst();
-	FlawlessAmethyst();
-	PerfectAmethyst();
-	
-	RoughJasper();
-	FlawedJasper();
-	FineJasper();
-	FlawlessJasper();
-	PerfectJasper();
-	
-	RoughTopaz();
-	FlawedTopaz();
-	FineTopaz();
-	FlawlessTopaz();
-	PerfectTopaz();
-	
-	SorrowBoots();
-	SorrowLeggings();
-	SorrowChestplate();
-	SorrowHelmet();
-	
-	DivanHelmet();
-	DivanChestplate();
-	DivanLeggings();
-	DivanBoots();
-	
-	ManaFluxPowerOrb();
-	Volta();
-	
-	MithrilInfusedFuelTank();
-	TitaniumInfusedFuelTank();
-	GemstoneFuelTank();
-	PerfectlyCutFuelTank();
-	
-	MithrilPlatedDrillEngine();
-	TitaniumPlatedDrillEngine();
-	RubyPolishedDrillEngine();
-	SapphirePolishedDrillEngine();
-	AmberPolishedDrillEngine();
-	TakoPowerdDrillEngine();
-	
-	EnderDragonLegendary();
-	CarsCupcakeSpetial();
-	
-	GemstoneGolemCommon();
-	GemstoneGolemUncommon();
-	GemstoneGolemRare();
-	GemstoneGolemEpic();
-	GemstoneGolemLegendary();
-	TestAccessory();
-	RoyalPigeon();
-	
-	Zoom();
-	raygun();
+		Hyperion();
+		TestItem();
+		live_steal_book();
+		protection_book();
+		terminator();
+		jujuShortbow();
+		wither_googles();
+		HotPotatoBook();
+		Recombobulator3000();
+		Divans_Drill();
+		Mithril();
+		Titanium();
+		Gemstone_Gauntlet();
+		SwordOfTheUniverse();
+		RoughRuby();
+		FlawedRuby();
+		FineRuby();
+		FlawlessRuby();
+		PerfectRuby();
 
-	
-	ReaperMask();
-	
-	CrimsonHelmet();
-	CrimsonChestplate();
-	CrimsonLeggings();
-	CrimsonBoots();
-	
-	TerrorHelmet();
-	TerrorChestplate();
-	TerrorLeggings();
-	TerrorBoots();
-	
-	AuroraStaff();
-	
-	AuroraHelmet();
-	AuroraChestplate();
-	AuroraLeggings();
-	AuroraBoots();
-	
-	FervorHelmet();
-	
-	dctrSpaceHelmet();
-	kloonboat();
-	
-	AxeOfTheShredded();
-	stormsHelmet();
-	
-	
-	DumbshitSword();
-	
-	maidHelmet();
-	maidChestplate();
-	maidLeggings();
-	maidBoots();
-	intellijItem();
+		RoughAmber();
+		FlawedAmber();
+		FineAmber();
+		FlawlessAmber();
+		PerfectAmber();
 
-	sulphur();
-	enchantedSulphur();
-	moltenPowder();
-	warningFlare();
-	infernoVertex();
-	alertFlare();
-	infernoApex();
-	wilsonEngineeringPlans();
-	sosFlare();
+		RoughJade();
+		FlawedJade();
+		FineJade();
+		FlawlessJade();
+		PerfectJade();
+
+
+		RoughSapphire();
+		FlawedSapphire();
+		FineSapphire();
+		FlawlessSapphire();
+		PerfectSapphire();
+
+		RoughAmethyst();
+		FlawedAmethyst();
+		FineAmethyst();
+		FlawlessAmethyst();
+		PerfectAmethyst();
+
+		RoughJasper();
+		FlawedJasper();
+		FineJasper();
+		FlawlessJasper();
+		PerfectJasper();
+
+		RoughTopaz();
+		FlawedTopaz();
+		FineTopaz();
+		FlawlessTopaz();
+		PerfectTopaz();
+
+		SorrowBoots();
+		SorrowLeggings();
+		SorrowChestplate();
+		SorrowHelmet();
+
+		DivanHelmet();
+		DivanChestplate();
+		DivanLeggings();
+		DivanBoots();
+
+		ManaFluxPowerOrb();
+		Volta();
+
+		MithrilInfusedFuelTank();
+		TitaniumInfusedFuelTank();
+		GemstoneFuelTank();
+		PerfectlyCutFuelTank();
+
+		MithrilPlatedDrillEngine();
+		TitaniumPlatedDrillEngine();
+		RubyPolishedDrillEngine();
+		SapphirePolishedDrillEngine();
+		AmberPolishedDrillEngine();
+		TakoPowerdDrillEngine();
+
+		EnderDragonLegendary();
+		CarsCupcakeSpetial();
+
+		GemstoneGolemCommon();
+		GemstoneGolemUncommon();
+		GemstoneGolemRare();
+		GemstoneGolemEpic();
+		GemstoneGolemLegendary();
+		TestAccessory();
+		RoyalPigeon();
+
+		Zoom();
+		raygun();
+
+
+		ReaperMask();
+
+		CrimsonHelmet();
+		CrimsonChestplate();
+		CrimsonLeggings();
+		CrimsonBoots();
+
+		TerrorHelmet();
+		TerrorChestplate();
+		TerrorLeggings();
+		TerrorBoots();
+
+		AuroraStaff();
+
+		AuroraHelmet();
+		AuroraChestplate();
+		AuroraLeggings();
+		AuroraBoots();
+
+		FervorHelmet();
+	
+		dctrSpaceHelmet();
+		kloonboat();
+	
+		AxeOfTheShredded();
+		stormsHelmet();
+	
+	
+		DumbshitSword();
+	
+		maidHelmet();
+		maidChestplate();
+		maidLeggings();
+		maidBoots();
+		intellijItem();
+
+		sulphur();
+		enchantedSulphur();
+		moltenPowder();
+		warningFlare();
+		infernoVertex();
+		alertFlare();
+		infernoApex();
+		wilsonEngineeringPlans();
+		sosFlare();
 		susFlare();
 		rodOfTheSea();
 		craysFish();

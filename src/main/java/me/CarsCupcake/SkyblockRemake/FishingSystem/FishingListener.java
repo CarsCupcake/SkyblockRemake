@@ -21,7 +21,7 @@ import org.bukkit.util.Vector;
 import java.util.Random;
 
 
-public class FishingListender implements Listener {
+public class FishingListener implements Listener {
 
 @EventHandler
 public void fishingPullout(PlayerFishEvent event) {

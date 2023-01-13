@@ -17,7 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 
 
-public class AccessoryListender implements Listener{
+public class AccessoryListener implements Listener{
 @EventHandler
 public void accessoryBagSiteSwapping(InventoryClickEvent event) {
 	 if (!event.getView().getTitle().contains("Accessory Bag ("))

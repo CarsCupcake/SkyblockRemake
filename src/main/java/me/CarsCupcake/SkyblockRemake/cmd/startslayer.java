@@ -28,7 +28,7 @@ public class startslayer implements CommandExecutor{
 			}
 
 			switch (args[0]) {
-				case "zombie" -> player.sendMessage("Temporarely Not avaideble!");
+				case "zombie" -> player.sendMessage("§cTemporarily not available.");
 				case "blaze" -> {
 					if (args[1].equals("1")) {
 						BlazeSlayerT1 slayer = new BlazeSlayerT1();

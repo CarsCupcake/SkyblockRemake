@@ -12,10 +12,9 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ShadowAssasin extends SkyblockEntity {
+public class ShadowAssassin extends SkyblockEntity {
     private Zombie entity;
     private int health = 700000;
     @Override

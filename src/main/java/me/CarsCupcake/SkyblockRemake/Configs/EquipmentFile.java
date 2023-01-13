@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Configs;
 import org.bukkit.configuration.file.FileConfiguration;
 
 
-public class EquiomentFile {
+public class EquipmentFile {
 	private static CustomConfig c;
 
 	public static void setup() {

@@ -10,7 +10,6 @@ package me.CarsCupcake.SkyblockRemake;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -67,22 +66,22 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.AccessoryListender;
+import me.CarsCupcake.SkyblockRemake.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Bloody;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.MaxwellListender;
+import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.MaxwellListener;
 import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Powers;
 import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Slender;
-import me.CarsCupcake.SkyblockRemake.Areas.AreaListender;
-import me.CarsCupcake.SkyblockRemake.Commission.CommissionListenders;
+import me.CarsCupcake.SkyblockRemake.Areas.AreaListener;
+import me.CarsCupcake.SkyblockRemake.Commission.CommissionListener;
 import me.CarsCupcake.SkyblockRemake.Drill.DrillMerchant;
 import me.CarsCupcake.SkyblockRemake.Drill.DrillPart;
 import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvent;
 import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvents;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.EventListender;
+import me.CarsCupcake.SkyblockRemake.DwarvenEvents.EventListener;
 import me.CarsCupcake.SkyblockRemake.DwarvenEvents.PlayerTurnEvent;
 import me.CarsCupcake.SkyblockRemake.DwarvenMines.IceWalkerSpawning;
 import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListender;
+import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListener;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneGrinder;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneType;
@@ -90,7 +89,7 @@ import me.CarsCupcake.SkyblockRemake.KuudraBossFight.CanonObject;
 import me.CarsCupcake.SkyblockRemake.KuudraBossFight.Tentacles;
 import me.CarsCupcake.SkyblockRemake.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
-import me.CarsCupcake.SkyblockRemake.Pets.PetMenuListender;
+import me.CarsCupcake.SkyblockRemake.Pets.PetMenuListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
@@ -184,9 +183,9 @@ public class Main extends JavaPlugin {
 		EditionItems.save();
 		EditionItems.reload();
 
-		EquiomentFile.setup();
-		EquiomentFile.save();
-		EquiomentFile.reload();
+		EquipmentFile.setup();
+		EquipmentFile.save();
+		EquipmentFile.reload();
 
 		EntityLocations.setup();
 		EntityLocations.save();
@@ -252,11 +251,9 @@ public class Main extends JavaPlugin {
 
 			}
 
-
-
 		SkyblockRecipe.init();
 
-
+		// Commands
 		getCommand("gm").setExecutor(new gmComand());
 		getCommand("gm").setTabCompleter(new gmTab());
 		getCommand("item").setExecutor(new itemCMD());
@@ -319,19 +316,19 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new NPCInteraction(), this);
 		this.getServer().getPluginManager().registerEvents(new OpenMenu(), this);
 		this.getServer().getPluginManager().registerEvents(new SkyblockScoreboard(), this);
-		this.getServer().getPluginManager().registerEvents(new PetMenuListender(), this);
+		this.getServer().getPluginManager().registerEvents(new PetMenuListener(), this);
 
-		// terminal listenders:
+		// Terminal Listeners
 		this.getServer().getPluginManager().registerEvents(new maze(), this);
 		this.getServer().getPluginManager().registerEvents(new SpawnEggEvents(), this);
 		this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
 		this.getServer().getPluginManager().registerEvents(new GemstoneGrinder(), this);
 		this.getServer().getPluginManager().registerEvents(new DrillMerchant(), this);
-		this.getServer().getPluginManager().registerEvents(new AccessoryListender(), this);
-		this.getServer().getPluginManager().registerEvents(new MaxwellListender(), this);
-		this.getServer().getPluginManager().registerEvents(new AreaListender(), this);
-		this.getServer().getPluginManager().registerEvents(new CommissionListenders(), this);
-		this.getServer().getPluginManager().registerEvents(new EventListender(), this);
+		this.getServer().getPluginManager().registerEvents(new AccessoryListener(), this);
+		this.getServer().getPluginManager().registerEvents(new MaxwellListener(), this);
+		this.getServer().getPluginManager().registerEvents(new AreaListener(), this);
+		this.getServer().getPluginManager().registerEvents(new CommissionListener(), this);
+		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ItemsSearch(), this);
 		this.getServer().getPluginManager().registerEvents(new WearebleHelmets(), this);
 		this.getServer().getPluginManager().registerEvents(new CustomCraftingTable(), this);
@@ -341,7 +338,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new NPCEventHandler(), this);
 
 
-		// Item Abilitys
+		// Item Abilities
 		this.getServer().getPluginManager().registerEvents(new BonemerangAbility(), this);
 		this.getServer().getPluginManager().registerEvents(new CannonBalls(), this);
 		this.getServer().getPluginManager().registerEvents(new JerryStaffAbility(), this);
@@ -362,7 +359,7 @@ public class Main extends JavaPlugin {
 
 
 		// Fishing System
-		this.getServer().getPluginManager().registerEvents(new FishingListender(), this);
+		this.getServer().getPluginManager().registerEvents(new FishingListener(), this);
 
 /*		this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", this);
 		this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");*/
@@ -378,11 +375,10 @@ public class Main extends JavaPlugin {
 
 
 
-		if (getConfig().getBoolean("StatSystem") == true) {
-
+		if (getConfig().getBoolean("StatSystem")) {
 			Stats();
 		}
-		Resepice.loadrecipe();
+		Recipes.loadrecipe();
 		WitherSize();
 		Bukkit.getWorlds().forEach(world -> {
 			if (!world.getEntities().isEmpty()) {

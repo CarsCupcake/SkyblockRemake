@@ -11,7 +11,7 @@ import org.bukkit.event.inventory.InventoryType;
 import me.CarsCupcake.SkyblockRemake.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class CommissionListenders implements Listener{
+public class CommissionListener implements Listener{
 @EventHandler
 public void InvClickEvent(InventoryClickEvent event) {
 	if (!event.getView().getTitle().contains("Commissions"))

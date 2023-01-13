@@ -13,7 +13,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Entitys.IceWalker;
+import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 
 
 
