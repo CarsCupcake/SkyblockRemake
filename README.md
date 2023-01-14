@@ -5,7 +5,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="[https://github.com/CalledCracki/SkyblockRemake]">
+  <a href="[https://github.com/CarsCupcake/SkyblockRemake]">
     <img src="images/sb.png" alt="Logo" width="80" height="80">
   </a>
 
