@@ -46,7 +46,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class ABILITYS implements Listener{
+public class ABILITIES implements Listener{
     public static void init(){
         registerEvent(new DreadlordHandler());
         registerEvent(new PreAbilityExecution() {
@@ -66,7 +66,7 @@ public class ABILITYS implements Listener{
         registerEvent(new ProtectiveBlood());
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
-        registerEvent(new ABILITYS());
+        registerEvent(new ABILITIES());
         registerEvent(new KatanaDamagingAbilitys());
         registerEvent(new Attribute() {
             @Override

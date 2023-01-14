@@ -17,7 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 
-public class WearebleHelmets implements Listener{
+public class WearableHelmets implements Listener{
 @SuppressWarnings("deprecation")
 @EventHandler 
 public void inventoryClickEvent(InventoryClickEvent event) {
