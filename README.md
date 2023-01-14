@@ -183,3 +183,4 @@ Project Link: [https://github.com/CarsCupcake/SkyblockRemake/](https://github.co
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: images/sb.png
+Thanks to <a href="https://github.com/CalledCracki">CalledCracki</a> for this beautiful readme <3
