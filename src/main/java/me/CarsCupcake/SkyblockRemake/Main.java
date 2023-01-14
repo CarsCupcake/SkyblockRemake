@@ -210,7 +210,7 @@ public class Main extends JavaPlugin {
 		SkyblockPlayer.init();
 
 		ICollection.init();
-		ABILITYS.init();
+		ABILITIES.init();
 		if (!Bukkit.getOnlinePlayers().isEmpty())
 			for (Player player : Bukkit.getOnlinePlayers()) {
 
@@ -283,7 +283,7 @@ public class Main extends JavaPlugin {
 		getCommand("reforge").setTabCompleter(new AddReforgeTAB());
 		getCommand("coins").setExecutor(new CoinsCommand());
 		getCommand("coins").setTabCompleter(new CoinsTAB());
-		getCommand("canon").setExecutor(new SpawnKuusraCanon());
+		getCommand("canon").setExecutor(new SpawnKuudraCanon());
 		getCommand("generate").setExecutor(new generateMap());
 		getCommand("accessoryslots").setExecutor(new AddAccessoryBagSlots());
 		getCommand("unlockpowers").setExecutor(new UnlockPowers());
@@ -330,7 +330,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new CommissionListener(), this);
 		this.getServer().getPluginManager().registerEvents(new EventListener(), this);
 		this.getServer().getPluginManager().registerEvents(new ItemsSearch(), this);
-		this.getServer().getPluginManager().registerEvents(new WearebleHelmets(), this);
+		this.getServer().getPluginManager().registerEvents(new WearableHelmets(), this);
 		this.getServer().getPluginManager().registerEvents(new CustomCraftingTable(), this);
 		this.getServer().getPluginManager().registerEvents(new EquipmentInvListener(), this);
 		this.getServer().getPluginManager().registerEvents(new BazaarListener(), this);
@@ -651,7 +651,7 @@ public class Main extends JavaPlugin {
 				stand.remove();
 			});
 		CanonObject.removeAll();
-		ABILITYS.disable();
+		ABILITIES.disable();
 		try {
 
 			Tentacles.removeAllTentakle();

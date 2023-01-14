@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import me.CarsCupcake.SkyblockRemake.KuudraBossFight.CanonObject;
 
 
-public class SpawnKuusraCanon implements CommandExecutor{
+public class SpawnKuudraCanon implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
