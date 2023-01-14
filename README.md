@@ -17,11 +17,9 @@
     <a href="https://github.com/CarsCupcake/SkyblockRemake/blob/master/README.md"><strong>Explore the wiki »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/CarsCupcake/SkyblockRemake/blob/master/README.md">Become a Patreon</a>
-    ·
     <a href="https://github.com/CarsCupcake/SkyblockRemake/issues">Report Bugs</a>
     ·
-    <a href="https://discord.gg/bWe473SHrm">Join our Discord</a>
+    <a href="">Join our Discord</a>
   </p>
 </div>
 
@@ -110,7 +108,8 @@ _There you can customize everything as it is most convenient for you._
 
 <h3>Important</h3>
 Make sure you change the value **`ServerType`** in the config.yml to the type you want to use.
-
+<br />
+Or click <a href="https://www.youtube.com/watch?v=X_obdx_bgCE">here</a> for a tutorial video.
 <h3>Optional</h3>
 If you want you may also download the following worlds.
 Just replace the default "world" folder in your server folder
