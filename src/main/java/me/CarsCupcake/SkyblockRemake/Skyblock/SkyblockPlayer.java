@@ -450,9 +450,6 @@ public class SkyblockPlayer extends CraftPlayer{
 	
 	public void addSkillXp(double amount, Skills skill) {
 		Skill skil = getSkill(skill);
-//		player.sendMessage("You got " + amount + " " + skill + " XP");
-		
-		
 		if(amount == 0)
 			return;
 		player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,1,2);

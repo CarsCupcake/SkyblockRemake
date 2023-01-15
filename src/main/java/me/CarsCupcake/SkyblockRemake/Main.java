@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -42,6 +43,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
+import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import org.bukkit.*;
 
@@ -357,6 +359,8 @@ public class Main extends JavaPlugin {
 		Dominus.setEvent();
 		BazaarManager.init();
 
+		this.getServer().getPluginManager().registerEvents(new Laser.LaserListener(), this);
+
 
 		// Fishing System
 		this.getServer().getPluginManager().registerEvents(new FishingListener(), this);
@@ -585,9 +589,17 @@ public class Main extends JavaPlugin {
 		EntityNPC.shutdown();
 
 		for (World world : Bukkit.getWorlds())
-			for(Entity entity : world.getEntities())
-				if(entity instanceof LivingEntity && !(entity instanceof ArmorStand) && !(entity instanceof Player))
+			for(Entity entity : world.getEntities()) {
+				if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && !(entity instanceof Player)) {
 					entity.remove();
+					if(SkyblockEntity.livingEntity.containsKey(e))
+						SkyblockEntity.livingEntity.get(e).kill();
+				}
+				if(entity.getScoreboardTags().contains("damage_tag"))
+					entity.remove();
+
+
+			}
 
 
 
@@ -2105,13 +2117,13 @@ public class Main extends JavaPlugin {
 									registerReforge.reforges.get(
 											data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 									rarity, "dmg") != 0) {
-						lores.add("§7Damage §c+" + weapondamage(item) + " §9(+"
+						lores.add("§7Damage §c+" + String.format("%.0f" ,weapondamage(item)) + " §9(+"
 								+ Reforge.getReforgeValue(registerReforge.reforges
 										.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)),
 										rarity, "dmg")
 								+ ")");
 					} else
-						lores.add("§7Damage §c+" + weapondamage(item));
+						lores.add("§7Damage §c+" + String.format("%.0f" ,weapondamage(item)));
 				}
 				if (potatobooks != 0) {
 					if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null
@@ -2126,7 +2138,7 @@ public class Main extends JavaPlugin {
 										rarity, "dmg")
 								+ ")");
 					else
-						lores.add("§7Damage §c+" + weapondamage(item) + " §e(+" + (int) (potatobooks * 2) + ")");
+						lores.add("§7Damage §c+" + String.format("%.0f" ,weapondamage(item)) + " §e(+" + (int) (potatobooks * 2) + ")");
 				}
 
 			}

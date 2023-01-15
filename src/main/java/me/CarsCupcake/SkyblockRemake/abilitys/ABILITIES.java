@@ -34,6 +34,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.JerryListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.BlazeSlayerListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.TwilightDaggerHit;
+import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -115,6 +116,7 @@ public class ABILITIES implements Listener{
         new PotionItems();
         registerEvent(new PotionListener());
         registerEvent(new BlazeSlayerListener());
+        registerEvent(new EndermanListener());
     }
     public static void disable(){
         Totem.stopAll();

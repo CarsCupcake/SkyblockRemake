@@ -1,13 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 
+import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Laser.GuardianLaser;
 
 
 public class laser implements CommandExecutor{
@@ -17,15 +17,9 @@ public class laser implements CommandExecutor{
 		if(!arg2.equalsIgnoreCase("laser"))
 			return false;
 		Player player = (Player) arg0;
-		
-			try {
-				new GuardianLaser(player.getLocation(),player.getLocation().add(0,0,5), 5, -1).start(Main.getMain());
-				
-			} catch (ReflectiveOperationException e) {
-				e.printStackTrace();
-			}
-		
-		
+
+		new Laser(player.getLocation(),player.getLocation().add(0,0,5));
+
 		return false;
 	}
 

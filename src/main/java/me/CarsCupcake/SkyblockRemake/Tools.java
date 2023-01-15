@@ -21,12 +21,16 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import net.minecraft.world.phys.AxisAlignedBB;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -582,6 +586,35 @@ public static ItemStack PlayerHeadTexture(String playerName) {
 
 	 return minutes + ":" + ((int) (seconds - (minutes * 60)));
  }
+
+	public static Set<Entity> getNearestEntitysInSight(Player player, int range) {
+		List<Entity> entities = player.getNearbyEntities(range, range, range);
+		Iterator<Entity> iterator = entities.iterator();
+		while (iterator.hasNext()) {
+			Entity next = iterator.next();
+			if (!(next instanceof LivingEntity) || next == player) {
+				iterator.remove();
+			}
+		}
+		List<Block> sight = player.getLineOfSight((Set) null, range);
+		Set<Entity> ee = new HashSet<>();
+		for (Block block : sight) {
+			if (block.getType() != Material.AIR) {
+				break;
+			}
+			Location low = block.getLocation();
+			Location high = low.clone().add(1, 1, 1);
+			AxisAlignedBB blockBoundingBox = new AxisAlignedBB(low.getX(), low.getY(), low.getZ(), high.getX(), high.getY(), high.getZ()); //The bounding or collision box of the block
+
+			for (Entity entity : entities) {
+				if (entity.getLocation().distance(player.getEyeLocation()) <= range && ((CraftEntity) entity).getHandle().getBoundingBox().c(blockBoundingBox)) {
+					ee.add(entity);
+				}
+			}
+
+		}
+		return ee;
+	}
  
  
 }
