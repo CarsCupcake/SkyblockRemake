@@ -33,7 +33,7 @@ public class BazaarListener implements Listener {
         final SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if(event.getNPC().getName().equalsIgnoreCase("Bazaar")){
             if(!InfoManager.isBazaarEnabled()){
-                player.sendMessage("§cBazzar is temporarely disabled!");
+                player.sendMessage("§cBazaar is temporarily disabled!");
                 return;
             }
 
@@ -86,7 +86,7 @@ public class BazaarListener implements Listener {
     public static void openBazzar(SkyblockPlayer player){
 
         if(!InfoManager.isBazaarEnabled()){
-            player.sendMessage("§cBazzar is temporarely disabled!");
+            player.sendMessage("§cBazaar is temporarily disabled!");
             return;
         }
 
@@ -191,14 +191,14 @@ public class BazaarListener implements Listener {
                         Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
                         new BazaarManager().addSellOffer(offer.getItem(), Tools.getItemInPlayerInventory(offer.getItem(), player), (topOffer == null) ? 500000000 : topOffer.getFirst(), player);
                         Tools.removeAllItemsFromInventory(player, offer.getItem());
-                        player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
+                        player.sendMessage("§aSell offer was setup for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
                         sellOffer.closeInventory();
                     });
                     sellOffer.inventoryClickAction(12, (type3) -> {
                         Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
                         new BazaarManager().addSellOffer(offer.getItem(), Tools.getItemInPlayerInventory(offer.getItem(), player), (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1, player);
                         Tools.removeAllItemsFromInventory(player, offer.getItem());
-                        player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1) + " coins §aper");
+                        player.sendMessage("§aSell offer was setup for §6" + String.format("%.1f", (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1) + " coins §aper");
                         sellOffer.closeInventory();
                     });
                     sellOffer.setGeneralAction((slot, actionType, t) -> {
@@ -292,13 +292,13 @@ public class BazaarListener implements Listener {
 
             if(player.coins < coins){
                 buyOrder.closeInventory();
-                player.sendMessage("§cYou canot afford that!");
+                player.sendMessage("§cYou cannot afford that!");
                 return;
             }
             new BazaarManager().addBuyOffer(offer.getItem(),amount, (topOffer == null) ? 500000000 : topOffer.getFirst() ,player);
             player.setCoins(player.coins-coins);
 
-            player.sendMessage("§aBuy order was setuped for §6" +String.format("%.1f", coins)  + " coins §aper");
+            player.sendMessage("§aBuy order was setup for §6" +String.format("%.1f", coins)  + " coins §aper");
             buyOrder.closeInventory();
 
 
@@ -312,13 +312,13 @@ public class BazaarListener implements Listener {
 
             if(player.coins < coins){
                 buyOrder.closeInventory();
-                player.sendMessage("§cYou canot afford that!");
+                player.sendMessage("§cYou cannot afford that!");
                 return;
             }
             new BazaarManager().addBuyOffer(offer.getItem(),amount, coins ,player);
             player.setCoins(player.coins-coins);
 
-            player.sendMessage("§aBuy order was setuped for §6" + String.format("%.1f", coins) + " coins §aper");
+            player.sendMessage("§aBuy order was setup for §6" + String.format("%.1f", coins) + " coins §aper");
             buyOrder.closeInventory();
 
 
@@ -335,13 +335,13 @@ public class BazaarListener implements Listener {
             }
             if (player.coins < coins) {
                 buyOrder.closeInventory();
-                player.sendMessage("§cYou canot afford that!");
+                player.sendMessage("§cYou cannot afford that!");
                 return;
             }
             new BazaarManager().addBuyOffer(offer.getItem(), amount, coins, player);
             player.setCoins(player.coins - coins);
 
-            player.sendMessage("§aBuy order was setuped for §6" + String.format("%.1f", coins) + " coins §aper");
+            player.sendMessage("§aBuy order was setup for §6" + String.format("%.1f", coins) + " coins §aper");
             buyOrder.closeInventory();
         } catch (Exception ignored) {
             buyOrder.closeInventory();
@@ -365,14 +365,14 @@ public class BazaarListener implements Listener {
             Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
             new BazaarManager().addSellOffer(offer.getItem(),amount, (topOffer == null) ? 500000000 : topOffer.getFirst(), player);
             Tools.removeItemsFromInventory(player, offer.getItem(),amount);
-            player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
+            player.sendMessage("§aSell offer was setup for §6" + String.format("%.1f", topOffer.getFirst()) + " coins §aper");
             sellOffer.closeInventory();
         });
         sellOffer.inventoryClickAction(12, (type3) -> {
             Bundle<Double, Bundle<UUID, Integer>> topOffer = new BazaarManager().getBestOffer(offer.getItem());
             new BazaarManager().addSellOffer(offer.getItem(),amount, (topOffer == null) ? 500000000 - 0.1 : topOffer.getFirst() - 0.1, player);
             Tools.removeItemsFromInventory(player, offer.getItem(),amount);
-            player.sendMessage("§aSell offer was setuped for §6" + String.format("%.1f", (topOffer.getFirst() - 0.1)) + " coins §aper");
+            player.sendMessage("§aSell offer was setup for §6" + String.format("%.1f", (topOffer.getFirst() - 0.1)) + " coins §aper");
             sellOffer.closeInventory();
         });
         sellOffer.setGeneralAction((slot, actionType, type) -> {
@@ -387,7 +387,7 @@ public class BazaarListener implements Listener {
 
             if(new BazaarManager().getSellPoolAmount(offer) < amount)
             {
-                player.sendMessage("§cNot enouth items on the market!");
+                player.sendMessage("§cNot enough items on the market!");
                 player.closeInventory();
                 return;
             }
@@ -398,7 +398,7 @@ public class BazaarListener implements Listener {
 
             if(player.coins < coins){
                 player.closeInventory();
-                player.sendMessage("§cYou canot afford that!");
+                player.sendMessage("§cYou cannot afford that!");
                 return;
             }
             new BazaarManager().instaBuy(offer,amount);
@@ -477,7 +477,7 @@ public class BazaarListener implements Listener {
     }
     public static void shutdownBazzar(){
         for (GUI gui : bazzarGUIs){
-            gui.getPlayer().sendMessage("§cBazaar got shutdowned!");
+            gui.getPlayer().sendMessage("§cBazaar got shutdown!");
             gui.closeInventory();
 
         }
