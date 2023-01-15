@@ -45,6 +45,7 @@ import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
+import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.*;
 
 
@@ -141,6 +142,8 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
+		Time t = new Time();
+		t.startTime();
 		config.addDefault("JoinSpawn", false);
 		config.addDefault("LavaBounce", false);
 		config.addDefault("StatSystem", true);
@@ -837,6 +840,7 @@ public class Main extends JavaPlugin {
 							speedpersentage = 5;
 						player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
 
+						SkyblockScoreboard.updateScoreboard(player);
 						updatebar(player);
 						if(TabListManager.managers.containsKey(player)) {
 							TabListManager.managers.get(player).tick();
