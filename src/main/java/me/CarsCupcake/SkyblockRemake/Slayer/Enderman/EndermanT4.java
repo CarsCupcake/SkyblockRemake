@@ -219,7 +219,6 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
 
 
 
-
             for (Laser l : clone.keySet()) {
                 Vector v = new Vector(-10, 0, 0);
                 Laser nL = new Laser(l.getStart().getEntity().getLocation(),

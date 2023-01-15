@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2.BlazeSlayerT2;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T3.BlazeSlayerT3;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT4;
 import org.bukkit.command.Command;
@@ -41,15 +42,10 @@ public class startslayer implements CommandExecutor{
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.spawn(player.getLocation());
 					}
-					if (args[1].equals("quazii")) {
-						QuaziiT1 entity = new QuaziiT1();
-						entity.spawn(player.getLocation());
-						entity.startAttack(SkyblockPlayer.getSkyblockPlayer(player));
-					}
-					if (args[1].equals("typhoeus")) {
-						TyphoesT1 entity = new TyphoesT1();
-						entity.spawn(player.getLocation());
-						entity.startAttack(SkyblockPlayer.getSkyblockPlayer(player));
+					if (args[1].equals("3")) {
+						BlazeSlayerT3 slayer = new BlazeSlayerT3();
+						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
+						slayer.spawn(player.getLocation());
 					}
 				}
 				case "enderman" -> {
