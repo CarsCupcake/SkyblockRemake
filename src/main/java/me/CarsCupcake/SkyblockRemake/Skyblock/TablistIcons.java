@@ -27,7 +27,7 @@ public String getSkinSignature(@Nullable Player player) {
 			return "RD6CmO2Ix3F3Is8wxi9/5lOfkYlLgELl2QEz0BZBTaT7W/G/6xS9GRGa2x4LtM/jCi3U3jwUgjhc4sL/qeyuDawYR+ZibR2GwNXhyunoFIvja8ELkdBO9xu+Ma/7nayTI3PQeMMQ3eiATxZN8WbJS43CSVBmUZFqhNem55w/1J8p84v/i/bff4CEDWn4j8ZrG/Pe+0JCHCj/N1mBScb7KJ14Axyk8K4jDuIUOEeLsQmKnOCT+BhUoS/QIoA4vWmg8RvKiuCkPBnnlun9ue06MBstbadICUgL3g47tIGyRxyEdlXoTDwp6mFKUlAMqbEpeEc+5ZUrlNqP4+B5FlsTI+ZjYa/BsDM5PynZY5ISVuKxny6nfKlO3KV8oBGEMoDlMF0dYPLvL5zzzXyvpV74fIbhWE6H9ZdNsKXrmEgKe/NZjXqitIvoVysIN1UIL2tYS6JasqUo7CmvqVC0sj0cCSg7tZd4D4xMWIY6uoaXQC7WqKxhRMptoCecbzqZu+UplmET+iGPc+XmOhVX7Jo0AAAd8d1ZUqLDtDk8G6cw7oBVChrg8BrfqGM703wIOVlvZo1FO+pUMafEU+QGl5jPU+9uV+blXCWz5JQHLKNmoN0o0/JzkuBqM2rqruCTmZn5DynzacQFS6bQz8y+5Ytc2N2wlg0YuOFRkC16q8RUVRs=";
 		case Players:
 			EntityPlayer craftPlayer = ((CraftPlayer) player).getHandle();
-			return ((Property) craftPlayer.getProfile().getProperties().get("textures").toArray()[0]).getSignature();
+			return ((Property) craftPlayer.getProfile().getProperties().get("textures").toArray()[1]).getSignature();
 		default:
 			return "";
 		
@@ -45,7 +45,7 @@ public String getSkinSignature(@Nullable Player player) {
 		return "ewogICJ0aW1lc3RhbXAiIDogMTY1OTI2NzUxMTE0MCwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mOTU2MzZhNmEwZjRiOTc5ZTFiN2JhNjRhYzBlOTEzNGQxYzcyODc2MmZmNTljNDBmNTc5N2MxZGZhOWNjMjc1IgogICAgfQogIH0KfQ==";
 	case Players:
 		EntityPlayer craftPlayer = ((CraftPlayer) player).getHandle();
-		return ((Property) craftPlayer.getProfile().getProperties().get("textures").toArray()[0]).getValue();
+		return ((Property) craftPlayer.getProfile().getProperties().get("textures").toArray()[1]).getValue();
 	default:
 		return "";
 	
