@@ -17,6 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Combat;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -1448,5 +1449,11 @@ public class SkyblockPlayer extends CraftPlayer{
 
 
 	}
+
+	/*@Override
+	public boolean equals(Object o){
+		Assert.notNull(o);
+		return o.equals(player);
+	}*/
 	
 }

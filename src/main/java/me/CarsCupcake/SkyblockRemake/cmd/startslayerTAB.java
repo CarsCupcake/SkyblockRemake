@@ -32,6 +32,7 @@ public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Comman
 			arguments1.add("1");
 			arguments1.add("2");
 			arguments1.add("3");
+			arguments1.add("4");
 		}
 	if(arguments2.isEmpty()) {
 		arguments2.add("1");
