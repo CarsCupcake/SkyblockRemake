@@ -44,6 +44,7 @@ import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.Laser;
+import me.CarsCupcake.SkyblockRemake.utils.MessageHandler;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.*;
@@ -142,8 +143,7 @@ public class Main extends JavaPlugin {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
-		Time t = new Time();
-		t.startTime();
+
 		config.addDefault("JoinSpawn", false);
 		config.addDefault("LavaBounce", false);
 		config.addDefault("StatSystem", true);
@@ -152,6 +152,22 @@ public class Main extends JavaPlugin {
 		config.options().copyDefaults(true);
 		saveConfig();
 		Main = this;
+
+		try{
+			this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
+			this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		Time t = new Time();
+		if(config.getBoolean("bungeeCordTime")){
+			try{
+				MessageHandler.sendMessage("registerTimer");
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else
+			t.runTaskTimer(getMain(), 1, 1);
 		new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
 		if(SkyblockServer.getServer().getType() == null)
 			return;
@@ -624,7 +640,16 @@ public class Main extends JavaPlugin {
 			DwarvenEvent.ActiveEvent.cancleEvent();
 		this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
 		this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+		try {
+			if(config.getBoolean("bungeeCordTime")){
+				try{
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}catch(Exception e){
 
+		}
 
 
 
@@ -3201,39 +3226,6 @@ public class Main extends JavaPlugin {
 		});
 	}
 
-	public void sendMessage(String message) {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(stream);
-		try {
-			out.writeUTF("bungeethingi");
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		this.getServer().sendPluginMessage(this, "skyblock:main", stream.toByteArray());
-	}
-//Temporarily Not avaidable
-/*	@EventHandler
-	public void onPluginMessageReceived(String channel, Player player, byte[] bytes) {
-
-		System.out.println("i am here too pls message me i am loneley");
-		if (!channel.equals("skyblock:main")) {
-			return;
-		}
-
-		ByteArrayInputStream stream = new ByteArrayInputStream(bytes);
-		DataInputStream in = new DataInputStream(stream);
-		try {
-//				this.getLogger().info(in.readUTF());
-			if (in.readUTF().equals("close"))
-				Bukkit.shutdown();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-	}*/
 	private static String makeStringFromID(NamespacedKey key){
 		String newString = "";
 		String itemName = key.getKey();
