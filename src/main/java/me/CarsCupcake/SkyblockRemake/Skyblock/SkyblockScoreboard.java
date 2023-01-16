@@ -50,12 +50,12 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
 		String formattedDate = date.format(format);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega48",14);
+		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69",14);
 
 		ScoreboardDisplayer.setScore(p,"§r   ",13);
 
 		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " /jahreszeit/ 0th",12);
-		Time t = new Time();
+		Time t = Time.getInstance();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime() , 11);
 	
 		if(p.dwarvenArea == null)
@@ -107,12 +107,12 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
 		String formattedDate = date.format(format);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega48",14);
+		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69",14);
 
 		ScoreboardDisplayer.setScore(p,"§r   ",13);
 
 		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " /jahreszeit/ 0th",12);
-		Time t = new Time();
+		Time t = Time.getInstance();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime(),11);
 	
 		if(p.dwarvenArea == null)
