@@ -107,7 +107,8 @@ public class Calculator {
         entityToPlayerDamage(entity, player, new Bundle<>(entity.getDamage(), entity.getTrueDamage()));
     }
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
-        e = entity.getEntity();
+        if(entity != null)
+            e = entity.getEntity();
         type = SkyblockDamageEvent.DamageType.EntityToPlayer;
        double damage = stats.getFirst();
 

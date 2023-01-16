@@ -31,9 +31,11 @@ public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Comman
 		if(arguments1.isEmpty()) {
 			arguments1.add("1");
 			arguments1.add("2");
+			arguments1.add("3");
 		}
 	if(arguments2.isEmpty()) {
 		arguments2.add("1");
+		arguments2.add("4");
 	}
 		if (args.length == 1) {
 			for (String a : slayer) {

@@ -839,7 +839,6 @@ public class Main extends JavaPlugin {
 						if (speedpersentage > 5)
 							speedpersentage = 5;
 						player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
-
 						SkyblockScoreboard.updateScoreboard(player);
 						updatebar(player);
 						if(TabListManager.managers.containsKey(player)) {
