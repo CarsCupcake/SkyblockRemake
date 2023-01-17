@@ -16,6 +16,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Attributes.ManaPool;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.MiningSys;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Cobblestone;
+import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.EndStone;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Gemstone.JadeGem;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Gemstone.JadeShart;
 import me.CarsCupcake.SkyblockRemake.MiningSystem.Blocks.Mithril.MithrilBlue;
@@ -147,6 +148,8 @@ public class ABILITIES implements Listener{
         if(event.getPlugin().equals(Main.getMain())) {
             MiningSys.getRegisteredBlocks().put(Material.STONE, Stone.class);
             MiningSys.getRegisteredBlocks().put(Material.COBBLESTONE, Cobblestone.class);
+            if(SkyblockServer.getServer().getType() == ServerType.End)
+                MiningSys.getRegisteredBlocks().put(Material.END_STONE, EndStone.class);
 
             MiningSys.getRegisteredBlocks().put(Material.CYAN_TERRACOTTA, MithrilGrey.class);
             MiningSys.getRegisteredBlocks().put(Material.GRAY_WOOL, MithrilGrey.class);

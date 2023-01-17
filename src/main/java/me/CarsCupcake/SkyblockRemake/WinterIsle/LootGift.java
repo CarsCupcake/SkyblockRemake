@@ -32,7 +32,7 @@ public class LootGift implements Listener {
             if (event.getPlayer().getItemInUse().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals("WHITE_GIFT"))
                 lootTable = WinterItems.whiteGiftLootTable;
         }catch (Exception ignored){}
-        if(lootTable == null) {
+
             if(event.getRightClicked() instanceof ArmorStand stand){
                 for(ArrayList<ArmorStand> stands : data.keySet()){
                     if(stands.contains(stand)){
@@ -50,12 +50,14 @@ public class LootGift implements Listener {
                     }
                 }
             }
+            if(lootTable == null) {
             return;
         }
         String armorStandHelmet;
-        switch (giftType){
-            case 0 -> armorStandHelmet = "http://textures.minecraft.net/texture/a5c6944593820d13d7d47db2abcfcbf683bb74a07e1a982db9f32e0a8b5dc466";
-            default -> armorStandHelmet = "";
+        if (giftType == 0) {
+            armorStandHelmet = "http://textures.minecraft.net/texture/a5c6944593820d13d7d47db2abcfcbf683bb74a07e1a982db9f32e0a8b5dc466";
+        } else {
+            armorStandHelmet = "";
         }
         event.getPlayer().getItemInUse().setAmount(event.getPlayer().getItemInUse().getAmount() - 1);
 

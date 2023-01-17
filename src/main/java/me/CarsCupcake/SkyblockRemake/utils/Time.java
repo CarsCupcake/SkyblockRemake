@@ -36,6 +36,7 @@ public class Time extends BukkitRunnable {
         hour = c.get().getInt("hour", 0);
         minute = c.get().getInt("minute", 0);
         runVar = c.get().getInt("phase", 0);
+
     }
     public void save(){
         CustomConfig c = new CustomConfig("time");
