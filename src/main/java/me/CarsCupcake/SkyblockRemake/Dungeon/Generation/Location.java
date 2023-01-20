@@ -1,12 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Dungeon.Generation;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public class Location {
-    @Getter@Setter
+    @Getter
     private int x;
-    @Getter@Setter
+    @Getter
     private int y;
     public Location(){
 
@@ -20,5 +19,40 @@ public class Location {
         if(obj instanceof Location l){
             return x == l.getX() && y == l.getY();
         }else return false;
+    }
+    @Override
+    public String toString(){
+        return "Location[x:" + x + ";y:" + y + "]";
+    }
+    @Override
+    public Location clone() {
+        return new Location(x,y);
+    }
+    public Location setX(int x){
+        this.x = x;
+        return this;
+    }
+    public Location setY(int y){
+        this.y = y;
+        return this;
+    }
+    public Location addX(int x){
+        this.x += x;
+        return this;
+    }
+    public Location addY(int y){
+        this.y += y;
+        return this;
+    }
+
+    public boolean isOutOfBounds(){
+        return x < 0 || x > 5 || y < 0 || y > 5;
+    }
+
+    public int getMapX(){
+        return (20 * x + 6);
+    }
+    public int getMapY(){
+        return (20 * y + 6);
     }
 }

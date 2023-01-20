@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 
 
+import me.CarsCupcake.SkyblockRemake.Dungeon.Generation.Generator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,18 +15,19 @@ import org.bukkit.map.MapView;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Dungeon.DungeonWorld;
-import me.CarsCupcake.SkyblockRemake.Dungeon.MagicalMapGeneration;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.image.BufferedImage;
 
 public class DungeonCMD implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+	public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, String[] arg3) {
 		Player player = (Player) arg0;
 		
 		ItemStack item = Main.item_updater(Items.MagicalMap(), SkyblockPlayer.getSkyblockPlayer(player));
-		MagicalMapGeneration render = new MagicalMapGeneration();
-		render.generateMap(player.getWorld());
+		Generator render = new Generator();
 		MapMeta meta = (MapMeta) item.getItemMeta();
 		MapView view = Bukkit.createMap(player.getWorld());
 		
