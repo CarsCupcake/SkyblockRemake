@@ -1,19 +1,17 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;

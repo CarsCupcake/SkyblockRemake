@@ -6,12 +6,11 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.MultipleEntity.MultipleEntityHead;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FireEel extends MultipleEntityHead implements Corruptable {

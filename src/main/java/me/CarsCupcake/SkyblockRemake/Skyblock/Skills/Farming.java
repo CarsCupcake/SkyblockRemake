@@ -1,10 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
-import me.CarsCupcake.SkyblockRemake.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 
 public class Farming implements Skill {
 

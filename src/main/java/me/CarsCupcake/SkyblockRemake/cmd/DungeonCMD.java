@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Generation.Generator;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Generator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,11 +14,9 @@ import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapView;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Dungeon.DungeonWorld;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.DungeonWorld;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.image.BufferedImage;
 
 public class DungeonCMD implements CommandExecutor {
 

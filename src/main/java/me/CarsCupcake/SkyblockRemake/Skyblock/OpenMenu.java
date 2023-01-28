@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
-import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInv;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInv;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,7 +19,6 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,15 +32,12 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skills;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.AccessoryInventory;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryInventory;
 import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Pets.PetMenuInv;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetMenuInv;
 
 
 public class OpenMenu implements CommandExecutor, Listener {

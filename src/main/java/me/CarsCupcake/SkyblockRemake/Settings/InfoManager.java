@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Settings;
 
-import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
-import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
+import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
+import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 
 public class InfoManager {

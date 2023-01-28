@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Jaded;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Jaded;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,13 +13,13 @@ import org.bukkit.persistence.PersistentDataType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
-import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Auspicious;
-import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Loving;
-import me.CarsCupcake.SkyblockRemake.reforges.ReforgeStones.Necrotic;
-import me.CarsCupcake.SkyblockRemake.reforges.blacksmith.epic;
-import me.CarsCupcake.SkyblockRemake.reforges.blacksmith.heroic;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Auspicious;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Loving;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Necrotic;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.epic;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.heroic;
 
 public class AddReforge implements CommandExecutor{
 

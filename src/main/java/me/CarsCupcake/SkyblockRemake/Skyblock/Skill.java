@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import me.CarsCupcake.SkyblockRemake.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.*;
 
 public interface Skill {
@@ -82,7 +81,6 @@ public interface Skill {
 			 case 56 -> 6100000;
 			 case 57 -> 6400000;
 			 case 58 -> 6700000;
-			 case 59 -> 7000000;
 			 default -> 7000000;
 		 };
 
@@ -90,7 +88,7 @@ public interface Skill {
 	 }
 	
 	
-	 static Skill getInstance(Skills skill,SkyblockPlayer player, int level, double xp) {
+	 static Skill getInstance(Skills skill, SkyblockPlayer player, int level, double xp) {
 		
 		if(skill == Skills.Mining) {
 			Skill mining = new Mining();

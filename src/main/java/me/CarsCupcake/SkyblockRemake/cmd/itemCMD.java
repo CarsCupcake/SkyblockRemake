@@ -3,7 +3,6 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 import java.util.ArrayList;
 
 import java.util.Collections;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,7 +11,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -21,8 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
-import me.CarsCupcake.SkyblockRemake.ItemsSearch;
+import me.CarsCupcake.SkyblockRemake.Items.ItemsSearch;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

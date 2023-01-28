@@ -14,7 +14,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -24,9 +23,8 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
-import me.CarsCupcake.SkyblockRemake.Ferocity;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.AdditionalManaCosts;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;

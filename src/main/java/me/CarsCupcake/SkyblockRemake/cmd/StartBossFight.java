@@ -1,8 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Phase1;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.*;
-import me.CarsCupcake.SkyblockRemake.End.Dragon.StartFight;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.Phase1;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.*;
+import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.StartFight;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,7 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F1.BonzoPhase1;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F1.BonzoPhase1;
 
 public class StartBossFight implements CommandExecutor {
 

@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 
 
 public class AddReforgeTAB implements  TabCompleter{

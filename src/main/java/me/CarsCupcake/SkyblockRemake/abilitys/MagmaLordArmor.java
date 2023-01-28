@@ -5,7 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Items.UpdateFlag;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 
-import me.CarsCupcake.SkyblockRemake.Ferocity;
+import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
 
 public class particletest implements CommandExecutor{
 

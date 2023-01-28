@@ -22,12 +22,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 
 
 

@@ -1,14 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Powers;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
 import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import org.bukkit.entity.Player;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BruteForce implements FullSetBonus {

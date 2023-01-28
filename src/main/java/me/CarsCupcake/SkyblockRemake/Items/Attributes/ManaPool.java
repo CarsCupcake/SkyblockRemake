@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Items.Attributes;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 
 import java.util.List;
 

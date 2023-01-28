@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
+import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

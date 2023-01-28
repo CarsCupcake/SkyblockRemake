@@ -7,15 +7,11 @@
 //Never gonna say goodbye
 package me.CarsCupcake.SkyblockRemake;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -23,30 +19,29 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
-import me.CarsCupcake.SkyblockRemake.AuctionHouse.AuctionHouse;
-import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
-import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarManager;
-import me.CarsCupcake.SkyblockRemake.Collections.ICollection;
+import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
+import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
+import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarManager;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.F7Phase1;
-import me.CarsCupcake.SkyblockRemake.Enchantments.UltimateEnchant;
-import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentInvListener;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase1;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInvListener;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
-import me.CarsCupcake.SkyblockRemake.Potion.Potion;
-import me.CarsCupcake.SkyblockRemake.Potion.PotionCommand;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Potion;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionCommand;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
+import me.CarsCupcake.SkyblockRemake.utils.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
-import me.CarsCupcake.SkyblockRemake.utils.Laser;
-import me.CarsCupcake.SkyblockRemake.utils.MessageHandler;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
-import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.*;
 
 
@@ -70,33 +65,33 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.AccessoryListener;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Bloody;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.MaxwellListener;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Powers;
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Slender;
-import me.CarsCupcake.SkyblockRemake.Areas.AreaListener;
-import me.CarsCupcake.SkyblockRemake.Commission.CommissionListener;
-import me.CarsCupcake.SkyblockRemake.Drill.DrillMerchant;
-import me.CarsCupcake.SkyblockRemake.Drill.DrillPart;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvent;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvents;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.EventListener;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.PlayerTurnEvent;
-import me.CarsCupcake.SkyblockRemake.DwarvenMines.IceWalkerSpawning;
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Bloody;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.MaxwellListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Slender;
+import me.CarsCupcake.SkyblockRemake.isles.Areas.AreaListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.CommissionListener;
+import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillMerchant;
+import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillPart;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvent;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.EventListener;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.PlayerTurnEvent;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenMines.IceWalkerSpawning;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListener;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneGrinder;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneType;
-import me.CarsCupcake.SkyblockRemake.KuudraBossFight.CanonObject;
-import me.CarsCupcake.SkyblockRemake.KuudraBossFight.Tentacles;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
-import me.CarsCupcake.SkyblockRemake.Pets.PetMenuListener;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneGrinder;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneType;
+import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.CanonObject;
+import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.Tentacles;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetMenuListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
-import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -3040,13 +3035,13 @@ public class Main extends JavaPlugin {
 				extra = "DUNGEON ";
 
 			if (data.get(new NamespacedKey(Main, "recomed"), PersistentDataType.INTEGER) == 0)
-				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
-						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : manager.rarity.getRarityName()) + " "
+				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : manager.rarity.getRarityName()) + " "
 						+extra + manager.type.toString().toUpperCase());
 			else {
-				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
-						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getRarityFromLevel(
-						me.CarsCupcake.SkyblockRemake.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra
+				lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(
+						me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra
 						+ manager.type.toString().toUpperCase() + " §kr");
 			}
 			meta.setLore(lores);

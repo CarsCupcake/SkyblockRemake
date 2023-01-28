@@ -1,8 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 

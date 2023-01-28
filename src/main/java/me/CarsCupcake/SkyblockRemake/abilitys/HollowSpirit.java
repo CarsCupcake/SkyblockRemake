@@ -1,15 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import org.bukkit.Color;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Material;
-import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.ArrayList;

@@ -2,15 +2,14 @@ package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Firework;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.meta.FireworkMeta;

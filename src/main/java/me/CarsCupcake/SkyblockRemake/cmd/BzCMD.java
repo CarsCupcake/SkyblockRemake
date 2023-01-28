@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Bazaar.BazaarListener;
+import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

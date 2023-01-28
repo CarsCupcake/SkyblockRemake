@@ -1,24 +1,18 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
-import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
-import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.End.EndItems;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.isles.End.EndItems;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.UUID;

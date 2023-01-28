@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 public class AddSkillXpCMD implements CommandExecutor {

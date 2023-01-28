@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items;
 
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;

@@ -4,8 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvent;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvents;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvent;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 
 public class StartEventCMD implements CommandExecutor{
 

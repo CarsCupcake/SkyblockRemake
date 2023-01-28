@@ -4,7 +4,7 @@ import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
 import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

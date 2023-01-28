@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Generation.Generator;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Generator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

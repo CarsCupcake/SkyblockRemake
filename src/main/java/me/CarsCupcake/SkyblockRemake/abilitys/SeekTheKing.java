@@ -1,10 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import org.bukkit.Sound;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import me.CarsCupcake.SkyblockRemake.Commission.CommissionInv;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.CommissionInv;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 

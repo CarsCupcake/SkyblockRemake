@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import java.io.File;
 import java.util.*;
 
 import lombok.Getter;
@@ -8,16 +7,15 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
-import me.CarsCupcake.SkyblockRemake.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
-import me.CarsCupcake.SkyblockRemake.CrimsonIsle.CrimsonIsleAreas;
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Equipment.EquipmentManager;
+import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Potion.Effect;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Combat;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
-import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -33,14 +31,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.MiningSys;
-import me.CarsCupcake.SkyblockRemake.Skills;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.Areas.DwarvenAreas;
-import me.CarsCupcake.SkyblockRemake.Commission.Commission;
-import me.CarsCupcake.SkyblockRemake.Commission.DwarvenCommissions;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.isles.Areas.DwarvenAreas;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.DwarvenCommissions;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import net.minecraft.server.level.EntityPlayer;
 
 public class SkyblockPlayer extends CraftPlayer{

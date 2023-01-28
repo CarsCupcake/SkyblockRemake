@@ -1,17 +1,17 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze;
 
-import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
-import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.AshenAuricSwap;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.FiredustDaggerHit;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.SpiritCystalSwap;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.TwilightDaggerHit;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

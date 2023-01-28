@@ -10,7 +10,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePits;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;

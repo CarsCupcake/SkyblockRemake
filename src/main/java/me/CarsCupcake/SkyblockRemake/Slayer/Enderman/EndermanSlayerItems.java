@@ -1,14 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Enderman;
 
-import me.CarsCupcake.SkyblockRemake.Crafting.CraftingObject;
-import me.CarsCupcake.SkyblockRemake.Crafting.ShapeEncoder;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Gemstones.SlotType;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.abilitys.Soulcry;
 import org.bukkit.Material;
 

@@ -6,9 +6,9 @@ package me.CarsCupcake.SkyblockRemake.Items;
 
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import me.CarsCupcake.SkyblockRemake.reforges.Reforge;
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

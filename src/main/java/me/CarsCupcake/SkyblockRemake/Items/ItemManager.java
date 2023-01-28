@@ -8,8 +8,10 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.utils.NBTEditor;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -23,14 +25,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Configs.EditionItems;
-import me.CarsCupcake.SkyblockRemake.Gemstones.Gemstone;
-import me.CarsCupcake.SkyblockRemake.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.Gemstone;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemManager implements ItemGenerator{

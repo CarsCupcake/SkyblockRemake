@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import org.jetbrains.annotations.NotNull;
 
 

@@ -2,10 +2,8 @@ package me.CarsCupcake.SkyblockRemake.API.PlayerEvent;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ItemStackEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
-import org.bukkit.inventory.ItemStack;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 
 public class GetTotalStatEvent extends PlayerEvent {
     private final Stats stat;

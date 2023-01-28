@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items.ItemRegistration;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Color;
 import org.bukkit.Material;
 

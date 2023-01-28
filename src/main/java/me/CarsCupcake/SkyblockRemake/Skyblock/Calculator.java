@@ -9,15 +9,14 @@ import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
-import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
+import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 

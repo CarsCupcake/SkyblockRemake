@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.CarsCupcake.SkyblockRemake.KuudraBossFight.CanonObject;
+import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.CanonObject;
 
 public class startKuudra implements CommandExecutor{
 

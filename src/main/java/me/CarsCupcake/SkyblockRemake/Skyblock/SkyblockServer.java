@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import me.CarsCupcake.SkyblockRemake.End.EndListeners;
+import me.CarsCupcake.SkyblockRemake.isles.End.EndListeners;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

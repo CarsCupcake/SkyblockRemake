@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 import org.bukkit.util.Vector;
 
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 
 public class beaconThrow implements CommandExecutor{
 

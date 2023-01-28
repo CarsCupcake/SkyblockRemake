@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.API.ItemEvents;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.inventory.ItemStack;
 
 public class GetStatFromItemEvent extends ItemStackEvent{

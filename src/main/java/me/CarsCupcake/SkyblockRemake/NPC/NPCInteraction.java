@@ -1,16 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.NPC;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.Inventory;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.MaxwellInv;
-import me.CarsCupcake.SkyblockRemake.Commission.CommissionInv;
-import me.CarsCupcake.SkyblockRemake.Commission.Puzzler;
-import me.CarsCupcake.SkyblockRemake.Drill.DrillMechanicInv;
-import me.CarsCupcake.SkyblockRemake.Dungeon.MalikInventory;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.MaxwellInv;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.CommissionInv;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Puzzler;
+import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillMechanicInv;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MalikInventory;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 

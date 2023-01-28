@@ -1,11 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;

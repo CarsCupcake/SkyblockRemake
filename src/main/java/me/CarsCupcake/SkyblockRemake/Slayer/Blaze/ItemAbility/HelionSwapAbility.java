@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.API.HellionShieldSwapEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.persistence.PersistentDataType;

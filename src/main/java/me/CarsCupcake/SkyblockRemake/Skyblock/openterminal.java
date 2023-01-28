@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Terminals.*;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

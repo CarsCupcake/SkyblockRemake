@@ -8,22 +8,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
-import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.CommandBlock;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEnderDragonPart;
 import org.bukkit.enchantments.Enchantment;
@@ -39,9 +42,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
@@ -54,12 +55,9 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -68,24 +66,21 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Powers;
-import me.CarsCupcake.SkyblockRemake.Commission.Commission;
-import me.CarsCupcake.SkyblockRemake.Commission.Puzzler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Puzzler;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
-import me.CarsCupcake.SkyblockRemake.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.NPC.PacketReader;
-import me.CarsCupcake.SkyblockRemake.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.order;
 import me.CarsCupcake.SkyblockRemake.abilitys.HydraStrike;
 import me.CarsCupcake.SkyblockRemake.cmd.itemCMD;
 
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.protocol.game.PacketPlayInBlockDig;
 import net.minecraft.network.protocol.game.PacketPlayInBlockDig.EnumPlayerDigType;
 import net.minecraft.network.protocol.game.PacketPlayOutEntity;
@@ -102,7 +97,7 @@ public class SkyblockRemakeEvents implements Listener{
 	public static Inventory SoulBuyInv;
 	public String gm;
 
-	public HashMap<Player,MiningBlock> breakTicksLeft = new HashMap<>();
+	public HashMap<Player, CurrentMiningBlock> breakTicksLeft = new HashMap<>();
 	public static boolean iteminforge = false;
 	public static int soulcost;
 	public static HashMap<Location, Material> TitaniumRegen = new HashMap<>();
@@ -300,7 +295,7 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 	}
 	public static int estimateBreakingTime(Player player, double blockStrength) {
 		double mining_speed = Main.getPlayerMiningSpeed(player);
-		double SoftCap=Tools.round(6.66666666666666666666666666666666666*blockStrength, 0);
+		double SoftCap= Tools.round(6.66666666666666666666666666666666666*blockStrength, 0);
 		if(SoftCap <= mining_speed)
 			mining_speed = SoftCap;
 		

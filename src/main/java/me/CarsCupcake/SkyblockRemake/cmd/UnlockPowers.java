@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.AccessoryBag.Powers.Powers;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
 
 
 public class UnlockPowers implements CommandExecutor{

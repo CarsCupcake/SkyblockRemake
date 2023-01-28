@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import me.CarsCupcake.SkyblockRemake.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 
 public class AddSkillXpTAB implements TabCompleter{
 	List<String> arguments = new ArrayList<String>();

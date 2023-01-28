@@ -2,11 +2,8 @@ package me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishin
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import net.minecraft.network.protocol.game.PacketPlayInBlockDig;
 import net.minecraft.server.level.WorldServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

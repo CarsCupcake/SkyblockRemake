@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.WitherGuard;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.WitherMiner;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.WitherGuard;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.WitherMiner;
 import me.CarsCupcake.SkyblockRemake.abilitys.EntityLocationSetter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

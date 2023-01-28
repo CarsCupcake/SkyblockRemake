@@ -1,30 +1,20 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Ferocity;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.AdditionalManaCosts;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
-import me.CarsCupcake.SkyblockRemake.Tools;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
 
 public class CraysFish implements AbilityManager<PlayerInteractEvent> {
     private static final String itemID = "AXE_OF_THE_SHREDDED";

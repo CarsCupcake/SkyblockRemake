@@ -1,11 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Item;

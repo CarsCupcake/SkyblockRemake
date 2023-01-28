@@ -5,9 +5,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
-import lombok.SneakyThrows;
 import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,9 +21,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvent;
-import me.CarsCupcake.SkyblockRemake.DwarvenEvents.DwarvenEvents;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvent;
+import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 
 
 public class SkyblockScoreboard implements Listener {

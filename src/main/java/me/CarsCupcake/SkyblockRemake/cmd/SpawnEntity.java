@@ -1,8 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F6.Entitys.*;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.MastermodeNecron;
-import me.CarsCupcake.SkyblockRemake.Dungeon.Boss.F7.Necron;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.Entitys.*;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.MastermodeNecron;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Necron;
 import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.Thunder;

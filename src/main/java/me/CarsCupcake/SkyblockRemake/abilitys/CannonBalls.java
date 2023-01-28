@@ -17,7 +17,7 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 
 
 public class CannonBalls implements Listener{

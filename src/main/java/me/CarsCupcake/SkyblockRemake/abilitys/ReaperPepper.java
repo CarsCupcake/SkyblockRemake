@@ -3,9 +3,8 @@ package me.CarsCupcake.SkyblockRemake.abilitys;
 import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Sound;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ReaperPepper implements AbilityManager<PlayerInteractEvent> {
