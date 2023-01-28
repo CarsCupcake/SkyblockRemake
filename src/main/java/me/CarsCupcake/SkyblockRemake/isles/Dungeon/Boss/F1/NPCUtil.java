@@ -48,7 +48,7 @@ public class NPCUtil {
  ignored.printStackTrace();
         }
 
-		entityPlayer.setPose(EntityPose.c);
+
 
         for (Player on : Bukkit.getOnlinePlayers()) {
             PlayerConnection p = ((CraftPlayer) on).getHandle().b;

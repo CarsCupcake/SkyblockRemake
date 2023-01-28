@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
+import lombok.Getter;
+
 public enum Skills {
 	Farming,
 	Mining,
@@ -12,5 +14,14 @@ public enum Skills {
 	Dungeoneering,
 	Carpentry,
 	Runecrafting,
-	Social
+	Social;
+	@Getter
+	private double xp = 0;
+	@Getter
+	private boolean hasXp = false;
+	public void addXpToInstance(double xp){
+		this.xp = xp;
+		hasXp = true;
+	}
+
 }

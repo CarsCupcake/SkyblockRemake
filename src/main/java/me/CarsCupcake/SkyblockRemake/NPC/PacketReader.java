@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 
+import io.netty.channel.ChannelPromise;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
 import net.minecraft.network.protocol.game.PacketPlayInUseItem;
 import org.bukkit.Bukkit;
@@ -58,11 +60,20 @@ public class PacketReader {
 				if(packet instanceof PacketPlayInUseEntity) {
 					PacketReader.getPlayerMethod(player).read((PacketPlayInUseEntity)packet);
 				}
-					
+
+				if(packet instanceof Packet<?> p)
+					DiguestMobsManager.inputStream(p);
+
+
 				super.channelRead(channelHandlerContext, packet);
 			}
 
-			
+			@Override
+			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+				if(msg instanceof Packet<?> p)
+					DiguestMobsManager.outputStream(p);
+				super.write(ctx, msg, promise);
+			}
 		};
 		channel2.pipeline().addBefore("packet_handler", player.getName(),channelDuplexHandler);
 

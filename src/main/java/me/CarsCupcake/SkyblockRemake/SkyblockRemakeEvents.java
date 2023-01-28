@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
@@ -24,6 +25,7 @@ import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
 import org.bukkit.block.CommandBlock;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
@@ -871,39 +873,14 @@ public static int dropAmount(int minigFortune, int amount) {
 			return;
 		Entity entity = event.getEntity();
 		if(!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM)&& !(entity.getType() == EntityType.ARMOR_STAND)&& !(entity.getType() == EntityType.WITHER_SKULL) ) {
-			 if(entity instanceof LivingEntity) {
-				 LivingEntity e = (LivingEntity) entity;
-			if(Main.baseentityhealth.get(entity) == null) {
-			  
-			  Main.baseentityhealth.put(e, (int)e.getMaxHealth()*5);
-			  Main.currentityhealth.put(e, (int)e.getMaxHealth()*5);
-			  
-			  entity.setCustomNameVisible(true);
-			  e.setHealth(e.getMaxHealth());
-			  if(e.getScoreboardTags() == null) {
-				  e.addScoreboardTag("combatxp:5");
-				 
-			  }else {
-				  ArrayList<String> check = new ArrayList<>();
-				  e.getScoreboardTags().forEach(str ->{
-					 
-					  if(str.startsWith("combatxp:")) {
-						  check.add("yes");
-						  
-					  }
-				  });
-				 
-				  if(!check.contains("yes")) {
-					  e.addScoreboardTag("combatxp:5");
-					  
-				  }
-			  }
-		  }Main.updateentitystats(e);
-		  
-		  }}
-		
-
+			if(entity instanceof LivingEntity e) {
+				if(Main.baseentityhealth.get(entity) == null && !SkyblockEntity.livingEntity.containsKey(e)) {
+					new BasicEntity(e, (int)(e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
+				}
+				Main.updateentitystats(e);
+			}
 		}
+	}
 
 
 	@EventHandler

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.world.entity.EntityPose;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
