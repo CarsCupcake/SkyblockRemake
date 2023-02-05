@@ -9,6 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 public class EndermanAbility3 extends PetAbility {
+    public EndermanAbility3(SkyblockPlayer player) {
+        super(player);
+    }
+
     @Override
     public void start() {
 

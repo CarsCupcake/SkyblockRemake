@@ -18,9 +18,9 @@ import java.util.HashMap;
 
 public class Laser{
 	@Getter
-	private LaserProvider start;
+	private final LaserProvider start;
 	@Getter
-	private LaserReciever end;
+	private final LaserReciever end;
 	private static final HashMap<LivingEntity, Squid> lasers = new HashMap<>();
 	public Laser(Location guardian, Location squid){
 		guardian.setPitch(0);

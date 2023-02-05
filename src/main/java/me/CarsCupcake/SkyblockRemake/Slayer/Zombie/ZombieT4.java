@@ -2,9 +2,6 @@ package me.CarsCupcake.SkyblockRemake.Slayer.Zombie;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.EntityAtributes;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkillDroper;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
@@ -12,18 +9,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
-@EntityAtributes({EntityAtributes.Attributes.AbilityImune, EntityAtributes.Attributes.ProjectileImune})
-public class ZombieT1 extends LifeDrain implements SkillDroper {
+public class ZombieT4 extends Enrage{
     private Zombie entity;
-    public ZombieT1(SkyblockPlayer player) {
+    public ZombieT4(SkyblockPlayer player) {
         super(player);
     }
 
     @Override
     public int getMaxHealth() {
-        return 500;
+        return 1500000;
     }
 
     @Override
@@ -33,12 +29,12 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
 
     @Override
     public void setHealth(int i) {
-
+        health = i;
     }
 
     @Override
-    public int getDamage() {
-        return 15;
+    public int getBaseDamage() {
+        return 400;
     }
 
     @Override
@@ -65,19 +61,12 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
 
     @Override
     public void updateNameTag() {
-
+        entity.setCustomName(getBaseName(this));
     }
-
-    @Override
-    public void kill() {
-        super.kill();
-
-    }
-
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-
+        health -= damage;
     }
 
     @Override
@@ -88,10 +77,5 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
     @Override
     public int getTrueDamage() {
         return 0;
-    }
-
-    @Override
-    public Map<Skills, Double> getSkillXp() {
-        return Map.of(Skills.Combat, 50d);
     }
 }

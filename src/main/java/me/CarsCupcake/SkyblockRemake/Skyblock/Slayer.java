@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
@@ -50,4 +51,9 @@ public abstract class Slayer extends SkyblockEntity{
     public abstract boolean hasNoKB();
 
     public abstract int getTrueDamage();
+
+    public static String getBaseName(Slayer slayer){
+        return "§c" + Character.toChars(9760)[0] + " §b" + slayer.getName()
+                + " §a" + Tools.toShortNumber(slayer.getHealth()) + "§c" + Stats.Health.getSymbol();
+    }
 }

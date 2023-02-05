@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T3.BlazeSlayerT3;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T4.BlazeSlayerT4;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT4;
+import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,7 +32,22 @@ public class startslayer implements CommandExecutor{
 			}
 
 			switch (args[0]) {
-				case "zombie" -> player.sendMessage("§cTemporarily not available.");
+				case "zombie" -> {
+					SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+					Slayer slayer;
+					switch (args[1]){
+						case "1" -> slayer = new ZombieT1(p);
+						case "2" -> slayer = new ZombieT2(p);
+						case "3" -> slayer = new ZombieT3(p);
+						case "4" -> slayer = new ZombieT4(p);
+						default -> slayer = null;
+					}
+					if(slayer == null){
+						p.sendMessage("not avaidable");
+						return false;
+					}
+					slayer.spawn(player.getLocation());
+				}
 				case "blaze" -> {
 					if (args[1].equals("1")) {
 						BlazeSlayerT1 slayer = new BlazeSlayerT1();

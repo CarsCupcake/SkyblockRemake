@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-public abstract class LifeDrain extends Slayer {
+public abstract class LifeDrain extends ZombieSlayer {
     protected BukkitRunnable lifeDrainTimer;
     public LifeDrain(SkyblockPlayer player) {
         super(player);
@@ -36,7 +36,9 @@ public abstract class LifeDrain extends Slayer {
         }catch (Exception ignored){}
     }
 
-    abstract int healAmount();
+    protected int healAmount(){
+        return getDamage();
+    }
 
     private void heal(){
         int healAmount = healAmount();

@@ -35,7 +35,6 @@ public class MessageHandler implements PluginMessageListener {
             }
 
         } catch (IOException e) {
-
             e.printStackTrace();
         }
     }

@@ -15,13 +15,5 @@ public enum Skills {
 	Carpentry,
 	Runecrafting,
 	Social;
-	@Getter
-	private double xp = 0;
-	@Getter
-	private boolean hasXp = false;
-	public void addXpToInstance(double xp){
-		this.xp = xp;
-		hasXp = true;
-	}
 
 }
