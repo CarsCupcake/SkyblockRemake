@@ -13,13 +13,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.QuaziiT1;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class startslayer implements CommandExecutor{
 
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, String label, String[] args) {
 		if (label.equalsIgnoreCase("slayer")) {
 
 			if (!(sender instanceof Player player)) {
@@ -40,6 +39,7 @@ public class startslayer implements CommandExecutor{
 						case "2" -> slayer = new ZombieT2(p);
 						case "3" -> slayer = new ZombieT3(p);
 						case "4" -> slayer = new ZombieT4(p);
+						case "5" -> slayer = new ZombieT5(p);
 						default -> slayer = null;
 					}
 					if(slayer == null){

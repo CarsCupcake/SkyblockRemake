@@ -10,11 +10,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class AbilityPreExecuteEvent extends Event implements Cancellable {
     private boolean isCancelled = false;
-    private final AbilityManager ability;
+    private final AbilityManager<? extends Event> ability;
     private final SkyblockPlayer player;
     private int mana;
     private final Action action;
-    public AbilityPreExecuteEvent(@NotNull AbilityManager manager, int payedMana, SkyblockPlayer player, Action action){
+    public AbilityPreExecuteEvent(@NotNull AbilityManager<? extends Event> manager, int payedMana, SkyblockPlayer player, Action action){
         ability = manager;
         mana = payedMana;
         this.player = player;
@@ -27,7 +27,7 @@ public class AbilityPreExecuteEvent extends Event implements Cancellable {
     public int getPayedMana(){
         return mana;
     }
-    public AbilityManager getAbility(){
+    public AbilityManager<? extends Event> getAbility(){
         return ability;
     }
     public SkyblockPlayer getPlayer(){
@@ -37,7 +37,7 @@ public class AbilityPreExecuteEvent extends Event implements Cancellable {
         return action;
     }
 
-    private static HandlerList HANDLERS= new HandlerList();
+    private static final HandlerList HANDLERS= new HandlerList();
     @NotNull
     @Override
     public HandlerList getHandlers() {

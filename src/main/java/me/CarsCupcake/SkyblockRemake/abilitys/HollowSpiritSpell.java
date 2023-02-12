@@ -8,13 +8,12 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.*;
 
 public class HollowSpiritSpell {
     private static final HashMap<SkyblockPlayer, HollowSpiritSpell> spells = new HashMap<>();
-    private ArrayList<Stack> stacks = new ArrayList<>(4);
+    private final ArrayList<Stack> stacks = new ArrayList<>(4);
     private final SkyblockPlayer player;
     private int remainingTime = 40;
 
@@ -37,7 +36,7 @@ public class HollowSpiritSpell {
     }
     private void displayStacks(){
         StringBuilder builder = new StringBuilder("§8[");
-        Iterator<Stack> stackIterator = ((ArrayList<Stack>)stacks.clone()).iterator();
+        Iterator<Stack> stackIterator = new ArrayList<>(stacks).iterator();
         while (stackIterator.hasNext()){
             Stack stack = stackIterator.next();
             builder.append(stack.getDisplay());
@@ -136,7 +135,7 @@ public class HollowSpiritSpell {
                 loc = loc.add(loc.getDirection().normalize().multiply(ticksMult));
 
 
-                double offset = getOffset((i*0.1)*Math.PI, 0.5);
+                double offset = getOffset((i*0.1)*Math.PI);
                 player.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, loc.clone().add(0,offset,0), 0,0,0,1, 0, null);
 
             }
@@ -179,7 +178,7 @@ public class HollowSpiritSpell {
                 loc = loc.add(loc.getDirection().normalize().multiply(ticksMult));
 
 
-                double offset = getOffset((i*0.1)*Math.PI, 0.5);
+                double offset = getOffset((i*0.1)*Math.PI);
                 player.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, loc.clone().add(0,offset,0), 0,0,0,1, 0, null);
 
             }
@@ -257,8 +256,8 @@ public class HollowSpiritSpell {
         }.runTaskTimer(Main.getMain(), 0, 1);
 
     }
-    private double getOffset(double i, double mult){
-        return Math.sin(i*mult) + 0.5;
+    private double getOffset(double i){
+        return Math.sin(i* 0.5) + 0.5;
     }
     private double getTeleportMult(double block){
         return 0.05*block;

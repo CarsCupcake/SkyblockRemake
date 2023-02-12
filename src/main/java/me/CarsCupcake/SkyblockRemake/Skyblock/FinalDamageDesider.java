@@ -1,5 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-public interface FinalDamageDesider {
+public interface FinalDamageDesider{
     double getFinalDamage(SkyblockPlayer player, double damage);
 }

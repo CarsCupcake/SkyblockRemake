@@ -27,6 +27,7 @@ public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Comman
 		arguments.add("2");
 		arguments.add("3");
 		arguments.add("4");
+		arguments.add("5");
 	}
 		if(arguments1.isEmpty()) {
 			arguments1.add("1");

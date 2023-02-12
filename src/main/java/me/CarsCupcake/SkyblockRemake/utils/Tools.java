@@ -617,6 +617,7 @@ public class Tools {
         }
         return ee;
     }
-
-
+    public static Location getAsLocation(Block block){
+        return block.getLocation().add(0.5, 0, 0.5);
+    }
 }
