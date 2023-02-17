@@ -7,12 +7,16 @@
 //Never gonna say goodbye
 package me.CarsCupcake.SkyblockRemake;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.UUID;
+import java.net.URL;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
@@ -43,7 +47,7 @@ import me.CarsCupcake.SkyblockRemake.utils.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import org.bukkit.*;
-
+import java.io.*;
 
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -147,7 +151,6 @@ public class Main extends JavaPlugin {
 		config.options().copyDefaults(true);
 		saveConfig();
 		Main = this;
-
 		try{
 			this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
 			this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
@@ -606,8 +609,9 @@ public class Main extends JavaPlugin {
 			for(Entity entity : world.getEntities()) {
 				if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && !(entity instanceof Player)) {
 					entity.remove();
-					if(SkyblockEntity.livingEntity.containsKey(e))
+					if(SkyblockEntity.livingEntity.containsKey(e)) try {
 						SkyblockEntity.livingEntity.get(e).kill();
+					}catch (Exception ignored){}
 				}
 				if(entity.getScoreboardTags().contains("damage_tag"))
 					entity.remove();
@@ -3237,5 +3241,20 @@ public class Main extends JavaPlugin {
 		}
 		return newString;
 	}
+	public InputStream getFileFromResourceAsStream(String fileName) {
+
+		// The class loader that loaded the class
+		ClassLoader classLoader = me.CarsCupcake.SkyblockRemake.Main.class.getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream(fileName);
+
+		// the stream holding the file content
+		if (inputStream == null) {
+			throw new IllegalArgumentException("file not found! " + fileName);
+		} else {
+			return inputStream;
+		}
+
+	}
+
 
 }

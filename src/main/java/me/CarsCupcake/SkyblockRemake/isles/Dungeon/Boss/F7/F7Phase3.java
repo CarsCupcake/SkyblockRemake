@@ -164,10 +164,15 @@ public class F7Phase3 implements Listener {
         };
         move.runTaskTimer(Main.getMain(), 1, 1);
     }
+    private static void getGateSchematic(String name, Location l){
+        /*Tools.loadShematic("assets/schematics/dungeon/bossfight/7/Gates/" + name, l);*/
+        Tools.loadShematic(new File(Main.getMain().getDataFolder().toPath() + "/Gates/" + name), l);
+
+    }
     public static void regenerate(){
-        Tools.loadShematic(new File(Main.getMain().getDataFolder().getPath() + "\\gates\\gate1.schem"), new Location(Bukkit.getWorld("world") ,104d, 114d, 122d));
-        Tools.loadShematic(new File(Main.getMain().getDataFolder().getPath() + "\\gates\\gate2.schem"), new Location(Bukkit.getWorld("world") ,18, 114d, 136));
-        Tools.loadShematic(new File(Main.getMain().getDataFolder().getPath() + "\\gates\\gate3.schem"), new Location(Bukkit.getWorld("world") ,4, 114d, 50));
+       getGateSchematic("gate1.schem", new Location(Bukkit.getWorld("world") ,104d, 114d, 122d));
+        getGateSchematic("gate2.schem", new Location(Bukkit.getWorld("world") ,18, 114d, 136));
+        getGateSchematic("gate3.schem", new Location(Bukkit.getWorld("world") ,4, 114d, 50));
         for(Block bbb : Tools.getBlocksBetween(new Location(Bukkit.getWorld("world") ,52, 121, 54).getBlock(), new Location(Bukkit.getWorld("world") ,56, 115, 54).getBlock()))
             bbb.setType(Material.GOLD_BLOCK);
 

@@ -160,17 +160,12 @@ public class Goldor extends SkyblockEntity {
 
     @Override
     public void kill() {
-        entity = null;
         try{
             attacks.cancel();
-        }catch (Exception ignored){
-
-        }
-
-
+        }catch (Exception ignored){}
         for(SkyblockEntity e : SkyblockEntity.livingEntity.values())
             e.getEntity().setHealth(0);
-
+        entity = null;
     }
 
     @Override

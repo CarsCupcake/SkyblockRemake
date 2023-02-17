@@ -1,17 +1,24 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.*;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.*;
+import java.util.stream.Stream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.InflaterInputStream;
 
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
@@ -23,6 +30,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import net.minecraft.FileUtils;
 import net.minecraft.world.phys.AxisAlignedBB;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -41,6 +49,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,6 +143,7 @@ public class Tools {
         } catch (IOException e) {
             Bukkit.broadcastMessage("§c A schematic failed to load");
             e.printStackTrace();
+            return;
         }
 
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()))) {
@@ -146,13 +156,166 @@ public class Tools {
             Operations.complete(operation);
 
         }catch (Exception e) {
+            e.printStackTrace();
             Bukkit.broadcastMessage("§c A schematic failed to load");
+            return;
         }
+    }
+    public static void loadShematic(InputStream stream, Location base) throws IOException {
+        Clipboard clipboard = null;
+        ClipboardFormat format = ClipboardFormats.findByAlias("schem");
+
+        try (ClipboardReader reader = format.getReader(stream)) {
+            clipboard = reader.read();
+            EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
+                    .build();
+
+            Operations.complete(operation);
+            editSession.close();
+        } catch (Exception e) {
+            Bukkit.broadcastMessage("§c A schematic failed to load");
+            e.printStackTrace();
+            return;
+        }finally {
+            try {
+                stream.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public static boolean hasFileSystem(String scheme){
+        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
+            if (scheme.equalsIgnoreCase(provider.getScheme())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void copyDirectoryCompatibityMode(File source, File destination) throws IOException {
+        if (source.isDirectory()) {
+            copyDirectory(source, destination);
+        } else {
+            copyFile(source, destination);
+        }
+    }
+    private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
+        if (!destinationDirectory.exists()) {
+            destinationDirectory.mkdir();
+        }
+        for (String f : sourceDirectory.list()) {
+            copyDirectoryCompatibityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
+        }
+    }
+    private static File copyFile(File sourceFile, File destinationFile)
+            throws IOException {
+        try (InputStream in = new FileInputStream(sourceFile);
+             OutputStream out = new FileOutputStream(destinationFile)) {
+            byte[] buf = new byte[1024];
+            int length;
+            while ((length = in.read(buf)) > 0) {
+                out.write(buf, 0, length);
+            }
+            return new File(destinationFile, sourceFile.getName());
+        }
+    }
+
+
+    public static void copyAllAssets(){
+        /*try {
+            *//*URI uri = Main.class.getResource("/assets/").toURI();
+            Path Path;
+            FileSystem fileSystem = null;
+            if (uri.getScheme().equals("jar")) {
+                if(!hasFileSystem("jar"))
+                    fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                else
+                    fileSystem = FileSystems.getFileSystem(uri);
+                Path = fileSystem.getPath("/assets/");
+            } else {
+                Path = Paths.get(uri);
+            }*//*
+
+            String extra = "/assets/";
+
+            File file = copyFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()), Main.getMain().getAssets());
+            System.out.println(file.toPath());
+            copyDirectoryCompatibityMode(new File(file, "/assets/"), Main.getMain().getAssets());
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }*/
+    }
+    public static void loadShematic(String resourcePath, Location base){
+        InputStream stream = Main.getMain().getResource(resourcePath);
+        try {
+            ClipboardFormat format = ClipboardFormats.findByAlias("schem");
+            ClipboardReader reader = format.getReader(stream);
+            Clipboard clipboard = reader.read();
+            EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
+                    .build();
+            Operations.complete(operation);
+            editSession.close();
+        } catch (Exception e) {
+            Bukkit.broadcastMessage("§c A schematic failed to load");
+            e.printStackTrace();
+            return;
+        }finally {
+            try {
+                stream.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public static File getFileFromResource(String fileName){
+        return new File(fileName);
+        /*try {
+            Path path = getResourcePath(fileName);
+            String name = path.getFileName().toString();
+            InputStream stream = Main.class.getResourceAsStream(path.toString());
+            ObjectInputStream data = new ObjectInputStream(new InflaterInputStream(stream));
+            data.
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }*/
+    }
+    public static List<Path> getAllPaths () {
+        List<Path> paths = new ArrayList<>();
+        try {
+            URI uri = Main.class.getResource("/assets/").toURI();
+            Path Path;
+            FileSystem fileSystem = null;
+            if (uri.getScheme().equals("jar")) {
+                fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
+                Path = fileSystem.getPath("/assets/");
+            } else {
+                Path = Paths.get(uri);
+            }
+            Stream<Path> walk = Files.walk(Path, 3);
+            for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
+                Path path = it.next();
+                String name = path.getFileName().toString();
+                if (name.endsWith(".schem")) paths.add(path);
+            }
+            if (fileSystem != null) fileSystem.close();
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
+        return paths;
     }
     @Nullable
     public static <T> Constructor<T> getConstructorIfAvailable(Class<T> clazz, Class<?>... paramTypes) {
-        if(clazz == null)
-            throw new NullPointerException("Class should not be null");
+        Assert.notNull(clazz, "Class can not be null");
         try {
             return clazz.getConstructor(paramTypes);
         }
