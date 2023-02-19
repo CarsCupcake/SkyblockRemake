@@ -24,13 +24,9 @@ public enum Stats {
     SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance"),
     FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed"),
     SwingRange("swingrange", ' ', ChatColor.GOLD, "Swing Range");
-    @Getter
     private final String dataName;
-    @Getter
     private final char symbol;
-    @Getter
     private final ChatColor color;
-    @Getter
     private final String name;
     Stats(String dataName, char symbol, ChatColor color, String name){
         this.dataName = dataName;
@@ -46,5 +42,21 @@ public enum Stats {
             if(s.getDataName().equals(data))
                 return s;
         throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
+    }
+
+    public String getDataName() {
+        return this.dataName;
+    }
+
+    public char getSymbol() {
+        return this.symbol;
+    }
+
+    public ChatColor getColor() {
+        return this.color;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

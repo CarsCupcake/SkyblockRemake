@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 
@@ -18,6 +19,11 @@ public class GUI {
 
     public GUI(Inventory inventory){
         inv = inventory;
+    }
+    public GUI(GuiTemplate template){
+        this(template.getInventory());
+        for (int slot : template.getSlotActions().keySet())
+            inventoryClickAction.put(slot, template.getSlotActions().get(slot));
     }
     public void showGUI(SkyblockPlayer player){
         this.player = player;

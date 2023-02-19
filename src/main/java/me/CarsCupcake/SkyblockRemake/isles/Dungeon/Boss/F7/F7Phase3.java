@@ -165,8 +165,7 @@ public class F7Phase3 implements Listener {
         move.runTaskTimer(Main.getMain(), 1, 1);
     }
     private static void getGateSchematic(String name, Location l){
-        /*Tools.loadShematic("assets/schematics/dungeon/bossfight/7/Gates/" + name, l);*/
-        Tools.loadShematic(new File(Main.getMain().getDataFolder().toPath() + "/Gates/" + name), l);
+        Tools.loadShematic("assets/schematics/dungeon/bossfight/7/Gates/" + name, l);
 
     }
     public static void regenerate(){

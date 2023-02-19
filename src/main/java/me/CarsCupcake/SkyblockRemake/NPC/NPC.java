@@ -39,7 +39,7 @@ import net.minecraft.server.network.PlayerConnection;
 
 public class NPC {
 	public static Map<Integer, EntityPlayer> NPCPacket = new HashMap<>();
-	private static List<EntityPlayer> NPC = new ArrayList<>();
+	private static final List<EntityPlayer> NPC = new ArrayList<>();
 
 	
 	public static void createNPC(Player player, String skin) {

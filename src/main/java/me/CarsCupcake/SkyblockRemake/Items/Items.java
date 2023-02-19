@@ -419,7 +419,7 @@ public static HashMap<String, ItemManager> SkyblockItems = new HashMap<>();
 
 		new BlazeSlayerItems();
 		ferocity500();
-
+		new MaddoxBatphone();
 	}
 
 	public static void raygun() {

@@ -223,34 +223,6 @@ public class Tools {
             return new File(destinationFile, sourceFile.getName());
         }
     }
-
-
-    public static void copyAllAssets(){
-        /*try {
-            *//*URI uri = Main.class.getResource("/assets/").toURI();
-            Path Path;
-            FileSystem fileSystem = null;
-            if (uri.getScheme().equals("jar")) {
-                if(!hasFileSystem("jar"))
-                    fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap());
-                else
-                    fileSystem = FileSystems.getFileSystem(uri);
-                Path = fileSystem.getPath("/assets/");
-            } else {
-                Path = Paths.get(uri);
-            }*//*
-
-            String extra = "/assets/";
-
-            File file = copyFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation()
-                    .toURI()), Main.getMain().getAssets());
-            System.out.println(file.toPath());
-            copyDirectoryCompatibityMode(new File(file, "/assets/"), Main.getMain().getAssets());
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }*/
-    }
     public static void loadShematic(String resourcePath, Location base){
         InputStream stream = Main.getMain().getResource(resourcePath);
         try {
