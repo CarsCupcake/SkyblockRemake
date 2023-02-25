@@ -24,6 +24,7 @@ public class GUI {
         this(template.getInventory());
         for (int slot : template.getSlotActions().keySet())
             inventoryClickAction.put(slot, template.getSlotActions().get(slot));
+        isCanceled = template.isCanceled();
     }
     public void showGUI(SkyblockPlayer player){
         this.player = player;

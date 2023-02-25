@@ -69,7 +69,7 @@ public abstract class BeaconThrower extends Slayer {
         private BukkitRunnable runner;
         private Block block;
         private Material beforeType;
-        private ArmorStand stand;
+        private final ArmorStand stand;
         private YangGlyph(BeaconThrower thrower, SkyblockPlayer player){
             this.entity = thrower;
             this.player = player;

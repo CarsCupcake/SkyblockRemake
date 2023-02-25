@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1;
 import java.util.HashMap;
 import java.util.Random;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.ArmorStand;
@@ -17,7 +18,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public class BlazeSlayerT1 extends SkyblockEntity{
+public class BlazeSlayerT1 extends Slayer {
 
 	
 	private int health = 2500000;
@@ -40,6 +41,15 @@ public class BlazeSlayerT1 extends SkyblockEntity{
 	private TyphoesT1 typhoes;
 	
 	private BukkitRunnable aoeRunner;
+
+	public BlazeSlayerT1(SkyblockPlayer player) {
+		super(player);
+	}
+	@Override
+	public void setHealth(int i) {
+		health = i;
+	}
+
 	@Override
 	public int getMaxHealth() {
 		return 2500000;
@@ -54,6 +64,8 @@ public class BlazeSlayerT1 extends SkyblockEntity{
 	public LivingEntity getEntity() {
 		return entity;
 	}
+
+
 
 	@Override
 	public int getDamage() {

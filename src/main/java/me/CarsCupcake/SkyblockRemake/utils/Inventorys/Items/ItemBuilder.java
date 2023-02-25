@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
@@ -47,6 +48,18 @@ public class ItemBuilder {
     public ItemBuilder addAllLore(List<String> lore){
         for(String l : lore)
             addLoreRow(l);
+        return this;
+    }
+
+    public ItemBuilder addAllLore(String... lore){
+        for(String l : lore)
+            addLoreRow(l);
+        return this;
+    }
+
+    public ItemBuilder addAllLore(ChatColor base, String... lore){
+        for(String l : lore)
+            addLoreRow(base + l);
         return this;
     }
 

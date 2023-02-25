@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
@@ -22,7 +23,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Random;
 
-public class BlazeSlayerT2 extends SkyblockEntity implements FinalDamageDesider, FirePillar.PillarThrower {
+public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePillar.PillarThrower {
 
 	
 	private int health = 10000000;
@@ -49,6 +50,13 @@ public class BlazeSlayerT2 extends SkyblockEntity implements FinalDamageDesider,
 	private BukkitRunnable aoeRunner;
 	private HellionShield shield = HellionShield.Ashen;
 	private int hits = 8;
+	public BlazeSlayerT2(SkyblockPlayer player) {
+		super(player);
+	}
+	@Override
+	public void setHealth(int i) {
+		health = i;
+	}
 	@Override
 	public int getMaxHealth() {
 		return 10000000;

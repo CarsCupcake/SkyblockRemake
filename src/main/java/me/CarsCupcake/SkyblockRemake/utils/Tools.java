@@ -678,6 +678,13 @@ public class Tools {
         return fin;
     }
 
+    /**
+     *
+     * @param ran1 lower range is out of range!
+     * @param ran2 higher range is out of range!
+     * @param number the number you want to compare
+     * @return if its in range
+     */
     public static boolean isInRange(double ran1, double ran2, double number) {
         if(ran1 > number && number > ran2) {
             return true;
