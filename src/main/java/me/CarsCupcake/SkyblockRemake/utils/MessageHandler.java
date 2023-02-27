@@ -3,8 +3,6 @@ package me.CarsCupcake.SkyblockRemake.utils;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +26,9 @@ public class MessageHandler implements PluginMessageListener {
 
             if(s.startsWith("time:")){
                 Time.getInstance().deserialize(s.split(":")[1]);
+            }
+            if(s.startsWith("season:")){
+                Time.getInstance().setSeason(Integer.parseInt(s.split(":")[1]));
             }
             if(s.equals("askTime") && Main.getMain().getConfig().getBoolean("bungeeCordTime", false)) {
                 sendMessage("registerTimer");
