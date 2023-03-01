@@ -5,10 +5,11 @@ import java.util.HashMap;
 
 
 import io.netty.channel.ChannelPromise;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
-import net.minecraft.network.protocol.game.PacketPlayInUseItem;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -27,7 +28,7 @@ public class PacketReader {
 
 	private final Player player;
 	private int count = 0;
-	private static HashMap<Player, PacketReader> readers= new HashMap<>();
+	private static final HashMap<Player, PacketReader> readers= new HashMap<>();
 	
 	public PacketReader(Player player) {
 		this.player = player;
@@ -54,7 +55,7 @@ public class PacketReader {
 				}
 
 
-				if(packet instanceof PacketPlayInBlockDig) {
+				if(packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().getType() != ServerType.PrivateIsle) {
 					SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig)packet,player);
 				}
 				if(packet instanceof PacketPlayInUseEntity) {
@@ -93,7 +94,7 @@ public class PacketReader {
 		if(count == 4) {
 
 			count = 0;
-			int entityID = (int) getValue(packetPlayInUseEntity, "a");
+			int entityID = (int) getValue(packetPlayInUseEntity);
 			//call event
 			if(!NPC.NPCPacket.containsKey(entityID))
 				return;
@@ -109,11 +110,11 @@ public class PacketReader {
 			
 		}
 	}
-	private Object getValue(Object instance, String name) {
+	private Object getValue(Object instance) {
 		Object result = null;
 		try {
 			
-			Field field = instance.getClass().getDeclaredField(name);
+			Field field = instance.getClass().getDeclaredField("a");
 			field.setAccessible(true);
 			
 			result = field.get(instance);

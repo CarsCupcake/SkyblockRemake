@@ -2,7 +2,8 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 
 
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIslandManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class testobjectCMD implements CommandExecutor{
 				sender.sendMessage("Du kannst das net");
 				return true;
 			}
-			F7Phase3.regenerate();
+			PrivateIslandManager.createNewIsle(SkyblockPlayer.getSkyblockPlayer((Player) sender));
 
 
 			return true;

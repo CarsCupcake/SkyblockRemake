@@ -318,6 +318,8 @@ Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class
 		}
 	@EventHandler
 	public void BlockBreak(BlockBreakEvent event) {
+		if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+			return;
 		
 		if(Main.getMain().getConfig().getBoolean("StatSystem") == true)
 		event.setCancelled(true);
@@ -446,6 +448,9 @@ public static int dropAmount(int minigFortune, int amount) {
 }
 	@EventHandler
 	public void BlockPlace(BlockPlaceEvent event) {
+		if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+			return;
+
 		if(Main.getMain().getConfig().getBoolean("StatSystem") == true) 
 			event.setCancelled(true);
 		
