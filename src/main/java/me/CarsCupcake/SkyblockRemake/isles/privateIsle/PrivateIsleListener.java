@@ -7,10 +7,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PrivateIsleListener implements Listener {
-    @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        PrivateIslandManager.addToIsle(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-    }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event){

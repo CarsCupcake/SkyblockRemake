@@ -21,6 +21,7 @@ import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIslandManager;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -180,7 +181,8 @@ public class SkyblockRemakeEvents implements Listener{
 			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -8.5,69.5,-0.5,0, 0));
 		if(SkyblockServer.getServer().getType() == ServerType.F6)
 			player.teleport(new Location(Bukkit.getServer().getWorld("world"), -200.5,83.5,-231.5,0, 0));
-		
+		if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+			PrivateIslandManager.addToIsle(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 		
 		
 		
@@ -676,28 +678,30 @@ public static int dropAmount(int minigFortune, int amount) {
 		
 		Main.deathPersons.remove(event.getPlayer());
 
-		if(event.getPlayer().getServer().getPort() == 25565)
+		if(SkyblockServer.getServer().getType() == ServerType.Hub)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -2.5, 70, -69.5,180, 0));
-		if(event.getPlayer().getServer().getPort() == 25564 || !Main.isLocalHost)
+		if(SkyblockServer.getServer().getType() == ServerType.DwarvenMines || !Main.isLocalHost)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -48.5, 200, -121.5,270, 0));
 
-		if(event.getPlayer().getServer().getPort() == 25570)
+		if(SkyblockServer.getServer().getType() == ServerType.DungeonHub)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -29.5, 121, 0.5,90, 0));
 
 
 		//Crimson Isle
-		if(event.getPlayer().getServer().getPort() == 25568)
+		if(SkyblockServer.getServer().getType() == ServerType.CrimsonIsle)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world_nether"), -360.5, 80, -426.5,180, 0));
 		//The Instance
-		if(event.getPlayer().getServer().getPort() == 25569)
+		if(SkyblockServer.getServer().getType() == ServerType.TheInstance)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -101.5, 41, -185.5,0, 0));
-		if(event.getPlayer().getServer().getPort() == 25566)
+		if(SkyblockServer.getServer().getType() == ServerType.DungeonHub)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("dungeon"), 0,0,0,0, 0));
 		//F1 Bossroom
-		if(event.getPlayer().getServer().getPort() == 25567)
+		if(SkyblockServer.getServer().getType() == ServerType.F1)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -42.5,71.5,42.5,180, 0));
 		if(SkyblockServer.getServer().getType() == ServerType.F6)
 			event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -8.5,69.5,-0.5,0, 0));
+		if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+			event.setRespawnLocation(PrivateIslandManager.baseLocations.get(player));
 
 		Main.updatebar(player);
 	}
