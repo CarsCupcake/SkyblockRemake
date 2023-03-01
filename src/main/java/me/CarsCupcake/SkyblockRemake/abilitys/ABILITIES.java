@@ -36,6 +36,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.BlazeSlayerListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.TwilightDaggerHit;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsleListener;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,6 +68,8 @@ public class ABILITIES implements Listener{
         registerEvent(new CollectHandler());
         registerEvent(new ABILITIES());
         registerEvent(new KatanaDamagingAbilitys());
+        if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+            registerEvent(new PrivateIsleListener());
         registerEvent(new Attribute() {
             @Override
             public String name() {

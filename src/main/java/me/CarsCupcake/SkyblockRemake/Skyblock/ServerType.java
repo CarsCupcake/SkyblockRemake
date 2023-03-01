@@ -13,7 +13,9 @@ public enum ServerType {
     F7("f7", 25567),
     F6("f6",25572),
     SpidersDen("spidersden",25573),
-    End("EndIsle", 25571);
+    End("EndIsle", 25571),
+    //Standart Loc = 7.5, 100, 7.5
+    PrivateIsle("private", 255574);
     public final String s;
     public final int ip;
     ServerType(String s, int i){

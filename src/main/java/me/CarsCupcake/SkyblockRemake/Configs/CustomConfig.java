@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.Configs;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class CustomConfig {
-
     private final File file;
     private  FileConfiguration customFile;
 
