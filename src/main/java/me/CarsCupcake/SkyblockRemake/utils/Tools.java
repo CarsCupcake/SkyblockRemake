@@ -26,6 +26,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -349,6 +350,22 @@ public class Tools {
         }
         return lootTable.keySet().iterator().next();
     }
+
+    /**
+     * Generates items from the lootabel
+     * @param lootTable Loot Table for the loot double is not allowed to be higher than 1
+     * @return the items from the randomization
+     * @param <T> is the type of the random item
+     */
+    public static <T> List<T> generateItems(HashMap<T, Double> lootTable){
+        List<T> result = new ArrayList<>();
+        for (T t : lootTable.keySet()){
+            if(new Random().nextDouble() <= lootTable.get(t))
+                result.add(t);
+        }
+        return result;
+    }
+
     public static double getFallSpeedFromTimeElapsed(int tick){
         double part1 = 392d/5d;
         double part2 = Math.pow(98d/100d, tick) -1;
@@ -761,5 +778,18 @@ public class Tools {
     }
     public static Location getAsLocation(Block block){
         return block.getLocation().add(0.5, 0, 0.5);
+    }
+    public static class SmalerLargerEqualsNumber implements Comparator<Double>{
+        @Override
+        public int compare(Double o1, Double o2) {
+            return (o1 < o2) ? -1 : (o1 == o2) ? 0 : 1;
+        }
+    }
+    public static class SmalerLargerEqualsNumberBundle implements Comparator<Bundle<Integer, ?>>{
+
+        @Override
+        public int compare(Bundle<Integer, ?> o1, Bundle<Integer, ?> o2) {
+            return (o1.getFirst() < o2.getFirst()) ? -1 : (o1.getFirst() == o2.getFirst()) ? 0 : 1;
+        }
     }
 }

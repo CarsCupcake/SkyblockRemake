@@ -75,4 +75,19 @@ public class Assert {
         for (Object o : objects)
             notNull(o, message);
     }
+    public static void isLarger(double base, double test){
+        isLarger(base, test, "[Assertion failed] - the value " + test + " has to be larger than " + base);
+    }
+    public static void isLarger(double base, double test, String message){
+        if(test <= base)
+            throw new IllegalStateException(message);
+    }
+
+    public static void isSmaller(double base, double test){
+        isSmaller(base, test, "[Assertion failed] - the value " + test + " has to be smaller than " + base);
+    }
+    public static void isSmaller(double base, double test, String message){
+        if(test >= base)
+            throw new IllegalStateException(message);
+    }
 }

@@ -23,7 +23,7 @@ public class CustomConfig {
         init();
     }
     public CustomConfig(String name, boolean isInDataPath){
-        if(isInDataPath)
+        if(!isInDataPath)
             file = new File(Main.getMain().getDataFolder(), name + ".yml");
         else
         {
@@ -35,6 +35,14 @@ public class CustomConfig {
     }
     public CustomConfig(SkyblockPlayer player, String name){
         this(new File(Main.getMain().config.getString("SkyblockDataPath") + "\\playerData\\" + player.getUniqueId(), name + ".yml"));
+    }
+    public CustomConfig(SkyblockPlayer player, String name, boolean isInDataPath){
+        if(isInDataPath){
+            file = new File(Main.getMain().config.getString("SkyblockDataPath") + "\\playerData\\" + player.getUniqueId(), name + ".yml");
+        }else {
+            file = new File(Main.getMain().getDataFolder().getPath() + "\\playerData\\" + player.getUniqueId(), name + ".yml");
+        }
+        init();
     }
     private void init(){
         setup();
