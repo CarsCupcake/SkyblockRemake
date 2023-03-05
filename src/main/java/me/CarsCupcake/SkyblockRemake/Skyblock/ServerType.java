@@ -42,4 +42,7 @@ public enum ServerType {
         return type;
     }
 
+    public static ServerType getActiveType(){
+        return SkyblockServer.getServer().getType();
+    }
 }

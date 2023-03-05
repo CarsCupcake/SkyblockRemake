@@ -1,10 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.isles.privateIsle;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,10 +18,13 @@ import java.util.UUID;
 public class PrivateIsle {
     public static final HashMap<SkyblockPlayer, PrivateIsle> isles = new HashMap<>();
     public final HashMap<UUID, Minion> minions = new HashMap<>();
+    @Getter
+    @Setter
     private int maxMinions = 5;
     private final SkyblockPlayer player;
 
     public PrivateIsle(SkyblockPlayer player) {
+        System.out.println("Player isle addition of " + player.getName());
         this.player = player;
         isles.put(player, this);
         CustomConfig config = new CustomConfig(player, "minions", false);
@@ -52,10 +58,16 @@ public class PrivateIsle {
         return true;
     }
 
+    public void pickupMinion(Minion minion){
+        Assert.isTrue(minions.containsValue(minion));
+        minion.remove(MinionRemoveReason.PICKUP_MINION);
+        minions.remove(minion.getId());
+    }
+
     public void remove() {
-        isles.remove(player);
         for (Minion minion : minions.values()) {
             minion.remove(MinionRemoveReason.QUIT);
         }
     }
+
 }

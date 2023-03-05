@@ -4,45 +4,46 @@ package me.CarsCupcake.SkyblockRemake.Items;
 
 public enum ItemType {
 
-Helmet(1),
-Chestplate(2),
-Leggings(3),
-Boots(4),
-Sword(5),
-Bow(6),
-Non(7),
-EnchantBook(8),
-PotatoBook(9),
-Recom(10),
-Pickaxe(11),
-Drill(12),
-Rune(13),
-Gauntlet(14),
-Pet(15),
-Gemstone(16),
-FuelTank(17),
-DrillEngine(18),
-UpgradeModule(19),
-DrillFuel(20),
-Accessory(22),
-Necklace(23),
-Cloak(24),
-Belt(25),
-Gloves(26),
-Bracelet(27),
-	PowerStone(28),
-	Deployable(29),
-	FishingRod(30),
-	Axe(31),
-	Wand(32),
-	Longsword(32);
+Helmet(),
+Chestplate(),
+Leggings(),
+Boots(),
+Sword(),
+Bow(),
+Non(),
+EnchantBook(),
+PotatoBook(),
+Recom(),
+Pickaxe(),
+Drill(),
+Rune(),
+Gauntlet(),
+Pet(),
+Gemstone(),
+FuelTank(),
+DrillEngine(),
+UpgradeModule(),
+DrillFuel(),
+Accessory(),
+Necklace(),
+Cloak(),
+Belt(),
+Gloves(),
+Bracelet(),
+	PowerStone(),
+	Deployable(),
+	FishingRod(),
+	Axe(),
+	Wand(),
+	Longsword(),
+	Minion();
 
 
 
 
 
 
-ItemType(int i) {
+ItemType() {
 }
 public String toString() {
 	return switch (this) {

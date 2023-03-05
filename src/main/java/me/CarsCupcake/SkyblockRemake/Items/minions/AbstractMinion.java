@@ -8,8 +8,13 @@ import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
+import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventorys.TemplateItems;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.EquipmentSlot;
@@ -36,6 +41,7 @@ public abstract class AbstractMinion implements Minion {
     protected long timeBetweenActions;
     protected BukkitRunnable breakingRunnable;
     protected boolean isFull;
+    protected boolean noSpace;
     protected ArmorStand message;
 
     /**
@@ -58,6 +64,7 @@ public abstract class AbstractMinion implements Minion {
         timeBetweenActions = base.timeBetweenActions()[level - 1];
         loadInventory();
         placeMinion();
+        checkHasSpace();
         startWorking();
     }
 
@@ -70,6 +77,9 @@ public abstract class AbstractMinion implements Minion {
             HashMap<EquipmentSlot, ItemStack> equipment = base.getEquipment();
             for (EquipmentSlot slot : equipment.keySet())
                 s.getEquipment().setItem(slot, equipment.get(slot));
+            s.getEquipment().setHelmet(Tools.CustomHeadTexture(base.getHeadStrings()[level - 1]));
+            s.setBasePlate(false);
+            s.setArms(true);
         });
     }
 
@@ -77,8 +87,7 @@ public abstract class AbstractMinion implements Minion {
         inventory.clear();
         CustomConfig config = new CustomConfig(player, "minions", false);
         ConfigurationSection section = config.get().getConfigurationSection(minionId + ".items");
-        if (section == null)
-            return;
+        if (section == null) return;
         ArrayList<Bundle<Integer, ItemStack>> values = new ArrayList<>();
         for (String s : section.getKeys(false)) {
             ConfigurationSection ss = section.getConfigurationSection(s);
@@ -90,17 +99,23 @@ public abstract class AbstractMinion implements Minion {
         boolean oneItemStackHasSpace = false;
         for (Bundle<Integer, ItemStack> b : values) {
             inventory.add(b.getLast());
-            if (b.getLast().getAmount() < b.getLast().getMaxStackSize())
-                oneItemStackHasSpace = true;
+            if (b.getLast().getAmount() < b.getLast().getMaxStackSize()) oneItemStackHasSpace = true;
         }
         isFull = inventory.size() == inventorySpace && !oneItemStackHasSpace;
-        if(isFull)
+        if (isFull) {
             setFull();
+            return;
+        }
+        for (int i = 0; i < MinionCalculator.getSteps(config.get().getLong(minionId + ".lastDate", new Date().getTime()), timeBetweenActions); i++) {
+            generateLoot();
+            if (isFull) return;
+        }
     }
 
     public void saveMinion() {
         CustomConfig config = new CustomConfig(player, "minions", false);
         config.get().set(minionId, null);
+        config.get().set(minionId + ".lastDate", new Date().getTime());
         config.get().set(minionId + ".id", base.id() + "-" + level);
         config.get().set(minionId + ".location.x", location.getX());
         config.get().set(minionId + ".location.y", location.getY());
@@ -139,6 +154,13 @@ public abstract class AbstractMinion implements Minion {
      */
     abstract boolean isMaxGenerated();
 
+    /**
+     * check for block space
+     *
+     * @return how many blocks are able to be set or the right type
+     */
+    abstract int settableSpace();
+
     public void generateLoot() {
         for (Bundle<ItemManager, Integer> b : Tools.generateItems(base.drops())) {
             if (!addItemToInventory(b.getFirst(), b.getLast())) {
@@ -156,6 +178,15 @@ public abstract class AbstractMinion implements Minion {
         setMinionMessage("§c/!\\ Minion is full!", -1);
     }
 
+    public void setNoSpace() {
+        noSpace = true;
+        try {
+            breakingRunnable.cancel();
+        } catch (Exception ignored) {
+        }
+        setMinionMessage("§c/!\\ Minion has no space!", -1);
+    }
+
     /**
      * adds an item to the inventory
      *
@@ -167,8 +198,7 @@ public abstract class AbstractMinion implements Minion {
         Assert.isLarger(0, amount);
         Assert.isSmaller(item.material.getMaxStackSize() + 1, amount);
         for (ItemStack s : inventory) {
-            if (s.getMaxStackSize() == s.getAmount())
-                continue;
+            if (s.getMaxStackSize() == s.getAmount()) continue;
             if (ItemHandler.getPDC("id", s, PersistentDataType.STRING).equals(item.itemID)) {
                 if (amount + s.getAmount() > s.getMaxStackSize()) {
                     amount -= (s.getMaxStackSize() - s.getAmount());
@@ -179,8 +209,7 @@ public abstract class AbstractMinion implements Minion {
                 }
             }
         }
-        if (amount <= 0)
-            return true;
+        if (amount <= 0) return true;
 
         if (inventory.size() < inventorySpace) {
             ItemStack i = item.createNewItemStack();
@@ -197,7 +226,16 @@ public abstract class AbstractMinion implements Minion {
         stand.remove();
         if (removeReason == MinionRemoveReason.QUIT) {
             saveMinion();
-        } else removeMinionFromFile();
+        } else {
+            if (removeReason == MinionRemoveReason.PICKUP_MINION) {
+                for (ItemStack item : inventory)
+                    player.addItem(item);
+                inventory.clear();
+                player.addItem(Items.SkyblockItems.get(base.id() + "_GENERATOR_" + level));
+            }
+
+            removeMinionFromFile();
+        }
     }
 
     public void setLevel(int i) {
@@ -208,21 +246,28 @@ public abstract class AbstractMinion implements Minion {
         startWorking();
     }
 
+    public void checkHasSpace() {
+        if (settableSpace() > 0) {
+            noSpace = false;
+            if (breakingRunnable == null || breakingRunnable.isCancelled()) startWorking();
+        } else setNoSpace();
+    }
+
+
     @Override
     public void startWorking() {
-        if (isFull)
-            return;
+        if (isFull) return;
+        if (noSpace) return;
 
         if (message != null) {
             message.remove();
             message = null;
         }
 
-        if (breakingRunnable != null && !breakingRunnable.isCancelled())
-            try {
-                breakingRunnable.cancel();
-            } catch (Exception ignored) {
-            }
+        if (breakingRunnable != null && !breakingRunnable.isCancelled()) try {
+            breakingRunnable.cancel();
+        } catch (Exception ignored) {
+        }
         breakingRunnable = new BukkitRunnable() {
             int phase = (isMaxGenerated()) ? 0 : 1;
 
@@ -232,23 +277,71 @@ public abstract class AbstractMinion implements Minion {
                     startGetAnimation();
                     phase = 1;
                 } else {
-                    if (startGenerateAnimation())
-                        phase = 0;
+                    if (startGenerateAnimation()) phase = 0;
                 }
             }
         };
         breakingRunnable.runTaskTimer(Main.getMain(), timeBetweenActions, timeBetweenActions);
     }
 
+    @Override
+    public void showInventory() {
+        InventoryBuilder builder = new InventoryBuilder(6, base.name() + " " + Tools.intToRoman(level));
+        builder.fill(TemplateItems.EmptySlot.getItem());
+        builder.fill(new ItemStack(Material.AIR), 21, 25).fill(new ItemStack(Material.AIR), 30, 34).fill(new ItemStack(Material.AIR), 39, 43);
+        List<Integer> slots = new ArrayList<>(List.of(21, 22, 23));
+        if (level < 4)
+            builder.setItems(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName("§eStorage unlocks at tier IV").build(), 24, 25, 30);
+        else slots.addAll(List.of(24, 25, 30));
+        if (level < 6)
+            builder.setItems(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName("§eStorage unlocks at tier VI").build(), 31, 32, 33);
+        else slots.addAll(List.of(31, 32, 33));
+        if (level < 8)
+            builder.setItems(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName("§eStorage unlocks at tier VIII").build(), 34, 39, 40);
+        else slots.addAll(List.of(34, 39, 40));
+        if (level < 10)
+            builder.setItems(new ItemBuilder(Material.WHITE_STAINED_GLASS_PANE).setName("§eStorage unlocks at tier X").build(), 41, 42, 43);
+        else slots.addAll(List.of(41, 42, 43));
+        int i = 0;
+        ArrayList<Integer> usedSlots = new ArrayList<>();
+        for (ItemStack item : inventory) {
+            builder.setItems(item, slots.get(i));
+            usedSlots.add(slots.get(i));
+            i++;
+        }
+        builder.setItem(new ItemBuilder(Material.CHEST).setName("§aCollect All").addLoreRow("§eClick to collect all items!").build(), 48);
+        builder.setItem(new ItemBuilder(Material.BEDROCK).setName("§ePickup Minion!").build(), 53);
+        GUI gui = new GUI(builder.build());
+        gui.setCanceled(true);
+        gui.setGeneralAction((slot, actionType, type) -> {
+            if (actionType != GUI.GUIActions.Click) return;
+
+            if (usedSlots.contains(slot)) {
+                int indexOf = usedSlots.indexOf(slot);
+                ItemStack item = inventory.get(indexOf);
+                inventory.remove(indexOf);
+                player.addItem(item);
+                showInventory();
+            }
+        });
+        gui.inventoryClickAction(48, type -> {
+            for (ItemStack item : inventory)
+                player.addItem(item);
+            inventory.clear();
+            showInventory();
+        });
+        gui.inventoryClickAction(53, type -> player.getPrivateIsle().pickupMinion(this));
+        gui.showGUI(player);
+    }
+
     private BukkitRunnable messageTimer;
 
     @Override
     public void setMinionMessage(String message, long duration) {
-        if (messageTimer != null && !messageTimer.isCancelled())
-            try {
-                messageTimer.cancel();
-            } catch (Exception ignored) {
-            }
+        if (messageTimer != null && !messageTimer.isCancelled()) try {
+            messageTimer.cancel();
+        } catch (Exception ignored) {
+        }
         if (this.message == null)
             this.message = stand.getWorld().spawn(stand.getLocation().clone().add(0, 1, 0), ArmorStand.class, s -> {
                 s.setMarker(true);
@@ -269,6 +362,21 @@ public abstract class AbstractMinion implements Minion {
             messageTimer.runTaskLater(Main.getMain(), duration);
         }
 
+    }
+
+    @Override
+    public ArmorStand getArmorStand() {
+        return stand;
+    }
+
+    @Override
+    public boolean isInventoryFull() {
+        return isFull;
+    }
+
+    @Override
+    public UUID getId() {
+        return UUID.fromString(minionId);
     }
 
     public static int getMinionInventorySpace(int level) {

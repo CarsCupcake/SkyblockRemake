@@ -1,5 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
+import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.FallDownArmorstand;
@@ -46,8 +50,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class ABILITIES implements Listener{
-    public static void init(){
+public class ABILITIES implements Listener {
+    public static void init() {
         registerEvent(new DreadlordHandler());
         registerEvent(new PreAbilityExecution() {
             @Override
@@ -68,8 +72,7 @@ public class ABILITIES implements Listener{
         registerEvent(new CollectHandler());
         registerEvent(new ABILITIES());
         registerEvent(new KatanaDamagingAbilitys());
-        if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
-            registerEvent(new PrivateIsleListener());
+        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) registerEvent(new PrivateIsleListener());
         registerEvent(new Attribute() {
             @Override
             public String name() {
@@ -103,7 +106,7 @@ public class ABILITIES implements Listener{
         });
         registerEvent(new SwingRangeStat());
         registerEvent(new TwilightDaggerHit.DaggerHit());
-        if(SkyblockServer.getServer().getType() == ServerType.F7){
+        if (SkyblockServer.getServer().getType() == ServerType.F7) {
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
             registerEvent(new LightsTerminal(null, -1));
@@ -111,44 +114,54 @@ public class ABILITIES implements Listener{
             registerEvent(new ArrowPointing(null, -1));
             registerEvent(new FallDownArmorstand(null, null));
         }
-        Attribute.registerAttribute(new ManaPool(null ,0, null));
-        Attribute.registerAttribute(new MagicFind(null ,0, null));
+        Attribute.registerAttribute(new ManaPool(null, 0, null));
+        Attribute.registerAttribute(new MagicFind(null, 0, null));
         Effect.init();
         new PotionItems();
         registerEvent(new PotionListener());
         registerEvent(new BlazeSlayerListener());
         registerEvent(new EndermanListener());
+        registerEvent(new BlockPlaceAbility.Listener());
+        registerEvent(new MinionListener());
+
+        //Minions
+        IMinion.registerMinion(new CobblestoneMinion());
+        IMinion.registerMinion(new ZombieMinion());
     }
-    public static void disable(){
+
+    public static void disable() {
         Totem.stopAll();
     }
-    private static void registerEvent(Listener listener){
+
+    private static void registerEvent(Listener listener) {
         try {
             Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
     }
+
     @EventHandler
-    public void disable(PluginDisableEvent event){
-        if(event.getPlugin().equals(Main.getMain())) {
+    public void disable(PluginDisableEvent event) {
+        if (event.getPlugin().equals(Main.getMain())) {
             MiningBlock.getBlocks().forEach(me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningBlock::reset);
             TitanumHandler.getHandlers().values().forEach(TitanumHandler::reset);
         }
         Main.petstand.values().forEach(PetFollowRunner::remove);
     }
+
     @EventHandler
-    public void enable(PluginEnableEvent event){
+    public void enable(PluginEnableEvent event) {
         new BukkitRunnable() {
             @Override
             public void run() {
                 TitanumHandler.getHandlers().values().forEach(TitanumHandler::tick);
             }
         }.runTaskTimer(Main.getMain(), 20, 20);
-        if(event.getPlugin().equals(Main.getMain())) {
+        if (event.getPlugin().equals(Main.getMain())) {
             MiningSys.getRegisteredBlocks().put(Material.STONE, Stone.class);
             MiningSys.getRegisteredBlocks().put(Material.COBBLESTONE, Cobblestone.class);
-            if(SkyblockServer.getServer().getType() == ServerType.End)
+            if (SkyblockServer.getServer().getType() == ServerType.End)
                 MiningSys.getRegisteredBlocks().put(Material.END_STONE, EndStone.class);
 
             MiningSys.getRegisteredBlocks().put(Material.CYAN_TERRACOTTA, MithrilGrey.class);

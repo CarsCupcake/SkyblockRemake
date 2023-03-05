@@ -2,6 +2,9 @@ package me.CarsCupcake.SkyblockRemake.Items.minions;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
+
+import java.util.UUID;
 
 /**
  * Basic methods that a minion has to provide
@@ -35,9 +38,25 @@ public interface Minion {
      */
     void setMinionMessage(String message, long duration);
 
-    static Minion getMinion(IMinion base, int level,  Location location, String minionid , SkyblockPlayer player){
-        if(base instanceof AbstractMiningMinion miningMinion)
+    /**
+     * Show the inventory of the minion
+     */
+    void showInventory();
+
+    /**
+     * Gets the representive stand
+     *
+     * @return the armor stand
+     */
+    ArmorStand getArmorStand();
+
+    UUID getId();
+
+    static Minion getMinion(IMinion base, int level, Location location, String minionid, SkyblockPlayer player) {
+        if (base instanceof AbstractMiningMinion miningMinion)
             return new MiningMinion(level, miningMinion, location, minionid, player);
+        if (base instanceof AbstractCombatMinion combatMinion)
+            return new CombatMinion(level, combatMinion, location, minionid, player);
         return null;
     }
 }

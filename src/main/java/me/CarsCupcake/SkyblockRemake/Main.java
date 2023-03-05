@@ -43,6 +43,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
@@ -152,6 +153,7 @@ public class Main extends JavaPlugin {
 		config.options().copyDefaults(true);
 		saveConfig();
 		Main = this;
+
 		try{
 			this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
 			this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
@@ -181,9 +183,16 @@ public class Main extends JavaPlugin {
 		bazaarFile = new CustomConfig("bazaarData");
 
 
-
-
-		SkyblockEnchants.register();
+		try {
+			SkyblockEnchants.register();
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		getCommand("fixenchants").setExecutor((commandSender, command, s, strings) -> {
+			SkyblockEnchants.unregister();
+			SkyblockEnchants.register();
+			return false;
+		});
 
 		if (data.getConfig().contains("data"))
 			loadNPC();
@@ -222,19 +231,19 @@ public class Main extends JavaPlugin {
 		Powers.initStones();
 
 		Items.init();
-		itemCMD.createItemInvs();
-		registerReforge.init();
 
+		registerReforge.init();
 		eventRegister();
 		EntityNPC.loadNPC();
 		SkyblockPlayer.init();
 
 		ICollection.init();
 		ABILITIES.init();
+		itemCMD.createItemInvs();
 		if (!Bukkit.getOnlinePlayers().isEmpty())
-			for (Player player : Bukkit.getOnlinePlayers()) {
+			for (Player p : Bukkit.getOnlinePlayers()) {
 
-				new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) player).getHandle());
+				SkyblockPlayer player = new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) p).getHandle());
 				absorbtion.put(player, 0);
 				absorbtionrunntime.put(player, 0);
 				shortbow_cd.put(player, false);
@@ -269,6 +278,7 @@ public class Main extends JavaPlugin {
 				Powers.powers.get("Slender").addObitained(player);
 				Powers.powers.get("Slender").setActive(player);
 
+				new PrivateIsle(player);
 			}
 
 		SkyblockRecipe.init();
@@ -329,6 +339,7 @@ public class Main extends JavaPlugin {
 		getCommand("potion").setExecutor(new PotionCommand());
 		getCommand("ah").setExecutor(new AhCMD());
 		getCommand("bz").setExecutor(new BzCMD());
+
 
 
 		getCommand("kuudra").setExecutor(new startKuudra());
@@ -587,6 +598,12 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			try {
+				PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
+				PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
+			}catch (Exception e){
+				e.printStackTrace();
+			}
 			SkyblockPlayer.getSkyblockPlayer(player).saveCommissionProgress();
 			saveCoins(player);
 			saveBits(player);
@@ -833,7 +850,8 @@ public class Main extends JavaPlugin {
 
 				Bukkit.getOnlinePlayers().forEach(p -> {
 					SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 25, -1, false, false, false));
+					if(ServerType.getActiveType() != ServerType.PrivateIsle)
+						player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 25, -1, false, false, false));
 					player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 30, 255, false, false, false));
 					if (!deathPersons.contains(player)) {
 

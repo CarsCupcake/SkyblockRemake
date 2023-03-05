@@ -16,6 +16,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -186,6 +188,12 @@ public class SkyblockPlayer extends CraftPlayer{
 	public static void init(){
 
 	}
+
+	public PrivateIsle getPrivateIsle(){
+		Assert.isTrue(SkyblockServer.getServer().getType() == ServerType.PrivateIsle);
+		return PrivateIsle.isles.get(this);
+	}
+
 	private void loadInventory(){
 		getInventory().clear();
 		inventory.reload();
