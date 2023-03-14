@@ -1921,7 +1921,7 @@ public class SkyblockRemakeEvents implements Listener {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Ferocity.hit((LivingEntity) e, (int) damage, cccalc <= cc, player);
+                Ferocity.hit((LivingEntity) e, damage, cccalc <= cc, player);
 
                 Main.updateentitystats((LivingEntity) e);
                 if (getEntityHealth((LivingEntity) e) <= 0)
@@ -1971,6 +1971,8 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void inventoryUpdate(InventoryClickEvent event) {
+        if(event.getClickedInventory() == null)
+            return;
         Player player = (Player) event.getWhoClicked();
         if (event.getClickedInventory().getType() != InventoryType.PLAYER || event.getClickedInventory().getType() != InventoryType.CREATIVE)
             return;

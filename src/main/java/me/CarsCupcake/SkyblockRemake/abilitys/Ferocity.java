@@ -79,7 +79,7 @@ public class Ferocity {
 		loc.getWorld().playSound(loc, Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 0.1f, 2f);
 	}
 
-public static void hit(LivingEntity e, int damage, boolean crit, Player player) {
+public static void hit(LivingEntity e, double damage, boolean crit, Player player) {
 	if(e == null)
 		return;
 	particles(e);

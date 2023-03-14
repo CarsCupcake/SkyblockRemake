@@ -62,8 +62,8 @@ public abstract class AbstractMinion implements Minion {
         minionId = minionIdentifier;
         this.player = placer;
         timeBetweenActions = base.timeBetweenActions()[level - 1];
-        loadInventory();
         placeMinion();
+        loadInventory();
         checkHasSpace();
         startWorking();
     }

@@ -31,15 +31,19 @@ public class PrivateIsle {
         ConfigurationSection section = config.get().getConfigurationSection("");
         if (section != null) {
             for (String id : section.getKeys(false)) {
-                String[] args = config.get().getString(id + ".id").split("-");
-                addMinion(IMinion.minions.get(args[0]), Integer.parseInt(args[1]),
-                        new Location(
-                                Bukkit.getWorld("world"),
-                                Double.parseDouble(config.get().getString(id + ".location.x")),
-                                Double.parseDouble(config.get().getString(id + ".location.y")),
-                                Double.parseDouble(config.get().getString(id + ".location.z"))
-                        )
-                        , UUID.fromString(id));
+                try {
+                    String[] args = config.get().getString(id + ".id").split("-");
+                    addMinion(IMinion.minions.get(args[0]), Integer.parseInt(args[1]),
+                            new Location(
+                                    Bukkit.getWorld("world"),
+                                    Double.parseDouble(config.get().getString(id + ".location.x")),
+                                    Double.parseDouble(config.get().getString(id + ".location.y")),
+                                    Double.parseDouble(config.get().getString(id + ".location.z"))
+                            )
+                            , UUID.fromString(id));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
     }

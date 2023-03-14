@@ -27,12 +27,14 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Wand extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean executeAbility(PlayerInteractEvent event) {
-        Spell spell = Spell.spells.get(ItemHandler.getOrDefaultPDC("activespell", event.getItem(), PersistentDataType.STRING, ""));
-        spell.shoot(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+        Spell spell = Spell.spells.get(ItemHandler.getOrDefaultPDC("activespell", player.getItemInHand(), PersistentDataType.STRING, ""));
+        spell.shoot(player);
         return false;
     }
 
@@ -103,7 +105,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
     public static abstract class Spell {
         protected static HashMap<String, Spell> spells = new HashMap<>();
         protected final int MAX_RANGE = 50;
-        protected final double SPEED = 0.4;
+        protected final double SPEED = 1;
         private BukkitRunnable runnable;
 
         public void select(ItemStack item) {
@@ -119,24 +121,23 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
             runnable = new BukkitRunnable() {
                 long i = 0;
                 Location location = shooter.getEyeLocation();
-                final Vector dir = shooter.getLocation().getDirection().multiply(0.4);
+                final Vector dir = shooter.getLocation().getDirection().normalize().multiply(SPEED);
 
                 @Override
                 public void run() {
                     if (i >= steps) {
+                        cancel();
                         remove();
                         return;
                     }
-
                     location = location.add(dir);
-                    List<Entity> entities = location.getWorld().getNearbyEntities(location, 0.5, 0.5, 0.5).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof Player)).toList();
-
                     if (!location.getBlock().isPassable()) {
                         playWallHitEffect(location);
+                        cancel();
                         remove();
                         return;
                     }
-
+                    List<Entity> entities = location.getWorld().getNearbyEntities(location, SPEED, 0.5, SPEED).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof Player)).toList();
                     if (!entities.isEmpty()) {
                         hit((LivingEntity) entities.get(0), shooter, location);
                         remove();

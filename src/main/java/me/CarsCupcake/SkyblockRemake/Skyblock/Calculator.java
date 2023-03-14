@@ -260,7 +260,7 @@ public class Calculator {
                 int result = r.nextInt(high - low) + low;
                 if (ferocity >= result) {
 
-                    Ferocity.hit(e, (int) damage, cccalc <= Main.getPlayerStat(player, Stats.CritChance), player);
+                    Ferocity.hit(e, damage, cccalc <= Main.getPlayerStat(player, Stats.CritChance), player);
                     Main.updateentitystats(e);
                 }
             } else {
