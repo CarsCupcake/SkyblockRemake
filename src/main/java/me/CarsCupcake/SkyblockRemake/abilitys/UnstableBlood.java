@@ -65,9 +65,8 @@ public class UnstableBlood implements FullSetBonus, Listener {
     }
 
     private static ItemManager protectorDragonFragment(){
-        ItemManager manager = new ItemManager("Unstable Dragon Fragment", "UNSTABLE_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
+        return new ItemManager("Unstable Dragon Fragment", "UNSTABLE_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
                 ,"https://textures.minecraft.net/texture/98228c234c3903c512a5a0aa45260e7b567e0e20eefc7d561ccec97b295871af", UUID.fromString("86541f16-3bdf-4d08-871a-dcdf8ba373f5"));
-        return manager;
     }
     private static ItemManager protectorHelmet(){
         ArrayList<String> abilityLore = new ArrayList<>();
@@ -84,8 +83,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("UNSTABLE_DRAGON_HELMET", manager, 1);
@@ -109,8 +107,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("UNSTABLE_DRAGON_CHESTPLATE", manager, 1);
@@ -134,8 +131,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("UNSTABLE_DRAGON_LEGGINGS", manager, 1);
@@ -159,8 +155,7 @@ public class UnstableBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.CritDamage, 15);
         manager.addSlot(new GemstoneSlot(SlotType.Offensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.UnstableBlood, "Unstable Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("UNSTABLE_DRAGON_BOOTS", manager, 1);

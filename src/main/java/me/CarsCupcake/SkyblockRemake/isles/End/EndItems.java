@@ -110,9 +110,10 @@ public class EndItems {
         manager.setNpcSellPrice(100000);
         manager.setDamage(225);
         manager.setStat(Stats.Strength, 100);
+        manager.setMaxStars(5);
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore, "%dmg%", new Bundle<>(12000d, 0.1));
-        manager.setAbility(new DragonsRage(), AbilityType.RightClick);
-        manager.setAbilityLore(lore);
+        manager.addAbility(new DragonsRage(), AbilityType.RightClick, "Dragon Rage", lore, 100, 0);
 
         return manager;
     }
@@ -122,20 +123,20 @@ public class EndItems {
         abilityLore.add("§7All Monsters in front of you");
         abilityLore.add("§7take §a%dmg% §7damage. Hit");
         abilityLore.add("§7monsters take large knockback.");
-        ItemManager manager = new ItemManager("Aspect Of The Dragons", "ASPECT_OF_THE_DRACONIC", ItemType.Sword, null, "Draconic Rage", null, null, 100, 0,0,0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
+        ItemManager manager = new ItemManager("Aspect Of The Draconic", "ASPECT_OF_THE_DRACONIC", ItemType.Sword, null, "Draconic Rage", null, null, 100, 0,0,0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
         manager.setNpcSellPrice(100000);
         manager.setDamage(260);
         manager.setStat(Stats.Strength, 150);
+        manager.setMaxStars(5);
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore, "%dmg%", new Bundle<>(20000d, 0.1));
-        manager.setAbility(new DragonsRage(), AbilityType.RightClick);
-        manager.setAbilityLore(lore);
+        manager.addAbility(new DragonsRage(), AbilityType.RightClick, "Draconic Rage", lore, 100 ,0);
 
         return manager;
     }
     private ItemManager superiorDragonFragment(){
-        ItemManager manager = new ItemManager("Superior Dragon Fragment", "SUPERIOR_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
+        return new ItemManager("Superior Dragon Fragment", "SUPERIOR_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
                 ,"https://textures.minecraft.net/texture/6f89b150be9c4c5249f355f68ea0c4391300a9be1f260d750fc35a1817ad796e", UUID.fromString("86541f16-3bdf-4d08-871a-dcdf8ba373f5"));
-        return manager;
     }
     private ItemManager superiorHelmet(){
         ArrayList<String> abilityLore = new ArrayList<>();
@@ -155,8 +156,7 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_HELMET", manager, 1);
@@ -185,8 +185,7 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_CHESTPLATE", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
@@ -214,8 +213,7 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_LEGGINGS", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
@@ -243,8 +241,7 @@ public class EndItems {
         manager.setStat(Stats.CritDamage, 10);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_BOOTS", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");

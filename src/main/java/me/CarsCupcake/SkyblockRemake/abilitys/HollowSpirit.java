@@ -42,7 +42,7 @@ public class HollowSpirit implements AbilityManager<PlayerInteractEvent> {
         manager.setStat(Stats.Strength, 20);
         manager.setStat(Stats.Inteligence, 120);
         manager.setNpcSellPrice(10000);
-        manager.setAbility(new HollowSpirit(), AbilityType.LeftOrRightClick);
+        manager.addAbility(new HollowSpirit(), AbilityType.LeftOrRightClick, "Spirit", new AbilityLore(abilityLore), 0,0);
         Items.SkyblockItems.put(manager.itemID, manager);
 
     }

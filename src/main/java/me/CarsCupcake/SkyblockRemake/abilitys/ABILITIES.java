@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.BasicSpell;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.FallDownArmorstand;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowPointing;
@@ -152,13 +153,15 @@ public class ABILITIES implements Listener {
 
     @EventHandler
     public void enable(PluginEnableEvent event) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                TitanumHandler.getHandlers().values().forEach(TitanumHandler::tick);
-            }
-        }.runTaskTimer(Main.getMain(), 20, 20);
+
         if (event.getPlugin().equals(Main.getMain())) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    TitanumHandler.getHandlers().values().forEach(TitanumHandler::tick);
+                }
+            }.runTaskTimer(Main.getMain(), 20, 20);
+
             MiningSys.getRegisteredBlocks().put(Material.STONE, Stone.class);
             MiningSys.getRegisteredBlocks().put(Material.COBBLESTONE, Cobblestone.class);
             if (SkyblockServer.getServer().getType() == ServerType.End)
@@ -177,6 +180,11 @@ public class ABILITIES implements Listener {
 
             MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS_PANE, JadeShart.class);
             MiningSys.getRegisteredBlocks().put(Material.LIME_STAINED_GLASS, JadeGem.class);
+
+            //Register Spells
+            Wand.Spell.registerSpells(new BasicSpell());
+
+            Wand.SpellSelect.buildInventorys();
         }
 
     }

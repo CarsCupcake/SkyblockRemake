@@ -58,7 +58,7 @@ public class EndermanSlayerItems {
     }
     public static ItemManager VoidedgeKatana(){
         ItemManager manager = new ItemManager("Voidedge Katana", "VOIDEDGE_KATANA", ItemType.Sword, new ArrayList<>(List.of("§7Deal §a+250% §7damage to Endermen.", "§7Receive §a6% less damage", "§7from Endermen when held."))
-                , "Soulcry", "null", new ArrayList<>(List.of("§7Gain §c+200 ⫽ Ferocity §7against", "§7Endermen for §a4s")), 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.RARE);
+                , "Soulcry", "null",null, 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.RARE);
         manager.setDamage(125);
         manager.setStat(Stats.Strength, 60);
         manager.setStat(Stats.Inteligence, 50);
@@ -66,14 +66,14 @@ public class EndermanSlayerItems {
         manager.getFlags().add(ItemFlag.SPECIAL_MATERIAL_GRABBER);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
-        manager.setAbility(new Soulcry(), AbilityType.RightClick);
+        manager.addAbility(new Soulcry(), AbilityType.RightClick, "Soulcry", new AbilityLore( new ArrayList<>(List.of("§7Gain §c+200 ⫽ Ferocity §7against", "§7Endermen for §a4s"))), 0, 0);
         manager.setMaterialGrabber(new Soulcry());
         return manager;
     }
 
     public static ItemManager VorpalKatana(){
         ItemManager manager = new ItemManager("Vorpal Katana", "VORPAL_KATANA", ItemType.Sword, new ArrayList<>(List.of("§7Deal §a+350% §7damage to Endermen.", "§7Receive §a9% less damage", "§7from Endermen when held."))
-                , "Soulcry", "null", new ArrayList<>(List.of("§7Gain §c+300 ⫽ Ferocity §7against", "§7Endermen for §a4s")), 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.EPIC);
+                , "Soulcry", "null", null, 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.EPIC);
         manager.setDamage(125);
         manager.setStat(Stats.Strength, 80);
         manager.setStat(Stats.Inteligence, 200);
@@ -81,14 +81,14 @@ public class EndermanSlayerItems {
         manager.getFlags().add(ItemFlag.SPECIAL_MATERIAL_GRABBER);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
-        manager.setAbility(new Soulcry(), AbilityType.RightClick);
+        manager.addAbility(new Soulcry(), AbilityType.RightClick, "Soulcry", new AbilityLore(new ArrayList<>(List.of("§7Gain §c+300 ⫽ Ferocity §7against", "§7Endermen for §a4s"))), 0,0);
         manager.setMaterialGrabber(new Soulcry());
         return manager;
     }
 
     public static ItemManager AtomsplitKatana(){
         ItemManager manager = new ItemManager("Atomsplit Katana", "ATOMSPLIT_KATANA", ItemType.Sword, new ArrayList<>(List.of("§7Deal §a+450% §7damage to Endermen.", "§7Receive §a12% less damage", "§7from Endermen when held."))
-                , "Soulcry", "null", new ArrayList<>(List.of("§7Gain §c+400 ⫽ Ferocity §7against", "§7Endermen for §a4s")), 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
+                , "Soulcry", "null", null, 200, 4,0, 0, Material.DIAMOND_SWORD, ItemRarity.LEGENDARY);
         manager.setDamage(245);
         manager.setStat(Stats.Strength, 100);
         manager.setStat(Stats.Inteligence, 300);
@@ -96,7 +96,7 @@ public class EndermanSlayerItems {
         manager.getFlags().add(ItemFlag.SPECIAL_MATERIAL_GRABBER);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
-        manager.setAbility(new Soulcry(), AbilityType.RightClick);
+        manager.addAbility(new Soulcry(), AbilityType.RightClick, "Soulcry", new AbilityLore(new ArrayList<>(List.of("§7Gain §c+400 ⫽ Ferocity §7against", "§7Endermen for §a4s"))), 0 ,0);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         manager.setMaterialGrabber(new Soulcry());
         return manager;

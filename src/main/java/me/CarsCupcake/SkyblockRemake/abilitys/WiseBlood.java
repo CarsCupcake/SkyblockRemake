@@ -82,8 +82,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 125);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("WISE_DRAGON_HELMET", manager, 1);
@@ -106,8 +105,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("WISE_DRAGON_CHESTPLATE", manager, 1);
@@ -130,8 +128,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("WISE_DRAGON_LEGGINGS", manager, 1);
@@ -154,8 +151,7 @@ public class WiseBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Inteligence, 75);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.WiseBlood, "Wise Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("WISE_DRAGON_BOOTS", manager, 1);

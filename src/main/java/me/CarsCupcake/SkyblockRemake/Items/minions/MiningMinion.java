@@ -16,9 +16,10 @@ import org.bukkit.util.EulerAngle;
 
 import java.util.*;
 
-public class MiningMinion extends AbstractMinion{
+public class MiningMinion extends AbstractMinion {
     private final AbstractMiningMinion minion;
-    public MiningMinion(int level, AbstractMiningMinion base, Location location,String minionid ,SkyblockPlayer player) {
+
+    public MiningMinion(int level, AbstractMiningMinion base, Location location, String minionid, SkyblockPlayer player) {
         super(level, base, location, minionid, player);
         minion = base;
     }
@@ -26,7 +27,7 @@ public class MiningMinion extends AbstractMinion{
     @Override
     void startGetAnimation() {
         List<Block> missing = new ArrayList<>(getMinableBlocks());
-        if(missing.isEmpty())
+        if (missing.isEmpty())
             return;
 
         Collections.shuffle(missing);
@@ -42,6 +43,7 @@ public class MiningMinion extends AbstractMinion{
             double rotation = -90;
             int through;
             int i = 0;
+
             @Override
             public void run() {
                 if (stand == null || stand.isDead()) {
@@ -49,15 +51,15 @@ public class MiningMinion extends AbstractMinion{
                     return;
                 }
 
-                if(rotation >= 0){
+                if (rotation >= 0) {
                     rotation = -90;
                     through += 1;
-                    if(through == 4){
+                    if (through == 4) {
                         cancel();
                         target.setType(Material.AIR);
                         generateLoot();
                         PacketPlayOutBlockBreakAnimation animation = new PacketPlayOutBlockBreakAnimation(1, new BlockPosition(target.getX(), target.getY(), target.getZ()), 10);
-                        for (Player p : Bukkit.getOnlinePlayers()){
+                        for (Player p : Bukkit.getOnlinePlayers()) {
                             ((CraftPlayer) p).getHandle().b.sendPacket(animation);
                         }
                         new BukkitRunnable() {
@@ -71,20 +73,20 @@ public class MiningMinion extends AbstractMinion{
                                 l.setYaw(0);
                                 l.setPitch(0);
                                 stand.teleport(l);
-                                stand.setHeadPose(new EulerAngle( 0, 0, 0));
-                                stand.setRightArmPose(new EulerAngle( 0, 0, 0));
+                                stand.setHeadPose(new EulerAngle(0, 0, 0));
+                                stand.setRightArmPose(new EulerAngle(0, 0, 0));
                             }
                         }.runTaskLater(Main.getMain(), 10);
                         return;
                     }
                 }
 
-                rotation += 90d/4d;
-                if(rotation >= 0)
+                rotation += 90d / 4d;
+                if (rotation >= 0)
                     rotation = 0;
-                stand.setRightArmPose(new EulerAngle(Math.toRadians(rotation),0,0));
+                stand.setRightArmPose(new EulerAngle(Math.toRadians(rotation), 0, 0));
                 PacketPlayOutBlockBreakAnimation animation = new PacketPlayOutBlockBreakAnimation(1, new BlockPosition(target.getX(), target.getY(), target.getZ()), getBlockBreakStage(i));
-                for (Player p : Bukkit.getOnlinePlayers()){
+                for (Player p : Bukkit.getOnlinePlayers()) {
                     ((CraftPlayer) p).getHandle().b.sendPacket(animation);
                 }
 
@@ -96,7 +98,7 @@ public class MiningMinion extends AbstractMinion{
     @Override
     boolean startGenerateAnimation() {
         List<Block> missing = new ArrayList<>(getPlacebleBlocks());
-        if(missing.isEmpty())
+        if (missing.isEmpty())
             return true;
 
         Collections.shuffle(missing);
@@ -111,6 +113,7 @@ public class MiningMinion extends AbstractMinion{
         new BukkitRunnable() {
             double rotation = -90;
             int i = 0;
+
             @Override
             public void run() {
                 if (stand == null || stand.isDead()) {
@@ -118,10 +121,10 @@ public class MiningMinion extends AbstractMinion{
                     return;
                 }
 
-                if(rotation >= 0){
-                        cancel();
-                        target.setType(minion.representiveBlock());
-                        generateLoot();
+                if (rotation >= 0) {
+                    cancel();
+                    target.setType(minion.representiveBlock());
+                    generateLoot();
 
                     new BukkitRunnable() {
                         @Override
@@ -134,16 +137,16 @@ public class MiningMinion extends AbstractMinion{
                             l.setYaw(0);
                             l.setPitch(0);
                             stand.teleport(l);
-                            stand.setHeadPose(new EulerAngle( 0, 0, 0));
-                            stand.setRightArmPose(new EulerAngle( 0, 0, 0));
+                            stand.setHeadPose(new EulerAngle(0, 0, 0));
+                            stand.setRightArmPose(new EulerAngle(0, 0, 0));
                         }
                     }.runTaskLater(Main.getMain(), 10);
                     return;
                 }
 
-                rotation += 90d/4d;
+                rotation += 90d / 4d;
 
-                stand.setRightArmPose(new EulerAngle(Math.toRadians(rotation),0,0));
+                stand.setRightArmPose(new EulerAngle(Math.toRadians(rotation), 0, 0));
                 i++;
             }
         }.runTaskTimer(Main.getMain(), 10, 2);
@@ -164,41 +167,41 @@ public class MiningMinion extends AbstractMinion{
     @Override
     int settableSpace() {
         int blocks = 0;
-        for (Block b : getBlocks()){
-            if(b.getType() == Material.AIR)
+        for (Block b : getBlocks()) {
+            if (b.getType() == Material.AIR)
                 continue;
             blocks++;
         }
         return blocks;
     }
 
-    public Set<Block> getBlocks(){
+    public Set<Block> getBlocks() {
         Set<Block> blocks = new HashSet<>();
         for (Block block : Tools.getBlocksBetween(location.clone().add(2, -1, 2).getBlock(), location.clone().subtract(2, 1, 2).getBlock())) {
-            if(block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
+            if (block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
                 continue;
             blocks.add(block);
         }
         return blocks;
     }
 
-    public Set<Block> getMinableBlocks(){
+    public Set<Block> getMinableBlocks() {
         Set<Block> blocks = new HashSet<>();
         for (Block block : Tools.getBlocksBetween(location.clone().add(2, -1, 2).getBlock(), location.clone().subtract(2, 1, 2).getBlock())) {
-            if(block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
+            if (block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
                 continue;
-            if(block.getType() == minion.representiveBlock())
+            if (block.getType() == minion.representiveBlock())
                 blocks.add(block);
         }
         return blocks;
     }
 
-    private Set<Block> getPlacebleBlocks(){
+    private Set<Block> getPlacebleBlocks() {
         Set<Block> blocks = new HashSet<>();
         for (Block block : Tools.getBlocksBetween(location.clone().add(2, -1, 2).getBlock(), location.clone().subtract(2, 1, 2).getBlock())) {
-            if(block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
+            if (block.getX() == location.getBlockX() && block.getY() == location.getBlockY() - 1 && block.getZ() == location.getBlockZ())
                 continue;
-            if(block.getType() == Material.AIR)
+            if (block.getType() == Material.AIR)
                 blocks.add(block);
         }
         return blocks;

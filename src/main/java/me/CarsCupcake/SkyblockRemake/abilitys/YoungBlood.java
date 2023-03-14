@@ -65,9 +65,8 @@ public class YoungBlood implements FullSetBonus, Listener {
     }
 
     private static ItemManager protectorDragonFragment(){
-        ItemManager manager = new ItemManager("Young Dragon Fragment", "YOUNG_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
+        return new ItemManager("Young Dragon Fragment", "YOUNG_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
                 ,"https://textures.minecraft.net/texture/4b5bd6b64e8bd6c58f5cd1e79a5502d4448bafc006d2fe0568f6a0d6b86d449e", UUID.fromString("86541f16-3bdf-4d08-871a-dcdf8ba373f5"));
-        return manager;
     }
     private static ItemManager protectorHelmet(){
         ArrayList<String> abilityLore = new ArrayList<>();
@@ -83,8 +82,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("YOUNG_DRAGON_HELMET", manager, 1);
@@ -108,8 +106,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("YOUNG_DRAGON_CHESTPLATE", manager, 1);
@@ -133,8 +130,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("YOUNG_DRAGON_LEGGINGS", manager, 1);
@@ -158,8 +154,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         manager.setStat(Stats.Speed, 20);
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.YoungBlood, "Young Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("YOUNG_DRAGON_BOOTS", manager, 1);

@@ -8,14 +8,14 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 
 public class GUI {
-    private Inventory inv;
-    private SkyblockPlayer player;
-    private final HashMap<Integer, GUIAction> inventoryClickAction = new HashMap<>();
-    private final HashMap<Integer, GUIAction> playerInventoryClickAction = new HashMap<>();
-    private GUIAction closeAction;
-    private InventoryGUIAction generalAction;
-    private static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
-    private boolean isCanceled = false;
+    protected Inventory inv;
+    protected SkyblockPlayer player;
+    protected final HashMap<Integer, GUIAction> inventoryClickAction = new HashMap<>();
+    protected final HashMap<Integer, GUIAction> playerInventoryClickAction = new HashMap<>();
+    protected GUIAction closeAction;
+    protected InventoryGUIAction generalAction;
+    protected static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
+    protected boolean isCanceled = false;
 
     public GUI(Inventory inventory){
         inv = inventory;

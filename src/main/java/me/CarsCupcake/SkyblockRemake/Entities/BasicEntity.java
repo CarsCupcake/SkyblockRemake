@@ -12,7 +12,7 @@ import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
 
-public class BasicEntity extends SkyblockEntity {
+public class BasicEntity extends SkyblockEntity implements MinionEntity {
     private LivingEntity entity;
     private final int maxHealth;
     private final int damage;
@@ -94,4 +94,23 @@ public class BasicEntity extends SkyblockEntity {
         return 0;
     }
 
+    @Override
+    public SkyblockEntity makeNew() {
+        if(aClass != null)
+            return new BasicEntity(aClass, maxHealth, damage);
+        else
+            return new BasicEntity(entity, maxHealth);
+    }
+
+    @Override
+    public String getId() {
+        if(aClass == null)
+            return "N/A";
+        return aClass + "";
+    }
+
+    @Override
+    public SkyblockEntity getInstance() {
+        return this;
+    }
 }

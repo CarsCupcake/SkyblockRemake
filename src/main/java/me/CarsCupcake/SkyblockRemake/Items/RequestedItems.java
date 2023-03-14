@@ -31,7 +31,7 @@ public class RequestedItems {
         manager.setUnstackeble(true);
         abilityLore = new ArrayList<>();
         abilityLore.add("§7Fueling you missle is very important!");
-        manager.setAbility(new ICBMDeployerAbility(), AbilityType.RightClick);
+        manager.addAbility(new ICBMDeployerAbility(), AbilityType.RightClick, "Nuke", new AbilityLore(abilityLore), 500, 90);
         manager.set2Ability("Fuel", new ICBMDeployerAbility(), AbilityType.LeftClick,abilityLore,0,0 );
         manager.customIntContainer.put("fueling",0 );
         Items.SkyblockItems.put(manager.itemID, manager);
@@ -52,7 +52,7 @@ public class RequestedItems {
         manager.setStat(Stats.CritChance, 30);
         manager.setStat(Stats.CritDamage, 210);
         manager.setStat(Stats.AttackSpeed, -10);
-        manager.setAbility(new BloodForTheBloodGod(), AbilityType.RightClick);
+        manager.addAbility(new BloodForTheBloodGod(), AbilityType.RightClick, "Blood for the blood god", new AbilityLore(abilityLore), 150, 15);
         Items.SkyblockItems.put(manager.itemID, manager);
 
         return manager;

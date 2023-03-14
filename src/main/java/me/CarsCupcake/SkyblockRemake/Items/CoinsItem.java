@@ -5,7 +5,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,14 +33,14 @@ public class CoinsItem implements ItemGenerator{
     }
     public static void init(){
         ItemManager manager = new ItemManager("Coins", "COINS_ITEM", ItemType.Non, null, null, null, null, 0,0,0,0, Material.GOLD_INGOT, ItemRarity.SPECIAL);
-        manager.setAbility(new AbilityManager<PlayerInteractEvent>() {
+        manager.addAbility(new AbilityManager<PlayerInteractEvent>() {
             @Override
             public boolean executeAbility(PlayerInteractEvent event) {
                 new CoinsItem(event.getItem()).add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
                 return false;
             }
 
-        }, AbilityType.LeftOrRightClick);
+        }, AbilityType.LeftOrRightClick, null,0,0);
         Items.SkyblockItems.put(manager.itemID, manager);
 
     }

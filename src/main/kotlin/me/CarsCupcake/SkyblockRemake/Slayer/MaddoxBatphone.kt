@@ -7,10 +7,10 @@ class MaddoxBatphone{
     init {
         val manager = ItemManager("Maddox Batphone", "AATROX_BATPHONE", ItemType.Non, ItemRarity.UNCOMMON, "http://textures.minecraft.net/texture/9336d7cc95cbf6689f5e8c954294ec8d1efc494a4031325bb427bc81d56a484d")
         manager.isUnstackeble = true
-        manager.setAbility(
-            MaddoxBatPhoneAbility(), AbilityType.RightClick, "Whassup?", 0, 0
+        manager.addAbility(
+            MaddoxBatPhoneAbility(), AbilityType.RightClick, "Whassup?",
+            AbilityLore(arrayListOf("§7Lets you call §7Maddox§7, when", "§7he's not busy.")), 0, 0
         )
-        manager.abilityLore = arrayListOf("§7Lets you call §7Maddox§7, when", "§7he's not busy.")
         Items.SkyblockItems[manager.itemID] = manager
     }
 }

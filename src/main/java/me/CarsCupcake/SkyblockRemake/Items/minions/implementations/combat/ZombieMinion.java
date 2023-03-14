@@ -2,10 +2,10 @@ package me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
+import me.CarsCupcake.SkyblockRemake.Entities.MinionEntity;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Items.minions.AbstractCombatMinion;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class ZombieMinion extends AbstractCombatMinion {
     @Override
-    protected SkyblockEntity getEntity() {
+    protected MinionEntity getEntity() {
         return new BasicEntity(Zombie.class, 100, 5);
     }
 

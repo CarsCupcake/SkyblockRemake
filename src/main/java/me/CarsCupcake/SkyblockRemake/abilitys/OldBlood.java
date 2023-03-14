@@ -79,8 +79,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 110);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_HELMET", manager, 1);
@@ -105,8 +104,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 160);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_CHESTPLATE", manager, 1);
@@ -131,8 +129,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 140);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_LEGGINGS", manager, 1);
@@ -157,8 +154,7 @@ public class OldBlood implements FullSetBonus {
         manager.setStat(Stats.Defense, 90);
         manager.addSlot(new GemstoneSlot(SlotType.Defensive));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_BOOTS", manager, 1);

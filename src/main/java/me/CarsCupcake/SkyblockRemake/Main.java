@@ -2806,97 +2806,57 @@ public class Main extends JavaPlugin {
 
 			//Tako was here
 			if(manager.bonus != null) {
-				if(manager.abilityName != null) {lores.add(" ");
-					lores.add(manager.getAbilityHeadline(player));
-				}
-				if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || manager.getAbilityLore() != null) {
+				Ability bonusAbility = manager.getFullSetBonus();
+				if(bonusAbility != null) {
 
-
-
-
-					ArrayList<String> firstAblilityLore;
-					if(manager.getAbilityLore() != null)
-						firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
-					else
-						firstAblilityLore = manager.abilityLore;
-					firstAblilityLore.forEach(str -> {
-						lores.add(str);
-					});
+					if (bonusAbility.getName() != null) {
+						lores.add(" ");
+						lores.add(manager.getAbilityHeadline(player, manager.getFullSetBonusPointer()));
+					}
+					AbilityLore l = bonusAbility.getLore();
+					if (l != null) {
+						l.makeLore(player, item).forEach(str -> {
+							lores.add(str);
+						});
+					}
 				}}
 
 			if(manager.getEquipmentAbility() != null) {
-				if(manager.abilityName != null) {lores.add(" ");
-					lores.add("§6Ability: " + manager.abilityName);
+				Ability equipmentAbility = manager.getEquipmentAbilityData();
+				if(equipmentAbility.getName() != null) {lores.add(" ");
+					lores.add("§6Ability: " + equipmentAbility.getName());
 				}
-				if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || manager.getAbilityLore() != null) {
+				AbilityLore l = equipmentAbility.getLore();
+				if (l != null) {
 
 
 
-					ArrayList<String> firstAblilityLore;
-					if(manager.getAbilityLore() != null)
-						firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
-					else
-						firstAblilityLore = manager.abilityLore;
+					ArrayList<String> firstAblilityLore = l.makeLore(player, item);
 					firstAblilityLore.forEach(str -> {
 						lores.add(str);
 					});
 				}}
+			int i = 0;
+			for (Ability ability : manager.getAbilities()){
+				lores.add(" ");
+				if(ability.getName() != null)
+					lores.add(manager.getAbilityHeadline(player, i));
+				if(ability.getLore() != null)
+					lores.addAll(ability.getLore().makeLore(player, item));
 
-			if(manager.ability != null) {
-				if(manager.abilityName != null) {
-					lores.add(" ");
-					lores.add(manager.getAbilityHeadline(player));
+				if(ability.getManacost() > 0 && !ability.isPersentage()){
+					ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getManacost());
+					Bukkit.getPluginManager().callEvent(event);
+					lores.add("§8Mana Cost §3" + event.getMana());
+				}else if(ability.isPersentage()){
+					ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getPersentage());
+					Bukkit.getPluginManager().callEvent(event);
+					lores.add("§8Mana Cost §3" + event.getMana() + "%");
 				}
-			if ((manager.abilityLore != null && !manager.abilityLore.isEmpty()) || (manager.getAbilityLore() != null)) {
-				ArrayList<String> firstAblilityLore;
-				if(manager.getAbilityLore() != null)
-					firstAblilityLore = manager.getAbilityLore().makeLore(player, item);
-				else
-					firstAblilityLore = manager.abilityLore;
-				firstAblilityLore.forEach(str -> {
-					lores.add(str);
-				});
-			}}
 
-			if (manager.abilityManaCost != 0) {
-				int manastring;
-				if(manager.abilityMana1AsPers)
-					manastring = (int) (manager.abilityManaCost * 100);
-				else
-					manastring =(int) manager.abilityManaCost;
-
-
-				ManaUpdateEvent event = new ManaUpdateEvent(item, manastring);
-				Bukkit.getPluginManager().callEvent(event);
-				lores.add("§8Mana Cost §3" + event.getMana() + ((manager.abilityMana1AsPers) ? "%" : ""));
-
-			}
-			if (manager.abilityCD != 0) {
-				lores.add("§8Ability Cooldown §a" + manager.abilityCD + "s");
-
-
-			}
-
-			if (manager.abilityLore2 != null && !manager.abilityLore2.isEmpty()) {
-
-					lores.add(" ");
-				lores.add(manager.getAbility2Headline());
-
-				manager.abilityLore2.forEach(str -> {
-					lores.add(str);
-				});
-			}
-
-			if (manager.manacost2 != 0) {
-				ManaUpdateEvent event = new ManaUpdateEvent(item, manager.manacost2);
-				Bukkit.getPluginManager().callEvent(event);
-				lores.add("§8Mana Cost §3" + event.getMana() + ((manager.abilityMana2AsPers) ? "%" : ""));
-
-			}
-			if (manager.cooldown2 != 0) {
-				lores.add("§8Ability Cooldown §a" + manager.cooldown2 + "s");
-
-
+				if(ability.getCooldown() > 0)
+					lores.add("§8Ability Cooldown §a" + ability.getCooldown() + "s");
+				i++;
 			}
 
 			if(Pet.pets.containsKey(manager.itemID)){
@@ -2997,8 +2957,8 @@ public class Main extends JavaPlugin {
 				    double pers = currxp/reqxp;
 				    int colored = (int)(20 * pers);
 					String str = "";
-					for(int i = 0; i < 20; i++) {
-						if(colored > i)
+					for(int c = 0; c < 20; c++) {
+						if(colored > c)
 							str = str + "§2";
 						else
 							str = str + "§7";

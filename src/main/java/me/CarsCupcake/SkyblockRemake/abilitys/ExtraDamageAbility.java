@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Items.Ability;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -23,11 +24,9 @@ public abstract class ExtraDamageAbility implements Listener {
         ItemStack item = player.getItemInHand();
         if(item != null && item.getItemMeta() != null) {
             ItemManager manager = Items.SkyblockItems.get(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
-            if(manager.ability instanceof  ExtraDamageAbility){
-                ((ExtraDamageAbility) manager.ability).extraDamageEvent(event);
-            }
-            if(manager.ability2 instanceof ExtraDamageAbility)
-                ((ExtraDamageAbility)manager.ability2).extraDamageEvent(event);
+            for (Ability ability : manager.getAbilities())
+                if(ability.getAbilityManager() instanceof ExtraDamageAbility a)
+                    a.extraDamageEvent(event);
         }
     }
 

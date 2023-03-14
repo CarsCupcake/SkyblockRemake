@@ -5,9 +5,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class ManaUpdateEvent extends ItemStackEvent {
-    private static HandlerList HANDLERS = new HandlerList();
-    private int mana;
-    public ManaUpdateEvent(ItemStack item, int mana) {
+    private static final HandlerList HANDLERS = new HandlerList();
+    private double mana;
+    public ManaUpdateEvent(ItemStack item, double mana) {
         super(item);
         this.mana = mana;
     }
@@ -20,10 +20,10 @@ public class ManaUpdateEvent extends ItemStackEvent {
     public static HandlerList getHandlerList(){
         return HANDLERS;
     }
-    public int getMana(){
+    public double getMana(){
         return mana;
     }
-    public void setMana(int mana){
+    public void setMana(double mana){
         this.mana = mana;
     }
 

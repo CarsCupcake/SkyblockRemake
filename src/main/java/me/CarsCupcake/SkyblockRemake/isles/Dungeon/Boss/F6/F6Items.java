@@ -30,8 +30,8 @@ public class F6Items {
                 null, 100, 30 ,0 ,0 , Material.IRON_SWORD, ItemRarity.LEGENDARY);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore,"%dmg%", new Bundle<>(100000d,0.05));
-        manager.setAbilityLore(lore);
-        manager.setAbility(new GiantsSlam(), AbilityType.RightClick);
+
+        manager.addAbility(new GiantsSlam(), AbilityType.RightClick, "Giant's Slam", lore, 100, 30);
         manager.setDamage(500);
         manager.setNpcSellPrice(1000);
         return manager;

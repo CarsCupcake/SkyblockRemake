@@ -82,8 +82,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_HELMET", manager, 1);
@@ -111,8 +110,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_CHESTPLATE", manager, 1);
@@ -140,8 +138,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_LEGGINGS", manager, 1);
@@ -169,8 +166,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setStat(Stats.Strength, 25);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         AbilityLore lore = new AbilityLore(abilityLore);
-        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood");
-        manager.setAbilityLore(lore);
+        manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_BOOTS", manager, 1);
