@@ -105,7 +105,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
     public static abstract class Spell {
         protected static HashMap<String, Spell> spells = new HashMap<>();
         protected final int MAX_RANGE = 50;
-        protected final double SPEED = 1;
+        protected double SPEED = 1;
         private BukkitRunnable runnable;
 
         public void select(ItemStack item) {

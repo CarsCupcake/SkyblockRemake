@@ -142,5 +142,16 @@ public abstract class SkyblockEntity {
         if (e instanceof EnderDragon) e.setHealth(0);
         SkyblockEntity.livingEntity.remove(e);
     }
+    public static void killEntity(@NotNull LivingEntity e, SkyblockPlayer killer) {
+        if(livingEntity.containsKey(e)){
+            killEntity(livingEntity.get(e), killer);
+            return;
+        }
+
+        if (killer != null) e.addScoreboardTag("killer:" + killer.getName());
+        Main.EntityDeath(e);
+        e.damage(9999999, killer);
+        if (e instanceof EnderDragon) e.setHealth(0);
+    }
 
 }

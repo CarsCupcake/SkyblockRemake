@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.BasicSpell;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.FallDownArmorstand;
@@ -183,6 +184,7 @@ public class ABILITIES implements Listener {
 
             //Register Spells
             Wand.Spell.registerSpells(new BasicSpell());
+            Wand.Spell.registerSpells(new AvadaKedavra());
 
             Wand.SpellSelect.buildInventorys();
         }
