@@ -2,13 +2,14 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.CalculatorException;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
@@ -73,57 +74,51 @@ public class Calculator {
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, boolean fillMissing) {
-       return playerToEntityDamage(e, player, stats, new Bundle<>(1d, 1d), fillMissing);
+        return playerToEntityDamage(e, player, stats, new Bundle<>(1d, 1d), fillMissing);
     }
 
-    public HashMap<Stats, Double> getIfMissing(HashMap<Stats, Double> stats, SkyblockPlayer player){
-        if(!stats.containsKey(Stats.Strength))
-            stats.put(Stats.Strength, Main.playerstrengthcalc(player));
+    public HashMap<Stats, Double> getIfMissing(HashMap<Stats, Double> stats, SkyblockPlayer player) {
+        if (!stats.containsKey(Stats.Strength)) stats.put(Stats.Strength, Main.playerstrengthcalc(player));
 
-        if(!stats.containsKey(Stats.CritChance))
-            stats.put(Stats.CritChance, Main.playercccalc(player));
+        if (!stats.containsKey(Stats.CritChance)) stats.put(Stats.CritChance, Main.playercccalc(player));
 
-        if(!stats.containsKey(Stats.CritDamage))
-            stats.put(Stats.CritDamage, Main.playercdcalc(player));
+        if (!stats.containsKey(Stats.CritDamage)) stats.put(Stats.CritDamage, Main.playercdcalc(player));
 
         return stats;
     }
 
-    public HashMap<Stats, Double> fillWithNull(HashMap<Stats, Double> stats){
-        if(!stats.containsKey(Stats.Strength))
-            stats.put(Stats.Strength, 0d);
+    public HashMap<Stats, Double> fillWithNull(HashMap<Stats, Double> stats) {
+        if (!stats.containsKey(Stats.Strength)) stats.put(Stats.Strength, 0d);
 
-        if(!stats.containsKey(Stats.CritChance))
-            stats.put(Stats.CritChance, 0d);
+        if (!stats.containsKey(Stats.CritChance)) stats.put(Stats.CritChance, 0d);
 
-        if(!stats.containsKey(Stats.CritDamage))
-            stats.put(Stats.CritDamage, 0d);
+        if (!stats.containsKey(Stats.CritDamage)) stats.put(Stats.CritDamage, 0d);
 
         return stats;
     }
 
-    public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, double weapondamage){
-        return playerToEntityDamage(e,player,new HashMap<>(),Main.weapondamage(player.getItemInHand()), new Bundle<>(1d, 1d), true);
+    public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, double weapondamage) {
+        return playerToEntityDamage(e, player, new HashMap<>(), Main.weapondamage(player.getItemInHand()), new Bundle<>(1d, 1d), true);
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, Bundle<Double, Double> multipliers, boolean fillMissing) {
-        return playerToEntityDamage(e,player,stats,Main.weapondamage(player.getItemInHand()), multipliers, fillMissing);
+        return playerToEntityDamage(e, player, stats, Main.weapondamage(player.getItemInHand()), multipliers, fillMissing);
     }
 
-    public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, double weapondamage,Bundle<Double, Double> multipliers, boolean fillMissing) {
+    public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, double weapondamage, Bundle<Double, Double> multipliers, boolean fillMissing) {
         this.e = e;
         if (e.getScoreboardTags().contains("npc")) return 0d;
         type = SkyblockDamageEvent.DamageType.PlayerToEntity;
 
         double weapondmg = weapondamage;
         weapondmg *= player.getRawDamageMult();
-        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, multipliers.getFirst(), multipliers.getLast());
+        if (fillMissing) stats = getIfMissing(stats, player);
+        else stats = fillWithNull(stats);
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, multipliers.getFirst(), multipliers.getLast(), stats, weapondamage);
         event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
         Bukkit.getPluginManager().callEvent(event);
-        if(fillMissing)
-            stats = getIfMissing(stats, player);
-        else
-            stats = fillWithNull(stats);
+        weapondmg = event.getWeaponDamage();
+        stats = event.getStats();
         double stre = stats.get(Stats.Strength);
         double cd = stats.get(Stats.CritDamage);
         double cc = stats.get(Stats.CritChance);
@@ -152,8 +147,6 @@ public class Calculator {
         this.damage = damage;
         return damage;
     }
-
-
 
 
     //bundle has Damage - True Damage

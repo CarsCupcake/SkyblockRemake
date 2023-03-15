@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Skyblock.OpenMenu;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
@@ -1614,15 +1615,15 @@ public class Items {
     }
 
     public static ItemStack SkyblockMenu() {
-        ItemStack item = new ItemStack(Material.NETHER_STAR);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§eSkyblock Menu");
-        meta.getPersistentDataContainer().set(NamespacedKey.minecraft("ability"), PersistentDataType.STRING, "skyblockmenu");
-        item.setItemMeta(meta);
         ItemManager manager = new ItemManager("Skyblock Menu", "SKYBLOCK_MENU", ItemType.Non, Material.NETHER_STAR, ItemRarity.SPECIAL);
+        manager.addAbility(e -> {
+            PlayerInteractEvent event = (PlayerInteractEvent) e;
+
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+            OpenMenu.createInventory(player);
+            return false;
+        }, AbilityType.RightClick, "Open Menu", 0,0);
         SkyblockItems.put(manager.itemID, manager);
-
-
         return manager.getRawItemStack();
     }
 

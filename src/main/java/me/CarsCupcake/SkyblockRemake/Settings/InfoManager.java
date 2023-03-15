@@ -1,16 +1,20 @@
 package me.CarsCupcake.SkyblockRemake.Settings;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 
 public class InfoManager {
     private static boolean isClickCooldownEnabled;
+    @Getter
+    private static boolean unlimitedMinions;
     private static CustomConfig config;
 
     public InfoManager(){
         config = new CustomConfig("settings");
         isClickCooldownEnabled = getValue("clickCooldown", true);
+        unlimitedMinions = getValue("unlimitedMinions", false);
     }
     public static boolean isBazaarEnabled(){
         return getValue("bazaar", true);
@@ -28,6 +32,10 @@ public class InfoManager {
     public static void setClickCooldownEnabled(boolean b){
         setValue("clickCooldown", b);
         isClickCooldownEnabled = b;
+    }
+    public static void setUnlimitedMinion(boolean b){
+        setValue("unlimitedMinions", b);
+        unlimitedMinions = b;
     }
     public static boolean isClickCooldownEnabled(){
         return isClickCooldownEnabled;

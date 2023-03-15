@@ -1,11 +1,15 @@
 package me.CarsCupcake.SkyblockRemake.API.PlayerEvent;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 public class DamagePrepairEvent extends PlayerEvent{
     private static final HandlerList HANDLERS = new HandlerList();
@@ -17,12 +21,19 @@ public class DamagePrepairEvent extends PlayerEvent{
     private double postMultiplier;
     @Getter
     private final Calculator calculator;
-    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator, double pre, double post) {
+    @Getter
+    private final HashMap<Stats, Double> stats;
+    @Getter
+    @Setter
+    private double weaponDamage;
+    public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator, double pre, double post, HashMap<Stats, Double> stats, double weaponDamage) {
         super(player);
         this.entity = entity;
         this.calculator = calculator;
         preMultiplier = pre;
         postMultiplier = post;
+        this.stats = stats;
+        this.weaponDamage = weaponDamage;
     }
 
     @NotNull

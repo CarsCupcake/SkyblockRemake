@@ -14,18 +14,17 @@ public class SettingsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
 
-        if(strings.length < 2)
-            return false;
+        if (strings.length < 2) return false;
 
-        switch (strings[0]){
-            case "bazaar" ->{
+        switch (strings[0]) {
+            case "bazaar" -> {
 
                 boolean b;
-                if(strings[1].equals("enable")){
+                if (strings[1].equals("enable")) {
                     b = true;
-                }else if(strings[1].equals("disable")){
+                } else if (strings[1].equals("disable")) {
                     b = false;
-                }else {
+                } else {
 
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
@@ -33,20 +32,18 @@ public class SettingsCMD implements CommandExecutor {
                 }
 
                 InfoManager.setBazaarEnabled(b);
-                if(b)
-                    commandSender.sendMessage("§eBazzar is now enabled!");
-                else
-                    commandSender.sendMessage("§eBazzar is now disabled!");
+                if (b) commandSender.sendMessage("§eBazzar is now enabled!");
+                else commandSender.sendMessage("§eBazzar is now disabled!");
 
             }
-            case "ah" ->{
+            case "ah" -> {
 
                 boolean b;
-                if(strings[1].equals("enable")){
+                if (strings[1].equals("enable")) {
                     b = true;
-                }else if(strings[1].equals("disable")){
+                } else if (strings[1].equals("disable")) {
                     b = false;
-                }else {
+                } else {
 
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
@@ -54,20 +51,18 @@ public class SettingsCMD implements CommandExecutor {
                 }
 
                 InfoManager.setAhEnabled(b);
-                if(b)
-                    commandSender.sendMessage("§aAh is now enabled!");
-                else
-                    commandSender.sendMessage("§cAh is now disabled!");
+                if (b) commandSender.sendMessage("§aAh is now enabled!");
+                else commandSender.sendMessage("§cAh is now disabled!");
 
             }
-            case "killnpcs" ->{
+            case "killnpcs" -> {
 
                 boolean b;
-                if(strings[1].equals("enable")){
+                if (strings[1].equals("enable")) {
                     b = true;
-                }else if(strings[1].equals("disable")){
+                } else if (strings[1].equals("disable")) {
                     b = false;
-                }else {
+                } else {
 
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
@@ -77,45 +72,52 @@ public class SettingsCMD implements CommandExecutor {
                 EntityNPC.isKillable = b;
 
             }
-            case "clickCooldown" ->{
-
+            case "clickCooldown" -> {
                 boolean b;
-                if(strings[1].equals("enable")){
+                if (strings[1].equals("enable")) {
                     b = true;
-                }else if(strings[1].equals("disable")){
+                } else if (strings[1].equals("disable")) {
                     b = false;
-                }else {
-
+                } else {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
 
                 }
-
-                InfoManager.setClickCooldownEnabled(true);
-
-
-
+                InfoManager.setClickCooldownEnabled(b);
             }
-            case "setDataPath" ->{
-                if(!commandSender.isOp())
-                    return false;
+            case "setDataPath" -> {
+                if (!commandSender.isOp()) return false;
 
                 Main.getMain().reloadConfig();
-                String path = getStringFromArgs(Arrays.copyOfRange(strings, 1, strings.length - 1));
+                String path = getStringFromArgs(Arrays.copyOfRange(strings, 1, strings.length));
                 Main.getMain().getConfig().set("SkyblockDataPath", path);
                 Main.getMain().saveConfig();
 
                 commandSender.sendMessage("§aDatapath is now " + path);
 
             }
+
+            case "setUnlimitedMinions" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+                }
+                InfoManager.setUnlimitedMinion(b);
+            }
+
             default -> commandSender.sendMessage("§cThe setting: " + strings[0] + " does not exist.");
         }
-
         return false;
     }
-    private String getStringFromArgs(String[] args){
+
+    private String getStringFromArgs(String[] args) {
         StringBuilder builder = new StringBuilder();
-        for(String s : args){
+        for (String s : args) {
             builder.append(s).append(" ");
         }
         builder.deleteCharAt(builder.length() - 1);

@@ -64,7 +64,8 @@ public interface IMinion {
 
             event.getItemInHand().setAmount(event.getItemInHand().getAmount() - 1);
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-            PrivateIsle.isles.get(player).addMinion(minion, level, Tools.getAsLocation(event.getBlock()));
+            if(!PrivateIsle.isles.get(player).addMinion(minion, level, Tools.getAsLocation(event.getBlock())))
+                player.sendMessage("§cYou already placed the maximum amount of minions!");
             return true;
         }
     }

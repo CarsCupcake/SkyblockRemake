@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;
+import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
@@ -33,15 +34,8 @@ public class PrivateIsle {
             for (String id : section.getKeys(false)) {
                 try {
                     String[] args = config.get().getString(id + ".id").split("-");
-                    addMinion(IMinion.minions.get(args[0]), Integer.parseInt(args[1]),
-                            new Location(
-                                    Bukkit.getWorld("world"),
-                                    Double.parseDouble(config.get().getString(id + ".location.x")),
-                                    Double.parseDouble(config.get().getString(id + ".location.y")),
-                                    Double.parseDouble(config.get().getString(id + ".location.z"))
-                            )
-                            , UUID.fromString(id));
-                }catch (Exception e){
+                    addMinion(IMinion.minions.get(args[0]), Integer.parseInt(args[1]), new Location(Bukkit.getWorld("world"), Double.parseDouble(config.get().getString(id + ".location.x")), Double.parseDouble(config.get().getString(id + ".location.y")), Double.parseDouble(config.get().getString(id + ".location.z"))), UUID.fromString(id));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -55,14 +49,12 @@ public class PrivateIsle {
     }
 
     public boolean addMinion(IMinion minion, int level, Location location, UUID uuid) {
-        if (minions.size() + 1 >= maxMinions) return false;
-
+        if (!InfoManager.isUnlimitedMinions()) if (minions.size() + 1 >= maxMinions) return false;
         minions.put(uuid, Minion.getMinion(minion, level, location, uuid.toString(), player));
-
         return true;
     }
 
-    public void pickupMinion(Minion minion){
+    public void pickupMinion(Minion minion) {
         Assert.isTrue(minions.containsValue(minion));
         minion.remove(MinionRemoveReason.PICKUP_MINION);
         minions.remove(minion.getId());
