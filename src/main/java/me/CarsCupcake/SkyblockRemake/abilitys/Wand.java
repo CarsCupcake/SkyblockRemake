@@ -14,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -27,7 +28,6 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
 
 public class Wand extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
@@ -137,7 +137,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
                         remove();
                         return;
                     }
-                    List<Entity> entities = location.getWorld().getNearbyEntities(location, SPEED, 0.5, SPEED).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof Player)).toList();
+                    List<Entity> entities = location.getWorld().getNearbyEntities(location, SPEED, 0.5, SPEED).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof Player) && !(entity instanceof ArmorStand)).toList();
                     if (!entities.isEmpty()) {
                         hit((LivingEntity) entities.get(0), shooter, location);
                         remove();

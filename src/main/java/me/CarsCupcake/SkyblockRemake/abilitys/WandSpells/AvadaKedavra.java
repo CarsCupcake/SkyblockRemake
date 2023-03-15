@@ -23,7 +23,7 @@ public class AvadaKedavra extends Wand.Spell {
     @Override
     protected void hit(LivingEntity entity, SkyblockPlayer player, Location location) {
         Location l = location.clone().add(0, entity.getEyeHeight() / 2, 0);
-        l.getWorld().spawnParticle(Particle.REDSTONE, 0.5, entity.getEyeHeight() / 2, 0.5, 15,dustOptions);
+        l.getWorld().spawnParticle(Particle.REDSTONE, location, 15,0.5, entity.getEyeHeight() / 2, 0.5,dustOptions);
         SkyblockEntity.killEntity(entity, player);
     }
 
