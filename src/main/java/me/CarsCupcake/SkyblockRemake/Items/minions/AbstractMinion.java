@@ -348,7 +348,7 @@ public abstract class AbstractMinion implements Minion {
                 s.setMarker(true);
                 s.setInvisible(true);
                 s.setCustomNameVisible(true);
-                s.addScoreboardTag("removeremove");
+                s.addScoreboardTag("remove");
             });
 
         this.message.setCustomName(message);
