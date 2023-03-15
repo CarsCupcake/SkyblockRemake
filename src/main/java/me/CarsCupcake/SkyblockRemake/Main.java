@@ -633,6 +633,8 @@ public class Main extends JavaPlugin {
 				}
 				if(entity.getScoreboardTags().contains("damage_tag"))
 					entity.remove();
+				if(entity.getScoreboardTags().contains("remove"))
+					entity.remove();
 
 
 			}

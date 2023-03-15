@@ -80,6 +80,7 @@ public abstract class AbstractMinion implements Minion {
             s.getEquipment().setHelmet(Tools.CustomHeadTexture(base.getHeadStrings()[level - 1]));
             s.setBasePlate(false);
             s.setArms(true);
+            s.addScoreboardTag("remove");
         });
     }
 
@@ -223,7 +224,7 @@ public abstract class AbstractMinion implements Minion {
 
     @Override
     public void remove(MinionRemoveReason removeReason) {
-        stand.remove();
+        if (stand != null && !stand.isDead()) stand.remove();
         if (removeReason == MinionRemoveReason.QUIT) {
             saveMinion();
         } else {
@@ -347,6 +348,7 @@ public abstract class AbstractMinion implements Minion {
                 s.setMarker(true);
                 s.setInvisible(true);
                 s.setCustomNameVisible(true);
+                s.addScoreboardTag("removeremove");
             });
 
         this.message.setCustomName(message);
