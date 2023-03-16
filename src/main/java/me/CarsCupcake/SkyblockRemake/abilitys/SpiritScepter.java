@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SpiritScepter implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         event.setCancelled(true);
         makeBat(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         return false;

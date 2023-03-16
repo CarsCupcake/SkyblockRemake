@@ -35,7 +35,7 @@ public class CoinsItem implements ItemGenerator{
         ItemManager manager = new ItemManager("Coins", "COINS_ITEM", ItemType.Non, null, null, null, null, 0,0,0,0, Material.GOLD_INGOT, ItemRarity.SPECIAL);
         manager.addAbility(new AbilityManager<PlayerInteractEvent>() {
             @Override
-            public boolean executeAbility(PlayerInteractEvent event) {
+            public boolean triggerAbility(PlayerInteractEvent event) {
                 new CoinsItem(event.getItem()).add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
                 return false;
             }

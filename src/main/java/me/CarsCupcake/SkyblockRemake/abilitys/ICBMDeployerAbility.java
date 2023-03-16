@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR){
             launchRocket(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         }

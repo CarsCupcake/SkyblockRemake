@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.BannerMeta;
 
 public class CorruptedTotem extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         event.setCancelled(true);
         if(event.getClickedBlock().getLocation().add(0,1,0).getBlock().getType() != Material.AIR)
             return false;

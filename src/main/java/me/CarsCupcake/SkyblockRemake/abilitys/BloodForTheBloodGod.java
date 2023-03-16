@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class BloodForTheBloodGod implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         new BukkitRunnable() {
             int i = 0;

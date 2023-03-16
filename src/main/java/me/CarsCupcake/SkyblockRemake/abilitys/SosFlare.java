@@ -33,7 +33,7 @@ public class SosFlare implements Deployable {
     private  int runnable = 15;
     private  ArrayList<SkyblockPlayer> boosts = new ArrayList<>();
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         event.setCancelled(true);
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if(Deployable.deployables.containsKey(player)){

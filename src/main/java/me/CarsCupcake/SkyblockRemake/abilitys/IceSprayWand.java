@@ -36,7 +36,7 @@ public class IceSprayWand implements AbilityManager<PlayerInteractEvent>, Listen
     private static final HashMap<LivingEntity, BukkitRunnable> freezedEntitys = new HashMap<>();
 
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         Location location = event.getPlayer().getEyeLocation();
         Vector dir = event.getPlayer().getLocation().getDirection();
         event.getPlayer().playSound(location, Sound.ENTITY_ENDER_DRAGON_AMBIENT, 1,1);

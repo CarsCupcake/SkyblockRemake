@@ -13,7 +13,7 @@ import org.bukkit.util.Vector;
 
 public class AspectOfTheVoid extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         Block block = player.getTargetBlockExact(57);
         if(block == null)

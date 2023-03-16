@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class LividDaggerability<T extends Event> extends ExtraDamageAbility implements AbilityManager<T> {
     @Override
-    public boolean executeAbility(T event) {
+    public boolean triggerAbility(T event) {
         //throw ability
         return false;
     }

@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DragonsRage implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         return false;
     }
 

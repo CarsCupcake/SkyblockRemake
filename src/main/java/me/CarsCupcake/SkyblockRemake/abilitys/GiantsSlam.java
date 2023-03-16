@@ -21,7 +21,7 @@ import java.util.List;
 
 public class GiantsSlam implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         new Sword(event.getPlayer().getTargetBlock(null, 6).getLocation(),SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         return false;
     }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class HollowSpirit implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
             HollowSpiritSpell.getSpell(player).addSack(HollowSpiritSpell.Stack.Hollowed);

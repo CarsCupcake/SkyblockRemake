@@ -31,7 +31,7 @@ import java.util.List;
 
 public class Wand extends PreAbilityExecution implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         Spell spell = Spell.spells.get(ItemHandler.getOrDefaultPDC("activespell", player.getItemInHand(), PersistentDataType.STRING, ""));
         spell.shoot(player);
@@ -51,7 +51,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
         static List<Inventory> inventories = new ArrayList<>();
 
         @Override
-        public boolean executeAbility(PlayerInteractEvent event) {
+        public boolean triggerAbility(PlayerInteractEvent event) {
             MultipleGui gui = new MultipleGui(inventories, 53, 45);
 
             Inventory last = inventories.get(inventories.size() - 1);

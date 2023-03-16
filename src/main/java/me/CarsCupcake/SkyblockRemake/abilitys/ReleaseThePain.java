@@ -14,7 +14,7 @@ public class ReleaseThePain implements AbilityManager<PlayerInteractEvent> {
     private static final ArrayList<SkyblockPlayer> players = new ArrayList<>();
 
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         System.out.println(players);
         if(!players.contains(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()))){
             players.add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));

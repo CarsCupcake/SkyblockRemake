@@ -9,7 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ReaperPepper implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         int reaperPepperAmount = ExtraInformations.get().getInt(player.getUniqueId() + ".reaperpepper");
         if(!(reaperPepperAmount >= 5)){

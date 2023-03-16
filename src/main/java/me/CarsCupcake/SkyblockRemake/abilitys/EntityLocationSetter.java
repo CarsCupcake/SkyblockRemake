@@ -17,7 +17,7 @@ public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent>
     private static Class<? extends SkyblockEntity> entity = null;
     public static final ArrayList<Location> locations = new ArrayList<>();
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         if(event.getClickedBlock() == null)
             return false;
 

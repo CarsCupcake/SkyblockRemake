@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DreadlordAbility implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         WitherSkull skull = event.getPlayer().launchProjectile(WitherSkull.class);
         skull.addScoreboardTag("dreadlord");
         return false;

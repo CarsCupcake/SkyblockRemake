@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
 
 public class EntityLocationSelecter implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         /*TextComponent text = new TextComponent("Wither Guard   §e§lSelect");
         text.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/selectmob witherguard"));
         text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,new ComponentBuilder("Click to select!").create()));

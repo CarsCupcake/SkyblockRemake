@@ -14,7 +14,7 @@ public class ChadIncoming implements AbilityManager<PlayerInteractEvent> {
     private static final ArrayList<SkyblockPlayer> players = new ArrayList<>();
 
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
 
         if(!players.contains(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()))){
             players.add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));

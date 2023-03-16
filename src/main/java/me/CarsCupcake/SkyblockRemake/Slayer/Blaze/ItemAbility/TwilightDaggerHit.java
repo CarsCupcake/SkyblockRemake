@@ -12,7 +12,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class TwilightDaggerHit implements AbilityManager<SkyblockDamagePlayerToEntityExecuteEvent> {
     @Override
-    public boolean executeAbility(SkyblockDamagePlayerToEntityExecuteEvent event) {
+    public boolean triggerAbility(SkyblockDamagePlayerToEntityExecuteEvent event) {
 
         return false;
     }

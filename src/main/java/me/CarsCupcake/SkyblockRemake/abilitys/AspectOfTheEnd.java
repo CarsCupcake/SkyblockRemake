@@ -9,7 +9,7 @@ import org.bukkit.util.Vector;
 
 public class AspectOfTheEnd implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
 
         teleport(event.getPlayer());
         return false;

@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxMenu
 import org.bukkit.event.player.PlayerInteractEvent
 
 class MaddoxBatPhoneAbility: AbilityManager<PlayerInteractEvent> {
-    override fun executeAbility(event: PlayerInteractEvent?): Boolean {
+    override fun triggerAbility(event: PlayerInteractEvent?): Boolean {
         MaddoxMenu.openMenu(SkyblockPlayer.getSkyblockPlayer(event?.player))
         return true
     }

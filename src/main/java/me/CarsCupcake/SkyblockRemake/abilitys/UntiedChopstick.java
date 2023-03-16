@@ -27,7 +27,7 @@ public class UntiedChopstick implements AbilityManager<EntityDamageByEntityEvent
 	private static final HashMap<SkyblockPlayer, Integer> hits = new HashMap<>();
 
 	@Override
-	public boolean executeAbility(EntityDamageByEntityEvent event) {
+	public boolean triggerAbility(EntityDamageByEntityEvent event) {
 		SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player)event.getDamager());
 		if(!hits.containsKey(player)) {
 			hits.put(player, 0);

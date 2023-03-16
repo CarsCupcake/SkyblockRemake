@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class SpiritCystalSwap implements AbilityManager<PlayerInteractEvent>, UpdateFlag, ItemManager.MaterialGrabber {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         HellionShield shield;
         String s = ItemHandler.getOrDefaultPDC("attuned", event.getItem(), PersistentDataType.STRING, "null");
 

@@ -424,10 +424,23 @@ public class Items {
     }
 
     public static void wand() {
+        ItemManager longStick = new ItemManager("Long Stick", "LONG_STICK", ItemType.Non, Material.STICK, ItemRarity.COMMON);
+        SkyblockItems.put(longStick.itemID, longStick);
+        ShapeEncoder encoder = new ShapeEncoder(" s ", " s ", " s ");
+        encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get(Material.STICK + ""), 1));
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("LONG_STICK", longStick, 1);
+        shapedRecipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(shapedRecipe);
+
         ItemManager manager = new ItemManager("Wand", "WAND", ItemType.Wand, Material.STICK, ItemRarity.EPIC);
         manager.addAbility(new Wand(), AbilityType.RightClick, "Cast Spell", 100, 1);
         manager.set2Ability("Select Spell", new Wand.SpellSelect(), AbilityType.SneakRightClick, new ArrayList<>(List.of("§7Select a spell")), 0, 0);
         SkyblockItems.put(manager.itemID, manager);
+        encoder = new ShapeEncoder(" s ", " s ", " s ");
+        encoder.setKey('s', new CraftingObject(longStick, 1));
+        shapedRecipe = new SkyblockShapedRecipe("WAND", manager, 1);
+        shapedRecipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(shapedRecipe);
     }
 
     public static void raygun() {
@@ -1613,16 +1626,19 @@ public class Items {
 
         return item;
     }
+    public static class OpenMenu implements AbilityManager<PlayerInteractEvent> {
+
+        @Override
+        public boolean triggerAbility(PlayerInteractEvent event) {
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+            me.CarsCupcake.SkyblockRemake.Skyblock.OpenMenu.createInventory(player);
+            return false;
+        }
+    };
 
     public static ItemStack SkyblockMenu() {
         ItemManager manager = new ItemManager("Skyblock Menu", "SKYBLOCK_MENU", ItemType.Non, Material.NETHER_STAR, ItemRarity.SPECIAL);
-        manager.addAbility(e -> {
-            PlayerInteractEvent event = (PlayerInteractEvent) e;
-
-            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-            OpenMenu.createInventory(player);
-            return false;
-        }, AbilityType.RightClick, "Open Menu", 0,0);
+        manager.addAbility(new OpenMenu(), AbilityType.RightClick, "Open Menu", 0,0);
         SkyblockItems.put(manager.itemID, manager);
         return manager.getRawItemStack();
     }
@@ -1858,7 +1874,7 @@ public class Items {
         manager.setAttributable(true);
         manager.addAbility(new AbilityManager<PlayerInteractEvent>() {
             @Override
-            public boolean executeAbility(PlayerInteractEvent event) {
+            public boolean triggerAbility(PlayerInteractEvent event) {
                 return false;
             }
 

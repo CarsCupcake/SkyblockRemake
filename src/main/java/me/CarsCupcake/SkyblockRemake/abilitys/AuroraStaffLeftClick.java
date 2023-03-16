@@ -9,7 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 public class AuroraStaffLeftClick implements AbilityManager<PlayerInteractEvent> {
 
 	@Override
-	public boolean executeAbility(PlayerInteractEvent event) {
+	public boolean triggerAbility(PlayerInteractEvent event) {
 		SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 		ArcaneRune rune = ArcaneRune.getPlayerRune(player).nextRune(player);
 		

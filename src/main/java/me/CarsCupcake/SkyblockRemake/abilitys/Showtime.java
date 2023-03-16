@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Showtime implements AbilityManager<PlayerInteractEvent> {
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         new BonzoStaffProjectile(event.getPlayer().getLocation().add(event.getPlayer().getLocation().getDirection().multiply(1)), event.getPlayer());
         return false;
     }

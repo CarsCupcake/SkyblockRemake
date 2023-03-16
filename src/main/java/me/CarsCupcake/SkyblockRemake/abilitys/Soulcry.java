@@ -17,7 +17,7 @@ import java.util.Set;
 public class Soulcry implements AbilityManager<PlayerInteractEvent>, ItemManager.MaterialGrabber {
     private static final Set<SkyblockPlayer> players = new HashSet<>();
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
         event.getItem().setType(Material.GOLDEN_SWORD);
         players.add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 

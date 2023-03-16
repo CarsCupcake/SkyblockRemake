@@ -30,7 +30,7 @@ public class ArcaneZap implements AbilityManager<PlayerInteractEvent> {
 	}
 	
 	@Override
-	public boolean executeAbility(PlayerInteractEvent event) {
+	public boolean triggerAbility(PlayerInteractEvent event) {
 
 		
 		Vector dir = event.getPlayer().getEyeLocation().getDirection();

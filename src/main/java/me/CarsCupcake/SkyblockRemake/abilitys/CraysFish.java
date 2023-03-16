@@ -19,7 +19,7 @@ import java.util.Collection;
 public class CraysFish implements AbilityManager<PlayerInteractEvent> {
     private static final String itemID = "AXE_OF_THE_SHREDDED";
     @Override
-    public boolean executeAbility(PlayerInteractEvent event) {
+    public boolean triggerAbility(PlayerInteractEvent event) {
 
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 

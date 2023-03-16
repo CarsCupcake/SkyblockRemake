@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class FiredustDaggerHit implements AbilityManager<DamagePrepairEvent> {
     @Override
-    public boolean executeAbility(DamagePrepairEvent event) {
+    public boolean triggerAbility(DamagePrepairEvent event) {
         LivingEntity entity = event.getEntity();
         if(entity instanceof Blaze)
             event.addPostMultiplier(1.2);

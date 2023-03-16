@@ -31,7 +31,7 @@ import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 public class Hyperion_WitherImpact implements AbilityManager<PlayerInteractEvent>{
 
 	@Override
-	public boolean executeAbility(PlayerInteractEvent event) {
+	public boolean triggerAbility(PlayerInteractEvent event) {
 		
 
 		Player player = event.getPlayer();

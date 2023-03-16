@@ -1,6 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,9 +10,9 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
-import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
@@ -26,7 +28,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public interface AbilityManager<T extends Event> {
 
-    boolean executeAbility(T event);
+    boolean triggerAbility(T event);
 
     HashMap<SkyblockPlayer, HashMap<String, AdditionalManaCosts>> additionalMana = new HashMap<>();
 
@@ -70,7 +72,7 @@ public interface AbilityManager<T extends Event> {
         Action action = event.getAction();
         if (!precheck(ability, player, manager, action)) return;
         try {
-            ability.getAbilityManager().getClass().newInstance().executeAbility(event);
+            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
@@ -81,7 +83,7 @@ public interface AbilityManager<T extends Event> {
         Action action = Action.PHYSICAL;
         if (!precheck(ability, player, manager, action)) return;
         try {
-            ability.getAbilityManager().getClass().newInstance().executeAbility(event);
+            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
@@ -92,7 +94,7 @@ public interface AbilityManager<T extends Event> {
         Action action = Action.PHYSICAL;
         if (!precheck(ability, player, manager, action)) return;
         try {
-            ability.getAbilityManager().getClass().newInstance().executeAbility(event);
+            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");

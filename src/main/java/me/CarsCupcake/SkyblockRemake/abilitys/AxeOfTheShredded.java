@@ -33,7 +33,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManager<PlayerInteractEvent> {
 private static final String itemID = "AXE_OF_THE_SHREDDED";
 	@Override
-	public boolean executeAbility(PlayerInteractEvent event) {
+	public boolean triggerAbility(PlayerInteractEvent event) {
 		int multi;
 		SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 		if(!AbilityManager.additionalMana.get(player).containsKey(itemID)) {
