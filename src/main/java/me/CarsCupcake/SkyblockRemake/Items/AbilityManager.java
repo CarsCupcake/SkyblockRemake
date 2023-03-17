@@ -10,6 +10,7 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
@@ -105,7 +106,7 @@ public interface AbilityManager<T extends Event> {
     }
 
     static boolean precheck(Ability ability, SkyblockPlayer player, ItemManager manager, Action action) {
-        double manacost = (ability.isPersentage()) ? Main.playermanacalc(player) * ability.getPersentage() : ability.getManacost();
+        double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, Stats.Inteligence) * ability.getPersentage() : ability.getManacost();
         if (additionalMana.get(player).containsKey(manager.itemID)) {
             manacost += additionalMana.get(player).get(manager.itemID).amount;
         }

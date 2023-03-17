@@ -1,10 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T3;
 
-import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -97,7 +98,7 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 			s.getEquipment().setItemInHand(new ItemStack(Material.BLAZE_ROD));
 			s.getEquipment().setItemInHandDropChance(0);
 			ItemStack item = new ItemStack(Material.LEATHER_LEGGINGS);
-			LeatherArmorMeta meta = (boolean)item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
+			LeatherArmorMeta meta = item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
 			meta.setColor(Color.fromRGB(90, 3, 3));
 			item.setItemMeta(meta);
 			s.getEquipment().setLeggings(item);
@@ -114,7 +115,7 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 		
 		((CraftPigZombie)entity).getHandle().bP.a(0,new DemonsGoal<>(this, ((CraftPigZombie)entity).getHandle(), EntityHuman.class, 5,1,1));
 		
-		Attributable zombieAt = (Attributable) entity;
+		Attributable zombieAt = entity;
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		attributeSpeed.setBaseValue(0.35);
 		startAoe();
@@ -171,28 +172,28 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 		if (duration >= 1)
 			seconds = duration;
 		if (hours == 0) {
-			string = String.valueOf(string) + "";
+			string = string + "";
 		} else {
 			if (hours <= 9) {
-				string = String.valueOf(string) + "0" + hours + ":";
+				string = string + "0" + hours + ":";
 			} else {
-				string = String.valueOf(string) + hours + ":";
+				string = string + hours + ":";
 			}
 		}
 		if (minutes == 0) {
-			string = String.valueOf(string) + "";
+			string = string + "";
 		} else {
 			if (minutes <= 9) {
-				string = String.valueOf(string) + "0" + minutes + ":";
+				string = string + "0" + minutes + ":";
 			} else {
-				string = String.valueOf(string) + minutes + ":";
+				string = string + minutes + ":";
 			}
 		}
 		
 			if (seconds <= 9) {
-				string = String.valueOf(string) + "0" + seconds ;
+				string = string + "0" + seconds ;
 			} else {
-				string = String.valueOf(string) + seconds ;
+				string = string + seconds ;
 			}
 		
 		return string;
@@ -227,7 +228,7 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 						entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name
 									+ " §a"
 									+ Tools.round(
-											(float) ((float) health / 1000000), 1)
+											((float) health / 1000000), 1)
 									+ "m§c§?§");
 						
 					}
@@ -235,13 +236,13 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 					
 					entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a"
 								+ health / 1000 + "k§c§?§");
-					;
+
 
 				}
 			} else {
 				
 					entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a"
-							+ Tools.round((float) ((float) health / 1000), 1)
+							+ Tools.round(((float) health / 1000), 1)
 							+ "k§c§?§");
 				
 			}
@@ -259,7 +260,7 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 	public void kill() {
 		
 		if(baseSlayer != null)
-		baseSlayer.setTyphoeusKilled();
+			baseSlayer.setTyphoeusKilled();
 		tpRun.cancel();
 		timer.remove();
 		aoeRunner.cancel();
@@ -314,22 +315,9 @@ public class TyphoesT3 extends SkyblockEntity implements Demons, FinalDamageDesi
 			@Override
 			public void run() {
 				baseSlayer.owner.damage(0.1);
-				int truedamage = getDamage()/2;
-			
-					float trueehp = (float) (float)Main.playerhealthcalc(baseSlayer.owner)*(1+((float)Main.playerdefcalc(baseSlayer.owner)/100));
-					float effectivetruedmg = (float)Main.playerhealthcalc(baseSlayer.owner)/(float)trueehp;
-					int totaldmg = (int) ((int) truedamage*effectivetruedmg);
-					if(Main.absorbtion.get(baseSlayer.owner) - totaldmg  < 0) {
-						float restdamage =   (float)totaldmg - (float) Main.absorbtion.get(baseSlayer.owner);
-						Main.absorbtion.replace(baseSlayer.owner, 0);
-						baseSlayer.owner.setHealth( baseSlayer.owner.currhealth  - (int)restdamage, HealthChangeReason.Damage);
-					}else {
-						Main.absorbtion.replace(baseSlayer.owner, Main.absorbtion.get(baseSlayer.owner) - totaldmg);
-					}
-					
-
-					Main.updatebar(baseSlayer.owner);
-				
+				Calculator calculator = new Calculator();
+				calculator.entityToPlayerDamage(TyphoesT3.this, baseSlayer.owner, new Bundle<>(0, getDamage()/2));
+				calculator.damagePlayer(baseSlayer.owner);
 			}
 		};
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);

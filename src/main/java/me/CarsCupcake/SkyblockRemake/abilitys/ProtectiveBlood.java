@@ -65,7 +65,7 @@ public class ProtectiveBlood implements FullSetBonus, Listener {
         if (event.getItem() == null || event.getItem().getItemMeta() == null) return;
         String id = event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING);
         if (id.equals(EndItems.Items.ProtectorHelmet.getId()) || id.equals(EndItems.Items.ProtectorChestplate.getId()) || id.equals(EndItems.Items.ProtectorLeggings.getId()) || id.equals(EndItems.Items.ProtectorBoots.getId())) {
-            double hpPers = player.currhealth / Main.playerhealthcalc(event.getPlayer());
+            double hpPers = player.currhealth / Main.getPlayerStat(player, Stats.Health);
             hpPers -= 1;
             hpPers *= -1;
             hpPers = Tools.round(hpPers, 2);

@@ -808,7 +808,7 @@ public class Main extends JavaPlugin {
 				shortbow_cd.replace(player, false);
 			}
 		};
-		runnable.runTaskLater(Main, (long) ((0.20 * 20) + ((0.25 * (1D - playerattackspeed(player) / 100)) * 20)));
+		runnable.runTaskLater(Main, (long) ((0.20 * 20) + ((0.25 * (1D - Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed) / 100)) * 20)));
 	}
 
 	public void absorbtioneffect(Player player, int times) {
@@ -823,8 +823,9 @@ public class Main extends JavaPlugin {
 					absorbtionrunntime.replace(player, absorbtionrunntime.get(player) - 1);
 
 					if (absorbtionrunntime.get(player) <= 0) {
-						if (absorbtion.get(player) + p.currhealth > playerhealthcalc(player))
-							p.setHealth(playerhealthcalc(player));
+						double health = Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health);
+						if (absorbtion.get(player) + p.currhealth > health)
+							p.setHealth(health);
 						else {
 							p.setHealth((absorbtion.get(player) + p.currhealth) * p.healingMulti);
 						}
@@ -859,28 +860,30 @@ public class Main extends JavaPlugin {
 
 						player.setSaturation(100);
 						// mana regen
-						if (player.currmana < playermanacalc(player)) {
-							int manaadd = (int) ((playermanacalc(player) * 0.02) * player.getManaRegenMult());
+						double mana = Main.getPlayerStat(player, Stats.Inteligence);
+						if (player.currmana < mana) {
+							int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
 							int finalmana = manaadd + player.currmana;
 							player.setMana(finalmana);
 
 						}
-						if (player.currmana > playermanacalc(player)) {
-							player.setMana((int) playermanacalc(player));
+						if (player.currmana > mana) {
+							player.setMana((int) mana);
 						}
 
 						// health regen
-						if (player.currhealth < playerhealthcalc(player)) {
-							int healthadd = (int) (playerhealthcalc(player) * 0.015);
+						double health = Main.getPlayerStat(player, Stats.Health);
+						if (player.currhealth < health) {
+							int healthadd = (int) (health * 0.015);
 							int finalhealth = (int) (player.currhealth + (healthadd * player.healingMulti));
 
 							player.setHealth(finalhealth, HealthChangeReason.Regenerate);
 
 						}
-						if (player.currhealth > playerhealthcalc(player)) {
-							player.setHealth(playerhealthcalc(player));
+						if (player.currhealth > health) {
+							player.setHealth(health);
 						}
-						float speedpersentage = (float) playerspeedcalc(player) / 100;
+						float speedpersentage = (float) Main.getPlayerStat(player, Stats.Speed) / 100;
 						if (speedpersentage > 5)
 							speedpersentage = 5;
 						player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
@@ -924,7 +927,7 @@ public class Main extends JavaPlugin {
 			deathPersons.add(player);
 			player.getPlayer().setHealth(0);
 		}
-		float maxhealth = (float) playerhealthcalc(player);
+		double maxhealth = Main.getPlayerStat(player, Stats.Health);
 		if (maxhealth < 125) {
 			player.setMaxHealth(20);
 		} else if (maxhealth < 165) {
@@ -982,7 +985,7 @@ public class Main extends JavaPlugin {
 			player.setAbsorptionAmount(0);
 		}
 
-		float health = player.currhealth;
+		double health = player.currhealth;
 		float estimated = (float) ((health / maxhealth) * player.getMaxHealth());
 
 		String extraafterdef = "";
@@ -1045,21 +1048,24 @@ public class Main extends JavaPlugin {
 			afterManaString = "    " + StaticCharge.getPlayerDisplay(player);
 		}
 
+		health = Main.getPlayerStat(player, Stats.Health);
+		double defense = Main.getPlayerStat(player, Stats.Defense);
+		double mana = Main.getPlayerStat(player, Stats.Inteligence);
 
-		String defenseString = "§a" + String.format("%.0f", Tools.round(playerdefcalc(player), 0)) + "❈ Defense";
+		String defenseString = "§a" + String.format("%.0f", Tools.round(defense, 0)) + "❈ Defense";
 		if (player.showDefenceString)
 			defenseString = player.defenseString;
 
 		if (absorbtion.containsKey(player) && absorbtion.get(player) != 0) {
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
 					new TextComponent("§6" + (player.currhealth + absorbtion.get(player)) + "/"
-							+ String.format("%.0f", Tools.round(playerhealthcalc(player), 0)) + "❤ " + stackMsg + "    " + defenseString + "  "
-							+ extraafterdef + "   §b" + player.currmana + "/" + String.format("%.0f", Tools.round(playermanacalc(player), 0)) + "✎ Mana" + afterManaString));
+							+ String.format("%.0f", Tools.round(health, 0)) + "❤ " + stackMsg + "    " + defenseString + "  "
+							+ extraafterdef + "   §b" + player.currmana + "/" + String.format("%.0f", Tools.round(mana, 0)) + "✎ Mana" + afterManaString));
 		} else
 			player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-					new TextComponent("§c" + player.currhealth + "/" + String.format("%.0f", Tools.round(playerhealthcalc(player), 0)) + "❤ " + stackMsg + "    " + defenseString + "  " + extraafterdef + "   §b" + player.currmana + "/"
-							+ String.format("%.0f", Tools.round(playermanacalc(player), 0)) + "✎ Mana" + afterManaString));
-		float speedpersentage = (float) playerspeedcalc(player) / 100;
+					new TextComponent("§c" + player.currhealth + "/" + String.format("%.0f", Tools.round(health, 0)) + "❤ " + stackMsg + "    " + defenseString + "  " + extraafterdef + "   §b" + player.currmana + "/"
+							+ String.format("%.0f", Tools.round(mana, 0)) + "✎ Mana" + afterManaString));
+		float speedpersentage = (float) Main.getPlayerStat(player, Stats.Speed) / 100;
 		if (speedpersentage > 5)
 			speedpersentage = 5;
 		player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
@@ -1344,511 +1350,6 @@ public class Main extends JavaPlugin {
 			stand.setCustomName(StandName.get(0));
 		}
 
-	}
-
-
-
-
-	@SuppressWarnings("deprecation")
-	public static double playerhealthcalc(Player player) {
-		double maxhealth = SkyblockPlayer.getSkyblockPlayer(player).basehealth;
-		maxhealth = maxhealth + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, player.getItemInHand());
-		maxhealth = maxhealth + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, player.getInventory().getHelmet());
-		maxhealth = maxhealth + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, player.getInventory().getChestplate());
-		maxhealth = maxhealth + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, player.getInventory().getLeggings());
-		maxhealth = maxhealth + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			maxhealth += (double) pet.getStat(Stats.Health, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			maxhealth += power.CalculateStats(Stats.Health, player);
-		}
-		maxhealth += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Health);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health, maxhealth);
-		Bukkit.getPluginManager().callEvent(event);
-		maxhealth = event.getValue();
-
-		return maxhealth;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerdefcalc(Player player) {
-		double def = SkyblockPlayer.getSkyblockPlayer(player).basedef;
-		def = def + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, player.getItemInHand());
-		def = def + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, player.getInventory().getHelmet());
-		def = def + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, player.getInventory().getChestplate());
-		def = def + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, player.getInventory().getLeggings());
-		def = def + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, player.getInventory().getBoots());
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			def += (double) pet.getStat(Stats.Defense, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			def += power.CalculateStats(Stats.Defense, player);
-		}
-		def += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Defense);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Defense, def);
-		Bukkit.getPluginManager().callEvent(event);
-		def = event.getValue();
-
-		return def;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playermanacalc(Player player) {
-		double mana = SkyblockPlayer.getSkyblockPlayer(player).basemana;
-		mana = mana + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, player.getItemInHand());
-		mana = mana + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, player.getInventory().getHelmet());
-		mana = mana + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, player.getInventory().getChestplate());
-		mana = mana + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, player.getInventory().getLeggings());
-		mana = mana + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			mana += (double) pet.getStat(Stats.Inteligence, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			mana += power.CalculateStats(Stats.Inteligence, player);
-		}
-		mana += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Inteligence);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Inteligence, mana);
-		Bukkit.getPluginManager().callEvent(event);
-		mana = event.getValue();
-		return mana;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerspeedcalc(Player player) {
-		double speed = SkyblockPlayer.getSkyblockPlayer(player).basespeed;
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, player.getItemInHand());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, player.getInventory().getHelmet());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, player.getInventory().getChestplate());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, player.getInventory().getLeggings());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			speed += (double) pet.getStat(Stats.Speed, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			speed += power.CalculateStats(Stats.Speed, player);
-		}
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Speed, speed);
-		Bukkit.getPluginManager().callEvent(event);
-		speed = event.getValue();
-		speed += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Speed);
-		if (speed > SkyblockPlayer.getSkyblockPlayer(player).speedCap)
-			speed = SkyblockPlayer.getSkyblockPlayer(player).speedCap;
-		return speed;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerstrengthcalc(Player player) {
-		double speed = SkyblockPlayer.getSkyblockPlayer(player).basestrength;
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, player.getItemInHand());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, player.getInventory().getHelmet());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, player.getInventory().getChestplate());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, player.getInventory().getLeggings());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			speed += (double) pet.getStat(Stats.Strength, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			speed += power.CalculateStats(Stats.Strength, player);
-		}
-		speed += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Strength);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Strength, speed);
-		Bukkit.getPluginManager().callEvent(event);
-		speed = event.getValue();
-
-		return speed;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playercccalc(Player player) {
-		double speed = SkyblockPlayer.getSkyblockPlayer(player).basecc;
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, player.getItemInHand());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, player.getInventory().getHelmet());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, player.getInventory().getChestplate());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, player.getInventory().getLeggings());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			speed += (double) pet.getStat(Stats.CritChance, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			speed += power.CalculateStats(Stats.CritChance, player);
-		}
-		speed += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.CritChance);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance, speed);
-		Bukkit.getPluginManager().callEvent(event);
-		speed = event.getValue();
-		return speed;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playercdcalc(Player player) {
-		double speed = SkyblockPlayer.getSkyblockPlayer(player).basecd;
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, player.getItemInHand());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, player.getInventory().getHelmet());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, player.getInventory().getChestplate());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, player.getInventory().getLeggings());
-		speed = speed + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			speed += (double) pet.getStat(Stats.CritDamage, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			speed += power.CalculateStats(Stats.CritDamage, player);
-		}
-		speed += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.CritDamage);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritDamage, speed);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		speed = event.getValue();
-		return speed;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static float playerabilitydamagecalc(Player player) {
-
-		double abilitydamge = SkyblockPlayer.getSkyblockPlayer(player).baseabilitydamage;
-		abilitydamge = abilitydamge + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AbilityDamage, player.getItemInHand());
-		abilitydamge = abilitydamge + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AbilityDamage, player.getInventory().getHelmet());
-		abilitydamge = abilitydamge + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AbilityDamage, player.getInventory().getChestplate());
-		abilitydamge = abilitydamge + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AbilityDamage, player.getInventory().getLeggings());
-		abilitydamge = abilitydamge + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AbilityDamage, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			abilitydamge += (float) pet.getStat(Stats.AbilityDamage, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			abilitydamge += power.CalculateStats(Stats.AbilityDamage, player);
-		}
-		abilitydamge += (float) SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.AbilityDamage);
-		return (float) abilitydamge;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerferocitycalc(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseferocity;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += (double) pet.getStat(Stats.Ferocity, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.Ferocity, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Ferocity);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Ferocity, ferocity);
-		Bukkit.getPluginManager().callEvent(event);
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playermagicfindcalc(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).basemagicfind;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += (double) pet.getStat(Stats.MagicFind, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.MagicFind, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.MagicFind);
-
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.MagicFind, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double getPlayerMiningSpeed(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseminingspeed;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += (double) pet.getStat(Stats.MiningSpeed, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.MiningSpeed, player);
-		}
-		if (DwarvenEvent.ActiveEvent != null) {
-			if (DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
-				ferocity += DwarvenEvent.ActiveEvent.getGoneWithTheWindStatBoost(player.getLocation().getYaw());
-
-			}
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.MiningSpeed);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double getPlayerMiningFortune(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseminingfortune;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += (double) pet.getStat(Stats.MiningFortune, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.MiningFortune, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.MiningFortune);
-
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningFortune, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerbreakingpower(Player player) {
-		double ferocity = 0;
-		ferocity = ferocity + itembreakingpower(player.getItemInHand());
-		ferocity = ferocity + itembreakingpower(player.getInventory().getHelmet());
-		ferocity = ferocity + itembreakingpower(player.getInventory().getChestplate());
-		ferocity = ferocity + itembreakingpower(player.getInventory().getLeggings());
-		ferocity = ferocity + itembreakingpower(player.getInventory().getBoots());
-
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerpristine(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).basepristine;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += pet.getStat(Stats.Pristine, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.Pristine, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.Pristine);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.Pristine, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playerattackspeed(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseattackspeed;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += pet.getStat(Stats.AttackSpeed, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.AttackSpeed, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.AttackSpeed);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		if (ferocity > 100)
-			ferocity = 100;
-		return ferocity;
-	}
-
-	@SuppressWarnings("deprecation")
-	public static double playertruedefense(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).basetruedefense;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += pet.getStat(Stats.TrueDefense, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.TrueDefense, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.TrueDefense);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.TrueDefense, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	public static double playerseacreaturechance(Player player) {
-		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseseacreaturechance;
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, player.getItemInHand());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, player.getInventory().getHelmet());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, player.getInventory().getChestplate());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, player.getInventory().getLeggings());
-		ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, player.getInventory().getBoots());
-
-		if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-			Pet pet = Pet.pets.get(PetMenus.get().getString(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-			ferocity += pet.getStat(Stats.SeaCreatureChance, PetMenus.get().getInt(
-					player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-		}
-		if (Powers.activepower.containsKey(player)) {
-			Powers power = Powers.activepower.get(player);
-			ferocity += power.CalculateStats(Stats.SeaCreatureChance, player);
-		}
-		ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(Stats.SeaCreatureChance);
-		GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), Stats.SeaCreatureChance, ferocity);
-		Bukkit.getScheduler().runTask(getMain(), () -> {
-			Bukkit.getPluginManager().callEvent(event);
-		});
-		ferocity = event.getValue();
-		return ferocity;
-	}
-
-	public static double playercatchmult(Player player) {
-		/*		double ferocity = SkyblockPlayer.getSkyblockPlayer(player).baseseacreaturechance;*/
-		double ferocity = 1;
-		ferocity *= itemcatchtime(player.getItemInHand());
-		ferocity *= itemcatchtime(player.getInventory().getHelmet());
-		ferocity *= itemcatchtime(player.getInventory().getChestplate());
-		ferocity *= itemcatchtime(player.getInventory().getLeggings());
-		ferocity *= itemcatchtime(player.getInventory().getBoots());
-
-
-		return ferocity;
 	}
 
 	public synchronized static double getPlayerStat(SkyblockPlayer player, Stats stat) {

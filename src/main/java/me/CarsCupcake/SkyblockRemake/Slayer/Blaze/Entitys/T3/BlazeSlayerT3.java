@@ -5,10 +5,7 @@ import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePits;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -493,7 +490,7 @@ public class BlazeSlayerT3 extends Slayer implements FinalDamageDesider, FirePil
 			if(getMaxHealth()*0.66>health)
 				mult = 0.1;
 			else mult = 0.05;
-		return (int)(100 + ( Main.playerhealthcalc(owner) * mult ));
+		return (int)(100 + ( Main.getPlayerStat(owner, Stats.Health) * mult ));
 	}
 	private void startAoe() {
 		aoeRunner = new BukkitRunnable() {
@@ -503,8 +500,8 @@ public class BlazeSlayerT3 extends Slayer implements FinalDamageDesider, FirePil
 				owner.damage(0.1);
 				int truedamage = getTrueDamage();
 			
-					float trueehp = (float) (float)Main.playerhealthcalc(owner)*(1+((float)Main.playertruedefense(owner)/100));
-					float effectivetruedmg = (float)Main.playerhealthcalc(owner)/(float)trueehp;
+					float trueehp = (float) (float)Main.getPlayerStat(owner, Stats.Health)*(1+((float)Main.getPlayerStat(owner, Stats.Defense)/100));
+					float effectivetruedmg = (float)Main.getPlayerStat(owner, Stats.Health)/(float)trueehp;
 					int totaldmg = (int) ((int) truedamage*effectivetruedmg);
 					if(Main.absorbtion.get(owner) - totaldmg  < 0) {
 						float restdamage =   (float)totaldmg - (float) Main.absorbtion.get(owner);

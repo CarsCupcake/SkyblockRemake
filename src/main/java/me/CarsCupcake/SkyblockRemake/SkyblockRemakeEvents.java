@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
@@ -225,17 +226,6 @@ public class SkyblockRemakeEvents implements Listener {
                     puzzle.markAsFailed();
                 }
         }
-
-        if (event.getBlock().getType() == Material.STONE)
-            if (Main.getPlayerMiningSpeed(event.getPlayer()) >= 450) {
-                //event.setInstaBreak(true);
-
-            } else {
-
-
-            }
-
-
     }
 
     public static int getBlockBreakStage(int totalTicks, int currentTick) {
@@ -300,7 +290,7 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     public static int estimateBreakingTime(Player player, double blockStrength) {
-        double mining_speed = Main.getPlayerMiningSpeed(player);
+        double mining_speed = Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed);
         double SoftCap = Tools.round(6.66666666666666666666666666666666666 * blockStrength, 0);
         if (SoftCap <= mining_speed)
             mining_speed = SoftCap;
@@ -686,7 +676,7 @@ public class SkyblockRemakeEvents implements Listener {
     public void respawn(PlayerRespawnEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
 
-        player.setHealth(Main.playerhealthcalc(player));
+        player.setHealth(Main.getPlayerStat(player, Stats.Health));
 
         Main.deathPersons.remove(event.getPlayer());
 
@@ -1039,86 +1029,19 @@ public class SkyblockRemakeEvents implements Listener {
                         }
 
                         ArrayList<Entity> alrHitEntitys = new ArrayList<>();
-
+                        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                         for (double i = 0; i <= 15; i += 0.1) {
                             if (event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 0.2, 0.2, 0.2).isEmpty())
                                 continue;
 
                             for (Entity entity : event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 1, 1, 1)) {
-                                if (entity instanceof LivingEntity && !(entity instanceof ArmorStand) && entity != event.getPlayer() && !alrHitEntitys.contains(entity)) {
-                                    LivingEntity e = (LivingEntity) entity;
+                                if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && entity != event.getPlayer() && !alrHitEntitys.contains(entity)) {
                                     e.damage(0.0000001);
-                                    double stre = Main.playerstrengthcalc(event.getPlayer());
-                                    double dmg = Main.weapondamage(event.getItem());
-                                    double cd = Main.playercdcalc(event.getPlayer());
-                                    double damage = (5 + (float) dmg) * (1 + ((float) stre / 100)) * (1 + ((float) cd / 100));
-                                    damage *= 2;
-                                    if (SkyblockEntity.livingEntity.containsKey(e))
-                                        if (SkyblockEntity.livingEntity.get(e).getHealth() - damage < 0) {
-                                            SkyblockEntity.livingEntity.get(e).damage(SkyblockEntity.livingEntity.get(e).getHealth(), SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-                                        } else if (Main.currentityhealth.get(e) != null)
-                                            if (Main.currentityhealth.get(e) - damage < 0) {
-                                                Main.currentityhealth.replace(e, 0);
-
-
-                                            } else if (!SkyblockEntity.livingEntity.containsKey(e))
-                                                Main.currentityhealth.replace(e, (int) (Main.currentityhealth.get(e) - damage));
-                                            else
-                                                SkyblockEntity.livingEntity.get(e).damage(damage, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-                                    Main.updateentitystats(e);
+                                    Calculator c = new Calculator();
+                                    c.playerToEntityDamage(e, player, new Bundle<>(2d, 1d));
+                                    c.damageEntity(e, player);
+                                    c.showDamageTag(e);
                                     alrHitEntitys.add(entity);
-                                    final int FINAL_DAMAGE = (int) damage;
-                                    Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.5, e.getLocation().getZ());
-                                    ArmorStand stand = (ArmorStand) e.getWorld().spawn(loc, ArmorStand.class, armorstand -> {
-                                        armorstand.setVisible(false);
-                                        armorstand.setGravity(false);
-
-                                        armorstand.setCustomNameVisible(true);
-
-                                        armorstand.setInvulnerable(true);
-
-                                        String name = "§f✧";
-                                        String num = "" + (int) FINAL_DAMAGE;
-                                        int col = 1;
-                                        int coltype = 1;
-                                        String colstr = "§f";
-
-                                        for (char x : num.toCharArray()) {
-                                            name = name + colstr + x;
-                                            ++col;
-                                            if (col == 2) {
-                                                col = 0;
-                                                ++coltype;
-                                                switch (coltype) {
-                                                    case 1:
-                                                        colstr = "§f";
-                                                        break;
-                                                    case 2:
-                                                        colstr = "§e";
-                                                        break;
-                                                    case 3:
-                                                        colstr = "§6";
-                                                        coltype = 0;
-                                                        break;
-
-                                                }
-
-                                            }
-                                        }
-                                        String x = "✧";
-                                        name = name + colstr + x;
-                                        armorstand.setCustomName(name);
-
-
-                                        armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
-                                        armorstand.addScoreboardTag("damage_tag");
-                                        armorstand.setArms(false);
-                                        armorstand.setBasePlate(false);
-                                        armorstand.setMarker(true);
-                                    });
-                                    Main.getMain().killarmorstand(stand);
-                                    stand.setCustomNameVisible(true);
-
                                 }
                             }
                         }
@@ -1157,13 +1080,13 @@ public class SkyblockRemakeEvents implements Listener {
                                     Arrow arrow_entity = event.getPlayer().launchProjectile(Arrow.class);
 
 
-                                    int cc = (int) Main.playercccalc(player);
+                                    int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
 
 
-                                    int stre = (int) Main.playerstrengthcalc(player);
-                                    double cd = Main.playercdcalc(player);
+                                    int stre = (int) Main.getPlayerStat(player, Stats.Strength);
+                                    double cd = Main.getPlayerStat(player, Stats.CritDamage);
                                     int weapondmg = (int) Main.weapondamage(event.getItem());
-                                    int ferocity = (int) Main.playerferocitycalc(player);
+                                    int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
 
 
                                     arrow_entity.addScoreboardTag("cd:" + cd);
@@ -1301,12 +1224,12 @@ public class SkyblockRemakeEvents implements Listener {
         Entity arrow_entity = event.getProjectile();
 
 
-        int cc = (int) Main.playercccalc(player);
+        int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
 
         float damage;
 
-        int stre = (int) Main.playerstrengthcalc(player);
-        double cd = Main.playercdcalc(player);
+        int stre = (int) Main.getPlayerStat(player, Stats.Strength);
+        double cd = Main.getPlayerStat(player, Stats.CritDamage);
         int weapondmg = (int) Main.weapondamage(event.getBow());
 
         if (event.getForce() != 1.0)
@@ -1315,7 +1238,7 @@ public class SkyblockRemakeEvents implements Listener {
         arrow_entity.addScoreboardTag("cc:" + cc);
         arrow_entity.addScoreboardTag("strength:" + stre);
         arrow_entity.addScoreboardTag("dmg:" + weapondmg);
-        arrow_entity.addScoreboardTag("ferocity:" + Main.playerferocitycalc(player));
+        arrow_entity.addScoreboardTag("ferocity:" + Main.getPlayerStat(player, Stats.Ferocity));
         for (Enchantment enchantment : event.getBow().getItemMeta().getEnchants().keySet()) {
             arrow_entity.addScoreboardTag(enchantment.getKey().getKey() + ":" + event.getBow().getItemMeta().getEnchantLevel(enchantment));
         }
@@ -1574,15 +1497,17 @@ public class SkyblockRemakeEvents implements Listener {
             if (SkyblockEntity.livingEntity.containsKey(entity)) {
 
                 e.getEntity().addScoreboardTag("hit:" + p.getName());
-                float ehp = (float) (float) Main.playerhealthcalc(p) * (1 + ((float) Main.playerdefcalc(p) / 100));
-                float effectivedmg = (float) Main.playerhealthcalc(p) / (float) ehp;
+                double health = Main.getPlayerStat(p, Stats.Health);
+                double defense = Main.getPlayerStat(p, Stats.Defense);
+                float ehp = (float) (float) health * (1 + ((float) defense / 100));
+                float effectivedmg = (float) health / (float) ehp;
                 int totaldmg = (int) ((int) SkyblockEntity.livingEntity.get(entity).getDamage() * effectivedmg);
 
                 SkyblockEntity se = SkyblockEntity.livingEntity.get(entity);
                 int truedamage = se.getTrueDamage();
                 if (truedamage != 0) {
-                    float trueehp = (float) (float) Main.playerhealthcalc(p) * (1 + ((float) Main.playertruedefense(p) / 100));
-                    float effectivetruedmg = (float) Main.playerhealthcalc(p) / (float) trueehp;
+                    float trueehp = (float) (float) health * (1 + ((float) Main.getPlayerStat(p, Stats.TrueDefense) / 100));
+                    float effectivetruedmg = (float) health / (float) trueehp;
                     totaldmg += (int) ((int) truedamage * effectivetruedmg);
 
                 }
@@ -1777,36 +1702,22 @@ public class SkyblockRemakeEvents implements Listener {
                         float damage = (float) (event.getDamage() * 8);
                         event.setDamage(0);
                         event.setCancelled(true);
-                        if (Main.entitydamage.containsKey(event.getDamager()))
-                            damage = Main.entitydamage.get(event.getDamager());
-                        if (SkyblockEntity.livingEntity.containsKey(event.getDamager()))
-                            damage = SkyblockEntity.livingEntity.get(event.getDamager()).getDamage();
-
-                        float ehp = (float) (float) Main.playerhealthcalc(player) * (1 + ((float) Main.playerdefcalc(player) / 100));
-                        float effectivedmg = (float) Main.playerhealthcalc(player) / (float) ehp;
-                        int totaldmg = (int) (damage * effectivedmg);
-
+                        Calculator c = new Calculator();
                         if (SkyblockEntity.livingEntity.containsKey(event.getDamager())) {
-                            SkyblockEntity se = SkyblockEntity.livingEntity.get(event.getDamager());
-                            int truedamage = se.getTrueDamage();
-                            if (truedamage != 0) {
-                                float trueehp = (float) (float) Main.playerhealthcalc(player) * (1 + ((float) Main.playertruedefense(player) / 100));
-                                float effectivetruedmg = (float) Main.playerhealthcalc(player) / (float) trueehp;
-                                totaldmg += (int) ((int) truedamage * effectivetruedmg);
-                            }
+                            c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(event.getDamager()), player);
+                        }
+                        else {
+                            if (Main.entitydamage.containsKey(event.getDamager()))
+                                damage = Main.entitydamage.get(event.getDamager());
+                            double health = Main.getPlayerStat(player, Stats.Health);
+                            double ehp = health * (1 + (Main.getPlayerStat(player, Stats.Defense) / 100));
+                            double effectivedmg =  health / ehp;
+                            double totaldmg = (damage * effectivedmg);
+                            c.damage = totaldmg;
                         }
 
 
-                        if (Main.absorbtion.get(player) - totaldmg < 0) {
-                            float restdamage = (float) totaldmg - (float) Main.absorbtion.get(player);
-                            Main.absorbtion.replace(player, 0);
-                            player.setHealth(player.currhealth - (int) restdamage, HealthChangeReason.Damage);
-                        } else {
-                            Main.absorbtion.replace(player, Main.absorbtion.get(player) - totaldmg);
-                        }
-
-
-                        Main.updatebar(player);
+                        c.damagePlayer(player);
 
                     }
                 }
@@ -1827,7 +1738,7 @@ public class SkyblockRemakeEvents implements Listener {
                         }
 
                         Player player = (Player) event.getDamager();
-                        int cc = (int) Main.playercccalc(player);
+                        int cc = (int) Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance);
 
                         double damage;
                         Calculator calculator = new Calculator();

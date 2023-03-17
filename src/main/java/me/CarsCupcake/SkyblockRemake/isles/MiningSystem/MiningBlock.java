@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -33,7 +34,7 @@ public abstract class MiningBlock {
         return Tools.round((6d + 2/3)*blockStrength(), 0);
     }
     public int getMiningTicks(SkyblockPlayer player){
-        double mining_speed = Main.getPlayerMiningSpeed(player);
+        double mining_speed = Main.getPlayerStat(player, Stats.MiningSpeed);
         double SoftCap= getSoftCap();
         if(SoftCap <= mining_speed)
             mining_speed = SoftCap;

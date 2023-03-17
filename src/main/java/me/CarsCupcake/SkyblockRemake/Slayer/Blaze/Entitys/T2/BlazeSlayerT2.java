@@ -5,10 +5,7 @@ import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
@@ -465,7 +462,7 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 			if(getMaxHealth()*0.66>health)
 				mult = 0.1;
 			else mult = 0.05;
-		return (int)(100 + ( Main.playerhealthcalc(owner) * mult ));
+		return (int)(100 + ( Main.getPlayerStat(owner, Stats.Health) * mult ));
 	}
 	private void startAoe() {
 		aoeRunner = new BukkitRunnable() {
@@ -473,25 +470,10 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 			@Override
 			public void run() {
 				owner.damage(0.1);
-				int truedamage = getTrueDamage();
-			
-					float trueehp = (float) (float)Main.playerhealthcalc(owner)*(1+((float)Main.playertruedefense(owner)/100));
-					float effectivetruedmg = (float)Main.playerhealthcalc(owner)/(float)trueehp;
-					int totaldmg = (int) ((int) truedamage*effectivetruedmg);
-					if(Main.absorbtion.get(owner) - totaldmg  < 0) {
-						float restdamage =   (float)totaldmg - (float) Main.absorbtion.get(owner);
-						Main.absorbtion.replace(owner, 0);
-						owner.setHealth( owner.currhealth  - (int)restdamage);
-					}else {
-						Main.absorbtion.replace(owner, Main.absorbtion.get(owner) - totaldmg);
-					}
-					
-					if(owner.currhealth  <= 0) {
-						owner.setHealth(0);
-						
-					}
-					Main.updatebar(owner);
-				
+				Calculator c = new Calculator();
+				c.entityToPlayerDamage(BlazeSlayerT2.this, owner);
+				c.damagePlayer(owner);
+				c.showDamageTag(owner);
 			}
 		};
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);

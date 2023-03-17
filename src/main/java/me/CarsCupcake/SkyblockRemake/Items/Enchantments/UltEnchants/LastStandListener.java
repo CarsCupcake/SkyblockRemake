@@ -27,7 +27,6 @@ public class LastStandListener implements Listener {
 
     }
     private double hppers(SkyblockPlayer player){
-        double pers = player.currhealth / Main.playerhealthcalc(player);
-        return pers;
+        return player.currhealth / Main.getPlayerStat(player, Stats.Health);
     }
 }

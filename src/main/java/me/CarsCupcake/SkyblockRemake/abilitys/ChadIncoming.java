@@ -4,7 +4,7 @@ import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -30,7 +30,7 @@ public class ChadIncoming implements AbilityManager<PlayerInteractEvent> {
     public void startTimer(final SkyblockPlayer player) {
 
         player.sendMessage("§aChad Incoming is now active!");
-        player.setHealth((player.currhealth + (Main.playerhealthcalc(player) * 30))*player.healingMulti, HealthChangeReason.Ability);
+        player.setHealth((player.currhealth + (Main.getPlayerStat(player, Stats.Health) * 30))*player.healingMulti, HealthChangeReason.Ability);
         Main.updatebar(player);
         new BukkitRunnable() {
             private int timer = 10;

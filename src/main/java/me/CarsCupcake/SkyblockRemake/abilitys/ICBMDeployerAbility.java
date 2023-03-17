@@ -7,6 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
@@ -78,7 +79,7 @@ public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> 
         return;
     }
         if(player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
-            player.setHealth(player.currhealth - Main.playerhealthcalc(player) / 2, HealthChangeReason.Ability);
+            player.setHealth(player.currhealth - Main.getPlayerStat(player, Stats.Health) / 2, HealthChangeReason.Ability);
             ItemStack item = player.getItemInHand();
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer data = meta.getPersistentDataContainer();
@@ -125,7 +126,7 @@ public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> 
                                 continue;
                             }
                             Calculator calculator = new Calculator();
-                            calculator.damage = Tools.round(maxHealth/4,0) ;
+                            calculator.damage = Tools.round(maxHealth/4d,0) ;
                             if(calculator.damage > 1000000)
                                 calculator.damage = 1000000;
                             calculator.damageEntity((LivingEntity) entity, player);

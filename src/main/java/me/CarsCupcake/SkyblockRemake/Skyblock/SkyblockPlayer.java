@@ -777,20 +777,7 @@ public class SkyblockPlayer extends CraftPlayer{
 	}
 
 	public void setHealth(int value, HealthChangeReason reason) {
-		if(reason != HealthChangeReason.Force){
-			PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, currhealth - value, reason);
-			Bukkit.getPluginManager().callEvent(event);
-			if (event.isCancelled()) return;
-			currhealth = currhealth - event.getHelthChangeAmount();
-		}else
-			currhealth = value;
-
-
-		if(currhealth < 0)
-			currhealth = 0;
-		if(currhealth > Main.playerhealthcalc(this))
-			currhealth = (int) Main.playerhealthcalc(this);
-		Main.updatebar(this);
+		setHealth((double) value, reason);
 
 	}
 	public void setHealth(double value, HealthChangeReason reason) {
@@ -803,23 +790,13 @@ public class SkyblockPlayer extends CraftPlayer{
 			currhealth = (int) value;
 		if(currhealth < 0)
 			currhealth = 0;
-		if(currhealth > Main.playerhealthcalc(this))
-			currhealth = (int) Main.playerhealthcalc(this);
+		double maxHealth = Main.getPlayerStat(this, Stats.Health);
+		if(currhealth > maxHealth)
+			currhealth = (int) maxHealth;
 		Main.updatebar(this);
 	}
 	public void setHealth(float value, HealthChangeReason reason) {
-		if(reason != HealthChangeReason.Force){
-			PlayerHealthChangeEvent event = new PlayerHealthChangeEvent(this, (int) (currhealth - value), reason);
-			Bukkit.getPluginManager().callEvent(event);
-			if (event.isCancelled()) return;
-			currhealth = currhealth - event.getHelthChangeAmount();
-		}else
-			currhealth = (int) value;
-		if(currhealth < 0)
-			currhealth = 0;
-		if(currhealth > Main.playerhealthcalc(this))
-			currhealth = (int) Main.playerhealthcalc(this);
-		Main.updatebar(this);
+		setHealth((double) value, reason);
 	}
 	public void setMana(int value) {
 		currmana = value;
@@ -964,7 +941,7 @@ public class SkyblockPlayer extends CraftPlayer{
 			statsConfig.reload();
 		basemana=filebasemana;
 
-		currmana = (int) Main.playermanacalc(player);
+		currmana = (int) Main.getPlayerStat(this, Stats.Inteligence);
 		
 		
 	}
@@ -989,7 +966,7 @@ public class SkyblockPlayer extends CraftPlayer{
 			statsConfig.reload();
 		basehealth = filebasehealth;
 		
-		currhealth= (int) Main.playerhealthcalc(player);
+		currhealth= (int) Main.getPlayerStat(this, Stats.Health);
 		
 	}
 	public  void definjection(Player player) {
@@ -1102,7 +1079,7 @@ public class SkyblockPlayer extends CraftPlayer{
 			
 			statsConfig.reload();
 		basespeed=filebasespeed;
-		float speedpersentage = (float)Main.playerspeedcalc(player)/100;
+		float speedpersentage = (float)Main.getPlayerStat(this, Stats.Speed)/100;
 		if (speedpersentage > 5)
 			speedpersentage = 5;
 			player.setWalkSpeed((float)0.2*(float)speedpersentage);

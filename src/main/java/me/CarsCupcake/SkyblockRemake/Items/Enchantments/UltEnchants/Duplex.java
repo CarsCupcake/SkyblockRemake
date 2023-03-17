@@ -72,27 +72,27 @@ public class Duplex extends UltimateEnchant implements Listener {
     public boolean canEnchantItem(@NotNull ItemStack itemStack) {
         return false;
     }
+
     private final static HashMap<SkyblockPlayer, Double> lastDuplexDamage = new HashMap<>();
     private final static HashMap<SkyblockPlayer, BukkitRunnable> duplexFire = new HashMap<>();
 
-   @EventHandler
-    public void onProjectileLounch(ProjectileLaunchEvent event){
-        if (event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player p){
+    @EventHandler
+    public void onProjectileLounch(ProjectileLaunchEvent event) {
+        if (event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player p) {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-            new BukkitRunnable(){
-                public void run(){
-                    if (event.getEntity().getScoreboardTags().contains("custom_arrow"))
-                        return;
+            new BukkitRunnable() {
+                public void run() {
+                    if (event.getEntity().getScoreboardTags().contains("custom_arrow")) return;
 
                     if (ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, player.getItemInHand())) {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
                                 Projectile arrow_entity = player.launchProjectile(Arrow.class);
-                                int stre = (int) Main.playerstrengthcalc(player);
-                                double cd = Main.playercdcalc(player);
+                                int stre = (int) Main.getPlayerStat(player, Stats.Strength);
+                                double cd = Main.getPlayerStat(player, Stats.CritDamage);
                                 int weapondmg = 0;
-                                int ferocity = (int) Main.playerferocitycalc(player);
+                                int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
 
 
                                 arrow_entity.addScoreboardTag("cd:" + cd);
@@ -109,79 +109,77 @@ public class Duplex extends UltimateEnchant implements Listener {
                 }
             }.runTaskLater(Main.getMain(), 1);
         }
-   }
-   @EventHandler
-   public void onSkyblockCalculatoProc(SkyblockDamageEvent event){
-       if(event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity)
-           return;
-       if(event.getCalculator().getProjectile() == null)
-           return;
-       if(!event.getCalculator().getProjectile().getScoreboardTags().contains("arrow_duplex"))
-           return;
-       event.setCancelled(true);
+    }
 
-       if(!lastDuplexDamage.containsKey(event.getPlayer()))
-           return;
+    @EventHandler
+    public void onSkyblockCalculatoProc(SkyblockDamageEvent event) {
+        if (event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity) return;
+        if (event.getCalculator().getProjectile() == null) return;
+        if (!event.getCalculator().getProjectile().getScoreboardTags().contains("arrow_duplex")) return;
+        event.setCancelled(true);
 
-       Calculator c = new Calculator();
-       c.damage = lastDuplexDamage.get(event.getPlayer());
-       c.damageEntity(event.getEntity(), event.getPlayer());
+        if (!lastDuplexDamage.containsKey(event.getPlayer())) return;
 
-       c.showDamageTag(event.getEntity());
+        Calculator c = new Calculator();
+        c.damage = lastDuplexDamage.get(event.getPlayer());
+        c.damageEntity(event.getEntity(), event.getPlayer());
 
-       int wpd = 0;
-       for (String s : event.getEntity().getScoreboardTags())
-           if(s.startsWith("dmg")) {
-               wpd = Integer.parseInt(s.split(":")[1]);
-               break;
-           }
+        c.showDamageTag(event.getEntity());
 
-       final int dmg = wpd;
-       if(duplexFire.containsKey(event.getPlayer())){
-           try {
-               duplexFire.get(event.getPlayer()).cancel();
-           }catch (Exception ignored){}
-       }
+        int wpd = 0;
+        for (String s : event.getEntity().getScoreboardTags())
+            if (s.startsWith("dmg")) {
+                wpd = Integer.parseInt(s.split(":")[1]);
+                break;
+            }
 
-       BukkitRunnable r = new BukkitRunnable() {
-           private int runtime = 0;
-           private final int weaponDamage = dmg;
-           @Override
-           public void run() {
-               if(event.getEntity().isDead()) {
-                   cancel();
-                   return;
-               }
-               if(runtime == 60) {
-                   cancel();
-                   duplexFire.remove(event.getPlayer());
-                   return;
-               }
+        final int dmg = wpd;
+        if (duplexFire.containsKey(event.getPlayer())) {
+            try {
+                duplexFire.get(event.getPlayer()).cancel();
+            } catch (Exception ignored) {
+            }
+        }
 
-               Calculator c = new Calculator();
-               c.setApplyFerocity(false);
-               c.damage =  (5 + (float)weaponDamage) * (1+((float)Main.getPlayerStat(event.getPlayer(), Stats.Strength)/100));
-               c.damage *= 1.5;
-               c.damageEntity(event.getEntity(), event.getPlayer());
+        BukkitRunnable r = new BukkitRunnable() {
+            private int runtime = 0;
+            private final int weaponDamage = dmg;
 
-               c.showDamageTag(event.getEntity());
+            @Override
+            public void run() {
+                if (event.getEntity().isDead()) {
+                    cancel();
+                    return;
+                }
+                if (runtime == 60) {
+                    cancel();
+                    duplexFire.remove(event.getPlayer());
+                    return;
+                }
 
-               event.getPlayer().getWorld().spawnParticle(Particle.FLAME, event.getEntity().getLocation().add(0, 0.5, 0), 15 ,0.25, 0.7, 0.25, 0, null);
+                Calculator c = new Calculator();
+                c.setApplyFerocity(false);
+                c.damage = (5 + (float) weaponDamage) * (1 + ((float) Main.getPlayerStat(event.getPlayer(), Stats.Strength) / 100));
+                c.damage *= 1.5;
+                c.damageEntity(event.getEntity(), event.getPlayer());
+
+                c.showDamageTag(event.getEntity());
+
+                event.getPlayer().getWorld().spawnParticle(Particle.FLAME, event.getEntity().getLocation().add(0, 0.5, 0), 15, 0.25, 0.7, 0.25, 0, null);
 
 
-               runtime++;
-           }
-       };
-       duplexFire.put(event.getPlayer(), r);
-       r.runTaskTimer(Main.getMain(), 20, 20);
-   }
-   @EventHandler
-    public void onDamageByDuplex(SkyblockDamagePlayerToEntityExecuteEvent event){
-       if(event.getCalculator().getProjectile() == null)
-           return;
-       if(!ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile()))
-           return;
+                runtime++;
+            }
+        };
+        duplexFire.put(event.getPlayer(), r);
+        r.runTaskTimer(Main.getMain(), 20, 20);
+    }
 
-       lastDuplexDamage.put(event.getPlayer(), (double) Tools.round((((ItemHandler.getEnchantmentLevel(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile()) * 4d))/ 100d) * event.getCalculator().damage, 0));
-   }
+    @EventHandler
+    public void onDamageByDuplex(SkyblockDamagePlayerToEntityExecuteEvent event) {
+        if (event.getCalculator().getProjectile() == null) return;
+        if (!ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile())) return;
+
+        lastDuplexDamage.put(event.getPlayer(), Tools.round((((ItemHandler.getEnchantmentLevel(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile()) * 4d)) / 100d) * event.getCalculator().damage, 0));
+    }
 }

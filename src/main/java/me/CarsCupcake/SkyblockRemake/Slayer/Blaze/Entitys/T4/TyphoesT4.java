@@ -13,6 +13,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.DemonsGoal;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Bukkit;
@@ -371,22 +372,9 @@ public class TyphoesT4 extends SkyblockEntity implements Demons, FinalDamageDesi
 			@Override
 			public void run() {
 				baseSlayer.owner.damage(0.1);
-				int truedamage = getDamage()/2;
-			
-					float trueehp = (float) (float)Main.playerhealthcalc(baseSlayer.owner)*(1+((float)Main.playerdefcalc(baseSlayer.owner)/100));
-					float effectivetruedmg = (float)Main.playerhealthcalc(baseSlayer.owner)/(float)trueehp;
-					int totaldmg = (int) ((int) truedamage*effectivetruedmg);
-					if(Main.absorbtion.get(baseSlayer.owner) - totaldmg  < 0) {
-						float restdamage =   (float)totaldmg - (float) Main.absorbtion.get(baseSlayer.owner);
-						Main.absorbtion.replace(baseSlayer.owner, 0);
-						baseSlayer.owner.setHealth( baseSlayer.owner.currhealth  - (int)restdamage, HealthChangeReason.Damage);
-					}else {
-						Main.absorbtion.replace(baseSlayer.owner, Main.absorbtion.get(baseSlayer.owner) - totaldmg);
-					}
-					
-
-					Main.updatebar(baseSlayer.owner);
-				
+				Calculator calculator = new Calculator();
+				calculator.entityToPlayerDamage(TyphoesT4.this, baseSlayer.owner, new Bundle<>(0, getDamage()/2));
+				calculator.damagePlayer(baseSlayer.owner);
 			}
 		};
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);

@@ -147,9 +147,6 @@ public class OpenMenu implements CommandExecutor, Listener {
 		SkullMeta Smeta = (SkullMeta) item.getItemMeta();
 		
 		List<String> lore = new ArrayList<>();
-		lore.add(" §c§?§ Health §f" + Main.playerhealthcalc(player));
-		lore.add(" §a§?§ Defense §f" + Main.playerdefcalc(player));
-		lore.add(" §b✎ Intelligence §f" + Main.playermanacalc(player));
 		lore.add(ChatColor.YELLOW + "Click to view your profile!");
 		Smeta.setLore(lore);
 		lore.clear();
@@ -198,9 +195,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 		item.setType(Material.GOLDEN_APPLE);
 		SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
 		meta = item.getItemMeta();
-		meta.setDisplayName("§c§?§ Health §f" + Main.playerhealthcalc(player));
-		lore.add("§7Health is your total maximum");	
-		lore.add("§7health. Your natural regenaration gives §a" + Tools.round((Main.playerhealthcalc(player) * 0.015), 1));
+		lore.add("§7Health is your total maximum");
 		lore.add("§7every §a2s.");
 		lore.add(" ");
 		lore.add("§7Base Health: §a" +p.basehealth  );
@@ -210,7 +205,6 @@ public class OpenMenu implements CommandExecutor, Listener {
 		lore.add(" §8§oto the §r§dFairy §8§oin the");
 		lore.add(" §2Wilderness§8§o.");
 		lore.add(" ");
-		lore.add("§7Bonus Health: §8+ §e" + (Main.playerhealthcalc(player) - p.basehealth + "HP"));
 		lore.add(" §8§oIncrease your bonus Health");
 		lore.add(" §8§oby equiping items and armor,");
 		lore.add(" §8§oand storing accesories in your");

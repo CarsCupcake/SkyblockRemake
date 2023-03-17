@@ -78,11 +78,11 @@ public class Calculator {
     }
 
     public HashMap<Stats, Double> getIfMissing(HashMap<Stats, Double> stats, SkyblockPlayer player) {
-        if (!stats.containsKey(Stats.Strength)) stats.put(Stats.Strength, Main.playerstrengthcalc(player));
+        if (!stats.containsKey(Stats.Strength)) stats.put(Stats.Strength, Main.getPlayerStat(player, Stats.Strength));
 
-        if (!stats.containsKey(Stats.CritChance)) stats.put(Stats.CritChance, Main.playercccalc(player));
+        if (!stats.containsKey(Stats.CritChance)) stats.put(Stats.CritChance, Main.getPlayerStat(player, Stats.CritChance));
 
-        if (!stats.containsKey(Stats.CritDamage)) stats.put(Stats.CritDamage, Main.playercdcalc(player));
+        if (!stats.containsKey(Stats.CritDamage)) stats.put(Stats.CritDamage, Main.getPlayerStat(player, Stats.CritDamage));
 
         return stats;
     }
@@ -158,16 +158,17 @@ public class Calculator {
         if (entity != null) e = entity.getEntity();
         type = SkyblockDamageEvent.DamageType.EntityToPlayer;
         double damage = stats.getFirst();
-
-        float ehp = (float) Main.playerhealthcalc(player) * (1 + ((float) Main.playerdefcalc(player) / 100));
-        float effectivedmg = (float) Main.playerhealthcalc(player) / ehp;
+        double health = Main.getPlayerStat(player, Stats.Health);
+        double defense = Main.getPlayerStat(player, Stats.Defense);
+        float ehp = (float) health  * (1 + ((float) defense/ 100));
+        float effectivedmg = (float) health / ehp;
         int totaldmg = (int) ((int) damage * effectivedmg);
 
 
         int truedamage = stats.getLast();
         if (truedamage != 0) {
-            float trueehp = (float) Main.playerhealthcalc(player) * (1 + ((float) Main.playertruedefense(player) / 100));
-            float effectivetruedmg = (float) Main.playerhealthcalc(player) / trueehp;
+            float trueehp = (float) health * (1 + ((float) Main.getPlayerStat(player, Stats.TrueDefense) / 100));
+            float effectivetruedmg = (float) health/ trueehp;
             totaldmg += (int) (truedamage * effectivetruedmg);
         }
         this.damage = totaldmg;
@@ -242,10 +243,8 @@ public class Calculator {
 
         if (newHealth <= 0) e.addScoreboardTag("killer:" + player.getName());
         else Main.updateentitystats(e);
-
-        if (!isMagic && !isFerocity && projectile == null && applyFerocity) if (Main.playerferocitycalc(player) != 0) {
-            int ferocity = (int) Main.playerferocitycalc(player);
-
+        double ferocity = Main.getPlayerStat(player, Stats.Ferocity);
+        if (!isMagic && !isFerocity && projectile == null && applyFerocity) if (ferocity > 0) {
             if (ferocity < 100) {
                 Random r = new Random();
                 int low = 1;//includes 1
@@ -390,8 +389,8 @@ public class Calculator {
 
         if (e != null && e.getScoreboardTags().contains("abilityimun")) return;
 
-        double abilityDamage = Main.playerabilitydamagecalc(player);
-        double inteligens = Main.playermanacalc(player);
+        double abilityDamage = Main.getPlayerStat(player, Stats.AbilityDamage);
+        double inteligens =Main.getPlayerStat(player, Stats.Inteligence);
 
         double baseMult = 0;
         damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100));

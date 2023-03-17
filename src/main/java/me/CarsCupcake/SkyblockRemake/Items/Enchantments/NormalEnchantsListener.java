@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +40,8 @@ public class NormalEnchantsListener implements Listener {
         if(event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getItemMeta() != null){
             if(event.getPlayer().getItemInHand().getItemMeta().getEnchants().containsKey(SkyblockEnchants.SYPHON)
                     && event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) != 0) {
-                double crit = Main.playercdcalc(event.getPlayer());
+                double crit = Main.getPlayerStat(event.getPlayer(), Stats.CritDamage);
+                double health = Main.getPlayerStat(event.getPlayer(), Stats.Health);
                 if(crit > 1000)
                     crit = 1000;
                 crit /= 100;
@@ -47,10 +49,10 @@ public class NormalEnchantsListener implements Listener {
                 double baseMult = 0.001 * event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) + 0.001;
                 baseMult *= crit;
                 baseMult += 1;
-                int h =(int) (baseMult * Main.playerhealthcalc(event.getPlayer()));
+                int h =(int) (baseMult * health);
                 h += event.getPlayer().currhealth;
-                if(h > Main.playerhealthcalc(event.getPlayer()))
-                    h =(int) Main.playerhealthcalc(event.getPlayer());
+                if(h > health)
+                    h =(int) health;
                 event.getPlayer().setHealth(h, HealthChangeReason.Ability);
                 Main.updatebar(event.getPlayer());
             }

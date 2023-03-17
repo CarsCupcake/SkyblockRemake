@@ -1,15 +1,18 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2;
 
+import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.DemonsGoal;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Bukkit;
@@ -316,22 +319,9 @@ public class TyphoesT2 extends SkyblockEntity implements Demons, FinalDamageDesi
 			@Override
 			public void run() {
 				baseSlayer.owner.damage(0.1);
-				int truedamage = getDamage()/2;
-			
-					float trueehp = (float) (float)Main.playerhealthcalc(baseSlayer.owner)*(1+((float)Main.playerdefcalc(baseSlayer.owner)/100));
-					float effectivetruedmg = (float)Main.playerhealthcalc(baseSlayer.owner)/(float)trueehp;
-					int totaldmg = (int) ((int) truedamage*effectivetruedmg);
-					if(Main.absorbtion.get(baseSlayer.owner) - totaldmg  < 0) {
-						float restdamage =   (float)totaldmg - (float) Main.absorbtion.get(baseSlayer.owner);
-						Main.absorbtion.replace(baseSlayer.owner, 0);
-						baseSlayer.owner.setHealth( baseSlayer.owner.currhealth  - (int)restdamage, HealthChangeReason.Damage);
-					}else {
-						Main.absorbtion.replace(baseSlayer.owner, Main.absorbtion.get(baseSlayer.owner) - totaldmg);
-					}
-					
-
-					Main.updatebar(baseSlayer.owner);
-				
+				Calculator calculator = new Calculator();
+				calculator.entityToPlayerDamage(TyphoesT2.this, baseSlayer.owner, new Bundle<>(0, getDamage()/2));
+				calculator.damagePlayer(baseSlayer.owner);
 			}
 		};
 		aoeRunner.runTaskTimer(Main.getMain(), 20, 20);

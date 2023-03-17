@@ -6,7 +6,7 @@ import java.util.Random;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
+import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
@@ -26,9 +26,6 @@ import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.AdditionalManaCosts;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManager<PlayerInteractEvent> {
 private static final String itemID = "AXE_OF_THE_SHREDDED";
@@ -102,10 +99,9 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
                 armorStand.setVelocity(newVector);
 
                 for(Entity e : armorStand.getNearbyEntities(1, 1, 1)) {
-                    if(e instanceof LivingEntity && e.getType() != EntityType.ARMOR_STAND && !(e instanceof Player)) {
+                    if(e instanceof LivingEntity entity && e.getType() != EntityType.ARMOR_STAND && !(e instanceof Player)) {
                     	if(damaged.contains(e)) continue;
                     	damaged.add(e);
-                    	LivingEntity entity = (LivingEntity)e;
 						Calculator calculator = new Calculator();
 						double damage = calculator.playerToEntityDamage(entity,player);
 				        	
@@ -145,14 +141,14 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 							
 								armorstand.setInvulnerable(true);
 							if(calculator.isCrit) {
-								String name = "§f✧";
+								StringBuilder name = new StringBuilder("§f✧");
 								String num = "" + String.format("%.0f",Tools.round( FINAL_DAMAGE, 0));
 								int col =1;
 								int coltype = 1;
 								String colstr = "§f";
 								
 								for (char x : num.toCharArray()) {
-									name = name + colstr + x;
+									name.append(colstr).append(x);
 									++col;
 									if(col ==2) {
 										col = 0;
@@ -169,8 +165,8 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 									}
 								}
 								String x = "✧";
-								name = name + colstr + x;
-								armorstand.setCustomName(name);
+								name.append(colstr).append(x);
+								armorstand.setCustomName(name.toString());
 							}else
 								armorstand.setCustomName("§7" + String.format("%.0f",Tools.round( FINAL_DAMAGE, 0)));
 							
@@ -182,11 +178,8 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 							
 							Main.getMain().killarmorstand(stand);
 						  e.setCustomNameVisible(true);
-						 
-						  if(Main.playerferocitycalc(player) != 0) {
-							  int ferocity =(int) Main.playerferocitycalc(player);
-							  
-							  
+						int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
+						  if(Main.getPlayerStat(player, Stats.Ferocity) != 0) {
 							  if(ferocity < 100) {
 								  Random r = new Random();
 								  int low = 1;//includes 1
@@ -202,7 +195,7 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 								 
 								  if(hits % 1 == 0) {
 									  
-									  SkyblockRemakeEvents.ferocity_call(entity, damage, calculator.cccalc, (int)Main.playercccalc(player), player, (int)hits);
+									  SkyblockRemakeEvents.ferocity_call(entity, damage, calculator.cccalc, (int)Main.getPlayerStat(player, Stats.CritChance), player, (int)hits);
 									   
 									 
 								  }else {
@@ -217,7 +210,7 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 									  if(hitchance >= result) {
 										  hits = hits +1;
 									  }
-									  SkyblockRemakeEvents.ferocity_call(entity, damage, calculator.cccalc, (int)Main.playercccalc(player), player, (int)hits);
+									  SkyblockRemakeEvents.ferocity_call(entity, damage, calculator.cccalc,(int) Main.getPlayerStat(player, Stats.CritChance), player, (int)hits);
 								  }
 							  }
 						  }
@@ -242,8 +235,9 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 	@Override
 	public void extraDamageEvent(SkyblockDamageEvent event) {
 		int newHealth = event.getPlayer().currhealth + 50;
-		if(newHealth > Main.playerhealthcalc(event.getPlayer()))
-			event.getPlayer().setHealth(Main.playerhealthcalc(event.getPlayer()), HealthChangeReason.Ability);
+		double health = Main.getPlayerStat(event.getPlayer(), Stats.Health);
+		if(newHealth > health)
+			event.getPlayer().setHealth(health, HealthChangeReason.Ability);
 		else
 			event.getPlayer().setHealth(newHealth,HealthChangeReason.Ability);
 	}

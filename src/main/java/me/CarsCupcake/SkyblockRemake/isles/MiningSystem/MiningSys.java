@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -77,12 +78,12 @@ public class MiningSys {
         }
         if (this.block == null)
             return;
-        if (this.block.getBreakingPower() > Main.playerbreakingpower(player)) {
+        if (this.block.getBreakingPower() > Main.getPlayerStat(player, Stats.BreakingPower)) {
             return;
         }
         SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
         final int ticks;
-        double speed = Main.getPlayerMiningSpeed(p.getPlayer());
+        double speed = Main.getPlayerStat(player, Stats.MiningSpeed);
         if (speed >= this.block.getSoftCap()) {
             if (speed >= this.block.getInstaMineSpeed())
                 ticks = 1;
@@ -123,7 +124,7 @@ public class MiningSys {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            if (checkValid(b.getLocation().getBlock()) && !hasStoped && MiningSys.this.block.getBreakingPower() <= Main.playerbreakingpower(player)) {
+                            if (checkValid(b.getLocation().getBlock()) && !hasStoped && MiningSys.this.block.getBreakingPower() <= Main.getPlayerStat(player, Stats.BreakingPower)) {
                                 startMining(block.getLocation().getBlock());
                             }
                         }

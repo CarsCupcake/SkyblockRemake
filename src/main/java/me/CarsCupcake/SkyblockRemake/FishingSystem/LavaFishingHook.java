@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.FishingSystem;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishing;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.Listener;
@@ -147,7 +148,7 @@ public class LavaFishingHook implements Listener {
 
         }
         if(hookReady){
-            double seaCreatureChance = Main.playerseacreaturechance(player) / 100;
+            double seaCreatureChance = Main.getPlayerStat(player, Stats.SeaCreatureChance) / 100;
             if(seaCreatureChance > new Random().nextDouble()){
                 new LavaFishing().summonSeaCreature(player, hook.getLocation().add(0,0.5,0),
                         new Vector(player.getEyeLocation().getX() - hook.getLocation().getX(), (player.getEyeLocation().getY() - hook.getLocation().getY()) - 0.5, player.getEyeLocation().getZ() - hook.getLocation().getZ()).multiply(0.15));

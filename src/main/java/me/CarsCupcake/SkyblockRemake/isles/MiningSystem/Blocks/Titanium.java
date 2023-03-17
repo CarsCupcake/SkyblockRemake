@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -38,7 +39,7 @@ public class Titanium extends MiningBlock {
     @Override
     public ArrayList<ItemStack> getDrops(SkyblockPlayer player) {
         ItemStack item = Items.Titanium();
-        item.setAmount(SkyblockRemakeEvents.dropAmount((int) Main.getPlayerMiningFortune(player), 2, 4));
+        item.setAmount(SkyblockRemakeEvents.dropAmount((int) Main.getPlayerStat(player, Stats.MiningFortune), 2, 4));
 
         return new ArrayList<>(List.of(Main.item_updater(item, player)));
     }

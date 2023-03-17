@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Mithril;
 
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningBlock;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
@@ -41,7 +42,7 @@ public class MithrilBlue extends MiningBlock {
     @Override
     public ArrayList<ItemStack> getDrops(SkyblockPlayer player) {
         ItemStack item = Items.Mithril();
-        item.setAmount(SkyblockRemakeEvents.dropAmount((int)Main.getPlayerMiningFortune(player), 1));
+        item.setAmount(SkyblockRemakeEvents.dropAmount((int)Main.getPlayerStat(player, Stats.MiningFortune), 1));
         return new ArrayList<>(List.of(
                 Main.item_updater(item, player)
         ));
