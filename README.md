@@ -21,6 +21,7 @@
     ·
     <a href="">Join our Discord</a>
   </p>
+<p align="center">For Minecraft Version 1.17.1</p>
 </div>
 
 
