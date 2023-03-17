@@ -925,14 +925,16 @@ public class OpenMenu implements CommandExecutor, Listener {
 			  return;
 		  }
 
-		  if (event.getSlot() == 30) {
+		if (event.getSlot() == 30) {
+			player.updateInventory();
+			player.openInventory(PetMenuInv.createMenu(player));
+			return;
+		}
 
-			  player.updateInventory();
-			  player.openInventory(PetMenuInv.createMenu(player));
-			  return;
-			  
-		  
-		  }
+		if (event.getSlot() == 31) {
+			player.openInventory(CustomCraftingTableInvenotry.createInventory());
+			return;
+		}
 		  if (event.getSlot() == 53 && AccessoryBag.get().getInt(player.getUniqueId() + ".slots") != 0) {
 
 			  
