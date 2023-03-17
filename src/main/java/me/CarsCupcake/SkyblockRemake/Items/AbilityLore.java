@@ -21,7 +21,7 @@ public class AbilityLore {
 
     //Bundle: BaseAbilityDamage - AbilityScaling
     public AbilityLore(List<String> base, String placeholder, Bundle<Double, Double> infos){
-        baseList = base;
+        baseList = (base == null) ? new ArrayList<>() : base;
         this.placeholder = placeholder;
         this.infos = infos;
     }

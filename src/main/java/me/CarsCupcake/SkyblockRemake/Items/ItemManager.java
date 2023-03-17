@@ -295,11 +295,11 @@ public class ItemManager implements ItemGenerator {
     }
 
     public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name, AbilityLore lore, int manacost, int cooldown) {
-        abilities.add(new Ability(ability, name, type, new AbilityLore(new ArrayList<>()), manacost, cooldown));
+        abilities.add(new Ability(ability, name, type, (lore == null) ? new AbilityLore(new ArrayList<>()) : lore, manacost, cooldown));
     }
 
     public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name, AbilityLore lore, double pers, boolean isPers, int cooldown) {
-        Ability a = new Ability(ability, name, type, new AbilityLore(new ArrayList<>()), (int) pers, cooldown);
+        Ability a = new Ability(ability, name, type, (lore == null) ? new AbilityLore(new ArrayList<>()) : lore, (int) pers, cooldown);
         if (isPers) a.setPersentage(pers);
         abilities.add(a);
     }

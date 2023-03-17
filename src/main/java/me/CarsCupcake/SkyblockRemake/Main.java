@@ -1,4 +1,4 @@
-//All rights go to TakoTheMaid
+//All rights go to CarsCupcake  L to TakoTheMaid
 //If you see this, don't remove please :D
 //Never gonna give you up,
 //Never gonna let you down,
@@ -2804,24 +2804,7 @@ public class Main extends JavaPlugin {
 			else
 				meta.setDisplayName(rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
 
-
-
 			//Tako was here
-			if(manager.bonus != null) {
-				Ability bonusAbility = manager.getFullSetBonus();
-				if(bonusAbility != null) {
-
-					if (bonusAbility.getName() != null) {
-						lores.add(" ");
-						lores.add(manager.getAbilityHeadline(player, manager.getFullSetBonusPointer()));
-					}
-					AbilityLore l = bonusAbility.getLore();
-					if (l != null) {
-						l.makeLore(player, item).forEach(str -> {
-							lores.add(str);
-						});
-					}
-				}}
 
 			if(manager.getEquipmentAbility() != null) {
 				Ability equipmentAbility = manager.getEquipmentAbilityData();
@@ -2844,7 +2827,8 @@ public class Main extends JavaPlugin {
 				if(ability.getName() != null)
 					lores.add(manager.getAbilityHeadline(player, i));
 				if(ability.getLore() != null)
-					lores.addAll(ability.getLore().makeLore(player, item));
+					for (String s : ability.getLore().makeLore(player, item))
+						lores.add(s);
 
 				if(ability.getManacost() > 0 && !ability.isPersentage()){
 					ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getManacost());
