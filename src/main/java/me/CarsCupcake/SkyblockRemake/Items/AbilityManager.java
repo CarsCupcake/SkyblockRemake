@@ -37,6 +37,9 @@ public interface AbilityManager<T extends Event> {
 
         boolean isSneaking = player.isSneaking();
 
+        if(!player.getItemInHand().hasItemMeta())
+            return;
+
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING));
 
         if (manager == null) return;
@@ -132,6 +135,9 @@ public interface AbilityManager<T extends Event> {
 
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
 
+        if(!player.getItemInHand().hasItemMeta())
+            return;
+
         boolean isSneaking = player.isSneaking();
 
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING));
@@ -158,9 +164,10 @@ public interface AbilityManager<T extends Event> {
 
     @SuppressWarnings("deprecation")
     static void abilityTrigger(DamagePrepairEvent event) {
-
-
         SkyblockPlayer player = event.getPlayer();
+
+        if(!player.getItemInHand().hasItemMeta())
+            return;
 
         boolean isSneaking = player.isSneaking();
 
@@ -189,9 +196,10 @@ public interface AbilityManager<T extends Event> {
 
     @SuppressWarnings("deprecation")
     static void abilityTrigger(SkyblockDamagePlayerToEntityExecuteEvent event) {
-
-
         SkyblockPlayer player = event.getPlayer();
+
+        if(!player.getItemInHand().hasItemMeta())
+            return;
 
         boolean isSneaking = player.isSneaking();
 
