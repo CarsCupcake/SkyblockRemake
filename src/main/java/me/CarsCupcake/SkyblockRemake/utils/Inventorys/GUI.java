@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -27,6 +28,7 @@ public class GUI {
         isCanceled = template.isCanceled();
     }
     public void showGUI(SkyblockPlayer player){
+        Assert.notNull(player, "Player is not allowed to be null");
         this.player = player;
         player.openInventory(inv);
         opened.put(player, this);

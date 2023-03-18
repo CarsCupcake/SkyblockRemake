@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
 import org.bukkit.entity.FallingBlock;
@@ -18,7 +17,6 @@ public class MidasStaffAbility implements AbilityManager<PlayerInteractEvent> {
         Location loc = p.getLocation();
         World w = p.getWorld();
         p.playSound(loc, Sound.ENTITY_ARMOR_STAND_HIT, 1, 1);
-        p.spigot().sendMessage(TextComponent.fromLegacyText("§b-500 Mana (§6Molten Wave§b)"));
         loc.setY(loc.getY() + 3);
         new BukkitRunnable() {
             int i = 9;
@@ -45,7 +43,7 @@ public class MidasStaffAbility implements AbilityManager<PlayerInteractEvent> {
                     FallingBlock block3 = w.spawnFallingBlock(loc, Material.GOLD_BLOCK, (byte) 0);
                     ((CraftEntity) block3).getHandle().P = true;
                     loc.add(newvec.multiply(-0.5));
-
+                    //ToDo Add damage
                 } else {
                     cancel();
                 }

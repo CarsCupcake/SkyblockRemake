@@ -1275,7 +1275,8 @@ public class Main extends JavaPlugin {
         ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(stat);
         GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), stat, ferocity);
         Bukkit.getPluginManager().callEvent(event);
-
+        if(event.isCancelled())
+            return 0;
         ferocity = event.getValue() * event.getMultiplier();
         return ferocity;
     }
@@ -1634,7 +1635,7 @@ public class Main extends JavaPlugin {
                 } else if (ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getPersentage());
                     Bukkit.getPluginManager().callEvent(event);
-                    lores.add("§8Mana Cost §3" + event.getMana() + "%");
+                    lores.add("§8Mana Cost §3" + String.format("%.0f",event.getMana()) + "%");
                 }
 
                 if (ability.getCooldown() > 0) lores.add("§8Ability Cooldown §a" + ability.getCooldown() + "s");

@@ -1,9 +1,12 @@
 package me.CarsCupcake.SkyblockRemake.Entities;
 
 import java.util.HashMap;
+import java.util.Random;
 
+import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -31,19 +34,16 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 	
 	@Override
 	public int getMaxHealth() {
-		// TODO Auto-generated method stub
 		return maxHealht;
 	}
 
 	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
 		return health;
 	}
 
 	@Override
 	public LivingEntity getEntity() {
-		// TODO Auto-generated method stub
 		return z;
 	}
 
@@ -51,7 +51,6 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 
 	@Override
 	public int getDamage() {
-		// TODO Auto-generated method stub
 		return 500;
 	}
 
@@ -70,7 +69,7 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 			zombie.setRemoveWhenFarAway(false);
 			zombie.getEquipment().setHelmet(new ItemStack(Material.PACKED_ICE));
 			ItemStack item = new ItemStack(Material.LEATHER_CHESTPLATE);
-			LeatherArmorMeta meta = (boolean)item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
+			LeatherArmorMeta meta = item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
 			meta.setColor(Color.AQUA);
 			item.setItemMeta(meta);
 			zombie.getEquipment().setChestplate(item);
@@ -100,8 +99,19 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 
 	@Override
 	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
-
-		return null;
+		HashMap<ItemManager,Integer> drops = new HashMap<>();
+		Random random = new Random();
+		if(random.nextDouble() <= 0.005)
+			drops.put(Items.SkyblockItems.get("GLACITE_JEWEL"), 1);
+		if(random.nextDouble() <= 0.01) {
+			HashMap<String, Double> lootTable = new HashMap<>();
+			lootTable.put("GLACITE_HELMET", 0.25);
+			lootTable.put("GLACITE_CHESTPLATE", 0.25);
+			lootTable.put("GLACITE_LEGGINGS", 0.25);
+			lootTable.put("GLACITE_BOOTS", 0.25);
+			drops.put(Items.SkyblockItems.get(Tools.getOneItemFromLootTable(lootTable)), 1);
+		}
+		return drops;
 	}
 	
 
@@ -109,28 +119,24 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 	public void updateNameTag() {
 		if(isCorrupted)
 			DiguestMobsManager.getDiguested.get(z).setName("§7[§8Lv?§7] §5§ka§5Corrupted " + getName()
-					+ "§ka §a" + (int) health + "§8/§a" + getMaxHealth());
+					+ "§ka §a" + health + "§8/§a" + getMaxHealth());
 		else
 			DiguestMobsManager.getDiguested.get(z).setName("§7[§8Lv?§7] §c" + getName()
-		            + " §a" + (int) health + "§8/§a" + getMaxHealth());
+		            + " §a" + health + "§8/§a" + getMaxHealth());
 		
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub 
 		return name;
 	}
 
 	@Override
 	public void kill() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public boolean hasNoKB() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -142,7 +148,6 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 
 	@Override
 	public int getTrueDamage() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

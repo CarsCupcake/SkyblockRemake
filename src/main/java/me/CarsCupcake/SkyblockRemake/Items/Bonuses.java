@@ -24,7 +24,8 @@ public enum Bonuses {
 	UnstableBlood(new UnstableBlood()),
 	YoungBlood(new YoungBlood()),
 	StrongBlood(new StrongBlood()),
-	AdminArmor(new AdminArmorAbility());
+	AdminArmor(new AdminArmorAbility()),
+	ExpertMiner(new ExpertMiner());
 
 	private final FullSetBonus b;
 	Bonuses(FullSetBonus bonus) {

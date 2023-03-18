@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import org.bukkit.event.Cancellable;
 
-public class GetTotalStatEvent extends PlayerEvent {
+public class GetTotalStatEvent extends PlayerEvent implements Cancellable {
     private final Stats stat;
     private double value;
     @Getter
     @Setter
     private double multiplier = 1;
+    private boolean isCancelled = false;
 
     public GetTotalStatEvent(SkyblockPlayer player, Stats stats, double value) {
         super(player);
@@ -29,4 +31,13 @@ public class GetTotalStatEvent extends PlayerEvent {
     }
 
 
+    @Override
+    public boolean isCancelled() {
+        return isCancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean b) {
+        isCancelled = b;
+    }
 }

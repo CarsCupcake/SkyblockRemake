@@ -79,6 +79,7 @@ public class ItemBuilder {
         meta.setLore(lore);
         for(ItemFlag itemFlag : flags)
             meta.addItemFlags(itemFlag);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         if(glint)
             meta.addEnchant(SkyblockEnchants.ENCHANT_GLINT, 1, false);
         item.setItemMeta(meta);

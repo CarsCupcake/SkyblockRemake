@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 
 public class FallDownArmorstand implements Listener {
-    private static ArrayList<ArmorStand> stands = new ArrayList<>();
+    private static final ArrayList<ArmorStand> stands = new ArrayList<>();
 
     public FallDownArmorstand(Material m, Location l){
         if(m == null)

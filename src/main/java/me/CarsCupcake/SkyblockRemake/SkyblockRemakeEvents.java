@@ -22,6 +22,7 @@ import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIslandManager;
+import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -653,6 +654,12 @@ public class SkyblockRemakeEvents implements Listener {
         PacketReader reader = new PacketReader(event.getPlayer());
         reader.uninject(event.getPlayer());
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+        try {
+            PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
+            PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         player.saveCommissionProgress();
         Main.absorbtion.remove(player);
         Main.absorbtionrunntime.remove(player);

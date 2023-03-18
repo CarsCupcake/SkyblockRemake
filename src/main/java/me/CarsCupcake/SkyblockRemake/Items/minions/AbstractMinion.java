@@ -113,6 +113,21 @@ public abstract class AbstractMinion implements Minion {
         }
     }
 
+    public void isFull() {
+        boolean oneItemStackHasSpace = false;
+        for (ItemStack b : inventory)
+            if (b.getAmount() < b.getMaxStackSize()) oneItemStackHasSpace = true;
+        boolean b = isFull;
+        isFull = inventory.size() == inventorySpace && !oneItemStackHasSpace;
+        if(!isFull && b){
+            if(message != null && !message.isDead())
+                message.remove();
+            try {
+                messageTimer.cancel();
+            }catch (Exception ignored){}
+        }
+    }
+
     public void saveMinion() {
         CustomConfig config = new CustomConfig(player, "minions", false);
         config.get().set(minionId, null);
@@ -323,6 +338,8 @@ public abstract class AbstractMinion implements Minion {
                 inventory.remove(indexOf);
                 player.addItem(item);
                 showInventory();
+                isFull();
+                startWorking();
             }
         });
         gui.inventoryClickAction(48, type -> {
@@ -330,8 +347,13 @@ public abstract class AbstractMinion implements Minion {
                 player.addItem(item);
             inventory.clear();
             showInventory();
+            isFull();
+            startWorking();
         });
-        gui.inventoryClickAction(53, type -> player.getPrivateIsle().pickupMinion(this));
+        gui.inventoryClickAction(53, type -> {
+            player.getPrivateIsle().pickupMinion(this);
+            gui.closeInventory();
+        });
         gui.showGUI(player);
     }
 

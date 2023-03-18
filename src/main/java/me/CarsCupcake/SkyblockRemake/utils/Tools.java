@@ -33,11 +33,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import net.minecraft.FileUtils;
 import net.minecraft.world.phys.AxisAlignedBB;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
 import org.bukkit.entity.Entity;
@@ -62,17 +59,17 @@ public class Tools {
         return Math.round(num * d) / d;
     }
 
-    public static Double StringToDouble(String str){
+    public static Double StringToDouble(String str) {
         int mult = 1;
-        if(str.endsWith("k")) {
+        if (str.endsWith("k")) {
             mult = 1000;
-            str =str.replace("k", "");
+            str = str.replace("k", "");
         }
-        if(str.endsWith("m")) {
+        if (str.endsWith("m")) {
             mult = 1000000;
-            str =str.replace("m", "");
+            str = str.replace("m", "");
         }
-        if(str.endsWith("b")) {
+        if (str.endsWith("b")) {
             mult = 1000000000;
             str = str.replace("b", "");
         }
@@ -83,22 +80,21 @@ public class Tools {
         } catch (Exception e) {
             return -1d;
         }
-        return Double.parseDouble(str)*mult ;
+        return Double.parseDouble(str) * mult;
 
 
     }
 
-    public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed,int baseDropChance ,SkyblockPlayer player){
+    public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed, int baseDropChance, SkyblockPlayer player) {
         double chance = Main.getPlayerStat(player, Stats.Pristine) / 100d;
         double miningFortune = Main.getPlayerStat(player, Stats.MiningFortune) / 100;
         int norm = 0;
         int pri = 0;
         Random r = new Random();
-        for(int i = 0; i < baseDropChance; i++){
-            if(r.nextDouble() <= chance) {
+        for (int i = 0; i < baseDropChance; i++) {
+            if (r.nextDouble() <= chance) {
                 pri += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) >= r.nextDouble()) ? 1 : 0);
-            }
-            else
+            } else
                 norm += ((int) miningFortune) + ((miningFortune - ((int) miningFortune) != 0 && miningFortune - ((int) miningFortune) <= r.nextDouble()) ? 1 : 0);
         }
 
@@ -114,28 +110,26 @@ public class Tools {
     }
 
 
-    public static boolean isInRect(Player player, Location loc1, Location loc2)
-    {
+    public static boolean isInRect(Player player, Location loc1, Location loc2) {
         double[] dim = new double[2];
 
         dim[0] = loc1.getX();
         dim[1] = loc2.getX();
         Arrays.sort(dim);
-        if(player.getLocation().getX() > dim[1] || player.getLocation().getX() < dim[0])
-            return false;
+        if (player.getLocation().getX() > dim[1] || player.getLocation().getX() < dim[0]) return false;
 
         dim[0] = loc1.getZ();
         dim[1] = loc2.getZ();
         Arrays.sort(dim);
-        if(player.getLocation().getZ() > dim[1] || player.getLocation().getZ() < dim[0])
-            return false;
+        if (player.getLocation().getZ() > dim[1] || player.getLocation().getZ() < dim[0]) return false;
 
         dim[0] = loc1.getY();
         dim[1] = loc2.getY();
         Arrays.sort(dim);
         return !(player.getLocation().getY() > dim[1]) && !(player.getLocation().getY() < dim[0]);
     }
-    public static void loadShematic(File file, Location base){
+
+    public static void loadShematic(File file, Location base) {
         Clipboard clipboard = null;
         ClipboardFormat format = ClipboardFormats.findByFile(file);
 
@@ -149,19 +143,17 @@ public class Tools {
 
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()))) {
 
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
-                    .build();
+            Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(base.getX(), base.getY(), base.getZ())).build();
 
             Operations.complete(operation);
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Bukkit.broadcastMessage("§c A schematic failed to load");
             return;
         }
     }
+
     public static void loadShematic(InputStream stream, Location base) throws IOException {
         Clipboard clipboard = null;
         ClipboardFormat format = ClipboardFormats.findByAlias("schem");
@@ -169,10 +161,7 @@ public class Tools {
         try (ClipboardReader reader = format.getReader(stream)) {
             clipboard = reader.read();
             EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
-                    .build();
+            Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(base.getX(), base.getY(), base.getZ())).build();
 
             Operations.complete(operation);
             editSession.close();
@@ -180,23 +169,25 @@ public class Tools {
             Bukkit.broadcastMessage("§c A schematic failed to load");
             e.printStackTrace();
             return;
-        }finally {
+        } finally {
             try {
                 stream.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
     }
-    public static boolean hasFileSystem(String scheme){
-        for (FileSystemProvider provider: FileSystemProvider.installedProviders()) {
+
+    public static boolean hasFileSystem(String scheme) {
+        for (FileSystemProvider provider : FileSystemProvider.installedProviders()) {
             if (scheme.equalsIgnoreCase(provider.getScheme())) {
                 return true;
             }
         }
         return false;
     }
+
     public static void copyDirectoryCompatibityMode(File source, File destination) throws IOException {
         if (source.isDirectory()) {
             copyDirectory(source, destination);
@@ -204,6 +195,7 @@ public class Tools {
             copyFile(source, destination);
         }
     }
+
     private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
         if (!destinationDirectory.exists()) {
             destinationDirectory.mkdir();
@@ -212,10 +204,9 @@ public class Tools {
             copyDirectoryCompatibityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
         }
     }
-    private static File copyFile(File sourceFile, File destinationFile)
-            throws IOException {
-        try (InputStream in = new FileInputStream(sourceFile);
-             OutputStream out = new FileOutputStream(destinationFile)) {
+
+    private static File copyFile(File sourceFile, File destinationFile) throws IOException {
+        try (InputStream in = new FileInputStream(sourceFile); OutputStream out = new FileOutputStream(destinationFile)) {
             byte[] buf = new byte[1024];
             int length;
             while ((length = in.read(buf)) > 0) {
@@ -224,32 +215,31 @@ public class Tools {
             return new File(destinationFile, sourceFile.getName());
         }
     }
-    public static void loadShematic(String resourcePath, Location base){
+
+    public static void loadShematic(String resourcePath, Location base) {
         InputStream stream = Main.getMain().getResource(resourcePath);
         try {
             ClipboardFormat format = ClipboardFormats.findByAlias("schem");
             ClipboardReader reader = format.getReader(stream);
             Clipboard clipboard = reader.read();
             EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(base.getX(), base.getY(), base.getZ()))
-                    .build();
+            Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(base.getX(), base.getY(), base.getZ())).build();
             Operations.complete(operation);
             editSession.close();
         } catch (Exception e) {
             Bukkit.broadcastMessage("§c A schematic failed to load");
             e.printStackTrace();
             return;
-        }finally {
+        } finally {
             try {
                 stream.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-    public static File getFileFromResource(String fileName){
+
+    public static File getFileFromResource(String fileName) {
         return new File(fileName);
         /*try {
             Path path = getResourcePath(fileName);
@@ -262,7 +252,8 @@ public class Tools {
             return null;
         }*/
     }
-    public static List<Path> getAllPaths () {
+
+    public static List<Path> getAllPaths() {
         List<Path> paths = new ArrayList<>();
         try {
             URI uri = Main.class.getResource("/assets/").toURI();
@@ -275,7 +266,7 @@ public class Tools {
                 Path = Paths.get(uri);
             }
             Stream<Path> walk = Files.walk(Path, 3);
-            for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
+            for (Iterator<Path> it = walk.iterator(); it.hasNext(); ) {
                 Path path = it.next();
                 String name = path.getFileName().toString();
                 if (name.endsWith(".schem")) paths.add(path);
@@ -286,20 +277,42 @@ public class Tools {
         }
         return paths;
     }
+
+    public static String makeProgressBar(int bars, double value, double maxValue, ChatColor notFinishedProgress, ChatColor finishedProgress) {
+        return makeProgressBar(bars, value, maxValue, notFinishedProgress, finishedProgress, "-");
+    }
+    public static String makeProgressBar(int bars, double value, double maxValue, ChatColor notFinishedProgress, ChatColor finishedProgress, String piece){
+        double pers = value / maxValue;
+        if (pers > 1) pers = 1;
+        if (pers < 0) pers = 0;
+        int done = (int) (bars * pers);
+        String s = "";
+        if(done != 0){
+            s += finishedProgress;
+            for (int i = 0; i < done; i++)
+                s += piece;
+        }
+        if(bars - done != 0){
+            s += notFinishedProgress;
+            for (int i = 0; i < (bars - done); i++)
+                s += piece;
+        }
+        return s;
+    }
+
     @Nullable
     public static <T> Constructor<T> getConstructorIfAvailable(Class<T> clazz, Class<?>... paramTypes) {
         Assert.notNull(clazz, "Class can not be null");
         try {
             return clazz.getConstructor(paramTypes);
-        }
-        catch (NoSuchMethodException ex) {
+        } catch (NoSuchMethodException ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    public static ArrayList<Block> getBlocksBetween(Block b1, Block b2){
-        if (b1.getWorld() != b2.getWorld())
-            return null;
+
+    public static ArrayList<Block> getBlocksBetween(Block b1, Block b2) {
+        if (b1.getWorld() != b2.getWorld()) return null;
         ArrayList<Block> b = new ArrayList<>();
 	 /*for (int x = b1.getX(); x <= b2.getX(); x++) {
 		 for (int y = b1.getY(); y <= b2.getY(); y++) {
@@ -309,43 +322,45 @@ public class Tools {
 			 }
 		 }
 	 }*/
-        if(b2.getX() > b1.getX()){
-            for(int x = b1.getX(); x <= b2.getX(); x++)
-                getBlocksBetweenY(b1,b2, b, x);
-        }else if(b2.getX() == b1.getX()){
-            getBlocksBetweenY(b1,b2, b, b1.getX());
-        }else for(int x = b1.getX(); x >= b2.getX(); x--)
-            getBlocksBetweenY(b1,b2, b, x);
+        if (b2.getX() > b1.getX()) {
+            for (int x = b1.getX(); x <= b2.getX(); x++)
+                getBlocksBetweenY(b1, b2, b, x);
+        } else if (b2.getX() == b1.getX()) {
+            getBlocksBetweenY(b1, b2, b, b1.getX());
+        } else for (int x = b1.getX(); x >= b2.getX(); x--)
+            getBlocksBetweenY(b1, b2, b, x);
 
 
         return b;
     }
-    private static void getBlocksBetweenY(Block b1, Block b2, ArrayList<Block> curr, int x){
-        if(b2.getY() > b1.getY()){
-            for(int y = b1.getY(); y <= b2.getY(); y++)
-                getBlocksBetweenZ(b1,b2, curr, x,y);
-        }else if(b2.getY() == b1.getY()){
-            getBlocksBetweenZ(b1,b2, curr, x, b1.getY());
-        }else for(int y = b1.getY(); y >= b2.getY(); y--)
-            getBlocksBetweenZ(b1,b2, curr, x,y);
+
+    private static void getBlocksBetweenY(Block b1, Block b2, ArrayList<Block> curr, int x) {
+        if (b2.getY() > b1.getY()) {
+            for (int y = b1.getY(); y <= b2.getY(); y++)
+                getBlocksBetweenZ(b1, b2, curr, x, y);
+        } else if (b2.getY() == b1.getY()) {
+            getBlocksBetweenZ(b1, b2, curr, x, b1.getY());
+        } else for (int y = b1.getY(); y >= b2.getY(); y--)
+            getBlocksBetweenZ(b1, b2, curr, x, y);
     }
-    private static void getBlocksBetweenZ(Block b1, Block b2, ArrayList<Block> curr, int x, int y){
-        if(b2.getZ() > b1.getZ()){
-            for(int z = b1.getZ(); z <= b2.getZ(); z++)
-                curr.add(new Location(b1.getWorld(),x,y,z).getBlock());
-        }else if(b2.getZ() == b1.getZ()){
-            curr.add(new Location(b1.getWorld(),x,y,b1.getZ()).getBlock());
-        }else for(int z = b1.getZ(); z >= b2.getZ(); z--)
-            curr.add(new Location(b1.getWorld(),x,y,z).getBlock());
+
+    private static void getBlocksBetweenZ(Block b1, Block b2, ArrayList<Block> curr, int x, int y) {
+        if (b2.getZ() > b1.getZ()) {
+            for (int z = b1.getZ(); z <= b2.getZ(); z++)
+                curr.add(new Location(b1.getWorld(), x, y, z).getBlock());
+        } else if (b2.getZ() == b1.getZ()) {
+            curr.add(new Location(b1.getWorld(), x, y, b1.getZ()).getBlock());
+        } else for (int z = b1.getZ(); z >= b2.getZ(); z--)
+            curr.add(new Location(b1.getWorld(), x, y, z).getBlock());
     }
-    public static  <T> T  getOneItemFromLootTable(HashMap<T, Double> lootTable){
+
+    public static <T> T getOneItemFromLootTable(HashMap<T, Double> lootTable) {
         double totalCount = 0;
         for (double d : lootTable.values())
             totalCount += d;
         double rand = new Random().nextDouble(totalCount);
-        for(T loot : lootTable.keySet()){
-            if(rand <= lootTable.get(loot))
-                return loot;
+        for (T loot : lootTable.keySet()) {
+            if (rand <= lootTable.get(loot)) return loot;
             rand -= lootTable.get(loot);
         }
         return lootTable.keySet().iterator().next();
@@ -353,34 +368,33 @@ public class Tools {
 
     /**
      * Generates items from the lootabel
+     *
      * @param lootTable Loot Table for the loot double is not allowed to be higher than 1
+     * @param <T>       is the type of the random item
      * @return the items from the randomization
-     * @param <T> is the type of the random item
      */
-    public static <T> List<T> generateItems(HashMap<T, Double> lootTable){
+    public static <T> List<T> generateItems(HashMap<T, Double> lootTable) {
         List<T> result = new ArrayList<>();
-        for (T t : lootTable.keySet()){
-            if(new Random().nextDouble() <= lootTable.get(t))
-                result.add(t);
+        for (T t : lootTable.keySet()) {
+            if (new Random().nextDouble() <= lootTable.get(t)) result.add(t);
         }
         return result;
     }
 
-    public static double getFallSpeedFromTimeElapsed(int tick){
-        double part1 = 392d/5d;
-        double part2 = Math.pow(98d/100d, tick) -1;
-        double mainpart1 = part1*part2;
+    public static double getFallSpeedFromTimeElapsed(int tick) {
+        double part1 = 392d / 5d;
+        double part2 = Math.pow(98d / 100d, tick) - 1;
+        double mainpart1 = part1 * part2;
 
-        return mainpart1 /20;
+        return mainpart1 / 20;
     }
 
 
     public static @NotNull ItemStack CustomHeadTexture(String url) {
         //, (short) 3
-        ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-        if (url == null || url.isEmpty())
-            return skull;
+        if (url == null || url.isEmpty()) return skull;
 
         ItemMeta skullMeta = skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -404,12 +418,12 @@ public class Tools {
         skull.setItemMeta(skullMeta);
         return skull;
     }
+
     public static @NotNull ItemMeta CustomHeadTextureMeta(String url) {
         //, (short) 3
-        ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-        if (url == null || url.isEmpty())
-            return skull.getItemMeta();
+        if (url == null || url.isEmpty()) return skull.getItemMeta();
 
         ItemMeta skullMeta = skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
@@ -432,12 +446,12 @@ public class Tools {
         }
         return skullMeta;
     }
+
     public static @NotNull ItemMeta CustomHeadTextureMeta(String url, String id) {
         //, (short) 3
-        ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-        if (url == null || url.isEmpty())
-            return skull.getItemMeta();
+        if (url == null || url.isEmpty()) return skull.getItemMeta();
 
         ItemMeta skullMeta = skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.fromString(id), null);
@@ -460,6 +474,7 @@ public class Tools {
         }
         return skullMeta;
     }
+
     public static ItemStack getCustomTexturedHeadFromSkullValue(String value) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
@@ -475,6 +490,7 @@ public class Tools {
         head.setItemMeta(meta);
         return head;
     }
+
     public static ItemMeta getCustomTexturedHeadFromSkullValueMeta(String value) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD, 1);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
@@ -490,11 +506,11 @@ public class Tools {
         head.setItemMeta(meta);
         return meta;
     }
+
     @SuppressWarnings("deprecation")
     public static ItemStack PlayerHeadTexture(String playerName) {
 
-        ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
-
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
 
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
@@ -504,7 +520,7 @@ public class Tools {
         return skull;
     }
 
-    public static <T extends Enum<?>> T randomEnum(Class<T> clazz){
+    public static <T extends Enum<?>> T randomEnum(Class<T> clazz) {
         Random random = new Random();
         int x = random.nextInt(clazz.getEnumConstants().length);
         return clazz.getEnumConstants()[x];
@@ -512,10 +528,9 @@ public class Tools {
 
     public static ItemStack CustomHeadTexture(String url, String customUUID) {
         //, (short) 3
-        ItemStack skull= new ItemStack(Material.PLAYER_HEAD, 1);
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-        if (url == null || url.isEmpty())
-            return skull;
+        if (url == null || url.isEmpty()) return skull;
 
         ItemMeta skullMeta = skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.fromString(customUUID), null);
@@ -539,6 +554,7 @@ public class Tools {
         skull.setItemMeta(skullMeta);
         return skull;
     }
+
     public static double[] rotatePoint2D(double[] arr, double angle) {
         angle = Math.toRadians(angle);
         double cos = Math.cos(angle);
@@ -549,46 +565,43 @@ public class Tools {
         arr[1] = (-(x * sin) + (y * cos));
         return arr;
     }
-    public static void removeAllItemsFromInventory(SkyblockPlayer player, ItemManager manager){
 
-        for(ItemStack item : player.getInventory())
-            if(item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID)) {
+    public static void removeAllItemsFromInventory(SkyblockPlayer player, ItemManager manager) {
+
+        for (ItemStack item : player.getInventory())
+            if (item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID)) {
                 item.setAmount(0);
 
             }
     }
-    public static void removeItemsFromInventory(SkyblockPlayer player, ItemManager manager, int amount){
 
-        for(ItemStack item : player.getInventory())
-            if(item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID)) {
+    public static void removeItemsFromInventory(SkyblockPlayer player, ItemManager manager, int amount) {
+
+        for (ItemStack item : player.getInventory())
+            if (item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID)) {
                 int itemAmount = item.getAmount();
-                if(amount > itemAmount){
+                if (amount > itemAmount) {
                     amount -= itemAmount;
                     item.setAmount(0);
-                }else{
-                    item.setAmount(itemAmount-amount);
+                } else {
+                    item.setAmount(itemAmount - amount);
                     amount -= itemAmount;
                 }
 
 
-
-                if(amount <= 0)
-                    return;
+                if (amount <= 0) return;
 
             }
     }
 
     public static String intToRoman(int num) {
-        if(num == 0)
-            return "0";
+        if (num == 0) return "0";
 
-        int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
-        String[] romanLetters = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] romanLetters = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
         StringBuilder roman = new StringBuilder();
-        for(int i=0;i<values.length;i++)
-        {
-            while(num >= values[i])
-            {
+        for (int i = 0; i < values.length; i++) {
+            while (num >= values[i]) {
                 num = num - values[i];
                 roman.append(romanLetters[i]);
             }
@@ -603,10 +616,10 @@ public class Tools {
         str = sb.toString();
         String newString = "";
         int digitRunner = 0;
-        for(int i = 0; i < str.toCharArray().length; i++) {
+        for (int i = 0; i < str.toCharArray().length; i++) {
             newString = newString + str.toCharArray()[i];
             digitRunner++;
-            if(digitRunner == 3 && (i+ 1) != str.toCharArray().length) {
+            if (digitRunner == 3 && (i + 1) != str.toCharArray().length) {
                 digitRunner = 0;
                 newString = newString + ",";
             }
@@ -624,10 +637,10 @@ public class Tools {
         str = sb.toString();
         String newString = "";
         int digitRunner = 0;
-        for(int i = 0; i < str.toCharArray().length; i++) {
+        for (int i = 0; i < str.toCharArray().length; i++) {
             newString = newString + str.toCharArray()[i];
             digitRunner++;
-            if(digitRunner == 3 && (i+ 1) != str.toCharArray().length) {
+            if (digitRunner == 3 && (i + 1) != str.toCharArray().length) {
                 digitRunner = 0;
                 newString = newString + ",";
             }
@@ -645,10 +658,10 @@ public class Tools {
         str = sb.toString();
         String newString = "";
         int digitRunner = 0;
-        for(int i = 0; i < str.toCharArray().length; i++) {
+        for (int i = 0; i < str.toCharArray().length; i++) {
             newString = newString + str.toCharArray()[i];
             digitRunner++;
-            if(digitRunner == 3 && (i+ 1) != str.toCharArray().length) {
+            if (digitRunner == 3 && (i + 1) != str.toCharArray().length) {
                 digitRunner = 0;
                 newString = newString + ",";
             }
@@ -656,14 +669,15 @@ public class Tools {
         sb = new StringBuilder(newString);
 
         String finalString = sb.reverse().toString();
-        String dotS = String.format("%.0f",number * 10);
+        String dotS = String.format("%.0f", number * 10);
         int dot = Integer.parseInt(dotS.charAt(dotS.length() - 1) + "");
         return finalString + ((dot != 0) ? ("." + dot) : "");
     }
-    public static int getItemInPlayerInventory(ItemManager manager, SkyblockPlayer player){
+
+    public static int getItemInPlayerInventory(ItemManager manager, SkyblockPlayer player) {
         int amount = 0;
-        for(ItemStack item : player.getInventory())
-            if(item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID))
+        for (ItemStack item : player.getInventory())
+            if (item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(manager.itemID))
                 amount += item.getAmount();
         return amount;
     }
@@ -692,35 +706,34 @@ public class Tools {
         double x = p.getLocation().getDirection().getX();
         double z = p.getLocation().getDirection().getZ();
 
-        if(x > 0.0 && z >0.0) {
+        if (x > 0.0 && z > 0.0) {
             deg = x;
-            fin = (Math.PI/2)*deg;
+            fin = (Math.PI / 2) * deg;
         }
-        if(x> 0.0 && z<0.0) {
-            deg = z*(-1);
-            fin = ((Math.PI/2)*deg)+(Math.PI/2);
+        if (x > 0.0 && z < 0.0) {
+            deg = z * (-1);
+            fin = ((Math.PI / 2) * deg) + (Math.PI / 2);
         }
-        if(x<0.0 && z<0.0) {
-            deg = x*(-1);
-            fin = (Math.PI/2)*deg+ Math.PI;
+        if (x < 0.0 && z < 0.0) {
+            deg = x * (-1);
+            fin = (Math.PI / 2) * deg + Math.PI;
         }
-        if(x<0.0 && z>0.0) {
+        if (x < 0.0 && z > 0.0) {
             System.out.println("SW");
             deg = z;
-            fin = (Math.PI/2)*deg+(Math.PI/2 *3);
+            fin = (Math.PI / 2) * deg + (Math.PI / 2 * 3);
         }
         return fin;
     }
 
     /**
-     *
-     * @param ran1 lower range is out of range!
-     * @param ran2 higher range is out of range!
+     * @param ran1   lower range is out of range!
+     * @param ran2   higher range is out of range!
      * @param number the number you want to compare
      * @return if its in range
      */
     public static boolean isInRange(double ran1, double ran2, double number) {
-        if(ran1 > number && number > ran2) {
+        if (ran1 > number && number > ran2) {
             return true;
         }
         return ran1 < number && number < ran2;
@@ -734,23 +747,19 @@ public class Tools {
                 if (num > 999999) {
                     if (num > 9999999) {
                         if (num > 999999999d) {
-                            if (num > 9999999999d)
-                                str = (int)((num /1000000000)) + "b";
-                            else
-                                str = round(num /1000000000, 1) + "b";
-                        }else
-                            str = (int)((num /1000000)) + "m";
+                            if (num > 9999999999d) str = (int) ((num / 1000000000)) + "b";
+                            else str = round(num / 1000000000, 1) + "b";
+                        } else str = (int) ((num / 1000000)) + "m";
 
-                    }else
-                        str = round(num /1000000, 1) + "m";
-                }else
-                    str = (int)((num /1000)) + "k";
-            }else
-                str = round(num /1000, 1) + "k";}else str = num + "";
+                    } else str = round(num / 1000000, 1) + "m";
+                } else str = (int) ((num / 1000)) + "k";
+            } else str = round(num / 1000, 1) + "k";
+        } else str = num + "";
 
         return str;
     }
-    public static boolean hasFreeSlot(@NotNull SkyblockPlayer player){
+
+    public static boolean hasFreeSlot(@NotNull SkyblockPlayer player) {
 
         int slot = player.getInventory().firstEmpty();
 
@@ -758,7 +767,7 @@ public class Tools {
         return (slot < 55 && slot >= 0);
     }
 
-    public static String ticksAsTime(long l){
+    public static String ticksAsTime(long l) {
         double seconds = l / 20;
         int minutes = (int) (seconds / 60d);
 
@@ -793,16 +802,19 @@ public class Tools {
         }
         return ee;
     }
-    public static Location getAsLocation(Block block){
+
+    public static Location getAsLocation(Block block) {
         return block.getLocation().add(0.5, 0, 0.5);
     }
-    public static class SmalerLargerEqualsNumber implements Comparator<Double>{
+
+    public static class SmalerLargerEqualsNumber implements Comparator<Double> {
         @Override
         public int compare(Double o1, Double o2) {
             return (o1 < o2) ? -1 : (o1 == o2) ? 0 : 1;
         }
     }
-    public static class SmalerLargerEqualsNumberBundle implements Comparator<Bundle<Integer, ?>>{
+
+    public static class SmalerLargerEqualsNumberBundle implements Comparator<Bundle<Integer, ?>> {
 
         @Override
         public int compare(Bundle<Integer, ?> o1, Bundle<Integer, ?> o2) {
