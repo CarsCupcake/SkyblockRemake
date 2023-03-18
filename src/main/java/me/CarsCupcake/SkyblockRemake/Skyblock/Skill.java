@@ -89,70 +89,25 @@ public interface Skill {
 	
 	
 	 static Skill getInstance(Skills skill, SkyblockPlayer player, int level, double xp) {
-		
-		if(skill == Skills.Mining) {
-			Skill mining = new Mining();
-			mining.setPlayer(player);
-			mining.setXp(xp);
-			mining.setLevel(level);
-			mining.initStats();
-			return mining;
-		}
-		if(skill == Skills.Combat) {
-			Skill mining = new Combat();
-			mining.setPlayer(player);
-			mining.setXp(xp);
-			mining.setLevel(level);
-			mining.initStats();
-			return mining;
-		}
-		
-		if(skill == Skills.Foraging) {
-			Skill mining = new Foraging();
-			mining.setPlayer(player);
-			mining.setXp(xp);
-			mining.setLevel(level);
-			mining.initStats();
-			return mining;
-		}
-
-		 if(skill == Skills.Alchemy) {
-			 Skill mining = new Alchemy();
-			 mining.setPlayer(player);
-			 mining.setXp(xp);
-			 mining.setLevel(level);
-			 mining.initStats();
-			 return mining;
+		 Skill s;
+		 switch (skill){
+			 case Mining -> s = new Mining();
+			 case Combat -> s = new Combat();
+			 case Taming -> s = new Taming();
+			 case Fishing -> s = new Fishing();
+			 case Alchemy -> s = new Alchemy();
+			 case Enchanting -> s = new Enchanting();
+			 case Farming -> s = new Farming();
+			 case Foraging -> s = new Foraging();
+			 default -> {
+				 return null;
+			 }
 		 }
-
-		 if(skill == Skills.Enchanting) {
-			 Skill mining = new Enchanting();
-			 mining.setPlayer(player);
-			 mining.setXp(xp);
-			 mining.setLevel(level);
-			 mining.initStats();
-			 return mining;
-		 }
-
-		 if(skill == Skills.Farming) {
-			 Skill mining = new Farming();
-			 mining.setPlayer(player);
-			 mining.setXp(xp);
-			 mining.setLevel(level);
-			 mining.initStats();
-			 return mining;
-		 }
-
-		 if(skill == Skills.Taming) {
-			 Skill mining = new Taming();
-			 mining.setPlayer(player);
-			 mining.setXp(xp);
-			 mining.setLevel(level);
-			 mining.initStats();
-			 return mining;
-		 }
-		
-		return null;
+		 s.setPlayer(player);
+		 s.setXp(xp);
+		 s.setLevel(level);
+		 s.initStats();
+		return s;
 	}
 	
 	
