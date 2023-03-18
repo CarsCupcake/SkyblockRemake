@@ -862,8 +862,8 @@ public class OpenMenu implements CommandExecutor, Listener {
                 : "§7Progress to Level " + Tools.intToRoman(player.getSkill(skill).getLevel() + 1)) + ": §e" + pers + "%", ((isMax) ? "§6§m---------- " + ((player.getSkill(skill).getXp() % 1 == 0) ? String.format("%.0f", player.getSkill(skill).getXp())
                 : Tools.round(player.getSkill(skill).getXp(), 2)) + "XP"
                 : Tools.makeProgressBar(10, player.getSkill(skill).getXp(),
-                Skill.getNextLevelXp(player.getSkill(skill).getLevel()), ChatColor.WHITE, ChatColor.GREEN, "§m-")
-                + " §e" + beautifullNumber(player.getSkill(skill).getXp())
+                Skill.getNextLevelXp(player.getSkill(skill).getLevel()), ChatColor.WHITE, ChatColor.GREEN, "§m ")
+                + "§r §e" + beautifullNumber(player.getSkill(skill).getXp())
                 + "§6/§e"
                 + Tools.toShortNumber(Skill.getNextLevelXp(player.getSkill(skill).getLevel())))));
     }
