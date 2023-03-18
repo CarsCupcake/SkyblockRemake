@@ -668,6 +668,23 @@ public class Tools {
         return amount;
     }
 
+    public boolean deleteWorld(File world) {
+        if (!world.exists() || !world.isDirectory()) return false;
+
+        boolean success = true;
+
+        for (File file : Objects.requireNonNull(world.listFiles())) {
+            if (file.isDirectory())
+                for (File file1 : Objects.requireNonNull(file.listFiles())) success = file1.delete();
+            success = (file.delete() && success);
+        }
+
+        success = (world.delete() && success);
+
+        return success;
+    }
+
+
     public static double getPlayerFacingPI(Player p) {
 
         double deg = 0;
