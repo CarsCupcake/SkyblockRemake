@@ -423,6 +423,7 @@ public class Items {
         ferocity500();
         new MaddoxBatphone();
         wand();
+        ExpertMiner.init();
     }
 
     public static void wand() {
