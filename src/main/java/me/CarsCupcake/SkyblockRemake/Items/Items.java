@@ -399,6 +399,8 @@ public class Items {
         enchantedNetherWart();
         enchantedCoal();
 
+        MidasStuff();
+
         lumpOfMagma();
 
         Spirit.addArmorSets();
@@ -4056,6 +4058,21 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
     }
 
+    public static void MidasStuff() {
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Cast a wave of molten gold in");
+        abilityLore.add("§7the direction you are facing!");
+        abilityLore.add("§7Deals up to §c86,752 §7damage.");
+        abilityLore.add("");
+        abilityLore.add("§7§8This item can be reforged!");
+        ItemManager manager = new ItemManager("§6Midas Staff", "MIDAS_STAFF", ItemType.Sword, null, "Molten Wave", "Midas_Stuff", abilityLore, 500, 1, 0f, 0, Material.GOLDEN_SHOVEL, ItemRarity.LEGENDARY);
+        manager.setDamage(130);
+        manager.setStat(Stats.Strength , 150);
+        manager.setStat(Stats.Inteligence , 50);
+        manager.addAbility(new MidasStaffAbility(), AbilityType.RightClick, "Molten Wave", new AbilityLore(abilityLore), 500, 1);
+        SkyblockItems.put(manager.itemID, manager);
+    }
+
     public static void wilsonEngineeringPlans() {
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§7Drops very rarely from the");
@@ -4089,6 +4106,7 @@ public class Items {
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
     }
+
 
     private static void rodOfTheSea() {
         ItemManager manager = new ItemManager("Rod Of The Sea", "ROD_OF_THE_SEA", ItemType.FishingRod, null, null, null, null, 0, 0, 0, 0, Material.FISHING_ROD, ItemRarity.LEGENDARY);
