@@ -11,6 +11,7 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInv;
+import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -826,9 +827,23 @@ public class OpenMenu implements CommandExecutor, Listener {
 		
 	}
 	
-	@SuppressWarnings({ "deprecation"})
+
 	public static void createInventorySkills(SkyblockPlayer player) {
-		//TODO: add
+		Inventory inv = Bukkit.createInventory(null , 54 , "Your Skill");
+        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+		ItemMeta meta = item.getItemMeta();
+		ArrayList lore = new ArrayList<>();
+
+		InventoryUtil.fillSidesWithItem(item , inv , 9);
+
+		item.setType(Material.GOLDEN_HOE);
+		lore.add(ChatColor.AQUA  +"Level"+ player.getSkill(Skills.Combat).getLevel());
+		meta.setLore(lore);
+		meta.setDisplayName("Farming Skill");
+		item.setItemMeta(meta);
+		inv.setItem(19 , item);
+		skyblockskills = inv;
+
 	}
 	
 	
@@ -905,7 +920,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 		  }
 		  
 		  if (event.getSlot() == 19) {
-
+			  SkyblockPlayer skyblockPlayer = SkyblockPlayer.getSkyblockPlayer(player);
 			  createInventorySkills(SkyblockPlayer.getSkyblockPlayer(player));
 			  player.updateInventory();
 			  player.openInventory(skyblockskills);
