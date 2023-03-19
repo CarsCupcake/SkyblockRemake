@@ -1,26 +1,29 @@
 package me.CarsCupcake.SkyblockRemake.Items.farming;
 
+import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Carrot;
+import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Crop;
+import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Potato;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Material;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
 public class FarmingUtils implements Listener {
     public static final HashMap<Material, Double> farmingXp = new HashMap<>();
+    public static final HashMap<Material, Crop> crops = new HashMap<>();
     public FarmingUtils(){
-        farmingXp.put(Material.WHEAT, 4d);
-        farmingXp.put(Material.PUMPKIN, 4.5);
-        farmingXp.put(Material.MELON, 4d);
-        farmingXp.put(Material.POTATO, 4d);
-        farmingXp.put(Material.CARROT, 4d);
-        farmingXp.put(Material.SUGAR_CANE, 2d);
-        farmingXp.put(Material.RED_MUSHROOM, 6d);
-        farmingXp.put(Material.BROWN_MUSHROOM, 6d);
-        farmingXp.put(Material.BROWN_MUSHROOM_BLOCK, 2d);
-        farmingXp.put(Material.RED_MUSHROOM_BLOCK, 2d);
-        farmingXp.put(Material.CACTUS, 2d);
-        farmingXp.put(Material.COCOA, 4d);
+        registerCrop(new Potato(), 4);
+        registerCrop(new Carrot(), 4);
+    }
+    private void registerCrop(Crop crop, double xp){
+        farmingXp.put(crop.getBlockType(), xp);
+        crops.put(crop.getBlockType(), crop);
     }
     public static int getLogarithmicCounter(int i){
         int lenght = (i + "").length();
@@ -30,5 +33,18 @@ public class FarmingUtils implements Listener {
         int lenght = (collection.getCollected() + "").length();
         return ((lenght < 4) ? 0 : lenght - 4) * 8;
     }
+    public static void cropBreak(BlockBreakEvent event){
+        event.setDropItems(false);
 
+        if(event.getBlock().getBlockData() instanceof Ageable ageable)
+            if(ageable.getAge() < 7)
+                return;
+
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+        ItemStack item = crops.get(event.getBlock().getType()).makeDrop(player, event.getBlock());
+        if(player.isAutoPickup())
+            player.addItem(item, true);
+        else
+            event.getBlock().getWorld().dropItemNaturally(Tools.getAsLocation(event.getBlock()), item);
+    }
 }

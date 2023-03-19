@@ -1,10 +1,12 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventorys;
 
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -17,6 +19,7 @@ public class GUI {
     protected InventoryGUIAction generalAction;
     protected static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
     protected boolean isCanceled = false;
+    protected boolean canInteract = true;
 
     public GUI(Inventory inventory){
         inv = inventory;
@@ -32,6 +35,12 @@ public class GUI {
         this.player = player;
         player.openInventory(inv);
         opened.put(player, this);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                canInteract = false;
+            }
+        }.runTaskLater(Main.getMain(), 4);
     }
     public SkyblockPlayer getPlayer(){
         return player;
@@ -59,6 +68,7 @@ public class GUI {
         return isCanceled;
     }
     public void triggerAction(GUIActions actions, int slot, ClickType type){
+        if(canInteract) return;
         if(slot < 0 && (actions == GUIActions.Click || actions == GUIActions.PlayerClick))
             throw new IndexOutOfBoundsException("Your slot is negative!");
         switch (actions){

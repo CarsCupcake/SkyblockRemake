@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
@@ -125,6 +126,7 @@ public class ABILITIES implements Listener {
         registerEvent(new EndermanListener());
         registerEvent(new BlockPlaceAbility.Listener());
         registerEvent(new MinionListener());
+        registerEvent(new FarmingUtils());
 
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());

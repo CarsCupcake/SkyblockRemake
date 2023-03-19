@@ -29,25 +29,25 @@ public class PotatoHoes implements Listener {
         });
 
         ItemManager manager = new ItemManager("Pythagorean Potato Hoe", "THEORETICAL_HOE_POTATO_1", ItemType.Hoe, Material.STONE_HOE, ItemRarity.COMMON);
-        manager.setRarityGrabber(new UpgradebleHoe());
+        manager.setRarityGrabber(new UpgradebleHoe(Material.POTATOES));
         manager.addAbility(null, null, null, lore, 0, 0);
         Items.SkyblockItems.put(manager.itemID, manager);
 
         AbilityLore logarithmicCounter = new AbilityLore(new ArrayList<>(List.of(
                 "§7Harvest §a+16% §7potatoes per",
                 "§7digits on the Counter, minus 4!",
-                "§a+%a% §6" + Stats.FarmingFortune.getSymbol() + "Farming Fortune §7for",
+                "§a+%a% §6" + Stats.FarmingFortune.getSymbol() + " Farming Fortune §7for",
                 "§7potatoes."
         )));
         logarithmicCounter.addPlaceholder("%a%", (player, itemStack) -> FarmingUtils.getLogarithmicCounter(ItemHandler.getOrDefaultPDC("counter", itemStack, PersistentDataType.INTEGER, 0)) + "");
 
         AbilityLore boosts = new AbilityLore(new ArrayList<>(List.of("§7Harvest §a+25% potatoes §7and",
-                "§7gain " + Stats.FarmingWisdom.getColor() + "+%wisdom%" + Stats.FarmingWisdom.getSymbol() + " Farming Wisdom",
+                "§7gain " + Stats.FarmingWisdom.getColor() + "+%wisdom% " + Stats.FarmingWisdom.getSymbol() + " Farming Wisdom",
                 "§7while harvesting potatoes.")));
         boosts.addPlaceholder("%wisdom%", (player, itemStack) -> getFarmingWisdomStatBoos(itemStack, player) + "");
 
         manager = new ItemManager("Pythagorean Potato Hoe", "THEORETICAL_HOE_POTATO_2", ItemType.Hoe, Material.IRON_HOE, ItemRarity.UNCOMMON);
-        manager.setRarityGrabber(new UpgradebleHoe());
+        manager.setRarityGrabber(new UpgradebleHoe(Material.POTATOES));
         manager.addAbility(null, null, null, boosts, 0, 0);
         manager.addAbility(null, null, null, lore, 0, 0);
         manager.addAbility(null, null, "Logarithmic Counter", logarithmicCounter, 0, 0);
@@ -56,13 +56,18 @@ public class PotatoHoes implements Listener {
         AbilityLore collectionAnalasys = new AbilityLore(new ArrayList<>(List.of(
                 "§7Harvest §a+8% §7potatoes per digits",
                 "§7of your collection, minus 4!",
-                "§a+%a% §6" + Stats.FarmingFortune.getSymbol() + "Farming Fortune §7for",
+                "§a+%a% §6" + Stats.FarmingFortune.getSymbol() + " Farming Fortune §7for",
                 "§7potatoes."
         )));
         collectionAnalasys.addPlaceholder("%a%", (player, itemStack) -> ((player != null) ? FarmingUtils.getCollectionAnalysis(ItemCollection.itemCollections.get(player).get(Material.POTATO.toString())) : "0") + "");
 
+        boosts = new AbilityLore(new ArrayList<>(List.of("§7Harvest §a+50% potatoes §7and",
+                "§7gain " + Stats.FarmingWisdom.getColor() + "+%wisdom% " + Stats.FarmingWisdom.getSymbol() + " Farming Wisdom",
+                "§7while harvesting potatoes.")));
+        boosts.addPlaceholder("%wisdom%", (player, itemStack) -> getFarmingWisdomStatBoos(itemStack, player) + "");
+
         manager = new ItemManager("Pythagorean Potato Hoe", "THEORETICAL_HOE_POTATO_3", ItemType.Hoe, Material.DIAMOND_HOE, ItemRarity.RARE);
-        manager.setRarityGrabber(new UpgradebleHoe());
+        manager.setRarityGrabber(new UpgradebleHoe(Material.POTATOES));
         manager.addAbility(null, null, null, boosts, 0, 0);
         manager.addAbility(null, null, null, lore, 0, 0);
         manager.addAbility(null, null, "Logarithmic Counter", logarithmicCounter, 0, 0);

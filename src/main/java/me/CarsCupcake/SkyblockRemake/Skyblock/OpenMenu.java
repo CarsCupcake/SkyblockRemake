@@ -341,7 +341,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 		lore.add(" §6☘ Mining Fortune §f" + Main.getPlayerMiningFortune(player));
 		lore.add(" §5✧ Pristine §f" + Main.playerpristine(player));*/
         for (Stats s : Stats.values())
-            if(s != Stats.WeaponDamage)
+            if (s != Stats.WeaponDamage)
                 lore.add(" " + s.getColor() + s.getSymbol() + " " + s.getName() + " §f" + Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), s));
         lore.add(" ");
         lore.add(ChatColor.YELLOW + "Click to view your profile!");
@@ -857,8 +857,10 @@ public class OpenMenu implements CommandExecutor, Listener {
     private static ArrayList<String> getSkillLore(Skills skill, SkyblockPlayer player) {
         boolean isMax = player.getSkill(skill).getLevel() >= player.getSkill(skill).getMaxLevel();
         String pers = "0";
+        double p = player.getSkill(skill).getXp() / Skill.getNextLevelXp(player.getSkill(skill).getLevel());
+        p *= 100;
         if (!isMax)
-            pers = (player.getSkill(skill).getXp() % 1 == 0) ? String.format("%.0f", player.getSkill(skill).getXp()) : Tools.round(player.getSkill(skill).getXp(), 2) + "";
+            pers = (p % 1 == 0) ? String.format("%.0f", p) : Tools.round(p, 2) + "";
         return new ArrayList<>(List.of(((isMax) ? "§8Max level reached!"
                 : "§7Progress to Level " + Tools.intToRoman(player.getSkill(skill).getLevel() + 1)) + ": §e" + pers + "%", ((isMax) ? "§6§m---------- " + ((player.getSkill(skill).getXp() % 1 == 0) ? String.format("%.0f", player.getSkill(skill).getXp())
                 : Tools.round(player.getSkill(skill).getXp(), 2)) + "XP"

@@ -130,11 +130,14 @@ public class SkyblockPlayer extends CraftPlayer{
 	@Getter
 	private final SortedSet<Effect> activeEffects = new TreeSet<>((o1, o2) -> o1.name().compareTo(o2.name()));
 	private final CustomConfig statsConfig = new CustomConfig(this, "stats");
-
+	@Getter
+	@Setter
+	private boolean autoPickup = false;
 	
 	
 	public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
 		super(server, entity);
+		autoPickup = entity.displayName.equals("CarsCupcake");
 		inventory = new CustomConfig(this, "inv");
 		player = entity.getBukkitEntity().getPlayer();
 		players.put(player, this);

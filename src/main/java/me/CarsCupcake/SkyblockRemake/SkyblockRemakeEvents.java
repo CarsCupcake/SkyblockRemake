@@ -14,6 +14,7 @@ import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
@@ -311,6 +312,10 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void BlockBreak(BlockBreakEvent event) {
+        if(FarmingUtils.crops.containsKey(event.getBlock().getType())){
+            FarmingUtils.cropBreak(event);
+        }
+
         if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
             return;
 
