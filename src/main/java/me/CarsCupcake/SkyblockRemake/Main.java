@@ -277,6 +277,7 @@ public class Main extends JavaPlugin {
 
         // Commands
         getCommand("gm").setExecutor(new gmComand());
+        getCommand("undozap").setExecutor(new undozap());
         getCommand("gm").setTabCompleter(new gmTab());
         getCommand("item").setExecutor(new itemCMD());
         getCommand("item").setTabCompleter(new itemTab());
