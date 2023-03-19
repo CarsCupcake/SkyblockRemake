@@ -9,7 +9,6 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Skyblock.OpenMenu;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
@@ -392,6 +391,8 @@ public class Items {
         lavaShell();
 
         hellfireRod();
+
+        BlockZapper();
 
 
         enchantedMagmaCream();
@@ -1228,7 +1229,6 @@ public class Items {
         manager.addAbility(new Hyperion_WitherImpact(), AbilityType.RightClick, "Wither Impact", new AbilityLore(lore), 300, 0);
         SkyblockItems.put(manager.itemID, manager);
 
-
     }
 
     public static void valkyrie() {
@@ -1526,7 +1526,6 @@ public class Items {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("Undead Catalist");
 
-
         item.setItemMeta(meta);
 
         return item;
@@ -1705,6 +1704,18 @@ public class Items {
 
         SkyblockItems.put(manager.itemID, manager);
 
+    }
+
+    public static ItemManager BlockZapper() {
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("§7Right-Click a block to zap all");
+        lore.add("§7connected blocks of the same");
+        lore.add("§7type.");
+        ItemManager manager = new ItemManager("§5Block Zapper", "BLOCK_ZAPPER", ItemType.Non, lore, null , null, null, 0, 0, 0, 0, Material.FLINT, ItemRarity.EPIC);
+        manager.addAbility(new BlockZapperAbility(), AbilityType.RightClick, "Grand... Zapper?",new AbilityLore(lore), 0,0);
+        SkyblockItems.put(manager.itemID, manager);
+
+        return manager;
     }
 
     public static void PainReleaser() {

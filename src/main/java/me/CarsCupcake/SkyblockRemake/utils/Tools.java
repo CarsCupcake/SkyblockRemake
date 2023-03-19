@@ -31,6 +31,10 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.FileUtils;
 import net.minecraft.world.phys.AxisAlignedBB;
 import org.bukkit.*;
@@ -332,6 +336,13 @@ public class Tools {
 
 
         return b;
+    }
+    public static TextComponent makeClickableText(String text, String hoverText, @Nullable ClickEvent.Action actiom, @Nullable String actionText) {
+        TextComponent component = new TextComponent(text);
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
+        component.setClickEvent(new ClickEvent(actiom, actionText));
+
+        return component;
     }
 
     private static void getBlocksBetweenY(Block b1, Block b2, ArrayList<Block> curr, int x) {
