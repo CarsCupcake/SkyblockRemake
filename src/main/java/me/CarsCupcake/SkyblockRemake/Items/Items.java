@@ -1711,7 +1711,7 @@ public class Items {
         lore.add("§7Right-Click a block to zap all");
         lore.add("§7connected blocks of the same");
         lore.add("§7type.");
-        ItemManager manager = new ItemManager("§5Block Zapper", "BLOCK_ZAPPER", ItemType.Non, lore, null , null, null, 0, 0, 0, 0, Material.FLINT, ItemRarity.EPIC);
+        ItemManager manager = new ItemManager("§5Block Zapper", "BLOCK_ZAPPER", ItemType.Non, null, null , null, null, 0, 0, 0, 0, Material.FLINT, ItemRarity.EPIC);
         manager.addAbility(new BlockZapperAbility(), AbilityType.RightClick, "Grand... Zapper?",new AbilityLore(lore), 0,0);
         SkyblockItems.put(manager.itemID, manager);
 
