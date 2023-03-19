@@ -31,7 +31,7 @@ public AccessoryInventory(Player player) {
 	int invs =1+  (slots / 45);
 
 	int list = 0;
-	int invCount = 1;
+	int invCount;
 	for(invCount = 1; invCount <= invs; invCount++) {
 		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Accessory Bag (" + invCount + "/" + invs + ")");
 		ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -75,7 +75,7 @@ public AccessoryInventory(Player player) {
 				ItemMeta m = it.getItemMeta();
 				PersistentDataContainer d = m.getPersistentDataContainer();
 				if(AccessoryBag.get().getBoolean(basestring + ".recom")) {
-					d.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, manager.rarity.getNext().toString());
+					d.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, manager.getRarity().getNext().toString());
 					d.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 1);
 				}
 				

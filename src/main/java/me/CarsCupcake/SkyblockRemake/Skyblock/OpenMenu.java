@@ -341,7 +341,8 @@ public class OpenMenu implements CommandExecutor, Listener {
 		lore.add(" §6☘ Mining Fortune §f" + Main.getPlayerMiningFortune(player));
 		lore.add(" §5✧ Pristine §f" + Main.playerpristine(player));*/
         for (Stats s : Stats.values())
-            lore.add(" " + s.getColor() + s.getSymbol() + " " + s.getName() + " §f" + Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), s));
+            if(s != Stats.WeaponDamage)
+                lore.add(" " + s.getColor() + s.getSymbol() + " " + s.getName() + " §f" + Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), s));
         lore.add(" ");
         lore.add(ChatColor.YELLOW + "Click to view your profile!");
         Smeta.setLore(lore);
@@ -545,7 +546,7 @@ public class OpenMenu implements CommandExecutor, Listener {
         lore.add(ChatColor.GRAY + "skill!");
         lore.add(" ");
         if (PetMenuInv.getPetName(player) != null)
-            lore.add(ChatColor.GRAY + "Selected pet: " + Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")).rarity.getPrefix() + PetMenuInv.getPetName(player));
+            lore.add(ChatColor.GRAY + "Selected pet: " + Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")).getRarity().getPrefix() + PetMenuInv.getPetName(player));
         else lore.add(ChatColor.GRAY + "Selected pet: " + ChatColor.RED + "None");
         lore.add(" ");
         lore.add(ChatColor.YELLOW + "Click to view!");

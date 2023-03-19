@@ -1,7 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.CobblestoneCollection;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.MithrilCollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.CarrotCollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.PotatoCollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.CobblestoneCollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.MithrilCollection;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
@@ -18,6 +20,9 @@ public abstract class ICollection {
         config = new CustomConfig("collections");
         CollectHandler.registeredCollections.add(new CobblestoneCollection(null));
         CollectHandler.registeredCollections.add(new MithrilCollection(null));
+        CollectHandler.registeredCollections.add(new PotatoCollection(null));
+        CollectHandler.registeredCollections.add(new CarrotCollection(null));
+
     }
     private long collected;
     public abstract String getId();
@@ -25,6 +30,9 @@ public abstract class ICollection {
     public abstract int[] collectAmount();
     public abstract GUI getInventory();
     public abstract void sendLevelUpMessage(int level);
+    public long getCollected(){
+        return collected;
+    }
     public int getLevel(){
         int level = 0;
         for(int bar : collectAmount())

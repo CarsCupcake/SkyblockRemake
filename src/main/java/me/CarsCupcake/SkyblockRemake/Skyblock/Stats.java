@@ -21,7 +21,7 @@ public enum Stats {
     CritDamage("cd", '☠', ChatColor.BLUE, "Crit Damage", true, null, 0),
     CritChance("cc", '☣', ChatColor.BLUE, "Crit Chance", true, null, 0),
     AbilityDamage("abilitydamage", '๑', ChatColor.RED, "Ability Damage", true, null, 0),
-    Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity", true, null, 0),
+    Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity", false, null, 0),
     MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find", false, null, 0),
     MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed", false, null, 0),
     MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune", false, null, 0),
@@ -32,13 +32,15 @@ public enum Stats {
     FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed", false, null, 0),
     SwingRange("swingrange", ' ', ChatColor.GOLD, "Swing Range", true, null, 0),
     BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
+    FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
+    FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false, null, 0),
     /**
      * Deprecates cause you should not use it!
      */
     @Deprecated
     WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2);
     public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Inteligence,
-            MagicFind, Ferocity, MiningSpeed, Pristine, MiningFortune, SeaCreatureChance, FishingSpeed);
+            MagicFind, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
 
     private final String dataName;
     private final char symbol;

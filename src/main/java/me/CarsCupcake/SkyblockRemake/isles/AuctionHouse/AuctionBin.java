@@ -255,7 +255,7 @@ public class AuctionBin implements IAuction{
         if(this.player.isOnline())
             this.player.sendMessage("§aThe auction for " + Items.SkyblockItems.get(
                     item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)
-            ).rarity.getPrefix()
+            ).getRarity().getPrefix()
             + item.getItemMeta().getDisplayName() + " §ahas been filled!");
         isSold = true;
         AuctionHouse.getInstance().getFile().get().set("auction.bin." + pointer + ".status", "filled");

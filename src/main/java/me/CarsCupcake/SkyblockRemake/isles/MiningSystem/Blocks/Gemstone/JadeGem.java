@@ -48,7 +48,7 @@ public class JadeGem extends MiningBlock {
         int am = drops.get(1).getAmount();
         if(am > 0){
             ItemManager m = Items.SkyblockItems.get("FLAWED_JADE_GEM");
-            player.sendMessage("§d§lPRISTINE! §rYou found " + m.rarity.getPrefix() + m.name + " §9x" + am);
+            player.sendMessage("§d§lPRISTINE! §rYou found " + m.getRarity().getPrefix() + m.name + " §9x" + am);
         }
         return drops;
     }

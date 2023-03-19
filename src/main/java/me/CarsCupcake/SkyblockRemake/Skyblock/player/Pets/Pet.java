@@ -279,7 +279,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 						PetMenus.reload();
 						Main.updatebar(player);
 						Main.petstand.get(player).updatePet();
-						player.sendMessage("§aYour " + pet.rarity.getPrefix() + pet.name + " §alevelled up to level §9" + level);
+						player.sendMessage("§aYour " + pet.getRarity().getPrefix() + pet.name + " §alevelled up to level §9" + level);
 						Bukkit.getPluginManager().callEvent(new PetLevelUpEvent(player, pet, level));
 						return;
 					}
@@ -290,7 +290,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 						PetMenus.reload();
 						Main.updatebar(player);
 						Main.petstand.get(player).updatePet();
-						player.sendMessage("§aYour " + pet.rarity.getPrefix() + pet.name + " §alevelled up to level §9" + pet.MaxLevel);
+						player.sendMessage("§aYour " + pet.getRarity().getPrefix() + pet.name + " §alevelled up to level §9" + pet.MaxLevel);
 						Bukkit.getPluginManager().callEvent(new PetLevelUpEvent(player, pet, level));
 						return;
 
@@ -414,7 +414,7 @@ private ArrayList<String> abilityName = new ArrayList<>();
 	}
 	//level = currlevel -> getNextLevel exp
 	public double getRequieredXp(int level) {
-		switch(rarity) {
+		switch(getRarity()) {
 		case COMMON:
 			switch(level) {
 			case 1:

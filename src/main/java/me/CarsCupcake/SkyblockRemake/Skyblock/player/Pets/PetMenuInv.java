@@ -72,7 +72,7 @@ public class PetMenuInv {
 			lore.add(ChatColor.GRAY + "skill!");
 			lore.add(" ");
 			if(getPetName(player) != null)
-			lore.add(ChatColor.GRAY + "Selected pet: " + Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "."  + PetMenus.get().getInt(player.getUniqueId() + ".equiped")+ ".id" )).rarity.getPrefix() + getPetName(player));
+			lore.add(ChatColor.GRAY + "Selected pet: " + Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "."  + PetMenus.get().getInt(player.getUniqueId() + ".equiped")+ ".id" )).getRarity().getPrefix() + getPetName(player));
 			else
 				lore.add(ChatColor.GRAY + "Selected pet: " + ChatColor.RED + "None");
 			lore.add(" ");
@@ -130,9 +130,7 @@ public class PetMenuInv {
 		try {
 			Pet pet = Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "."  + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + "."  + "id"));
 			name = pet.name;
-		}catch (Exception e) {
-			
-		}
+		}catch (Exception ignored) {}
 		return name;
 	}
 	

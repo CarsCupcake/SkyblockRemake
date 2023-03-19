@@ -163,7 +163,7 @@ public class LavaFishing implements FishingLoottable {
             return Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
         }else {
             ItemManager manager = Items.SkyblockItems.get("MAGMA_FISH_SILVER");
-            player.sendMessage("§e§lGOOD GATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§e§lGOOD GATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
             return manager;
         }
 
@@ -172,25 +172,25 @@ public class LavaFishing implements FishingLoottable {
         int pool = new Random().nextInt(1230);
         if(pool < 400){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_MAGMA_CREAM");
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 400;
         if(pool < 300){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_BLAZE_POWDER");
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 300;
         if(pool < 170){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_NETHER_STALK");
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 170;
         if(pool < 170){
             ItemManager manager = Items.SkyblockItems.get("ENCHANTED_COAL");
-            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+            player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
             return manager;
         }
         pool -= 170;
@@ -200,7 +200,7 @@ public class LavaFishing implements FishingLoottable {
         }else {
             manager = Items.SkyblockItems.get(Material.EXPERIENCE_BOTTLE.toString());
         }
-        player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.rarity.getPrefix() + manager.name+"§f!");
+        player.sendMessage("§5§lGREAT CATCH! §fYou cought "+manager.getRarity().getPrefix() + manager.name+"§f!");
         return manager;
     }
 }

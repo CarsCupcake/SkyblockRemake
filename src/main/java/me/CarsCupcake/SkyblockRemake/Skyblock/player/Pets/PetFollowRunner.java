@@ -39,7 +39,7 @@ public class PetFollowRunner {
 			s.setCustomNameVisible(true);
 			s.setMarker(true);
 			s.setCustomName("§7[Lvl " + PetMenus.get().getInt(owner.getUniqueId() + "." + petslot + ".level") + "] "
-					+ pet.rarity.getPrefix() + owner.getName() + "'s " + pet.name);
+					+ pet.getRarity().getPrefix() + owner.getName() + "'s " + pet.name);
 			s.setInvisible(true);
 		});
 		Main.petstand.put(owner, this);
@@ -58,20 +58,9 @@ public class PetFollowRunner {
 
 	}
 
-	@SuppressWarnings("deprecation")
-	public void updatePet(Pet pet) {
-		this.pet = pet;
-
-		stand.setItemInHand(pet.getRawItemStack());
-
-		stand.setCustomName("§7[Lvl " + PetMenus.get().getInt(owner.getUniqueId() + "." + slot + ".level") + "] "
-				+ pet.rarity.getPrefix() + owner.getName() + "'s " + pet.name);
-
-	}
-
 	public void updatePet() {
 		nameTag.setCustomName("§7[Lvl " + PetMenus.get().getInt(owner.getUniqueId() + "." + slot + ".level") + "] "
-				+ pet.rarity.getPrefix() + owner.getName() + "'s " + pet.name);
+				+ pet.getRarity().getPrefix() + owner.getName() + "'s " + pet.name);
 	}
 	
 
@@ -102,7 +91,7 @@ public class PetFollowRunner {
 							} else
 								currmotion = -0.04;
 
-						double newMotion = 0;
+						double newMotion;
 						if (upmotion) {
 							newMotion = currmotion - 0.002;
 						} else {

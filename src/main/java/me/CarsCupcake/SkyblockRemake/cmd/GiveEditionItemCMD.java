@@ -18,18 +18,19 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Configs.EditionItems;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
+import org.jetbrains.annotations.NotNull;
 
 public class GiveEditionItemCMD implements CommandExecutor {
 	
 	@Override
-	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
+	public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, String[] arg3) {
 		if(arg0 instanceof Player && arg3.length == 2 && Bukkit.getPlayer(arg3[1]) != null) {
 			
 			if(arg3[0].equals("dctrspacehelmet")){
 				Player player = Bukkit.getPlayer(arg3[1]);
 				ItemManager manager = Items.SkyblockItems.get("DCTR_SPACE_HELM");
 				ItemStack item = manager.createNewItemStack();
-				player.sendMessage(arg0.getName() +  " §egave you a " + manager.rarity.getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
+				player.sendMessage(arg0.getName() +  " §egave you a " + manager.getRarity().getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
 				ItemMeta meta = item.getItemMeta();
 				PersistentDataContainer data = meta.getPersistentDataContainer();
 				data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, arg3[1]);
@@ -41,7 +42,7 @@ public class GiveEditionItemCMD implements CommandExecutor {
 				Player player = Bukkit.getPlayer(arg3[1]);
 				ItemManager manager = Items.SkyblockItems.get("KLOONBOAT");
 				ItemStack item = manager.createNewItemStack();
-				player.sendMessage(arg0.getName() +  " §egave you a " + manager.rarity.getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
+				player.sendMessage(arg0.getName() +  " §egave you a " + manager.getRarity().getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
 				ItemMeta meta = item.getItemMeta();
 				PersistentDataContainer data = meta.getPersistentDataContainer();
 				data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, arg3[1]);
@@ -54,7 +55,7 @@ public class GiveEditionItemCMD implements CommandExecutor {
 				Player player = Bukkit.getPlayer(arg3[1]);
 				ItemManager manager = Items.SkyblockItems.get("INTELLIJ");
 				ItemStack item = manager.createNewItemStack();
-				player.sendMessage(arg0.getName() +  " §egave you a " + manager.rarity.getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
+				player.sendMessage(arg0.getName() +  " §egave you a " + manager.getRarity().getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
 				ItemMeta meta = item.getItemMeta();
 				PersistentDataContainer data = meta.getPersistentDataContainer();
 				data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, arg3[1]);
@@ -66,7 +67,7 @@ public class GiveEditionItemCMD implements CommandExecutor {
 				Player player = Bukkit.getPlayer(arg3[1]);
 				ItemManager manager = Items.SkyblockItems.get("SUS_FLARE");
 				ItemStack item = manager.createNewItemStack();
-				player.sendMessage(arg0.getName() +  " §egave you a " + manager.rarity.getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
+				player.sendMessage(arg0.getName() +  " §egave you a " + manager.getRarity().getPrefix() + manager.name + " §7(§e#" + EditionItems.get().getInt(manager.itemID) +"§7)!");
 				ItemMeta meta = item.getItemMeta();
 				PersistentDataContainer data = meta.getPersistentDataContainer();
 				data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, arg3[1]);

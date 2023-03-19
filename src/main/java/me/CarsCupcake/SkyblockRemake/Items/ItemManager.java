@@ -34,6 +34,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Gemstones.Gemstone;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemManager implements ItemGenerator {
     public static String pattern = "MMMMMMMMM yyyy";
@@ -57,7 +58,7 @@ public class ItemManager implements ItemGenerator {
     public HashMap<String, String> customDataContainer = new HashMap<>();
     public HashMap<String, Integer> customIntContainer = new HashMap<>();
     public HashMap<String, Double> customDoubleContainer = new HashMap<>();
-    public ItemRarity rarity;
+    private ItemRarity rarity;
     public Color color;
     public boolean isBaseItem = false;
 
@@ -90,6 +91,14 @@ public class ItemManager implements ItemGenerator {
     private int fullSetBonusPointer = -1;
     @Getter
     private Ability equipmentAbilityData;
+    @Getter
+    @Setter
+    private SpecialRarityGrabber rarityGrabber = new SpecialRarityGrabber() {
+        @Override
+        public ItemRarity getRarity(@NotNull ItemRarity rarity, @NotNull ItemStack item, @Nullable SkyblockPlayer player) {
+            return rarity;
+        }
+    };
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;
@@ -188,6 +197,18 @@ public class ItemManager implements ItemGenerator {
         isHead = true;
         Items.SkyblockItems.put(itemID, this);
     }
+    public ItemRarity getRarity(){
+        return rarity;
+    }
+    public ItemRarity getRarity(@NotNull ItemStack item, @Nullable SkyblockPlayer player){
+        return getRarity(rarity, item, player);
+    }
+    public ItemRarity getRarity(ItemRarity rarity ,@NotNull ItemStack item){
+        return getRarity(rarity, item, null);
+    }
+    public ItemRarity getRarity(@NotNull ItemRarity rarity, @NotNull ItemStack item, @Nullable SkyblockPlayer player){
+        return rarityGrabber.getRarity(rarity, item, player);
+    }
 
 
     public void setEquipmentAbility(EquipmentAbility ability, String name) {
@@ -231,7 +252,7 @@ public class ItemManager implements ItemGenerator {
     public String getAbilityHeadline(SkyblockPlayer player, int i) {
         Ability ability = abilities.get(i);
 
-        if (ability.getType() == null) return "§6Ability: " + ability.getName() + " §e§lRight Click";
+        if (ability.getType() == null) return "§6" + ability.getName();
 
         if (!TieredBonus)
             return "§6Ability: " + ability.getName() + " §e§l" + ability.getType().toString().toUpperCase();
@@ -709,6 +730,9 @@ public class ItemManager implements ItemGenerator {
     }
 
     public static interface MaterialGrabber {
-        public Material getMaterial(ItemStack item, SkyblockPlayer player);
+        Material getMaterial(ItemStack item, SkyblockPlayer player);
+    }
+    public static interface SpecialRarityGrabber {
+        ItemRarity getRarity(@NotNull ItemRarity rarity,@NotNull ItemStack item,@Nullable SkyblockPlayer player);
     }
 }

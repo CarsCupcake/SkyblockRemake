@@ -135,6 +135,7 @@ public class CollectHandler implements Listener {
         gui.setCanceled(true);
         gui.inventoryClickAction(49, type -> gui.closeInventory());
         gui.inventoryClickAction(21, type -> openMiningCollections(player));
+        gui.inventoryClickAction(20, type -> openFarmingCollections(player));
         gui.showGUI(player);
     }
     private static void openMiningCollections(SkyblockPlayer player){
@@ -150,6 +151,20 @@ public class CollectHandler implements Listener {
         gui.setCanceled(true);
         gui.inventoryClickAction(11,t -> ItemCollection.itemCollections.get(player).get(Material.COBBLESTONE.toString()).getInventory().showGUI(player));
         gui.inventoryClickAction(34,t -> ItemCollection.itemCollections.get(player).get("MITHRIL_ORE").getInventory().showGUI(player));
+        gui.showGUI(player);
+    }
+    private static void openFarmingCollections(SkyblockPlayer player){
+        GUI gui = new GUI(new InventoryBuilder(6, "Farming Collection")
+                .fill(TemplateItems.EmptySlot.getItem(), 0, 9)
+                .setItem(new ItemBuilder(Material.GOLDEN_HOE)
+                        .setName("§aFarming Collections")
+                        .build(),4)
+                .setItem(new ItemBuilder(Material.CARROT).setName("§eCarrot " + ItemCollection.itemCollections.get(player).get(Material.CARROT.toString()).getLevel()).build(),11)
+                .setItem(new ItemBuilder(Material.POTATO).setName("§ePotato " + Tools.intToRoman(ItemCollection.itemCollections.get(player).get(Material.POTATO.toString()).getLevel())).build(),21)
+                .build());
+        gui.setCanceled(true);
+        gui.inventoryClickAction(11,t -> ItemCollection.itemCollections.get(player).get(Material.CARROT.toString()).getInventory().showGUI(player));
+        gui.inventoryClickAction(21,t -> ItemCollection.itemCollections.get(player).get(Material.POTATO.toString()).getInventory().showGUI(player));
         gui.showGUI(player);
     }
     public static ItemBuilder getProgressItem(ICollection collection, int level, String name){

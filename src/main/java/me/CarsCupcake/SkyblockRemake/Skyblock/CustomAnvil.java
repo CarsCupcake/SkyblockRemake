@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.util.ArrayList;
 
+import me.CarsCupcake.SkyblockRemake.Items.*;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -23,9 +24,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 
@@ -425,10 +423,10 @@ final ItemStack  FINAL_ITEM = new ItemStack(Main.item_updater(item, null));
 		ItemMeta meta = item.getItemMeta();
 		PersistentDataContainer data = meta.getPersistentDataContainer();
 		data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 1);
-		data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, manager1.rarity.getNext().toString());
+		data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING)).getNext().toString());
 		item.setItemMeta(meta);
 		if(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null && registerReforge.reforges.containsKey(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))
-		 item = AddReforges.toItemStack(item, manager1.rarity.getNext(), registerReforge.reforges.get(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)), manager1.rarity);
+		 item = AddReforges.toItemStack(item, manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)).getNext(), registerReforge.reforges.get(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)), manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)));
 	
 		item = GemstoneSlot.recomGemstone(manager1, item);
 		final ItemStack  FINAL_ITEM = new ItemStack(Main.item_updater(item,null));

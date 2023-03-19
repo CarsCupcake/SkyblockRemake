@@ -1,5 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
+
 public enum ItemRarity {
 UNDEFINED(),
 COMMON(),
@@ -59,5 +62,23 @@ ADMIN();
 			case ADMIN -> ADMIN;
 			default -> UNDEFINED;
 		};
+	}
+	public ItemRarity getBefore() {
+		return switch (this) {
+			case COMMON -> COMMON;
+			case DIVINE -> MYTHIC;
+			case EPIC -> RARE;
+			case LEGENDARY -> EPIC;
+			case RARE -> UNCOMMON;
+			case SPECIAL -> DIVINE;
+			case SUPREME, VERY_SPECIAL -> SPECIAL;
+			case UNCOMMON -> COMMON;
+			case MYTHIC -> LEGENDARY;
+			case ADMIN -> ADMIN;
+			default -> UNDEFINED;
+		};
+	}
+	public static ItemRarity getFromItem(ItemStack item){
+		return ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING));
 	}
 }

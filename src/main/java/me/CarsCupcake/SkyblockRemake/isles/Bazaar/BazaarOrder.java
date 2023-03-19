@@ -37,12 +37,12 @@ public class BazaarOrder {
                 new ItemBuilder(offer.getItem().material);
         Bundle<Double,Bundle<UUID, Integer>> bestBundle = (isSell) ? new BazaarManager().getBestOffer(offer.getItem()) : new BazaarManager().getBestBuyOffer(offer.getItem());
         return builder
-                .setName(((isSell) ? "§6§lSELL §r" : "§a§lBUY §r")  + offer.getItem().rarity.getPrefix() + offer.getItem().name)
+                .setName(((isSell) ? "§6§lSELL §r" : "§a§lBUY §r")  + offer.getItem().getRarity().getPrefix() + offer.getItem().name)
                 .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
                 .addLoreRow("§8Worth " +((bestBundle == null) ?"N/A" :Tools.addDigits(bestBundle.getFirst() )) + " coins")
                 .addLoreRow(" ")
                 .addLoreRow("§7Offer amount §a" + amount + "§7x")
-                .addLoreRow((fillAmount > 0) ?  "§7Filled: §6" +fillAmount +"§7/" + amount + " " + ((fillAmount == amount) ? "§a§l100%" : "§8(" + ((int) ((amount/fillAmount) * 100)) + "%)") : "")
+                .addLoreRow((fillAmount > 0) ?  "§7Filled: §6" +fillAmount +"§7/" + amount + " " + ((fillAmount == amount) ? "§a§l100%" : "§8(" + (((amount/fillAmount) * 100)) + "%)") : "")
                 .addLoreRow(" ")
                 .addLoreRow("§7Price per unit: §6" + Tools.addDigits(coins) + " coins")
                 .addLoreRow(" ")

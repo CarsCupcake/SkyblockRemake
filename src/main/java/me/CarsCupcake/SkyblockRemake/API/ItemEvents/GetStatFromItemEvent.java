@@ -25,6 +25,9 @@ public class GetStatFromItemEvent extends ItemStackEvent{
     public void setValue(double i){
         value = i;
     }
+    public void addValue(double i){
+        value += i;
+    }
 
     public Stats getStat(){
         return stat;

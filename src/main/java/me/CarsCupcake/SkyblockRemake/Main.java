@@ -7,16 +7,12 @@
 //Never gonna say goodbye
 package me.CarsCupcake.SkyblockRemake;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.UUID;
-import java.net.URL;
 
-import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
@@ -81,7 +77,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.CommissionListen
 import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillMerchant;
 import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillPart;
 import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvent;
-import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.EventListener;
 import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.PlayerTurnEvent;
 import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenMines.IceWalkerSpawning;
@@ -89,7 +84,6 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListener;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneGrinder;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneType;
 import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.CanonObject;
 import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.Tentacles;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
@@ -277,7 +271,7 @@ public class Main extends JavaPlugin {
 
         // Commands
         getCommand("gm").setExecutor(new gmComand());
-        getCommand("undozap").setExecutor(new undozap());
+        getCommand("undozap").setExecutor(new UndoZap());
         getCommand("gm").setTabCompleter(new gmTab());
         getCommand("item").setExecutor(new itemCMD());
         getCommand("item").setTabCompleter(new itemTab());
@@ -332,6 +326,10 @@ public class Main extends JavaPlugin {
         getCommand("potion").setExecutor(new PotionCommand());
         getCommand("ah").setExecutor(new AhCMD());
         getCommand("bz").setExecutor(new BzCMD());
+        getCommand("setcounter").setExecutor((commandSender, command, s, strings) -> { ItemHandler.setPDC("counter",
+            SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
+            return false;
+        });
 
 
         getCommand("kuudra").setExecutor(new startKuudra());
@@ -438,7 +436,7 @@ public class Main extends JavaPlugin {
                 if (AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + i) == null) continue;
 
                 ItemManager manager = Items.SkyblockItems.get(AccessoryBag.get().getString(baseDir + ".id"));
-                ItemRarity rarity = manager.rarity;
+                ItemRarity rarity = manager.getRarity();
                 if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
                 int magicalpower = 0;
                 switch (rarity) {
@@ -497,7 +495,7 @@ public class Main extends JavaPlugin {
                 if (AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + i) == null) continue;
 
                 ItemManager manager = Items.SkyblockItems.get(AccessoryBag.get().getString(baseDir + ".id"));
-                ItemRarity rarity = manager.rarity;
+                ItemRarity rarity = manager.getRarity();
                 if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
                 int magicalpower = 0;
                 switch (rarity) {
@@ -1502,7 +1500,7 @@ public class Main extends JavaPlugin {
             meta.setLore(new ArrayList<String>());
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-            ArrayList<String> lores = new ArrayList<String>();
+            ArrayList<String> lores = new ArrayList<>();
 
             if (Pet.pets.containsKey(manager.itemID)) {
                 lores.add("§8" + Pet.pets.get(manager.itemID).Petype + " Pet");
@@ -1510,7 +1508,7 @@ public class Main extends JavaPlugin {
 
             }
 
-            ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING));
+            ItemRarity rarity = manager.getRarity(ItemRarity.valueOf(data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING)), item, player);
             if (itembreakingpower(item) != 0) {
                 if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && Reforge.getReforgeValue(registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") != 0) {
                     lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+" + Reforge.getReforgeValue(registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") + ")");
@@ -1534,7 +1532,7 @@ public class Main extends JavaPlugin {
                     if (slot.currGem == null) {
                         gomstoneLine += "§8[§7" + slot.type.getSymbol() + "§8] ";
                     } else {
-                        gomstoneLine += slot.currGem.rarity.getPrefix() + "[" + slot.currGem.gemType.getPrefix() + slot.type.getSymbol() + slot.currGem.rarity.getPrefix() + "] ";
+                        gomstoneLine += slot.currGem.getRarity().getPrefix() + "[" + slot.currGem.gemType.getPrefix() + slot.type.getSymbol() + slot.currGem.getRarity().getPrefix() + "] ";
                     }
                 }
                 if (!gomstoneLine.equals("") && !gomstoneLine.isEmpty()) lores.add(gomstoneLine);
@@ -1781,7 +1779,7 @@ public class Main extends JavaPlugin {
             if (manager.isDungeonItem) extra = "DUNGEON ";
 
             if (data.get(new NamespacedKey(Main, "recomed"), PersistentDataType.INTEGER) == 0)
-                lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : manager.rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase());
+                lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase());
             else {
                 lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase() + " §kr");
             }

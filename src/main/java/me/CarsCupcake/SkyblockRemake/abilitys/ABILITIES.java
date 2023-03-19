@@ -135,7 +135,7 @@ public class ABILITIES implements Listener {
         Totem.stopAll();
     }
 
-    private static void registerEvent(Listener listener) {
+    public static void registerEvent(Listener listener) {
         try {
             Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
         } catch (Exception ignored) {

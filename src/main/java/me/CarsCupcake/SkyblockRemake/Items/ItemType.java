@@ -35,7 +35,8 @@ public enum ItemType {
     Axe,
     Wand,
     Longsword,
-    Minion;
+    Minion,
+    Hoe;
 
 
     ItemType() {
@@ -65,6 +66,7 @@ public enum ItemType {
             case Axe -> "Axe";
             case Wand -> "Wand";
             case Longsword -> "Longsword";
+            case Hoe -> "Hoe";
             default -> "";
         };
 

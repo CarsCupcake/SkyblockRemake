@@ -120,8 +120,8 @@ static class GiftData {
             gifter.addItem(Main.item_updater(generator.createNewItemStack(), gifter));
             reciver.addItem(Main.item_updater(generator.createNewItemStack(), reciver));
             if (generator instanceof ItemManager m) {
-                gifter.sendMessage("You got " + m.rarity.getPrefix() + m.name);
-                reciver.sendMessage("You got " + m.rarity.getPrefix() + m.name);
+                gifter.sendMessage("You got " + m.getRarity().getPrefix() + m.name);
+                reciver.sendMessage("You got " + m.getRarity().getPrefix() + m.name);
             }
         }
         stands.forEach(Entity::remove);
@@ -129,8 +129,8 @@ static class GiftData {
 
     public void cancle() {
         stands.forEach(ArmorStand::remove);
-        switch (gifttype) {
-            case 0 -> gifter.addItem(Items.SkyblockItems.get("WHITE_GIFT"));
+        if (gifttype == 0) {
+            gifter.addItem(Items.SkyblockItems.get("WHITE_GIFT"));
         }
 
     }

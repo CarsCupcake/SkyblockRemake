@@ -11,6 +11,8 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.Overload;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.Syphon;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.Vicious;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants.*;
+import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Harvesting;
+import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Replenish;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -33,7 +35,8 @@ public class SkyblockEnchants {
 	public static final Overload OVERLOAD = new Overload();
 	public static final Vicious VICIOUS = new Vicious();
 	public static final Duplex DUPLEX = new Duplex();
-
+	public static final Replenish REPLENISH = new Replenish();
+	public static final Harvesting HARVESTING = new Harvesting();
 
 	public static final Syphon SYPHON = new Syphon();
 	public static final DragonTracer DRAGON_TRACER = new DragonTracer();
@@ -52,6 +55,8 @@ public class SkyblockEnchants {
 		registerEvent(OVERLOAD);
 		registerEvent(DUPLEX);
 		registerEvent(VICIOUS);
+		registerEvent(REPLENISH);
+		registerEvent(HARVESTING);
 	}
 	private static void registerEvent(Listener listener){
 		Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
@@ -73,6 +78,8 @@ public class SkyblockEnchants {
 		registerEnchantment(OVERLOAD);
 		registerEnchantment(VICIOUS);
 		registerEnchantment(DUPLEX);
+		registerEnchantment(REPLENISH);
+		registerEnchantment(HARVESTING);
 }
 public static void unregister(){
 	for (Enchantment enchantment : enchantments)

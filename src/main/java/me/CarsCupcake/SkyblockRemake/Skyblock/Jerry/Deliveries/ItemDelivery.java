@@ -33,7 +33,7 @@ public class ItemDelivery implements IDelivery {
     public ItemStack getShowItem() {
         return new ItemBuilder(item.material)
                 .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                .setName(item.rarity.getPrefix() + item.name)
+                .setName(item.getRarity().getPrefix() + item.name)
                 .addLoreRow("§7Here is a delivery for you :)")
                 .addLoreRow(" ")
                 .addLoreRow("§eClick to collect!")

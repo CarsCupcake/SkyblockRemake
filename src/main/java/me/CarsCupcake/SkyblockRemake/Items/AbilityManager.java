@@ -51,11 +51,14 @@ public interface AbilityManager<T extends Event> {
 
         boolean hasSneak = false;
 
-        for (Ability ability : manager.getAbilities())
+        for (Ability ability : manager.getAbilities()) {
+            if(ability.getAbilityManager() == null)
+                continue;
             if (!ability.getType().isOther()) {
                 abilities.add(ability);
                 if (ability.getType().isSneak()) hasSneak = true;
             }
+        }
 
         if (abilities.isEmpty()) return;
 
@@ -151,10 +154,13 @@ public interface AbilityManager<T extends Event> {
 
         boolean hasSneak = false;
 
-        for (Ability ability : manager.getAbilities())
+        for (Ability ability : manager.getAbilities()) {
+            if(ability.getAbilityManager() == null)
+                continue;
             if (ability.getType() == AbilityType.EntityHit) {
                 abilities.add(ability);
             }
+        }
 
         if (abilities.isEmpty()) return;
 
@@ -163,7 +169,6 @@ public interface AbilityManager<T extends Event> {
         }
     }
 
-    @SuppressWarnings("deprecation")
     static void abilityTrigger(DamagePrepairEvent event) {
         SkyblockPlayer player = event.getPlayer();
 
@@ -182,10 +187,13 @@ public interface AbilityManager<T extends Event> {
 
         boolean hasSneak = false;
 
-        for (Ability ability : manager.getAbilities())
+        for (Ability ability : manager.getAbilities()) {
+            if(ability.getAbilityManager() == null)
+                continue;
             if (ability.getType() == AbilityType.SkyblockPreHit) {
                 abilities.add(ability);
             }
+        }
 
         if (abilities.isEmpty()) return;
 
@@ -214,10 +222,13 @@ public interface AbilityManager<T extends Event> {
 
         boolean hasSneak = false;
 
-        for (Ability ability : manager.getAbilities())
+        for (Ability ability : manager.getAbilities()) {
+            if(ability.getAbilityManager() == null)
+                continue;
             if (ability.getType() == AbilityType.AfterHit) {
                 abilities.add(ability);
             }
+        }
 
         if (abilities.isEmpty()) return;
 
