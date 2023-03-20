@@ -1,8 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Items.farming;
 
-import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Carrot;
-import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Crop;
-import me.CarsCupcake.SkyblockRemake.Items.farming.crops.Potato;
+import me.CarsCupcake.SkyblockRemake.Items.farming.crops.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -20,6 +18,10 @@ public class FarmingUtils implements Listener {
     public FarmingUtils(){
         registerCrop(new Potato(), 4);
         registerCrop(new Carrot(), 4);
+        registerCrop(new Cocoa(), 4);
+        registerCrop(new Melon(), 4);
+        registerCrop(new Pumpkin(), 4.5);
+        registerCrop(new Wheat(), 4);
     }
     private void registerCrop(Crop crop, double xp){
         farmingXp.put(crop.getBlockType(), xp);

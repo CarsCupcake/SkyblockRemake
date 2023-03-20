@@ -20,7 +20,7 @@ public class CropieArmor implements FullSetBonus, Listener {
     public static void init(){
         AbilityLore lore = new AbilityLore(new ArrayList<>(List.of(
                 "§7Farming Pumpkin, Melon, and",
-                "Cocoa Beans have a §a%chance% §7chance",
+                "§7Cocoa Beans have a §a%chance% §7chance",
                 "§7of fropping a Cropie. Grants",
                 "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7."
         )));
@@ -28,7 +28,7 @@ public class CropieArmor implements FullSetBonus, Listener {
         lore.addPlaceholder("%ff%", (p, itemStack) -> getFarmingFortune(p) + "");
         ItemManager manager = new ItemManager("Cropie Helmet", "CROPIE_HELMET", ItemType.Helmet, ItemRarity.RARE, "http://textures.minecraft.net/texture/e4bacb96734e244b9f7331d453e686fa2e32522a411aa568f960e741d74b3289");
         manager.setUnstackeble(true);
-        manager.setFullSetBonus(Bonuses.CropierCrops, "Squashbuckle", lore, true);
+        manager.setFullSetBonus(Bonuses.Squashbuckle, "Squashbuckle", lore, true);
         manager.setRequirement(new SkillRequirement(Skills.Farming, 30));
         manager.setStat(Stats.Health, 110);
         manager.setStat(Stats.Defense, 25);
@@ -38,7 +38,7 @@ public class CropieArmor implements FullSetBonus, Listener {
 
         manager = new ItemManager("Cropie Chestplate", "CROPIE_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x7A2900), ItemRarity.RARE);
         manager.setUnstackeble(true);
-        manager.setFullSetBonus(Bonuses.CropierCrops, "Squashbuckle", lore, true);
+        manager.setFullSetBonus(Bonuses.Squashbuckle, "Squashbuckle", lore, true);
         manager.setRequirement(new SkillRequirement(Skills.Farming, 30));
         manager.setStat(Stats.Health, 165);
         manager.setStat(Stats.Defense, 25);
@@ -48,7 +48,7 @@ public class CropieArmor implements FullSetBonus, Listener {
 
         manager = new ItemManager("Cropie Leggings", "CROPIE_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x94451F), ItemRarity.RARE);
         manager.setUnstackeble(true);
-        manager.setFullSetBonus(Bonuses.CropierCrops, "Squashbuckle", lore, true);
+        manager.setFullSetBonus(Bonuses.Squashbuckle, "Squashbuckle", lore, true);
         manager.setRequirement(new SkillRequirement(Skills.Farming, 30));
         manager.setStat(Stats.Health, 165);
         manager.setStat(Stats.Defense, 25);
@@ -58,7 +58,7 @@ public class CropieArmor implements FullSetBonus, Listener {
 
         manager = new ItemManager("Cropie Boots", "CROPIE_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xBB6535), ItemRarity.RARE);
         manager.setUnstackeble(true);
-        manager.setFullSetBonus(Bonuses.CropierCrops, "Squashbuckle", lore, true);
+        manager.setFullSetBonus(Bonuses.Squashbuckle, "Squashbuckle", lore, true);
         manager.setRequirement(new SkillRequirement(Skills.Farming, 30));
         manager.setStat(Stats.Health, 110);
         manager.setStat(Stats.Defense, 25);
@@ -100,6 +100,7 @@ public class CropieArmor implements FullSetBonus, Listener {
         return Bonuses.CropierCrops;
     }
     private static double getChance(SkyblockPlayer player){
+        if(player == null) return 0;
         if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
         switch (player.bonusAmounts.get(Bonuses.CropierCrops)){
             case 2 -> {
@@ -117,6 +118,7 @@ public class CropieArmor implements FullSetBonus, Listener {
         }
     }
     private static int getFarmingFortune(SkyblockPlayer player){
+        if(player == null) return 0;
         if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
         return (player.bonusAmounts.get(Bonuses.CropierCrops) * 15) - 15;
     }
@@ -125,8 +127,10 @@ public class CropieArmor implements FullSetBonus, Listener {
     private void farmEvent(PlayerFarmEvent event){
         if(!players.contains(event.getPlayer())) return;
         if(!crops.contains(event.getBlock().getType())) return;
-        if(new Random().nextDouble() <= getChance(event.getPlayer()))
+        if(new Random().nextDouble() <= getChance(event.getPlayer())) {
+            event.getPlayer().sendMessage("§6§lRARE DROP! " + ItemRarity.EPIC.getPrefix() + "Squash §b(Armor Set Bonus)");
             event.getPlayer().addItem(Items.SkyblockItems.get("SQUASH"));
+        }
     }
 
     @EventHandler

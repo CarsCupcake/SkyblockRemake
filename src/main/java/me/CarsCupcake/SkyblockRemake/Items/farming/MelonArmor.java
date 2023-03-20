@@ -20,7 +20,7 @@ public class MelonArmor implements FullSetBonus, Listener {
     public static void init(){
         AbilityLore lore = new AbilityLore(new ArrayList<>(List.of(
                 "§7Farming Wheat, Carrot, and",
-                "Potatos have a §a%chance% §7chance",
+                "§7Potatos have a §a%chance% §7chance",
                 "§7of fropping a Cropie. Grants",
                 "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7."
         )));
@@ -100,6 +100,7 @@ public class MelonArmor implements FullSetBonus, Listener {
         return Bonuses.CropierCrops;
     }
     private static double getChance(SkyblockPlayer player){
+        if(player == null) return 0;
         if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
         switch (player.bonusAmounts.get(Bonuses.CropierCrops)){
             case 2 -> {
@@ -117,16 +118,19 @@ public class MelonArmor implements FullSetBonus, Listener {
         }
     }
     private static int getFarmingFortune(SkyblockPlayer player){
+        if(player == null) return 0;
         if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
         return (player.bonusAmounts.get(Bonuses.CropierCrops) * 10) - 10;
     }
-    private static final Set<Material> crops = new HashSet<>(Set.of(Material.POTATOES, Material.CARROTS, Material.WHEAT_SEEDS));
+    private static final Set<Material> crops = new HashSet<>(Set.of(Material.POTATOES, Material.CARROTS, Material.WHEAT));
     @EventHandler
     private void farmEvent(PlayerFarmEvent event){
         if(!players.contains(event.getPlayer())) return;
         if(!crops.contains(event.getBlock().getType())) return;
-        if(new Random().nextDouble() <= getChance(event.getPlayer()))
+        if(new Random().nextDouble() <= getChance(event.getPlayer())) {
+            event.getPlayer().sendMessage("§6§lRARE DROP! " + ItemRarity.RARE.getPrefix() + "Cropie §b(Armor Set Bonus)");
             event.getPlayer().addItem(Items.SkyblockItems.get("CROPIE"));
+        }
     }
 
     @EventHandler
