@@ -203,6 +203,7 @@ public class Items {
         Recombobulator3000();
         Divans_Drill();
         Mithril();
+        BuilderWands();
         Titanium();
         Gemstone_Gauntlet();
         SwordOfTheUniverse();
@@ -1713,7 +1714,7 @@ public class Items {
         lore.add("§7Right-Click a block to zap all");
         lore.add("§7connected blocks of the same");
         lore.add("§7type.");
-        ItemManager manager = new ItemManager("§5Block Zapper", "BLOCK_ZAPPER", ItemType.Non, null, null , null, null, 0, 0, 0, 0, Material.FLINT, ItemRarity.EPIC);
+        ItemManager manager = new ItemManager("§5Block Zapper", "BLOCK_ZAPPER", ItemType.Non, null , null , null, null, 0, 0, 0, 0, Material.FLINT, ItemRarity.EPIC);
         manager.addAbility(new BlockZapperAbility(), AbilityType.RightClick, "Grand... Zapper?",new AbilityLore(lore), 0,0);
         SkyblockItems.put(manager.itemID, manager);
 
@@ -3961,7 +3962,7 @@ public class Items {
 
     public static void intellijItem() {
         ArrayList<String> lore = new ArrayList<>();
-        lore.add("§7I'll remember the day where i ");
+        lore.add("§7I'll remember the day when i ");
         lore.add("§7nearly killed my plugin");
         lore.add("§7- CarsCupcake");
         ItemManager manager = new ItemManager("Intellij User", "INTELLIJ", ItemType.Non, lore, null, null, null, 0, 0, 0f, 0, Material.DEAD_BUSH, ItemRarity.SPECIAL);
@@ -4012,6 +4013,16 @@ public class Items {
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
     }
+    public static void BuilderWands() {
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Right-Click the face of a block");
+        abilityLore.add("§7to extend all connected block");
+        abilityLore.add("§7faces.");
+        abilityLore.add(" ");
+        ItemManager manager = new ItemManager("§f§f§6Builder's Wand", "BUILDERS_WAND", ItemType.Wand, null, " Grand Architect", "Grand_Architect", abilityLore, 0, 0, 0f, 0, Material.BLAZE_ROD, ItemRarity.LEGENDARY);
+        manager.addAbility(new BuilderWand(), AbilityType.RightClick, "Grand Architect", new AbilityLore(abilityLore), 0, 0);
+        SkyblockItems.put(manager.itemID, manager);
+    }
 
     public static void infernoVertex() {
         ArrayList<String> lore = new ArrayList<>();
@@ -4041,6 +4052,7 @@ public class Items {
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
     }
+
 
     public static void infernoApex() {
         ArrayList<String> lore = new ArrayList<>();
