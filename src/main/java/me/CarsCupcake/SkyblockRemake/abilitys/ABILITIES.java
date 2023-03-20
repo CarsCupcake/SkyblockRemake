@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.Items.farming.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.Items.farming.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
@@ -129,6 +130,7 @@ public class ABILITIES implements Listener {
         registerEvent(new MinionListener());
         registerEvent(new FarmingUtils());
         registerEvent(new MelonArmor());
+        registerEvent(new CropieArmor());
 
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());

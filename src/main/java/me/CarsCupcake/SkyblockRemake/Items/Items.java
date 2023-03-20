@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.farming.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.PotatoHoes;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
@@ -429,6 +430,7 @@ public class Items {
         ExpertMiner.init();
         ABILITIES.registerEvent(new PotatoHoes());
         MelonArmor.init();
+        CropieArmor.init();
     }
 
     public static void wand() {
