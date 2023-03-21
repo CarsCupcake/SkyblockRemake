@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Items.farming.items;
+package me.CarsCupcake.SkyblockRemake.Items.farming.items.armor;
 
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerFarmEvent;

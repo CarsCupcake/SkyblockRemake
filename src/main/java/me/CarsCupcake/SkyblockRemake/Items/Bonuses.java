@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.CropieArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.FermentoArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.MelonArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.SquashArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 

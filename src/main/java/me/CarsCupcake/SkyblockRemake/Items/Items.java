@@ -9,7 +9,13 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.*;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.EnchantedCrops;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.MelonDicer;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
@@ -427,10 +433,16 @@ public class Items {
         wand();
         ExpertMiner.init();
         ABILITIES.registerEvent(new PotatoHoes());
+        ABILITIES.registerEvent(new CarrotHoes());
+        ABILITIES.registerEvent(new SugarCaneHoes());
+        ABILITIES.registerEvent(new WheatHoes());
+        ABILITIES.registerEvent(new NetherWartHoes());
         MelonArmor.init();
         CropieArmor.init();
         SquashArmor.init();
         FermentoArmor.init();
+        MelonDicer.init();
+        new EnchantedCrops();
     }
 
     public static void wand() {

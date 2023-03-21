@@ -1,10 +1,15 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.CropieArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.FermentoArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.MelonArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.items.SquashArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.CocoChopper;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.MelonDicer;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.PumpkinDicer;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.CactusKnife;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.FungiCutter;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
@@ -135,6 +140,13 @@ public class ABILITIES implements Listener {
         registerEvent(new CropieArmor());
         registerEvent(new SquashArmor());
         registerEvent(new FermentoArmor());
+
+
+        registerEvent(new MelonDicer());
+        registerEvent(new PumpkinDicer());
+        registerEvent(new CocoChopper());
+        registerEvent(new FungiCutter());
+        registerEvent(new CactusKnife());
 
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());
