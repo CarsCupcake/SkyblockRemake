@@ -35,7 +35,7 @@ public abstract class Crop {
         Bundle<Integer, Integer> d = getDropAmounts();
         PlayerFarmEvent event = new PlayerFarmEvent(player, b, Main.getPlayerStat(player, Stats.FarmingFortune), Main.getPlayerStat(player, Stats.FarmingWisdom), new Random().nextInt(d.getLast() - d.getFirst()) + d.getFirst());
         Bukkit.getPluginManager().callEvent(event);
-        player.addSkillXp((FarmingUtils.farmingXp.get(b.getType()) * (1 + (event.getFarmingWisdom() / 100))), Skills.Farming);
+        addSkillXp(event);
         ItemStack item = Items.SkyblockItems.get(getItemId()).createNewItemStack();
         int mult = (1 + ((int) (event.getFarmingFortune() / 100)));
         double rest = (event.getFarmingFortune() / 100)  - ((int)(event.getFarmingFortune() / 100));
@@ -56,5 +56,8 @@ public abstract class Crop {
             }
         }
         return Main.item_updater(item, player);
+    }
+    public void addSkillXp(PlayerFarmEvent event){
+        event.getPlayer().addSkillXp((FarmingUtils.farmingXp.get(event.getBlock().getType()) * (1 + (event.getFarmingWisdom() / 100))), Skills.Farming);
     }
 }

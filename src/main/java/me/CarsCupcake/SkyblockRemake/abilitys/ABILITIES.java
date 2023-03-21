@@ -1,8 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import me.CarsCupcake.SkyblockRemake.Items.farming.CropieArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
-import me.CarsCupcake.SkyblockRemake.Items.farming.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.FermentoArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
@@ -131,6 +133,8 @@ public class ABILITIES implements Listener {
         registerEvent(new FarmingUtils());
         registerEvent(new MelonArmor());
         registerEvent(new CropieArmor());
+        registerEvent(new SquashArmor());
+        registerEvent(new FermentoArmor());
 
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());

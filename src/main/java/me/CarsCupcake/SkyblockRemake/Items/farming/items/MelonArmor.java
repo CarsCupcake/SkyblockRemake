@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Items.farming;
+package me.CarsCupcake.SkyblockRemake.Items.farming.items;
 
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerFarmEvent;
@@ -21,7 +21,7 @@ public class MelonArmor implements FullSetBonus, Listener {
         AbilityLore lore = new AbilityLore(new ArrayList<>(List.of(
                 "§7Farming Wheat, Carrot, and",
                 "§7Potatos have a §a%chance% §7chance",
-                "§7of fropping a Cropie. Grants",
+                "§7of dropping a Cropie. Grants",
                 "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7."
         )));
         lore.addPlaceholder("%chance%", (p, itemStack) -> (getChance(p) * 100) + "%");

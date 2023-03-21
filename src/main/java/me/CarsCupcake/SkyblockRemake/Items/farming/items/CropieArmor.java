@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Items.farming;
+package me.CarsCupcake.SkyblockRemake.Items.farming.items;
 
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerFarmEvent;
@@ -21,7 +21,7 @@ public class CropieArmor implements FullSetBonus, Listener {
         AbilityLore lore = new AbilityLore(new ArrayList<>(List.of(
                 "§7Farming Pumpkin, Melon, and",
                 "§7Cocoa Beans have a §a%chance% §7chance",
-                "§7of fropping a Cropie. Grants",
+                "§7of dropping a Squash. Grants",
                 "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7."
         )));
         lore.addPlaceholder("%chance%", (p, itemStack) -> (getChance(p) * 100) + "%");
@@ -97,12 +97,12 @@ public class CropieArmor implements FullSetBonus, Listener {
 
     @Override
     public Bonuses getBonus() {
-        return Bonuses.CropierCrops;
+        return Bonuses.Squashbuckle;
     }
     private static double getChance(SkyblockPlayer player){
         if(player == null) return 0;
-        if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
-        switch (player.bonusAmounts.get(Bonuses.CropierCrops)){
+        if(!player.bonusAmounts.containsKey(Bonuses.Squashbuckle)) return 0;
+        switch (player.bonusAmounts.get(Bonuses.Squashbuckle)){
             case 2 -> {
                 return 0.0001;
             }
@@ -119,8 +119,8 @@ public class CropieArmor implements FullSetBonus, Listener {
     }
     private static int getFarmingFortune(SkyblockPlayer player){
         if(player == null) return 0;
-        if(!player.bonusAmounts.containsKey(Bonuses.CropierCrops)) return 0;
-        return (player.bonusAmounts.get(Bonuses.CropierCrops) * 15) - 15;
+        if(!player.bonusAmounts.containsKey(Bonuses.Squashbuckle)) return 0;
+        return (player.bonusAmounts.get(Bonuses.Squashbuckle) * 15) - 15;
     }
     private static final Set<Material> crops = new HashSet<>(Set.of(Material.MELON, Material.PUMPKIN, Material.COCOA));
     @EventHandler

@@ -1,7 +1,9 @@
-package me.CarsCupcake.SkyblockRemake.Items.farming;
+package me.CarsCupcake.SkyblockRemake.Items.farming.items;
 
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerFarmEvent;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
+import me.CarsCupcake.SkyblockRemake.Items.farming.UpgradebleHoe;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ItemCollection;

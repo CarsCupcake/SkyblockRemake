@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 
-public class SkyblockShapelessRecipe implements SkyblockRecipe{
+public class SkyblockShapelessRecipe extends SkyblockRecipe{
 	private final ArrayList<CraftingObject> ingredients = new ArrayList<>();
 	private final ItemManager result;
 	private final String id;

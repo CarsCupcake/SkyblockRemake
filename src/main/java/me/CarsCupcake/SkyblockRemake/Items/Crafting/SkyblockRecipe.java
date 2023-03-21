@@ -16,18 +16,21 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-public interface SkyblockRecipe {
+public abstract class SkyblockRecipe {
 
-    Set<SkyblockRecipe> recipes = new HashSet<>();
+    public static Set<SkyblockRecipe> recipes = new HashSet<>();
 
-    ItemManager getResult();
+    public abstract ItemManager getResult();
 
-    String getId();
+    public abstract String getId();
 
-    int getAmount();
+    public abstract int getAmount();
+    public void register(){
+        recipes.add(this);
+    }
 
 
-    static Set<SkyblockRecipe> checkForRecipe(ArrayList<ItemStack> stacks) {
+    public static Set<SkyblockRecipe> checkForRecipe(ArrayList<ItemStack> stacks) {
         ArrayList<String> managerIds = new ArrayList<>();
         for (ItemStack stack : stacks) {
             if (stack == null || stack.getType() == Material.AIR) {
@@ -137,7 +140,7 @@ public interface SkyblockRecipe {
     //ItemManager item = Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8);
     //objects.add(new CraftingObject(item, 8));
     //RecipeItem instead of objects
-    static void init() {
+    public static void init() {
         ArrayList<CraftingObject> objects = new ArrayList<>();
         objects.add(new CraftingObject(Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8));
         objects.add(new CraftingObject(Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8));

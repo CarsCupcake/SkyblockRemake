@@ -9,9 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
-import me.CarsCupcake.SkyblockRemake.Items.farming.CropieArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.MelonArmor;
-import me.CarsCupcake.SkyblockRemake.Items.farming.PotatoHoes;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
@@ -431,6 +429,8 @@ public class Items {
         ABILITIES.registerEvent(new PotatoHoes());
         MelonArmor.init();
         CropieArmor.init();
+        SquashArmor.init();
+        FermentoArmor.init();
     }
 
     public static void wand() {
