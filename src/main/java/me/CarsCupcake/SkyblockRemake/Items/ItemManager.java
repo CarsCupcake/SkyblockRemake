@@ -8,6 +8,7 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
+import me.CarsCupcake.SkyblockRemake.Items.requirements.Requirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.NBTEditor;
@@ -99,6 +100,9 @@ public class ItemManager implements ItemGenerator {
             return rarity;
         }
     };
+    @Getter
+    @Setter
+    private Requirement requirement = (player, item) -> true;
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;

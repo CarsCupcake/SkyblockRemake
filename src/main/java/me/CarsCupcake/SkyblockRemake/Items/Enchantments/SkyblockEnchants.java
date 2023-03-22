@@ -13,6 +13,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.Vicious;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Harvesting;
 import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Replenish;
+import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.SugarRush;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
@@ -40,6 +41,7 @@ public class SkyblockEnchants {
 
 	public static final Syphon SYPHON = new Syphon();
 	public static final DragonTracer DRAGON_TRACER = new DragonTracer();
+	public static final SugarRush SUGAR_RUSH = new SugarRush();
 
 
 	private static void initEvents(){
@@ -57,6 +59,7 @@ public class SkyblockEnchants {
 		registerEvent(VICIOUS);
 		registerEvent(REPLENISH);
 		registerEvent(HARVESTING);
+		registerEvent(SUGAR_RUSH);
 	}
 	private static void registerEvent(Listener listener){
 		Main.getMain().getServer().getPluginManager().registerEvents(listener, Main.getMain());
@@ -80,6 +83,7 @@ public class SkyblockEnchants {
 		registerEnchantment(DUPLEX);
 		registerEnchantment(REPLENISH);
 		registerEnchantment(HARVESTING);
+		registerEnchantment(SUGAR_RUSH);
 }
 public static void unregister(){
 	for (Enchantment enchantment : enchantments)

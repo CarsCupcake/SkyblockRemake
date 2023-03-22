@@ -1,5 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
+import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.abilitys.*;
 
@@ -25,6 +29,10 @@ public enum Bonuses {
 	YoungBlood(new YoungBlood()),
 	StrongBlood(new StrongBlood()),
 	AdminArmor(new AdminArmorAbility()),
+	CropierCrops(new MelonArmor()),
+	Squashbuckle(new CropieArmor()),
+	MentoFermento(new SquashArmor()),
+	Feast(new FermentoArmor()),
 	ExpertMiner(new ExpertMiner());
 
 	private final FullSetBonus b;

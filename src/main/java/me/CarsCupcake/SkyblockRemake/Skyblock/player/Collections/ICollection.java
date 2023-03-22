@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.CarrotCollection;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.PotatoCollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.CobblestoneCollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.MithrilCollection;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
@@ -22,6 +21,9 @@ public abstract class ICollection {
         CollectHandler.registeredCollections.add(new MithrilCollection(null));
         CollectHandler.registeredCollections.add(new PotatoCollection(null));
         CollectHandler.registeredCollections.add(new CarrotCollection(null));
+        CollectHandler.registeredCollections.add(new NetherWartCollection(null));
+        CollectHandler.registeredCollections.add(new SugarCaneCollection(null));
+        CollectHandler.registeredCollections.add(new WheatCollection(null));
 
     }
     private long collected;

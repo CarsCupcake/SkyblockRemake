@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -65,5 +66,18 @@ public class AbilityLore {
     }
     public void addPlaceholder(String plshldr, UpdateFlag flag){
         placeholders.put(plshldr, flag);
+    }
+    public static class PersistenDataPlaceHolder<T,Z> implements UpdateFlag{
+        private final PersistentDataType<T,Z> type;
+        private final String data;
+        public PersistenDataPlaceHolder(String data, PersistentDataType<T,Z> type){
+            this.data = data;
+            this.type = type;
+        }
+        @Override
+        public String getReplaceValue(SkyblockPlayer player, ItemStack itemStack) {
+            if(!ItemHandler.hasPDC(data, itemStack, type)) return "";
+            return ItemHandler.getPDC(data, itemStack, type) + "";
+        }
     }
 }
