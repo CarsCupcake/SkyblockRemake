@@ -410,7 +410,7 @@ public class Calculator {
 
     public void sendMagicMessage(int entityAmount, SkyblockPlayer player) {
         if (!isMagic) throw new CalculatorException("There is no magic");
-        player.sendMessage("§7Your " + abilityName + " hit §c" + entityAmount + "§7 enemy" + ((entityAmount > 1) ? "s" : "") + " for §c" + String.format("%.1f", damage) + " §7damage.");
+        player.sendMessage("§7Your " + abilityName + " hit §c" + entityAmount + "§7 enemy" + ((entityAmount > 1) ? "s" : "") + " for §c" + String.format("%.0f", damage) + " §7damage.");
     }
 
     public boolean isMagic() {

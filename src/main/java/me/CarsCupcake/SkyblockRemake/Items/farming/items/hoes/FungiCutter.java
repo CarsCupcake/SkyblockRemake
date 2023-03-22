@@ -30,7 +30,7 @@ public class FungiCutter implements Listener {
                 "§7when harvesting the type of",
                 "§7mushrooms for your mode."
         )));
-        lore.addPlaceholder("%mode&", new AbilityLore.PersistenDataPlaceHolder<>("mode", PersistentDataType.STRING));
+        lore.addPlaceholder("%mode%", new AbilityLore.PersistenDataPlaceHolder<>("mode", PersistentDataType.STRING));
         manager.addAbility(new Ability(), AbilityType.RightClick, "Guy Bonus", lore, 0, 0);
         SkyblockItems.put(manager.itemID, manager);
     }

@@ -129,7 +129,7 @@ public interface AbilityManager<T extends Event> {
             startCooldown(player, ability.getAbilityManager().getClass(), ability.getCooldown() * 20L, ability.getType());
         player.setMana((int) (player.currmana - manacost));
         Main.updatebar(player);
-        if (manacost > 0) player.setTempDefenceString("§b-" + manacost + " Mana (§6" + ability.getName() + "§b)");
+        if (manacost > 0) player.setTempDefenceString("§b-" + ((manacost % 1 == 0) ? String.format("%.0f", manacost) : Tools.round(manacost, 2)) + " Mana (§6" + ability.getName() + "§b)");
         return true;
     }
 

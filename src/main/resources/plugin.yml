@@ -56,4 +56,5 @@ commands:
   fixenchants:
   undozap:
   setcounter:
+  max:
   

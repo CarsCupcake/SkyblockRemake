@@ -147,7 +147,6 @@ public class SkyblockRemakeEvents implements Listener {
 
 
         new SkyblockPlayer((CraftServer) Main.getMain().getServer(), ((CraftPlayer) event.getPlayer()).getHandle());
-        Main.initAccessoryBag(player);
         if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
             PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
             PetMenus.save();

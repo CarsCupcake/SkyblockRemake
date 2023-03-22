@@ -8,8 +8,10 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
+import me.CarsCupcake.SkyblockRemake.abilitys.SuperCompactor;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
@@ -172,6 +174,8 @@ public class SkyblockPlayer extends CraftPlayer{
 		loadInventory();
 		new MiningSys(this);
 		AbilityListener.checkArmor(this);
+		Main.initAccessoryBag(player);
+		Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupAbilitys(SkyblockPlayer.this));
 		SkyblockScoreboard.createScoreboard(this);
 		new BukkitRunnable() {
 			
@@ -602,6 +606,12 @@ public class SkyblockPlayer extends CraftPlayer{
 		if(countAsCollection)
 			CollectHandler.collectItem(item, this);
 		getInventory().addItem(item);
+		String id = ItemHandler.getPDC("id", item, PersistentDataType.STRING);
+		if(SuperCompactor.active.containsKey(this)){
+			for(SuperCompactor.SuperCompactorRecipe recipe : SuperCompactor.active.get(this))
+				if(recipe.base().equals(id))
+					recipe.check(this);
+		}
 	}
 
 

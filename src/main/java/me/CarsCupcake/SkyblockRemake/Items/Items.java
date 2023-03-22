@@ -443,6 +443,7 @@ public class Items {
         FermentoArmor.init();
         MelonDicer.init();
         new EnchantedCrops();
+        SuperCompactor.init();
     }
 
     public static void wand() {

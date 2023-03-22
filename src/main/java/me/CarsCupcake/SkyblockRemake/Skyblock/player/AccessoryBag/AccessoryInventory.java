@@ -18,8 +18,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
 
 public class AccessoryInventory {
  public	ArrayList<Inventory> invs = new ArrayList<>();
@@ -68,18 +66,7 @@ public AccessoryInventory(Player player) {
 		for(int i = 0; i < 45; i++) {
 			AccessoryBag.reload();
 			if(list < slots && AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + list) != null) {
-				
-				String basestring = player.getUniqueId() + ".SLOT_" + list;
-				ItemManager manager = Items.SkyblockItems.get(AccessoryBag.get().getString(basestring + ".id") );
-				ItemStack it = manager.getRawItemStack();
-				ItemMeta m = it.getItemMeta();
-				PersistentDataContainer d = m.getPersistentDataContainer();
-				if(AccessoryBag.get().getBoolean(basestring + ".recom")) {
-					d.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, manager.getRarity().getNext().toString());
-					d.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 1);
-				}
-				
-				it.setItemMeta(m);
+				ItemStack it = AccessoryBag.get().getItemStack(player.getUniqueId() + ".SLOT_" + list + ".item");
 				inv.setItem(i, Main.item_updater(it, SkyblockPlayer.getSkyblockPlayer(player)));
 				
 				
