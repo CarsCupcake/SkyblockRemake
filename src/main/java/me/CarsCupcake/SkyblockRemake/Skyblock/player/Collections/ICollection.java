@@ -5,9 +5,11 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.Co
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.MithrilCollection;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsGetter;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
 
-public abstract class ICollection {
+public abstract class ICollection implements SkyblockLevelsGetter {
     protected static CustomConfig config;
     protected final SkyblockPlayer player;
 
@@ -48,17 +50,23 @@ public abstract class ICollection {
         }
     }
     public void addCollected(long l){
-        if(isLevelUp(l))
-            sendLevelUpMessage(getLevel() + 1);
+        level(l);
         collected += l;
         config.get().set(player.getUniqueId() + "." + getId(), collected);
         config.save();
         config.reload();
     }
-    private boolean isLevelUp(long i){
+    private void level(long i){
         if(getLevel() == getMaxLevels())
-            return false;
-        return collectAmount()[getLevel()] <= collected + i;
+            return;
+        long total = i + collected;
+        int l = 0;
+        while (collectAmount()[getLevel()] <= total){
+            l++;
+            sendLevelUpMessage(getLevel() + l);
+            SkyblockLevelsHandler.addXp(player, 4, this);
+            if(getLevel() + l >=getMaxLevels()) break;
+        }
     }
     public long getColectedAmount(){
         return collected;
@@ -67,4 +75,14 @@ public abstract class ICollection {
         collected = config.get().getLong( player.getUniqueId() + "." + getId(), 0);
     }
     public abstract ICollection makeNew(SkyblockPlayer player);
+
+    @Override
+    public int getMaxSkyblockXp() {
+        return getMaxLevels() * 4;
+    }
+
+    @Override
+    public int getSkyblockXp() {
+        return getLevel() * 4;
+    }
 }

@@ -18,7 +18,10 @@ public class PotatoCollection extends ItemCollection {
     public int getMaxLevels() {
         return 9;
     }
-
+    @Override
+    public String getName() {
+        return "Potato Collection";
+    }
     @Override
     public int[] collectAmount() {
         return new int[]{

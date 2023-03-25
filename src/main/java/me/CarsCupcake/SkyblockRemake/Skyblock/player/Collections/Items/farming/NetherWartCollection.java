@@ -18,6 +18,10 @@ public class NetherWartCollection extends ItemCollection {
     public int getMaxLevels() {
         return 12;
     }
+    @Override
+    public String getName() {
+        return "Nether Wart Collection";
+    }
 
     @Override
     public int[] collectAmount() {

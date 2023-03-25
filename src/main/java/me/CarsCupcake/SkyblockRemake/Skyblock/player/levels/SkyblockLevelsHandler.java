@@ -4,6 +4,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.levelGetters.ReaperPepper;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class SkyblockLevelsHandler {
         for (Skills skill : Skills.values())
             if(player.getSkill(skill) != null)
                 g.add(player.getSkill(skill));
+        g.addAll(CollectHandler.collections.get(player));
         getters.put(player, g);
     }
     public static void addStats(SkyblockPlayer player){

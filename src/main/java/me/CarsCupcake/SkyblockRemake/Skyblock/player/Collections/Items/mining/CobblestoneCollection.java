@@ -23,7 +23,10 @@ public class CobblestoneCollection extends ItemCollection {
     public int[] collectAmount() {
         return new int[]{50,100, 250,1000,2500,5000,10000,25000,40000,70000};
     }
-
+    @Override
+    public String getName() {
+        return "Cobblestone Collection";
+    }
     @Override
     public GUI getInventory() {
         InventoryBuilder builder = CollectHandler.getBaseInventory("Cobblestone", this, Items.SkyblockItems.get(Material.COBBLESTONE.toString()).createNewItemStack());
