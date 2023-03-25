@@ -784,13 +784,15 @@ public class SkyblockRemakeEvents implements Listener {
                         }
                     });
                 }
-                if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
-                    for (String tag : e.getEntity().getScoreboardTags())
-                        if (tag.startsWith("killer:")) {
-                            new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
-                            break;
-                        }
-                }
+                if(!e.getEntity().addScoreboardTag("minionkill")) {
+                    if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
+                        for (String tag : e.getEntity().getScoreboardTags())
+                            if (tag.startsWith("killer:")) {
+                                new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
+                                break;
+                            }
+                    }
+                } else e.getDrops().clear();
 
                 if (e.getEntity().getScoreboardTags().contains("voidgloomt2")) {
                     e.getDrops().clear();

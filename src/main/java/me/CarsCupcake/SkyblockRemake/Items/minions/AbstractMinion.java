@@ -34,7 +34,7 @@ public abstract class AbstractMinion implements Minion {
     private final IMinion base;
     protected ArmorStand stand;
     protected final Location location;
-    private final String minionId;
+    protected final String minionId;
     protected final SkyblockPlayer player;
     protected final ArrayList<ItemStack> inventory = new ArrayList<>();
     protected int inventorySpace;
@@ -158,10 +158,8 @@ public abstract class AbstractMinion implements Minion {
 
     /**
      * is used to regenerate the resource
-     *
-     * @return true if the max amount of resources has been spawned
      */
-    abstract boolean startGenerateAnimation();
+    abstract void startGenerateAnimation();
 
     /**
      * is a check if all resourses has been respawned
@@ -285,15 +283,13 @@ public abstract class AbstractMinion implements Minion {
         } catch (Exception ignored) {
         }
         breakingRunnable = new BukkitRunnable() {
-            int phase = (isMaxGenerated()) ? 0 : 1;
 
             @Override
             public void run() {
-                if (phase == 0) {
+                if (isMaxGenerated()) {
                     startGetAnimation();
-                    phase = 1;
                 } else {
-                    if (startGenerateAnimation()) phase = 0;
+                   startGenerateAnimation();
                 }
             }
         };

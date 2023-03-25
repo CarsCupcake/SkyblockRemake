@@ -36,7 +36,7 @@ public class CombatMinion extends AbstractMinion {
     @Override
     void startGetAnimation() {
         List<Entity> missing = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
-                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity me && me.getId().equals(minion.getEntity().getId())).collect(Collectors.toList());
+                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity && SkyblockEntity.livingEntity.get(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).collect(Collectors.toList());
         if (missing.isEmpty())
             return;
 
@@ -50,7 +50,9 @@ public class CombatMinion extends AbstractMinion {
         EulerAngle angle = new EulerAngle(Math.toRadians(lo.getPitch()), 0, 0);
         stand.teleport(lo);
         stand.setHeadPose(angle);
-
+        entity.addScoreboardTag("minionkill");
+        SkyblockEntity.killEntity(SkyblockEntity.livingEntity.get(entity), null);
+        generateLoot();
         new BukkitRunnable() {
             double rotation = -90;
             int i = 0;
@@ -63,8 +65,7 @@ public class CombatMinion extends AbstractMinion {
                 }
                 if (rotation >= 0) {
                     cancel();
-                    SkyblockEntity.killEntity(SkyblockEntity.livingEntity.get(entity), null);
-                    generateLoot();
+
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -94,10 +95,11 @@ public class CombatMinion extends AbstractMinion {
     }
 
     @Override
-    boolean startGenerateAnimation() {
+    void startGenerateAnimation() {
+        System.out.println("get gog :DDDDDDDD");
         List<Block> missing = new ArrayList<>(getPlacebleBlocks());
         if (missing.isEmpty())
-            return true;
+            return;
 
         Collections.shuffle(missing);
         Block target = missing.iterator().next();
@@ -121,9 +123,9 @@ public class CombatMinion extends AbstractMinion {
 
                 if (rotation >= 0) {
                     cancel();
-                    minion.getEntity().makeNew().spawn(Tools.getAsLocation(target));
-                    generateLoot();
-
+                    SkyblockEntity entity = minion.getEntity().makeNew();
+                    entity.spawn(Tools.getAsLocation(target));
+                    entity.getEntity().addScoreboardTag("minion:" + CombatMinion.super.minionId);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -148,19 +150,19 @@ public class CombatMinion extends AbstractMinion {
                 i++;
             }
         }.runTaskTimer(Main.getMain(), 10, 2);
-        return isMaxGenerated();
+        isMaxGenerated();
     }
 
     @Override
     boolean isMaxGenerated() {
-        return location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
-                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity me && me.getId().equals(minion.getEntity().getId())).toList().size() >= maxEntityAmount;
+        return settableSpace() <= 0;
     }
 
     @Override
     int settableSpace() {
         int i = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
-                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity me && me.getId().equals(minion.getEntity().getId())).toList().size();
+                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity && SkyblockEntity.livingEntity.get(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).toList().size();
+        System.out.println(i);
         if (i > maxEntityAmount) return 0;
         else return maxEntityAmount - i;
     }
