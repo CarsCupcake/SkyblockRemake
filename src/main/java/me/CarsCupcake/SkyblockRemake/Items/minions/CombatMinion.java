@@ -96,7 +96,6 @@ public class CombatMinion extends AbstractMinion {
 
     @Override
     void startGenerateAnimation() {
-        System.out.println("get gog :DDDDDDDD");
         List<Block> missing = new ArrayList<>(getPlacebleBlocks());
         if (missing.isEmpty())
             return;
@@ -162,7 +161,6 @@ public class CombatMinion extends AbstractMinion {
     int settableSpace() {
         int i = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
                 SkyblockEntity.livingEntity.get(e) instanceof MinionEntity && SkyblockEntity.livingEntity.get(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).toList().size();
-        System.out.println(i);
         if (i > maxEntityAmount) return 0;
         else return maxEntityAmount - i;
     }
