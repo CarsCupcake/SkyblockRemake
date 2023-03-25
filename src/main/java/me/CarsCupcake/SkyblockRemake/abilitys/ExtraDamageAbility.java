@@ -12,10 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
 
 public abstract class ExtraDamageAbility implements Listener {
-    private ArrayList<ExtraDamageAbility> abilities = new ArrayList<>();
     public abstract void extraDamageEvent(SkyblockDamageEvent event);
 
     @EventHandler
@@ -24,6 +22,8 @@ public abstract class ExtraDamageAbility implements Listener {
         ItemStack item = player.getItemInHand();
         if(item != null && item.getItemMeta() != null) {
             ItemManager manager = Items.SkyblockItems.get(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
+            if(manager == null)
+                return;
             for (Ability ability : manager.getAbilities())
                 if(ability.getAbilityManager() instanceof ExtraDamageAbility a)
                     a.extraDamageEvent(event);
