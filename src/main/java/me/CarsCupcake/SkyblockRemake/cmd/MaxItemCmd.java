@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -42,7 +43,14 @@ public class MaxItemCmd implements CommandExecutor {
                 ItemHandler.setPDC("counter", item, PersistentDataType.INTEGER, 10000000);
             }
         }
+        recom(item);
         Main.item_updater(item, player);
         return true;
+    }
+    private void recom(ItemStack item){
+        if(ItemHandler.getOrDefaultPDC("recomed", item, PersistentDataType.INTEGER, 0) != 0)
+            return;
+        ItemHandler.setPDC("recomed", item, PersistentDataType.INTEGER, 1);
+        ItemHandler.setPDC("rarity", item, PersistentDataType.STRING, ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING)).getNext().toString());
     }
 }
