@@ -4,6 +4,7 @@ import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import org.bukkit.Sound;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -27,6 +28,7 @@ public class ReaperPepper implements AbilityManager<PlayerInteractEvent> {
                 case 5 -> player.sendMessage("§aYou've eaten a reaper pepper, you feel death creeping up in your spine. Your whole life flashes by, is this what it means to be endgame?");
             }
             player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
+            SkyblockLevelsHandler.addXp(player, 10, me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.levelGetters.ReaperPepper.peppers.get(player));
         }else {
             player.sendMessage("§cYou already ate the maximum number of reaper peppers!");
             player.sendMessage("§cYou may want to visit a hospital §lASAP");
