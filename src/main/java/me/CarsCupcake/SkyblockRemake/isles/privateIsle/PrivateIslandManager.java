@@ -50,6 +50,7 @@ public class PrivateIslandManager {
             config.save();
         }else
             isleLocation = new Location(Bukkit.getWorld("world") ,section.getDouble("x", 7.5), section.getDouble("y", 100), section.getDouble("z", 7.5));
+        isleLocation.getChunk().load();
         player.teleport(isleLocation);
         baseLocations.put(player, isleLocation);
         new PrivateIsle(player);
