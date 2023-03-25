@@ -46,8 +46,12 @@ public class FarmingUtils implements Listener {
     }
     public static void cropBreak(BlockBreakEvent event){
         event.setDropItems(false);
+        if(event.getBlock().getType() == Material.SUGAR_CANE || event.getBlock().getType() == Material.CACTUS){
+            if(event.getBlock().getLocation().add(0,1,0).getBlock().getType() == event.getBlock().getType())
+                event.getPlayer().breakBlock(event.getBlock().getLocation().add(0,1,0).getBlock());
+        }
 
-        if(event.getBlock().getBlockData() instanceof Ageable ageable && event.getBlock().getType() != Material.CACTUS)
+        if(event.getBlock().getBlockData() instanceof Ageable ageable && event.getBlock().getType() != Material.CACTUS && event.getBlock().getType() != Material.SUGAR_CANE)
             if(ageable.getAge() < 7)
                 return;
 
