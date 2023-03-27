@@ -28,7 +28,7 @@ public class FarmingUtils implements Listener {
         registerCrop(new RedMushroomBlock(), 2);
         registerCrop(new BrownMushroomBlock(), 2);
         registerCrop(new MushroomStem(), 2);
-        registerCrop(new Cactus(), 2);
+        registerCrop(new Cactus(), 2d);
         registerCrop(new NetherWart(), 0);
         registerCrop(new SugarCane(), 2);
     }
@@ -46,8 +46,12 @@ public class FarmingUtils implements Listener {
     }
     public static void cropBreak(BlockBreakEvent event){
         event.setDropItems(false);
+        if(event.getBlock().getType() == Material.SUGAR_CANE || event.getBlock().getType() == Material.CACTUS){
+            if(event.getBlock().getLocation().add(0,1,0).getBlock().getType() == event.getBlock().getType())
+                event.getPlayer().breakBlock(event.getBlock().getLocation().add(0,1,0).getBlock());
+        }
 
-        if(event.getBlock().getBlockData() instanceof Ageable ageable)
+        if(event.getBlock().getBlockData() instanceof Ageable ageable && event.getBlock().getType() != Material.CACTUS && event.getBlock().getType() != Material.SUGAR_CANE)
             if(ageable.getAge() < 7)
                 return;
 

@@ -60,6 +60,11 @@ public class ItemHandler {
     public static int getEnchantmentLevel(Enchantment enchantment, ItemStack item) {
         return item.getItemMeta().getEnchants().get(enchantment);
     }
+    public static void setEnchant(Enchantment enchantment, int level, ItemStack item){
+        ItemMeta meta = item.getItemMeta();
+        meta.addEnchant(enchantment, level, true);
+        item.setItemMeta(meta);
+    }
 
     @SneakyThrows
     public static void registerAll(Object obj) {

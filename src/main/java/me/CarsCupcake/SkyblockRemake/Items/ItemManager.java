@@ -11,6 +11,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.Items.requirements.Requirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.ArtifactAbility;
 import me.CarsCupcake.SkyblockRemake.utils.NBTEditor;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -103,6 +104,9 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private Requirement requirement = (player, item) -> true;
+    @Getter
+    @Setter
+    private ArtifactAbility artifactAbility;
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;

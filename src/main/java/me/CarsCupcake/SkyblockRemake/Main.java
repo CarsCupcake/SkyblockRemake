@@ -101,7 +101,7 @@ import net.minecraft.server.level.EntityPlayer;
 import javax.annotation.Nullable;
 
 public class Main extends JavaPlugin {
-    public static final String VERSION = "0.2.0";
+    public static String VERSION = "0.0.0";
     private static Main Main;
     private BukkitRunnable runnable;
     private BukkitRunnable statrunnable;
@@ -139,6 +139,7 @@ public class Main extends JavaPlugin {
     @SuppressWarnings("deprecation")
     @Override
     public void onEnable() {
+        VERSION = getDescription().getVersion();
         AutoUpdater.INSTANCE.check();
         config.addDefault("JoinSpawn", false);
         config.addDefault("LavaBounce", false);
@@ -240,8 +241,6 @@ public class Main extends JavaPlugin {
             shortbow_cd.put(player, false);
             termhits.put(player, 0);
 
-            initAccessoryBag(player);
-
             if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
                 PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
                 PetMenus.save();
@@ -326,6 +325,7 @@ public class Main extends JavaPlugin {
         getCommand("potion").setExecutor(new PotionCommand());
         getCommand("ah").setExecutor(new AhCMD());
         getCommand("bz").setExecutor(new BzCMD());
+        getCommand("max").setExecutor(new MaxItemCmd());
         getCommand("setcounter").setExecutor((commandSender, command, s, strings) -> { ItemHandler.setPDC("counter",
             SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
             return false;

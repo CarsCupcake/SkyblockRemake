@@ -63,4 +63,9 @@ public class CarrotCollection extends ItemCollection {
     public String getCollecteItemId() {
         return Material.CARROT + "";
     }
+
+    @Override
+    public String getName() {
+        return "Carrot Collection";
+    }
 }

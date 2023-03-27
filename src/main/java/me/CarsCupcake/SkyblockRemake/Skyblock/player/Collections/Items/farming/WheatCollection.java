@@ -18,7 +18,10 @@ public class WheatCollection extends ItemCollection {
     public int getMaxLevels() {
         return 11;
     }
-
+    @Override
+    public String getName() {
+        return "Wheat Collection";
+    }
     @Override
     public int[] collectAmount() {
         return new int[]{

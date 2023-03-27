@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -178,7 +179,8 @@ public class TabListManager implements Listener {
     public void playerJoin(Player player) {
         int count = Bukkit.getOnlinePlayers().size() - 1;
         if (count < 37) {
-            replace(playerSlots.get(count), player.getName(), TablistIcons.Players, player);
+            SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+            replace(playerSlots.get(count), "§8[" + SkyblockLevelsHandler.getLevelPrefix(p) + p.getSkyblockLevel() + "§8] §r" + player.getName(), TablistIcons.Players, player);
             playerShow.put(player, playerSlots.get(count));
         }
         updatePlayerCount();
@@ -353,7 +355,6 @@ public class TabListManager implements Listener {
         if (scoreboard == null) scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         if (scoreboard.getTeam(s) != null) {
             scoreboard.getTeam(s).unregister();
-            ;
         }
         Team team = scoreboard.registerNewTeam(s);
         team.setColor(color);

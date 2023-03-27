@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class CollectHandler implements Listener {
     public static final ArrayList<ICollection> registeredCollections = new ArrayList<>();
-    private static final HashMap<SkyblockPlayer,ArrayList<ICollection>> collections = new HashMap<>();
+    public static final HashMap<SkyblockPlayer,ArrayList<ICollection>> collections = new HashMap<>();
     @EventHandler
     public void onPickup(EntityPickupItemEvent event){
         if(!(event.getEntity() instanceof Player))

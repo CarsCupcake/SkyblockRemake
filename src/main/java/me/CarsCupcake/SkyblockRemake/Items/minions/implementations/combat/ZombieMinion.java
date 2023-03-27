@@ -70,6 +70,7 @@ public class ZombieMinion extends AbstractCombatMinion {
                 20*20,
                 17*20,
                 17*20,
+                13*20,
                 13*20
         };
     }

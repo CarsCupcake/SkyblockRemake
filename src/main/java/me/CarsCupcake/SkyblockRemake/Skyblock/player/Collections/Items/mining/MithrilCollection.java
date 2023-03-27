@@ -22,7 +22,10 @@ public class MithrilCollection extends ItemCollection {
     public int[] collectAmount() {
         return new int[]{50,250,1000,2500,5000,10000,250000,500000,1000000};
     }
-
+    @Override
+    public String getName() {
+        return "Mithril Collection";
+    }
     @Override
     public GUI getInventory() {
         InventoryBuilder builder = CollectHandler.getBaseInventory("Mithril", this, Items.SkyblockItems.get("MITHRIL_ORE").createNewItemStack());

@@ -4,6 +4,7 @@ import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 
 public class Farming implements Skill {
 
@@ -13,6 +14,40 @@ public class Farming implements Skill {
 	private int level = 0;
 	private CustomConfig skill;
 
+	@Override
+	public int getSkyblockXp() {
+		int total = 0;
+		for (int i = 1; i <= level; i++){
+			total += 5;
+			if(i > 10)
+				total += 5;
+			if(i > 25)
+				total += 10;
+			if(i > 50)
+				total += 10;
+		}
+		return total;
+	}
+
+	@Override
+	public int getMaxSkyblockXp() {
+		int total = 0;
+		for (int i = 1; i <= getMaxLevel(); i++){
+			total += 5;
+			if(i > 10)
+				total += 5;
+			if(i > 25)
+				total += 10;
+			if(i > 50)
+				total += 10;
+		}
+		return total;
+	}
+
+	@Override
+	public String getName() {
+		return "Farming Skill";
+	}
 
 	@Override
 	public void sendLevelUpMessage() {
@@ -88,6 +123,11 @@ public class Farming implements Skill {
 		setXp(0);
 		sendLevelUpMessage();
 		player.setBaseStat(Stats.Health, player.getBaseStat(Stats.Health) +  2);
+		int total = 5;
+		if (level > 10) total += 5;
+		if (level > 25) total += 10;
+		if (level > 50) total += 10;
+		SkyblockLevelsHandler.addXp(player, total, this);
 	}
 	
 	public void initStats() {

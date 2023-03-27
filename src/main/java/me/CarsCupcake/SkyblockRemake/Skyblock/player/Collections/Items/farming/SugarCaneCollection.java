@@ -18,7 +18,10 @@ public class SugarCaneCollection extends ItemCollection {
     public int getMaxLevels() {
         return 9;
     }
-
+    @Override
+    public String getName() {
+        return "Sugar Cane Collection";
+    }
     @Override
     public int[] collectAmount() {
         return new int[]{

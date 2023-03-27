@@ -1,8 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsGetter;
 
-public interface Skill {
+public interface Skill extends SkyblockLevelsGetter {
 	
 	 void sendLevelUpMessage();
 

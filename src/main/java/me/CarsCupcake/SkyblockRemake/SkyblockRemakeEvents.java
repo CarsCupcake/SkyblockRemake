@@ -147,7 +147,6 @@ public class SkyblockRemakeEvents implements Listener {
 
 
         new SkyblockPlayer((CraftServer) Main.getMain().getServer(), ((CraftPlayer) event.getPlayer()).getHandle());
-        Main.initAccessoryBag(player);
         if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
             PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
             PetMenus.save();
@@ -785,13 +784,15 @@ public class SkyblockRemakeEvents implements Listener {
                         }
                     });
                 }
-                if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
-                    for (String tag : e.getEntity().getScoreboardTags())
-                        if (tag.startsWith("killer:")) {
-                            new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
-                            break;
-                        }
-                }
+                if(!e.getEntity().addScoreboardTag("minionkill")) {
+                    if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
+                        for (String tag : e.getEntity().getScoreboardTags())
+                            if (tag.startsWith("killer:")) {
+                                new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
+                                break;
+                            }
+                    }
+                } else e.getDrops().clear();
 
                 if (e.getEntity().getScoreboardTags().contains("voidgloomt2")) {
                     e.getDrops().clear();

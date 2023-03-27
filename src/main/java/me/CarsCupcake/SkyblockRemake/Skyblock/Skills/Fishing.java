@@ -3,15 +3,48 @@ package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 
 public class Fishing implements Skill {	private SkyblockPlayer player;
     private double xp = 0;
     private int level = 0;
-    private final int maxlevel = 50;
     private CustomConfig skill;
 
 
+    @Override
+    public int getSkyblockXp() {
+        int total = 0;
+        for (int i = 1; i <= level; i++){
+            total += 5;
+            if(i > 10)
+                total += 5;
+            if(i > 25)
+                total += 10;
+            if(i > 50)
+                total += 10;
+        }
+        return total;
+    }
 
+    @Override
+    public int getMaxSkyblockXp() {
+        int total = 0;
+        for (int i = 1; i <= getMaxLevel(); i++){
+            total += 5;
+            if(i > 10)
+                total += 5;
+            if(i > 25)
+                total += 10;
+            if(i > 50)
+                total += 10;
+        }
+        return total;
+    }
+
+    @Override
+    public String getName() {
+        return "Fishing Skill";
+    }
 
 
     @Override
@@ -60,6 +93,7 @@ public class Fishing implements Skill {	private SkyblockPlayer player;
     @Override
     public int getMaxLevel() {
 
+        int maxlevel = 50;
         return maxlevel;
     }
 
@@ -73,7 +107,7 @@ public class Fishing implements Skill {	private SkyblockPlayer player;
     public void setLevel(int level) {
 
         skill.reload();
-        skill.get().set(player.getUniqueId() + "."+Skills.Fishing.toString().toLowerCase()+".level", (int)level);
+        skill.get().set(player.getUniqueId() + "."+Skills.Fishing.toString().toLowerCase()+".level", level);
         skill.save();
         skill.reload();
 
@@ -87,6 +121,11 @@ public class Fishing implements Skill {	private SkyblockPlayer player;
         setLevel(level + 1);
         setXp(0);
         sendLevelUpMessage();
+        int total = 5;
+        if (level > 10) total += 5;
+        if (level > 25) total += 10;
+        if (level > 50) total += 10;
+        SkyblockLevelsHandler.addXp(player, total, this);
     }
 
     public void initStats() {

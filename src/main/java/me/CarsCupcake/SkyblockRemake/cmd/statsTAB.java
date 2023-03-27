@@ -3,37 +3,22 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
 
 public class statsTAB implements TabCompleter{
-	List<String> arguments = new ArrayList<String>();
-	List<String> stats = new ArrayList<String>();
+	List<String> arguments = new ArrayList<>();
+	List<String> stats = new ArrayList<>();
 	
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(stats.isEmpty()) {
-			stats.add("health");
-			stats.add("def");
-			stats.add("mana");
-			stats.add("speed");
-			stats.add("strength");
-			stats.add("critdamage");
-			stats.add("critchance");
-			stats.add("ferocity");
-			stats.add("magicfind");
-			stats.add("miningspeed");
-			stats.add("miningfortune");
-			stats.add("titaniumchance");
-			stats.add("pristine");
-			stats.add("attackspeed");
-			stats.add("abilitydamage");
-			stats.add("truedefense");
-			stats.add("seacreaturechance");
-			stats.add("fishingspeed");
-			stats.add("TrophyFishChance");
+			for (Stats s : Stats.values())
+				stats.add(s.getDataName());
 
 			}
 		if (args.length == 1) {

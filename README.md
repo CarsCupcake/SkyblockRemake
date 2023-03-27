@@ -1,6 +1,18 @@
 # SkyblockRemake
 
-<div id="top"></div>
+<div id="top">
+<p align="center">
+  <a href="https://github.com/CarsCupcake/SkyblockRemake/releases/" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/v/release/CarsCupcake/SkyblockRemake?color=F&style=flat-square" />
+  </a>
+  <a href="https://github.com/CarsCupcake/SkyblockRemake/releases/" target="_blank">
+    <img alt="downloads" src="https://img.shields.io/github/downloads/CarsCupcake/SkyblockRemake/total?color=4166f5&style=flat-square" />
+  </a>
+  <a href="https://github.com/CarsCupcake/SkyblockRemake/blob/main/LICENSE" target="_blank">
+    <img alt="license" src="https://img.shields.io/github/license/CarsCupcake/SkyblockRemake?color=4166f5&style=flat-square" />
+  </a>
+</p>
+</div>
 
 <!-- PROJECT LOGO -->
 <br />

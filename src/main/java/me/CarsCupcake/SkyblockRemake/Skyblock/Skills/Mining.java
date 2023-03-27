@@ -4,18 +4,51 @@ import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 
 public class Mining implements Skill {
 
 	private SkyblockPlayer player;
 	private double xp = 0;
 	private int level = 0;
-	private final int maxlevel = 60;
-	
+
 	private final double miningFortunePerLevel = 4;
 	private CustomConfig skill;
 
-	
+	@Override
+	public int getSkyblockXp() {
+		int total = 0;
+		for (int i = 1; i <= level; i++){
+			total += 5;
+			if(i > 10)
+				total += 5;
+			if(i > 25)
+				total += 10;
+			if(i > 50)
+				total += 10;
+		}
+		return total;
+	}
+
+	@Override
+	public int getMaxSkyblockXp() {
+		int total = 0;
+		for (int i = 1; i <= getMaxLevel(); i++){
+			total += 5;
+			if(i > 10)
+				total += 5;
+			if(i > 25)
+				total += 10;
+			if(i > 50)
+				total += 10;
+		}
+		return total;
+	}
+
+	@Override
+	public String getName() {
+		return "Mining Skill";
+	}
 	
 	@Override
 	public void sendLevelUpMessage() {
@@ -63,6 +96,7 @@ public class Mining implements Skill {
 	@Override
 	public int getMaxLevel() {
 
+		int maxlevel = 60;
 		return maxlevel;
 	}
 	
@@ -76,7 +110,7 @@ public class Mining implements Skill {
 	public void setLevel(int level) {
 		
 		skill.reload();
-		skill.get().set(player.getUniqueId() + "."+Skills.Mining.toString().toLowerCase()+".level", (int)level);
+		skill.get().set(player.getUniqueId() + "."+Skills.Mining.toString().toLowerCase()+".level", level);
 		skill.save();
 		skill.reload();
 		
@@ -91,6 +125,11 @@ public class Mining implements Skill {
 		setXp(0);
 		sendLevelUpMessage();
 		player.setBaseStat(Stats.MiningFortune, player.baseminingfortune + miningFortunePerLevel);
+		int total = 5;
+		if (level > 10) total += 5;
+		if (level > 25) total += 10;
+		if (level > 50) total += 10;
+		SkyblockLevelsHandler.addXp(player, total, this);
 	}
 	
 	public void initStats() {

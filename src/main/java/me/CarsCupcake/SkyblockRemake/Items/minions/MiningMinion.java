@@ -96,10 +96,10 @@ public class MiningMinion extends AbstractMinion {
     }
 
     @Override
-    boolean startGenerateAnimation() {
+    void startGenerateAnimation() {
         List<Block> missing = new ArrayList<>(getPlacebleBlocks());
         if (missing.isEmpty())
-            return true;
+            return;
 
         Collections.shuffle(missing);
         Block target = missing.iterator().next();
@@ -151,7 +151,6 @@ public class MiningMinion extends AbstractMinion {
             }
         }.runTaskTimer(Main.getMain(), 10, 2);
 
-        return missing.isEmpty();
     }
 
     private int getBlockBreakStage(int currentTick) {

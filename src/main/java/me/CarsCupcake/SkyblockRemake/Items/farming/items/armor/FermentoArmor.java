@@ -19,7 +19,7 @@ public class FermentoArmor implements FullSetBonus, Listener {
     private SkyblockPlayer player;
 
     public static void init() {
-        AbilityLore lore = new AbilityLore(new ArrayList<>(List.of("§7Combines the Tiered Bonuses of", "§7wearing §a%p& pieces §7of the", "§7Melon Armor, Cropie Armor, and", "Squash Armor.", "§7Grants " + "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7.")));
+        AbilityLore lore = new AbilityLore(new ArrayList<>(List.of("§7Combines the Tiered Bonuses of", "§7wearing §a%p& pieces §7of the", "§7Melon Armor, Cropie Armor, and", "§7Squash Armor.", "§7Grants " + "§6%ff% " + Stats.FarmingFortune.getSymbol() + " " + Stats.FarmingFortune.getName() + "§7.")));
         lore.addPlaceholder("%p%", (p, itemStack) -> {
             if (p == null) return "0";
             if (!p.bonusAmounts.containsKey(Bonuses.Feast)) return "0";
@@ -155,8 +155,8 @@ public class FermentoArmor implements FullSetBonus, Listener {
 
     private static int getFarmingFortune(SkyblockPlayer player) {
         if (player == null) return 0;
-        if (!player.bonusAmounts.containsKey(Bonuses.MentoFermento)) return 0;
-        return (player.bonusAmounts.get(Bonuses.MentoFermento) * 25) - 25;
+        if (!player.bonusAmounts.containsKey(Bonuses.Feast)) return 0;
+        return (player.bonusAmounts.get(Bonuses.Feast) * 25) - 25;
     }
 
     private static final Set<Material> fermentoCrops = new HashSet<>(Set.of(Material.SUGAR_CANE, Material.CACTUS, Material.MUSHROOM_STEM, Material.BROWN_MUSHROOM_BLOCK, Material.RED_MUSHROOM_BLOCK, Material.RED_MUSHROOM, Material.BROWN_MUSHROOM, Material.NETHER_WART));
