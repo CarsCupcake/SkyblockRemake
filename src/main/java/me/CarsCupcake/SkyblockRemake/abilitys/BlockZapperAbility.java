@@ -2,7 +2,9 @@ package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -17,11 +19,12 @@ import java.util.*;
 public class BlockZapperAbility implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean triggerAbility(PlayerInteractEvent event) {
-        event.setCancelled(true);
-        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-        Zapper zapper = new Zapper(event.getClickedBlock().getType(), event.getClickedBlock(), 30, player);
-        for(int i = 0; i < zapper.done; ++i)
-            player.getInventory().addItem(new ItemStack(event.getClickedBlock().getType()));
+        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+            event.setCancelled(true);
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+            Zapper zapper = new Zapper(event.getClickedBlock().getType(), event.getClickedBlock(), 30, player);
+            for (int i = 0; i < zapper.done; ++i)
+                player.getInventory().addItem(new ItemStack(event.getClickedBlock().getType()));
         return false;
     }
     public static class Zapper{
@@ -76,7 +79,7 @@ public class BlockZapperAbility implements AbilityManager<PlayerInteractEvent> {
                     block.setType(material);
                 }
             } catch (Exception e) {
-                player.sendMessage("§cFailded to undoZap Blocks");
+                player.sendMessage("§cFailed to undoZap Blocks");
             }
         }
     }

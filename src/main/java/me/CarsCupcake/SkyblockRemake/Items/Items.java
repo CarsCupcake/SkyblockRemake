@@ -4035,7 +4035,6 @@ public class Items {
         abilityLore.add("§7Right-Click the face of a block");
         abilityLore.add("§7to extend all connected block");
         abilityLore.add("§7faces.");
-        abilityLore.add(" ");
         ItemManager manager = new ItemManager("§f§f§6Builder's Wand", "BUILDERS_WAND", ItemType.Wand, null, " Grand Architect", "Grand_Architect", abilityLore, 0, 0, 0f, 0, Material.BLAZE_ROD, ItemRarity.LEGENDARY);
         manager.addAbility(new BuilderWand(), AbilityType.RightClick, "Grand Architect", new AbilityLore(abilityLore), 0, 0);
         SkyblockItems.put(manager.itemID, manager);

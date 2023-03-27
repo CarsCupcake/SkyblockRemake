@@ -5,7 +5,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,38 +17,56 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class BuilderWand implements AbilityManager<PlayerInteractEvent> {
-    public static Map<Player, List<Block>> blocksMap = new HashMap<>();
-    public static Map<Player, Integer> blocksAmount = new HashMap<>();
+
+    private int blockLimit = 164;
+    private Map<Player, List<Block>> blocksMap = new HashMap<>();
+    private Map<Player, Integer> blocksAmount = new HashMap<>();
 
     @Override
     public boolean triggerAbility(PlayerInteractEvent event) {
-        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-        Block paramBlock = event.getClickedBlock();
-        fillConnectedFaces(player, paramBlock, event.getBlockFace());
+        Player player = event.getPlayer();
+        SkyblockPlayer skyblockPlayer = SkyblockPlayer.getSkyblockPlayer(player);
+        Block clickedBlock = event.getClickedBlock();
+        if (clickedBlock != null) {
+            fillConnectedFaces(skyblockPlayer, clickedBlock, event.getBlockFace());
+            return true;
+        }
         return false;
     }
 
-    public void fillConnectedFaces(Player player, Block origin, BlockFace face) {
+    private void fillConnectedFaces(Player player, Block origin, BlockFace face) {
         Material fillMaterial = origin.getType();
-        int blockLimit = 164;
         List<Block> blocks = new ArrayList<>();
         List<Block> blocksForUndo = new ArrayList<>();
         blocks.add(origin);
-        World w = player.getWorld();
-        Vector check[] = null, translate = null;
+        World w = origin.getWorld();
+        Vector[] check = null;
+        Vector translate = null;
         int blocksPlaced = 0;
         switch (face) {
             case NORTH:
             case SOUTH:
-                check = new Vector[]{new Vector(-1, -1, 0), new Vector(-1, 0, 0), new Vector(-1, 1, 0), new Vector(0, -1, 0), new Vector(0, 1, 0), new Vector(1, -1, 0), new Vector(1, 0, 0), new Vector(1, 1, 0)};
+                check = new Vector[]{
+                        new Vector(-1, -1, 0), new Vector(-1, 0, 0), new Vector(-1, 1, 0),
+                        new Vector(0, -1, 0), new Vector(0, 1, 0),
+                        new Vector(1, -1, 0), new Vector(1, 0, 0), new Vector(1, 1, 0)
+                };
                 break;
             case EAST:
             case WEST:
-                check = new Vector[]{new Vector(0, -1, -1), new Vector(0, -1, 0), new Vector(0, -1, 1), new Vector(0, 0, -1), new Vector(0, 0, 1), new Vector(0, 1, -1), new Vector(0, 1, 0), new Vector(0, 1, 1)};
+                check = new Vector[]{
+                        new Vector(0, -1, -1), new Vector(0, -1, 0), new Vector(0, -1, 1),
+                        new Vector(0, 0, -1), new Vector(0, 0, 1),
+                        new Vector(0, 1, -1), new Vector(0, 1, 0), new Vector(0, 1, 1)
+                };
                 break;
             case UP:
             case DOWN:
-                check = new Vector[]{new Vector(-1, 0, -1), new Vector(-1, 0, 0), new Vector(-1, 0, 1), new Vector(0, 0, -1), new Vector(0, 0, 1), new Vector(1, 0, -1), new Vector(1, 0, 0), new Vector(1, 0, 1)};
+                check = new Vector[]{
+                        new Vector(-1, 0, -1), new Vector(-1, 0, 0), new Vector(-1, 0, 1),
+                        new Vector(0, 0, -1), new Vector(0, 0, 1),
+                        new Vector(1, 0, -1), new Vector(1, 0, 0), new Vector(1, 0, 1)
+                };
                 break;
         }
         switch (face) {
@@ -109,21 +126,10 @@ public class BuilderWand implements AbilityManager<PlayerInteractEvent> {
 
         }
     }
-
-    public int countBlocks(Inventory inv, Material m, ItemStack stack) {
-        int blockAmount = 0;
-
-        for (ListIterator<ItemStack> listIterator = inv.iterator(); listIterator.hasNext(); ) {
-            ItemStack item = listIterator.next();
-            if (item != null &&
-                    item.getType() == m)
-                blockAmount += item.getAmount();
-        }
-        return blockAmount;
-    }
     public boolean canPlaceBlock(Player player, Location l) {
         return true;
     }
+    //todo Inventory
 }
 
 
