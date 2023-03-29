@@ -33,23 +33,23 @@ public class Generator extends MapRenderer {
         // 0.0 1.0
         map = new LocationMap();
 
-        map.put(new Location(new Random().nextInt(6),5), new Room(DungeonRoomsTypes.red, new Location(new Random().nextInt(6),5)));
-        map.put(new Location(new Random().nextInt(6),0), new Room(DungeonRoomsTypes.green, new Location(new Random().nextInt(6),0)));
-        Set<Location> freeRoom = map.getEmpty();
-        Location l = map.getGreen().getLocation();
+        map.put(new Location2d(new Random().nextInt(6),5), new Room(DungeonRoomsTypes.red, new Location2d(new Random().nextInt(6),5)));
+        map.put(new Location2d(new Random().nextInt(6),0), new Room(DungeonRoomsTypes.green, new Location2d(new Random().nextInt(6),0)));
+        Set<Location2d> freeRoom = map.getEmpty();
+        Location2d l = map.getGreen().getLocation();
         l.setX(1);
         freeRoom.remove(l);
         l = map.getRed().getLocation();
         l.setX(4);
         freeRoom.remove(l);
-        List<Location> rL = freeRoom.stream().toList();
+        List<Location2d> rL = freeRoom.stream().toList();
         rL = new ArrayList<>(rL);
         Collections.shuffle(rL);
         map.put(rL.get(0), new Room(DungeonRoomsTypes.fairy, rL.get(0)));
         map.put(rL.get(1), new Room(DungeonRoomsTypes.miniboss, rL.get(1)));
         for (int i = 2; i < 4; i++)
             map.put(rL.get(i), new Room(DungeonRoomsTypes.puzzle, rL.get(i)));
-        for (Location loc : map.getEmpty()){
+        for (Location2d loc : map.getEmpty()){
             if(map.containsKey(loc))
                 continue;
 
@@ -77,7 +77,7 @@ public class Generator extends MapRenderer {
                             map.getBridgeMap().add(new Bundle<>(loc.clone().addY(2), 1));
                         }
                         case r2x2 -> {
-                            Location tL = loc.clone().setX(loc.getX() + 1);
+                            Location2d tL = loc.clone().setX(loc.getX() + 1);
                             map.put(loc.clone().setY(loc.getY() + 1), new Room(type, loc.clone().setY(loc.getY() + 1), true, r));
                             map.put(tL.clone(), new Room(type, tL.clone(), true, r));
                             map.put(tL.clone().setY(tL.getY() + 1), new Room(type, tL.clone().setY(tL.getY() + 1), true, r));
@@ -88,7 +88,7 @@ public class Generator extends MapRenderer {
                             map.getBridgeMap().add(new Bundle<>(loc, 2));
                         }
                         case rLShaped -> {
-                            Location tL = loc.clone().setX(loc.getX() + 1);
+                            Location2d tL = loc.clone().setX(loc.getX() + 1);
                             map.put(tL.clone(), new Room(type, tL.clone(), true, r));
                             map.put(tL.clone().setY(tL.getY() + 1), new Room(type, tL.clone().setY(tL.getY() + 1), true, r));
                             map.getBridgeMap().add(new Bundle<>(loc, 0));
@@ -100,7 +100,7 @@ public class Generator extends MapRenderer {
             }else
                 map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc));
         }
-        for (Location loc : map.getEmpty()){
+        for (Location2d loc : map.getEmpty()){
             if(map.containsKey(loc))
                 continue;
 
@@ -113,12 +113,12 @@ public class Generator extends MapRenderer {
             }else
                 map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc));
         }
-        for (Location loc : map.getEmpty()){
+        for (Location2d loc : map.getEmpty()){
             map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc));
         }
 
     }
-    private boolean isFitting(DungeonRoomsTypes types, Location l){
+    private boolean isFitting(DungeonRoomsTypes types, Location2d l){
         l = l.clone();
         switch (types){
             case r1x1, green, red, fairy, miniboss, Trap, puzzle -> {
@@ -134,11 +134,11 @@ public class Generator extends MapRenderer {
                 return check(l) && check(l.clone().addY(1)) && check(l.clone().addY(2)) && check(l.clone().addY(3));
             }
             case r2x2 -> {
-                Location tL = l.clone().setX(l.getX() + 1);
+                Location2d tL = l.clone().setX(l.getX() + 1);
                 return check(l) && check(l.clone().addY(1)) && check(tL) && check(tL.clone().addY(1));
             }
             case rLShaped -> {
-                Location tL = l.clone().setX(l.getX() + 1);
+                Location2d tL = l.clone().setX(l.getX() + 1);
                 return check(l) && check(tL) && check(tL.clone().addY(1));
             }
         }
@@ -149,7 +149,7 @@ public class Generator extends MapRenderer {
     public Generator(int size){
         this();
     }
-    private boolean check(Location l){
+    private boolean check(Location2d l){
         return !map.containsKey(l) && !l.isOutOfBounds();
     }
 
@@ -176,7 +176,7 @@ public class Generator extends MapRenderer {
                 g2.drawRect(i, l, i+1, l+1);
 
             }
-        for(Location l : map.keySet()) {
+        for(Location2d l : map.keySet()) {
             Room room = map.get(l);
             int curry = l.getMapY();
             int currx = l.getMapX();
@@ -212,7 +212,7 @@ public class Generator extends MapRenderer {
 
         }
         g2.setColor(new Color(113,67,27,255));
-        for (Bundle<Location, Integer> bundle : map.getBridgeMap()){
+        for (Bundle<Location2d, Integer> bundle : map.getBridgeMap()){
             int curry = bundle.getFirst().getMapY();
             int currx = bundle.getFirst().getMapX();
             switch (bundle.getLast()){

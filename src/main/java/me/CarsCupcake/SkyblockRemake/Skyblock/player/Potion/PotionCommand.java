@@ -16,16 +16,16 @@ import java.util.List;
 public class PotionCommand implements CommandExecutor {
     @Getter
     private static final List<Inventory> invs = new ArrayList<>();
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
-        if(!(commandSender instanceof Player p))
-            return false;
+        if (!(commandSender instanceof Player p)) return false;
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
         GUI gui = new GUI(invs.get(0));
         gui.setCanceled(true);
         final int[] page = {1};
-        gui.playerInventoryClickAction(45, type ->  {
-            if(page[0] != 1) {
+        gui.playerInventoryClickAction(45, type -> {
+            if (page[0] != 1) {
                 page[0]--;
                 gui.swapInventory(invs.get(page[0] - 1));
             }
@@ -33,18 +33,17 @@ public class PotionCommand implements CommandExecutor {
         gui.playerInventoryClickAction(53, type -> {
 
 
-                if(page[0]  < invs.size()) {
-                    gui.swapInventory(invs.get(page[0]));
-                    page[0]++;
-                }
+            if (page[0] < invs.size()) {
+                gui.swapInventory(invs.get(page[0]));
+                page[0]++;
+            }
 
         });
         gui.setGeneralAction((slot, actionType, type) -> {
-            if(actionType != GUI.GUIActions.Click)
-                return;
-            if(slot >= 45)
-                return;
+            if (actionType != GUI.GUIActions.Click) return true;
+            if (slot >= 45) return true;
             player.addItem(gui.getInventory().getItem(slot));
+            return true;
         });
         gui.showGUI(player);
         return false;

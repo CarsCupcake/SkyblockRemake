@@ -5,10 +5,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Items.Crafting.CraftingObject;
-import me.CarsCupcake.SkyblockRemake.Items.Crafting.ShapeEncoder;
-import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
-import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockShapedRecipe;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.*;
+import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.EnchantedCrops;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
@@ -444,6 +442,21 @@ public class Items {
         MelonDicer.init();
         new EnchantedCrops();
         SuperCompactor.init();
+        ItemManager manager = new ItemManager("Logic Block", "LOGIC_BLOCK", ItemType.Non, Material.AMETHYST_BLOCK, ItemRarity.RARE);
+        SkyblockItems.put(manager.itemID, manager);
+        LogicalBlock logicalBlock = new LogicalBlock(manager);
+        ABILITIES.registerEvent(logicalBlock);
+
+        manager = new ItemManager("Enchanted Cobblestone", "ENCHANTED_COBBLESTONE", ItemType.Non, Material.COBBLESTONE, ItemRarity.UNCOMMON);
+        manager.setNpcSellPrice(160);
+        manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+        SkyblockItems.put(manager.itemID, manager);
+
+        SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.COBBLESTONE + "", manager.itemID, 160));
+
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.COBBLESTONE + ""), 160));
+        shapelessRecipe.register();
     }
 
     public static void wand() {

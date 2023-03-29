@@ -74,7 +74,7 @@ public class BazaarListener implements Listener {
                         bazaarOrders(player);
                 if(actionType == GUI.GUIActions.Close)
                     bazzarGUIs.remove(gui);
-
+                return true;
             });
             gui.setCanceled(true);
             bazzarGUIs.add(gui);
@@ -127,7 +127,7 @@ public class BazaarListener implements Listener {
                     bazaarOrders(player);
             if(actionType == GUI.GUIActions.Close)
                 bazzarGUIs.remove(gui);
-
+            return true;
         });
         gui.setCanceled(true);
         bazzarGUIs.add(gui);
@@ -148,7 +148,7 @@ public class BazaarListener implements Listener {
         bazzarGUIs.add(offerGUI);
         offerGUI.setGeneralAction((slot, actionType, type) -> {
             if (actionType == GUI.GUIActions.Close)
-                bazzarGUIs.remove(offerGUI);
+                bazzarGUIs.remove(offerGUI);return true;
         });
         offerGUI.setCanceled(true);
         if(Tools.getItemInPlayerInventory(offer.getItem(), player) > 0)
@@ -204,6 +204,7 @@ public class BazaarListener implements Listener {
                     sellOffer.setGeneralAction((slot, actionType, t) -> {
                         if (actionType == GUI.GUIActions.Close)
                             bazzarGUIs.remove(sellOffer);
+                        return true;
                     });
                     sellOffer.showGUI(player);
                 }
@@ -234,6 +235,7 @@ public class BazaarListener implements Listener {
             preBuyScreen.setGeneralAction((slot, actionType, type) -> {
                 if (actionType == GUI.GUIActions.Close)
                     bazzarGUIs.remove(preBuyScreen);
+                return true;
             });
             preBuyScreen.showGUI(player);
         });
@@ -265,6 +267,7 @@ public class BazaarListener implements Listener {
             intaBuyPreScreen.setGeneralAction((slot, actionType, t) -> {
                 if (actionType == GUI.GUIActions.Close)
                     bazzarGUIs.remove(intaBuyPreScreen);
+                return true;
             });
             intaBuyPreScreen.showGUI(player);
         });
@@ -352,6 +355,7 @@ public class BazaarListener implements Listener {
         buyOrder.setGeneralAction((slot, actionType, type) -> {
             if (actionType == GUI.GUIActions.Close)
                 bazzarGUIs.remove(buyOrder);
+            return true;
         });
         buyOrder.showGUI(player);
     }
@@ -378,6 +382,7 @@ public class BazaarListener implements Listener {
         sellOffer.setGeneralAction((slot, actionType, type) -> {
             if (actionType == GUI.GUIActions.Close)
                 bazzarGUIs.remove(sellOffer);
+            return true;
         });
         sellOffer.showGUI(player);
 
@@ -446,6 +451,7 @@ public class BazaarListener implements Listener {
         gui.setGeneralAction((slot, actionType, type) -> {
             if (actionType == GUI.GUIActions.Close)
                 bazzarGUIs.remove(gui);
+            return true;
         });
         gui.closeInventory();
 
@@ -471,6 +477,7 @@ public class BazaarListener implements Listener {
             }
             if(actionType == GUI.GUIActions.Close)
                 bazzarGUIs.remove(bazGUI);
+            return true;
         });
         bazzarGUIs.add(bazGUI);
         bazGUI.showGUI(player);

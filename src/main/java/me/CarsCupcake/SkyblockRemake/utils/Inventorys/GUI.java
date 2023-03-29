@@ -67,22 +67,28 @@ public class GUI {
     public boolean isCanceled(){
         return isCanceled;
     }
-    public void triggerAction(GUIActions actions, int slot, ClickType type){
-        if(canInteract) return;
+    public boolean triggerAction(GUIActions actions, int slot, ClickType type){
+        if(canInteract) return true;
         if(slot < 0 && (actions == GUIActions.Click || actions == GUIActions.PlayerClick))
             throw new IndexOutOfBoundsException("Your slot is negative!");
+        boolean b1 = false;
+        boolean b2 = false;
         switch (actions){
             case Click -> {
                 if (inventoryClickAction.containsKey(slot))
                     inventoryClickAction.get(slot).run(type);
-                if(generalAction != null)
-                    generalAction.run(slot, actions, type);
+                if(generalAction != null) {
+                    b1 = true;
+                    b2 = generalAction.run(slot, actions, type);
+                }
             }
             case PlayerClick -> {
                 if (playerInventoryClickAction.containsKey(slot))
                     playerInventoryClickAction.get(slot).run(type);
-                if(generalAction != null)
-                    generalAction.run(slot, actions, type);
+                if(generalAction != null) {
+                    b1 = true;
+                    b2 = generalAction.run(slot, actions, type);
+                }
             }
             case Close -> {
                 if (closeAction != null)
@@ -91,6 +97,9 @@ public class GUI {
 
 
         }
+        if(!isCanceled && b1)
+            return b2;
+        return isCanceled;
     }
     public void triggerAction(GUIActions actions){
         triggerAction(actions, -1,null);

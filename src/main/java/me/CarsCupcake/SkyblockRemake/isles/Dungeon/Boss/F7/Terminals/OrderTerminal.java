@@ -44,17 +44,17 @@ public class OrderTerminal extends Terminal {
             private int current = 0;
 
             @Override
-            public void run(int slot, GUI.GUIActions actionType, ClickType type) {
+            public boolean run(int slot, GUI.GUIActions actionType, ClickType type) {
                     if(actionType != GUI.GUIActions.Click)
-                        return;
+                        return true;
                     int i;
                     try {
                         i = Integer.parseInt(gui.getInventory().getItem(slot).getItemMeta().getDisplayName().substring(2));
                     }catch (Exception ignored){
-                        return;
+                        return true;
                     }
                     if(i != current + 1)
-                        return;
+                        return true;
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                     current++;
                     gui.getInventory().setItem(slot, new ItemBuilder(Material.LIME_STAINED_GLASS_PANE).addItemFlag(ItemFlag.HIDE_ATTRIBUTES).setName("§a" + current).setAmount(current).build());
@@ -63,8 +63,8 @@ public class OrderTerminal extends Terminal {
                         if(phase != null)
                             phase.solveTerminal(OrderTerminal.this, player);
                     }
+                    return true;
             }
-
         });
         gui.showGUI(player);
     }

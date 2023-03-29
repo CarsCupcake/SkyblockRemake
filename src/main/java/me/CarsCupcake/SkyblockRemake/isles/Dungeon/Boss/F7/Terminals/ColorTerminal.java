@@ -48,14 +48,15 @@ public class ColorTerminal extends Terminal {
         gui.closeAction(type -> isOpen = false);
         gui.setGeneralAction((slot, actionType, type) -> {
             if(actionType != GUI.GUIActions.Click)
-                return;
+                return true;
             if(!slots.contains(slot))
-                return;
+                return true;
             gui.getInventory().getItem(slot).setType(getNextColor(gui.getInventory().getItem(slot).getType()));
             if(isSame(gui.getInventory())){
                 gui.closeInventory();
                 finish(player);
             }
+            return true;
         });
         gui.showGUI(player);
     }

@@ -22,7 +22,7 @@ import java.util.Date;
 
 public class SetupOrder {
     private final SkyblockPlayer player;
-    private AuctionType type = AuctionType.Bin;
+    private final AuctionType type = AuctionType.Bin;
     private double coins = 500;
     private int minutes = 60*6;
     private ItemStack putInItem;
@@ -44,12 +44,13 @@ public class SetupOrder {
             if(actionType == GUI.GUIActions.PlayerClick){
                 if(putInItem != null){
                     player.sendMessage("§cThere is already something on the auction!");
-                    return;
+                    return true;
                 }
                 putInItem = player.getInventory().getItem(slot);
                 player.getInventory().setItem(slot, new ItemStack(Material.AIR));
                 updateInventory();
             }
+            return true;
         });
         gui.inventoryClickAction(13, type1 -> {
             if(putInItem != null){
@@ -96,20 +97,16 @@ public class SetupOrder {
         });
         gui.inventoryClickAction(31, type1 -> {
             SignManager manager = new SignManager();
-            new SignGUI(manager, event -> {
-                Bukkit.getScheduler().runTask(Main.getMain(), () -> {
-                    double newCost = Tools.StringToDouble(event.lines()[0]);
-                    if (newCost < 0) {
-                        player.sendMessage("§cNot a valid number!");
-                        return;
-                    }
-                    coins = newCost;
-                    updateInventory();
-                    this.gui.showGUI(player);
-                });
-
-
-            }
+            new SignGUI(manager, event -> Bukkit.getScheduler().runTask(Main.getMain(), () -> {
+                double newCost = Tools.StringToDouble(event.lines()[0]);
+                if (newCost < 0) {
+                    player.sendMessage("§cNot a valid number!");
+                    return;
+                }
+                coins = newCost;
+                updateInventory();
+                this.gui.showGUI(player);
+            })
             ).withLines("", "^^^^^^^^^^^^^^^", "Your auction", "starting bid").open(player);
 
 

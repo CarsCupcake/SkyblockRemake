@@ -326,7 +326,7 @@ public abstract class AbstractMinion implements Minion {
         GUI gui = new GUI(builder.build());
         gui.setCanceled(true);
         gui.setGeneralAction((slot, actionType, type) -> {
-            if (actionType != GUI.GUIActions.Click) return;
+            if (actionType != GUI.GUIActions.Click) return true;
 
             if (usedSlots.contains(slot)) {
                 int indexOf = usedSlots.indexOf(slot);
@@ -337,6 +337,7 @@ public abstract class AbstractMinion implements Minion {
                 isFull();
                 startWorking();
             }
+            return true;
         });
         gui.inventoryClickAction(48, type -> {
             for (ItemStack item : inventory)

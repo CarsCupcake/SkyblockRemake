@@ -42,9 +42,9 @@ public class PanesTerminal extends Terminal {
         gui.setCanceled(true);
         gui.setGeneralAction((slot, actionType, type) -> {
             if(actionType != GUI.GUIActions.Click)
-                return;
+                return true;
             if(!SLOTS.contains(slot))
-                return;
+                return true;
             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
             if(gui.getInventory().getItem(slot).getType() == Material.RED_STAINED_GLASS_PANE){
                 gui.getInventory().getItem(slot).setType(Material.LIME_STAINED_GLASS_PANE);
@@ -55,6 +55,7 @@ public class PanesTerminal extends Terminal {
                 }
             }else
                 gui.getInventory().getItem(slot).setType(Material.RED_STAINED_GLASS_PANE);
+            return true;
         });
         gui.closeAction(type -> isOpen = false);
         gui.showGUI(player);

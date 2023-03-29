@@ -60,7 +60,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
                 gui.addSpecialSlotSwap(inventories.size() - 1, (Math.min(rows, 6) - 1) * 9, (Math.min(rows, 6) * 9) - 1);
 
             gui.setGeneralAction((slot, actionType, type) -> {
-                if (actionType != GUI.GUIActions.Click) return;
+                if (actionType != GUI.GUIActions.Click) return true;
                 ItemStack item = gui.getInventory().getItem(slot);
                 String id = ItemHandler.getOrDefaultPDC("activespell", item, PersistentDataType.STRING, "");
                 if (Spell.spells.containsKey(id)) {
@@ -69,6 +69,7 @@ public class Wand extends PreAbilityExecution implements AbilityManager<PlayerIn
                     gui.closeInventory();
                     event.getPlayer().sendMessage("§aYou selected the " + spell.getId());
                 }
+                return true;
             });
             gui.showGUI(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             return false;

@@ -5,12 +5,9 @@ import me.CarsCupcake.SkyblockRemake.NPC.EntityNPCInteractionEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryGUIAction;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityInteractEvent;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
@@ -40,11 +37,12 @@ public class JerryListener implements Listener {
             gui.setGeneralAction((slot, actionType, type) -> {
                 int id = getIntFormSlot(slot);
                 if(id == -1)
-                    return;
+                    return true;
                 Bukkit.getScheduler().runTask(Main.getMain(), ()-> {
                     deliverys.get(id).claim();
                     gui.closeInventory();
                 });
+                return true;
             });
             gui.setCanceled(true);
             gui.showGUI(player);

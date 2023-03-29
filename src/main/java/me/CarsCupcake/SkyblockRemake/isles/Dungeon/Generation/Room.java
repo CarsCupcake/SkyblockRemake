@@ -14,15 +14,15 @@ public class Room {
     private final DungeonRoomsTypes type;
     @Getter
     private final boolean isSub;
-    private final Location location;
+    private final Location2d location;
 @Getter
     private final Room main;
     private final Set<Room> subRooms = new HashSet<>();
-    public Room(DungeonRoomsTypes type, Location l){
+    public Room(DungeonRoomsTypes type, Location2d l){
         this(type, l, false, null);
     }
     @Contract("_, _, true, null -> fail")
-    public Room(DungeonRoomsTypes type, Location l, boolean isSub, Room main){
+    public Room(DungeonRoomsTypes type, Location2d l, boolean isSub, Room main){
         if(isSub && main == null)
             throw new IllegalArgumentException("main room is not allowed to be null when its a subroom!");
         Assert.allNotNull("Elements not allowed to be null!", type, l);
@@ -36,7 +36,7 @@ public class Room {
             main.addSubRoom(this);
 
     }
-    public Location getLocation(){
+    public Location2d getLocation(){
         return location.clone();
     }
 

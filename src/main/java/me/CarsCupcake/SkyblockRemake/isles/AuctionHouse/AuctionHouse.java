@@ -30,10 +30,10 @@ public class AuctionHouse implements Listener {
     private final CustomConfig file;
     private final NamespacedKey pointerKey;
     @Getter
-    private Set<GUI> guis = new HashSet<>();
+    private final Set<GUI> guis = new HashSet<>();
 
-    public AuctionHouse(){
-        if(main != null){
+    public AuctionHouse() {
+        if (main != null) {
             throw new AuctionHouseException("Can not start Auction House!");
         }
         main = this;
@@ -41,26 +41,30 @@ public class AuctionHouse implements Listener {
         pointerKey = new NamespacedKey(Main.getMain(), "pointer");
 
     }
-    public static AuctionHouse getInstance(){
+
+    public static AuctionHouse getInstance() {
         return main;
     }
-    public void shutdown(){
+
+    public void shutdown() {
         for (GUI gui : guis)
             gui.closeInventory();
     }
-    public CustomConfig getFile(){
+
+    public CustomConfig getFile() {
         return file;
     }
 
     @EventHandler
-    public void npcClick(RightClickNPC event){
-        if(event.getNPC().getName().equals("Auction House")){
+    public void npcClick(RightClickNPC event) {
+        if (event.getNPC().getName().equals("Auction House")) {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
             openInv(player);
         }
     }
-    public void openInv(SkyblockPlayer player){
-        if(!InfoManager.getValue("ah", true)){
+
+    public void openInv(SkyblockPlayer player) {
+        if (!InfoManager.getValue("ah", true)) {
             player.sendMessage("§cAuction Hause is currently disabled");
             return;
         }
@@ -72,30 +76,29 @@ public class AuctionHouse implements Listener {
         gui.inventoryClickAction(25, type -> gui.closeInventory());
         gui.inventoryClickAction(15, type -> {
             ArrayList<IAuction> playerAuction = AuctionManager.getPlayerAuctions(player);
-            if(playerAuction != null && !playerAuction.isEmpty()){
+            if (playerAuction != null && !playerAuction.isEmpty()) {
                 auctionList(playerAuction, player);
-            }else
-                new SetupOrder(player);
+            } else new SetupOrder(player);
         });
         gui.closeAction(type -> guis.remove(gui));
         guis.add(gui);
         gui.showGUI(player);
     }
-    private void auctionList(ArrayList<IAuction> auctions, SkyblockPlayer player){
-        int rows = ((int)(auctions.size()/7))+3;
-        InventoryBuilder builder = new InventoryBuilder(rows, "Your Auctions")
-                .fill(TemplateItems.EmptySlot.getItem());
-        for(int i = 1; i < rows; i++){
-            builder.fill(new ItemStack(Material.AIR), i*9+1, i*9+7);
+
+    private void auctionList(ArrayList<IAuction> auctions, SkyblockPlayer player) {
+        int rows = (auctions.size() / 7) + 3;
+        InventoryBuilder builder = new InventoryBuilder(rows, "Your Auctions").fill(TemplateItems.EmptySlot.getItem());
+        for (int i = 1; i < rows; i++) {
+            builder.fill(new ItemStack(Material.AIR), i * 9 + 1, i * 9 + 7);
         }
         int i = 10;
         int row = 1;
         int arrayListPointer = 0;
-        for(IAuction auction : auctions){
-            if(row == 7){
+        for (IAuction auction : auctions) {
+            if (row == 7) {
                 row = 0;
                 i += 2;
-            }else {
+            } else {
                 ItemStack item = auction.craftShowItem();
                 ItemMeta meta = item.getItemMeta();
                 meta.getPersistentDataContainer().set(pointerKey, PersistentDataType.INTEGER, arrayListPointer);
@@ -109,39 +112,29 @@ public class AuctionHouse implements Listener {
         }
 
         int r = rows - 1;
-        builder.fill(TemplateItems.EmptySlot.getItem(),r * 9, r * 9 + 8)
-                .setItem(new ItemBuilder(Material.GOLDEN_HORSE_ARMOR)
-                        .addItemFlag(ItemFlag.HIDE_ATTRIBUTES)
-                        .setName("§6Create an auction")
-                        .build(),r * 9 + 5);
+        builder.fill(TemplateItems.EmptySlot.getItem(), r * 9, r * 9 + 8).setItem(new ItemBuilder(Material.GOLDEN_HORSE_ARMOR).addItemFlag(ItemFlag.HIDE_ATTRIBUTES).setName("§6Create an auction").build(), r * 9 + 5);
 
-        GUI gui = new GUI(builder
-                .build());
+        GUI gui = new GUI(builder.build());
         gui.setCanceled(true);
         gui.setGeneralAction((slot, actionType, type) -> {
-            if(actionType != GUI.GUIActions.Click)
-                return;
+            if (actionType != GUI.GUIActions.Click) return true;
 
             ItemStack item = gui.getInventory().getItem(slot);
-            if(item == null)
-                return;
+            if (item == null) return true;
             ItemMeta meta = item.getItemMeta();
-            if(meta == null)
-                return;
+            if (meta == null) return true;
             PersistentDataContainer data = meta.getPersistentDataContainer();
-            if (data == null)
-                return;
+            if (data == null) return true;
 
-            if(!data.has(pointerKey, PersistentDataType.INTEGER))
-                return;
+            if (!data.has(pointerKey, PersistentDataType.INTEGER)) return true;
             auctions.get(data.get(pointerKey, PersistentDataType.INTEGER)).openManager(player);
+            return true;
         });
         gui.inventoryClickAction(r * 9 + 5, type -> new SetupOrder(player));
         gui.closeAction(type -> guis.remove(gui));
         guis.add(gui);
         gui.showGUI(player);
     }
-
 
 
 }

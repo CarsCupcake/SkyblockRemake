@@ -76,24 +76,25 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
             gui.setGeneralAction((slot, actionType, type) -> {
                 if (actionType == GUI.GUIActions.Click) {
                     ItemStack s = gui.getInventory().getItem(slot);
-                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return;
-                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return;
+                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return true;
+                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return true;
                     PersistentDataContainer data = ItemHandler.getPDC("active", item, PersistentDataType.TAG_CONTAINER);
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
-                    if(!hasFree) return;
+                    if(!hasFree) return true;
                     ItemStack s = player.getInventory().getItem(slot);
                     String id = ItemHandler.getPDC("id", s, PersistentDataType.STRING);
-                    if(!registered.containsKey(id)) return;
+                    if(!registered.containsKey(id)) return true;
                     PersistentDataContainer data = ItemHandler.getOrDefaultPDC("active", item, PersistentDataType.TAG_CONTAINER, new CraftPersistentDataContainer(Map.of(), new CraftPersistentDataTypeRegistry()));
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 }
+                return true;
             });
             gui.showGUI(player);
         }
@@ -125,24 +126,25 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
             gui.setGeneralAction((slot, actionType, type) -> {
                 if (actionType == GUI.GUIActions.Click) {
                     ItemStack s = gui.getInventory().getItem(slot);
-                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return;
-                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return;
+                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return true;
+                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return true;
                     PersistentDataContainer data = ItemHandler.getPDC("active", item, PersistentDataType.TAG_CONTAINER);
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
-                    if(active.size() >= 3) return;
+                    if(active.size() >= 3) return true;
                     ItemStack s = player.getInventory().getItem(slot);
                     String id = ItemHandler.getPDC("id", s, PersistentDataType.STRING);
-                    if(!registered.containsKey(id)) return;
+                    if(!registered.containsKey(id)) return true;
                     PersistentDataContainer data = ItemHandler.getOrDefaultPDC("active", item, PersistentDataType.TAG_CONTAINER, new CraftPersistentDataContainer(Map.of(), new CraftPersistentDataTypeRegistry()));
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 }
+                return true;
             });
             gui.showGUI(player);
         }
@@ -174,24 +176,25 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
             gui.setGeneralAction((slot, actionType, type) -> {
                 if (actionType == GUI.GUIActions.Click) {
                     ItemStack s = gui.getInventory().getItem(slot);
-                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return;
-                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return;
+                    if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return true;
+                    if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return true;
                     PersistentDataContainer data = ItemHandler.getPDC("active", item, PersistentDataType.TAG_CONTAINER);
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
-                    if(active.size() >= 7) return;
+                    if(active.size() >= 7) return true;
                     ItemStack s = player.getInventory().getItem(slot);
                     String id = ItemHandler.getPDC("id", s, PersistentDataType.STRING);
-                    if(!registered.containsKey(id)) return;
+                    if(!registered.containsKey(id)) return true;
                     PersistentDataContainer data = ItemHandler.getOrDefaultPDC("active", item, PersistentDataType.TAG_CONTAINER, new CraftPersistentDataContainer(Map.of(), new CraftPersistentDataTypeRegistry()));
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
                     AccessoryListener.startupAbilitys(player);
                 }
+                return true;
             });
             gui.showGUI(player);
         }
@@ -223,24 +226,25 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                 gui.setGeneralAction((slot, actionType, type) -> {
                     if (actionType == GUI.GUIActions.Click) {
                         ItemStack s = gui.getInventory().getItem(slot);
-                        if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return;
-                        if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return;
+                        if (s.getType() == Material.BLACK_STAINED_GLASS_PANE) return true;
+                        if (s.getType() == Material.LIME_STAINED_GLASS_PANE) return true;
                         PersistentDataContainer data = ItemHandler.getPDC("active", item, PersistentDataType.TAG_CONTAINER);
                         data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                         ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                         generateInv(item, player);
                         AccessoryListener.startupAbilitys(player);
                     } else if (actionType == GUI.GUIActions.PlayerClick) {
-                        if(active.size() >= 12) return;
+                        if(active.size() >= 12) return true;
                         ItemStack s = player.getInventory().getItem(slot);
                         String id = ItemHandler.getPDC("id", s, PersistentDataType.STRING);
-                        if(!registered.containsKey(id)) return;
+                        if(!registered.containsKey(id)) return true;
                         PersistentDataContainer data = ItemHandler.getOrDefaultPDC("active", item, PersistentDataType.TAG_CONTAINER, new CraftPersistentDataContainer(Map.of(), new CraftPersistentDataTypeRegistry()));
                         data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                         ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                         generateInv(item, player);
                         AccessoryListener.startupAbilitys(player);
                     }
+                    return true;
                 });
                 gui.showGUI(player);
             }

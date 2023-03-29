@@ -2,21 +2,21 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation;
 
 import lombok.Getter;
 
-public class Location {
+public class Location2d {
     @Getter
     private int x;
     @Getter
     private int y;
-    public Location(){
+    public Location2d(){
 
     }
-    public Location(int x, int y){
+    public Location2d(int x, int y){
         this.x = x;
         this.y = y;
     }
     @Override
     public boolean equals(Object obj){
-        if(obj instanceof Location l){
+        if(obj instanceof Location2d l){
             return x == l.getX() && y == l.getY();
         }else return false;
     }
@@ -25,22 +25,22 @@ public class Location {
         return "Location[x:" + x + ";y:" + y + "]";
     }
     @Override
-    public Location clone() {
-        return new Location(x,y);
+    public Location2d clone() {
+        return new Location2d(x,y);
     }
-    public Location setX(int x){
+    public Location2d setX(int x){
         this.x = x;
         return this;
     }
-    public Location setY(int y){
+    public Location2d setY(int y){
         this.y = y;
         return this;
     }
-    public Location addX(int x){
+    public Location2d addX(int x){
         this.x += x;
         return this;
     }
-    public Location addY(int y){
+    public Location2d addY(int y){
         this.y += y;
         return this;
     }

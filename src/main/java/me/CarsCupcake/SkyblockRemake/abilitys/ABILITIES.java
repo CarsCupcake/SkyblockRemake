@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
+import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
+import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
@@ -151,6 +153,11 @@ public class ABILITIES implements Listener {
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());
         IMinion.registerMinion(new ZombieMinion());
+
+        if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle){
+            registerEvent(new CustomBlock.CustomBlockListener());
+        }
+        LogicalBlock.init();
     }
 
     public static void disable() {

@@ -151,6 +151,7 @@ public class EquipmentInv {
 
                 }
             }
+            return true;
         });
         gui.inventoryClickAction(10, type -> {
             if(player.equipmentManager.necklace != null) {

@@ -56,15 +56,16 @@ public class AuctionBrowser {
         }
         gui.setGeneralAction((slot, actionType, type) -> {
             if(actionType != GUI.GUIActions.Click)
-                return;
+                return true;
             int pointer = site * 45 + slot ;
             if(auctions.size() <= pointer)
-                return;
+                return true;
 
             IAuction auction = auctions.get(pointer);
             if(auction == null)
-                return;
+                return true;
             auction.openManager(player);
+            return true;
         });
         gui.setCanceled(true);
         gui.closeAction(type -> AuctionHouse.getInstance().getGuis().remove(gui));

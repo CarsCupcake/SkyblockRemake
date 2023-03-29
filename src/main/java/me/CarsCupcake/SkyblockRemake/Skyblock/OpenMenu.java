@@ -8,6 +8,7 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInv;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.storage.MainStorage;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
@@ -49,7 +50,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 
     @SuppressWarnings("deprecation")
     public static void createskyblockstats(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Your SkyBlock Profile");
+        Inventory inv = Bukkit.createInventory(null, 54, "Your SkyBlock Profile");
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(" ");
@@ -952,6 +953,10 @@ public class OpenMenu implements CommandExecutor, Listener {
         if (event.getSlot() == 20) {
 
             CollectHandler.openAllCollections(SkyblockPlayer.getSkyblockPlayer(player));
+            return;
+        }
+        if (event.getSlot() == 25) {
+            new MainStorage(SkyblockPlayer.getSkyblockPlayer(player));
             return;
         }
 

@@ -90,7 +90,7 @@ public class LockInSlotTerminal extends Terminal {
                             } else
                                 penalty = 4;
                         }
-
+                    return true;
 
                 });
                 gui.setCanceled(true);

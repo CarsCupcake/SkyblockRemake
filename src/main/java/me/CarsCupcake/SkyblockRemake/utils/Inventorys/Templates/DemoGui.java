@@ -33,6 +33,8 @@ public class DemoGui {
             //slot is the slot
             //action type is the type of action (Click a the "custom inv" click, Player is a player inv click, close is on close)
             //type is again the click type
+            //Returns if it should be canceled or not (ignores the return if setCanceled is true)
+            return true;
         });
     }
 }

@@ -89,9 +89,9 @@ public class TextTerminal extends Terminal {
         gui.setCanceled(true);
         gui.setGeneralAction((slot, actionType, type) -> {
             if(!correct.contains(slot))
-                return;
+                return true;
             if(actionType != GUI.GUIActions.Click)
-                return;
+                return true;
 
             ItemMeta meta =  gui.getInventory().getItem(slot).getItemMeta();
             meta.addEnchant(Enchantment.ARROW_FIRE, 1, true);
@@ -102,6 +102,7 @@ public class TextTerminal extends Terminal {
                 gui.closeInventory();
                 finish(player);
             }
+            return true;
         });
         gui.closeAction(type -> isOpen = false);
         gui.showGUI(player);
