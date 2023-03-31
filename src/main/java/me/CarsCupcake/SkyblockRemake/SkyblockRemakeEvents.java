@@ -648,8 +648,6 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void GamemodeEvent(PlayerGameModeChangeEvent event) {
-
-
         Bukkit.broadcastMessage(ChatColor.GOLD + event.getPlayer().getName() + " just Changed his Gamemode to: " + event.getNewGameMode().toString());
     }
 
@@ -658,11 +656,13 @@ public class SkyblockRemakeEvents implements Listener {
         PacketReader reader = new PacketReader(event.getPlayer());
         reader.uninject(event.getPlayer());
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-        try {
-            PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
-            PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(ServerType.getActiveType() == ServerType.PrivateIsle){
+            try {
+                PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
+                PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         player.saveCommissionProgress();
         Main.absorbtion.remove(player);

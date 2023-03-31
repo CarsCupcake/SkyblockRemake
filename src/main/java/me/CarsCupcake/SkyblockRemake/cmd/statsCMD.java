@@ -40,9 +40,8 @@ public class statsCMD implements CommandExecutor{
 			if(s == null) return false;
 			player.sendMessage("Set Base "+s.getName()+" to: " + args[1]);
 			p.setBaseStat(s, value);
-			statsConfig.get().set(player.getUniqueId().toString() + "." + s.getDataName(), Integer.parseInt(args[1]));
+			statsConfig.get().set(s.getDataName(), Double.parseDouble(args[1]));
 			statsConfig.save();
-			statsConfig.reload();
 			Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
 			return true;
 		}

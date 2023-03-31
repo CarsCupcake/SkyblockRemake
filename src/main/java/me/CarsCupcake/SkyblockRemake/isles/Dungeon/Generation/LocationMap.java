@@ -29,6 +29,9 @@ public class LocationMap extends HashMap<Location2d, Room> {
         Set<Location2d> keySet = this.keySet();
         return keySet.stream().filter(t -> t.getY() == y).toList();
     }
+    public Room put(Room k){
+        return put(k.getLocation(), k);
+    }
     @Override
     public Room put(Location2d l, Room k){
         if(k.isSub())

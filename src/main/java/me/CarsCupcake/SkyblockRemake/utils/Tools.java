@@ -159,8 +159,14 @@ public class Tools {
     }
 
     public static void loadShematic(InputStream stream, Location base) throws IOException {
+        loadShematic(stream, base, "schem");
+
+    }
+    public static void loadShematic(InputStream stream, Location base, String format) throws IOException {
+        loadShematic(stream, base, ClipboardFormats.findByAlias(format));
+    }
+    public static void loadShematic(InputStream stream, Location base, ClipboardFormat format) throws IOException {
         Clipboard clipboard = null;
-        ClipboardFormat format = ClipboardFormats.findByAlias("schem");
 
         try (ClipboardReader reader = format.getReader(stream)) {
             clipboard = reader.read();
@@ -224,6 +230,28 @@ public class Tools {
         InputStream stream = Main.getMain().getResource(resourcePath);
         try {
             ClipboardFormat format = ClipboardFormats.findByAlias("schem");
+            ClipboardReader reader = format.getReader(stream);
+            Clipboard clipboard = reader.read();
+            EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
+            Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(base.getX(), base.getY(), base.getZ())).build();
+            Operations.complete(operation);
+            editSession.close();
+        } catch (Exception e) {
+            Bukkit.broadcastMessage("§c A schematic failed to load");
+            e.printStackTrace();
+            return;
+        } finally {
+            try {
+                stream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void loadShematic(String resourcePath, Location base, String formateString) {
+        InputStream stream = Main.getMain().getResource(resourcePath);
+        try {
+            ClipboardFormat format = ClipboardFormats.findByAlias(formateString);
             ClipboardReader reader = format.getReader(stream);
             Clipboard clipboard = reader.read();
             EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
@@ -831,5 +859,16 @@ public class Tools {
         public int compare(Bundle<Integer, ?> o1, Bundle<Integer, ?> o2) {
             return (o1.getFirst() < o2.getFirst()) ? -1 : (o1.getFirst() == o2.getFirst()) ? 0 : 1;
         }
+    }
+    public static <T, K> HashMap<T, K> mapOf(List<T> ts, List<K> ks){
+        Assert.isTrue(!(ts.isEmpty() || ks.isEmpty()), "Map is empty");
+        Assert.isTrue(ts.size() == ks.size(), "The maps are not equal full");
+        HashMap<T, K> map = new HashMap<>();
+        int i = 0;
+        for (T t : ts){
+            map.put(t, ks.get(i));
+            i++;
+        }
+        return map;
     }
 }

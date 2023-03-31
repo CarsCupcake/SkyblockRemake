@@ -326,6 +326,7 @@ public class Main extends JavaPlugin {
         getCommand("ah").setExecutor(new AhCMD());
         getCommand("bz").setExecutor(new BzCMD());
         getCommand("max").setExecutor(new MaxItemCmd());
+        getCommand("loadschematic").setExecutor(new TestLoadSchematic());
         getCommand("setcounter").setExecutor((commandSender, command, s, strings) -> { ItemHandler.setPDC("counter",
             SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
             return false;
@@ -1630,7 +1631,7 @@ public class Main extends JavaPlugin {
                 if (ability.getManacost() > 0 && !ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getManacost());
                     Bukkit.getPluginManager().callEvent(event);
-                    lores.add("§8Mana Cost §3" + event.getMana());
+                    lores.add("§8Mana Cost §3" + String.format("%.0f",event.getMana()));
                 } else if (ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getPersentage());
                     Bukkit.getPluginManager().callEvent(event);

@@ -153,9 +153,10 @@ public class SkyblockPlayer extends CraftPlayer {
         player = entity.getBukkitEntity().getPlayer();
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
+        statsConfig.reload();
         for (Stats stat : Stats.values()) {
             if (stat == Stats.WeaponDamage) continue;
-            double value = statsConfig.get().getDouble("." + stat.getDataName(), stat.getBaseAmount());
+            double value = statsConfig.get().getDouble(stat.getDataName(), stat.getBaseAmount());
             if (stat.getMaxAmount() > 0 && value > stat.getMaxAmount()) value = stat.getMaxAmount();
             setBaseStat(stat, value);
         }
