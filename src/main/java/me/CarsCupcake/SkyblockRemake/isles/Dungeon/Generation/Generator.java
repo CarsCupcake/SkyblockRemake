@@ -3,7 +3,12 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.DungeonRoomsTypes;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.lShaped.RoomLShManager;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x1.Room1x1Manager;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x2.Room1x2Manager;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x3.Room1x3Manager;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x4.Room1x4Manager;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r2x2.Room2x2Manager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
 import org.bukkit.Bukkit;
@@ -27,7 +32,8 @@ public class Generator extends MapRenderer {
     private final LocationMap map;
     @Getter
     private static Generator generator;
-    private Map<DungeonRoomsTypes, RoomManager> managers = Map.of(DungeonRoomsTypes.r1x1, new Room1x1Manager());
+    private Map<DungeonRoomsTypes, RoomManager> managers = Map.of(DungeonRoomsTypes.r1x1, new Room1x1Manager(), DungeonRoomsTypes.r1x2, new Room1x2Manager(), DungeonRoomsTypes.r1x3, new Room1x3Manager(),
+            DungeonRoomsTypes.r1x4, new Room1x4Manager(), DungeonRoomsTypes.r2x2, new Room2x2Manager(), DungeonRoomsTypes.rLShaped, new RoomLShManager());
     public Generator(){
         generator = this;
         // 0.5 1.5
