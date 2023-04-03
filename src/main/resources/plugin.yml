@@ -2,7 +2,7 @@ main: me.CarsCupcake.SkyblockRemake.Main
 name: SkyblockRemake
 version: 0.2.2
 author: CarsCupcake
-api-version: 1.17 
+api-version: 1.17
 depend:  [ LibsDisguises, FastAsyncWorldEdit]
 
 commands:
@@ -17,7 +17,7 @@ commands:
   statsystem:
   healthitems:
   stats:
-   usage: /stats <stat> <amount>
+    usage: /stats <stat> <amount>
   e:
   testobject:
   spawns:
@@ -26,9 +26,9 @@ commands:
   beacon:
   laser:
   ench:
-   describtion: Custom enchants
+    describtion: Custom enchants
   av:
-   describtion: Opens an anvil
+    describtion: Opens an anvil
   reforge:
   coins:
   canon:
@@ -58,4 +58,3 @@ commands:
   setcounter:
   max:
   loadschematic:
-  

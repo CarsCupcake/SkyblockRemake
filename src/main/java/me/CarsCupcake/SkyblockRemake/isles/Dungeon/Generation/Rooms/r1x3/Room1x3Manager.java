@@ -2,15 +2,17 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x3;
 
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.RoomManager;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x3.r.Catwalk6;
 
+import java.util.List;
 import java.util.Set;
 
 public class Room1x3Manager implements RoomManager {
+    private static final List<IRoom> room = List.of(new Catwalk6());
     @Override
     public IRoom getNewRandom(Set<Integer> taken) {
-        return null;
+        return room.get(0);
     }
-
     @Override
     public int getMaxAmount() {
         return 3;

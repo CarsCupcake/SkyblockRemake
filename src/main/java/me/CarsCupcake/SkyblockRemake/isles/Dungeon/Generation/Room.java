@@ -15,39 +15,44 @@ public class Room {
     @Getter
     private final boolean isSub;
     private final Location2d location;
-@Getter
+    @Getter
     private final Room main;
     private final Set<Room> subRooms = new HashSet<>();
-    public Room(DungeonRoomsTypes type, Location2d l){
+    @Getter
+    private IRoom room;
+
+    public Room(DungeonRoomsTypes type, Location2d l, IRoom room) {
         this(type, l, false, null);
+        this.room = room;
     }
+
     @Contract("_, _, true, null -> fail")
-    public Room(DungeonRoomsTypes type, Location2d l, boolean isSub, Room main){
-        if(isSub && main == null)
+    public Room(DungeonRoomsTypes type, Location2d l, boolean isSub, Room main) {
+        if (isSub && main == null)
             throw new IllegalArgumentException("main room is not allowed to be null when its a subroom!");
         Assert.allNotNull("Elements not allowed to be null!", type, l);
-        Assert.isTrue(!l.isOutOfBounds(), "Location "+ l +" is out of map!");
-        Assert.isTrue(!Generator.getGenerator().getMap().containsKey(l), "Cannot override an other room!");
+        Assert.isTrue(!l.isOutOfBounds(), "Location " + l + " is out of map!");/*
+        Assert.isTrue(!Generator.getGenerator().getMap().containsKey(l), "Cannot override an other room!");*/
         this.main = main;
         this.type = type;
         this.isSub = isSub;
         location = l;
-        if(isSub)
-            main.addSubRoom(this);
+        if (isSub) main.addSubRoom(this);
 
     }
-    public Location2d getLocation(){
+
+    public Location2d getLocation() {
         return location.clone();
     }
 
-    public void addSubRoom(@NotNull Room r){
+    public void addSubRoom(@NotNull Room r) {
         Assert.isTrue(r.isSub(), "Room is not a subroom!");
         Assert.isTrue(!isSub, "Room has to be Main room to accept subrooms!");
 
         subRooms.add(r);
     }
 
-    public Set<Room> getSubRooms(){
+    public Set<Room> getSubRooms() {
         Assert.isTrue(!isSub, "Room is not allowed to have subrooms!");
         return new HashSet<>(subRooms);
     }

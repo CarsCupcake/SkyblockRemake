@@ -271,6 +271,29 @@ public class Tools {
         }
     }
 
+        public static void loadShematic(String resourcePath, Location base, ClipboardFormat formateString) {
+            InputStream stream = Main.getMain().getResource(resourcePath);
+            try {
+                ClipboardFormat format = formateString;
+                ClipboardReader reader = format.getReader(stream);
+                Clipboard clipboard = reader.read();
+                EditSession editSession = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(base.getWorld()));
+                Operation operation = new ClipboardHolder(clipboard).createPaste(editSession).to(BlockVector3.at(base.getX(), base.getY(), base.getZ())).build();
+                Operations.complete(operation);
+                editSession.close();
+            } catch (Exception e) {
+                Bukkit.broadcastMessage("§c A schematic failed to load");
+                e.printStackTrace();
+                return;
+            } finally {
+                try {
+                    stream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     public static File getFileFromResource(String fileName) {
         return new File(fileName);
         /*try {

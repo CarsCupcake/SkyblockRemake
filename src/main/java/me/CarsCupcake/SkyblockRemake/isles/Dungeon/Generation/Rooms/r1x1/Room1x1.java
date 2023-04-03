@@ -17,4 +17,14 @@ public abstract class Room1x1 implements IRoom {
     public Location getOffset(Location location, int rotation) {
         return location;
     }
+
+    @Override
+    public Location rotationCorner(Location l, int rotation) {
+        return switch (rotation){
+            case 1 -> new Location(l.getWorld(), l.getX(), l.getY(), l.getZ() + 30);
+            case 2 -> new Location(l.getWorld(), l.getX() + 30, l.getY(), l.getZ() + 30);
+            case 3 -> new Location(l.getWorld(), l.getX() + 30, l.getY(), l.getZ());
+            default -> l;
+        };
+    }
 }

@@ -34,6 +34,7 @@ public class LocationMap extends HashMap<Location2d, Room> {
     }
     @Override
     public Room put(Location2d l, Room k){
+        System.out.println(k.getType());
         if(k.isSub())
             subs.add(l);
         else
@@ -45,8 +46,8 @@ public class LocationMap extends HashMap<Location2d, Room> {
         if(k.getType() == DungeonRoomsTypes.red)
             red = k;
 
-        /*if(!k.isSub())
-            generate(l, k);*/
+        if(!k.isSub())
+            generate(l, k);
 
         return super.put(l, k);
     }

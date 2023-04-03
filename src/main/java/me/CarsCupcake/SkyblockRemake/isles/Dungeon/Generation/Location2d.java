@@ -50,9 +50,9 @@ public class Location2d {
     }
 
     public int getMapX(){
-        return (20 * x + 6);
+        return x * 32;
     }
     public int getMapY(){
-        return (20 * y + 6);
+        return y * 32;
     }
 }

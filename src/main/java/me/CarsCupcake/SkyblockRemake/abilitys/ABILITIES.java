@@ -25,6 +25,9 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryT
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowShooting;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.LightsTerminal;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.SimonSaysTerminal;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.BatSecret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.ChestSecret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.LeverSecret;
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
@@ -149,6 +152,9 @@ public class ABILITIES implements Listener {
         registerEvent(new CocoChopper());
         registerEvent(new FungiCutter());
         registerEvent(new CactusKnife());
+        registerEvent(new LeverSecret.LeverInteract());
+        registerEvent(new ChestSecret.ChestInteract());
+        registerEvent(new BatSecret.EventListener());
 
         //Minions
         IMinion.registerMinion(new CobblestoneMinion());

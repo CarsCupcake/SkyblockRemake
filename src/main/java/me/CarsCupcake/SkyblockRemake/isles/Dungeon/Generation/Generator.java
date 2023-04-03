@@ -25,7 +25,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 
-public class Generator extends MapRenderer {
+public final class Generator extends MapRenderer {
     private boolean done = false;
     private BufferedImage image;
     @Getter
@@ -44,9 +44,9 @@ public class Generator extends MapRenderer {
         // 0.0 1.0
         map = new LocationMap();
         Location2d red = new Location2d(new Random().nextInt(6),5);
-        map.put(new Room(DungeonRoomsTypes.red, red));
+        map.put(new Room(DungeonRoomsTypes.red, red, null));
         Location2d green = new Location2d(new Random().nextInt(6),0);
-        map.put(new Room(DungeonRoomsTypes.green, green));
+        map.put(new Room(DungeonRoomsTypes.green, green, null));
         Set<Location2d> freeRoom = map.getEmpty();
         Location2d l = map.getGreen().getLocation();
         l.setX(1);
@@ -57,62 +57,26 @@ public class Generator extends MapRenderer {
         List<Location2d> rL = freeRoom.stream().toList();
         rL = new ArrayList<>(rL);
         Collections.shuffle(rL);
-        map.put(rL.get(0), new Room(DungeonRoomsTypes.fairy, rL.get(0)));
-        map.put(rL.get(1), new Room(DungeonRoomsTypes.miniboss, rL.get(1)));
+        map.put(rL.get(0), new Room(DungeonRoomsTypes.fairy, rL.get(0), null));
+        map.put(rL.get(1), new Room(DungeonRoomsTypes.miniboss, rL.get(1), null));
         for (int i = 1; i < 4; i++)
-            map.put(rL.get(i), new Room(DungeonRoomsTypes.puzzle, rL.get(i)));
+            map.put(rL.get(i - 1), new Room(DungeonRoomsTypes.puzzle, rL.get(i), null));
         CountMap<DungeonRoomsTypes> setAmount = new CountMap<>();
         for (Location2d loc : map.getEmpty()){
             if(map.containsKey(loc))
                 continue;
 
             DungeonRoomsTypes type = DungeonRoomsTypes.getRandom();
-            if(isFitting(type, loc) && managers.get(type).getMaxAmount() < setAmount.getOrDefault(type, 0)){
-                Room r = new Room(type, loc);
+            if(isFitting(type, loc)){
+                System.out.println("new random room");
+                Room r = new Room(type, loc, managers.get(type).getNewRandom(new HashSet<>()));
                     map.put(loc, r);
                     setAmount.add(type, 1, 0);
-                    switch (type){
-                        case r1x2 -> {
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 1), true, r));
-                            map.getBridgeMap().add(new Bundle<>(loc, 1));
-                        }
-                        case r1x3 -> {
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 1), true, r));
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 2), true, r));
-                            map.getBridgeMap().add(new Bundle<>(loc, 1));
-                            map.getBridgeMap().add(new Bundle<>(loc.clone().addY(1), 1));
-                        }
-                        case r1x4 -> {
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 1), true, r));
-                            map.put( new Room(type, loc.clone().setY(loc.getY() + 2), true, r));
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 3), true, r));
-                            map.getBridgeMap().add(new Bundle<>(loc, 1));
-                            map.getBridgeMap().add(new Bundle<>(loc.clone().addY(1), 1));
-                            map.getBridgeMap().add(new Bundle<>(loc.clone().addY(2), 1));
-                        }
-                        case r2x2 -> {
-                            Location2d tL = loc.clone().setX(loc.getX() + 1);
-                            map.put(new Room(type, loc.clone().setY(loc.getY() + 1), true, r));
-                            map.put(new Room(type, tL.clone(), true, r));
-                            map.put(new Room(type, tL.clone().setY(tL.getY() + 1), true, r));
-                            map.getBridgeMap().add(new Bundle<>(loc, 1));
-                            map.getBridgeMap().add(new Bundle<>(loc.clone().addX(1), 1));
-                            map.getBridgeMap().add(new Bundle<>(loc, 0));
-                            map.getBridgeMap().add(new Bundle<>(loc.clone().addY(1), 0));
-                            map.getBridgeMap().add(new Bundle<>(loc, 2));
-                        }
-                        case rLShaped -> {
-                            Location2d tL = loc.clone().setX(loc.getX() + 1);
-                            map.put(new Room(type, tL.clone(), true, r));
-                            map.put(new Room(type, tL.clone().setY(tL.getY() + 1), true, r));
-                            map.getBridgeMap().add(new Bundle<>(loc, 0));
-                            map.getBridgeMap().add(new Bundle<>(tL.clone(), 1));
-                        }
-
-
-                    }
-            }else
-                map.put(new Room(DungeonRoomsTypes.r1x1, loc));
+            }
+            else {
+                map.put(new Room(DungeonRoomsTypes.r1x1, loc, managers.get(DungeonRoomsTypes.r1x1).getNewRandom(new HashSet<>())));
+                System.out.println("-> 1x1 :(");
+            }
         }
         for (Location2d loc : map.getEmpty()){
             if(map.containsKey(loc))
@@ -121,14 +85,13 @@ public class Generator extends MapRenderer {
             DungeonRoomsTypes type = DungeonRoomsTypes.getRandom();
             if(isFitting(type, loc)){
                 {
-
-                    map.put(loc, new Room(type, loc));
+                    map.put(new Room(type, loc, managers.get(type).getNewRandom(new HashSet<>())));
                 }
             }else
-                map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc));
+                map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc, managers.get(DungeonRoomsTypes.r1x1).getNewRandom(new HashSet<>())));
         }
         for (Location2d loc : map.getEmpty()){
-            map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc));
+            map.put(loc, new Room(DungeonRoomsTypes.r1x1, loc, managers.get(DungeonRoomsTypes.r1x1).getNewRandom(new HashSet<>())));
         }
 
     }
@@ -255,10 +218,15 @@ public class Generator extends MapRenderer {
 
 
     }
-    private Location to3d(Location2d location2d){
+    public Location to3d(Location2d location2d){
         return new Location(Bukkit.getWorld("world"),location2d.getMapX(),0,location2d.getMapY());
     }
     public void place(){
-
+        for (Location2d l : map.getMains()){
+            Room room = map.get(l);
+            if(room.isSub()) continue;
+            if(room.getRoom() == null) continue;
+            room.getRoom().place(l, 0);
+        }
     }
 }

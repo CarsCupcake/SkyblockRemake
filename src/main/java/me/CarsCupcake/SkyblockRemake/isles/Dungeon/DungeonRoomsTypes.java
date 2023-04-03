@@ -52,51 +52,6 @@ public enum DungeonRoomsTypes {
 
          }
 
-         public static boolean isPlaceble(DungeonRoomsTypes type, int x, int y) {
-             if(type == DungeonRoomsTypes.r1x1 || type == DungeonRoomsTypes.red || type == DungeonRoomsTypes.green || type == DungeonRoomsTypes.miniboss || type == DungeonRoomsTypes.puzzle || type == DungeonRoomsTypes.Trap){
-                 if(DungeonGeneration.layers.get(y).get(x) == null)
-                 return true;
-                 else
-                 return false;
-             }
-             if(type == DungeonRoomsTypes.r2x2){
-                if(DungeonGeneration.layers.get(y).get(x) == null && DungeonGeneration.layers.get(y).get(x + 1) == null && DungeonGeneration.layers.get(y +1).get(x ) == null && DungeonGeneration.layers.get(y+ 1).get(x + 1) == null)
-                return true;
-                else
-                return false;
-             }
-             if(type == DungeonRoomsTypes.r1x2){
-                if(DungeonGeneration.layers.get(y).get(x) == null&& DungeonGeneration.layers.get(y +1).get(x ) == null)  {
-                    return true;
-                }else{
-                    return false;
-                } 
-               }
-               if(type == DungeonRoomsTypes.r1x3){
-                if(DungeonGeneration.layers.get(y).get(x) == null&& DungeonGeneration.layers.get(y +1).get(x ) == null&& DungeonGeneration.layers.get(y +2).get(x ) == null)  {
-                    return true;
-                }else{
-                    return false;
-                } 
-               }
-               if(type == DungeonRoomsTypes.r1x4){
-                if(DungeonGeneration.layers.get(y).get(x) == null&& DungeonGeneration.layers.get(y +1).get(x ) == null&& DungeonGeneration.layers.get(y +2).get(x ) == null&& DungeonGeneration.layers.get(y +3).get(x ) == null)  {
-                    return true;
-                }else{
-                    return false;
-                } 
-               }
-               if(type == DungeonRoomsTypes.rLShaped){
-                if(DungeonGeneration.layers.get(y).get(x) == null&& DungeonGeneration.layers.get(y +1).get(x ) == null && DungeonGeneration.layers.get(y+ 1).get(x + 1) == null)  {
-                    return true;
-                }else{
-                    return false;
-                }
-               }        
-             return false;
-             
-         }
-
          public static DungeonRoomsTypes getRandom(){
              List<DungeonRoomsTypes> l = new ArrayList<>(List.of(r1x2,r1x3, r1x4, r2x2, rLShaped));
              Collections.shuffle(l);
