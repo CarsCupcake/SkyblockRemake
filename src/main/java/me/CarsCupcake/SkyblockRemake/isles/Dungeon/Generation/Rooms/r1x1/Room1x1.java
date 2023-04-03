@@ -13,10 +13,7 @@ public abstract class Room1x1 implements IRoom {
         return Set.of(Direction.Up.move(base.clone()), Direction.Down.move(base.clone()), Direction.Left.move(base.clone()), Direction.Right.move(base.clone()));
     }
 
-    @Override
-    public Location getOffset(Location location, int rotation) {
-        return location;
-    }
+
 
     @Override
     public Location rotationCorner(Location l, int rotation) {

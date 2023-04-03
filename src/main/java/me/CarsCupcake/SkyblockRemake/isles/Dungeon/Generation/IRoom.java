@@ -23,7 +23,33 @@ public interface IRoom {
     String fileLocation();
     void init(int rotation);
     Set<Location2d> getNextLocations(Location2d base, int rotation);
-    Location getOffset(Location location, int rotation);
+    /**
+     * From DungeonRoomsMod by Quantizr(_risk)
+     */
+    default Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
+        double x = 0;
+        double z = 0;
+        switch (rotation) {
+            case 0 -> {
+                x = relative.getX() + locationOfCorner.getMapX();
+                z = relative.getZ() + locationOfCorner.getMapY(); //.getY in a point is the MC Z coord
+            }
+            case 3 -> {
+                x = -(relative.getZ() - locationOfCorner.getMapX());
+                z = relative.getX() + locationOfCorner.getMapY();
+            }
+            case 2 -> {
+                x = -(relative.getX() - locationOfCorner.getMapX());
+                z = -(relative.getZ() - locationOfCorner.getMapY());
+            }
+            case 1 -> {
+                x = relative.getZ() + locationOfCorner.getMapX();
+                z = -(relative.getX() - locationOfCorner.getMapY());
+            }
+        }
+        return new Location(relative.getWorld(), x, relative.getY(), z);
+    }
+
     default void place(Location2d location2d, int rotation){
         rotation = makeRotation(rotation);
         Location base = rotationCorner(Generator.getGenerator().to3d(location2d), rotation);
@@ -68,4 +94,5 @@ public interface IRoom {
             r -= 4;
         return r;
     }
+    String getId();
 }

@@ -20,6 +20,8 @@ public class Room {
     private final Set<Room> subRooms = new HashSet<>();
     @Getter
     private IRoom room;
+    @Getter
+    private int rotation = 0;
 
     public Room(DungeonRoomsTypes type, Location2d l, IRoom room) {
         this(type, l, false, null);

@@ -13,11 +13,7 @@ public abstract class Room1x2 implements IRoom {
         throw new  UnsupportedOperationException("Not Done");
     }
 
-    @Override
-    public Location getOffset(Location location, int rotation) {
-        //TODO: FINISH!
-        throw new  UnsupportedOperationException("Not Done");
-    }
+
     @Override
     public Location rotationCorner(Location l, int rotation) {
         return switch (rotation){
