@@ -1,9 +1,16 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 
-
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Generator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,20 +18,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 public class DungeonCMD implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, String[] arg3) {
-		Player player = (Player) arg0;
-		if(!player.getDisplayName().equals("CarsCupcake")) return false;
-		
-		ItemStack item = Main.item_updater(Items.MagicalMap(), SkyblockPlayer.getSkyblockPlayer(player));
-		Generator render = new Generator();
-		render.place();
-		return false;
-	}
+    @Override
+    public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, String[] arg3) {
+        Player player = (Player) arg0;
+        if (!player.getDisplayName().equals("CarsCupcake")) return false;
+        if (arg3.length == 1 && arg3[0].equals("wipe")) {
+            new BukkitRunnable() {
+                public void run() {
+                    long before = System.currentTimeMillis();
+                    CuboidRegion region = new CuboidRegion(BlockVector3.at(-103, 0, -103), BlockVector3.at(259, 150, 259));
+                    region.setWorld(BukkitAdapter.adapt(Bukkit.getWorld("world")));
+                    EditSession session = WorldEdit.getInstance().newEditSession(region.getWorld());
+                    session.setBlocks((Region) region, BlockTypes.AIR);
+                    session.close();
+                    player.sendMessage("§aThis operation took " + (System.currentTimeMillis()- before) + "ms");
+                }
+            }.runTaskAsynchronously(Main.getMain());
+            return true;
+        }
+        Generator render = new Generator();
+        render.place();
+        return false;
+    }
 
 }

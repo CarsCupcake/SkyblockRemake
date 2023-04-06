@@ -331,6 +331,8 @@ public class Main extends JavaPlugin {
             SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
             return false;
         });
+        getCommand("room").setExecutor(new RoomCMD());
+        getCommand("room").setTabCompleter(new RoomCMD());
 
 
         getCommand("kuudra").setExecutor(new startKuudra());

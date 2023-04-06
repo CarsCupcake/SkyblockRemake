@@ -12,4 +12,9 @@ public class MithrilCave extends Room2x2 {
     public void init(int rotation) {
 
     }
+
+    @Override
+    public String getId() {
+        return "Mithril-Cave-10";
+    }
 }

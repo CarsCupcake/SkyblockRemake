@@ -58,3 +58,4 @@ commands:
   setcounter:
   max:
   loadschematic:
+  room:

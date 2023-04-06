@@ -14,7 +14,7 @@ public class Doors5 extends Room1x2 {
     }
 
     @Override
-    public int baseRotation() {
-        return 1;
+    public String getId() {
+        return "Doors-5";
     }
 }

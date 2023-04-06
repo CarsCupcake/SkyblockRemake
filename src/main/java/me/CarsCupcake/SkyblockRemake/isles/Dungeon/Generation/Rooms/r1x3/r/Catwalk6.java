@@ -14,7 +14,7 @@ public class Catwalk6 extends Room1x3 {
     }
 
     @Override
-    public int baseRotation() {
-        return 1;
+    public String getId() {
+        return "Catwalk-6";
     }
 }

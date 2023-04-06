@@ -12,9 +12,8 @@ public class QuartsKnight7 extends Room1x4 {
     public void init(int rotation) {
 
     }
-
     @Override
-    public int baseRotation() {
-        return 1;
+    public String getId() {
+        return "Quartz-Knight-7";
     }
 }

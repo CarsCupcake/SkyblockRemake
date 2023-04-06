@@ -12,4 +12,9 @@ public class Andeside2 extends Room1x1 {
     public void init(int rotation) {
 
     }
+
+    @Override
+    public String getId() {
+        return "Andeside-2";
+    }
 }

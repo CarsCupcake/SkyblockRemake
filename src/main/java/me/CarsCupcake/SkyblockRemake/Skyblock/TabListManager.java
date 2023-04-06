@@ -134,7 +134,9 @@ public class TabListManager implements Listener {
 
 
         hideAllPlayers();
-
+        for (Player p : Bukkit.getOnlinePlayers())
+            if(p != player.getPlayer())
+                managers.get(p).playerJoin(player);
 
     }
 
@@ -144,13 +146,6 @@ public class TabListManager implements Listener {
         float start = mid - (len / 2);
         float end = start + len;
         return out.substring((int) start, (int) end);
-    }
-
-    @EventHandler
-    public void hidePlayer(PlayerJoinEvent event) {
-        for (TabListManager manager : managers.values()) {
-            if (!event.getPlayer().equals(manager.player.getPlayer())) manager.playerJoin(event.getPlayer());
-        }
     }
 
     @EventHandler

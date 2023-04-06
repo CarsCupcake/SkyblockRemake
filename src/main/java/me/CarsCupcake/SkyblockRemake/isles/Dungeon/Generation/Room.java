@@ -23,9 +23,10 @@ public class Room {
     @Getter
     private int rotation = 0;
 
-    public Room(DungeonRoomsTypes type, Location2d l, IRoom room) {
+    public Room(DungeonRoomsTypes type, Location2d l, IRoom room, int rotation) {
         this(type, l, false, null);
         this.room = room;
+        this.rotation = rotation;
     }
 
     @Contract("_, _, true, null -> fail")
