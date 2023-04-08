@@ -11,4 +11,9 @@ public abstract class RoomLSh implements IRoom {
        //TODO: FINISH!
         throw new  UnsupportedOperationException("Not Done");
     }
+
+    @Override
+    public void place(Location2d location2d, int rotation) {
+        IRoom.super.place(location2d, baseRotation());
+    }
 }

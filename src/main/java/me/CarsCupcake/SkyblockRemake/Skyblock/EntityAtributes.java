@@ -16,4 +16,7 @@ public @interface EntityAtributes {
         FerocityImune,
         MeleeImunity
     }
+    @interface MagicResistance {
+        double multiplier();
+    }
 }

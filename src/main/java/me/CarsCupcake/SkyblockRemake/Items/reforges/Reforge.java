@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Items.reforges;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
@@ -32,10 +31,5 @@ public interface Reforge {
 		 }
 		 return 0;
 	}
-	static float getReforgeAbilityDamageValue(Reforge reforge, ItemRarity rarity) {
-		 ReforgeStatPackage statPackage = AddReforges.getStatPackage(rarity, reforge);
-		 return BigDecimal.valueOf(statPackage.getStat(Stats.AbilityDamage)).floatValue();
-
-	 }
 
 }

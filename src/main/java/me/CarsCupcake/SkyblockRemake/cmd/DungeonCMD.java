@@ -9,13 +9,11 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Generator;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,8 +39,7 @@ public class DungeonCMD implements CommandExecutor {
             }.runTaskAsynchronously(Main.getMain());
             return true;
         }
-        Generator render = new Generator();
-        render.place();
+        Generator.place();
         return false;
     }
 

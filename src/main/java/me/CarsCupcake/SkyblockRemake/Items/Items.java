@@ -2011,7 +2011,7 @@ public class Items {
 
     public static ItemStack SwordOfTheUniverse() {
         ItemManager manager = new ItemManager("Sword of the Universe", "NOVA_SWORD", ItemType.Sword, Material.GOLDEN_SWORD, ItemRarity.SPECIAL);
-        manager.setDamage(Double.POSITIVE_INFINITY);
+        manager.setDamage(Double.MAX_VALUE);
         SkyblockItems.put(manager.itemID, manager);
         return manager.getRawItemStack();
     }

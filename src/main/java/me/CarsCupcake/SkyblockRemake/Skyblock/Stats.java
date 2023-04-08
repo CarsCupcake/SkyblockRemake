@@ -3,6 +3,8 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -121,14 +123,21 @@ public enum Stats {
                     value = Main.weapondamage(item);
                 else if (ItemHandler.hasPDC("dmg", item, PersistentDataType.DOUBLE))
                     value = Main.getItemStat(player, stat, item);
+
                 else continue;
             }
             if (value == 0)
                 continue;
-            String row = "§7" + stat.name + " " + ((stat.agressive) ? "§c" : "§a") + ((value < 0) ? "-" : "+") + String.format("%.0f", value);
+            String row = "§7" + stat.name + " " + ((stat.agressive) ? "§c" : "§a") + ((value == Double.MAX_VALUE) ? "∞" : (((value < 0) ? "-" : "+") + String.format("%.0f", value)));
 
             if (stat.hotPotatoBookStat != null && ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0) > 0 && stat.hotPotatoBookStat.types.contains(manager.type)) {
                 row += " §e(+" + (ItemHandler.getPDC("potatobooks", item, PersistentDataType.INTEGER) * stat.hotPotatoBookStatBoost) + ")";
+            }
+
+            if(ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING)){
+                double v = Reforge.getReforgeValue(registerReforge.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)), manager.getRarity(rarity,item, player), stat.getDataName());
+                if(v != 0)
+                    row += " §9(+" + ((v % 1 == 0) ? String.format( "%.0f", v) : v)  + ")";
             }
 
             if (gemstoneSlots.containsKey(stat)) {

@@ -1,11 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Entities.Idiot;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.Entitys.*;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.MastermodeNecron;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Necron;
 import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.Thunder;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.AngryArcheologist;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.SoulEater;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -55,6 +58,26 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "MASTERMODE_NECRON" ->{
                     MastermodeNecron walker = new MastermodeNecron();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "SOUL_EATER" -> {
+                    SoulEater walker = new SoulEater(7, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_SOUL_EATER" -> {
+                    SoulEater walker = new SoulEater(7, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "IDIOT" -> {
+                    Idiot walker = new Idiot(7, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_ANGRY_ARCHAEOLOGIST" -> {
+                    AngryArcheologist walker = new AngryArcheologist(10, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "ANGRY_ARCHAEOLOGIST" -> {
+                    AngryArcheologist walker = new AngryArcheologist(10, false);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

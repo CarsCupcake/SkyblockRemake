@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation;
 
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.MalformedJsonException;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -55,6 +57,8 @@ public interface IRoom {
 
     default void place(Location2d location2d, int rotation) {
         rotation = makeRotation(rotation);
+        if(rotation == 1) rotation = 3;
+        else if(rotation == 3) rotation = 1;
         Location base = rotationCorner(Generator.to3d(location2d), rotation);
         InputStream stream = Main.getMain().getResource(fileLocation());
         try {
@@ -74,7 +78,7 @@ public interface IRoom {
             try {
                 stream.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                if (!(e instanceof JsonSyntaxException || e instanceof MalformedJsonException)) e.printStackTrace();
             }
         }
 
@@ -95,15 +99,13 @@ public interface IRoom {
     }
 
     default int baseRotation() {
-        return 0;
+        return 4;
     }
 
     default int makeRotation(int r) {
         int i = baseRotation() - r;
-        if (i < 0)
-            i += 4;
-        if (i > 3)
-            i -= 4;
+        if (i < 0) i += 4;
+        if (i > 3) i -= 4;
         System.out.println("rotation: " + i + " because: " + baseRotation() + " - " + r + " = " + i);
         return i;
     }

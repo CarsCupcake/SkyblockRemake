@@ -28,6 +28,11 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("SADAN");
             arguments.add("NECRON");
             arguments.add("MASTERMODE_NECRON");
+            arguments.add("MASTERMODE_SOUL_EATER");
+            arguments.add("SOUL_EATER");
+            arguments.add("IDIOT");
+            arguments.add("MASTERMODE_ANGRY_ARCHAEOLOGIST");
+            arguments.add("ANGRY_ARCHAEOLOGIST");
         }
 
         if(args.length == 1) {

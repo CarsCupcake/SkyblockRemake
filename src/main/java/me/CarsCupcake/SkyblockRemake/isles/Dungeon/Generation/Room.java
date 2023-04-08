@@ -34,8 +34,8 @@ public class Room {
         if (isSub && main == null)
             throw new IllegalArgumentException("main room is not allowed to be null when its a subroom!");
         Assert.allNotNull("Elements not allowed to be null!", type, l);
-        Assert.isTrue(!l.isOutOfBounds(), "Location " + l + " is out of map!");/*
-        Assert.isTrue(!Generator.getGenerator().getMap().containsKey(l), "Cannot override an other room!");*/
+        Assert.isTrue(!l.isOutOfBounds(), "Location " + l + " is out of map!");
+        Assert.isTrue(!Generator.getGenerator().getMap().containsKey(l), "Cannot override an other room at " + l + "!");
         this.main = main;
         this.type = type;
         this.isSub = isSub;

@@ -71,8 +71,7 @@ public class heroic implements Reforge{
 
 	@Override
 	public ItemType[] Reforgable() {
-		ItemType[] types = {ItemType.Sword, ItemType.Wand};
-		return types;
+		return new ItemType[]{ItemType.Sword, ItemType.Wand};
 	}
 
 	@Override

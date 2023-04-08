@@ -1,8 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation;
 
-import jdk.dynalink.Operation;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 
-import java.util.Set;
 import java.util.function.Consumer;
 
 public enum Direction {
@@ -18,5 +17,45 @@ public enum Direction {
     public Location2d move(Location2d loc){
         action.accept(loc);
         return loc;
+    }
+    public Direction spinRight(int rotation){
+        Assert.isTrue(rotation > 0, "rotation is illegale");
+        Direction d = this;
+        for (int i = 0; i < rotation; i++)
+            d = switch (this){
+                case Up -> Right;
+                case Right -> Down;
+                case Down -> Left;
+                case Left -> Up;
+            };
+        return d;
+    }
+    public Direction spinRight(){
+        return switch (this){
+            case Up -> Right;
+            case Right -> Down;
+            case Down -> Left;
+            case Left -> Up;
+        };
+    }
+    public Direction spinLeft(int rotation){
+        Assert.isTrue(rotation > 0, "rotation is illegale");
+        Direction d = this;
+        for (int i = 0; i < rotation; i++)
+            d = switch (this){
+                case Up -> Left;
+                case Right -> Up;
+                case Down -> Right;
+                case Left -> Down;
+            };
+        return d;
+    }
+    public Direction spinLeft(){
+        return switch (this){
+            case Up -> Left;
+            case Right -> Up;
+            case Down -> Right;
+            case Left -> Down;
+        };
     }
 }

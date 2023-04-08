@@ -394,7 +394,11 @@ public class Calculator {
 
         double baseMult = 0;
         damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100));
-
+        if(e != null && SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null){
+           SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);
+            EntityAtributes.MagicResistance resistance = entity.getClass().getAnnotation(EntityAtributes.MagicResistance.class);
+            damage *= resistance.multiplier();
+        }
     }
 
     public void setMagic(String str) {
