@@ -42,24 +42,25 @@ public class AngryArcheologist extends DungeonMob {
     private final BukkitRunnable r = new BukkitRunnable() {
         int shootColdown = 0;
         int shots = 0;
+
         @Override
         public void run() {
-            if(heal) return;
+            if (heal) return;
             if (craftEntity.getGoalTarget() != null && Bukkit.getEntity(craftEntity.getGoalTarget().getUniqueID()) != null && getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 5.5) {
                 if (shootColdown != 0) shootColdown--;
                 if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
                     entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
             } else {
                 if (shootColdown != 0) shootColdown--;
-                if (shootColdown > 0 && entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() != 0) return;
+                if (shootColdown > 0 && entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() != 0)
+                    return;
                 if (shots >= 40) {
                     if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
                         entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
                     shootColdown = 40;
                     shots = 0;
                     return;
-                }else
-                    shots++;
+                } else shots++;
                 if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.BOW)
                     entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BOW));
 
@@ -90,8 +91,7 @@ public class AngryArcheologist extends DungeonMob {
         entity.getEquipment().setItem(EquipmentSlot.FEET, new ItemBuilder(Material.DIAMOND_BOOTS).setGlint(true).build());
         entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
         entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
-        DiguestMobsManager.createEntity(entity, loc, "-", "ewogICJ0aW1lc3RhbXAiIDogMTYxMjAzMDY5NDA5OSwKICAicHJvZmlsZUlkIiA6ICJmNWQwYjFhZTQxNmU0YTE5ODEyMTRmZGQzMWU3MzA1YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXRjaFRoZVdhdmUxMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jNDhjNzgzNDU4ZTRjZjg1MThlOGFiNTg2M2ZiYzRjYjk0OGY5MDU2OGVlYjlhNjBkMTZjNGZkZTJiOTZjMDMzIgogICAgfQogIH0KfQ==",
-                "h0EcebQKYgqarHvlkbkkkRN798ir/crHJD4PUtLWNgohxOCk0WbtPu5YxQpmCL75Y6I2Y0vVQvic7x2r4vfMUu5z0O5dfjUXwpXQ6zWYdmHIbeg796EqUsdr1VJlPHMY/PVYle+NoYflwssIXYqLOWqswaBB4cz6qfyinujYoU6wVhGbONns7h/mpCM1r+gyua0hP9g+kjgslGebpDtkQRtv/kZpJ5+19cM5KT12KmjBGlTwsmiP+RfEINt5oGv2p12wqwv0CC5TFqB+/SM1yjYcEdWXQfzmsnC9nzIfgEHpNquKiX2pcGfVPvKgjkkLkO23nnQ0e2KOfIhLKHlyHcESd/lwGP9Ea/i+JVtZMEMUmuU3lQU+ywDMCQiGNEnB9MFlDdA6LBc2mwZKYShyQNgEveXxV2V1j8dt5ctKe7ANBMrCKXRjIO0TcHv2q/PJ9GwEuSfRNwdZp88gkbb79VV+7R4nkzAzEmNpRUxpB4P0qYDpMNCaC+NYEjHrzUr3hiD3tyHQzWHqvOJYYkor5kxGBoE19lZNxfVOEv9K6dIiSAPAtyYbRc9PVL9DUwlshfQO+kYwymSfZqVqW8CUafIA2NtIpIshsuOigqPMYIJv/p1HfGZVSGZ2B1Zmb/DQ9QoTLPqv+ExZ/zMMAqLQB+aB1DL5qfMABNOYhyfSQ2c=");
+        DiguestMobsManager.createEntity(entity, loc, "-", "ewogICJ0aW1lc3RhbXAiIDogMTYxMjAzMDY5NDA5OSwKICAicHJvZmlsZUlkIiA6ICJmNWQwYjFhZTQxNmU0YTE5ODEyMTRmZGQzMWU3MzA1YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXRjaFRoZVdhdmUxMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jNDhjNzgzNDU4ZTRjZjg1MThlOGFiNTg2M2ZiYzRjYjk0OGY5MDU2OGVlYjlhNjBkMTZjNGZkZTJiOTZjMDMzIgogICAgfQogIH0KfQ==", "h0EcebQKYgqarHvlkbkkkRN798ir/crHJD4PUtLWNgohxOCk0WbtPu5YxQpmCL75Y6I2Y0vVQvic7x2r4vfMUu5z0O5dfjUXwpXQ6zWYdmHIbeg796EqUsdr1VJlPHMY/PVYle+NoYflwssIXYqLOWqswaBB4cz6qfyinujYoU6wVhGbONns7h/mpCM1r+gyua0hP9g+kjgslGebpDtkQRtv/kZpJ5+19cM5KT12KmjBGlTwsmiP+RfEINt5oGv2p12wqwv0CC5TFqB+/SM1yjYcEdWXQfzmsnC9nzIfgEHpNquKiX2pcGfVPvKgjkkLkO23nnQ0e2KOfIhLKHlyHcESd/lwGP9Ea/i+JVtZMEMUmuU3lQU+ywDMCQiGNEnB9MFlDdA6LBc2mwZKYShyQNgEveXxV2V1j8dt5ctKe7ANBMrCKXRjIO0TcHv2q/PJ9GwEuSfRNwdZp88gkbb79VV+7R4nkzAzEmNpRUxpB4P0qYDpMNCaC+NYEjHrzUr3hiD3tyHQzWHqvOJYYkor5kxGBoE19lZNxfVOEv9K6dIiSAPAtyYbRc9PVL9DUwlshfQO+kYwymSfZqVqW8CUafIA2NtIpIshsuOigqPMYIJv/p1HfGZVSGZ2B1Zmb/DQ9QoTLPqv+ExZ/zMMAqLQB+aB1DL5qfMABNOYhyfSQ2c=");
         SkyblockEntity.livingEntity.put(entity, this);
         updateNameTag();
         r.runTaskTimer(Main.getMain(), 5, 5);
@@ -112,16 +112,18 @@ public class AngryArcheologist extends DungeonMob {
     public void kill() {
         try {
             r.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         try {
             cooldown.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
         health -= damage;
-        if(!healDone && !heal && health <= tenPers){
+        if (!healDone && !heal && health <= tenPers) {
             heal = true;
             entity.setAI(false);
             Location l = entity.getLocation();
@@ -129,9 +131,10 @@ public class AngryArcheologist extends DungeonMob {
             entity.teleport(l);
             new BukkitRunnable() {
                 int times;
+
                 @Override
                 public void run() {
-                    if(entity == null || entity.isDead()){
+                    if (entity == null || entity.isDead()) {
                         cancel();
                         return;
                     }
@@ -147,7 +150,7 @@ public class AngryArcheologist extends DungeonMob {
                     health += tenPers;
                     tenPers -= tenPers * 0.1;
 
-                    if(times == 3){
+                    if (times == 3) {
                         cancel();
                         entity.setAI(true);
                         healDone = true;
@@ -221,6 +224,7 @@ public class AngryArcheologist extends DungeonMob {
             default -> throw new IllegalArgumentException("Not a valid floor!");
         }
     }
+
     @Override
     protected int damageFromFloor(int floor, boolean master) {
         switch (floor) {
@@ -238,7 +242,7 @@ public class AngryArcheologist extends DungeonMob {
 
     @Override
     protected double defenseFromFloor(int floor, boolean master) {
-        return switch (floor){
+        return switch (floor) {
             case 1, 2 -> 900;
             case 3 -> 1000;
             case 4 -> 1050;
@@ -270,7 +274,7 @@ public class AngryArcheologist extends DungeonMob {
                 f2.setAccessible(false);
                 ReflectionUtils.setField(f, this, b);
                 f.setAccessible(false);
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             setAggressive(true);
