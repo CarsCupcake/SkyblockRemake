@@ -14,10 +14,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalBowShoot;
 import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntitySkeletonAbstract;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
@@ -147,10 +144,10 @@ public class AngryArcheologist extends DungeonMob {
                         item.setItemMeta(meta);
                         splashPotion.setItem(item);
                     });
-                    health += tenPers;
-                    tenPers -= tenPers * 0.1;
-
+                    health += tenPers * 2;
+                    entity.getWorld().spawnParticle(Particle.HEART, entity.getLocation().clone().add(0, entity.getEyeHeight() / 2, 0), 10,0.6, entity.getEyeHeight() / 2, 0.6);
                     if (times == 3) {
+                        tenPers -= tenPers * 0.1;
                         cancel();
                         entity.setAI(true);
                         healDone = true;

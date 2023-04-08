@@ -33,6 +33,14 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("IDIOT");
             arguments.add("MASTERMODE_ANGRY_ARCHAEOLOGIST");
             arguments.add("ANGRY_ARCHAEOLOGIST");
+            arguments.add("LOST_ADVENTURER_SUPERIOR");
+            arguments.add("MASTERMODE_LOST_ADVENTURER_SUPERIOR");
+            arguments.add("LOST_ADVENTURER_UNSTABLE");
+            arguments.add("MASTERMODE_LOST_ADVENTURER_UNSTABLE");
+            arguments.add("LOST_ADVENTURER_YOUNG");
+            arguments.add("MASTERMODE_LOST_ADVENTURER_YOUNG");
+            arguments.add("LOST_ADVENTURER_HOLY");
+            arguments.add("MASTERMODE_LOST_ADVENTURER_HOLY");
         }
 
         if(args.length == 1) {

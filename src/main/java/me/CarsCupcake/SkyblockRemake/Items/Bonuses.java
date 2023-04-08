@@ -33,7 +33,8 @@ public enum Bonuses {
 	Squashbuckle(new CropieArmor()),
 	MentoFermento(new SquashArmor()),
 	Feast(new FermentoArmor()),
-	ExpertMiner(new ExpertMiner());
+	ExpertMiner(new ExpertMiner()),
+	HolyBlood(new HolyBlood());
 
 	private final FullSetBonus b;
 	Bonuses(FullSetBonus bonus) {

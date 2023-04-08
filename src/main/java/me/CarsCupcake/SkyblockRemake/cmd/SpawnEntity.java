@@ -8,6 +8,10 @@ import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.Thunder;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.AngryArcheologist;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.HolyAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.SuperiorAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.UnstableAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.YoungAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.SoulEater;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -78,6 +82,38 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "ANGRY_ARCHAEOLOGIST" -> {
                     AngryArcheologist walker = new AngryArcheologist(10, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_LOST_ADVENTURER_UNSTABLE" -> {
+                    UnstableAdventurer walker = new UnstableAdventurer(10, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "LOST_ADVENTURER_UNSTABLE" -> {
+                    UnstableAdventurer walker = new UnstableAdventurer(10, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_LOST_ADVENTURER_SUPERIOR" -> {
+                    SuperiorAdventurer walker = new SuperiorAdventurer(10, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "LOST_ADVENTURER_SUPERIOR" -> {
+                    SuperiorAdventurer walker = new SuperiorAdventurer(10, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_LOST_ADVENTURER_YOUNG" -> {
+                    YoungAdventurer walker = new YoungAdventurer(10, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "LOST_ADVENTURER_YOUNG" -> {
+                    YoungAdventurer walker = new YoungAdventurer(10, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_LOST_ADVENTURER_HOLY" -> {
+                    HolyAdventurer walker = new HolyAdventurer(10, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "LOST_ADVENTURER_HOLY" -> {
+                    HolyAdventurer walker = new HolyAdventurer(10, false);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

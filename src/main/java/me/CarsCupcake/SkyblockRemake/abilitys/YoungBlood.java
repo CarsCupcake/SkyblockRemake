@@ -99,7 +99,7 @@ public class YoungBlood implements FullSetBonus, Listener {
         abilityLore.add("§7you are above §a50% §7HP.");
         abilityLore.add("§8+100 Walk Speed Cap");
         ItemManager manager = new ItemManager("Young Dragon Chestplate", "YOUNG_DRAGON_CHESTPLATE", ItemType.Chestplate, null,
-                "Young Blood", null, null, 0, 0,0,0, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x29F0E9),ItemRarity.LEGENDARY);
+                "Young Blood", null, null, 0, 0,0,0, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xDDE4F0),ItemRarity.LEGENDARY);
         manager.setNpcSellPrice(100000);
         manager.setStat(Stats.Health, 120);
         manager.setStat(Stats.Defense, 160);

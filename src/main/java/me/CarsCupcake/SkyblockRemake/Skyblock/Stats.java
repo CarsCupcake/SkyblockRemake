@@ -36,6 +36,7 @@ public enum Stats {
     BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
     FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
     FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false, null, 0),
+    HealthRegen("healthregen", '❣', ChatColor.RED, "Health Regen", false, null, 0),
     /**
      * Deprecates cause you should not use it!
      */

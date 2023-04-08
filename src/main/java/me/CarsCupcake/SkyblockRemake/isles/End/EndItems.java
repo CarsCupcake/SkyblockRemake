@@ -46,6 +46,18 @@ public class EndItems {
         manager = superiorBoots();
         me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
 
+        //Holy Items
+        manager = holyDragonFragment();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+        manager = holyHelmet();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+        manager = holyChestplate();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+        manager = holyLeggings();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+        manager = holyBoots();
+        me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems.put(manager.itemID, manager);
+
         //Protector Items
         ProtectiveBlood.addItems();
 
@@ -245,7 +257,105 @@ public class EndItems {
 
         SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_BOOTS", manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
-        encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
+        encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
+        recipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(recipe);
+
+        return manager;
+    }
+    private ItemManager holyDragonFragment(){
+        return new ItemManager("Holy Dragon Fragment", "SUPERIOR_FRAGMENT", ItemType.Non, null, null, null, null, 0, 0,0,0, ItemRarity.EPIC
+                ,"http://textures.minecraft.net/texture/d6d203caffdb4400d70815f3f0d5f6822ffdc3a9b2cffb386bdb46b6509b8a2e", UUID.fromString("86541f16-3bdf-4d08-871a-dcdf8ba373f5"));
+    }
+    private ItemManager holyHelmet(){
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Grants §c+200" + Stats.HealthRegen.getSymbol() + " " + Stats.HealthRegen.getName() + " §7to");
+        abilityLore.add("§7you and all players within §a10");
+        abilityLore.add("§7blocks.");
+        abilityLore.add("§8Effect only applies once!");
+        ItemManager manager = new ItemManager("Holy Dragon Helmet", "HOLY_DRAGON_HELMET", ItemType.Helmet, null,
+                "Holy Blood", null, null, 0, 0,0,0, ItemRarity.LEGENDARY,
+                "http://textures.minecraft.net/texture/aa9ca16eb08ec5f6eaea85554bad32c24b163638da56ed55598c191773bbecf0");
+        manager.setNpcSellPrice(100000);
+        manager.setStat(Stats.Health, 110);
+        manager.setStat(Stats.Defense, 110);
+        manager.addSlot(new GemstoneSlot(SlotType.Ruby));
+        AbilityLore lore = new AbilityLore(abilityLore);
+        manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
+        manager.setUnstackeble(true);
+
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_HELMET", manager, 1);
+        ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
+        encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
+        recipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(recipe);
+
+        return manager;
+    }
+    private ItemManager holyChestplate(){
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Grants §c+200" + Stats.HealthRegen.getSymbol() + " " + Stats.HealthRegen.getName() + " §7to");
+        abilityLore.add("§7you and all players within §a10");
+        abilityLore.add("§7blocks.");
+        abilityLore.add("§8Effect only applies once!");
+        ItemManager manager = new ItemManager("Holy Dragon Chestplate", "HOLY_DRAGON_CHESTPLATE", ItemType.Chestplate, null,
+                "Holy Blood", null, null, 0, 0,0,0,Material.LEATHER_CHESTPLATE, Color.fromRGB(0x47D147) ,ItemRarity.LEGENDARY);
+        manager.setNpcSellPrice(100000);
+        manager.setStat(Stats.Health, 180);
+        manager.setStat(Stats.Defense, 160);
+        manager.addSlot(new GemstoneSlot(SlotType.Ruby));
+        AbilityLore lore = new AbilityLore(abilityLore);
+        manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
+
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_CHESTPLATE", manager, 1);
+        ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
+        encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
+        recipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(recipe);
+
+        return manager;
+    }
+    private ItemManager holyLeggings(){
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Grants §c+200" + Stats.HealthRegen.getSymbol() + " " + Stats.HealthRegen.getName() + " §7to");
+        abilityLore.add("§7you and all players within §a10");
+        abilityLore.add("§7blocks.");
+        abilityLore.add("§8Effect only applies once!");
+        ItemManager manager = new ItemManager("Holy Dragon Leggings", "HOLY_DRAGON_LEGGINGS", ItemType.Leggings, null,
+                "Holy Blood", null, null, 0, 0,0,0,Material.LEATHER_LEGGINGS, Color.fromRGB(0x47D147) ,ItemRarity.LEGENDARY);
+        manager.setNpcSellPrice(100000);
+        manager.setStat(Stats.Health, 155);
+        manager.setStat(Stats.Defense, 140);
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+        AbilityLore lore = new AbilityLore(abilityLore);
+        manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
+
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_LEGGINGS", manager, 1);
+        ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
+        encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
+        recipe.setRecipe(encoder.encode());
+        SkyblockRecipe.recipes.add(recipe);
+
+        return manager;
+    }
+    private ItemManager holyBoots(){
+        ArrayList<String> abilityLore = new ArrayList<>();
+        abilityLore.add("§7Grants §c+200" + Stats.HealthRegen.getSymbol() + " " + Stats.HealthRegen.getName() + " §7to");
+        abilityLore.add("§7you and all players within §a10");
+        abilityLore.add("§7blocks.");
+        abilityLore.add("§8Effect only applies once!");
+        ItemManager manager = new ItemManager("Holy Dragon Boots", "HOLY_DRAGON_BOOTS", ItemType.Boots, null,
+                "Holy Blood", null, null, 0, 0,0,0,Material.LEATHER_BOOTS, Color.fromRGB(0x47D147) ,ItemRarity.LEGENDARY);
+        manager.setNpcSellPrice(100000);
+        manager.setStat(Stats.Health, 100);
+        manager.setStat(Stats.Defense, 90);
+        manager.addSlot(new GemstoneSlot(SlotType.Ruby));
+        AbilityLore lore = new AbilityLore(abilityLore);
+        manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
+
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_BOOTS", manager, 1);
+        ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
+        encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(recipe);
 
@@ -304,6 +414,12 @@ public class EndItems {
         YoungChestplate("YOUNG_DRAGON_CHESTPLATE"),
         YoungLeggings("YOUNG_DRAGON_LEGGINGS"),
         YoungBoots("YOUNG_DRAGON_BOOTS"),
+
+        HolyDragonFragment("HOLY_FRAGMENT"),
+        HolyHelmet("HOLY_DRAGON_HELMET"),
+        HolyChestplate("HOLY_DRAGON_CHESTPLATE"),
+        HolyLeggings("HOLY_DRAGON_LEGGINGS"),
+        HolyBoots("HOLY_DRAGON_BOOTS"),
         EnchantedEnderPearl("ENCHANTED_ENDER_PEARL");
 
 
