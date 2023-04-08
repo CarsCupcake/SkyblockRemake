@@ -51,14 +51,14 @@ public class AngryArcheologist extends DungeonMob {
             } else {
                 if (shootColdown != 0) shootColdown--;
                 if (shootColdown > 0 && entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() != 0) return;
-                if (shots >= 40 || shootColdown != 0) {
+                if (shots >= 40) {
                     if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
                         entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
                     shootColdown = 40;
                     shots = 0;
                     return;
-                }
-                shots++;
+                }else
+                    shots++;
                 if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.BOW)
                     entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BOW));
 
@@ -149,7 +149,7 @@ public class AngryArcheologist extends DungeonMob {
                         heal = false;
                     }
                 }
-            }.runTaskTimer(Main.getMain(), 5, 15);
+            }.runTaskTimer(Main.getMain(), 5, 10);
         }
     }
 
