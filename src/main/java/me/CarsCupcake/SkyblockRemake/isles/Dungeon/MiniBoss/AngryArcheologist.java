@@ -35,9 +35,10 @@ public class AngryArcheologist extends DungeonMob {
     private LivingEntity entity;
     private SBEntity craftEntity;
     private final ItemBuilder theSword = new ItemBuilder(Material.DIAMOND_SWORD).setGlint(true);
-    private final double tenPers;
+    private double tenPers;
     private boolean heal = false;
     private boolean healDone = false;
+    private BukkitRunnable cooldown;
     private final BukkitRunnable r = new BukkitRunnable() {
         int shootColdown = 0;
         int shots = 0;
@@ -112,6 +113,9 @@ public class AngryArcheologist extends DungeonMob {
         try {
             r.cancel();
         }catch (Exception ignored){}
+        try {
+            cooldown.cancel();
+        }catch (Exception ignored){}
     }
 
     @Override
@@ -141,12 +145,20 @@ public class AngryArcheologist extends DungeonMob {
                         splashPotion.setItem(item);
                     });
                     health += tenPers;
+                    tenPers -= tenPers * 0.1;
 
                     if(times == 3){
                         cancel();
                         entity.setAI(true);
                         healDone = true;
                         heal = false;
+                        cooldown = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                healDone = false;
+                            }
+                        };
+                        cooldown.runTaskLater(Main.getMain(), 200);
                     }
                 }
             }.runTaskTimer(Main.getMain(), 5, 10);
