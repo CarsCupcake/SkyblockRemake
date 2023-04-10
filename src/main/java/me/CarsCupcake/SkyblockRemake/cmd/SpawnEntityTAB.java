@@ -18,6 +18,8 @@ public class SpawnEntityTAB implements TabCompleter {
 
         List<String> result = new ArrayList<>();
         if(arguments.isEmpty()) {
+            arguments.add("SHADOW_ASSASSIN");
+            arguments.add("MASTERMODE_SHADOW_ASSASSIN");
             arguments.add("ICE_WALKER");
             arguments.add("THUNDER");
             arguments.add("LORD_JAWBUS");
