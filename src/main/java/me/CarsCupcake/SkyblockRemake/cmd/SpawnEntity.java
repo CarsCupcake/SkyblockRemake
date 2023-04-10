@@ -12,7 +12,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.Holy
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.SuperiorAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.UnstableAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.YoungAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.Test;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.ShadowAssassin;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.SoulEater;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,11 +26,11 @@ public class SpawnEntity implements CommandExecutor {
         if(s.equals("mob")){
             switch (strings[0]){
                 case "SHADOW_ASSASSIN" ->{
-                    Test walker = new Test(10, false);
+                    ShadowAssassin walker = new ShadowAssassin(10, false);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "MASTERMODE_SHADOW_ASSASSIN" ->{
-                    Test walker = new Test(10, true);
+                    ShadowAssassin walker = new ShadowAssassin(10, true);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "ICE_WALKER" ->{
