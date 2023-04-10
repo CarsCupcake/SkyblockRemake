@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalBowShoot;
@@ -20,6 +21,7 @@ import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -276,6 +278,12 @@ public class AngryArcheologist extends DungeonMob {
             }
             setAggressive(true);
             setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        }
+        @Override
+        public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
+            if (entityliving instanceof EntityPlayer pl && SkyblockPlayer.getSkyblockPlayer(pl.getBukkitEntity()) != null)
+                return super.setGoalTarget(entityliving, reason, fireEvent);
+            return false;
         }
 
         @Override

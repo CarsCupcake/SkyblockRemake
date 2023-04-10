@@ -3913,7 +3913,6 @@ public class Items {
         manager.addSlot(new GemstoneSlot(SlotType.Combat));
 
         manager.addAbility(new AxeOfTheShredded(), AbilityType.RightClick, "Throw", new AbilityLore(abilityLore), 20, 0);
-        manager.set2Ability(null, new AxeOfTheShredded(), AbilityType.EntityHit, null, 0, 0);
         SkyblockItems.put(manager.itemID, manager);
     }
 

@@ -66,7 +66,7 @@ public class UnstableAdventurer extends LostAdventurer {
         SkyblockEntity.livingEntity.put(entity, this);
         updateNameTag();
         r.runTaskTimer(Main.getMain(), 5, 5);
-        runnable.runTaskTimer(Main.getMain(), 300, 300);
+        runnable.runTaskTimer(Main.getMain(), 200, 200);
     }
 
     @Override

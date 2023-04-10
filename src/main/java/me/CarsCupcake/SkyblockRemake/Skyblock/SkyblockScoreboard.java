@@ -52,7 +52,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 
 		ScoreboardDisplayer.setScore(p,"§r   ",13);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " /jahreszeit/ 0th",12);
+		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(),12);
 		Time t = Time.getInstance();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime() , 11);
 	
@@ -109,7 +109,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 
 		ScoreboardDisplayer.setScore(p,"§r   ",13);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " /jahreszeit/ 0th",12);
+		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(),12);
 		Time t = Time.getInstance();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime(),11);
 	

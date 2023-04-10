@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.entity.LivingEntity;
@@ -31,6 +32,11 @@ public class SwingRangeStat implements Listener {
                 player.getEyeLocation().distance(entity.getLocation()) > swingrange && player.getEyeLocation().distance(entity.getEyeLocation()) > swingrange)
             return;
 
-        entity.damage(1, player);
+        Calculator calculator = new Calculator();
+        calculator.playerToEntityDamage((LivingEntity) traceResult.getHitEntity(), player);
+        calculator.damageEntity(entity, player);
+        calculator.showDamageTag(entity);
+
+        entity.damage(0.1);
     }
 }

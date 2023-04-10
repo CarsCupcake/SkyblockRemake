@@ -84,6 +84,14 @@ public class Time extends BukkitRunnable {
         String minuteStr = String.format("%02d", this.minute);
         return hourStr + ":" + minuteStr + ampm;
     }
+    public String getDaySuffix(){
+        return switch (day){
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+        };
+    }
     public void deserialize(String s){
         String[] message = s.split("\\|");
         hour = Integer.parseInt(message[0]);

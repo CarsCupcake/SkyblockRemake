@@ -1,9 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Zombie;
 
-import com.comphenix.net.bytebuddy.implementation.bind.annotation.SuperCall;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;

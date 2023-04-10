@@ -22,6 +22,7 @@ import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -44,13 +45,13 @@ public abstract class LostAdventurer extends DungeonMob {
 
         @Override
         public void run() {
-            if(aotdCooldown != 0) aotdCooldown--;
+            if (aotdCooldown != 0) aotdCooldown--;
             if (heal) return;
             if (craftEntity.getGoalTarget() != null && craftEntity.getGoalTarget() instanceof EntityPlayer && Bukkit.getEntity(craftEntity.getGoalTarget().getUniqueID()) != null && getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 5.5) {
                 if (shootColdown != 0) shootColdown--;
                 if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
                     entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
-                if(getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 3 && aotdCooldown == 0){
+                if (getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 3 && aotdCooldown == 0) {
                     Location l = entity.getLocation();
                     Location pL = new Location(l.getWorld(), craftEntity.getGoalTarget().locX(), craftEntity.getGoalTarget().locY(), craftEntity.getGoalTarget().locZ());
                     Vector dir = pL.toVector().subtract(l.clone().add(0, 0.5, 0).toVector());
@@ -85,11 +86,12 @@ public abstract class LostAdventurer extends DungeonMob {
             }
         }
     };
+
     public LostAdventurer(int floor, boolean master) {
         super(floor, master);
         tenPers = getMaxHealth() * 0.1;
-        System.out.println(tenPers);
     }
+
     @Override
     public String getName() {
         return "Lost Adventurer";
@@ -126,13 +128,14 @@ public abstract class LostAdventurer extends DungeonMob {
             entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EAT, SoundCategory.PLAYERS, 1, 1);
             new BukkitRunnable() {
                 int i = 0;
+
                 @Override
                 public void run() {
                     if (entity == null || entity.isDead()) {
                         cancel();
                         return;
                     }
-                    if(i == 7){
+                    if (i == 7) {
                         cancel();
                         entity.getWorld().spawnParticle(Particle.HEART, entity.getLocation().clone().add(0, entity.getEyeHeight() / 2, 0), 20, 0.6, entity.getEyeHeight() / 2, 0.6);
                         health += tenPers * 5;
@@ -149,8 +152,7 @@ public abstract class LostAdventurer extends DungeonMob {
                         };
                         cooldown.runTaskLater(Main.getMain(), 200);
                         entity.getWorld().playSound(entity.getEyeLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
-                    }else
-                        entity.getWorld().playSound(entity.getEyeLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
+                    } else entity.getWorld().playSound(entity.getEyeLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
                     i++;
                 }
             }.runTaskTimer(Main.getMain(), 0, 4);
@@ -172,7 +174,6 @@ public abstract class LostAdventurer extends DungeonMob {
         DiguestMobsManager.getDiguested.get(entity).setName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
         super.updateNameTag();
     }
-
 
 
     protected static class SBEntity extends EntitySkeleton {
@@ -198,6 +199,13 @@ public abstract class LostAdventurer extends DungeonMob {
         }
 
         @Override
+        public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
+            if (entityliving instanceof EntityPlayer pl && SkyblockPlayer.getSkyblockPlayer(pl.getBukkitEntity()) != null)
+                return super.setGoalTarget(entityliving, reason, fireEvent);
+            return false;
+        }
+
+        @Override
         protected void initPathfinder() {
 
             super.initPathfinder();
@@ -207,6 +215,7 @@ public abstract class LostAdventurer extends DungeonMob {
     private static Location getLocation(EntityLiving entityLiving) {
         return Bukkit.getEntity(entityLiving.getUniqueID()).getLocation();
     }
+
     public static class ParticleUtils {
         private static void rotateAroundAxisX(Vector v, double angle) {
             angle = Math.toRadians(angle);
@@ -217,6 +226,7 @@ public abstract class LostAdventurer extends DungeonMob {
             z = v.getY() * sin + v.getZ() * cos;
             v.setY(y).setZ(z);
         }
+
         private static void rotateAroundAxisY(Vector v, double angle) {
             angle = -angle;
             angle = Math.toRadians(angle);
@@ -227,6 +237,7 @@ public abstract class LostAdventurer extends DungeonMob {
             z = v.getX() * -sin + v.getZ() * cos;
             v.setX(x).setZ(z);
         }
+
         public static void spiralParticles(LivingEntity player, double f, double delta, Particle particle) {
             double radius = f;
             double forward = 0;

@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.EntitySkeleton;
@@ -17,6 +18,7 @@ import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -145,6 +147,12 @@ public class SoulEater extends DungeonMob {
             Vector dir = pL.toVector().subtract(pL.clone().add(0, 0.5, 0).toVector());
             dir = dir.normalize();
             l.getWorld().spawn(l.clone().add(dir.multiply(0.3)), WitherSkull.class, skull -> skull.setShooter(e));
+        }
+        @Override
+        public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
+            if (entityliving instanceof EntityPlayer pl && SkyblockPlayer.getSkyblockPlayer(pl.getBukkitEntity()) != null)
+                return super.setGoalTarget(entityliving, reason, fireEvent);
+            return false;
         }
 
         @Override
