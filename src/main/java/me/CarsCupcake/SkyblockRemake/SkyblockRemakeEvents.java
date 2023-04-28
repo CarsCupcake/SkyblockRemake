@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
 import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
@@ -126,8 +127,7 @@ public class SkyblockRemakeEvents implements Listener {
         Location loc = new Location(player.getWorld(), packet.b().getX(), packet.b().getY(), packet.b().getZ());
 
         Bukkit.getScheduler().runTask(Main.getMain(), () -> {
-            if (packet.d() == EnumPlayerDigType.a)
-                MiningSys.getMiningSystem(player).startMining(loc.getBlock());
+            if (packet.d() == EnumPlayerDigType.a) MiningSys.getMiningSystem(player).startMining(loc.getBlock());
             if (packet.d() == EnumPlayerDigType.b || packet.d() == EnumPlayerDigType.c)
                 MiningSys.getMiningSystem(player).stopMinig();
         });
@@ -191,10 +191,8 @@ public class SkyblockRemakeEvents implements Listener {
 
         PacketReader reader = new PacketReader((event.getPlayer()));
         reader.inject();
-        if (NPC.getNPCs() == null)
-            return;
-        if (NPC.getNPCs().isEmpty())
-            return;
+        if (NPC.getNPCs() == null) return;
+        if (NPC.getNPCs().isEmpty()) return;
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getProvidingPlugin(Main.class), new Runnable() {
 
             @Override
@@ -214,18 +212,17 @@ public class SkyblockRemakeEvents implements Listener {
 
         if (Puzzler.activePlayerQuest(player)) {
             Puzzler puzzle = Puzzler.getPuzzler(player);
-            if (!puzzle.isFailed)
-                if (event.getBlock().equals(puzzle.getEstimatetBlockLocation().getBlock())) {
-                    player.sendMessage("§e[NPC] §dPuzzler§f: §a✌✓");
-                    player.sendMessage("§e[NPC] §dPuzzler§f: ▶▶Nice! ▲Here, ◀have ▼some◀ ▶ §2᠅ Mithril Powder§f!▲");
-                    player.sendMessage("§dPuzzler §6gave you §21,000 Mithril Powder §6for solving the puzzle!");
-                    player.addMithrilPowder(1000);
-                    puzzle.remove();
-                } else {
-                    player.sendMessage("§e[NPC] §dPuzzler§f: §c╳§f (╯°□°）╯︵ ┻━┻");
-                    player.sendMessage("§e[NPC] §dPuzzler§f: §c▶▲Wrong▲ ◀block◀ ▼▶try again▶▶");
-                    puzzle.markAsFailed();
-                }
+            if (!puzzle.isFailed) if (event.getBlock().equals(puzzle.getEstimatetBlockLocation().getBlock())) {
+                player.sendMessage("§e[NPC] §dPuzzler§f: §a✌✓");
+                player.sendMessage("§e[NPC] §dPuzzler§f: ▶▶Nice! ▲Here, ◀have ▼some◀ ▶ §2᠅ Mithril Powder§f!▲");
+                player.sendMessage("§dPuzzler §6gave you §21,000 Mithril Powder §6for solving the puzzle!");
+                player.addMithrilPowder(1000);
+                puzzle.remove();
+            } else {
+                player.sendMessage("§e[NPC] §dPuzzler§f: §c╳§f (╯°□°）╯︵ ┻━┻");
+                player.sendMessage("§e[NPC] §dPuzzler§f: §c▶▲Wrong▲ ◀block◀ ▼▶try again▶▶");
+                puzzle.markAsFailed();
+            }
         }
     }
 
@@ -240,14 +237,11 @@ public class SkyblockRemakeEvents implements Listener {
     public static int getBlockBreakingPower(Block block) {
         if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.COAL_ORE || block.getType() == Material.GLOWSTONE)
             return 1;
-        if (block.getType() == Material.IRON_ORE || block.getType() == Material.LAPIS_ORE)
-            return 2;
-        if (block.getType() == Material.GOLD_ORE || block.getType() == Material.DIAMOND_ORE)
-            return 3;
+        if (block.getType() == Material.IRON_ORE || block.getType() == Material.LAPIS_ORE) return 2;
+        if (block.getType() == Material.GOLD_ORE || block.getType() == Material.DIAMOND_ORE) return 3;
         if (block.getType() == Material.GRAY_WOOL || block.getType() == Material.CYAN_TERRACOTTA || block.getType() == Material.PRISMARINE || block.getType() == Material.DARK_PRISMARINE || block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.LIGHT_BLUE_WOOL)
             return 4;
-        if (block.getType() == Material.POLISHED_DIORITE)
-            return 5;
+        if (block.getType() == Material.POLISHED_DIORITE) return 5;
 
 
         return 0;
@@ -293,8 +287,7 @@ public class SkyblockRemakeEvents implements Listener {
     public static int estimateBreakingTime(Player player, double blockStrength) {
         double mining_speed = Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.MiningSpeed);
         double SoftCap = Tools.round(6.66666666666666666666666666666666666 * blockStrength, 0);
-        if (SoftCap <= mining_speed)
-            mining_speed = SoftCap;
+        if (SoftCap <= mining_speed) mining_speed = SoftCap;
 
         double MiningTime = (blockStrength * 30) / mining_speed;
 
@@ -303,29 +296,24 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     public static boolean checkValid(Block block) {
-        if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE || block.getType() == Material.DIAMOND_ORE || block.getType() == Material.GLOWSTONE || block.getType() == Material.LAPIS_ORE || block.getType() == Material.EMERALD_ORE
-                || ((Main.getMain().getServer().getPort() == 25564 || !Main.isLocalHost) && (block.getType() == Material.GRAY_WOOL || block.getType() == Material.CYAN_TERRACOTTA || block.getType() == Material.PRISMARINE || block.getType() == Material.DARK_PRISMARINE || block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.LIGHT_BLUE_WOOL || block.getType() == Material.POLISHED_DIORITE)))
+        if (block.getType() == Material.STONE || block.getType() == Material.COBBLESTONE || block.getType() == Material.COAL_ORE || block.getType() == Material.IRON_ORE || block.getType() == Material.GOLD_ORE || block.getType() == Material.DIAMOND_ORE || block.getType() == Material.GLOWSTONE || block.getType() == Material.LAPIS_ORE || block.getType() == Material.EMERALD_ORE || ((Main.getMain().getServer().getPort() == 25564 || !Main.isLocalHost) && (block.getType() == Material.GRAY_WOOL || block.getType() == Material.CYAN_TERRACOTTA || block.getType() == Material.PRISMARINE || block.getType() == Material.DARK_PRISMARINE || block.getType() == Material.PRISMARINE_BRICKS || block.getType() == Material.LIGHT_BLUE_WOOL || block.getType() == Material.POLISHED_DIORITE)))
             return true;
         return false;
     }
 
     @EventHandler
     public void BlockBreak(BlockBreakEvent event) {
-        if(FarmingUtils.crops.containsKey(event.getBlock().getType())){
+        if (FarmingUtils.crops.containsKey(event.getBlock().getType())) {
             FarmingUtils.cropBreak(event);
         }
 
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
-            return;
+        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) return;
 
-        if (Main.getMain().getConfig().getBoolean("StatSystem") == true)
-            event.setCancelled(true);
+        if (Main.getMain().getConfig().getBoolean("StatSystem") == true) event.setCancelled(true);
 
-        if (Main.getMain().getConfig().getBoolean("StatSystem") == true && event.getPlayer().getItemInHand().getItemMeta() != null &&
-                Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null) {
+        if (Main.getMain().getConfig().getBoolean("StatSystem") == true && event.getPlayer().getItemInHand().getItemMeta() != null && Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null) {
 
-            if (!MiningSys.getRegisteredBlocks().containsKey(event.getBlock().getType()))
-                return;
+            if (!MiningSys.getRegisteredBlocks().containsKey(event.getBlock().getType())) return;
 
 
             ItemManager manager = Items.SkyblockItems.get(event.getPlayer().getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
@@ -449,11 +437,9 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void BlockPlace(BlockPlaceEvent event) {
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
-            return;
+        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) return;
 
-        if (Main.getMain().getConfig().getBoolean("StatSystem") == true)
-            event.setCancelled(true);
+        if (Main.getMain().getConfig().getBoolean("StatSystem") == true) event.setCancelled(true);
 
         if (event.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) != null && event.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).equals("orb")) {
             ArmorStand stand = event.getBlock().getWorld().spawn(event.getBlock().getLocation().add(0, -0.5, 0), ArmorStand.class, s -> {
@@ -484,10 +470,8 @@ public class SkyblockRemakeEvents implements Listener {
                 } else {
                     stand.teleport(loc.add(0, -0.07, 0));
                 }
-                if (timer % 2 == 0)
-                    Particles(stand);
-                else
-                    Particles2(stand);
+                if (timer % 2 == 0) Particles(stand);
+                else Particles2(stand);
                 if (timer != 0) {
                     boolean newmotion = upmotion;
                     int newrunnable = runnable - 1;
@@ -495,8 +479,7 @@ public class SkyblockRemakeEvents implements Listener {
 
                         if (upmotion) {
                             smothDirectionChange(stand, 0.07, timer - 1, upmotion);
-                        } else
-                            smothDirectionChange(stand, -0.07, timer - 1, upmotion);
+                        } else smothDirectionChange(stand, -0.07, timer - 1, upmotion);
                     } else {
 
                         orbStuff(stand, newmotion, newrunnable, timer - 1);
@@ -524,10 +507,8 @@ public class SkyblockRemakeEvents implements Listener {
                 Location loc = stand.getLocation();
                 loc.setYaw((float) (loc.getYaw() + 15));
                 stand.teleport(loc.add(0, newMotion, 0));
-                if (timer % 2 == 0)
-                    Particles(stand);
-                else
-                    Particles2(stand);
+                if (timer % 2 == 0) Particles(stand);
+                else Particles2(stand);
                 if (timer - 1 != 0) {
 
                     if (newMotion <= -0.07 && upmotion) {
@@ -557,8 +538,7 @@ public class SkyblockRemakeEvents implements Listener {
         dir.multiply(0.625); //1 blocks a way
         loc.add(dir);
 
-        final Particle.DustOptions dust = new Particle.DustOptions(
-                Color.fromBGR(126, 85, 49), 1);
+        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(126, 85, 49), 1);
         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(), 1, dust);
     }
 
@@ -572,8 +552,7 @@ public class SkyblockRemakeEvents implements Listener {
         loc.add(dir);
         loc.setY(loc.getY() - 0.04);
 
-        final Particle.DustOptions dust = new Particle.DustOptions(
-                Color.fromBGR(131, 119, 58), 1);
+        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromBGR(131, 119, 58), 1);
         loc.getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(), 1, dust);
     }
 
@@ -631,14 +610,13 @@ public class SkyblockRemakeEvents implements Listener {
             if (player.getLocation().getBlock().getType() == Material.LAVA) {
                 player.setVelocity(player.getLocation().getDirection().multiply(0).setY(2));
                 player.getWorld().getEntities().forEach(entity -> {
-                    if (entity.getScoreboardTags() != null)
-                        entity.getScoreboardTags().forEach(tag -> {
-                            if (tag.startsWith("eye_target:")) {
-                                Player p = Bukkit.getPlayer(tag.split(":")[1]);
-                                if (p == player)
-                                    entity.getLocation().setDirection(player.getLocation().subtract(entity.getLocation()).toVector());
-                            }
-                        });
+                    if (entity.getScoreboardTags() != null) entity.getScoreboardTags().forEach(tag -> {
+                        if (tag.startsWith("eye_target:")) {
+                            Player p = Bukkit.getPlayer(tag.split(":")[1]);
+                            if (p == player)
+                                entity.getLocation().setDirection(player.getLocation().subtract(entity.getLocation()).toVector());
+                        }
+                    });
                 });
             } else {
 
@@ -656,7 +634,7 @@ public class SkyblockRemakeEvents implements Listener {
         PacketReader reader = new PacketReader(event.getPlayer());
         reader.uninject(event.getPlayer());
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-        if(ServerType.getActiveType() == ServerType.PrivateIsle){
+        if (ServerType.getActiveType() == ServerType.PrivateIsle) {
             try {
                 PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
                 PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
@@ -677,8 +655,7 @@ public class SkyblockRemakeEvents implements Listener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (Main.petstand.containsKey(player))
-            Main.petstand.get(player).remove();
+        if (Main.petstand.containsKey(player)) Main.petstand.get(player).remove();
 
 
     }
@@ -730,8 +707,7 @@ public class SkyblockRemakeEvents implements Listener {
                 if (helmet != null && helmet.getType() != Material.AIR) {
                     // Mob has a helmet.
                     return;
-                } else
-                    event.setCancelled(true);
+                } else event.setCancelled(true);
             }
     }
 
@@ -746,13 +722,16 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     @EventHandler
+    public void switchTarget(EntityTargetLivingEntityEvent event) {
+        if (event.getTarget() instanceof Player) return;
+        event.setCancelled(true);
+    }
+
+    @EventHandler
     public void SoulSystem(EntityDeathEvent e) {
         if (e.getEntity() instanceof FallingBlock) {
-            if (e.getEntity().getScoreboardTags().contains("voidgloom_beacon"))
-                e.getEntity().getLocation();
+            if (e.getEntity().getScoreboardTags().contains("voidgloom_beacon")) e.getEntity().getLocation();
         }
-
-
         if (e.getEntityType() != EntityType.PLAYER && e.getEntityType() != EntityType.DROPPED_ITEM) {
 
             if (e.getEntity() instanceof LivingEntity) {
@@ -775,8 +754,7 @@ public class SkyblockRemakeEvents implements Listener {
                 Main.currentityhealth.remove(e.getEntity());
                 Main.baseentityhealth.remove(e.getEntity());
 
-                if (Main.entitydamage.containsKey(e.getEntity()))
-                    Main.entitydamage.remove(e.getEntity());
+                if (Main.entitydamage.containsKey(e.getEntity())) Main.entitydamage.remove(e.getEntity());
                 if (e.getEntity().getScoreboardTags().contains("revslayert4")) {
                     e.getEntity().getScoreboardTags().forEach(tag -> {
                         if (tag.startsWith("killer:")) {
@@ -784,7 +762,7 @@ public class SkyblockRemakeEvents implements Listener {
                         }
                     });
                 }
-                if(!e.getEntity().addScoreboardTag("minionkill")) {
+                if (!e.getEntity().addScoreboardTag("minionkill")) {
                     if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
                         for (String tag : e.getEntity().getScoreboardTags())
                             if (tag.startsWith("killer:")) {
@@ -892,8 +870,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void MobSpawnEvent(EntitySpawnEvent event) {
-        if (event.getEntity().getScoreboardTags().contains("npc"))
-            return;
+        if (event.getEntity().getScoreboardTags().contains("npc")) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
             if (entity instanceof LivingEntity e) {
@@ -919,18 +896,14 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void ItemsMenu(InventoryClickEvent event) {
-        if (!event.getView().getTitle().contains("Custom Items Menu - Page "))
-            return;
-        if (event.getCurrentItem() == null)
-            return;
-        if (event.getCurrentItem().getItemMeta() == null)
-            return;
+        if (!event.getView().getTitle().contains("Custom Items Menu - Page ")) return;
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getItemMeta() == null) return;
 
         Player player = (Player) event.getWhoClicked();
         event.setCancelled(true);
 
-        if (event.getClickedInventory().getType() == InventoryType.PLAYER)
-            return;
+        if (event.getClickedInventory().getType() == InventoryType.PLAYER) return;
 
 
         int page = event.getView().getTopInventory().getItem(53).getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER);
@@ -953,9 +926,7 @@ public class SkyblockRemakeEvents implements Listener {
                 Bukkit.getScheduler().runTask(Main.getMain(), () -> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.lines()[0] + e.lines()[1]));
 
 
-            })
-                    .withLines("", "", "^^^^^^^^^^^^^^^", "Enter Item Name")
-                    .open(SkyblockPlayer.getSkyblockPlayer(player));
+            }).withLines("", "", "^^^^^^^^^^^^^^^", "Enter Item Name").open(SkyblockPlayer.getSkyblockPlayer(player));
 
             return;
         }
@@ -971,8 +942,7 @@ public class SkyblockRemakeEvents implements Listener {
         if (event.getSlot() > 45) {
             return;
         }
-        if (event.getCurrentItem().getType() == Material.AIR)
-            return;
+        if (event.getCurrentItem().getType() == Material.AIR) return;
         player.getInventory().addItem(Main.item_updater(Items.SkyblockItems.get(ItemHandler.getPDC("id", event.getCurrentItem(), PersistentDataType.STRING)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
         player.updateInventory();
 
@@ -992,8 +962,7 @@ public class SkyblockRemakeEvents implements Listener {
         if (item.getItemMeta() == null || item.getItemMeta().getPersistentDataContainer() == null || item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) == null || !item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).contains("shortbow"))
             return;
         ItemStack i = event.getItem().getItemStack();
-        if (i == null)
-            return;
+        if (i == null) return;
         if (i.getType() == Material.ARROW) {
 
 
@@ -1028,8 +997,7 @@ public class SkyblockRemakeEvents implements Listener {
             if (event.getItem() != null && event.getItem().getType() == Material.BOW) {
                 if (Items.SkyblockItems.get(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null && Items.SkyblockItems.get(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)).customDataContainer.containsValue("term"))
                     if (Main.termhits.get(event.getPlayer()) >= 3) {
-                        final Particle.DustOptions dust = new Particle.DustOptions(
-                                Color.fromRGB((int) 255, (int) 0, (int) 0), 1);
+                        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB((int) 255, (int) 0, (int) 0), 1);
 
 
                         for (double i = 0; i <= 15; i += 0.5) { //iterate up to but not beyond point b
@@ -1078,69 +1046,49 @@ public class SkyblockRemakeEvents implements Listener {
                 } else {
                     infinity = false;
                 }
-                if (!Main.shortbow_cd.get(event.getPlayer()))
-                    try {
+                if (!Main.shortbow_cd.get(event.getPlayer())) try {
 
-                        event.getPlayer().getInventory().forEach(i -> {
-                            if (i != null) {
-                                if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
+                    event.getPlayer().getInventory().forEach(i -> {
+                        if (i != null) {
+                            if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
 
-                                } else {
-                                    if (!infinity)
-                                        i.setAmount(i.getAmount() - 1);
-                                    event.getPlayer().updateInventory();
-                                    SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-                                    Arrow arrow_entity = event.getPlayer().launchProjectile(Arrow.class);
+                            } else {
+                                if (!infinity) i.setAmount(i.getAmount() - 1);
+                                event.getPlayer().updateInventory();
+                                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+                                Arrow arrow_entity = event.getPlayer().launchProjectile(Arrow.class);
 
 
-                                    int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
+                                int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
 
 
-                                    int stre = (int) Main.getPlayerStat(player, Stats.Strength);
-                                    double cd = Main.getPlayerStat(player, Stats.CritDamage);
-                                    int weapondmg = (int) Main.weapondamage(event.getItem());
-                                    int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
+                                int stre = (int) Main.getPlayerStat(player, Stats.Strength);
+                                double cd = Main.getPlayerStat(player, Stats.CritDamage);
+                                int weapondmg = (int) Main.weapondamage(event.getItem());
+                                int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
 
 
-                                    arrow_entity.addScoreboardTag("cd:" + cd);
-                                    arrow_entity.addScoreboardTag("cc:" + cc);
-                                    arrow_entity.addScoreboardTag("strength:" + stre);
-                                    arrow_entity.addScoreboardTag("ferocity:" + ferocity);
-                                    arrow_entity.addScoreboardTag("dmg:" + weapondmg);
+                                arrow_entity.addScoreboardTag("cd:" + cd);
+                                arrow_entity.addScoreboardTag("cc:" + cc);
+                                arrow_entity.addScoreboardTag("strength:" + stre);
+                                arrow_entity.addScoreboardTag("ferocity:" + ferocity);
+                                arrow_entity.addScoreboardTag("dmg:" + weapondmg);
 
-                                    if (item.getEnchantments().containsKey(Enchantment.ARROW_DAMAGE)) {
-                                        arrow_entity.addScoreboardTag("power:" + item.getEnchantments().get(Enchantment.ARROW_DAMAGE));
-                                    }
-                                    for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
-                                        arrow_entity.addScoreboardTag(enchantment.getKey().getKey() + ":" + item.getItemMeta().getEnchantLevel(enchantment));
-                                    }
+                                if (item.getEnchantments().containsKey(Enchantment.ARROW_DAMAGE)) {
+                                    arrow_entity.addScoreboardTag("power:" + item.getEnchantments().get(Enchantment.ARROW_DAMAGE));
+                                }
+                                for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
+                                    arrow_entity.addScoreboardTag(enchantment.getKey().getKey() + ":" + item.getItemMeta().getEnchantLevel(enchantment));
+                                }
 
-                                    arrow_entity.setDamage(1);
-
-
-                                    if (HydraStrike.hasHydraStrike(player)) {
-                                        arrow_entity.setVelocity(arrow_entity.getVelocity().multiply(HydraStrike.get(player).getFlySpeed()));
+                                arrow_entity.setDamage(1);
 
 
-                                        if (HydraStrike.get(player).stacks == 10) {
-                                            Arrow arrow_entity2 = event.getPlayer().launchProjectile(Arrow.class);
-                                            arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
-                                            arrow_entity2.setDamage(1);
-                                            Arrow arrow_entity3 = event.getPlayer().launchProjectile(Arrow.class);
-                                            arrow_entity3.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(-5)));
-                                            arrow_entity3.setDamage(1);
-                                            arrow_entity.addScoreboardTag("term:" + player.getName());
-                                            arrow_entity.getScoreboardTags().forEach(tag -> {
-                                                arrow_entity2.addScoreboardTag(tag);
-                                                arrow_entity3.addScoreboardTag(tag);
-                                            });
-                                            arrow_entity2.addScoreboardTag("custom_arrow");
-                                            arrow_entity3.addScoreboardTag("custom_arrow");
-                                        }
-                                    }
+                                if (HydraStrike.hasHydraStrike(player)) {
+                                    arrow_entity.setVelocity(arrow_entity.getVelocity().multiply(HydraStrike.get(player).getFlySpeed()));
 
-                                    player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1);
-                                    if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING) != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING).equals("term")) {
+
+                                    if (HydraStrike.get(player).stacks == 10) {
                                         Arrow arrow_entity2 = event.getPlayer().launchProjectile(Arrow.class);
                                         arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
                                         arrow_entity2.setDamage(1);
@@ -1152,19 +1100,37 @@ public class SkyblockRemakeEvents implements Listener {
                                             arrow_entity2.addScoreboardTag(tag);
                                             arrow_entity3.addScoreboardTag(tag);
                                         });
+                                        arrow_entity2.addScoreboardTag("custom_arrow");
+                                        arrow_entity3.addScoreboardTag("custom_arrow");
                                     }
-
-
-                                    Main.getMain().juju_cooldown(event.getPlayer());
-
-                                    throw new RuntimeException();
                                 }
+
+                                player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1);
+                                if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING) != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING).equals("term")) {
+                                    Arrow arrow_entity2 = event.getPlayer().launchProjectile(Arrow.class);
+                                    arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
+                                    arrow_entity2.setDamage(1);
+                                    Arrow arrow_entity3 = event.getPlayer().launchProjectile(Arrow.class);
+                                    arrow_entity3.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(-5)));
+                                    arrow_entity3.setDamage(1);
+                                    arrow_entity.addScoreboardTag("term:" + player.getName());
+                                    arrow_entity.getScoreboardTags().forEach(tag -> {
+                                        arrow_entity2.addScoreboardTag(tag);
+                                        arrow_entity3.addScoreboardTag(tag);
+                                    });
+                                }
+
+
+                                Main.getMain().juju_cooldown(event.getPlayer());
+
+                                throw new RuntimeException();
                             }
+                        }
 
 
-                        });
-                    } catch (RuntimeException ignored) {
-                    }
+                    });
+                } catch (RuntimeException ignored) {
+                }
             }
     }
 
@@ -1186,8 +1152,7 @@ public class SkyblockRemakeEvents implements Listener {
 
             for (int slot = 0; slot < player.getInventory().getSize() - 1; ++slot) {
                 ItemStack i = player.getInventory().getItem(slot);
-                if (i == null)
-                    continue;
+                if (i == null) continue;
 
                 if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow"))
                     continue;
@@ -1200,18 +1165,17 @@ public class SkyblockRemakeEvents implements Listener {
         } else {
             for (int slot = 0; slot < player.getInventory().getSize() - 1; ++slot) {
                 ItemStack i = player.getInventory().getItem(slot);
-                if (i != null)
-                    if (i.getType() == Material.ARROW) {
-                        if (i.getItemMeta().hasDisplayName()) {
-                            player.getInventory().setItem(slot, Items.FakeArrow(i.getItemMeta().getDisplayName()));
-                            player.getInventory().getItem(slot).setAmount(i.getAmount());
-                            player.updateInventory();
-                        } else {
-                            player.getInventory().setItem(slot, Items.FakeArrow("Arrow"));
-                            player.getInventory().getItem(slot).setAmount(i.getAmount());
-                            player.updateInventory();
-                        }
+                if (i != null) if (i.getType() == Material.ARROW) {
+                    if (i.getItemMeta().hasDisplayName()) {
+                        player.getInventory().setItem(slot, Items.FakeArrow(i.getItemMeta().getDisplayName()));
+                        player.getInventory().getItem(slot).setAmount(i.getAmount());
+                        player.updateInventory();
+                    } else {
+                        player.getInventory().setItem(slot, Items.FakeArrow("Arrow"));
+                        player.getInventory().getItem(slot).setAmount(i.getAmount());
+                        player.updateInventory();
                     }
+                }
 
             }
         }
@@ -1245,8 +1209,7 @@ public class SkyblockRemakeEvents implements Listener {
         double cd = Main.getPlayerStat(player, Stats.CritDamage);
         int weapondmg = (int) Main.weapondamage(event.getBow());
 
-        if (event.getForce() != 1.0)
-            cc = 0;
+        if (event.getForce() != 1.0) cc = 0;
         arrow_entity.addScoreboardTag("cd:" + cd);
         arrow_entity.addScoreboardTag("cc:" + cc);
         arrow_entity.addScoreboardTag("strength:" + stre);
@@ -1307,8 +1270,7 @@ public class SkyblockRemakeEvents implements Listener {
                 e.setCancelled(true);
                 return;
             }
-            if (e.getHitEntity() == null)
-                return;
+            if (e.getHitEntity() == null) return;
 
 
             HashMap<String, Integer> stats = new HashMap<String, Integer>();
@@ -1339,14 +1301,12 @@ public class SkyblockRemakeEvents implements Listener {
                 if (str.startsWith("term:")) {
                     stats.put("term", 1);
                 }
-                if (str.startsWith("power:"))
-                    power = Integer.parseInt(str.split(":")[1]);
+                if (str.startsWith("power:")) power = Integer.parseInt(str.split(":")[1]);
 
             }
             player = SkyblockPlayer.getSkyblockPlayer((Player) e.getEntity().getShooter());
 
-            if (e.getEntity().getScoreboardTags().contains("hit:" + e.getHitEntity().getEntityId()))
-                return;
+            if (e.getEntity().getScoreboardTags().contains("hit:" + e.getHitEntity().getEntityId())) return;
             e.getEntity().addScoreboardTag("hit:" + e.getHitEntity().getEntityId());
 
 
@@ -1406,16 +1366,14 @@ public class SkyblockRemakeEvents implements Listener {
 
                     double damage = calculator.damage;
 
-                    if (calculator.getResult().isCancelled())
-                        return;
+                    if (calculator.getResult().isCancelled()) return;
 
                     if (stats.containsKey("term")) {
 
                         for (String tag : e.getEntity().getScoreboardTags())
                             if (tag.startsWith("term:"))
                                 player = SkyblockPlayer.getSkyblockPlayer(Bukkit.getPlayer(tag.split(":")[1]));
-                        if (player != null)
-                            Main.termhits.replace(player, Main.termhits.get(player) + 1);
+                        if (player != null) Main.termhits.replace(player, Main.termhits.get(player) + 1);
                         Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
                     }
 
@@ -1490,15 +1448,13 @@ public class SkyblockRemakeEvents implements Listener {
         }
 
 
-        if (e.getHitEntity() == null)
-            return;
+        if (e.getHitEntity() == null) return;
 
 
         if (!(e.getEntity().getShooter() instanceof Player)) {
 
 
-            if (e.getHitEntity() == null || !(e.getHitEntity() instanceof Player))
-                return;
+            if (e.getHitEntity() == null || !(e.getHitEntity() instanceof Player)) return;
             SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer((Player) e.getHitEntity());
 
             if (p.getGameMode() == GameMode.CREATIVE) {
@@ -1510,53 +1466,26 @@ public class SkyblockRemakeEvents implements Listener {
             if (SkyblockEntity.livingEntity.containsKey(entity)) {
 
                 e.getEntity().addScoreboardTag("hit:" + p.getName());
-                double health = Main.getPlayerStat(p, Stats.Health);
-                double defense = Main.getPlayerStat(p, Stats.Defense);
-                float ehp = (float) (float) health * (1 + ((float) defense / 100));
-                float effectivedmg = (float) health / (float) ehp;
-                int totaldmg = (int) ((int) SkyblockEntity.livingEntity.get(entity).getDamage() * effectivedmg);
-
-                SkyblockEntity se = SkyblockEntity.livingEntity.get(entity);
-                int truedamage = se.getTrueDamage();
-                if (truedamage != 0) {
-                    float trueehp = (float) (float) health * (1 + ((float) Main.getPlayerStat(p, Stats.TrueDefense) / 100));
-                    float effectivetruedmg = (float) health / (float) trueehp;
-                    totaldmg += (int) ((int) truedamage * effectivetruedmg);
-
-                }
-
-
-                if (Main.absorbtion.get(p) - totaldmg < 0) {
-                    float restdamage = (float) totaldmg - (float) Main.absorbtion.get(p);
-                    Main.absorbtion.replace(p, 0);
-                    p.setHealth(p.currhealth - (int) restdamage, HealthChangeReason.Damage);
-                } else {
-                    Main.absorbtion.replace(p, Main.absorbtion.get(p) - totaldmg);
-                }
-
-
-                Main.updatebar(p);
-
-
+                Calculator c = new Calculator(e.getEntity());
+                if (e.getEntity() instanceof SkyblockProjectile sbP) {
+                    c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(entity), p, sbP.getDamageBundle());
+                    sbP.onRawHit((LivingEntity) e.getHitEntity());
+                } else c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(entity), p);
+                c.damagePlayer(p, DamageCause.PROJECTILE);
             }
-
         }
-
-
     }
 
     @EventHandler
     public void DamageEvent(org.bukkit.event.entity.EntityDamageEvent event) {
-        if (Main.entitydead.containsKey(event.getEntity()))
-            return;
+        if (Main.entitydead.containsKey(event.getEntity())) return;
         if (event.getEntity().getScoreboardTags().contains("npc")) {
             if (!EntityNPC.isKillable) {
                 event.setCancelled(true);
             }
             return;
         }
-        if (event.getCause() == DamageCause.ENTITY_ATTACK)
-            return;
+        if (event.getCause() == DamageCause.ENTITY_ATTACK) return;
 
         if (event.getEntity() instanceof Player) {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getEntity());
@@ -1568,13 +1497,11 @@ public class SkyblockRemakeEvents implements Listener {
                     int falldistance = (int) player.getFallDistance();
 
                     int damage = (int) (falldistance * 5) - 15;
-                    if (damage < 0)
-                        damage = 0;
+                    if (damage < 0) damage = 0;
                     if (Main.absorbtion.get(player) - damage < 0) {
                         int restdamage = damage - Main.absorbtion.get(player);
                         Main.absorbtion.replace(player, 0);
-                        if (player.currhealth - restdamage < 0)
-                            restdamage = player.currhealth;
+                        if (player.currhealth - restdamage < 0) restdamage = player.currhealth;
                         player.setHealth(player.currhealth - restdamage, HealthChangeReason.Damage);
                     } else {
                         Main.absorbtion.replace(player, Main.absorbtion.get(player) - damage);
@@ -1583,11 +1510,9 @@ public class SkyblockRemakeEvents implements Listener {
                     if (player.currhealth <= 0) {
                         player.getPlayer().setHealth(0);
 
-                    } else
-                        Main.updatebar(player);
+                    } else Main.updatebar(player);
                 }
-                if (event.getCause() == DamageCause.VOID)
-                    player.setHealth(0, HealthChangeReason.Creative);
+                if (event.getCause() == DamageCause.VOID) player.setHealth(0, HealthChangeReason.Creative);
                 Main.updatebar(player);
 
 
@@ -1603,10 +1528,8 @@ public class SkyblockRemakeEvents implements Listener {
                         event.setDamage(0D);
                         if (event.getCause() != DamageCause.ENTITY_ATTACK && event.getCause() != DamageCause.ENTITY_SWEEP_ATTACK) {
 
-                            if (Main.entitydead.containsKey(event.getEntity()))
-                                return;
-                            if (!Main.currentityhealth.containsKey(event.getEntity()))
-                                return;
+                            if (Main.entitydead.containsKey(event.getEntity())) return;
+                            if (!Main.currentityhealth.containsKey(event.getEntity())) return;
                             Main.currentityhealth.replace(event.getEntity(), (int) (Main.currentityhealth.get(event.getEntity()) - (damage * 5)));
 
                             Main.updateentitystats((LivingEntity) event.getEntity());
@@ -1691,8 +1614,7 @@ public class SkyblockRemakeEvents implements Listener {
                     int falldistance = (int) player.getFallDistance();
 
                     int damage = (int) (falldistance * 5) - 15;
-                    if (damage < 0)
-                        damage = 0;
+                    if (damage < 0) damage = 0;
                     if (Main.absorbtion.get(player) - damage < 0) {
                         int restdamage = damage - Main.absorbtion.get(player);
                         Main.absorbtion.replace(player, 0);
@@ -1718,13 +1640,12 @@ public class SkyblockRemakeEvents implements Listener {
                         Calculator c = new Calculator();
                         if (SkyblockEntity.livingEntity.containsKey(event.getDamager())) {
                             c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(event.getDamager()), player);
-                        }
-                        else {
+                        } else {
                             if (Main.entitydamage.containsKey(event.getDamager()))
                                 damage = Main.entitydamage.get(event.getDamager());
                             double health = Main.getPlayerStat(player, Stats.Health);
                             double ehp = health * (1 + (Main.getPlayerStat(player, Stats.Defense) / 100));
-                            double effectivedmg =  health / ehp;
+                            double effectivedmg = health / ehp;
                             double totaldmg = (damage * effectivedmg);
                             c.damage = totaldmg;
                         }
@@ -1740,8 +1661,7 @@ public class SkyblockRemakeEvents implements Listener {
             if (event.getEntityType() != EntityType.DROPPED_ITEM && event.getEntityType() != EntityType.ARMOR_STAND && !(event.getEntity().getType() == EntityType.WITHER_SKULL) && event.getCause() != DamageCause.PROJECTILE) {
                 if (event.getEntity() instanceof LivingEntity) {
                     LivingEntity e = (LivingEntity) event.getEntity();
-                    if (Main.entitydead.containsKey(e))
-                        return;
+                    if (Main.entitydead.containsKey(e)) return;
 
                     event.setDamage(0D);
                     if (event.getDamager() instanceof Player) {
@@ -1774,8 +1694,7 @@ public class SkyblockRemakeEvents implements Listener {
                             return;
                         }
 
-                        if (e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") ||
-                                e.getScoreboardTags().contains("voidgloomt4")) {
+                        if (e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") || e.getScoreboardTags().contains("voidgloomt4")) {
                             voidgloom = true;
                             final Vector vec = new Vector();
                             e.setVelocity(vec);
@@ -1840,31 +1759,25 @@ public class SkyblockRemakeEvents implements Listener {
 
         HashMap<Player, Integer> hits = new HashMap<>();
         hits.put(player, times);
-        if (!hits.containsKey(player))
-            return;
+        if (!hits.containsKey(player)) return;
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 Ferocity.hit((LivingEntity) e, damage, cccalc <= cc, player);
 
                 Main.updateentitystats((LivingEntity) e);
-                if (getEntityHealth((LivingEntity) e) <= 0)
-                    hits.replace(player, 1);
+                if (getEntityHealth((LivingEntity) e) <= 0) hits.replace(player, 1);
                 hits.replace(player, hits.get(player) - 1);
-                if (hits.get(player) != 0)
-                    ferocity_call(e, damage, cccalc, cc, player, hits.get(player));
-                else
-                    hits.remove(player);
+                if (hits.get(player) != 0) ferocity_call(e, damage, cccalc, cc, player, hits.get(player));
+                else hits.remove(player);
             }
         };
         runnable.runTaskLater(Main.getMain(), 2);
     }
 
     private static int getEntityHealth(LivingEntity entity) {
-        if (SkyblockEntity.livingEntity.containsKey(entity))
-            return SkyblockEntity.livingEntity.get(entity).getHealth();
-        if (Main.currentityhealth.containsKey(entity))
-            return Main.currentityhealth.get(entity);
+        if (SkyblockEntity.livingEntity.containsKey(entity)) return SkyblockEntity.livingEntity.get(entity).getHealth();
+        if (Main.currentityhealth.containsKey(entity)) return Main.currentityhealth.get(entity);
 
 
         return 0;
@@ -1873,8 +1786,7 @@ public class SkyblockRemakeEvents implements Listener {
     public static void ferocity_Player_call(Player e, double damage, int cccalc, int cc, Player player, int times, EntityDamageByEntityEvent event) {
         HashMap<Player, Integer> hits = new HashMap<>();
         hits.put(player, times);
-        if (!hits.containsKey(player))
-            return;
+        if (!hits.containsKey(player)) return;
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
@@ -1884,10 +1796,8 @@ public class SkyblockRemakeEvents implements Listener {
                 if (SkyblockPlayer.getSkyblockPlayer(e) == null || SkyblockPlayer.getSkyblockPlayer(e).currhealth <= 0)
                     hits.replace(player, 1);
                 hits.replace(player, hits.get(player) - 1);
-                if (hits.get(player) != 0)
-                    ferocity_call(e, damage, cccalc, cc, player, hits.get(player));
-                else
-                    hits.remove(player);
+                if (hits.get(player) != 0) ferocity_call(e, damage, cccalc, cc, player, hits.get(player));
+                else hits.remove(player);
             }
         };
         runnable.runTaskLater(Main.getMain(), 2);
@@ -1895,8 +1805,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void inventoryUpdate(InventoryClickEvent event) {
-        if(event.getClickedInventory() == null)
-            return;
+        if (event.getClickedInventory() == null) return;
         Player player = (Player) event.getWhoClicked();
         if (event.getClickedInventory().getType() != InventoryType.PLAYER || event.getClickedInventory().getType() != InventoryType.CREATIVE)
             return;

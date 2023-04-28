@@ -117,6 +117,7 @@ public class AngryArcheologist extends DungeonMob {
             cooldown.cancel();
         } catch (Exception ignored) {
         }
+        super.kill();
     }
 
     @Override

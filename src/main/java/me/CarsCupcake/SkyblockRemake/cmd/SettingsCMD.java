@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
+@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug"})
+@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug"}, args = {"enable", "disable"}, position = 1)
+@CommandArgument(lastArg = "respawnBoss", args = {"Bladesoul", "BarbarianDukeX", "MageOutlaw", "Ashfang", "MagmaBoss"}, position = 1)
 public class SettingsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -97,7 +101,7 @@ public class SettingsCMD implements CommandExecutor {
 
             }
 
-            case "setUnlimitedMinions" -> {
+            case "debug" -> {
                 boolean b;
                 if (strings[1].equals("enable")) {
                     b = true;
@@ -107,7 +111,9 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setUnlimitedMinion(b);
+                InfoManager.setValue("debug", b);
+                commandSender.sendMessage("Debuging is now " + strings[1]);
+                DebugLogger.setDebug(b);
             }
 
             default -> commandSender.sendMessage("§cThe setting: " + strings[0] + " does not exist.");

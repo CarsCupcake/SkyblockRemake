@@ -2,7 +2,12 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
+import me.CarsCupcake.SkyblockRemake.elements.Element;
+import me.CarsCupcake.SkyblockRemake.elements.Elementable;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.LivingEntity;
@@ -11,9 +16,12 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class SkyblockEntity {
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
+public abstract class SkyblockEntity implements Elementable {
     protected int health;
 
     public SkyblockEntity() {
@@ -38,14 +46,34 @@ public abstract class SkyblockEntity {
     public abstract HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player);
 
     public abstract void updateNameTag();
-
-    public abstract void kill();
+@MustBeInvokedByOverriders
+@OverridingMethodsMustInvokeSuper
+    public void kill(){
+    EntityRunnable.remove(this);
+    }
 
     public abstract void damage(double damage, SkyblockPlayer player);
 
     public abstract boolean hasNoKB();
 
     public abstract int getTrueDamage();
+    public boolean isIgnored(){
+        return false;
+    }
+    protected final Set<Element> elements = new HashSet<>();
+
+    @Override
+    public Set<Element> getElements() {
+        return elements;
+    }
+
+    @Override
+    public void addElement(Element element) {
+        elements.add(element);
+    }@Override
+    public void removeElement(Element element) {
+        elements.remove(element);
+    }
 
     public static HashMap<LivingEntity, SkyblockEntity> livingEntity = new HashMap<>();
     public static ArrayList<LivingEntity> cooldowns = new ArrayList<>();
@@ -97,8 +125,8 @@ public abstract class SkyblockEntity {
         }
 
 
-        float health;
-        float maxhealth;
+        int health;
+        int maxhealth;
 
 
         maxhealth = e.getMaxHealth();
@@ -111,7 +139,7 @@ public abstract class SkyblockEntity {
 
             return;
         }
-        @SuppressWarnings("deprecation") float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
+        @SuppressWarnings("deprecation") double estimated = ((double) health /(double) maxhealth) * entity.getMaxHealth();
         entity.setHealth(estimated);
 
 

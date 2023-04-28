@@ -19,6 +19,7 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarManager;
@@ -43,6 +44,8 @@ import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
+import me.CarsCupcake.SkyblockRemake.utils.log.CustomLogger;
+import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.*;
 
 import java.io.*;
@@ -135,12 +138,14 @@ public class Main extends JavaPlugin {
 
     //Configs
     public static CustomConfig bazaarFile;
+    public static DebugLogger debug;
 
     @SuppressWarnings("deprecation")
     @Override
     public void onEnable() {
         VERSION = getDescription().getVersion();
         AutoUpdater.INSTANCE.check();
+
         config.addDefault("JoinSpawn", false);
         config.addDefault("LavaBounce", false);
         config.addDefault("StatSystem", true);
@@ -149,7 +154,28 @@ public class Main extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
         Main = this;
-
+        new InfoManager();
+        try {
+            DebugLogger.debug = InfoManager.getValue("debug", false);
+            debug = new DebugLogger("");
+            if(DebugLogger.debug)
+                System.out.println("Debug Logging enabled!");
+        }catch (Exception e){
+            System.out.println("An error occuret why enabeling the debug logger:");
+            e.printStackTrace();
+        }
+        new BukkitRunnable() {
+            CustomLogger logger = new CustomLogger("Cleanup Task");
+            @Override
+            public void run() {
+                    this.logger.info("Cleaning up the JVM (This may cause a short lag spike!)");
+                    final long before = System.currentTimeMillis();
+                    System.gc();
+                    Runtime.getRuntime().gc();
+                    final long after = System.currentTimeMillis();
+                    this.logger.info("It took " + (after - before) + "ms to cleanup the JVM heap");
+            }
+        }.runTaskTimer(this, 0L, 12000L);
         try {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
@@ -216,7 +242,6 @@ public class Main extends JavaPlugin {
         ExtraInformations.setup();
         ExtraInformations.save();
         ExtraInformations.reload();
-        new InfoManager();
 
         // init Powers
         Powers.initPowers(new Bloody());
@@ -319,7 +344,7 @@ public class Main extends JavaPlugin {
         getCommand("mob").setExecutor(new SpawnEntity());
         getCommand("mob").setTabCompleter(new SpawnEntityTAB());
         getCommand("setting").setExecutor(new SettingsCMD());
-        getCommand("setting").setTabCompleter(new SettingsTAB());
+        getCommand("setting").setTabCompleter(new TablistBuilder(SettingsCMD.class));
         getCommand("dummy").setExecutor(new DummyCMD());
         getCommand("star").setExecutor(new starItem());
         getCommand("potion").setExecutor(new PotionCommand());
@@ -764,6 +789,7 @@ public class Main extends JavaPlugin {
     }
 
     public void killarmorstand(ArmorStand stand) {
+        stand.addScoreboardTag("remove");
         runnable = new BukkitRunnable() {
             @Override
             public void run() {

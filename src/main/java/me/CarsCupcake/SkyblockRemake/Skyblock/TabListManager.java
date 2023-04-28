@@ -35,6 +35,7 @@ import net.minecraft.server.level.EntityPlayer;
 
 import net.minecraft.server.level.WorldServer;
 import net.minecraft.server.network.PlayerConnection;
+import org.jetbrains.annotations.Nullable;
 
 
 @SuppressWarnings("unused")
@@ -135,8 +136,7 @@ public class TabListManager implements Listener {
 
         hideAllPlayers();
         for (Player p : Bukkit.getOnlinePlayers())
-            if(p != player.getPlayer())
-                managers.get(p).playerJoin(player);
+            if (p != player.getPlayer()) managers.get(p).playerJoin(player);
 
     }
 
@@ -271,12 +271,19 @@ public class TabListManager implements Listener {
 
     }
 
-
-    private EntityPlayer addFakePlayer(String name, int Priority, TablistIcons icon, Player target) {
+    /**
+     * Used to add fake players to the playerlist
+     *
+     * @param name     name of the fake player
+     * @param priority how high is the player in the list
+     * @param icon     player icon
+     * @param target   used for the player head @Nullable
+     * @return the fake player
+     */
+    private EntityPlayer addFakePlayer(String name, int priority, TablistIcons icon,@Nullable Player target) {
         count += 1;
+        //Generating Fake Name
         if (name.length() > maxInt) maxInt = name.length();
-
-
         String prefix = "";
         String suffix = "";
         String n = "§§§§";
@@ -285,54 +292,39 @@ public class TabListManager implements Listener {
             Character chare = ch;
             n += "§" + chare;
         }
-
-
         prefix = name;
-
-
+        //Preparing fake entity
         Location spawnLocation = new Location(player.getWorld(), 0, 0, 0);
         MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
         WorldServer world = ((CraftWorld) spawnLocation.getWorld()).getHandle();
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), n);
-
-
         EntityPlayer entityPlayer = new EntityPlayer(server, world, gameProfile);
         gameProfile.getProperties().put("textures", new Property("textures", icon.getSkinTexture(target), icon.getSkinSignature(target)));
+        //Sending fake entity
         PlayerConnection connection = ((CraftPlayer) player).getHandle().b;
-
-
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, entityPlayer));
-
         DataWatcher watcher = entityPlayer.getDataWatcher();
         byte b = 0x01 | 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40;
         watcher.set(DataWatcherRegistry.a.a(17), b);
         connection.sendPacket(new PacketPlayOutEntityMetadata(entityPlayer.getId(), watcher, false));
-
-
-        String prioString = Priority + "";
-        if (Priority < 10) {
-            prioString = "0" + Priority;
+        //Crafting Team name (for list order)
+        String prioString = priority + "";
+        if (priority < 10) {
+            prioString = "0" + priority;
         }
-
         String s = prioString + "n" + entityPlayer.getUniqueID().toString().substring(1, 5);
-
-
+        //Adding Team
         if (player.getScoreboard().getTeam(s) != null) {
             player.getScoreboard().getTeam(s).unregister();
-            ;
         }
         Team team = player.getScoreboard().registerNewTeam(s);
-
         team.setPrefix(prefix);
         team.setSuffix(suffix);
-
-
         teams.put(entityPlayer.getUniqueID(), s);
         fakePlayers.add(entityPlayer);
+        //Update Players Teams
         update();
         return entityPlayer;
-
-
     }
 
 

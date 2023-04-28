@@ -37,6 +37,8 @@ public class DungeonCMD implements CommandExecutor {
                     player.sendMessage("§aThis operation took " + (System.currentTimeMillis()- before) + "ms");
                 }
             }.runTaskAsynchronously(Main.getMain());
+            /*Runnable r = () -> Tools.makeAir(new Location(Bukkit.getWorld("world"), -103, 0, -103), new Location(Bukkit.getWorld("world"), 259, 150, 259));
+            Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), r);*/
             return true;
         }
         Generator.place();

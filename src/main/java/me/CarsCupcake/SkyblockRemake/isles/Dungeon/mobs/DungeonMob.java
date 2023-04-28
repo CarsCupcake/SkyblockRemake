@@ -2,12 +2,16 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Defensive;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class DungeonMob extends SkyblockEntity implements Defensive {
     protected final int maxHealth;
     protected final int damage;
     protected final double defense;
+    private IRoom room;
     public DungeonMob(int floor, boolean master){
         super.health = healthFromFloor(floor, master);
         maxHealth = health;
@@ -35,7 +39,17 @@ public abstract class DungeonMob extends SkyblockEntity implements Defensive {
         getEntity().setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
     }
 
+    public void setStared(IRoom room){
+        this.room = room;
+    }
+
     protected abstract int healthFromFloor(int floor, boolean master);
     protected abstract int damageFromFloor(int floor, boolean master);
     protected abstract double defenseFromFloor(int floor, boolean master);
+    @Override @OverridingMethodsMustInvokeSuper
+    public void kill(){
+        super.kill();
+        if(room != null)
+            room.killStarMob(this);
+    }
 }

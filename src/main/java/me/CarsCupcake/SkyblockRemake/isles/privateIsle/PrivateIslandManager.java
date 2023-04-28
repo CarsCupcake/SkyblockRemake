@@ -13,6 +13,7 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.World;
 import com.sk89q.worldedit.world.block.BaseBlock;
 import com.sk89q.worldedit.world.block.BlockState;
+import com.sk89q.worldedit.world.block.BlockTypes;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -63,29 +64,8 @@ public class PrivateIslandManager {
         config.get().set("distanceBetweenLocs", distance + 300);
         config.save();
         Location base = new Location(Bukkit.getWorld("world"),7.5 + distance,100,7.5);
-        BossBar progressBar = Bukkit.createBossBar("Progress", BarColor.YELLOW, BarStyle.SOLID);
-        progressBar.addPlayer(player);
-        progressBar.setProgress(0);
 
-        BukkitRunnable runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                ReplaceRunnable r = ReplaceRunnable.runs.get(player);
-                double mult = r.i / r.size;
-                if(mult < 1)
-                    progressBar.setProgress(mult);
-                else progressBar.setProgress(1);
-            }
-
-            @Override
-            public synchronized void cancel() throws IllegalStateException {
-                progressBar.removeAll();
-                super.cancel();
-            }
-        };
-        runnable.runTaskTimer(Main.getMain(), 10, 10);
-
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), new ReplaceRunnable(runnable, player, base));
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), new ReplaceRunnable( player, base));
 
 
         return base;
@@ -93,42 +73,35 @@ public class PrivateIslandManager {
     private static class ReplaceRunnable implements Runnable{
         static HashMap<SkyblockPlayer, ReplaceRunnable> runs = new HashMap<>();
         private final SkyblockPlayer player;
-        private final BukkitRunnable runnable;
         private final Location base;
         double i = 0;
         double size = 0;
-        public ReplaceRunnable(BukkitRunnable runnable, SkyblockPlayer player, Location base){
+        public ReplaceRunnable( SkyblockPlayer player, Location base){
             this.player = player;
-            this.runnable = runnable;
             this.base = base;
             runs.put(player, this);
         }
 
         @Override
         public void run() {
+            long before = System.currentTimeMillis();
             Region region = new Polygonal2DRegion(BukkitAdapter.adapt(base.getWorld()),
-                    List.of(new MutableBlockVector2((int) (base.getX() + 120), (int) (base.getZ() + 120)), new MutableBlockVector2((int) (base.getX() + 120), (int) (base.getZ() - 120)),
-                            new MutableBlockVector2((int) (base.getX() - 120), (int) (base.getZ() - 120)), new MutableBlockVector2((int) (base.getX() - 120), (int) (base.getZ() + 120))), 0, 200);
+                    List.of(new MutableBlockVector2((int) (base.getX() + 120), (int) (base.getZ() + 80)), new MutableBlockVector2((int) (base.getX() + 80), (int) (base.getZ() - 80)),
+                            new MutableBlockVector2((int) (base.getX() - 80), (int) (base.getZ() - 80)), new MutableBlockVector2((int) (base.getX() - 80), (int) (base.getZ() + 80))), 0, 200);
             BukkitWorld world = new BukkitWorld(base.getWorld());
             player.sendMessage("§cYour world is getting prepaired, please wait");
 
             try {
-                size = region.getVolume();
-                for (BlockVector3 vector3 : region){
-                    Block b = new Location(base.getWorld(),vector3.getX(), vector3.getY(), vector3.getZ()).getBlock();
-                    i++;
-                    if(b.getType() == Material.AIR)
-                        continue;
-                    world.setBlock(vector3, new BaseBlock(0, 0));
-                }
-
+                EditSession session = WorldEdit.getInstance().newEditSession(region.getWorld());
+                session.setBlocks((Region) region, BlockTypes.AIR);
+                session.close();
+                player.sendMessage("§aThis operation took " + (System.currentTimeMillis()- before) + "ms");
             }catch (Exception e){
                 e.printStackTrace();
             }
             Tools.loadShematic("assets/schematics/privateIsle/privateIsle.schem", base);
             player.sendMessage("§aReplacing blocks done, have fun");
             Bukkit.getScheduler().runTask(Main.getMain(), () -> player.teleport(base));
-            runnable.cancel();
         }
     }
 }

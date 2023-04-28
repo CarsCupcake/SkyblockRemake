@@ -15,7 +15,8 @@ public enum ServerType {
     SpidersDen("spidersden",25573),
     End("EndIsle", 25571),
     //Standart Loc = 7.5, 100, 7.5
-    PrivateIsle("private", 255574);
+    PrivateIsle("private", 255574),
+    Non("", 0);
     public final String s;
     public final int ip;
     ServerType(String s, int i){
@@ -26,7 +27,7 @@ public enum ServerType {
 
     @Contract(pure = true)
     public static ServerType getFromString(String s){
-        ServerType type = null;
+        ServerType type = Non;
 
         for (ServerType types : ServerType.values())
             if(types.s.equals(s))

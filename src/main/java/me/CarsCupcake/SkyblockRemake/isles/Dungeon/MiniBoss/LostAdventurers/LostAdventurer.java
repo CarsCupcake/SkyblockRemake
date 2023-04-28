@@ -107,6 +107,7 @@ public abstract class LostAdventurer extends DungeonMob {
             cooldown.cancel();
         } catch (Exception ignored) {
         }
+        super.kill();
     }
 
     @Override

@@ -57,7 +57,7 @@ public class InfoManager {
         }
         return value;
     }
-    private static  <T> void setValue(String key, T def){
+    public static  <T> void setValue(String key, T def){
             config.get().set(key, def);
             config.save();
             config.reload();

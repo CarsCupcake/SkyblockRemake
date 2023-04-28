@@ -19,6 +19,7 @@ public abstract class ExtraDamageAbility implements Listener {
     @EventHandler
     public final void onSkyblockDamage(SkyblockDamageEvent event){
         SkyblockPlayer player = event.getPlayer();
+        if(player == null) return;
         ItemStack item = player.getItemInHand();
         if(item != null && item.getItemMeta() != null) {
             ItemManager manager = Items.SkyblockItems.get(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));

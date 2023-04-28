@@ -57,7 +57,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime() , 11);
 	
 		if(p.dwarvenArea == null)
-			if(Main.getMain().getServer().getPort() == 25564)
+			if(SkyblockServer.getServer().getType() == ServerType.DwarvenMines)
 				ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ §2Dwarven Mines",10);
 				else
 					ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ None",10);
@@ -85,7 +85,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		}
 			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
 
-			ScoreboardDisplayer.setScore(p,"§r ",6);
+			ScoreboardDisplayer.setScore(p,"§8by CarsCupcake",6);
 
 			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
 
@@ -114,7 +114,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime(),11);
 	
 		if(p.dwarvenArea == null)
-			if(Main.getMain().getServer().getPort() == 25564)
+			if(ServerType.getActiveType() == ServerType.DwarvenMines)
 				ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ §2Dwarven Mines",10);
 				else
 					ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ None",10);
@@ -144,7 +144,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		}
 			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
 
-			ScoreboardDisplayer.setScore(p,"§r ",6);
+		ScoreboardDisplayer.setScore(p,"§8by CarsCupcake",6);
 
 			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
 

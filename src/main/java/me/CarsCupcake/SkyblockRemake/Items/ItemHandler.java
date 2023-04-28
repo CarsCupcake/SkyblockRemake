@@ -31,10 +31,7 @@ public class ItemHandler {
 
     public static <T, Z> void setPDC(String str, ItemStack item, PersistentDataType<T, Z> type, Z val) {
         ItemMeta meta = item.getItemMeta();
-
-
         meta.getPersistentDataContainer().set(new NamespacedKey(Main.getMain(), str), type, val);
-
         item.setItemMeta(meta);
     }
 

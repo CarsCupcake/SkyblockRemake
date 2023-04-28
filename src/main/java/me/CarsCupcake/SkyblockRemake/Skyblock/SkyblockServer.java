@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
+import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.End.EndListeners;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
@@ -17,11 +18,16 @@ public class SkyblockServer {
                 p.sendTitle("§cThere is no Server type!", "§ePlease set a server type in the files!",20,400,20);
             Main.getMain().getLogger().log(Level.SEVERE, "No Server type provided! Skyblock Plugin is shutting down!");
             Main.getMain().getServer().getPluginManager().disablePlugin(Main.getMain());
+
         }
+        Main.getMain().getLogger().fine("Server is running on server type " + type);
         server = this;
         this.type = type;
         if(type == ServerType.End)
             EndListeners.init();
+
+        if(type == ServerType.CrimsonIsle)
+            new CrimsonIsle();
     }
     public ServerType  getType(){
         return type;

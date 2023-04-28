@@ -33,7 +33,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\Private Isle\plugins\SkyblockRemake.jar
+                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\Crimson Isle\plugins\SkyblockRemake.jar
                             </outputFile>
                         </configuration>
                     </execution>

@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.lShaped.r;
 
 
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.lShaped.RoomLSh;
 import org.bukkit.Location;
 
@@ -11,7 +12,7 @@ public class Melon7 extends RoomLSh {
     }
 
     @Override
-    public void init(int rotation) {
+    public void init(int rotation, Location2d base) {
 
     }
 

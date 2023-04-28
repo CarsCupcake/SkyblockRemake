@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r2x2.r;
 
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r2x2.Room2x2;
 
 public class MithrilCave extends Room2x2 {
@@ -9,7 +10,7 @@ public class MithrilCave extends Room2x2 {
     }
 
     @Override
-    public void init(int rotation) {
+    public void init(int rotation, Location2d base) {
 
     }
 

@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.DungeonRoomsTypes;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,14 +24,14 @@ public class Room {
     @Getter
     private int rotation = 0;
 
-    public Room(DungeonRoomsTypes type, Location2d l, IRoom room, int rotation) {
+    public Room(@NotNull DungeonRoomsTypes type,@NotNull Location2d l, IRoom room, int rotation) {
         this(type, l, false, null);
         this.room = room;
         this.rotation = rotation;
     }
 
     @Contract("_, _, true, null -> fail")
-    public Room(DungeonRoomsTypes type, Location2d l, boolean isSub, Room main) {
+    public Room(@NotNull DungeonRoomsTypes type,@NotNull Location2d l, boolean isSub,@Nullable Room main) {
         if (isSub && main == null)
             throw new IllegalArgumentException("main room is not allowed to be null when its a subroom!");
         Assert.allNotNull("Elements not allowed to be null!", type, l);

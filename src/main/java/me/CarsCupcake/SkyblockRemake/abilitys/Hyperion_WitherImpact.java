@@ -33,13 +33,8 @@ public class Hyperion_WitherImpact implements AbilityManager<PlayerInteractEvent
         }
         teleport(event.getPlayer());
         event.getPlayer().getWorld().spawnParticle(Particle.EXPLOSION_LARGE, event.getPlayer().getLocation().add(0, 0.5, 0), 6, 0, 0, 0, 6, null, true);
-
-        if (Main.absorbtion.containsKey(player)) {
-
-            Main.absorbtion.put(player, (int) (cd * 1.5));
-            Main.getMain().absorbtioneffect(player, 5);
-
-        } else {
+        if (Main.absorbtionrunntime.getOrDefault(player, 0) == 0) {
+            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 0.2f, 2f);
             Main.absorbtion.put(player, (int) (cd * 1.5));
             Main.getMain().absorbtioneffect(player, 5);
         }
@@ -69,12 +64,11 @@ public class Hyperion_WitherImpact implements AbilityManager<PlayerInteractEvent
             c.sendMagicMessage(i, SkyblockPlayer.getSkyblockPlayer(player));
         }
         player.getWorld().playSound(player.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 0.4f, 1.2f);
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ZOMBIE_VILLAGER_CURE, 0.2f, 2f);
         return false;
     }
 
     public void teleport(Player player) {
-        Location mainLoc = player.getEyeLocation();
+        Location mainLoc = player.getLocation();
         for (int i = 1; i <= 10 * 2; i++) {
             Location loc = player.getLocation();
             Vector dir = loc.getDirection();

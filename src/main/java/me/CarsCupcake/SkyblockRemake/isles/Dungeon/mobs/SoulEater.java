@@ -81,6 +81,7 @@ public class SoulEater extends DungeonMob {
         try {
             r.cancel();
         }catch (Exception ignored){}
+        super.kill();
     }
 
     @Override

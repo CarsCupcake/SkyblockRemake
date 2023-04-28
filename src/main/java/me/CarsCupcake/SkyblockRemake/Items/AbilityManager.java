@@ -206,7 +206,7 @@ public interface AbilityManager<T extends Event> {
     @SuppressWarnings("deprecation")
     static void abilityTrigger(SkyblockDamagePlayerToEntityExecuteEvent event) {
         SkyblockPlayer player = event.getPlayer();
-
+        if(player == null) return;
         if(!player.getItemInHand().hasItemMeta())
             return;
 

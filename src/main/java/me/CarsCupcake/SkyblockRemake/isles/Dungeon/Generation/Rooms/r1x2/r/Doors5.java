@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x2.r;
 
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.r1x2.Room1x2;
 
 public class Doors5 extends Room1x2 {
@@ -9,7 +10,7 @@ public class Doors5 extends Room1x2 {
     }
 
     @Override
-    public void init(int rotation) {
+    public void init(int rotation, Location2d base) {
 
     }
 

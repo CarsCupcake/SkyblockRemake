@@ -15,8 +15,11 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.math.transform.AffineTransform;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.io.InputStream;
 import java.util.Set;
@@ -24,35 +27,20 @@ import java.util.Set;
 public interface IRoom {
     String fileLocation();
 
-    void init(int rotation);
+    void init(int rotation, Location2d base);
 
     Set<Location2d> getNextLocations(Location2d base, int rotation);
 
-    /**
-     * From DungeonRoomsMod by Quantizr(_risk)
-     */
     default Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
-        double x = 0;
-        double z = 0;
-        switch (rotation) {
-            case 0 -> {
-                x = relative.getX() + locationOfCorner.getMapX();
-                z = relative.getZ() + locationOfCorner.getMapY(); //.getY in a point is the MC Z coord
-            }
-            case 3 -> {
-                x = -(relative.getZ() - locationOfCorner.getMapX());
-                z = relative.getX() + locationOfCorner.getMapY();
-            }
-            case 2 -> {
-                x = -(relative.getX() - locationOfCorner.getMapX());
-                z = -(relative.getZ() - locationOfCorner.getMapY());
-            }
-            case 1 -> {
-                x = relative.getZ() + locationOfCorner.getMapX();
-                z = -(relative.getX() - locationOfCorner.getMapY());
-            }
-        }
-        return new Location(relative.getWorld(), x, relative.getY(), z);
+        Vector OA = new Vector(relative.getX() + locationOfCorner.getMapX(), relative.getY(), relative.getZ() + locationOfCorner.getMapY());
+        Vector OB = rotationCorner(Generator.to3d(locationOfCorner), rotation).toVector();
+        System.out.println(OB);
+        Vector BA = OA.subtract(OB);
+        System.out.println(BA);
+        BA = BA.rotateAroundY(rotation * 90);
+        System.out.println(BA);
+        System.out.println(OA.subtract(OB).rotateAroundY(rotation * -90));
+        return Generator.to3d(locationOfCorner).add(BA);
     }
 
     default void place(Location2d location2d, int rotation) {
@@ -81,6 +69,13 @@ public interface IRoom {
                 if (!(e instanceof JsonSyntaxException || e instanceof MalformedJsonException)) e.printStackTrace();
             }
         }
+        final int finalRotation = rotation;
+        new BukkitRunnable() {
+            @Override
+            public void run () {
+            init(finalRotation, location2d);
+        }
+        }.runTask(Main.getMain());
 
         //WIP: Will be changet TODO
         // 0 = 0°
@@ -108,6 +103,10 @@ public interface IRoom {
         if (i > 3) i -= 4;
         System.out.println("rotation: " + i + " because: " + baseRotation() + " - " + r + " = " + i);
         return i;
+    }
+
+    default void killStarMob(DungeonMob mob){
+
     }
 
     String getId();

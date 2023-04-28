@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.banner.Pattern;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -14,7 +15,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ItemBuilder {
     private final Material material;
@@ -26,6 +29,7 @@ public class ItemBuilder {
     private String headURL;
     private Color color;
     private ArrayList<Pattern> bannerPatterns;
+    private final HashMap<Enchantment, Integer> enchants = new HashMap<>();
     private boolean glint = false;
     public ItemBuilder(Material material){
         this.material = material;
@@ -82,6 +86,9 @@ public class ItemBuilder {
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         if(glint)
             meta.addEnchant(SkyblockEnchants.ENCHANT_GLINT, 1, false);
+        for (Enchantment enchantment : enchants.keySet()){
+            meta.addEnchant(enchantment, enchants.get(enchantment), true);
+        }
         item.setItemMeta(meta);
         if(color != null){
             LeatherArmorMeta lmeta = item.hasItemMeta() ? (LeatherArmorMeta) item.getItemMeta() : (LeatherArmorMeta) Bukkit.getItemFactory().getItemMeta(item.getType());
@@ -115,6 +122,10 @@ public class ItemBuilder {
     }
     public ItemBuilder setGlint(boolean b){
         glint = b;
+        return this;
+    }
+    public ItemBuilder addEnchant(Enchantment enchantment, int level){
+        enchants.put(enchantment, level);
         return this;
     }
 }

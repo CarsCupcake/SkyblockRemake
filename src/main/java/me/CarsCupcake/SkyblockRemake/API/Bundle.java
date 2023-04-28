@@ -21,6 +21,6 @@ public class  Bundle <T,K>{
     }
     @Override
     public String toString(){
-        return "Bundle[" + t.toString() + "; " + k.toString() + "]";
+        return getClass().getSimpleName() + "[" + t.toString() + "; " + k.toString() + "]";
     }
 }

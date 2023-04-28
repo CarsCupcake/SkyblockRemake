@@ -19,11 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class F7Phase3 implements Listener {
@@ -210,7 +206,7 @@ public class F7Phase3 implements Listener {
                                 Bukkit.broadcastMessage("§cError! WorldEdit is not installed!");
                                 return;
                             }
-                            ArrayList<Block> b = null;
+                            Set<Block> b = null;
                             switch (gates){
                                 case 1 -> b = Tools.getBlocksBetween(new Location(Bukkit.getWorld("world") ,104, 115, 122).getBlock(), new Location(Bukkit.getWorld("world") ,96, 135, 124).getBlock());
                                 case 2 -> b = Tools.getBlocksBetween(new Location(Bukkit.getWorld("world") ,18, 115, 136).getBlock(), new Location(Bukkit.getWorld("world") ,16, 135, 128).getBlock());
