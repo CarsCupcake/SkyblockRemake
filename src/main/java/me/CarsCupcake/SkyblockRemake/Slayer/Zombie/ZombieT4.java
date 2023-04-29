@@ -9,7 +9,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 
 import java.util.HashMap;
-import java.util.Random;
 
 public class ZombieT4 extends Enrage{
     private Zombie entity;
@@ -45,7 +44,7 @@ public class ZombieT4 extends Enrage{
             zombie.setCustomNameVisible(true);
             equip(zombie);
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

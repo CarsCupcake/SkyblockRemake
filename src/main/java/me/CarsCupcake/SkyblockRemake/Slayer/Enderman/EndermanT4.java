@@ -58,7 +58,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
     @Override
     public void spawn(Location loc) {
         entity = loc.getWorld().spawn(loc, Enderman.class, enderman -> enderman.setRemoveWhenFarAway(false));
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
 
         aoe = new BukkitRunnable() {

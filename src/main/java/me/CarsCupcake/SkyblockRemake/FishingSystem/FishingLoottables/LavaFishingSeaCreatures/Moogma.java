@@ -6,19 +6,12 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.server.level.WorldServer;
-import net.minecraft.world.entity.ai.goal.PathfinderGoalFloat;
-import net.minecraft.world.entity.ai.goal.PathfinderGoalMeleeAttack;
-import net.minecraft.world.entity.ai.goal.PathfinderGoalZombieAttack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftMushroomCow;
-import org.bukkit.entity.Endermite;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.MushroomCow;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -62,7 +55,7 @@ public class Moogma extends SkyblockEntity implements Corruptable {
         world.addEntity(e);
         entity = (LivingEntity) Bukkit.getEntity(id);
         e.setGoalTarget(target.getHandle(), EntityTargetEvent.TargetReason.CLOSEST_ENTITY, false);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

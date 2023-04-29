@@ -88,7 +88,7 @@ public class BlazeSlayerT3 extends Slayer implements FinalDamageDesider, FirePil
 		}
 		);
 		startAoe();
-		SkyblockEntity.livingEntity.put(entity, this);
+		SkyblockEntity.livingEntity.addEntity(entity, this);
 		
 		stand = entity.getWorld().spawn(loc, ArmorStand.class, s ->{
 			s.setGravity(false);
@@ -356,7 +356,7 @@ public class BlazeSlayerT3 extends Slayer implements FinalDamageDesider, FirePil
 		}
 		);
 		startAoe();
-		SkyblockEntity.livingEntity.put(entity, this);
+		SkyblockEntity.livingEntity.addEntity(entity, this);
 		
 		stand = entity.getWorld().spawn(loc, ArmorStand.class, s ->{
 			s.setGravity(false);

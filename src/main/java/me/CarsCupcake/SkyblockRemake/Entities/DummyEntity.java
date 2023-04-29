@@ -55,7 +55,7 @@ public class DummyEntity extends SkyblockEntity {
             e.setAI(false);
             e.setSilent(true);
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

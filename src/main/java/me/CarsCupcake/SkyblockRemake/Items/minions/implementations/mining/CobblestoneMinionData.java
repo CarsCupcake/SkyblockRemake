@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
-import me.CarsCupcake.SkyblockRemake.Items.minions.AbstractMiningMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.AbstractMiningMinionData;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class CobblestoneMinion extends AbstractMiningMinion {
+public class CobblestoneMinionData extends AbstractMiningMinionData {
     @Override
     public Material representiveBlock() {
         return Material.COBBLESTONE;

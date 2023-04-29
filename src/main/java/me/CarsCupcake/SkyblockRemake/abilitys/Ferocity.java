@@ -1,28 +1,19 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Set;
-
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import me.CarsCupcake.SkyblockRemake.Items.SpawnEggEntitys;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 
 public class Ferocity {
 	public static void particles(Entity entity) {
@@ -84,7 +75,7 @@ public static void hit(LivingEntity e, double damage, boolean crit, Player playe
 		return;
 	particles(e);
 	playSound(e.getEyeLocation());
-	if(Main.currentityhealth.get(e) == null && !SkyblockEntity.livingEntity.containsKey(e))
+	if(Main.currentityhealth.get(e) == null && !SkyblockEntity.livingEntity.exists(e))
 		return;
 
 

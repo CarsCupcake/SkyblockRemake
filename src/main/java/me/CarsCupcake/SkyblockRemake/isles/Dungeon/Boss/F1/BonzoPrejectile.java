@@ -79,7 +79,7 @@ public void explode() {
 		if(e instanceof Player) {
 			SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer((Player)e);
 			Calculator c = new Calculator();
-			c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(shooter), p);
+			c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(shooter), p);
 			c.damagePlayer(p);
 			c.showDamageTag(p);
 		}

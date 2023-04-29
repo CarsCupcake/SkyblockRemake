@@ -6,11 +6,9 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
-import org.bukkit.entity.Blaze;
 import org.bukkit.entity.Endermite;
 import org.bukkit.entity.LivingEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LavaLeech extends SkyblockEntity implements Corruptable {
@@ -43,7 +41,7 @@ public class LavaLeech extends SkyblockEntity implements Corruptable {
     public void spawn(Location loc) {
         entity = loc.getWorld().spawn(loc, Endermite.class);
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

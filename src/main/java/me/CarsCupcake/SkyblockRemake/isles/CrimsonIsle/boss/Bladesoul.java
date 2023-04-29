@@ -58,7 +58,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
             witherSkeleton.getEquipment().setItemInMainHand(new ItemBuilder(Material.GOLDEN_AXE).addEnchant(Enchantment.KNOCKBACK, 2).build());
         });
         entity.setRemoveWhenFarAway(false);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         nameTag = loc.getWorld().spawn(entity.getEyeLocation(), ArmorStand.class, armorStand -> {
             armorStand.setMarker(true);
             armorStand.setCustomNameVisible(true);
@@ -230,7 +230,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
                 blaze.getEquipment().setLeggings(new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherColor(Color.BLACK).build());
                 blaze.getEquipment().setBoots(new ItemBuilder(Material.LEATHER_BOOTS).setLeatherColor(Color.BLACK).build());
             });
-            SkyblockEntity.livingEntity.put(entity, this);
+            SkyblockEntity.livingEntity.addEntity(entity, this);
         }
 
         @Override
@@ -308,7 +308,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
                 blaze.setSilent(true);
                 blaze.setAI(false);
             });
-            SkyblockEntity.livingEntity.put(entity, this);
+            SkyblockEntity.livingEntity.addEntity(entity, this);
         }
 
         @Override

@@ -16,7 +16,6 @@ import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
@@ -24,10 +23,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Set;
 
 public strictfp class Calculator {
     public boolean isCrit = false;
@@ -140,8 +137,8 @@ public strictfp class Calculator {
         } else {
             damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + (preMultiplier)) * (1 + (postMult));
         }
-        if (SkyblockEntity.livingEntity.containsKey(e)) {
-            SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);
+        if (SkyblockEntity.livingEntity.exists(e)) {
+            SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             if (entity instanceof Defensive ed) {
                 double defense = ed.getDefense();
                 double ehp = entity.getMaxHealth() * (1 + (defense / 100));
@@ -222,8 +219,8 @@ public strictfp class Calculator {
             return;
         }
         int newHealth;
-        if (SkyblockEntity.livingEntity.containsKey(e)) {
-            SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
+        if (SkyblockEntity.livingEntity.exists(e)) {
+            SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(e);
             if (se instanceof FinalDamageDesider desider) damage = desider.getFinalDamage(player, damage);
 
             se.damage(damage, SkyblockPlayer.getSkyblockPlayer(player));
@@ -237,7 +234,7 @@ public strictfp class Calculator {
         }
 
         e.damage(0.00001, player);
-        if (SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).hasNoKB())
+        if (SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).hasNoKB())
             e.setVelocity(new Vector(0, 0, 0));
 
         SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
@@ -287,7 +284,7 @@ public strictfp class Calculator {
         }
 
 
-        if ((SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0) || (Main.currentityhealth.containsKey(e) && Main.currentityhealth.get(e) <= 0)) {
+        if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0) || (Main.currentityhealth.containsKey(e) && Main.currentityhealth.get(e) <= 0)) {
             if(player != null)
             e.addScoreboardTag("killer:" + player.getName());
             Main.EntityDeath(e);
@@ -303,8 +300,8 @@ public strictfp class Calculator {
             if (isMagic) e.addScoreboardTag("abilitykill");
             Main.updateentitystats(e);
         }else {
-            if(SkyblockEntity.livingEntity.containsKey(e) && element != null) {
-                Elementable.addElement(SkyblockEntity.livingEntity.get(e), element);
+            if(SkyblockEntity.livingEntity.exists(e) && element != null) {
+                Elementable.addElement(SkyblockEntity.livingEntity.getSbEntity(e), element);
             }
         }
     }
@@ -389,8 +386,8 @@ public strictfp class Calculator {
 
         double baseMult = 0;
         damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100));
-        if(e != null && SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null){
-           SkyblockEntity entity = SkyblockEntity.livingEntity.get(e);
+        if(e != null && SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null){
+           SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             EntityAtributes.MagicResistance resistance = entity.getClass().getAnnotation(EntityAtributes.MagicResistance.class);
             damage *= resistance.multiplier();
         }
@@ -417,7 +414,7 @@ public strictfp class Calculator {
     }
 
     private int getSkyblockEntityHealth(LivingEntity e) {
-        return SkyblockEntity.livingEntity.get(e).getHealth();
+        return SkyblockEntity.livingEntity.getSbEntity(e).getHealth();
     }
 
     private int getBaseEntity(LivingEntity e) {

@@ -83,7 +83,7 @@ public class WiseDragon extends SkyblockEntity implements Defensive, CustomDrago
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
         PathFind.getDragDirection(dragon, as, 1.4);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

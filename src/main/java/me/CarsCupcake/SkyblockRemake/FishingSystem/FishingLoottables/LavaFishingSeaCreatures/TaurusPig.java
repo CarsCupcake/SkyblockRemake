@@ -6,11 +6,9 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
-import org.bukkit.entity.ElderGuardian;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Pig;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaurusPig extends SkyblockEntity implements Corruptable {
@@ -46,7 +44,7 @@ public class TaurusPig extends SkyblockEntity implements Corruptable {
 
         });
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

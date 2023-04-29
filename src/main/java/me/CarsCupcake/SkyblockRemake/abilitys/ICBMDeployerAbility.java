@@ -117,8 +117,8 @@ public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> 
 
                         if(entity instanceof LivingEntity && !(entity instanceof Player) && !entities.contains(entity)){
                             Integer maxHealth;
-                            if(SkyblockEntity.livingEntity.containsKey(entity))
-                                maxHealth = SkyblockEntity.livingEntity.get(entity).getMaxHealth();
+                            if(SkyblockEntity.livingEntity.exists(entity))
+                                maxHealth = SkyblockEntity.livingEntity.getSbEntity(entity).getMaxHealth();
                             else
                                 maxHealth = Main.baseentityhealth.get(entity);
                             if(maxHealth == null) {

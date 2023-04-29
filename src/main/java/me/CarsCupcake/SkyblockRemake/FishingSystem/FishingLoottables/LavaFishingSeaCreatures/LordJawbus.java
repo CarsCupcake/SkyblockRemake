@@ -3,16 +3,12 @@ package me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishin
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Squid;
-import org.checkerframework.checker.units.qual.A;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -45,7 +41,7 @@ public class LordJawbus extends SkyblockEntity {
     public void spawn(Location loc) {
         entity = loc.getWorld().spawn(loc, IronGolem.class);
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

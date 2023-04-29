@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.LivingEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SpititBat extends SkyblockEntity {
@@ -45,7 +44,7 @@ public class SpititBat extends SkyblockEntity {
             b.setSilent(true);
             b.addScoreboardTag("invinc");
         });
-        SkyblockEntity.livingEntity.put(bat,this);
+        SkyblockEntity.livingEntity.addEntity(bat,this);
         Main.updateentitystats(bat);
     }
 

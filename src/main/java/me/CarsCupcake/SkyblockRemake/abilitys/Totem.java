@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.abilitys;
 
-import it.unimi.dsi.fastutil.Hash;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
@@ -96,9 +95,9 @@ public class Totem {
     }
     private void tick(){
         for(Entity entity : location.getWorld().getNearbyEntities(location.getLocation(), 15,15,15))
-            if(entity instanceof LivingEntity && SkyblockEntity.livingEntity.containsKey((LivingEntity) entity))
-                if(SkyblockEntity.livingEntity.get((LivingEntity) entity) instanceof Corruptable){
-                    Corruptable corruptable = (Corruptable) (SkyblockEntity.livingEntity.get((LivingEntity) entity));
+            if(entity instanceof LivingEntity && SkyblockEntity.livingEntity.exists((LivingEntity) entity))
+                if(SkyblockEntity.livingEntity.getSbEntity((LivingEntity) entity) instanceof Corruptable){
+                    Corruptable corruptable = (Corruptable) (SkyblockEntity.livingEntity.getSbEntity((LivingEntity) entity));
                     if(!corruptable.isCorrupted())
                         corruptable.corrupt();
                 }

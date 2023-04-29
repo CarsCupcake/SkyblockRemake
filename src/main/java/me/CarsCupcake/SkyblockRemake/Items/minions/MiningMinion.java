@@ -17,9 +17,9 @@ import org.bukkit.util.EulerAngle;
 import java.util.*;
 
 public class MiningMinion extends AbstractMinion {
-    private final AbstractMiningMinion minion;
+    private final AbstractMiningMinionData minion;
 
-    public MiningMinion(int level, AbstractMiningMinion base, Location location, String minionid, SkyblockPlayer player) {
+    public MiningMinion(int level, AbstractMiningMinionData base, Location location, String minionid, SkyblockPlayer player) {
         super(level, base, location, minionid, player);
         minion = base;
     }

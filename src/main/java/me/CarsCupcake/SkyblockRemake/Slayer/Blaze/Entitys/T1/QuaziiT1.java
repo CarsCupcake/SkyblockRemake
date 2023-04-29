@@ -160,7 +160,7 @@ public class QuaziiT1 extends SkyblockEntity implements Demons {
 		Attributable zombieAt = entity;
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		attributeSpeed.setBaseValue(0.35);
-	SkyblockEntity.livingEntity.put(entity, this);
+	SkyblockEntity.livingEntity.addEntity(entity, this);
 	updateNameTag();
 	timer = entity.getWorld().spawn(loc.add(0,0.7,0), ArmorStand.class, s ->{
 		s.setGravity(false);

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class CombatMinion extends AbstractMinion {
     private static final int maxEntityAmount = 6;
-    private final AbstractCombatMinion minion;
+    private final AbstractCombatMinionData minion;
 
     /**
      * This constructor provides the basic values
@@ -28,15 +28,15 @@ public class CombatMinion extends AbstractMinion {
      * @param minionIdentifier is a string for the minion. This is a random UUID from the method {@link UUID#randomUUID()} and is also used to load the minion from the file
      * @param placer           is the player who owns the isle
      */
-    public CombatMinion(int level, AbstractCombatMinion base, Location location, String minionIdentifier, SkyblockPlayer placer) {
+    public CombatMinion(int level, AbstractCombatMinionData base, Location location, String minionIdentifier, SkyblockPlayer placer) {
         super(level, base, location, minionIdentifier, placer);
         minion = base;
     }
 
     @Override
     void startGetAnimation() {
-        List<Entity> missing = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
-                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity && SkyblockEntity.livingEntity.get(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).collect(Collectors.toList());
+        List<Entity> missing = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.exists(e) &&
+                SkyblockEntity.livingEntity.getSbEntity(e) instanceof MinionEntity && SkyblockEntity.livingEntity.getSbEntity(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).collect(Collectors.toList());
         if (missing.isEmpty())
             return;
 
@@ -51,7 +51,7 @@ public class CombatMinion extends AbstractMinion {
         stand.teleport(lo);
         stand.setHeadPose(angle);
         entity.addScoreboardTag("minionkill");
-        SkyblockEntity.killEntity(SkyblockEntity.livingEntity.get(entity), null);
+        SkyblockEntity.killEntity(SkyblockEntity.livingEntity.getSbEntity(entity), null);
         generateLoot();
         new BukkitRunnable() {
             double rotation = -90;
@@ -159,8 +159,8 @@ public class CombatMinion extends AbstractMinion {
 
     @Override
     int settableSpace() {
-        int i = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.containsKey(e) &&
-                SkyblockEntity.livingEntity.get(e) instanceof MinionEntity && SkyblockEntity.livingEntity.get(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).toList().size();
+        int i = location.getWorld().getNearbyEntities(location, 5, 5, 5).stream().filter(entity -> entity instanceof LivingEntity e && SkyblockEntity.livingEntity.exists(e) &&
+                SkyblockEntity.livingEntity.getSbEntity(e) instanceof MinionEntity && SkyblockEntity.livingEntity.getSbEntity(e).getEntity().getScoreboardTags().contains("minion:" + CombatMinion.super.minionId)).toList().size();
         if (i > maxEntityAmount) return 0;
         else return maxEntityAmount - i;
     }

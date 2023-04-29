@@ -83,7 +83,7 @@ public class ProtectorDragon extends SkyblockEntity implements Defensive, Custom
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
         PathFind.getDragDirection(dragon, as, 1.4);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

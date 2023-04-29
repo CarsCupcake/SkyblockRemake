@@ -113,7 +113,7 @@ public class TyphoesT1 extends SkyblockEntity implements Demons {
         AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         attributeSpeed.setBaseValue(0.35);
         startAoe();
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         updateNameTag();
         timer = entity.getWorld().spawn(loc.add(0, 0.25, 0), ArmorStand.class, s -> {
             s.setGravity(false);

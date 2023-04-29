@@ -12,7 +12,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,7 +30,7 @@ public class GiantsSlam implements AbilityManager<PlayerInteractEvent> {
 
         private Sword(Location location, SkyblockPlayer player){
             List<Entity> e = location.getWorld().getNearbyEntities(location, 4,4,4).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand) &&
-                    (Main.currentityhealth.containsKey(entity) || SkyblockEntity.livingEntity.containsKey(entity))).toList();
+                    (Main.currentityhealth.containsKey(entity) || SkyblockEntity.livingEntity.exists(entity))).toList();
             double dmg = 0;
             int i = 0;
             for(Entity entity : e){

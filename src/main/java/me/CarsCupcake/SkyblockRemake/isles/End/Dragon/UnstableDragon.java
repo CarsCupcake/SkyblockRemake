@@ -83,7 +83,7 @@ public class UnstableDragon extends SkyblockEntity implements Defensive, CustomD
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
         PathFind.getDragDirection(dragon, as, 1.4);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

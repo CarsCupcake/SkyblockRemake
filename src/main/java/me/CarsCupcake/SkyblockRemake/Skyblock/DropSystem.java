@@ -15,9 +15,9 @@ public class DropSystem {
 public DropSystem(Entity entity, Player player, EntityDeathEvent e) {
 
 	LivingEntity le = (LivingEntity) entity;
-	if(SkyblockEntity.livingEntity.containsKey(le)){
+	if(SkyblockEntity.livingEntity.exists(le)){
 		e.getDrops().clear();
-		HashMap<ItemManager,Integer> drops = SkyblockEntity.livingEntity.get(le).getDrops(SkyblockPlayer.getSkyblockPlayer(player));
+		HashMap<ItemManager,Integer> drops = SkyblockEntity.livingEntity.getSbEntity(le).getDrops(SkyblockPlayer.getSkyblockPlayer(player));
 		if(drops != null && !drops.isEmpty()){
 			for(ItemManager item : drops.keySet()) {
 				ItemStack i = item.createNewItemStack();

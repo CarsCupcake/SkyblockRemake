@@ -75,7 +75,7 @@ public abstract class SkyblockEntity implements Elementable {
         elements.remove(element);
     }
 
-    public static HashMap<LivingEntity, SkyblockEntity> livingEntity = new HashMap<>();
+    public static EntityMap livingEntity = EntityMap.INSTANCE;
     public static ArrayList<LivingEntity> cooldowns = new ArrayList<>();
 
 
@@ -171,8 +171,8 @@ public abstract class SkyblockEntity implements Elementable {
         SkyblockEntity.livingEntity.remove(e);
     }
     public static void killEntity(@NotNull LivingEntity e, SkyblockPlayer killer) {
-        if(livingEntity.containsKey(e)){
-            killEntity(livingEntity.get(e), killer);
+        if(livingEntity.exists(e)){
+            killEntity(livingEntity.getSbEntity(e), killer);
             return;
         }
 

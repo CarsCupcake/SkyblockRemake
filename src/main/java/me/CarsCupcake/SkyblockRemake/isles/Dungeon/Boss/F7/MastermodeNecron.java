@@ -51,7 +51,7 @@ public class MastermodeNecron extends SkyblockEntity implements Defensive {
             wither.setAI(false);
         });
         ((CraftWither)entity).getHandle().setInvul(0);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         display = Bukkit.createBossBar("Necron", BarColor.RED, BarStyle.SOLID);
         for (Player p : Bukkit.getOnlinePlayers())
             display.addPlayer(p);

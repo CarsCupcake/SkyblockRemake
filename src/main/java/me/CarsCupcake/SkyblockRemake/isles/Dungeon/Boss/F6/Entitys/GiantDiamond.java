@@ -81,7 +81,7 @@ public class GiantDiamond extends SkyblockEntity {
         entity.getEquipment().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
         entity.getEquipment().setItemInMainHand(new ItemBuilder(Material.DIAMOND_SWORD).setGlint(true).build());
 
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         start();
 

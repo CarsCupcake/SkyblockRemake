@@ -83,7 +83,7 @@ public class OldDragon extends SkyblockEntity implements Defensive, CustomDragon
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
         PathFind.getDragDirection(dragon, as, 1.3);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

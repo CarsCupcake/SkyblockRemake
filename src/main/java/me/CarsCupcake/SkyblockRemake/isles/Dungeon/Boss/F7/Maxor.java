@@ -61,7 +61,7 @@ public class Maxor extends SkyblockEntity {
             wither.setRemoveWhenFarAway(false);
             wither.addScoreboardTag("combatxp:5000");
         });
-        SkyblockEntity.livingEntity.put(entity,this);
+        SkyblockEntity.livingEntity.addEntity(entity,this);
         Main.updateentitystats(entity);
         phaseBridge();
         ((CraftWither)entity).setTarget((Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);
@@ -248,7 +248,7 @@ public class Maxor extends SkyblockEntity {
         }
 
 
-        for(SkyblockEntity e : SkyblockEntity.livingEntity.values())
+        for(SkyblockEntity e : SkyblockEntity.livingEntity.getSbEntitys())
             e.getEntity().setHealth(0);
 
     }

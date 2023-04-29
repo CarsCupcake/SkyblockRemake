@@ -49,7 +49,7 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
             zombie.setCustomNameVisible(true);
             equip(zombie);
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

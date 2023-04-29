@@ -87,7 +87,7 @@ public class Sadan extends SkyblockEntity {
         bar = Bukkit.createBossBar("§cSadan", BarColor.PURPLE, BarStyle.SOLID);
         for(Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         start();
 

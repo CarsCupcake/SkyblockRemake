@@ -636,8 +636,8 @@ public class Main extends JavaPlugin {
             for (Entity entity : world.getEntities()) {
                 if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && !(entity instanceof Player)) {
                     entity.remove();
-                    if (SkyblockEntity.livingEntity.containsKey(e)) try {
-                        SkyblockEntity.livingEntity.get(e).kill();
+                    if (SkyblockEntity.livingEntity.exists(e)) try {
+                        SkyblockEntity.livingEntity.getSbEntity(e).kill();
                     } catch (Exception ignored) {
                     }
                 }
@@ -1081,8 +1081,8 @@ public class Main extends JavaPlugin {
     @SuppressWarnings("deprecation")
     public static void updateentitystats(LivingEntity entity) {
 
-        if (SkyblockEntity.livingEntity.containsKey(entity)) {
-            SkyblockEntity.updateEntity(SkyblockEntity.livingEntity.get(entity));
+        if (SkyblockEntity.livingEntity.exists(entity)) {
+            SkyblockEntity.updateEntity(SkyblockEntity.livingEntity.getSbEntity(entity));
             if (currentityhealth.containsKey(entity)) currentityhealth.remove(entity);
             if (baseentityhealth.containsKey(entity)) baseentityhealth.remove(entity);
 

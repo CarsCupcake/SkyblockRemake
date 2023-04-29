@@ -739,8 +739,8 @@ public class SkyblockRemakeEvents implements Listener {
                     e.setDroppedExp(0);
                 }
 
-                if (SkyblockEntity.livingEntity.containsKey(e.getEntity())) {
-                    SkyblockEntity.livingEntity.get(e.getEntity()).kill();
+                if (SkyblockEntity.livingEntity.exists(e.getEntity())) {
+                    SkyblockEntity.livingEntity.getSbEntity(e.getEntity()).kill();
                 }
                 if (Main.dinnerboneNametags.containsKey(e.getEntity())) {
                     Main.dinnerboneNametags.get(e.getEntity()).remove();
@@ -763,7 +763,7 @@ public class SkyblockRemakeEvents implements Listener {
                     });
                 }
                 if (!e.getEntity().addScoreboardTag("minionkill")) {
-                    if (SkyblockEntity.livingEntity.containsKey((LivingEntity) e.getEntity())) {
+                    if (SkyblockEntity.livingEntity.exists((LivingEntity) e.getEntity())) {
                         for (String tag : e.getEntity().getScoreboardTags())
                             if (tag.startsWith("killer:")) {
                                 new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
@@ -874,7 +874,7 @@ public class SkyblockRemakeEvents implements Listener {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
             if (entity instanceof LivingEntity e) {
-                if (Main.baseentityhealth.get(entity) == null && !SkyblockEntity.livingEntity.containsKey(e)) {
+                if (Main.baseentityhealth.get(entity) == null && !SkyblockEntity.livingEntity.exists(e)) {
                     new BasicEntity(e, (int) (e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
                 }
                 Main.updateentitystats(e);
@@ -1345,7 +1345,7 @@ public class SkyblockRemakeEvents implements Listener {
                     return;
                 }
 
-                if (Main.baseentityhealth.containsKey(e.getHitEntity()) || SkyblockEntity.livingEntity.containsKey(e.getHitEntity())) {
+                if (Main.baseentityhealth.containsKey(e.getHitEntity()) || SkyblockEntity.livingEntity.exists(e.getHitEntity())) {
 
                     int cccalc = (int) (Math.random() * 100 + 1);
                     Calculator calculator = new Calculator(e.getEntity());
@@ -1463,14 +1463,14 @@ public class SkyblockRemakeEvents implements Listener {
             }
 
             LivingEntity entity = (LivingEntity) e.getEntity().getShooter();
-            if (SkyblockEntity.livingEntity.containsKey(entity)) {
+            if (SkyblockEntity.livingEntity.exists(entity)) {
 
                 e.getEntity().addScoreboardTag("hit:" + p.getName());
                 Calculator c = new Calculator(e.getEntity());
                 if (e.getEntity() instanceof SkyblockProjectile sbP) {
-                    c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(entity), p, sbP.getDamageBundle());
+                    c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(entity), p, sbP.getDamageBundle());
                     sbP.onRawHit((LivingEntity) e.getHitEntity());
-                } else c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(entity), p);
+                } else c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(entity), p);
                 c.damagePlayer(p, DamageCause.PROJECTILE);
             }
         }
@@ -1638,8 +1638,8 @@ public class SkyblockRemakeEvents implements Listener {
                         event.setDamage(0);
                         event.setCancelled(true);
                         Calculator c = new Calculator();
-                        if (SkyblockEntity.livingEntity.containsKey(event.getDamager())) {
-                            c.entityToPlayerDamage(SkyblockEntity.livingEntity.get(event.getDamager()), player);
+                        if (SkyblockEntity.livingEntity.exists(event.getDamager())) {
+                            c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(event.getDamager()), player);
                         } else {
                             if (Main.entitydamage.containsKey(event.getDamager()))
                                 damage = Main.entitydamage.get(event.getDamager());
@@ -1711,8 +1711,8 @@ public class SkyblockRemakeEvents implements Listener {
                         }
                         calculator.damageEntity(e, SkyblockPlayer.getSkyblockPlayer(player), DamageCause.ENTITY_ATTACK);
 
-                        if (SkyblockEntity.livingEntity.containsKey(e)) {
-                            SkyblockEntity se = SkyblockEntity.livingEntity.get(e);
+                        if (SkyblockEntity.livingEntity.exists(e)) {
+                            SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(e);
                             if (se.hasNoKB()) {
                                 new BukkitRunnable() {
 
@@ -1776,7 +1776,7 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     private static int getEntityHealth(LivingEntity entity) {
-        if (SkyblockEntity.livingEntity.containsKey(entity)) return SkyblockEntity.livingEntity.get(entity).getHealth();
+        if (SkyblockEntity.livingEntity.exists(entity)) return SkyblockEntity.livingEntity.getSbEntity(entity).getHealth();
         if (Main.currentityhealth.containsKey(entity)) return Main.currentityhealth.get(entity);
 
 

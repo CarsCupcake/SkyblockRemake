@@ -83,7 +83,7 @@ public class YoungDragon extends SkyblockEntity implements Defensive, CustomDrag
         for (Player p : Bukkit.getOnlinePlayers())
             bar.addPlayer(p);
         PathFind.getDragDirection(dragon, as, 2.25);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

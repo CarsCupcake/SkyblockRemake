@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public interface IMinion {
+public interface IMinionData {
     int getLevels();
     String[] getHeadStrings();
     String name();
@@ -37,9 +37,9 @@ public interface IMinion {
     ItemStack getItemInHand();
     String id();
 
-    HashMap<String, IMinion> minions = new HashMap<>();
+    HashMap<String, IMinionData> minions = new HashMap<>();
 
-    static void registerMinion(IMinion minion){
+    static void registerMinion(IMinionData minion){
         minions.put(minion.id(), minion);
 
         for (int i = 1; i <= minion.getLevels(); i++){
@@ -50,9 +50,9 @@ public interface IMinion {
         }
     }
     class MinionPlace implements BlockPlaceAbility {
-        private final IMinion minion;
+        private final IMinionData minion;
         private final int level;
-        public MinionPlace(IMinion minion, int level){
+        public MinionPlace(IMinionData minion, int level){
             this.minion = minion;
             this.level = level;
         }

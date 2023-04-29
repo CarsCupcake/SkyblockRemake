@@ -72,7 +72,7 @@ public class GiantJollyPink extends SkyblockEntity {
         entity.getEquipment().setLeggings(getColored(Color.fromRGB(0xD21077), Material.LEATHER_LEGGINGS));
         entity.getEquipment().setChestplate(getColored(Color.fromRGB(0xD21077), Material.LEATHER_CHESTPLATE));
 
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         start();
 

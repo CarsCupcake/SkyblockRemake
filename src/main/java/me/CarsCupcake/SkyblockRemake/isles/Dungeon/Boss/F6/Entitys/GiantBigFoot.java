@@ -72,7 +72,7 @@ public class GiantBigFoot extends SkyblockEntity {
         entity.addScoreboardTag("combatxp:3000");
         entity.setTarget((Player)Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);
         entity.getEquipment().setBoots(getColored(Color.RED, Material.LEATHER_BOOTS));
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         start();
 

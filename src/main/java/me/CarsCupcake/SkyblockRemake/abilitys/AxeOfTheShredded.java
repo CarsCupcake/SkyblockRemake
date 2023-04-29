@@ -107,8 +107,8 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 				        	
 				        	damage *= 0.1;
 				        	damage *= multi;
-				        	if(SkyblockEntity.livingEntity.containsKey(entity)) {
-				        		SkyblockEntity se = SkyblockEntity.livingEntity.get(entity);
+				        	if(SkyblockEntity.livingEntity.exists(entity)) {
+				        		SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(entity);
 				        		se.damage((int)damage,SkyblockPlayer.getSkyblockPlayer(player));
 				        		
 				        			
@@ -116,7 +116,7 @@ private static final String itemID = "AXE_OF_THE_SHREDDED";
 				        	}else {
 				        	int live = Main.currentityhealth.get(entity) - (int) damage;
 				        	Main.currentityhealth.replace(entity, live);}
-						 if((SkyblockEntity.livingEntity.containsKey(entity) && SkyblockEntity.livingEntity.get(e).getHealth() <= 0) || (!SkyblockEntity.livingEntity.containsKey(entity)&&Main.currentityhealth.get(entity) <= 0) ) {
+						 if((SkyblockEntity.livingEntity.exists(entity) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0) || (!SkyblockEntity.livingEntity.exists(entity)&&Main.currentityhealth.get(entity) <= 0) ) {
 		        		
 		        		Main.EntityDeath(entity);
 		        		entity.damage(9999999,player);

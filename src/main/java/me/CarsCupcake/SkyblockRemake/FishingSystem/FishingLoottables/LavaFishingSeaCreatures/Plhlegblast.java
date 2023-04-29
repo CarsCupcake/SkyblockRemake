@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Squid;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Plhlegblast extends SkyblockEntity implements Corruptable {
@@ -42,7 +41,7 @@ public class Plhlegblast extends SkyblockEntity implements Corruptable {
     public void spawn(Location loc) {
         entity = loc.getWorld().spawn(loc, Squid.class);
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

@@ -26,7 +26,7 @@ public class Overload extends ElementalReaction {
                     calculator.playerToEntityMagicDamage(SkyblockPlayer.getSkyblockPlayer(pl), null, dmg(SkyblockPlayer.getSkyblockPlayer(pl).getSkyblockLevel()) * 2);
                 }else calculator.playerToEntityMagicDamage(null, null, dmg(player.getSkyblockLevel()) * 2);
                 calculator.damagePlayer(player);
-            }else if (e instanceof LivingEntity le && SkyblockEntity.livingEntity.containsKey(le)){
+            }else if (e instanceof LivingEntity le && SkyblockEntity.livingEntity.exists(le)){
                 Calculator c = new Calculator();
                 if(applier instanceof Player pl){
                     c.playerToEntityMagicDamage(SkyblockPlayer.getSkyblockPlayer(pl), le, dmg(SkyblockPlayer.getSkyblockPlayer(pl).getSkyblockLevel()) * 2);

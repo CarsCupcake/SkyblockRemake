@@ -52,7 +52,7 @@ public class Zealot extends SkyblockEntity {
             if(isLoot)
                 enderman.setCarriedBlock(Material.ENDER_CHEST.createBlockData());
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

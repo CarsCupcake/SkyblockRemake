@@ -17,7 +17,7 @@ public abstract class Slayer extends SkyblockEntity{
     public static void summonSlayer(Location location, Slayer slayer){
         slayer.spawn(location);
         slayers.put(slayer.owner, slayer);
-        SkyblockEntity.livingEntity.put(slayer.getEntity(), slayer);
+        SkyblockEntity.livingEntity.addEntity(slayer.getEntity(), slayer);
     }
     public SkyblockPlayer getOwner(){
         return owner;

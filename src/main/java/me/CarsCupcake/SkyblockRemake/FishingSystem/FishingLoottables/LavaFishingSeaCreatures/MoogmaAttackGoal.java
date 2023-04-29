@@ -124,7 +124,7 @@ public class MoogmaAttackGoal extends PathfinderGoal {
             this.g();
             this.a.swingHand(EnumHand.a);
             Calculator calculator = new Calculator();
-            SkyblockEntity entity = SkyblockEntity.livingEntity.get((LivingEntity) Bukkit.getEntity(this.a.getUniqueID()));
+            SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity((LivingEntity) Bukkit.getEntity(this.a.getUniqueID()));
             if(var0 instanceof EntityPlayer){
                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) Bukkit.getEntity(var0.getUniqueID()));
                 calculator.entityToPlayerDamage(entity, player);

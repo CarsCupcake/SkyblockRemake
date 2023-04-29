@@ -45,7 +45,7 @@ public class BabyMagmaSlug extends SkyblockEntity implements Corruptable {
             c.setSize(1);
         });
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

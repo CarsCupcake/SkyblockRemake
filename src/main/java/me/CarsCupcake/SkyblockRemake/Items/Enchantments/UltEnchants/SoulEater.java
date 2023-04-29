@@ -81,8 +81,8 @@ public class SoulEater extends UltimateEnchant implements Listener {
             event.getCalculator().damage += 2* event.getPlayer().getItemInHand().getItemMeta().getEnchantLevel(SkyblockEnchants.SOUL_EATER);
         }
         double damage;
-        if(SkyblockEntity.livingEntity.containsKey(event.getEntity())){
-            damage = (SkyblockEntity.livingEntity.get(event.getEntity()).getDamage());
+        if(SkyblockEntity.livingEntity.exists(event.getEntity())){
+            damage = (SkyblockEntity.livingEntity.getSbEntity(event.getEntity()).getDamage());
         }else if(Main.entitydamage.containsKey(event.getEntity())){
             damage = Main.entitydamage.get(event.getEntity());
         }else

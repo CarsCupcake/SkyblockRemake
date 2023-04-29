@@ -172,8 +172,8 @@ public class EndermanT1 extends Slayer implements Listener {
 
     @EventHandler
     public void onDamage(SkyblockDamageEvent event){
-        if(event.getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && SkyblockEntity.livingEntity.containsKey(event.getEntity())){
-            SkyblockEntity entity = SkyblockEntity.livingEntity.get(event.getEntity());
+        if(event.getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && SkyblockEntity.livingEntity.exists(event.getEntity())){
+            SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(event.getEntity());
             if(entity instanceof EndermanT1 endermanT1) {
                 if(endermanT1.isInHitsPhase)
                     event.getCalculator().damage = 0;

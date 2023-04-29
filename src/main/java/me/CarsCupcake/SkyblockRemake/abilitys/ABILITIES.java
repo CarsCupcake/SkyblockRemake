@@ -12,10 +12,10 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.MelonDicer;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.PumpkinDicer;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.CactusKnife;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.FungiCutter;
-import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
-import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinion;
-import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinionData;
+import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinionData;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.BasicSpell;
@@ -157,8 +157,8 @@ public class ABILITIES implements Listener {
         registerEvent(new BatSecret.EventListener());
 
         //Minions
-        IMinion.registerMinion(new CobblestoneMinion());
-        IMinion.registerMinion(new ZombieMinion());
+        IMinionData.registerMinion(new CobblestoneMinionData());
+        IMinionData.registerMinion(new ZombieMinionData());
 
         if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle){
             registerEvent(new CustomBlock.CustomBlockListener());

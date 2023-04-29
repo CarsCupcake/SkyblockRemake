@@ -54,7 +54,7 @@ public class SpecialZealot extends SkyblockEntity {
             enderman.addScoreboardTag("combatxp:40");
             enderman.setCarriedBlock(Material.END_PORTAL_FRAME.createBlockData());
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
 

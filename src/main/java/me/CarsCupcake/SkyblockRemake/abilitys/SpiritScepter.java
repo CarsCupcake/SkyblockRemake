@@ -12,13 +12,11 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
-import java.util.List;
 
 public class SpiritScepter implements AbilityManager<PlayerInteractEvent> {
     @Override
@@ -84,7 +82,7 @@ public class SpiritScepter implements AbilityManager<PlayerInteractEvent> {
         for(Entity entity : entities){
             if(entity instanceof LivingEntity && !(entity instanceof  Player) && !entity.equals(bat.getEntity())){
                 LivingEntity e = (LivingEntity) entity;
-                if(SkyblockEntity.livingEntity.containsKey(e) && SkyblockEntity.livingEntity.get(e) instanceof SpititBat)
+                if(SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e) instanceof SpititBat)
                     return;
 
                 i++;

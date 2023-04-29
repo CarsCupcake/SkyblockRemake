@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.isles.privateIsle;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
-import me.CarsCupcake.SkyblockRemake.Items.minions.IMinion;
+import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
@@ -34,7 +34,7 @@ public class PrivateIsle {
             for (String id : section.getKeys(false)) {
                 try {
                     String[] args = config.get().getString(id + ".id").split("-");
-                    addMinion(IMinion.minions.get(args[0]), Integer.parseInt(args[1]), new Location(Bukkit.getWorld("world"), Double.parseDouble(config.get().getString(id + ".location.x")), Double.parseDouble(config.get().getString(id + ".location.y")), Double.parseDouble(config.get().getString(id + ".location.z"))), UUID.fromString(id));
+                    addMinion(IMinionData.minions.get(args[0]), Integer.parseInt(args[1]), new Location(Bukkit.getWorld("world"), Double.parseDouble(config.get().getString(id + ".location.x")), Double.parseDouble(config.get().getString(id + ".location.y")), Double.parseDouble(config.get().getString(id + ".location.z"))), UUID.fromString(id));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -42,13 +42,13 @@ public class PrivateIsle {
         }
     }
 
-    public boolean addMinion(IMinion minion, int level, Location location) {
+    public boolean addMinion(IMinionData minion, int level, Location location) {
         UUID uuid = UUID.randomUUID();
         while (minions.containsKey(uuid)) uuid = UUID.randomUUID();
         return addMinion(minion, level, location, uuid);
     }
 
-    public boolean addMinion(IMinion minion, int level, Location location, UUID uuid) {
+    public boolean addMinion(IMinionData minion, int level, Location location, UUID uuid) {
         if (!InfoManager.isUnlimitedMinions()) if (minions.size() + 1 >= maxMinions) return false;
         minions.put(uuid, Minion.getMinion(minion, level, location, uuid.toString(), player));
         return true;

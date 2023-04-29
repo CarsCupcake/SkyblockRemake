@@ -82,7 +82,7 @@ public class BlazeSlayerT1 extends Slayer {
             blaze.setRemoveWhenFarAway(false);
         });
         startAoe();
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
 
         stand = entity.getWorld().spawn(loc, ArmorStand.class, s -> {
             s.setGravity(false);
@@ -322,7 +322,7 @@ public class BlazeSlayerT1 extends Slayer {
             blaze.setRemoveWhenFarAway(false);
         });
         startAoe();
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
 
         stand = entity.getWorld().spawn(loc, ArmorStand.class, s -> {
             s.setGravity(false);

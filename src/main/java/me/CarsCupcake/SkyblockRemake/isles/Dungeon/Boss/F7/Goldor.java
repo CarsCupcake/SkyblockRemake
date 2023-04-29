@@ -59,7 +59,7 @@ public class Goldor extends SkyblockEntity {
             wither.setRemoveWhenFarAway(false);
             wither.addScoreboardTag("combatxp:5000");
         });
-        SkyblockEntity.livingEntity.put(entity,this);
+        SkyblockEntity.livingEntity.addEntity(entity,this);
         Main.updateentitystats(entity);
         entity.setAI(false);
         killingWave();
@@ -163,7 +163,7 @@ public class Goldor extends SkyblockEntity {
         try{
             attacks.cancel();
         }catch (Exception ignored){}
-        for(SkyblockEntity e : SkyblockEntity.livingEntity.values())
+        for(SkyblockEntity e : SkyblockEntity.livingEntity.getSbEntitys())
             e.getEntity().setHealth(0);
         entity = null;
     }

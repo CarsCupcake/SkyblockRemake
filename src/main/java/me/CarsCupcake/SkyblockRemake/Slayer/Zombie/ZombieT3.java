@@ -44,7 +44,7 @@ public class ZombieT3 extends Enrage{
             zombie.setCustomNameVisible(true);
             equip(zombie);
         });
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 

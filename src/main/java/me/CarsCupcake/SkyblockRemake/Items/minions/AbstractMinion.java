@@ -31,7 +31,7 @@ import java.util.*;
 
 public abstract class AbstractMinion implements Minion {
     private int level;
-    private final IMinion base;
+    private final IMinionData base;
     protected ArmorStand stand;
     protected final Location location;
     protected final String minionId;
@@ -53,7 +53,7 @@ public abstract class AbstractMinion implements Minion {
      * @param minionIdentifier is a string for the minion. This is a random UUID from the method {@link UUID#randomUUID()} and is also used to load the minion from the file
      * @param placer           is the player who owns the isle
      */
-    public AbstractMinion(int level, IMinion base, Location location, String minionIdentifier, SkyblockPlayer placer) {
+    public AbstractMinion(int level, IMinionData base, Location location, String minionIdentifier, SkyblockPlayer placer) {
         Assert.state(level <= base.getLevels());
         inventorySpace = getMinionInventorySpace(level);
         this.level = level;

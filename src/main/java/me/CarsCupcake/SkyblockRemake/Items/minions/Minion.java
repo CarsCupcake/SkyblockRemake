@@ -52,10 +52,10 @@ public interface Minion {
 
     UUID getId();
 
-    static Minion getMinion(IMinion base, int level, Location location, String minionid, SkyblockPlayer player) {
-        if (base instanceof AbstractMiningMinion miningMinion)
+    static Minion getMinion(IMinionData base, int level, Location location, String minionid, SkyblockPlayer player) {
+        if (base instanceof AbstractMiningMinionData miningMinion)
             return new MiningMinion(level, miningMinion, location, minionid, player);
-        if (base instanceof AbstractCombatMinion combatMinion)
+        if (base instanceof AbstractCombatMinionData combatMinion)
             return new CombatMinion(level, combatMinion, location, minionid, player);
         return null;
     }

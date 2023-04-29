@@ -8,7 +8,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePillar;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.FirePits;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2.BlazeSlayerT2;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -89,7 +88,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
 		}
 		);
 		startAoe();
-		SkyblockEntity.livingEntity.put(entity, this);
+		SkyblockEntity.livingEntity.addEntity(entity, this);
 		
 		stand = entity.getWorld().spawn(loc, ArmorStand.class, s ->{
 			s.setGravity(false);
@@ -357,7 +356,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
 		}
 		);
 		startAoe();
-		SkyblockEntity.livingEntity.put(entity, this);
+		SkyblockEntity.livingEntity.addEntity(entity, this);
 		
 		stand = entity.getWorld().spawn(loc, ArmorStand.class, s ->{
 			s.setGravity(false);

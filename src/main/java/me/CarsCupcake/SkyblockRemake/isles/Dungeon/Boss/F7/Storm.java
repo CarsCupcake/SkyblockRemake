@@ -56,7 +56,7 @@ public class Storm extends SkyblockEntity {
             wither.setRemoveWhenFarAway(false);
             wither.addScoreboardTag("combatxp:5000");
         });
-        SkyblockEntity.livingEntity.put(entity,this);
+        SkyblockEntity.livingEntity.addEntity(entity,this);
         Main.updateentitystats(entity);
         startLightningPhase();
         ((CraftWither)entity).setTarget((Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);

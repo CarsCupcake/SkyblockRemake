@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Taurus extends SkyblockEntity implements Corruptable {
@@ -47,7 +46,7 @@ public class Taurus extends SkyblockEntity implements Corruptable {
 
         });
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         pig = new TaurusPig();
         pig.setMain(this);

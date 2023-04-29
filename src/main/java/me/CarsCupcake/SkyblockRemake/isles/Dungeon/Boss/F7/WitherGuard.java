@@ -56,7 +56,7 @@ public class WitherGuard extends SkyblockEntity {
         Attributable zombieAt = entity;
         AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
         attributeSpeed.setBaseValue(0);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
 
         ((CraftWitherSkeleton)entity).setTarget((Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);
 

@@ -12,7 +12,6 @@ import org.bukkit.entity.Squid;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
@@ -87,7 +86,7 @@ public class Laser{
 				a.addScoreboardTag("invinc");
 				a.setCollidable(false);
 			});
-			SkyblockEntity.livingEntity.put(g, this);
+			SkyblockEntity.livingEntity.addEntity(g, this);
 			Main.updateentitystats(g);
 		}
 
@@ -156,7 +155,7 @@ public class Laser{
 				a.addScoreboardTag("invinc");
 				a.setCollidable(false);
 			});
-			SkyblockEntity.livingEntity.put(g, this);
+			SkyblockEntity.livingEntity.addEntity(g, this);
 			Main.updateentitystats(g);
 		}
 

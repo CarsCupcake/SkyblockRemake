@@ -55,7 +55,7 @@ public class Thunder extends SkyblockEntity {
         world.addEntity(e);
         entity = (LivingEntity) Bukkit.getEntity(id);
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
 
         phaseRunnable = new BukkitRunnable() {

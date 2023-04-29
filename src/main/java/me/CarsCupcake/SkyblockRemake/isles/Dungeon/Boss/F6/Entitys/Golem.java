@@ -49,7 +49,7 @@ public class Golem extends SkyblockEntity implements Defensive {
             golem.addScoreboardTag("combatxp:4000");
         });
         entity.setRemoveWhenFarAway(false);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         this.ai = new JumpAI(entity);
 

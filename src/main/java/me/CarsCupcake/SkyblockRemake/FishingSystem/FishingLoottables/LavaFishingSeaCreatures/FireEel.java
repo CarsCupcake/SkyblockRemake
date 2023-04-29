@@ -49,7 +49,7 @@ public class FireEel extends MultipleEntityHead implements Corruptable {
             armorStand.setSilent(true);
             z.setCustomNameVisible(true);
         });
-        SkyblockEntity.livingEntity.put(z, this);
+        SkyblockEntity.livingEntity.addEntity(z, this);
         Main.updateentitystats(z);
 
 

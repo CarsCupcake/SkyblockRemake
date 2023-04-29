@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T4;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
@@ -13,7 +12,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.Demons;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.DemonsGoal;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.TyphoesT1;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Bukkit;
@@ -125,7 +123,7 @@ public class TyphoesT4 extends SkyblockEntity implements Demons, FinalDamageDesi
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		attributeSpeed.setBaseValue(0.35);
 		startAoe();
-	SkyblockEntity.livingEntity.put(entity, this);
+	SkyblockEntity.livingEntity.addEntity(entity, this);
 	updateNameTag();
 	timer = entity.getWorld().spawn(loc.add(0,0.25,0), ArmorStand.class, s ->{
 		s.setGravity(false);

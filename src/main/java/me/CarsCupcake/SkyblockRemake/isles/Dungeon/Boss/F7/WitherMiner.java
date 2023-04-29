@@ -50,7 +50,7 @@ public class WitherMiner extends SkyblockEntity {
 
         });
         ((CraftWitherSkeleton)entity).setTarget((Player) Bukkit.getOnlinePlayers().toArray()[ new Random().nextInt(Bukkit.getOnlinePlayers().size())]);
-        SkyblockEntity.livingEntity.put(entity,this);
+        SkyblockEntity.livingEntity.addEntity(entity,this);
 
     }
 

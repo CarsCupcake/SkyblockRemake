@@ -89,7 +89,7 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 		Attributable zombieAt = z;
 			AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 			attributeSpeed.setBaseValue(0.35);
-		SkyblockEntity.livingEntity.put(z, this);
+		SkyblockEntity.livingEntity.addEntity(z, this);
 		
 	}
 

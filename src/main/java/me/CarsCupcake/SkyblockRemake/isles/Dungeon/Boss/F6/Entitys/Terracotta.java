@@ -56,7 +56,7 @@ public class Terracotta extends SkyblockEntity {
         , "vn5xLDSLe3pzLi8HRIRBDECup+e4JVOBr84TVeO/Eiyq7EwZclnZusnxtqWJJKPpuZKtkyXudwZlw1AaZgeEU74zBK49Ab8ua8Mnl7NDi7LHEObXgAXLAcsVlV/A2leUhJuVARl0k4/CyO6cTy7DPWvH6W5Nx4b8TUKe1VuuvMN9j4ELGH0L4PU8hdbnLspFgfdFPds8lfAyjnld7ZwbRFNo6TKnm/oYAAt6XIPS1f/79OlQ9IZaQt7LJVTOoJwKTBtQ46zXjx8Hd0iTrHhn1oBrTZiNEUfitC0oCWGZrNibCTsUb8umtvje25DBSNdXMRNLfsRysJtQXLqXsa7Y10xDX05WdTjkzR2e7YxFxX8acvP7KcMS5z9wPIKutJqjv51yj71+yWsvhoy9Zqnd85mXTrKiE4eWEVgTRd/M3Oeqrtm3ae7875yeseW7vNmVfOqnq0BvDLJaTzpWNlKExRigIIl/THgabJij/Xcu/9EWwvI79wI7lBJ1L0rKZGgrvkkpDzVpw9JpHJAYg0TFhLyyVOMGWo3vc/DX5EwUYKfMCw/b9Z0ns6qD52hIUukG2IQghE2/pYJaq9OPJoOXJn7gTkQ03z5C7+1iIGBG7ZGghhwMh3JY6ASLzQHiLB7DeJAH75PHMdqtcVLx7RmstbDvY7mzEBF/ymUm0M13mTA=");
         entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.6);
         entity.addScoreboardTag("combatxp:300");
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         this.ai = new JumpAI(entity);
     }

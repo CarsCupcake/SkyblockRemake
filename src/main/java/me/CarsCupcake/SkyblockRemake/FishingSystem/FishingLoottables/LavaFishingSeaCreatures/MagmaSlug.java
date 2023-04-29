@@ -6,11 +6,9 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Corruptable;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
-import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.MagmaCube;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MagmaSlug extends SkyblockEntity implements Corruptable {
@@ -45,7 +43,7 @@ public class MagmaSlug extends SkyblockEntity implements Corruptable {
             c.setSize(2);
         });
         entity.setCustomNameVisible(true);
-        SkyblockEntity.livingEntity.put(entity, this);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
 
