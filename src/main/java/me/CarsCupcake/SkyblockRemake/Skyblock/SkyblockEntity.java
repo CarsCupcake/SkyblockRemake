@@ -45,22 +45,33 @@ public abstract class SkyblockEntity implements Elementable {
 
     public abstract HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player);
 
-    public abstract void updateNameTag();
-@MustBeInvokedByOverriders
-@OverridingMethodsMustInvokeSuper
-    public void kill(){
-    EntityRunnable.remove(this);
+    public void updateNameTag() {
+        getEntity().setCustomName(getBaseName(this));
     }
 
-    public abstract void damage(double damage, SkyblockPlayer player);
+    @MustBeInvokedByOverriders
+    @OverridingMethodsMustInvokeSuper
+    public void kill() {
+        EntityRunnable.remove(this);
+    }
+
+    public void damage(double damage, SkyblockPlayer player) {
+        health -= damage;
+    }
 
     public abstract boolean hasNoKB();
 
     public abstract int getTrueDamage();
-    public boolean isIgnored(){
+
+    public boolean isIgnored() {
         return false;
     }
+
     protected final Set<Element> elements = new HashSet<>();
+
+    public int getLevel() {
+        return -1;
+    }
 
     @Override
     public Set<Element> getElements() {
@@ -70,7 +81,9 @@ public abstract class SkyblockEntity implements Elementable {
     @Override
     public void addElement(Element element) {
         elements.add(element);
-    }@Override
+    }
+
+    @Override
     public void removeElement(Element element) {
         elements.remove(element);
     }
@@ -98,8 +111,20 @@ public abstract class SkyblockEntity implements Elementable {
         e.updateNameTag();
     }
 
-    static String getBaseName(String name, int health, int maxhealth) {
-        return getBaseName(name, health, maxhealth, false);
+    static String getBaseName(String name, int health, int maxhealth, int level) {
+        return getBaseName(name, health, maxhealth, level,false);
+    }
+
+    static String getBaseName(String name, int health, int maxhealth, int level, boolean isCorrupted) {
+        if (level == -1) {
+            return getBaseName(name, health, maxhealth, isCorrupted);
+        } else {
+            String str;
+            if (isCorrupted)
+                str = "§7[§8Lv" + level + "§7] §5§ka§5Corrupted " + name + "§ka §a" + health + "§8/§a" + maxhealth;
+            else str = "§7[§8Lv" + level + "§7] §c" + name + " §a" + health + "§8/§a" + maxhealth;
+            return str;
+        }
     }
 
     static String getBaseName(String name, int health, int maxhealth, boolean isCorrupted) {
@@ -111,8 +136,8 @@ public abstract class SkyblockEntity implements Elementable {
 
     public static String getBaseName(SkyblockEntity entity) {
         if (entity instanceof Corruptable)
-            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), ((Corruptable) entity).isCorrupted());
-        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth());
+            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(),((Corruptable) entity).isCorrupted());
+        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel());
     }
 
     public static void updateEntity(SkyblockEntity e) {
@@ -139,7 +164,7 @@ public abstract class SkyblockEntity implements Elementable {
 
             return;
         }
-        @SuppressWarnings("deprecation") double estimated = ((double) health /(double) maxhealth) * entity.getMaxHealth();
+        @SuppressWarnings("deprecation") double estimated = ((double) health / (double) maxhealth) * entity.getMaxHealth();
         entity.setHealth(estimated);
 
 
@@ -170,8 +195,9 @@ public abstract class SkyblockEntity implements Elementable {
         if (e instanceof EnderDragon) e.setHealth(0);
         SkyblockEntity.livingEntity.remove(e);
     }
+
     public static void killEntity(@NotNull LivingEntity e, SkyblockPlayer killer) {
-        if(livingEntity.exists(e)){
+        if (livingEntity.exists(e)) {
             killEntity(livingEntity.getSbEntity(e), killer);
             return;
         }

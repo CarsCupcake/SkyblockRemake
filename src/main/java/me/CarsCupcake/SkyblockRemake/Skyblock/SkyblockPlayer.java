@@ -2,11 +2,15 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.util.*;
 
+import com.comphenix.protocol.error.BasicErrorReporter;
+import com.comphenix.protocol.injector.PacketFilterManager;
+import com.comphenix.protocol.injector.netty.channel.InjectionFactory;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
+import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
@@ -21,6 +25,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import net.minecraft.network.protocol.game.PacketPlayInTrSel;
+import net.minecraft.server.network.HandshakeListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -144,13 +150,23 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private int skyblockLevelXp = 1;
-
+    private static final InjectionFactory factory = new InjectionFactory(Main.getMain(), Main.getMain().getServer(), new BasicErrorReporter());
+    private final int protocolVersion;
+    @Getter
+    @Setter
+    private DialogBuilder.DialogRunner dialog;
 
     public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
         super(server, entity);
+        player = entity.getBukkitEntity().getPlayer();
+        protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
+        //Check for 1.17.1 (https://wiki.vg/Protocol_version_numbers)
+        if(protocolVersion != 756){
+            this.sendTitle("§a1.17.1 is recomendet!", "I suggest using 1.17.1 for less buggs");
+            this.sendMessage("§cThe plugin is made for Version 1.17.1, other versions could bug out and break some system's!");
+        }
         autoPickup = entity.displayName.equals("CarsCupcake");
         inventory = new CustomConfig(this, "inv");
-        player = entity.getBukkitEntity().getPlayer();
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
         statsConfig.reload();

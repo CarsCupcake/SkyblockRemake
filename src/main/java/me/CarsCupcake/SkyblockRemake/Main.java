@@ -13,12 +13,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.comphenix.protocol.error.BasicErrorReporter;
+import com.comphenix.protocol.error.ErrorReporter;
+import com.comphenix.protocol.events.ListeningWhitelist;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.events.PacketListener;
+import com.comphenix.protocol.injector.InternalManager;
+import com.comphenix.protocol.injector.PacketFilterManager;
+import com.comphenix.protocol.utility.MinecraftVersion;
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
@@ -46,6 +56,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.log.CustomLogger;
 import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
+import net.minecraft.network.protocol.handshake.PacketHandshakingInSetProtocol;
 import org.bukkit.*;
 
 import java.io.*;
@@ -62,6 +73,7 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -138,7 +150,9 @@ public class Main extends JavaPlugin {
 
     //Configs
     public static CustomConfig bazaarFile;
+    @Getter
     public static DebugLogger debug;
+
 
     @SuppressWarnings("deprecation")
     @Override
@@ -158,39 +172,43 @@ public class Main extends JavaPlugin {
         try {
             DebugLogger.debug = InfoManager.getValue("debug", false);
             debug = new DebugLogger("");
-            if(DebugLogger.debug)
-                System.out.println("Debug Logging enabled!");
-        }catch (Exception e){
+            if (DebugLogger.debug) System.out.println("Debug Logging enabled!");
+        } catch (Exception e) {
             System.out.println("An error occuret why enabeling the debug logger:");
             e.printStackTrace();
         }
         new BukkitRunnable() {
             CustomLogger logger = new CustomLogger("Cleanup Task");
+
             @Override
             public void run() {
-                    this.logger.info("Cleaning up the JVM (This may cause a short lag spike!)");
-                    final long before = System.currentTimeMillis();
-                    System.gc();
-                    Runtime.getRuntime().gc();
-                    final long after = System.currentTimeMillis();
-                    this.logger.info("It took " + (after - before) + "ms to cleanup the JVM heap");
+                this.logger.info("Cleaning up the JVM (This may cause a short lag spike!)");
+                final long before = System.currentTimeMillis();
+                System.gc();
+                Runtime.getRuntime().gc();
+                final long after = System.currentTimeMillis();
+                this.logger.info("It took " + (after - before) + "ms to cleanup the JVM heap");
             }
         }.runTaskTimer(this, 0L, 12000L);
         try {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
+            debug.debug("Enabeling messenger channel", false);
         } catch (Exception e) {
             e.printStackTrace();
+            debug.debug("Enabeling messenger channel failed!");
         }
         Time t = new Time();
         if (config.getBoolean("bungeeCordTime")) {
             try {
                 MessageHandler.sendMessage("registerTimer");
+                debug.debug("Registering at BungeeCord", false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else t.runTaskTimer(getMain(), 1, 1);
         new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
+        debug.debug("Set Server type", false);
         if (SkyblockServer.getServer().getType() == null) return;
         sql = new SQL();
 
@@ -293,6 +311,8 @@ public class Main extends JavaPlugin {
 
         SkyblockRecipe.init();
 
+        debug.debug("Registering Commands", false);
+
         // Commands
         getCommand("gm").setExecutor(new gmComand());
         getCommand("undozap").setExecutor(new UndoZap());
@@ -352,15 +372,21 @@ public class Main extends JavaPlugin {
         getCommand("bz").setExecutor(new BzCMD());
         getCommand("max").setExecutor(new MaxItemCmd());
         getCommand("loadschematic").setExecutor(new TestLoadSchematic());
-        getCommand("setcounter").setExecutor((commandSender, command, s, strings) -> { ItemHandler.setPDC("counter",
-            SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
+        getCommand("setcounter").setExecutor((commandSender, command, s, strings) -> {
+            ItemHandler.setPDC("counter", SkyblockPlayer.getSkyblockPlayer((Player) commandSender).getItemInHand(), PersistentDataType.INTEGER, Integer.parseInt(strings[0]));
             return false;
         });
         getCommand("room").setExecutor(new RoomCMD());
         getCommand("room").setTabCompleter(new RoomCMD());
-
-
+        getCommand("quest").setExecutor((commandSender, command, s, strings) -> {
+            if (Selection.selections.containsKey((Player) commandSender))
+                Selection.selections.get((Player) commandSender).select(UUID.fromString(strings[0]));
+            return true;
+        });
         getCommand("kuudra").setExecutor(new startKuudra());
+
+
+        debug.debug("Registering Events", false);
         this.getServer().getPluginManager().registerEvents(new SkyblockRemakeEvents(), this);
         this.getServer().getPluginManager().registerEvents(new NPCInteraction(), this);
         this.getServer().getPluginManager().registerEvents(new OpenMenu(), this);
@@ -446,6 +472,8 @@ public class Main extends JavaPlugin {
                 }
             }
         });
+
+        debug.debug("Done!", false);
 
     }
 
@@ -1303,8 +1331,7 @@ public class Main extends JavaPlugin {
         ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(stat);
         GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), stat, ferocity);
         Bukkit.getPluginManager().callEvent(event);
-        if(event.isCancelled())
-            return 0;
+        if (event.isCancelled()) return 0;
         ferocity = event.getValue() * event.getMultiplier();
         return ferocity;
     }
@@ -1659,11 +1686,11 @@ public class Main extends JavaPlugin {
                 if (ability.getManacost() > 0 && !ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getManacost());
                     Bukkit.getPluginManager().callEvent(event);
-                    lores.add("§8Mana Cost §3" + String.format("%.0f",event.getMana()));
+                    lores.add("§8Mana Cost §3" + String.format("%.0f", event.getMana()));
                 } else if (ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getPersentage());
                     Bukkit.getPluginManager().callEvent(event);
-                    lores.add("§8Mana Cost §3" + String.format("%.0f",event.getMana()) + "%");
+                    lores.add("§8Mana Cost §3" + String.format("%.0f", event.getMana()) + "%");
                 }
 
                 if (ability.getCooldown() > 0) lores.add("§8Ability Cooldown §a" + ability.getCooldown() + "s");

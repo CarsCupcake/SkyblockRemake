@@ -1,24 +1,23 @@
 package me.CarsCupcake.SkyblockRemake.NPC;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.net.SocketAddress;
+import java.util.*;
 
 
-import io.netty.channel.ChannelPromise;
+import io.netty.channel.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.PacketPlayInFlying;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
+import net.minecraft.network.protocol.handshake.PacketHandshakingInSetProtocol;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelDuplexHandler;
-
-import io.netty.channel.ChannelHandlerContext;
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.Main;
 import net.minecraft.network.protocol.game.PacketPlayInBlockDig;
@@ -50,6 +49,9 @@ public class PacketReader {
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			@Override
 			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) throws Exception {
+				if(packet instanceof PacketHandshakingInSetProtocol protocol){
+					System.out.println(protocol.c + " " + protocol.d);
+				}
 				if(packet instanceof PacketPlayInUpdateSign){
 					SignManager.recivePacket(player.getUniqueId(), (PacketPlayInUpdateSign) packet);
 				}
@@ -67,6 +69,12 @@ public class PacketReader {
 
 
 				super.channelRead(channelHandlerContext, packet);
+			}
+
+			@Override
+			public void connect(ChannelHandlerContext ctx, SocketAddress remoteAddress, SocketAddress localAddress, ChannelPromise promise) throws Exception {
+
+				super.connect(ctx, remoteAddress, localAddress, promise);
 			}
 
 			@Override
@@ -130,5 +138,19 @@ public class PacketReader {
 		
 		return result;
 	}
+	private static final ChannelDuplexHandler loginHandler = new ChannelDuplexHandler(){
+		@Override
+		public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
+			if(packet instanceof PacketPlayInFlying) {
+				super.channelRead(ctx, packet);
+				return;
+			}
+			System.out.println(packet);
+			if(packet instanceof PacketHandshakingInSetProtocol protocol){
+				System.out.println(protocol.c + " " + protocol.d);
+			}
+			super.channelRead(ctx, packet);
+		}
+	};
 	
 }

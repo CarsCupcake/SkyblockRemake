@@ -13,11 +13,16 @@ public class DebugLogger {
     }
 
     public void debug(final String s) {
+        debug(s, true);
+    }
+    public void debug(final String s, boolean withTrace) {
         if (!debug) return;
+        if(withTrace)
         try {
             throw new RuntimeException();
         } catch (Exception tool) {
             System.out.println(" \n[" + tool.getStackTrace()[1] + "] " + this.prefix + " [DEBUG] " + s);
         }
+        else System.out.println(this.prefix + " [DEBUG] " + s);
     }
 }

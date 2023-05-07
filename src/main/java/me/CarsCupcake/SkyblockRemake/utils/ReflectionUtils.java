@@ -756,6 +756,28 @@ public abstract class ReflectionUtils {
             field.setAccessible(true);
         }
     }
+    public static Field getDeclaredFieldByIndex(Class<?> src, Class<?> fieldType, int index) throws NoSuchFieldException
+    {
+        return getFieldFromArrayAndIndex(src.getDeclaredFields(), fieldType, index);
+    }
+    private static Field getFieldFromArrayAndIndex(Field fields[], Class<?> fieldType, int index) throws NoSuchFieldException
+    {
+        int counter = 0;
+        String typeName = fieldType.getName();
+        for (int i = 0; i < fields.length; i++)
+        {
+            Field field = fields[i];
+            if (field.getType().getName().equals(typeName))
+            {
+                if (counter == index)
+                    return field;
+                else
+                    counter++;
+            }
+        }
+
+        throw new NoSuchFieldException("Couldn't find a field of " + typeName + " at index " + index + ".");
+    }
 
 
     // Cache handling

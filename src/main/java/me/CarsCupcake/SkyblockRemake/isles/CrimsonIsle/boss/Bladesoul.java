@@ -95,9 +95,9 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
             @Override
             public void run() {
+                if(entity.getNearbyEntities(30, 30, 30).stream().filter(e -> e instanceof Player).findAny().isEmpty()) return;
                 if (cooldown <= 0) if (new Random().nextDouble() <= chance) {
                     cooldown = 2;
-                    System.out.println("SHOOT");
                     for (int i = 0; i < 360; i += 10){
                         Location l = new Location(entity.getLocation().getWorld(), entity.getLocation().getX(), entity.getLocation().getY() + 0.5, entity.getLocation().getZ(), i, 0);
                         l = l.add(l.getDirection().normalize().multiply(0.5));
