@@ -8,7 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.HashMap;
 
 public abstract class Slayer extends SkyblockEntity{
-    private static HashMap<SkyblockPlayer, Slayer> slayers = new HashMap<>();
+    private static final HashMap<SkyblockPlayer, Slayer> slayers = new HashMap<>();
     protected final SkyblockPlayer owner;
     public Slayer(SkyblockPlayer player){
         owner = player;
@@ -45,8 +45,6 @@ public abstract class Slayer extends SkyblockEntity{
     public abstract void updateNameTag();
 
     public abstract void kill();
-
-    public abstract void damage(double damage, SkyblockPlayer player);
 
     public abstract boolean hasNoKB();
 

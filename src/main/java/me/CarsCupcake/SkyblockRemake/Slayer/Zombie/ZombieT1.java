@@ -73,13 +73,6 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
         super.kill();
 
     }
-
-
-    @Override
-    public void damage(double damage, SkyblockPlayer player) {
-
-    }
-
     @Override
     public boolean hasNoKB() {
         return false;
