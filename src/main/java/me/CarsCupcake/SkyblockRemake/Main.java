@@ -28,6 +28,7 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
@@ -276,38 +277,6 @@ public class Main extends JavaPlugin {
         ICollection.init();
         ABILITIES.init();
         itemCMD.createItemInvs();
-        if (!Bukkit.getOnlinePlayers().isEmpty()) for (Player p : Bukkit.getOnlinePlayers()) {
-
-            SkyblockPlayer player = new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) p).getHandle());
-            absorbtion.put(player, 0);
-            absorbtionrunntime.put(player, 0);
-            shortbow_cd.put(player, false);
-            termhits.put(player, 0);
-
-            if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
-                PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
-                PetMenus.save();
-                PetMenus.reload();
-            }
-            if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-                new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
-            }
-
-            SkyblockScoreboard.updateScoreboard(player);
-
-            player.getInventory().forEach(item -> {
-                item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
-                player.updateInventory();
-
-            });
-            PacketReader reader = new PacketReader(player);
-            reader.inject();
-            Powers.initPower(player);
-            Powers.powers.get("Slender").addObitained(player);
-            Powers.powers.get("Slender").setActive(player);
-
-            new PrivateIsle(player);
-        }
 
         SkyblockRecipe.init();
 
@@ -472,8 +441,40 @@ public class Main extends JavaPlugin {
                 }
             }
         });
-
+        SkyblockServer.getServer().init();
         debug.debug("Done!", false);
+        if (!Bukkit.getOnlinePlayers().isEmpty()) for (Player p : Bukkit.getOnlinePlayers()) {
+
+            SkyblockPlayer player = new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) p).getHandle());
+            absorbtion.put(player, 0);
+            absorbtionrunntime.put(player, 0);
+            shortbow_cd.put(player, false);
+            termhits.put(player, 0);
+
+            if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
+                PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
+                PetMenus.save();
+                PetMenus.reload();
+            }
+            if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
+                new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
+            }
+
+            SkyblockScoreboard.updateScoreboard(player);
+
+            player.getInventory().forEach(item -> {
+                item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
+                player.updateInventory();
+
+            });
+            PacketReader reader = new PacketReader(player);
+            reader.inject();
+            Powers.initPower(player);
+            Powers.powers.get("Slender").addObitained(player);
+            Powers.powers.get("Slender").setActive(player);
+
+            new PrivateIsle(player);
+        }
 
     }
 
@@ -633,13 +634,15 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            try {
-                PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
-                PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
+            if (ServerType.getActiveType() == ServerType.PrivateIsle)
+                try {
+                    PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
+                    PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            SkyblockPlayer.getSkyblockPlayer(player).saveCommissionProgress();
+            SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+            p.saveCommissionProgress();
             saveCoins(player);
             saveBits(player);
             saveMithrilPowder(player);
@@ -656,6 +659,8 @@ public class Main extends JavaPlugin {
             }
             for (EntityPlayer npc : NPC.getNPCs())
                 NPC.removeNPC(player, npc);
+            if (QuestNpc.shownNpc.containsKey(p)) for (QuestNpc npc : new ArrayList<>(QuestNpc.shownNpc.get(p)))
+                npc.remove(p);
         }
         SkyblockEnchants.unregister();
         EntityNPC.shutdown();

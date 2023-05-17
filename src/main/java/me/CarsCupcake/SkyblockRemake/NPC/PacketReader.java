@@ -6,7 +6,9 @@ import java.util.*;
 
 
 import io.netty.channel.*;
+import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import net.minecraft.network.protocol.Packet;
@@ -25,12 +27,12 @@ import net.minecraft.network.protocol.game.PacketPlayInUseEntity;
 
 public class PacketReader {
 
-	private final Player player;
+	private final SkyblockPlayer player;
 	private int count = 0;
 	private static final HashMap<Player, PacketReader> readers= new HashMap<>();
 	
 	public PacketReader(Player player) {
-		this.player = player;
+		this.player = SkyblockPlayer.getSkyblockPlayer(player);
 
 	}
 	public static PacketReader getPlayerMethod(Player player) {
@@ -104,17 +106,22 @@ public class PacketReader {
 			count = 0;
 			int entityID = (int) getValue(packetPlayInUseEntity);
 			//call event
-			if(!NPC.NPCPacket.containsKey(entityID))
-				return;
+			if(NPC.NPCPacket.containsKey(entityID)) {
+				new BukkitRunnable() {
 
-			new BukkitRunnable() {
+					@Override
+					public void run() {
+						Bukkit.getPluginManager().callEvent(new RightClickNPC(player, NPC.NPCPacket.get(entityID)));
+					}
 
-				@Override
-				public void run() {
-					Bukkit.getPluginManager().callEvent(new RightClickNPC(player, NPC.NPCPacket.get(entityID)));
-				}
-				
-			}.runTask(Main.getPlugin(Main.class));
+				}.runTask(Main.getPlugin(Main.class));
+			}else {
+				for (QuestNpc npc : QuestNpc.shownNpc.get(player))
+					if(npc.getNpc().getId() == entityID) {
+						npc.onClick(player);
+						break;
+					}
+			}
 			
 		}
 	}

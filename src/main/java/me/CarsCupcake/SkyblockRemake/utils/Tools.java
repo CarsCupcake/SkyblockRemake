@@ -17,6 +17,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -646,6 +647,17 @@ public class Tools {
                 item.setAmount(0);
 
             }
+    }
+    public static int itemsInInv(SkyblockPlayer player, ItemManager manager){
+        int i = 0;
+        for (ItemStack item : player.getInventory()){
+            if(item == null) continue;
+            if(item.getType() == Material.AIR) continue;
+            if(manager.itemID.equals(ItemHandler.getOrDefaultPDC("id", item, PersistentDataType.STRING, " "))){
+                i += item.getAmount();
+            }
+        }
+        return i;
     }
 
     public static void removeItemsFromInventory(SkyblockPlayer player, ItemManager manager, int amount) {

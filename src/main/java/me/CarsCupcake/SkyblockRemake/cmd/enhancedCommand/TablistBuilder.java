@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand;
 
-import me.CarsCupcake.SkyblockRemake.cmd.CommandArgument;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,13 +38,14 @@ public class TablistBuilder implements TabCompleter {
         }
 
         @Override
-        public int compareTo(String @NotNull [] o) {
-            if (place == 0 && o.length == 0) return 1;
-            if (place != o.length) return 0;
-            for (String s : hasToBeTheLast)
-                if (s.equals(o[o.length - 1])) return 1;
+        public int compareTo(@NotNull String[] o) {
+            if (place == 0 && o.length == 1) return 1;
+            if (place != o.length - 1) return 0;
+            for (String s : hasToBeTheLast) {
+                if (s.equals(o[o.length - 2])) return 1;
+            }
 
-            return 0;
+            return -1;
         }
     }
 }

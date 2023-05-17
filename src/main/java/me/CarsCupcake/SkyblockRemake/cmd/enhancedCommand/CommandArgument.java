@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.cmd;
+package me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand;
 
 import org.checkerframework.framework.qual.PostconditionAnnotation;
 

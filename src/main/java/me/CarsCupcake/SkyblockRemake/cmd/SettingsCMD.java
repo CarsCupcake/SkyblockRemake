@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.CommandArgument;
 import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

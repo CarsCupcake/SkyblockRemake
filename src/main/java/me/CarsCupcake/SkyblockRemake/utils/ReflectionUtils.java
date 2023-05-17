@@ -607,6 +607,13 @@ public abstract class ReflectionUtils {
         }
     }
 
+    public static void setField(String field, @Nullable Object target, @Nullable Object value) {
+        Field f = ReflectionUtils.findField(target.getClass(), field);
+        f.setAccessible(true);
+        setField(f, target, value);
+        f.setAccessible(false);
+    }
+
     /**
      * Get the field represented by the supplied {@link Field field object} on the
      * specified {@link Object target object}. In accordance with {@link Field#get(Object)}

@@ -1,22 +1,29 @@
 package me.CarsCupcake.SkyblockRemake.NPC.Questing;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import me.CarsCupcake.SkyblockRemake.utils.Container;
 import me.CarsCupcake.SkyblockRemake.utils.Sound;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_17_R1.block.CraftBlock;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DialogBuilder {
-    private final List<Action> actions = new LinkedList<>();
+public class DialogBuilder implements Cloneable{
+    private List<Action> actions = new LinkedList<>();
     private final Sound sound;
     private int speed = 20;
-    private SkyblockPlayer player;
+    @Getter
+    private final Container<SkyblockPlayer> playerContainer = new Container<>();
+    private Runnable endOfDialog;
 
     public DialogBuilder(Sound dialogTalkSound) {
         this.sound = dialogTalkSound;
@@ -24,7 +31,7 @@ public class DialogBuilder {
 
     public DialogRunner build(SkyblockPlayer player) {
         Assert.state(!actions.isEmpty(), "There are no actions");
-        this.player = player;
+        this.playerContainer.setContent(player);
         return new DialogRunner();
     }
 
@@ -46,13 +53,54 @@ public class DialogBuilder {
     }
 
     @SafeVarargs
-    public final DialogBuilder dialogOption(Bundle<String, DialogBuilder>... dialogOptions) {
+    public final DialogBuilder addDialogOption(Bundle<String, DialogBuilder>... dialogOptions) {
         List<Bundle<String, Runnable>> runners = new ArrayList<>();
         for (Bundle<String, DialogBuilder> opt : dialogOptions){
-            runners.add(new Bundle<>(opt.getFirst(), () -> opt.getLast().build(player)));
+            runners.add(new Bundle<>(opt.getFirst(), () -> opt.getLast().build(playerContainer.getContent())));
         }
         actions.add(new SelectionAction(runners.toArray(new Bundle[0])));
         return this;
+    }
+    public DialogBuilder addResponse(String... responses){
+        List<Bundle<String, Runnable>> runners = new ArrayList<>();
+        for (String str : responses){
+            runners.add(new Bundle<>(str, () -> {
+                if(playerContainer.getContent().getDialog() != null)
+                    playerContainer.getContent().getDialog().resume();
+            }));
+        }
+        actions.add(new SelectionAction(runners.toArray(new Bundle[0])));
+        return this;
+    }
+    @SafeVarargs
+    public final DialogBuilder addSelection(Bundle<String, Runnable>... options){
+        actions.add(new SelectionAction(options));
+        return this;
+    }
+    public DialogBuilder onDialogEnd(Runnable runnable){
+        endOfDialog = runnable;
+        return this;
+    }
+    public DialogBuilder giveItems(ItemManager manager, int count){
+        return addSelection(new Bundle<>("Give " + count + "x " + manager.name, () -> {
+            if(Tools.itemsInInv(playerContainer.getContent(), manager) >= count){
+                Tools.removeItemsFromInventory(playerContainer.getContent(), manager, count);
+                if(playerContainer.getContent().getDialog() != null) playerContainer.getContent().getDialog().resume();
+            }else playerContainer.getContent().sendMessage("§cYou do not have enouth items!");
+
+        }));
+    }
+
+    @Override
+    public DialogBuilder clone() {
+        DialogBuilder builder;
+        try {
+            builder = (DialogBuilder) super.clone();
+        } catch (CloneNotSupportedException cantHappen) {
+            throw new InternalError("Bad clone from Location2d");
+        }
+        builder.actions = this.actions;
+        return builder;
     }
 
     public class DialogRunner implements Runnable {
@@ -60,24 +108,27 @@ public class DialogBuilder {
         int i = 0;
 
         public DialogRunner() {
-            if(player.getDialog() != null) return;
-            player.setDialog(this);
+            if(playerContainer.getContent().getDialog() != null) return;
+            playerContainer.getContent().setDialog(this);
             resume();
         }
 
         @Override
         public void run() {
-            sound.play(player);
+            sound.play(playerContainer.getContent());
             Action action = actions.get(i);
-            if (action.run(player)) {
+            if (action.run(playerContainer.getContent())) {
                 cancel(false);
             }
             i++;
-            if (actions.size() == i) cancel(true);
+            if (actions.size() == i) {
+                cancel(true);
+            }
         }
         public synchronized void cancel(boolean end) throws IllegalStateException {
             if(end){
-                player.setDialog(null);
+                if(endOfDialog != null) endOfDialog.run();
+                playerContainer.getContent().setDialog(null);
             }
             if(task == null || task.isCancelled()) return;
             Bukkit.getScheduler().cancelTask(task.getTaskId());
@@ -107,16 +158,15 @@ public class DialogBuilder {
             return false;
         }
     }
-    private record SelectionAction(Bundle<String, Runnable>... options) implements Action{
+    private record SelectionAction(Bundle<String, Runnable>[] options) implements Action{
 
         @Override
         public boolean run(SkyblockPlayer player) {
             List<BasicSelectOption> optionList = new ArrayList<>();
             for (Bundle<String, Runnable> option : options()){
-                optionList.add(new BasicSelectOption(option.getFirst(), () -> {
-                    option.getLast().run();
-                    if(player.getDialog() != null) player.getDialog().resume();
-                }));
+                optionList.add(new BasicSelectOption(option.getFirst(),
+                    option.getLast()
+                ));
             }
             new Selection(optionList.toArray(new BasicSelectOption[0]), player);
             return true;

@@ -16,6 +16,7 @@ import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
+import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
@@ -583,14 +584,14 @@ public class SkyblockRemakeEvents implements Listener {
     public void move(PlayerMoveEvent e) {
 
 
-        Player player = e.getPlayer();
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(e.getPlayer());
         NPC.getNPCs().forEach(npc -> {
 
             Location npcloc = npc.getBukkitEntity().getLocation();
             List<Entity> nearby = npc.getBukkitEntity().getNearbyEntities(5, 5, 5);
             if (nearby.contains(player)) {
                 npcloc = npcloc.setDirection(player.getLocation().subtract(npcloc).toVector());
-                PlayerConnection connection = ((CraftPlayer) player).getHandle().b;
+                PlayerConnection connection = player.getHandle().b;
                 float yaw = npcloc.getYaw();
                 float pitch = npcloc.getPitch();
                 connection.sendPacket(new PacketPlayOutEntity.PacketPlayOutEntityLook(npc.getId(), (byte) ((yaw % 360.) * 256 / 360), (byte) ((pitch % 360.) * 256 / 360), false));
@@ -598,6 +599,26 @@ public class SkyblockRemakeEvents implements Listener {
 
             }
         });
+        for (QuestNpc npc : QuestNpc.shownNpc.get(player)){
+            Location l = npc.getLocations().get(player);
+            if(l == null) {
+                continue;
+            }
+            double distance = l.distance(player.getLocation());
+            if(distance < player.getClientViewDistance() * 16 && npc.getHidden().contains(player))
+                npc.show(player);
+            else if(distance > player.getClientViewDistance() * 16 && !npc.getHidden().contains(player)){
+                npc.hide(player);
+            }
+            if(distance < 6){
+                PlayerConnection connection = player.getHandle().b;
+                float yaw = l.getYaw();
+                float pitch = l.getPitch();
+                connection.sendPacket(new PacketPlayOutEntity.PacketPlayOutEntityLook(npc.getNpc().getId(), (byte) ((yaw % 360.) * 256 / 360), (byte) ((pitch % 360.) * 256 / 360), false));
+                connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc.getNpc(), (byte) ((yaw % 360.) * 256 / 360)));
+            }
+
+        }
         if (Main.getMain().getConfig().getBoolean("LavaBounce") == true) {
             if (player.getLocation().getBlock().getType() == Material.LAVA) {
                 player.setVelocity(player.getLocation().getDirection().multiply(0).setY(2));
@@ -641,6 +662,8 @@ public class SkyblockRemakeEvents implements Listener {
         Main.saveCoins(player);
         Main.saveBits(player);
         Main.saveMithrilPowder(player);
+        if (QuestNpc.shownNpc.containsKey(player)) for (QuestNpc npc : new ArrayList<>(QuestNpc.shownNpc.get(player)))
+            npc.remove(player);
 
         try {
             player.saveInventory();

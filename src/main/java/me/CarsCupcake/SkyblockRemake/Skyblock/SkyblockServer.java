@@ -23,11 +23,7 @@ public class SkyblockServer {
         Main.getMain().getLogger().fine("Server is running on server type " + type);
         server = this;
         this.type = type;
-        if(type == ServerType.End)
-            EndListeners.init();
 
-        if(type == ServerType.CrimsonIsle)
-            new CrimsonIsle();
     }
     public ServerType  getType(){
         return type;
@@ -40,6 +36,13 @@ public class SkyblockServer {
             return new SkyblockServer(ServerType.DwarvenMines);
         else
             return new SkyblockServer(ServerType.getServerByPort(port));
+    }
+    public void init(){
+        if(type == ServerType.End)
+            EndListeners.init();
+
+        if(type == ServerType.CrimsonIsle)
+            new CrimsonIsle();
     }
 
 
