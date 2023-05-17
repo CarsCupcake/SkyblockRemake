@@ -11,7 +11,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Arrow;
@@ -74,7 +73,6 @@ public class Duplex extends UltimateEnchant implements Listener {
     }
 
     private final static HashMap<SkyblockPlayer, Double> lastDuplexDamage = new HashMap<>();
-    private final static HashMap<SkyblockPlayer, BukkitRunnable> duplexFire = new HashMap<>();
 
     @EventHandler
     public void onProjectileLounch(ProjectileLaunchEvent event) {
@@ -125,54 +123,6 @@ public class Duplex extends UltimateEnchant implements Listener {
         c.damageEntity(event.getEntity(), event.getPlayer());
 
         c.showDamageTag(event.getEntity());
-
-        int wpd = 0;
-        for (String s : event.getEntity().getScoreboardTags())
-            if (s.startsWith("dmg")) {
-                wpd = Integer.parseInt(s.split(":")[1]);
-                break;
-            }
-
-        final int dmg = wpd;
-        if (duplexFire.containsKey(event.getPlayer())) {
-            try {
-                duplexFire.get(event.getPlayer()).cancel();
-            } catch (Exception ignored) {
-            }
-        }
-
-        BukkitRunnable r = new BukkitRunnable() {
-            private int runtime = 0;
-            private final int weaponDamage = dmg;
-
-            @Override
-            public void run() {
-                if (event.getEntity().isDead()) {
-                    cancel();
-                    return;
-                }
-                if (runtime == 60) {
-                    cancel();
-                    duplexFire.remove(event.getPlayer());
-                    return;
-                }
-
-                Calculator c = new Calculator();
-                c.setApplyFerocity(false);
-                c.damage = (5 + (float) weaponDamage) * (1 + ((float) Main.getPlayerStat(event.getPlayer(), Stats.Strength) / 100));
-                c.damage *= 1.5;
-                c.damageEntity(event.getEntity(), event.getPlayer());
-
-                c.showDamageTag(event.getEntity());
-
-                event.getPlayer().getWorld().spawnParticle(Particle.FLAME, event.getEntity().getLocation().add(0, 0.5, 0), 15, 0.25, 0.7, 0.25, 0, null);
-
-
-                runtime++;
-            }
-        };
-        duplexFire.put(event.getPlayer(), r);
-        r.runTaskTimer(Main.getMain(), 20, 20);
     }
 
     @EventHandler
