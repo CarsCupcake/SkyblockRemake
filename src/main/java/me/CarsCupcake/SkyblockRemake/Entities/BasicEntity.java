@@ -24,7 +24,7 @@ public class BasicEntity extends SkyblockEntity implements MinionEntity {
         this.entity = entity;
         this.maxHealth = maxHealth;
         AttributeInstance atr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-        damage = (atr == null) ? 0 : atr.getBaseValue();            
+        damage = (atr == null) ? 0 : (atr.getBaseValue() * 5);            
 SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }
