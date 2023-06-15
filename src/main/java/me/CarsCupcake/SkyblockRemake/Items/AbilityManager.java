@@ -10,6 +10,7 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
+import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -38,8 +39,7 @@ public interface AbilityManager<T extends Event> {
 
         boolean isSneaking = player.isSneaking();
 
-        if(!player.getItemInHand().hasItemMeta())
-            return;
+        if (!player.getItemInHand().hasItemMeta()) return;
 
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING));
 
@@ -52,8 +52,7 @@ public interface AbilityManager<T extends Event> {
         boolean hasSneak = false;
 
         for (Ability ability : manager.getAbilities()) {
-            if(ability.getAbilityManager() == null)
-                continue;
+            if (ability.getAbilityManager() == null) continue;
             if (!ability.getType().isOther()) {
                 abilities.add(ability);
                 if (ability.getType().isSneak()) hasSneak = true;
@@ -109,6 +108,11 @@ public interface AbilityManager<T extends Event> {
     }
 
     static boolean precheck(Ability ability, SkyblockPlayer player, ItemManager manager, Action action) {
+        if (!InfoManager.isIgnoreCooldwon())
+            if (!allowToFire(player, ability.getAbilityManager().getClass(), ability.getType())) {
+                player.sendMessage("§cOn cooldown!");
+                return false;
+            }
         double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, Stats.Inteligence) * ability.getPersentage() : ability.getManacost();
         if (additionalMana.get(player).containsKey(manager.itemID)) {
             manacost += additionalMana.get(player).get(manager.itemID).amount;
@@ -129,7 +133,8 @@ public interface AbilityManager<T extends Event> {
             startCooldown(player, ability.getAbilityManager().getClass(), ability.getCooldown() * 20L, ability.getType());
         player.setMana((int) (player.currmana - manacost));
         Main.updatebar(player);
-        if (manacost > 0) player.setTempDefenceString("§b-" + ((manacost % 1 == 0) ? String.format("%.0f", manacost) : Tools.round(manacost, 2)) + " Mana (§6" + ability.getName() + "§b)");
+        if (manacost > 0)
+            player.setTempDefenceString("§b-" + ((manacost % 1 == 0) ? String.format("%.0f", manacost) : Tools.round(manacost, 2)) + " Mana (§6" + ability.getName() + "§b)");
         return true;
     }
 
@@ -139,8 +144,7 @@ public interface AbilityManager<T extends Event> {
 
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
 
-        if(!player.getItemInHand().hasItemMeta())
-            return;
+        if (!player.getItemInHand().hasItemMeta()) return;
 
         boolean isSneaking = player.isSneaking();
 
@@ -155,8 +159,7 @@ public interface AbilityManager<T extends Event> {
         boolean hasSneak = false;
 
         for (Ability ability : manager.getAbilities()) {
-            if(ability.getAbilityManager() == null)
-                continue;
+            if (ability.getAbilityManager() == null) continue;
             if (ability.getType() == AbilityType.EntityHit) {
                 abilities.add(ability);
             }
@@ -172,8 +175,7 @@ public interface AbilityManager<T extends Event> {
     static void abilityTrigger(DamagePrepairEvent event) {
         SkyblockPlayer player = event.getPlayer();
 
-        if(!player.getItemInHand().hasItemMeta())
-            return;
+        if (!player.getItemInHand().hasItemMeta()) return;
 
         boolean isSneaking = player.isSneaking();
 
@@ -188,8 +190,7 @@ public interface AbilityManager<T extends Event> {
         boolean hasSneak = false;
 
         for (Ability ability : manager.getAbilities()) {
-            if(ability.getAbilityManager() == null)
-                continue;
+            if (ability.getAbilityManager() == null) continue;
             if (ability.getType() == AbilityType.SkyblockPreHit) {
                 abilities.add(ability);
             }
@@ -206,9 +207,8 @@ public interface AbilityManager<T extends Event> {
     @SuppressWarnings("deprecation")
     static void abilityTrigger(SkyblockDamagePlayerToEntityExecuteEvent event) {
         SkyblockPlayer player = event.getPlayer();
-        if(player == null) return;
-        if(!player.getItemInHand().hasItemMeta())
-            return;
+        if (player == null) return;
+        if (!player.getItemInHand().hasItemMeta()) return;
 
         boolean isSneaking = player.isSneaking();
 
@@ -223,8 +223,7 @@ public interface AbilityManager<T extends Event> {
         boolean hasSneak = false;
 
         for (Ability ability : manager.getAbilities()) {
-            if(ability.getAbilityManager() == null)
-                continue;
+            if (ability.getAbilityManager() == null) continue;
             if (ability.getType() == AbilityType.AfterHit) {
                 abilities.add(ability);
             }

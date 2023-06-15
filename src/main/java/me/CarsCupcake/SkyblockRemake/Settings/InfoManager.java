@@ -25,12 +25,16 @@ public class InfoManager {
     @Getter
     private static PacketLoggerFilter packetLogFilter = new PacketLoggerFilter();
     private static CustomConfig config;
+    @Getter
+    @Setter
+    private static boolean ignoreCooldwon = false;
 
     public InfoManager(){
         config = new CustomConfig("settings");
         isClickCooldownEnabled = getValue("clickCooldown", true);
         unlimitedMinions = getValue("unlimitedMinions", false);
         miningFatuigeEnable = getValue("miningFatuige", ServerType.getActiveType() != ServerType.Non && ServerType.getActiveType() != ServerType.PrivateIsle);
+        ignoreCooldwon = getValue("ignorecooldown", false);
     }
     public static boolean isBazaarEnabled(){
         return getValue("bazaar", true);
