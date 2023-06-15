@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 
 
 public class AddReforgeTAB implements  TabCompleter{
@@ -20,7 +20,7 @@ List<String> arguments = new ArrayList<String>();
 		
 		List<String> result = new ArrayList<String>();
 		if(arguments.isEmpty()) {
-		for (String key : registerReforge.reforges.keySet()) {
+		for (String key : RegisteredReforges.reforges.keySet()) {
 			arguments.add(key);
 			
 		}

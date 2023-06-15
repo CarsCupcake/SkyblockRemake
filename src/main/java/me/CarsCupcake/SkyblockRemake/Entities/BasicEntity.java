@@ -7,6 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.craftbukkit.libs.org.apache.http.MethodNotSupportedException;
 import org.bukkit.entity.LivingEntity;
 
@@ -24,7 +25,7 @@ public class BasicEntity extends SkyblockEntity implements MinionEntity {
         this.entity = entity;
         this.maxHealth = maxHealth;
         AttributeInstance atr = entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-        damage = (atr == null) ? 0 : (atr.getBaseValue() * 5);            
+        damage = (atr == null) ? 0 : (int) (atr.getBaseValue() * 5);
 SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
     }

@@ -16,9 +16,12 @@ public class SkyblockServer {
         if(type == null){
             for (Player p : Bukkit.getOnlinePlayers())
                 p.sendTitle("§cThere is no Server type!", "§ePlease set a server type in the files!",20,400,20);
-            Main.getMain().getLogger().log(Level.SEVERE, "No Server type provided! Skyblock Plugin is shutting down!");
+            Main.getMain().getLogger().log(Level.SEVERE, "\n*********************************************************\n\n\nNo Server type provided! Skyblock Plugin is shutting down!\n\n\n*********************************************************");
             Main.getMain().getServer().getPluginManager().disablePlugin(Main.getMain());
 
+        }
+        if(type == ServerType.Non){
+            Main.getMain().getLogger().log(Level.SEVERE, "\n*********************************************************\n\n\nNo good Skyblock Server type provided! Please change it!\n\n\n*********************************************************");
         }
         Main.getMain().getLogger().fine("Server is running on server type " + type);
         server = this;

@@ -131,7 +131,7 @@ public class BonzoPhase2 extends SkyblockEntity {
 		
 		entity = loc.getWorld().spawn(loc, Zombie.class);
 		
-		Attributable zombieAt = (Attributable) entity;
+		Attributable zombieAt = entity;
 		AttributeInstance attributeSpeed = zombieAt.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
 		attributeSpeed.setBaseValue(0.5);
 		

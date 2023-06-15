@@ -193,6 +193,8 @@ public class Items {
 
         initAllItems();
         initBaseItems();
+        NOVA_SWORD();
+        ShockScythe();
         storm_boots();
         storm_leggings();
         storm_chestplate();
@@ -209,7 +211,6 @@ public class Items {
         Mithril();
         Titanium();
         Gemstone_Gauntlet();
-        SwordOfTheUniverse();
         RoughRuby();
         FlawedRuby();
         FineRuby();
@@ -457,6 +458,47 @@ public class Items {
         SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.COBBLESTONE + ""), 160));
         shapelessRecipe.register();
+        ghostPickaxe();
+    }
+    /**
+     * @author Xrnd#0001
+     */
+    public static ItemStack ShockScythe() {
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("§7Teleports to targeted §7enemy");
+        lore.add("§7Then implode dealing §7§c%dmg% §cdamage");
+        ItemManager manager = new ItemManager("Shock Scythe", "IMPERIAL_SCYTHE", ItemType.Hoe, Material.DIAMOND_HOE, ItemRarity.LEGENDARY);
+        manager.setDungeonItem(true);
+        manager.setDamage(120);
+        manager.setLore(new ArrayList<>(List.of("§rCoded and made by Xrnd#0001")));
+        manager.setStat(Stats.Inteligence, 350);
+        manager.setStat(Stats.Strength, 150);
+        AbilityLore abilityLore = new AbilityLore(lore, "%dmg%", new Bundle<>(10000d, 0.3));
+        abilityLore.addFlag(AbilityLore.LoreFlags.AsShortInteger);
+        manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
+        manager.setMaxStars(10);
+        manager.addAbility(new TeleportAndKillAbility(), AbilityType.RightClick, "Shock Dash", abilityLore,100, 2);
+        return manager.getRawItemStack();
+    }
+    /**
+     * @author Xrnd#0001
+     */
+    public static ItemStack NOVA_SWORD() {
+        ArrayList<String> lore = new ArrayList<>();
+        lore.add("§eOi you! Yes you. What are you");
+        lore.add("§elooking at? Yes this sword has ∞");
+        lore.add("§edamage. Kinda overkill? Im lazy");
+        lore.add("§eok. §c(╯°□°)╯§f︵§7┻━┻");
+        lore.add("§7Just killing all entities");
+        ItemManager manager = new ItemManager("§4S§cw§6o§er§ad §bOf §9T§dh§9e §bUn§ai§ev§6e§cr§4s§ce", "NOVA_SWORD", ItemType.Sword, Material.GOLDEN_SWORD, ItemRarity.ADMIN);
+        manager.setDungeonItem(false);
+        manager.setDamage(Double.MAX_VALUE);
+        AbilityLore abilityLore = new AbilityLore(lore, "%dmg%", new Bundle<>(10000d, 0.3));
+        abilityLore.addFlag(AbilityLore.LoreFlags.AsShortInteger);
+        manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+        manager.addAbility(new UltimatePurge(), AbilityType.RightClick, "Ultimate Purge", abilityLore,300, 10);
+        return manager.getRawItemStack();
     }
 
     public static void wand() {
@@ -2005,13 +2047,6 @@ public class Items {
         manager.setStat(Stats.MiningSpeed, 1600);
         manager.setBreakingPower(9);
         manager.setUnstackeble(true);
-        SkyblockItems.put(manager.itemID, manager);
-        return manager.getRawItemStack();
-    }
-
-    public static ItemStack SwordOfTheUniverse() {
-        ItemManager manager = new ItemManager("Sword of the Universe", "NOVA_SWORD", ItemType.Sword, Material.GOLDEN_SWORD, ItemRarity.SPECIAL);
-        manager.setDamage(Double.MAX_VALUE);
         SkyblockItems.put(manager.itemID, manager);
         return manager.getRawItemStack();
     }
@@ -4231,6 +4266,13 @@ public class Items {
         manager.setStat(Stats.Ferocity, 500);
 
         SkyblockItems.put(manager.itemID, manager);
+    }
+    private static void ghostPickaxe(){
+        ItemManager manager = new ItemManager("Ghost Pickaxe", "GHOST_BLOCKS_PICK", ItemType.Pickaxe, Material.GOLDEN_PICKAXE, ItemRarity.ADMIN);
+        manager.addBaseEnchantment(Enchantment.DIG_SPEED, 10);
+        manager.setStat(Stats.BreakingPower, 10);
+        manager.setStat(Stats.MiningSpeed, 69);
+        manager.setStat(Stats.MiningFortune, 420);
     }
 
     @SuppressWarnings("deprecation")

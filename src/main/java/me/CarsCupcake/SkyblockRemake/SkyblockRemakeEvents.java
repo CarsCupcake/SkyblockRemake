@@ -17,6 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
+import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
@@ -69,7 +70,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Puzzler;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
-import me.CarsCupcake.SkyblockRemake.NPC.PacketReader;
+import me.CarsCupcake.SkyblockRemake.utils.PacketReader;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
@@ -149,37 +150,9 @@ public class SkyblockRemakeEvents implements Listener {
         if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
             new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
         }
-
-        player.setBedSpawnLocation(new Location(Bukkit.getServer().getWorld("world"), -2.5, 70, -69.5, 180, 0));
-
-        Main.getMain().reloadConfig();
-        ;
-        if (event.getPlayer().getServer().getPort() == 25565)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -2.5, 70, -69.5, 180, 0));
-        if (event.getPlayer().getServer().getPort() == 25564 || !Main.isLocalHost)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -48.5, 200, -121.5, 270, 0));
-
-        if (event.getPlayer().getServer().getPort() == 25570)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -29.5, 121, 0.5, 90, 0));
-
-
-        //Crimson Isle
-        if (event.getPlayer().getServer().getPort() == 25568)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world_nether"), -360.5, 80, -426.5, 180, 0));
-        //The Instance
-        if (event.getPlayer().getServer().getPort() == 25569)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -101.5, 41, -185.5, 0, 0));
-        if (event.getPlayer().getServer().getPort() == 25566)
-            player.teleport(new Location(Bukkit.getServer().getWorld("dungeon"), 0, 0, 0, 0, 0));
-        //F1 Bossroom
-        if (event.getPlayer().getServer().getPort() == 25567)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -42.5, 71.5, 42.5, 180, 0));
-        if (SkyblockServer.getServer().getType() == ServerType.F6)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -8.5, 69.5, -0.5, 0, 0));
-        if (SkyblockServer.getServer().getType() == ServerType.F6)
-            player.teleport(new Location(Bukkit.getServer().getWorld("world"), -200.5, 83.5, -231.5, 0, 0));
         if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
             PrivateIslandManager.addToIsle(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+        else player.teleport(SkyblockServer.getServer().getType().getLocation());
 
 
         PacketReader reader = new PacketReader((event.getPlayer()));
@@ -599,6 +572,8 @@ public class SkyblockRemakeEvents implements Listener {
 
             }
         });
+        for (PlayerDisguise disguise : PlayerDisguise.fake.values())
+            disguise.check(player);
         for (QuestNpc npc : QuestNpc.shownNpc.get(player)){
             Location l = npc.getLocations().get(player);
             if(l == null) {
@@ -683,30 +658,9 @@ public class SkyblockRemakeEvents implements Listener {
 
         Main.deathPersons.remove(event.getPlayer());
 
-        if (SkyblockServer.getServer().getType() == ServerType.Hub)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -2.5, 70, -69.5, 180, 0));
-        if (SkyblockServer.getServer().getType() == ServerType.DwarvenMines || !Main.isLocalHost)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -48.5, 200, -121.5, 270, 0));
-
-        if (SkyblockServer.getServer().getType() == ServerType.DungeonHub)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -29.5, 121, 0.5, 90, 0));
-
-
-        //Crimson Isle
-        if (SkyblockServer.getServer().getType() == ServerType.CrimsonIsle)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world_nether"), -360.5, 80, -426.5, 180, 0));
-        //The Instance
-        if (SkyblockServer.getServer().getType() == ServerType.TheInstance)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -101.5, 41, -185.5, 0, 0));
-        if (SkyblockServer.getServer().getType() == ServerType.DungeonHub)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("dungeon"), 0, 0, 0, 0, 0));
-        //F1 Bossroom
-        if (SkyblockServer.getServer().getType() == ServerType.F1)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -42.5, 71.5, 42.5, 180, 0));
-        if (SkyblockServer.getServer().getType() == ServerType.F6)
-            event.setRespawnLocation(new Location(Bukkit.getServer().getWorld("world"), -8.5, 69.5, -0.5, 0, 0));
         if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
             event.setRespawnLocation(PrivateIslandManager.baseLocations.get(player));
+        else event.setRespawnLocation(SkyblockServer.getServer().getType().getLocation());
 
         Main.updatebar(player);
     }
@@ -744,12 +698,16 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void SoulSystem(EntityDeathEvent e) {
+        if(PlayerDisguise.nonFake.containsKey(e.getEntity().getEntityId()))
+            PlayerDisguise.nonFake.get(e.getEntity().getEntityId()).kill();
         if (e.getEntity() instanceof FallingBlock) {
             if (e.getEntity().getScoreboardTags().contains("voidgloom_beacon")) e.getEntity().getLocation();
         }
         if (e.getEntityType() != EntityType.PLAYER && e.getEntityType() != EntityType.DROPPED_ITEM) {
 
             if (e.getEntity() instanceof LivingEntity) {
+
+
                 if (e.getEntity() instanceof EnderDragon) {
                     e.setDroppedExp(0);
                 }
@@ -850,7 +808,6 @@ public class SkyblockRemakeEvents implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
         if (event.getItem() == null) return;
-
 
         ItemStack itemStack = event.getItem();
 

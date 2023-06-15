@@ -11,7 +11,7 @@ import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.heroic;
 
 
 
-public class registerReforge {
+public class RegisteredReforges {
 	public static HashMap<String, Reforge> reforges = new HashMap<>();
 	public static HashMap<String, Reforge> blacksmith_reforges = new HashMap<>();
 	

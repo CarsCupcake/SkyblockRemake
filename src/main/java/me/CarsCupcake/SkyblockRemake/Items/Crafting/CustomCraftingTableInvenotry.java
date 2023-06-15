@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Skyblock;
+package me.CarsCupcake.SkyblockRemake.Items.Crafting;
 
 
 import java.util.ArrayList;

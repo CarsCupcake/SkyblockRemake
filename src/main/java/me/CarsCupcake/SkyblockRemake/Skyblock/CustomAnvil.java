@@ -25,7 +25,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 
 
 
@@ -425,8 +425,8 @@ final ItemStack  FINAL_ITEM = new ItemStack(Main.item_updater(item, null));
 		data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 1);
 		data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING)).getNext().toString());
 		item.setItemMeta(meta);
-		if(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null && registerReforge.reforges.containsKey(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))
-		 item = AddReforges.toItemStack(item, manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)).getNext(), registerReforge.reforges.get(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)), manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)));
+		if(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))
+		 item = AddReforges.toItemStack(item, manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)).getNext(), RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)), manager1.getRarity(item, SkyblockPlayer.getSkyblockPlayer(player)));
 	
 		item = GemstoneSlot.recomGemstone(manager1, item);
 		final ItemStack  FINAL_ITEM = new ItemStack(Main.item_updater(item,null));

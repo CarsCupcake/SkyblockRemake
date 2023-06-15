@@ -16,12 +16,13 @@ public class RequestedItems {
         getICBMDeployer();
         getAxeOfPeace();
         getShushPet();
+        croissant();
     }
     public RequestedItems getInstance(){
         return INSTANCE;
     }
     //Rquested by LEAX_XR#9446
-    public ItemManager getICBMDeployer() {
+    public void getICBMDeployer() {
         ArrayList<String> abilityLore= new ArrayList<>();
         abilityLore.add("§7Lose half your hp but");
         abilityLore.add("§7damages the moby with 25%");
@@ -36,11 +37,9 @@ public class RequestedItems {
         manager.customIntContainer.put("fueling",0 );
         Items.SkyblockItems.put(manager.itemID, manager);
 
-        return manager;
-
     }
     //Requested by 1mod2#3872
-    public ItemManager getAxeOfPeace() {
+    public void getAxeOfPeace() {
         ArrayList<String> abilityLore= new ArrayList<>();
         abilityLore.add("§7Gain §c150% §7more damage and §c100% §7Crit Chance for §e5 §7seconds.");
         ArrayList<String> lore= new ArrayList<>();
@@ -55,11 +54,9 @@ public class RequestedItems {
         manager.addAbility(new BloodForTheBloodGod(), AbilityType.RightClick, "Blood for the blood god", new AbilityLore(abilityLore), 150, 15);
         Items.SkyblockItems.put(manager.itemID, manager);
 
-        return manager;
-
     }
     //Rquested by LEAX_XR#9446
-    public ItemManager getShushPet() {
+    public void getShushPet() {
 
         ArrayList<String> lore1= new ArrayList<>();
         lore1.add("§7all mobs in a 10 block radius, shushes");
@@ -80,7 +77,10 @@ public class RequestedItems {
 
         Items.SkyblockItems.put(manager.itemID, manager);
 
-        return manager;
+    }
+    //Requested by pingu#5390
+    public void croissant(){
+        ItemManager manager = new ItemManager("Croissant", "CROISSANT", ItemType.Non, ItemRarity.UNCOMMON, "http://textures.minecraft.net/texture/2faaae94779138d0e144f4fbfa6295e9e43d5054fa6eb0a64421b546c88c5b48");
 
     }
 

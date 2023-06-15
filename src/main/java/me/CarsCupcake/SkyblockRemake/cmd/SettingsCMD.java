@@ -12,9 +12,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug"})
-@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug"}, args = {"enable", "disable"}, position = 1)
+@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog"})
+@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog"}, args = {"enable", "disable"}, position = 1)
 @CommandArgument(lastArg = "respawnBoss", args = {"Bladesoul", "BarbarianDukeX", "MageOutlaw", "Ashfang", "MagmaBoss"}, position = 1)
+@CommandArgument(lastArg = "packetlog", args = {"in", "out", "name", "reset"}, position = 1)
 public class SettingsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -115,6 +116,54 @@ public class SettingsCMD implements CommandExecutor {
                 InfoManager.setValue("debug", b);
                 commandSender.sendMessage("Debuging is now " + strings[1]);
                 DebugLogger.setDebug(b);
+            }
+            case "miningfatuige" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+                }
+                InfoManager.setValue("miningfatuige", b);
+                InfoManager.setMiningFatuigeEnable(b);
+                commandSender.sendMessage("Mining Fatuige is now " + strings[1]);
+            }
+            case "movementlag" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+                }
+                InfoManager.setValue("movementlag", b);
+                InfoManager.setMovementLag(b);
+                commandSender.sendMessage("Movement Lag is now " + strings[1] + " " + ((b) ? "the value is around 200ms" : ""));
+            }
+            case "packetlog" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    switch (strings[1]){
+                        case "in" -> InfoManager.getPacketLogFilter().toggleIn();
+                        case "out" -> InfoManager.getPacketLogFilter().toggleOut();
+                        case "name" -> InfoManager.getPacketLogFilter().setSearch((strings.length >= 3) ? strings[2] : null);
+                        case "reset" -> InfoManager.getPacketLogFilter().reset();
+                        default -> commandSender.sendMessage("§cInvalid args!");
+                    }
+                    return false;
+                }
+                InfoManager.setValue("packetlog", b);
+                InfoManager.setPacketLog(b);
+                commandSender.sendMessage("Packet Log is now " + strings[1]);
             }
 
             default -> commandSender.sendMessage("§cThe setting: " + strings[0] + " does not exist.");

@@ -13,14 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import com.comphenix.protocol.error.BasicErrorReporter;
-import com.comphenix.protocol.error.ErrorReporter;
-import com.comphenix.protocol.events.ListeningWhitelist;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.PacketListener;
-import com.comphenix.protocol.injector.InternalManager;
-import com.comphenix.protocol.injector.PacketFilterManager;
-import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -28,6 +20,7 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
@@ -57,7 +50,6 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.log.CustomLogger;
 import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
-import net.minecraft.network.protocol.handshake.PacketHandshakingInSetProtocol;
 import org.bukkit.*;
 
 import java.io.*;
@@ -74,7 +66,6 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -107,12 +98,13 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetMenuListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 import net.minecraft.server.level.EntityPlayer;
+import org.spigotmc.SpigotConfig;
 
 import javax.annotation.Nullable;
 
@@ -169,7 +161,11 @@ public class Main extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
         Main = this;
+        new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
+
+        if (SkyblockServer.getServer().getType() == null) return;
         new InfoManager();
+        SpigotConfig.movedWronglyThreshold = 6;
         try {
             DebugLogger.debug = InfoManager.getValue("debug", false);
             debug = new DebugLogger("");
@@ -178,6 +174,7 @@ public class Main extends JavaPlugin {
             System.out.println("An error occuret why enabeling the debug logger:");
             e.printStackTrace();
         }
+        debug.debug("Set Server type", false);
         new BukkitRunnable() {
             CustomLogger logger = new CustomLogger("Cleanup Task");
 
@@ -208,9 +205,6 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         } else t.runTaskTimer(getMain(), 1, 1);
-        new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
-        debug.debug("Set Server type", false);
-        if (SkyblockServer.getServer().getType() == null) return;
         sql = new SQL();
 
         for (World world : Bukkit.getWorlds())
@@ -269,7 +263,7 @@ public class Main extends JavaPlugin {
 
         Items.init();
 
-        registerReforge.init();
+        RegisteredReforges.init();
         eventRegister();
         EntityNPC.loadNPC();
         SkyblockPlayer.init();
@@ -884,7 +878,7 @@ public class Main extends JavaPlugin {
 
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-                    if (ServerType.getActiveType() != ServerType.PrivateIsle)
+                    if (ServerType.getActiveType() != ServerType.PrivateIsle && InfoManager.isMiningFatuigeEnable())
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 25, -1, false, false, false));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 30, 255, false, false, false));
                     if (!deathPersons.contains(player)) {
@@ -1571,8 +1565,8 @@ public class Main extends JavaPlugin {
 
             ItemRarity rarity = manager.getRarity(ItemRarity.valueOf(data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING)), item, player);
             if (itembreakingpower(item) != 0) {
-                if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && Reforge.getReforgeValue(registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") != 0) {
-                    lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+" + Reforge.getReforgeValue(registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") + ")");
+                if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") != 0) {
+                    lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+" + Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") + ")");
                 } else lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)));
                 lores.add(" ");
             }
@@ -1660,7 +1654,7 @@ public class Main extends JavaPlugin {
 
             if (Pet.pets.containsKey(manager.itemID)) {
                 meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER) + "] " + rarity.getPrefix() + Pet.pets.get(manager.itemID).name);
-            } else if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && registerReforge.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)))
+            } else if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)))
                 meta.setDisplayName(rarity.getPrefix() + data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) + " " + rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
             else meta.setDisplayName(rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
 
@@ -1767,9 +1761,9 @@ public class Main extends JavaPlugin {
 
             }
 
-            if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && registerReforge.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)) && registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore() != null) {
+            if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)) && RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore() != null) {
                 lores.add("");
-                for (String l : registerReforge.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore()) {
+                for (String l : RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore()) {
                     lores.add(l);
                 }
                 lores.add("");

@@ -117,6 +117,7 @@ public class ItemManager implements ItemGenerator {
         this.material = material;
         this.rarity = rarity;
         isHead = false;
+        Items.SkyblockItems.put(itemID, this);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, Material material, ItemRarity rarity) {
@@ -139,6 +140,7 @@ public class ItemManager implements ItemGenerator {
         this.color = color;
         isHead = false;
         enchants = new HashMap<>();
+        Items.SkyblockItems.put(itemID, this);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, Material material, Color color, ItemRarity rarity) {
@@ -162,6 +164,7 @@ public class ItemManager implements ItemGenerator {
         isHead = true;
         material = Material.PLAYER_HEAD;
         enchants = new HashMap<>();
+        Items.SkyblockItems.put(itemID, this);
 
     }
 
@@ -190,6 +193,7 @@ public class ItemManager implements ItemGenerator {
         isHead = true;
         material = Material.PLAYER_HEAD;
         enchants = new HashMap<>();
+        Items.SkyblockItems.put(itemID, this);
 
 
     }
@@ -207,6 +211,9 @@ public class ItemManager implements ItemGenerator {
     }
     public ItemRarity getRarity(){
         return rarity;
+    }
+    public ItemRarity getRarity(@NotNull ItemStack item){
+        return getRarity(rarity, item);
     }
     public ItemRarity getRarity(@NotNull ItemStack item, @Nullable SkyblockPlayer player){
         return getRarity(rarity, item, player);

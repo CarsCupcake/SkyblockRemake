@@ -56,18 +56,6 @@ public class Idiot extends DungeonMob {
         return null;
     }
 
-
-
-    @Override
-    public void kill() {
-
-    }
-
-    @Override
-    public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
-    }
-
     @Override
     public boolean hasNoKB() {
         return true;
@@ -80,24 +68,20 @@ public class Idiot extends DungeonMob {
 
     @Override
     protected int healthFromFloor(int floor, boolean master) {
-        switch (floor) {
-            case 7 -> {
-                if (master) return 20_000_000;
-                else return 800000;
-            }
-            default -> throw new IllegalArgumentException("Not a valid floor!");
+        if (floor == 7) {
+            if (master) return 20_000_000;
+            else return 800000;
         }
+        throw new IllegalArgumentException("Not a valid floor!");
     }
 
     @Override
     protected int damageFromFloor(int floor, boolean master) {
-        switch (floor) {
-            case 7 -> {
-                if (master) return 110000;
-                else return 10400;
-            }
-            default -> throw new IllegalArgumentException("Not a valid floor!");
+        if (floor == 7) {
+            if (master) return 110000;
+            else return 10400;
         }
+        throw new IllegalArgumentException("Not a valid floor!");
     }
 
     @Override

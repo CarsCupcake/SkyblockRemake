@@ -16,6 +16,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinionData;
+import me.CarsCupcake.SkyblockRemake.Items.trading.TradeMenuListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilitys.WandSpells.BasicSpell;
@@ -164,6 +165,7 @@ public class ABILITIES implements Listener {
             registerEvent(new CustomBlock.CustomBlockListener());
         }
         LogicalBlock.init();
+        registerEvent(new TradeMenuListener());
     }
 
     public static void disable() {

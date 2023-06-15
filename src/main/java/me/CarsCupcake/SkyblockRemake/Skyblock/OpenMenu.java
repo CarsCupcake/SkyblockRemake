@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTableInvenotry;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInv;

@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -136,7 +136,7 @@ public enum Stats {
             }
 
             if(ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING)){
-                double v = Reforge.getReforgeValue(registerReforge.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)), manager.getRarity(rarity,item, player), stat.getDataName());
+                double v = Reforge.getReforgeValue(RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)), manager.getRarity(rarity,item, player), stat.getDataName());
                 if(v != 0)
                     row += " §9(+" + ((v % 1 == 0) ? String.format( "%.0f", v) : v)  + ")";
             }

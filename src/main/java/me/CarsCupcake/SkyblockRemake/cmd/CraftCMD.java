@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.CustomCraftingTableInvenotry;
+import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTableInvenotry;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

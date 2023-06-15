@@ -14,7 +14,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.registerReforge;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Auspicious;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Loving;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Necrotic;
@@ -67,8 +67,8 @@ public class AddReforge implements CommandExecutor{
 				break;
 	  default:
 		  rarity = ItemRarity.valueOf(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-		  if(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null &&registerReforge.reforges.containsKey(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))
-			player.setItemInHand(AddReforges.removeOldReforge(player.getItemInHand(), rarity, registerReforge.reforges.get(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING))));
+		  if(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING)))
+			player.setItemInHand(AddReforges.removeOldReforge(player.getItemInHand(), rarity, RegisteredReforges.reforges.get(player.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "reforge"), PersistentDataType.STRING))));
 		  player.sendMessage("Succesfully removed the reforge");
 			 player.setItemInHand(Main.item_updater(player.getItemInHand(), SkyblockPlayer.getSkyblockPlayer(player)));
 			

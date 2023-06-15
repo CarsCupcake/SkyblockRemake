@@ -28,37 +28,32 @@ import net.minecraft.world.entity.EntityPose;
 
 public class NPCUtil {
 
-	 
-    public static EntityPlayer  spawnNPC(Location spawnLocation, String texture, String Signature) {
+
+    public static EntityPlayer spawnNPC(Location spawnLocation, String texture, String Signature) {
 
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "§cBonzo");
         gameProfile.getProperties().put("textures", new Property("textures", texture, Signature));
         MinecraftServer server = ((CraftServer) Bukkit.getServer()).getServer();
-		WorldServer world = ((CraftWorld) spawnLocation.getWorld()).getHandle();
+        WorldServer world = ((CraftWorld) spawnLocation.getWorld()).getHandle();
         EntityPlayer entityPlayer = new EntityPlayer(server, world, gameProfile);
         entityPlayer.setPosition(spawnLocation.getX(), spawnLocation.getY(), spawnLocation.getZ());
 
         DataWatcher watcher = entityPlayer.getDataWatcher();
         try {
-            byte b =   0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40;
+            byte b = 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40;
             watcher.set(DataWatcherRegistry.a.a(17), b);
- 
-            
         } catch (Exception ignored) {
- ignored.printStackTrace();
+            ignored.printStackTrace();
         }
-
-
-
         for (Player on : Bukkit.getOnlinePlayers()) {
             PlayerConnection p = ((CraftPlayer) on).getHandle().b;
-           
+
             p.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, entityPlayer));
             p.sendPacket(new PacketPlayOutNamedEntitySpawn(entityPlayer));
             p.sendPacket(new PacketPlayOutEntityMetadata(entityPlayer.getId(), watcher, false));
-         
+
         }
         return entityPlayer;
- 
+
     }
 }

@@ -627,6 +627,7 @@ public abstract class ReflectionUtils {
      */
     @Nullable
     public static Object getField(Field field, @Nullable Object target) {
+        field.setAccessible(true);
         try {
             return field.get(target);
         }

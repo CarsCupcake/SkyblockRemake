@@ -1,6 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Settings;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
@@ -9,12 +13,24 @@ public class InfoManager {
     private static boolean isClickCooldownEnabled;
     @Getter
     private static boolean unlimitedMinions;
+    @Getter
+    @Setter
+    private static boolean miningFatuigeEnable = true;
+    @Getter
+    @Setter
+    private static boolean movementLag = false;
+    @Getter
+    @Setter
+    private static boolean packetLog = false;
+    @Getter
+    private static PacketLoggerFilter packetLogFilter = new PacketLoggerFilter();
     private static CustomConfig config;
 
     public InfoManager(){
         config = new CustomConfig("settings");
         isClickCooldownEnabled = getValue("clickCooldown", true);
         unlimitedMinions = getValue("unlimitedMinions", false);
+        miningFatuigeEnable = getValue("miningFatuige", ServerType.getActiveType() != ServerType.Non && ServerType.getActiveType() != ServerType.PrivateIsle);
     }
     public static boolean isBazaarEnabled(){
         return getValue("bazaar", true);
@@ -62,5 +78,31 @@ public class InfoManager {
             config.save();
             config.reload();
 
+    }
+    public static class PacketLoggerFilter{
+        @Getter
+        private boolean in = true;
+        @Getter
+        private boolean out = true;
+        @Getter
+        @Setter
+        private String search;
+        @SneakyThrows
+        private PacketLoggerFilter(){
+            if(packetLogFilter != null && packetLogFilter != this) throw new IllegalAccessException("You are not allowed to call this!");
+        }
+        public void toggleIn(){
+            in = !in;
+            Main.getDebug().debug("Set In filter to " + in, false);
+        }
+        public void toggleOut(){
+            out = !out;
+            Main.getDebug().debug("Set Out filter to " + out, false);
+        }
+        public void reset(){
+            in = true;
+            out = true;
+            search = null;
+        }
     }
 }
