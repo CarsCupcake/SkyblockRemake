@@ -162,12 +162,12 @@ public class SkyblockPlayer extends CraftPlayer {
         player = entity.getBukkitEntity().getPlayer();
         protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
         //Check for 1.17.1 (https://wiki.vg/Protocol_version_numbers)
-        if(protocolVersion != 756){
+        if (protocolVersion != 756) {
             this.sendTitle("§a1.17.1 is recomendet!", "I suggest using 1.17.1 for less buggs");
             this.sendMessage("§cThe plugin is made for Version 1.17.1, other versions could bug out and break some system's!");
         }
         autoPickup = entity.displayName.equals("CarsCupcake");
-        inventory = new CustomConfig(this, "inv");
+        inventory = new CustomConfig(this, "inventory");
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
         statsConfig.reload();
@@ -210,17 +210,16 @@ public class SkyblockPlayer extends CraftPlayer {
         Effect.load(this);
         initQuest();
 
-        player.setPlayerListHeaderFooter("§bYou are Playing on §e§l"+ Main.getMain().getServer().getIp() +" \n ",
-                " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
+        player.setPlayerListHeaderFooter("§bYou are Playing on §e§l" + Main.getMain().getServer().getIp() + " \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
     }
 
     public static void init() {
 
     }
 
-    public void initQuest(){
+    public void initQuest() {
         Main.getDebug().debug("Registering " + player.getName() + " to Quests", false);
-        if(ServerType.getActiveType() == ServerType.CrimsonIsle){
+        if (ServerType.getActiveType() == ServerType.CrimsonIsle) {
             CrimsonIsle.init(this);
         }
     }
@@ -231,125 +230,38 @@ public class SkyblockPlayer extends CraftPlayer {
     }
 
     private void loadInventory() {
-        getInventory().clear();
-        inventory.reload();
-        try {
-            if (inventory.get().getConfigurationSection(getUniqueId().toString()) != null) {
-                for (String k : inventory.get().getConfigurationSection(getUniqueId().toString()).getKeys(false)) {
-                    if (inventory.get().get(getUniqueId() + "." + k + ".pdc.id") == null) {
-                        getInventory().setItem(Integer.parseInt(k.split("_")[1]), null);
-                        continue;
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            getInventory().clear();
+            inventory.reload();
+            try {
+                if (inventory.get().getConfigurationSection("") != null) {
+                    for (String k : inventory.get().getKeys(false)) {
+                        int i = Integer.parseInt(k);
+                        ItemStack item = inventory.get().getItemStack(k);
+                        super.getInventory().setItem(i, item);
                     }
-                    String auctionPointer = getUniqueId() + "." + k;
-                    HashMap<String, String> map = new HashMap<>();
-                    if (inventory.get().getConfigurationSection(auctionPointer + ".pdc") != null)
-                        for (String t : inventory.get().getConfigurationSection(auctionPointer + ".pdc").getKeys(false)) {
-                            map.put(t, inventory.get().getString(auctionPointer + ".pdc." + t));
-                        }
-                    ItemStack item = buildItem(map, this);
-                    item.setAmount(inventory.get().getInt(auctionPointer + ".amount"));
-                    ItemMeta meta = item.getItemMeta();
-                    if (meta == null) continue;
-
-
-                    if (inventory.get().getConfigurationSection(auctionPointer + ".ench") != null)
-                        for (String t : inventory.get().getConfigurationSection(auctionPointer + ".ench").getKeys(false)) {
-
-                            try {
-                                if (SkyblockEnchants.skyblockEnchantIds.contains(t)) {
-                                    meta.addEnchant(SkyblockEnchants.enchantments.get(SkyblockEnchants.skyblockEnchantIds.indexOf(t)), inventory.get().getInt(auctionPointer + ".ench." + t), false);
-                                } else {
-                                    meta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(t)), inventory.get().getInt(auctionPointer + ".ench." + t), false);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                sendMessage("§cThere was an error with your " + item.getItemMeta().getDisplayName() + " §cwith the encahnt " + t);
-                            }
-
-                        }
-                    item.setItemMeta(meta);
-                    item = Main.item_updater(item, this);
-                    getInventory().setItem(Integer.parseInt(k.split("_")[1]), item);
-
                 }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        player.getInventory().setItem(8, Items.SkyblockMenu());
-        player.updateInventory();
-    }
-
-    private ItemStack buildItem(HashMap<String, String> map, SkyblockPlayer player) {
-        ItemStack item = new ItemStack(Material.FEATHER);
-
-        for (String str : map.keySet())
-            if (str.equals("id")) {
-                if (map.get(str).equals("SKYBLOCK_MENU")) return new ItemStack(Material.AIR);
-
-                if (Items.SkyblockItems.containsKey(map.get(str)))
-                    item = Items.SkyblockItems.get(map.get(str)).getRawItemStack();
-                else {
-                    player.sendMessage("§cThere was an issue while loading the item with the is: " + map.get(str));
-                    return new ItemStack(Material.AIR);
-                }
-            }
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        map.forEach((t, k) -> {
-            if (t.equals("dmg")) {
-                data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, k);
-                return;
-            }
-            boolean isParaseble = false;
-            try {
-                int integer = Integer.parseInt(k);
-                isParaseble = true;
-                data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.INTEGER, integer);
-            } catch (Exception ignored) {
-            }
-            if (!isParaseble) {
-                try {
-                    double doubl = Double.parseDouble(k);
-                    isParaseble = true;
-                    data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.DOUBLE, doubl);
-                } catch (Exception ignored) {
-                }
-            }
-            if (!isParaseble) {
-                data.set(new NamespacedKey(Main.getMain(), t), PersistentDataType.STRING, k);
-            }
-        });
-
-        item.setItemMeta(meta);
-
-        return Main.item_updater(item, player);
-
-    }
-
-    public void saveInventory() {
-        inventory.reload();
-        inventory.get().set(getUniqueId().toString(), null);
-        inventory.save();
-        inventory.reload();
-        for (int i = 0; i < 40; i++) {
-            ItemStack item = player.getInventory().getItem(i);
-            try {
-                if (item == null || item.getType() == Material.AIR) {
-                    continue;
-                }
-                for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
-                    inventory.get().set(getUniqueId() + ".SLOT_" + i + ".ench." + enchantment.getKey().getKey(), item.getItemMeta().getEnchants().get(enchantment));
-                }
-                inventory.get().set(getUniqueId() + ".SLOT_" + i + ".amount", item.getAmount());
-                saveItem(i, getItemAsMap(item));
             } catch (Exception e) {
                 e.printStackTrace();
-                inventory.get().set(getUniqueId() + ".SLOT_" + i, "AIR");
             }
-        }
-        inventory.save();
-        inventory.reload();
+            player.getInventory().setItem(8, Items.SkyblockMenu());
+            player.updateInventory();
+        });
+
+    }
+    public void saveInventory() {
+        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            inventory.clear();
+            inventory.save();
+            inventory.reload();
+            for (int i = 0; i < 40; i++) {
+                ItemStack item = this.getInventory().getItem(i);
+                if (item != null && item.getType() != Material.AIR)
+                    inventory.get().set(i + "", this.getInventory().getItem(i));
+            }
+            inventory.save();
+            inventory.reload();
+        });
     }
 
     private HashMap<String, String> getItemAsMap(ItemStack item) {
@@ -859,7 +771,8 @@ public class SkyblockPlayer extends CraftPlayer {
     public void setMana(int value) {
         currmana = value;
     }
-    public void addBaseStat(Stats stat, double v){
+
+    public void addBaseStat(Stats stat, double v) {
         setBaseStat(stat, v + getBaseStat(stat));
     }
 
