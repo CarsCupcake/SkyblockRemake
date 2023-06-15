@@ -24,7 +24,6 @@ public class DungeonCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, @NotNull String arg2, String[] arg3) {
         Player player = (Player) arg0;
-        if (!player.getDisplayName().equals("CarsCupcake")) return false;
         if (arg3.length == 1 && arg3[0].equals("wipe")) {
             new BukkitRunnable() {
                 public void run() {
@@ -42,6 +41,7 @@ public class DungeonCMD implements CommandExecutor {
             return true;
         }
         Generator.place();
+        player.sendMessage("§aGenerated test dungeon at 0 0 0");
         return false;
     }
 
