@@ -3,8 +3,8 @@ package me.CarsCupcake.SkyblockRemake.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.abilitys.BloodForTheBloodGod;
-import me.CarsCupcake.SkyblockRemake.abilitys.ICBMDeployerAbility;
+import me.CarsCupcake.SkyblockRemake.abilities.BloodForTheBloodGod;
+import me.CarsCupcake.SkyblockRemake.abilities.ICBMDeployerAbility;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

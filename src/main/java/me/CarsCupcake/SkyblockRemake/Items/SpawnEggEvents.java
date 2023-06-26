@@ -37,35 +37,35 @@ public class SpawnEggEvents implements Listener {
 					switch(data.get(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING)) {
 					case "RevT1":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonT1Rev(spawnLocation,event.getPlayer().getName());
+						SpawnEggEntities.SummonT1Rev(spawnLocation,event.getPlayer().getName());
 						break;
 					case "RevT2":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonT2Rev(spawnLocation,event.getPlayer().getName());
+						SpawnEggEntities.SummonT2Rev(spawnLocation,event.getPlayer().getName());
 						break;
 					case "RevT3":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonT3Rev(spawnLocation,event.getPlayer().getName());
+						SpawnEggEntities.SummonT3Rev(spawnLocation,event.getPlayer().getName());
 						break;
 					case "RevT4":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonT4Rev(spawnLocation,event.getPlayer().getName());
+						SpawnEggEntities.SummonT4Rev(spawnLocation,event.getPlayer().getName());
 						break;
 					case "RevMiniT3":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonRevT3MiniBoss1(spawnLocation);
+						SpawnEggEntities.SummonRevT3MiniBoss1(spawnLocation);
 						break;
 					case "RevMiniT4_1":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonRevT4MiniBoss1(spawnLocation);
+						SpawnEggEntities.SummonRevT4MiniBoss1(spawnLocation);
 						break;
 					case "RevMiniT4_2":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonRevT4MiniBoss2(spawnLocation);
+						SpawnEggEntities.SummonRevT4MiniBoss2(spawnLocation);
 						break;
 					case "VoidT2":
 						event.setCancelled(true);
-						SpawnEggEntitys.SummonVoidT2(spawnLocation, event.getPlayer().getName());
+						SpawnEggEntities.SummonVoidT2(spawnLocation, event.getPlayer().getName());
 						break;
 					}
 				}

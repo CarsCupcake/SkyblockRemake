@@ -1,10 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.storage;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.TemplateItems;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import org.bukkit.Material;
 
 public class MainStorage {

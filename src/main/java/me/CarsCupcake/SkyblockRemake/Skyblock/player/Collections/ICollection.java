@@ -7,7 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsGetter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 
 public abstract class ICollection implements SkyblockLevelsGetter {
     protected static CustomConfig config;

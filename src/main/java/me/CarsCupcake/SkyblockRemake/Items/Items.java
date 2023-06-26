@@ -25,7 +25,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.BlazeSlayerItems;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
 import me.CarsCupcake.SkyblockRemake.isles.WinterIsle.WinterItems;
-import me.CarsCupcake.SkyblockRemake.abilitys.*;
+import me.CarsCupcake.SkyblockRemake.abilities.*;
 import org.bukkit.*;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
@@ -536,12 +536,12 @@ public class Items {
         manager.setStat(Stats.CritChance, 100);
         manager.setStat(Stats.CritDamage, 50);
         manager.setStat(Stats.AttackSpeed, 50);
-        manager.addAbility(new LividDaggerability(), AbilityType.RightClick, "Throw", new AbilityLore(abilityLore), 150, 5);
+        manager.addAbility(new LividDaggerAbility(), AbilityType.RightClick, "Throw", new AbilityLore(abilityLore), 150, 5);
         abilityLore = new ArrayList<>();
         abilityLore.add("§7Your Critical Hits deal §9100%");
         abilityLore.add("§7more damage if you are behind");
         abilityLore.add("§7your target.");
-        manager.set2Ability("", new LividDaggerability(), AbilityType.EntityHit, abilityLore, 0, 0);
+        manager.set2Ability("", new LividDaggerAbility(), AbilityType.EntityHit, abilityLore, 0, 0);
         manager.addSlot(new GemstoneSlot(SlotType.Jasper));
         manager.setNpcSellPrice(500000);
         manager.setDungeonItem(true);
@@ -1107,7 +1107,7 @@ public class Items {
         manager.setStat(Stats.Inteligence, 300);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
         manager.setDungeonItem(true);
-        manager.addAbility(new SpiritScepter(), AbilityType.RightClick, "Guided Bat", new AbilityLore(abilityLore, "%damage%", new Bundle<>(2000d, 0.2)), 200, 0);
+        manager.addAbility(new SpiritSceptre(), AbilityType.RightClick, "Guided Bat", new AbilityLore(abilityLore, "%damage%", new Bundle<>(2000d, 0.2)), 200, 0);
         SkyblockItems.put(manager.itemID, manager);
 
     }
@@ -4239,7 +4239,7 @@ public class Items {
 
 
         manager.addAbility(new EntityLocationSetter(), AbilityType.RightClick, "Mark location", new AbilityLore(abilityLore), 0, 0);
-        manager.set2Ability("Select Mob", new EntityLocationSelecter(), AbilityType.LeftClick, abilityLore, 0, 0);
+        manager.set2Ability("Select Mob", new EntityLocationSelector(), AbilityType.LeftClick, abilityLore, 0, 0);
         SkyblockItems.put(manager.itemID, manager);
     }
 

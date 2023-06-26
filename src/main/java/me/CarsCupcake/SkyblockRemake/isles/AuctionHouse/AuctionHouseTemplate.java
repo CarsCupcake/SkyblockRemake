@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.isles.AuctionHouse;
 
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryTemplate;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.TemplateItems;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryTemplate;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;

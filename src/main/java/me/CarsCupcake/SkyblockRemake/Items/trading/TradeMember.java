@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items.trading;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.TemplateItems;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

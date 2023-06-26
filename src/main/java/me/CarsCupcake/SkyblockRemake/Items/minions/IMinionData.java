@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
-import me.CarsCupcake.SkyblockRemake.abilitys.BlockPlaceAbility;
+import me.CarsCupcake.SkyblockRemake.abilities.BlockPlaceAbility;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.event.block.BlockPlaceEvent;

@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.abilitys.BlockZapperAbility;
+import me.CarsCupcake.SkyblockRemake.abilities.BlockZapperAbility;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

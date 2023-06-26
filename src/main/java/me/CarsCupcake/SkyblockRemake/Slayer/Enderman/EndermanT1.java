@@ -11,7 +11,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.abilitys.EntityAbilitys;
+import me.CarsCupcake.SkyblockRemake.abilities.EntityAbilities;
 import org.bukkit.Location;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.LivingEntity;
@@ -83,7 +83,7 @@ public class EndermanT1 extends Slayer implements Listener {
             @Override
             public void run()
                 {
-                    EntityAbilitys.voidgloomTeleport(entity, owner);
+                    EntityAbilities.voidgloomTeleport(entity, owner);
                 }
 
         };

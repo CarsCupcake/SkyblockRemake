@@ -5,16 +5,16 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.abilitys.*;
+import me.CarsCupcake.SkyblockRemake.abilities.*;
 
 public enum Bonuses {
 
-	DisgustingHealing(new me.CarsCupcake.SkyblockRemake.abilitys.DisgustingHealing()),
-	TestBonus(new me.CarsCupcake.SkyblockRemake.abilitys.TestBonus()),
-	Dominus(new me.CarsCupcake.SkyblockRemake.abilitys.Dominus()),
-	HydraStrike(new me.CarsCupcake.SkyblockRemake.abilitys.HydraStrike()),
-	Fervor(new me.CarsCupcake.SkyblockRemake.abilitys.Fervor()),
-	ArcaneVision(new me.CarsCupcake.SkyblockRemake.abilitys.ArcaneVision()),
+	DisgustingHealing(new me.CarsCupcake.SkyblockRemake.abilities.DisgustingHealing()),
+	TestBonus(new me.CarsCupcake.SkyblockRemake.abilities.TestBonus()),
+	Dominus(new me.CarsCupcake.SkyblockRemake.abilities.Dominus()),
+	HydraStrike(new me.CarsCupcake.SkyblockRemake.abilities.HydraStrike()),
+	Fervor(new me.CarsCupcake.SkyblockRemake.abilities.Fervor()),
+	ArcaneVision(new me.CarsCupcake.SkyblockRemake.abilities.ArcaneVision()),
 	DctrSpaceHelmet(new DctrSpaceHelmet()),
 	Maid(new Maid()),
 	BruteForce(new BruteForce()),
