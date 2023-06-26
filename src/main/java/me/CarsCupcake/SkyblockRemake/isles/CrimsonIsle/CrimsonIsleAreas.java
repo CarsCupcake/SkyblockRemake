@@ -57,7 +57,7 @@ public enum CrimsonIsleAreas {
         return displayName;
     }
     public static CrimsonIsleAreas getPlayerLocation(SkyblockPlayer player){
-        if(SkyblockServer.getServer().getType() != ServerType.CrimsonIsle)
+        if(SkyblockServer.getServer().type() != ServerType.CrimsonIsle)
             return null;
         else
             return player.crimsonArea;

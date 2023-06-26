@@ -37,7 +37,7 @@ public class GemstoneGrinder implements Listener {
 		if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if(event.getClickedBlock().getType() == Material.END_PORTAL_FRAME) {
 				event.setCancelled(true);
-				if(SkyblockServer.getServer().getType() == ServerType.End)
+				if(SkyblockServer.getServer().type() == ServerType.End)
 					return;
 				event.getPlayer().openInventory(GemstoneGrinderInv.getInv());
 			

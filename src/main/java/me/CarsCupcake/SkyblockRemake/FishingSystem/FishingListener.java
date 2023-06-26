@@ -36,7 +36,7 @@ public class FishingListener implements Listener {
             int low = 200;
             int high = (int) fishingSpeed;
             fishingSpeed = r.nextInt(high - low) + low;
-            int BaseTicks = (int) (fishingSpeed - ((Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(SkyblockPlayer.getSkyblockPlayer(event.getPlayer())), Stats.FishingSpeed) / ((SkyblockServer.getServer().getType() == ServerType.CrimsonIsle) ? 350 : 300)) * fishingSpeed));
+            int BaseTicks = (int) (fishingSpeed - ((Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(SkyblockPlayer.getSkyblockPlayer(event.getPlayer())), Stats.FishingSpeed) / ((SkyblockServer.getServer().type() == ServerType.CrimsonIsle) ? 350 : 300)) * fishingSpeed));
 
 
             if (BaseTicks < 2) BaseTicks = 2;

@@ -1,9 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.isles.rift.entitys;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-public abstract class Crux extends SkyblockEntity {
+public abstract class Crux extends RiftEntity {
     protected abstract void onHalfDamage();
     protected boolean isHalfDone = false;
     @Override

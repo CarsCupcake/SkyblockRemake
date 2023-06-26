@@ -4,49 +4,57 @@ import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.End.EndListeners;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
-public class SkyblockServer {
+public record SkyblockServer(ServerType type) {
     private static SkyblockServer server;
-    private final ServerType type;
 
-    public SkyblockServer(ServerType type){
-        if(type == null){
+    public SkyblockServer {
+        if (type == null) {
             for (Player p : Bukkit.getOnlinePlayers())
-                p.sendTitle("§cThere is no Server type!", "§ePlease set a server type in the files!",20,400,20);
+                p.sendTitle("§cThere is no Server type!", "§ePlease set a server type in the files!", 20, 400, 20);
             Main.getMain().getLogger().log(Level.SEVERE, "\n*********************************************************\n\n\nNo Server type provided! Skyblock Plugin is shutting down!\n\n\n*********************************************************");
             Main.getMain().getServer().getPluginManager().disablePlugin(Main.getMain());
 
         }
-        if(type == ServerType.Non){
+        if (type == ServerType.Non) {
             Main.getMain().getLogger().log(Level.SEVERE, "\n*********************************************************\n\n\nNo good Skyblock Server type provided! Please change it!\n\n\n*********************************************************");
         }
         Main.getMain().getLogger().fine("Server is running on server type " + type);
         server = this;
-        this.type = type;
+    }
 
-    }
-    public ServerType  getType(){
-        return type;
-    }
-    public static SkyblockServer getServer(){
+    public static SkyblockServer getServer() {
         return server;
     }
-    public static SkyblockServer makeServerFromPort(int port){
-        if(!Main.isLocalHost)
+
+    public static SkyblockServer makeServerFromPort(int port) {
+        if (!Main.isLocalHost)
             return new SkyblockServer(ServerType.DwarvenMines);
         else
             return new SkyblockServer(ServerType.getServerByPort(port));
     }
-    public void init(){
-        if(type == ServerType.End)
+
+    public void init() {
+        gamerules();
+
+        if (type == ServerType.End)
             EndListeners.init();
 
-        if(type == ServerType.CrimsonIsle)
+        if (type == ServerType.CrimsonIsle)
             new CrimsonIsle();
     }
 
+    public void gamerules(){
+        Main.getDebug().debug("Setting up gamerules");
+        type.getLocation().getWorld().setGameRule(GameRule.DO_FIRE_TICK, false);
+        type.getLocation().getWorld().setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+        type.getLocation().getWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);
+        type.getLocation().getWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        type.getLocation().getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+    }
 
 }

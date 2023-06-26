@@ -57,7 +57,7 @@ public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime() , 11);
 	
 		if(p.dwarvenArea == null)
-			if(SkyblockServer.getServer().getType() == ServerType.DwarvenMines)
+			if(SkyblockServer.getServer().type() == ServerType.DwarvenMines)
 				ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ §2Dwarven Mines",10);
 				else
 					ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ None",10);

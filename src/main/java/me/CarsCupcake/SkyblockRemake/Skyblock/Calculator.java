@@ -13,6 +13,9 @@ import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftCalculator;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
+import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -108,6 +111,12 @@ public strictfp class Calculator {
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, double weapondamage, Bundle<Double, Double> multipliers, boolean fillMissing) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            RiftCalculator c = new RiftCalculator();
+            c.damageEntity(SkyblockEntity.livingEntity.getSbEntity(e), RiftPlayer.getRiftPlayer(player));
+            c.execute();
+            return 0;
+        }
         this.e = e;
         if (e.getScoreboardTags().contains("npc")) return 0d;
         type = SkyblockDamageEvent.DamageType.PlayerToEntity;
@@ -157,6 +166,11 @@ public strictfp class Calculator {
     }
 
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            RiftCalculator c = new RiftCalculator();
+            c.damagePlayer((RiftEntity) SkyblockEntity.livingEntity.getSbEntity(e), RiftPlayer.getRiftPlayer(player));
+            c.execute();
+        }
         if (entity != null) e = entity.getEntity();
         type = SkyblockDamageEvent.DamageType.EntityToPlayer;
         double damage = stats.getFirst();
@@ -181,6 +195,9 @@ public strictfp class Calculator {
     }
 
     public void damagePlayer(SkyblockPlayer player, EntityDamageEvent.DamageCause cause) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
 
         if (projectile == null) result = new SkyblockDamageEvent(player, e, this, type, cause);
         else result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
@@ -201,10 +218,16 @@ public strictfp class Calculator {
     }
 
     public void damageEntity(LivingEntity e, SkyblockPlayer player) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
         damageEntity(e, player, EntityDamageEvent.DamageCause.CUSTOM);
     }
 
     public void damageEntity(LivingEntity e, SkyblockPlayer player, EntityDamageEvent.DamageCause cause) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
         if (Main.entitydead.containsKey(e)) return;
         if (e.getScoreboardTags().contains("npc")) return;
         if (projectile == null) result = new SkyblockDamageEvent(player, e, this, type, cause);
@@ -307,12 +330,18 @@ public strictfp class Calculator {
     }
 
     public void showDamageTag(Entity e) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
         Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ());
         showDamageTag(loc);
 
     }
 
     public void showDamageTag(Location loc) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
         if (isCanceled) return;
         if (result != null && result.isCancelled()) return;
         loc = loc.clone().add(new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2);
@@ -374,6 +403,9 @@ public strictfp class Calculator {
     }
 
     public void playerToEntityMagicDamage(SkyblockPlayer player, @Nullable LivingEntity e, double magicDamage) {
+        if(SkyblockServer.getServer().type() == ServerType.Rift){
+            return;
+        }
         this.e = e;
         if (e != null && e.getScoreboardTags().contains("npc")) return;
 

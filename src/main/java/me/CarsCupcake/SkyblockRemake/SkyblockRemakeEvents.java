@@ -150,9 +150,9 @@ public class SkyblockRemakeEvents implements Listener {
         if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
             new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
         }
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+        if (SkyblockServer.getServer().type() == ServerType.PrivateIsle)
             PrivateIslandManager.addToIsle(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-        else player.teleport(SkyblockServer.getServer().getType().getLocation());
+        else player.teleport(SkyblockServer.getServer().type().getLocation());
 
 
         PacketReader reader = new PacketReader((event.getPlayer()));
@@ -273,7 +273,7 @@ public class SkyblockRemakeEvents implements Listener {
             FarmingUtils.cropBreak(event);
         }
 
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) return;
+        if (SkyblockServer.getServer().type() == ServerType.PrivateIsle) return;
 
         if (Main.getMain().getConfig().getBoolean("StatSystem") == true) event.setCancelled(true);
 
@@ -403,7 +403,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void BlockPlace(BlockPlaceEvent event) {
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) return;
+        if (SkyblockServer.getServer().type() == ServerType.PrivateIsle) return;
 
         if (Main.getMain().getConfig().getBoolean("StatSystem") == true) event.setCancelled(true);
 
@@ -658,9 +658,9 @@ public class SkyblockRemakeEvents implements Listener {
 
         Main.deathPersons.remove(event.getPlayer());
 
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle)
+        if (SkyblockServer.getServer().type() == ServerType.PrivateIsle)
             event.setRespawnLocation(PrivateIslandManager.baseLocations.get(player));
-        else event.setRespawnLocation(SkyblockServer.getServer().getType().getLocation());
+        else event.setRespawnLocation(SkyblockServer.getServer().type().getLocation());
 
         Main.updatebar(player);
     }

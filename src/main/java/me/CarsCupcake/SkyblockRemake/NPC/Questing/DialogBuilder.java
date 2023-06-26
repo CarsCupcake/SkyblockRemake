@@ -10,10 +10,10 @@ import me.CarsCupcake.SkyblockRemake.utils.Container;
 import me.CarsCupcake.SkyblockRemake.utils.Sound;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_17_R1.block.CraftBlock;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,6 +59,32 @@ public class DialogBuilder implements Cloneable{
             runners.add(new Bundle<>(opt.getFirst(), () -> opt.getLast().build(playerContainer.getContent())));
         }
         actions.add(new SelectionAction(runners.toArray(new Bundle[0])));
+        return this;
+    }
+
+    /**
+     * Sets up a survey
+     * @param headline the headline
+     * @param answers are the possible responses
+     * @param right are the right answers (remember 0 index!)
+     * @param onRight is what should happen if it right
+     * @param onWrong is what should happen if its wrong
+     * @return the instance
+     */
+    public DialogBuilder addTestingSelection(String headline, List<String> answers, List<Integer> right, Runnable onRight, Runnable onWrong){
+        int i = 0;
+        List<QuestOption> options = new ArrayList<>();
+        for (String s : answers){
+            options.add(new BasicSelectOption(s, ((right.contains(i)) ? onRight : onWrong)));
+            i++;
+        }
+        actions.add(new TestingSelectionOption(options, headline));
+        return this;
+    }
+    public DialogBuilder addTestingSelection(String headline, HashMap<String, Runnable> responses){
+        List<QuestOption> options = new ArrayList<>();
+        responses.forEach((s, runnable) -> options.add(new BasicSelectOption(s, runnable)));
+        actions.add(new TestingSelectionOption(options, headline));
         return this;
     }
     public DialogBuilder addResponse(String... responses){
@@ -169,6 +195,14 @@ public class DialogBuilder implements Cloneable{
                 ));
             }
             new Selection(optionList.toArray(new BasicSelectOption[0]), player);
+            return true;
+        }
+    }
+    private record TestingSelectionOption(List<QuestOption> options, String desc) implements Action {
+
+        @Override
+        public boolean run(SkyblockPlayer player) {
+            new TestingSelection(options, desc, player);
             return true;
         }
     }

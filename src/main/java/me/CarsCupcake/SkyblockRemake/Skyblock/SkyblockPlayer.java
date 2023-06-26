@@ -3,7 +3,6 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import java.util.*;
 
 import com.comphenix.protocol.error.BasicErrorReporter;
-import com.comphenix.protocol.injector.PacketFilterManager;
 import com.comphenix.protocol.injector.netty.channel.InjectionFactory;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,25 +18,21 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandle
 import me.CarsCupcake.SkyblockRemake.abilitys.SuperCompactor;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
-import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
-import net.minecraft.network.protocol.game.PacketPlayInTrSel;
-import net.minecraft.server.network.HandshakeListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -156,18 +151,35 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private DialogBuilder.DialogRunner dialog;
-
-    public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
+    @Getter
+    private final List<String> timeCharms;
+    public SkyblockPlayer(CraftServer server, EntityPlayer entity){
+        this(server, entity, false);
+    }
+    public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
+        inventory = new CustomConfig(this, "inventory");
         player = entity.getBukkitEntity().getPlayer();
         protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
+        CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
+        List<String> sl = null;
+        try {
+            sl = riftMainStoryFile.get().getStringList("timecharm");
+        }catch (Exception ignored){}
+        if (sl == null)
+            timeCharms = new ArrayList<>();
+        else timeCharms = sl;
+        if(ServerType.getActiveType() == ServerType.Rift && !isChecked) {
+            new RiftPlayer(server, entity);
+            return;
+        }
         //Check for 1.17.1 (https://wiki.vg/Protocol_version_numbers)
         if (protocolVersion != 756) {
             this.sendTitle("§a1.17.1 is recomendet!", "I suggest using 1.17.1 for less buggs");
             this.sendMessage("§cThe plugin is made for Version 1.17.1, other versions could bug out and break some system's!");
         }
         autoPickup = entity.displayName.equals("CarsCupcake");
-        inventory = new CustomConfig(this, "inventory");
+
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
         statsConfig.reload();
@@ -185,6 +197,7 @@ public class SkyblockPlayer extends CraftPlayer {
         initCommission();
         initSkills();
         initHotM();
+
         equipmentManager.loadEquipment();
         CollectHandler.initPlayer(this);
         loadInventory();
@@ -225,7 +238,7 @@ public class SkyblockPlayer extends CraftPlayer {
     }
 
     public PrivateIsle getPrivateIsle() {
-        Assert.isTrue(SkyblockServer.getServer().getType() == ServerType.PrivateIsle);
+        Assert.isTrue(SkyblockServer.getServer().type() == ServerType.PrivateIsle);
         return PrivateIsle.isles.get(this);
     }
 

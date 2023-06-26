@@ -29,7 +29,7 @@ public class EndListeners implements Listener {
             new Location(Main.getMain().getServer().getWorld("world"), -673, 9, -275).getBlock(), new Location(Main.getMain().getServer().getWorld("world"), -672, 9, -274).getBlock(),new Location(Main.getMain().getServer().getWorld("world"), -670, 9, -274).getBlock()};
 
     public static void init(){
-        if(SkyblockServer.getServer().getType() == ServerType.End){
+        if(SkyblockServer.getServer().type() == ServerType.End){
             Main.getMain().getServer().getPluginManager().registerEvents(new EndListeners(), Main.getMain());
             Teleporters.registerTeleporter(new VoidSephultures());
             Teleporters.registerTeleporter(new VoidSephulturesBack());

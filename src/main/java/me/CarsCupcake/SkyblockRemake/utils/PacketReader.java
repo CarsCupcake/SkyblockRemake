@@ -1,13 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
 import java.lang.reflect.Field;
-import java.net.SocketAddress;
 import java.util.*;
 
 
 import io.netty.channel.*;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
@@ -64,7 +62,7 @@ public class PacketReader {
 				}
 
 
-				if(packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().getType() != ServerType.PrivateIsle) {
+				if(packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().type() != ServerType.PrivateIsle) {
 					SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig)packet,player);
 				}
 				if(packet instanceof PacketPlayInUseEntity) {

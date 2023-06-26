@@ -59,7 +59,7 @@ public interface IMinionData {
 
         @Override
         public boolean place(BlockPlaceEvent event) {
-            if(SkyblockServer.getServer().getType() != ServerType.PrivateIsle)
+            if(SkyblockServer.getServer().type() != ServerType.PrivateIsle)
                 return false;
 
             event.getItemInHand().setAmount(event.getItemInHand().getAmount() - 1);

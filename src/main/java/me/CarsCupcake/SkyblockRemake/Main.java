@@ -45,6 +45,7 @@ import me.CarsCupcake.SkyblockRemake.abilitys.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.*;
 import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
@@ -163,7 +164,7 @@ public class Main extends JavaPlugin {
         Main = this;
         new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
 
-        if (SkyblockServer.getServer().getType() == null) return;
+        if (SkyblockServer.getServer().type() == null) return;
         new InfoManager();
         SpigotConfig.movedWronglyThreshold = 6;
         try {
@@ -885,7 +886,7 @@ public class Main extends JavaPlugin {
 
                         player.setSaturation(100);
                         // mana regen
-                        double mana = Main.getPlayerStat(player, Stats.Inteligence);
+                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftIntelligence :  Stats.Inteligence));
                         if (player.currmana < mana) {
                             int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
                             int finalmana = manaadd + player.currmana;
@@ -897,18 +898,20 @@ public class Main extends JavaPlugin {
                         }
 
                         // health regen
-                        double health = Main.getPlayerStat(player, Stats.Health);
-                        if (player.currhealth < health) {
-                            int healthadd = (int) (health * 0.015);
-                            int finalhealth = (int) (player.currhealth + (healthadd * player.healingMulti));
+                        if(ServerType.getActiveType() != ServerType.Rift){
+                            double health = Main.getPlayerStat(player, Stats.Health);
+                            if (player.currhealth < health) {
+                                int healthadd = (int) (health * 0.015);
+                                int finalhealth = (int) (player.currhealth + (healthadd * player.healingMulti));
 
-                            player.setHealth(finalhealth, HealthChangeReason.Regenerate);
+                                player.setHealth(finalhealth, HealthChangeReason.Regenerate);
 
-                        }
-                        if (player.currhealth > health) {
-                            player.setHealth(health);
-                        }
-                        float speedpersentage = (float) Main.getPlayerStat(player, Stats.Speed) / 100;
+                            }
+                            if (player.currhealth > health) {
+                                player.setHealth(health);
+                            }
+                        }else player.setMaxHealth(2 * getPlayerStat(player, Stats.Hearts));
+                        float speedpersentage = (float) Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed :  Stats.Speed)) / 100;
                         if (speedpersentage > 5) speedpersentage = 5;
                         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
                         SkyblockScoreboard.updateScoreboard(player);
@@ -941,6 +944,10 @@ public class Main extends JavaPlugin {
 
     public static void updatebar(SkyblockPlayer player) {
         if (deathPersons.contains(player)) return;
+        if(ServerType.getActiveType() == ServerType.Rift){
+            RiftPlayer.getRiftPlayer(player).updateBar();
+            return;
+        }
         if (player.currhealth <= 0) {
 
             deathPersons.add(player);
