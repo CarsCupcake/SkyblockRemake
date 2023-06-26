@@ -3,8 +3,10 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.End.EndListeners;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftIsle;
 import org.bukkit.Bukkit;
 import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
@@ -32,29 +34,29 @@ public record SkyblockServer(ServerType type) {
     }
 
     public static SkyblockServer makeServerFromPort(int port) {
-        if (!Main.isLocalHost)
-            return new SkyblockServer(ServerType.DwarvenMines);
-        else
-            return new SkyblockServer(ServerType.getServerByPort(port));
+        if (!Main.isLocalHost) return new SkyblockServer(ServerType.DwarvenMines);
+        else return new SkyblockServer(ServerType.getServerByPort(port));
     }
 
     public void init() {
         gamerules();
 
-        if (type == ServerType.End)
-            EndListeners.init();
+        if (type == ServerType.End) EndListeners.init();
 
-        if (type == ServerType.CrimsonIsle)
-            new CrimsonIsle();
+        if (type == ServerType.CrimsonIsle) new CrimsonIsle();
+
+        if (type == ServerType.Rift) new RiftIsle();
     }
 
-    public void gamerules(){
-        Main.getDebug().debug("Setting up gamerules");
-        type.getLocation().getWorld().setGameRule(GameRule.DO_FIRE_TICK, false);
-        type.getLocation().getWorld().setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
-        type.getLocation().getWorld().setGameRule(GameRule.NATURAL_REGENERATION, false);
-        type.getLocation().getWorld().setGameRule(GameRule.DO_MOB_SPAWNING, false);
-        type.getLocation().getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+    public void gamerules() {
+        Main.getDebug().debug("Setting up gamerules", false);
+        for (World w : Bukkit.getWorlds()) {
+            w.setGameRule(GameRule.DO_FIRE_TICK, false);
+            w.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+            w.setGameRule(GameRule.NATURAL_REGENERATION, false);
+            w.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+            w.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        }
     }
 
 }

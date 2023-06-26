@@ -38,7 +38,7 @@ public enum Stats {
     FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false, null, 0),
     HealthRegen("healthregen", '❣', ChatColor.RED, "Health Regen", false, null, 0),
     RiftTime("rifttime", 'ф', ChatColor.GREEN, "Rift Time", false, 480, -1, true),
-    RiftIntelligence("rmana", '✎', ChatColor.AQUA, "Intelligence", false, 100, -1, true),
+    RiftInteligence("rmana", '✎', ChatColor.AQUA, "Inteligence", false, 100, -1, true),
     ManaRegen("manaregen", '⚡', ChatColor.AQUA, "Mana Regen", false, 0, -1, true),
     RiftSpeed("rspeed", '✦', ChatColor.WHITE, "Speed", false, 100, 500, true),
     Hearts("hearts", '❤', ChatColor.RED, "Hearts", false, 10, -1, true),
@@ -46,7 +46,7 @@ public enum Stats {
     WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2);
     public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Inteligence,
             MagicFind, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
-    public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, Inteligence, Speed, RiftIntelligence, ManaRegen);
+    public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;
     private final char symbol;
     private final ChatColor color;

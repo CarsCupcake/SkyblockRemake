@@ -886,7 +886,7 @@ public class Main extends JavaPlugin {
 
                         player.setSaturation(100);
                         // mana regen
-                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftIntelligence :  Stats.Inteligence));
+                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence :  Stats.Inteligence));
                         if (player.currmana < mana) {
                             int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
                             int finalmana = manaadd + player.currmana;

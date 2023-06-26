@@ -16,6 +16,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import kotlin.Triple;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
@@ -1085,6 +1086,17 @@ public class Tools {
             quickBlock(b, AIR);
             chunks.add(b.getChunk());
         }
+    }
+    /**
+     * Breaks down a number into a time form
+     * @param l time number
+     * @return return the parts sec|min|hour
+     */
+    public static Triple<Long, Long, Long> breakDownTime(long l){
+        long hours = l / 3600;
+        long minutes = (l % 3600) / 60;
+        long seconds = l % 60;
+        return new Triple<>(seconds, minutes, hours);
     }
 
     private static class Counter {

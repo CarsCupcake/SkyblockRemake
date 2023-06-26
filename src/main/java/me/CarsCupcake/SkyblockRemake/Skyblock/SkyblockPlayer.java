@@ -15,6 +15,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListe
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
 import me.CarsCupcake.SkyblockRemake.abilitys.SuperCompactor;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
@@ -153,6 +154,9 @@ public class SkyblockPlayer extends CraftPlayer {
     private DialogBuilder.DialogRunner dialog;
     @Getter
     private final List<String> timeCharms;
+    @Getter
+    @Setter
+    private Region region;
     public SkyblockPlayer(CraftServer server, EntityPlayer entity){
         this(server, entity, false);
     }

@@ -21,7 +21,7 @@ public class DebugLogger {
         try {
             throw new RuntimeException();
         } catch (Exception tool) {
-            System.out.println(" \n[" + tool.getStackTrace()[1] + "] " + this.prefix + " [DEBUG] " + s);
+            System.out.println(" [" + tool.getStackTrace()[2] + "] " + this.prefix + " [DEBUG] " + s);
         }
         else System.out.println(this.prefix + " [DEBUG] " + s);
     }

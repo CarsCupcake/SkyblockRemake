@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.rift;
 
+import kotlin.Triple;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -9,6 +10,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
@@ -27,6 +29,7 @@ public class RiftPlayer extends SkyblockPlayer {
         maxRiftTime = (long) Main.getPlayerStat(this, Stats.RiftTime);
         riftTime = maxRiftTime;
         timer = new RiftTicker();
+        Main.getDebug().debug(riftTime + " rift time left",false);
     }
 
     public void setRiftTime(long i) {
@@ -53,7 +56,17 @@ public class RiftPlayer extends SkyblockPlayer {
         return (RiftPlayer) SkyblockPlayer.getSkyblockPlayer(player);
     }
     public void updateBar(){
-        this.spigot().sendMessage(new TextComponent(((timer.isRunning()) ? "§a" : "§7") + Tools.toShortNumber(riftTime) + Stats.RiftTime.getSymbol()));
+        this.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(((timer.isRunning()) ? "§a" : "§7") + toTimeString(Tools.breakDownTime(riftTime)) + Stats.RiftTime.getSymbol() + " Left   " + defenseString + "   §b"
+        + currmana + "/" + Main.getPlayerStat(this, Stats.RiftInteligence)));
+    }
+    private String toTimeString(Triple<Long, Long, Long> time){
+        StringBuilder builder = new StringBuilder();
+        if(time.getThird() != 0)
+            builder.append(time.getThird()).append("h").append(" ");
+        if(time.getSecond() != 0)
+            builder.append(time.getSecond()).append("m").append(" ");
+        builder.append(time.getFirst()).append("s");
+        return builder.toString();
     }
 
     @Override

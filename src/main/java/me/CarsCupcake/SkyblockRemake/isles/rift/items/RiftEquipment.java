@@ -34,25 +34,25 @@ public class RiftEquipment {
                 ),
                 List.of(
                         new Bundle<>(Stats.RiftTime, 155d),
-                        new Bundle<>(Stats.RiftIntelligence, 5d),
+                        new Bundle<>(Stats.RiftInteligence, 5d),
                         new Bundle<>(Stats.RiftSpeed, 1d)
                 ),
                 List.of(
                         new Bundle<>(Stats.RiftTime, 200d),
-                        new Bundle<>(Stats.RiftIntelligence, 5d),
+                        new Bundle<>(Stats.RiftInteligence, 5d),
                         new Bundle<>(Stats.RiftSpeed, 2d),
                         new Bundle<>(Stats.ManaRegen, 10d)
                 ),
                 List.of(
                         new Bundle<>(Stats.RiftTime, 245d),
-                        new Bundle<>(Stats.RiftIntelligence, 10d),
+                        new Bundle<>(Stats.RiftInteligence, 10d),
                         new Bundle<>(Stats.RiftSpeed, 3d),
                         new Bundle<>(Stats.ManaRegen, 10d)
                 ),
                 List.of(
                         new Bundle<>(Stats.RiftTime, 270d),
                         new Bundle<>(Stats.RiftDamage, 1d),
-                        new Bundle<>(Stats.RiftIntelligence, 10d),
+                        new Bundle<>(Stats.RiftInteligence, 10d),
                         new Bundle<>(Stats.RiftSpeed, 4d),
                         new Bundle<>(Stats.ManaRegen, 15d)
                 ),
@@ -60,7 +60,7 @@ public class RiftEquipment {
                         new Bundle<>(Stats.RiftTime, 335d),
                         new Bundle<>(Stats.Hearts, 1d),
                         new Bundle<>(Stats.RiftDamage, 1d),
-                        new Bundle<>(Stats.RiftIntelligence, 10d),
+                        new Bundle<>(Stats.RiftInteligence, 10d),
                         new Bundle<>(Stats.RiftSpeed, 5d),
                         new Bundle<>(Stats.ManaRegen, 20d)
                 )

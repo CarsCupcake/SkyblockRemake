@@ -21,7 +21,7 @@ public enum ServerType {
     PrivateIsle("private", 25574, null),
     F3("f3", 255575, new Location(Bukkit.getServer().getWorld("world"), 1.5, 69.5, -30.5, 0, 0)),
     Dungeon("dungeon", 25576, new Location(Bukkit.getWorld("world"), 0, 100, 0)),
-    Rift("rift", 25575, new Location(Bukkit.getWorld("world_end"), -47.5, 122, 68.5)),
+    Rift("rift", 25575, new Location(Bukkit.getWorld("world_the_end"), -47.5, 122, 68.5)),
     Non("", 0, Bukkit.getWorlds().get(0).getSpawnLocation());
     public final String s;
     public final int ip;

@@ -1,8 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +9,10 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
@@ -114,7 +111,7 @@ public interface AbilityManager<T extends Event> {
                 player.sendMessage("§cOn cooldown!");
                 return false;
             }
-        double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, Stats.Inteligence) * ability.getPersentage() : ability.getManacost();
+        double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift)? Stats.RiftInteligence :  Stats.Inteligence)) * ability.getPersentage() : ability.getManacost();
         if (additionalMana.get(player).containsKey(manager.itemID)) {
             manacost += additionalMana.get(player).get(manager.itemID).amount;
         }
