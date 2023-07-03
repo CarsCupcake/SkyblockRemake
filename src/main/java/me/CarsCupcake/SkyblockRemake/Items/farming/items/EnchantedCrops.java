@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.abilitys.SuperCompactor;
+import me.CarsCupcake.SkyblockRemake.abilities.SuperCompactor;
 import org.bukkit.Material;
 import static me.CarsCupcake.SkyblockRemake.Items.Items.SkyblockItems;
 public class EnchantedCrops {

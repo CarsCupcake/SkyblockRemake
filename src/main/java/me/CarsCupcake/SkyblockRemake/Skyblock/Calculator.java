@@ -10,7 +10,7 @@ import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntit
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
-import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
+import me.CarsCupcake.SkyblockRemake.abilities.Ferocity;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftCalculator;

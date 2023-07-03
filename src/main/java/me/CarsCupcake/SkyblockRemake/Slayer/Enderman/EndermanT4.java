@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.Laser;
-import me.CarsCupcake.SkyblockRemake.abilitys.EntityAbilitys;
+import me.CarsCupcake.SkyblockRemake.abilities.EntityAbilities;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
@@ -76,7 +76,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
             @Override
             public void run()
             {
-                EntityAbilitys.voidgloomTeleport(entity, owner);
+                EntityAbilities.voidgloomTeleport(entity, owner);
             }
 
         };
@@ -283,7 +283,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
                         @Override
                         public void run()
                         {
-                            EntityAbilitys.voidgloomTeleport(entity, owner);
+                            EntityAbilities.voidgloomTeleport(entity, owner);
                         }
 
                     };

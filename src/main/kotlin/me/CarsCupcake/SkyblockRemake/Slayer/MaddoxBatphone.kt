@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Slayer
 
 import me.CarsCupcake.SkyblockRemake.Items.*
-import me.CarsCupcake.SkyblockRemake.abilitys.MaddoxBatPhoneAbility
+import me.CarsCupcake.SkyblockRemake.abilities.MaddoxBatPhoneAbility
 
 class MaddoxBatphone{
     init {

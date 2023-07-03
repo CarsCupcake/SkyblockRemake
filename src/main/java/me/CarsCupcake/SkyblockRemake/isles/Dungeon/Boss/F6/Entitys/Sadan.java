@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;

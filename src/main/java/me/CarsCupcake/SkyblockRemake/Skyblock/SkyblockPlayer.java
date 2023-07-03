@@ -22,7 +22,7 @@ import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
-import me.CarsCupcake.SkyblockRemake.abilitys.Deployable;
+import me.CarsCupcake.SkyblockRemake.abilities.Deployable;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
@@ -163,6 +163,7 @@ public class SkyblockPlayer extends CraftPlayer {
     public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
         inventory = new CustomConfig(this, "inventory");
+        inventory = new CustomConfig(this, "inventory");
         player = entity.getBukkitEntity().getPlayer();
         protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
         CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
@@ -208,7 +209,7 @@ public class SkyblockPlayer extends CraftPlayer {
         new MiningSys(this);
         AbilityListener.checkArmor(this);
         Main.initAccessoryBag(player);
-        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupAbilitys(SkyblockPlayer.this));
+        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupabilities(SkyblockPlayer.this));
         //Last things to load!
         SkyblockScoreboard.createScoreboard(this);
         SkyblockLevelsHandler.initGetters(this);

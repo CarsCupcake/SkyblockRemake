@@ -4,7 +4,7 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Items.minions.AbstractMiningMinionData;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;

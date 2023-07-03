@@ -4,7 +4,7 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Color;
 import org.bukkit.Location;

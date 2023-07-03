@@ -5,8 +5,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ItemCollection;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.InventoryBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
 
 public class MithrilCollection extends ItemCollection {
     public MithrilCollection(SkyblockPlayer player) {

@@ -4,7 +4,7 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.abilitys.GiantsSlam;
+import me.CarsCupcake.SkyblockRemake.abilities.GiantsSlam;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

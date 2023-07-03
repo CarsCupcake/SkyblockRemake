@@ -3,8 +3,8 @@ package de.carscupcake.gameoflegends.utils.Inventorys
 import me.CarsCupcake.SkyblockRemake.API.Bundle
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer
 import me.CarsCupcake.SkyblockRemake.utils.Assert
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUI
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.TemplateItems
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 
