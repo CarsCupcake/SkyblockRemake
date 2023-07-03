@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Slayer.Zombie;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Material;
 import org.bukkit.entity.Zombie;

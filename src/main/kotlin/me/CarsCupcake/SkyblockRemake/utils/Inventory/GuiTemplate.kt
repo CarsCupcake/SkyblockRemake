@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventory
 
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.GUIAction
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUIAction
 import org.bukkit.inventory.Inventory
 
 abstract class GuiTemplate {

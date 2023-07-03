@@ -9,7 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.abilitys.Soulcry;
+import me.CarsCupcake.SkyblockRemake.abilities.Soulcry;
 import org.bukkit.Material;
 
 import java.util.ArrayList;

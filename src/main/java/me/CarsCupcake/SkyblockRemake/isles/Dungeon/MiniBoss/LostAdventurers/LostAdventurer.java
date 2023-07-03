@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.network.protocol.game.PacketPlayOutEntityStatus;

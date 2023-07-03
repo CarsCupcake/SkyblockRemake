@@ -4,10 +4,10 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2.BlazeSlayerT2
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T3.BlazeSlayerT3
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T4.BlazeSlayerT4
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T1.BlazeSlayerT1
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T2.BlazeSlayerT2
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T3.BlazeSlayerT3
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T4.BlazeSlayerT4
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT4
 import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT1
@@ -17,8 +17,8 @@ import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT4
 import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT5
 import me.CarsCupcake.SkyblockRemake.utils.Assert
 import me.CarsCupcake.SkyblockRemake.utils.CoinUtils
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.*
-import me.CarsCupcake.SkyblockRemake.utils.Inventorys.Items.ItemBuilder
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.*
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder
 import me.CarsCupcake.SkyblockRemake.utils.Tools
 import org.bukkit.ChatColor
 import org.bukkit.Material

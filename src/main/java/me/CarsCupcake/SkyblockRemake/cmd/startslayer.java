@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T2.BlazeSlayerT2;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T3.BlazeSlayerT3;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T4.BlazeSlayerT4;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T2.BlazeSlayerT2;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T3.BlazeSlayerT3;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T4.BlazeSlayerT4;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT4;
 import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.*;
@@ -12,7 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entitys.T1.BlazeSlayerT1;
+import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T1.BlazeSlayerT1;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.jetbrains.annotations.NotNull;
 

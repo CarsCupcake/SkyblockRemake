@@ -21,7 +21,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
-import me.CarsCupcake.SkyblockRemake.abilitys.Ferocity;
+import me.CarsCupcake.SkyblockRemake.abilities.Ferocity;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
@@ -75,7 +75,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.order;
-import me.CarsCupcake.SkyblockRemake.abilitys.HydraStrike;
+import me.CarsCupcake.SkyblockRemake.abilities.HydraStrike;
 import me.CarsCupcake.SkyblockRemake.cmd.itemCMD;
 
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
