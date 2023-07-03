@@ -432,5 +432,4 @@ public class BlazeSlayerT1 extends Slayer {
         };
         aoeRunner.runTaskTimer(Main.getMain(), 20, 20);
     }
-
 }

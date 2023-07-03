@@ -89,8 +89,8 @@ public class ABILITIES implements Listener {
         registerEvent(new TabListManager());
         registerEvent(new CollectHandler());
         registerEvent(new ABILITIES());
-        registerEvent(new KatanaDamagingAbilities());
-        if (SkyblockServer.getServer().getType() == ServerType.PrivateIsle) registerEvent(new PrivateIsleListener());
+        registerEvent(new KatanaDamagingabilities());
+        if (SkyblockServer.getServer().type() == ServerType.PrivateIsle) registerEvent(new PrivateIsleListener());
         registerEvent(new Attribute() {
             @Override
             public String name() {
@@ -124,7 +124,7 @@ public class ABILITIES implements Listener {
         });
         registerEvent(new SwingRangeStat());
         registerEvent(new TwilightDaggerHit.DaggerHit());
-        if (SkyblockServer.getServer().getType() == ServerType.F7) {
+        if (SkyblockServer.getServer().type() == ServerType.F7) {
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
             registerEvent(new LightsTerminal(null, -1));
@@ -161,7 +161,7 @@ public class ABILITIES implements Listener {
         IMinionData.registerMinion(new CobblestoneMinionData());
         IMinionData.registerMinion(new ZombieMinionData());
 
-        if(SkyblockServer.getServer().getType() == ServerType.PrivateIsle){
+        if(SkyblockServer.getServer().type() == ServerType.PrivateIsle){
             registerEvent(new CustomBlock.CustomBlockListener());
         }
         LogicalBlock.init();
@@ -202,7 +202,7 @@ public class ABILITIES implements Listener {
 
             MiningSys.getRegisteredBlocks().put(Material.STONE, Stone.class);
             MiningSys.getRegisteredBlocks().put(Material.COBBLESTONE, Cobblestone.class);
-            if (SkyblockServer.getServer().getType() == ServerType.End)
+            if (SkyblockServer.getServer().type() == ServerType.End)
                 MiningSys.getRegisteredBlocks().put(Material.END_STONE, EndStone.class);
 
             MiningSys.getRegisteredBlocks().put(Material.CYAN_TERRACOTTA, MithrilGrey.class);

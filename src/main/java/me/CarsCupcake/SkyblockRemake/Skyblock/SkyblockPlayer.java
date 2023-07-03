@@ -15,6 +15,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListe
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
 import me.CarsCupcake.SkyblockRemake.abilities.SuperCompactor;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
@@ -23,6 +24,7 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.abilities.Deployable;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -150,18 +152,38 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private DialogBuilder.DialogRunner dialog;
-
-    public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
+    @Getter
+    private final List<String> timeCharms;
+    @Getter
+    @Setter
+    private Region region;
+    public SkyblockPlayer(CraftServer server, EntityPlayer entity){
+        this(server, entity, false);
+    }
+    public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
+        inventory = new CustomConfig(this, "inventory");
         player = entity.getBukkitEntity().getPlayer();
         protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
+        CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
+        List<String> sl = null;
+        try {
+            sl = riftMainStoryFile.get().getStringList("timecharm");
+        }catch (Exception ignored){}
+        if (sl == null)
+            timeCharms = new ArrayList<>();
+        else timeCharms = sl;
+        if(ServerType.getActiveType() == ServerType.Rift && !isChecked) {
+            new RiftPlayer(server, entity);
+            return;
+        }
         //Check for 1.17.1 (https://wiki.vg/Protocol_version_numbers)
         if (protocolVersion != 756) {
             this.sendTitle("§a1.17.1 is recomendet!", "I suggest using 1.17.1 for less buggs");
             this.sendMessage("§cThe plugin is made for Version 1.17.1, other versions could bug out and break some system's!");
         }
         autoPickup = entity.displayName.equals("CarsCupcake");
-        inventory = new CustomConfig(this, "inventory");
+
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
         statsConfig.reload();
@@ -179,13 +201,14 @@ public class SkyblockPlayer extends CraftPlayer {
         initCommission();
         initSkills();
         initHotM();
+
         equipmentManager.loadEquipment();
         CollectHandler.initPlayer(this);
         loadInventory();
         new MiningSys(this);
         AbilityListener.checkArmor(this);
         Main.initAccessoryBag(player);
-        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupAbilitys(SkyblockPlayer.this));
+        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupabilities(SkyblockPlayer.this));
         //Last things to load!
         SkyblockScoreboard.createScoreboard(this);
         SkyblockLevelsHandler.initGetters(this);
@@ -219,7 +242,7 @@ public class SkyblockPlayer extends CraftPlayer {
     }
 
     public PrivateIsle getPrivateIsle() {
-        Assert.isTrue(SkyblockServer.getServer().getType() == ServerType.PrivateIsle);
+        Assert.isTrue(SkyblockServer.getServer().type() == ServerType.PrivateIsle);
         return PrivateIsle.isles.get(this);
     }
 
