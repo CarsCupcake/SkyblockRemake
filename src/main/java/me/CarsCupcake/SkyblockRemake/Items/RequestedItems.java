@@ -1,13 +1,17 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetAbility;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.abilities.BloodForTheBloodGod;
 import me.CarsCupcake.SkyblockRemake.abilities.ICBMDeployerAbility;
 import org.bukkit.Material;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RequestedItems {
     private static RequestedItems INSTANCE;
@@ -17,6 +21,7 @@ public class RequestedItems {
         getAxeOfPeace();
         getShushPet();
         croissant();
+        getAutomatonGolem();
     }
     public RequestedItems getInstance(){
         return INSTANCE;
@@ -84,4 +89,53 @@ public class RequestedItems {
 
     }
 
+    public void getAutomatonGolem(){
+        Pet manager = new Pet("Automaton", "AUTOMATON_PET;LEGENDARY", "http://textures.minecraft.net/texture/ca14326aeac97f96189bb9969e7b955ec650d37b7c9790356ff09f32010f1ae0",ItemRarity.LEGENDARY, 100, PetType.Mining);
+        manager.addStat(Stats.MiningFortune, 0, 50);
+        manager.addStat(Stats.TrueDefense, 0, 10);
+        manager.addStat(Stats.MiningSpeed, 0, 100);
+        AbilityLore lore = new AbilityLore(List.of(
+                "§rAdds §6%mf% Mining Fortune",
+                "§rAnd §6%ms% Mining Speed §rin the",
+                "§9Precursor Rmeineds"
+        ));
+        lore.addPlaceholder("%mf%", (player, itemStack) -> (ItemHandler.getPDC("level", itemStack, PersistentDataType.INTEGER) * 0.5) + " ");
+        lore.addPlaceholder("%ms%", (player, itemStack) -> (ItemHandler.getPDC("level", itemStack, PersistentDataType.INTEGER) * 2) + " ");
+        manager.addAbility("Monkey", lore, new AutomatonOne(null));
+        lore = new AbilityLore(List.of(
+                "§r50% that you gain 25%",
+                "§rmore drops from §5Pritine"
+        ));
+        manager.addAbility("Tinder Gold", lore, new AutomatonTwo(null));
+    }
+    private static class AutomatonOne extends PetAbility {
+        public AutomatonOne(SkyblockPlayer player) {
+            super(player);
+        }
+
+        @Override
+        public void start() {
+
+        }
+
+        @Override
+        public void stop() {
+
+        }
+    }
+    private static class AutomatonTwo extends PetAbility {
+        public AutomatonTwo(SkyblockPlayer player) {
+            super(player);
+        }
+
+        @Override
+        public void start() {
+
+        }
+
+        @Override
+        public void stop() {
+
+        }
+    }
 }

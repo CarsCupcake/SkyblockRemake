@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.isles.rift.entitys;
+package me.CarsCupcake.SkyblockRemake.isles.rift.entitys.crux;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
+import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.Crux;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -17,7 +18,7 @@ import org.bukkit.util.Vector;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Shy extends Crux implements FinalDamageDesider {
+public class Volt extends Crux implements FinalDamageDesider {
     private LivingEntity entity;
     @Override
     public int getMaxHealth() {

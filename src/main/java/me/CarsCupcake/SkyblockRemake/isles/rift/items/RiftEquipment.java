@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.abilitys.ABILITIES;
+import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

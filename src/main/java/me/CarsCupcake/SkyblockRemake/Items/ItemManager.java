@@ -1,5 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -22,12 +25,17 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.inventory.meta.MapMeta;
+import org.bukkit.map.MapCanvas;
+import org.bukkit.map.MapRenderer;
+import org.bukkit.map.MapView;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -37,6 +45,8 @@ import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import javax.imageio.ImageIO;
 
 public class ItemManager implements ItemGenerator {
     public static String pattern = "MMMMMMMMM yyyy";
@@ -107,6 +117,9 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private ArtifactAbility artifactAbility;
+    @Getter
+    @Setter
+    private String mapImagePath;
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;
@@ -394,6 +407,17 @@ public class ItemManager implements ItemGenerator {
                 item.setItemMeta(lmeta);
             }
 
+            if(mapImagePath != null){
+                MapMeta mMeta = (MapMeta) item.getItemMeta();
+                MapView view = Bukkit.createMap(Bukkit.getWorlds().get(0));
+                view.getRenderers().clear();
+                view.addRenderer(new MapImageRenderer(mapImagePath));
+                view.setCenterX(-104);
+                view.setCenterZ(-104);
+                mMeta.setMapView(view);
+                item.setItemMeta(mMeta);
+            }
+
             ItemMeta meta = item.getItemMeta();
 
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -555,7 +579,16 @@ public class ItemManager implements ItemGenerator {
                 lmeta.addItemFlags(ItemFlag.HIDE_DYE);
                 item.setItemMeta(lmeta);
             }
-
+            if(mapImagePath != null){
+                MapMeta mMeta = (MapMeta) item.getItemMeta();
+                MapView view = Bukkit.createMap(Bukkit.getWorlds().get(0));
+                view.getRenderers().clear();
+                view.addRenderer(new MapImageRenderer(mapImagePath));
+                view.setCenterX(-104);
+                view.setCenterZ(-104);
+                mMeta.setMapView(view);
+                item.setItemMeta(mMeta);
+            }
             ItemMeta meta = item.getItemMeta();
 
             meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
@@ -564,6 +597,8 @@ public class ItemManager implements ItemGenerator {
 
             meta.addItemFlags(ItemFlag.HIDE_DYE);
             meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+
+
 
             PersistentDataContainer data = meta.getPersistentDataContainer();
             meta.setDisplayName(rarity.getPrefix() + name);
@@ -749,5 +784,22 @@ public class ItemManager implements ItemGenerator {
     }
     public static interface SpecialRarityGrabber {
         ItemRarity getRarity(@NotNull ItemRarity rarity,@NotNull ItemStack item,@Nullable SkyblockPlayer player);
+    }
+    private static class MapImageRenderer extends MapRenderer {
+        private final String mapImagePath;
+        public MapImageRenderer(String mapImagePath){
+            this.mapImagePath = mapImagePath;
+        }
+        @Override
+        public void render(@NotNull MapView mapView, @NotNull MapCanvas mapCanvas, @NotNull Player player) {
+
+            try {
+                InputStream str = Main.getMain().getResource(mapImagePath);
+                if(str == null) return;
+                mapCanvas.drawImage(0, 0, ImageIO.read(str));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

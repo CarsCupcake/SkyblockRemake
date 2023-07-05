@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
@@ -48,10 +49,13 @@ public abstract class SkyblockEntity implements Elementable {
     public void updateNameTag() {
         getEntity().setCustomName(getBaseName(this));
     }
+    @Getter
+    private boolean hasDoneDeath = false;
 
     @MustBeInvokedByOverriders
     @OverridingMethodsMustInvokeSuper
     public void kill() {
+        hasDoneDeath = true;
         EntityRunnable.remove(this);
     }
 
@@ -193,6 +197,7 @@ public abstract class SkyblockEntity implements Elementable {
         Main.EntityDeath(e);
         e.damage(9999999, killer);
         if (e instanceof EnderDragon) e.setHealth(0);
+        if(!entity.hasDoneDeath) entity.kill();
         SkyblockEntity.livingEntity.remove(e);
     }
 

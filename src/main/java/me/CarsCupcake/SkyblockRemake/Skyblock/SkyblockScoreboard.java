@@ -1,11 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,165 +27,163 @@ import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 
 
 public class SkyblockScoreboard implements Listener {
-public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
+    public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 
-	@EventHandler
-	public void sbonJoin(PlayerJoinEvent event) {
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updateScoreboard(event.getPlayer());
-			}
-		}.runTaskLater(Main.getMain(), 5);
-		
-		
-	}
-	
-	public static void updateScoreboard(Player player) {
-		SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+    @EventHandler
+    public void sbonJoin(PlayerJoinEvent event) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                updateScoreboard(event.getPlayer());
+            }
+        }.runTaskLater(Main.getMain(), 5);
 
-		LocalDateTime date = LocalDateTime.now();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
-		String formattedDate = date.format(format);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69",14);
+    }
 
-		ScoreboardDisplayer.setScore(p,"§r   ",13);
+    public static void updateScoreboard(Player player) {
+        SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(),12);
-		Time t = Time.getInstance();
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime() , 11);
-	
-		if(p.dwarvenArea == null)
-			if(SkyblockServer.getServer().type() == ServerType.DwarvenMines)
-				ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ §2Dwarven Mines",10);
-				else
-					if(p.getRegion() == null)
-						ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ None",10);
-					else ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ " + p.getRegion().name(),10);
-		else
-			ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(),10);
-		
-		ScoreboardDisplayer.setScore(p,"§c   ",9);
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
+        String formattedDate = date.format(format);
 
-		/*ChatColor.GOLD + Tools.addDigits( (int) p.coins)*/
-		try {
-			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(p.coins), 8);
-		}
-		catch(Exception e){
-			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(p.coins), 8);
-		}
-		if(p.showMithrilPowder)
-			ScoreboardDisplayer.setScore(p,"§2᠅ §fMithril: §2" +Tools.addDigits(p.mithrilpowder),8);
+        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69", 14);
 
-		if(DwarvenEvent.ActiveEvent != null) {
-			if(DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
-				ScoreboardDisplayer.setScore(p,"§9Gone With The Wind",5);
-				ScoreboardDisplayer.setScore(p,getGoneWithTheWindString(p),4);
+        ScoreboardDisplayer.setScore(p, "§r   ", 13);
 
-			}
-		}
-			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
+        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(), 12);
+        Time t = Time.getInstance();
+        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + t.getTime(), 11);
 
-			ScoreboardDisplayer.setScore(p,"§8by CarsCupcake",6);
+        if (p.dwarvenArea == null)
+            if (SkyblockServer.getServer().type() == ServerType.DwarvenMines)
+                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ §2Dwarven Mines", 10);
+            else if (p.getRegion() == null)
+                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ None", 10);
+            else ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.getRegion().name(), 10);
+        else
+            ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(), 10);
 
-			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
+        ScoreboardDisplayer.setScore(p, "§c   ", 9);
+        String nm = (ServerType.getActiveType() == ServerType.Rift) ? "Motes" : "Purse";
+        String cl = (ServerType.getActiveType() == ServerType.Rift) ? "d" : "6";
+        try {
+            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : p.coins)), 8);
+        } catch (Exception e) {
+            ScoreboardDisplayer.setScore(p, ChatColor.WHITE  + nm + ": " + "§" + cl + Tools.toShortNumber((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : p.coins), 8);
+        }
+        if (p.showMithrilPowder)
+            ScoreboardDisplayer.setScore(p, "§2᠅ §fMithril: §2" + Tools.addDigits(p.mithrilpowder), 8);
 
-	}
-	
-	public static void createScoreboard(SkyblockPlayer player) {
-		SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
+        if (DwarvenEvent.ActiveEvent != null) {
+            if (DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
+                ScoreboardDisplayer.setScore(p, "§9Gone With The Wind", 5);
+                ScoreboardDisplayer.setScore(p, getGoneWithTheWindString(p), 4);
 
-		assert manager != null;
-		Scoreboard board = manager.getNewScoreboard();
-		Objective obj = board.registerNewObjective("SkyBlockBoard", "dummy", ChatColor.BOLD + "§6§lSKYBLOCK");
-		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		player.setScoreboard(board);
+            }
+        }
+        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits, 7);
 
-		LocalDateTime date = LocalDateTime.now();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
-		String formattedDate = date.format(format);
+        ScoreboardDisplayer.setScore(p, "§8by CarsCupcake", 6);
 
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69",14);
+        ScoreboardDisplayer.setScore(p, ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(), 1);
 
-		ScoreboardDisplayer.setScore(p,"§r   ",13);
+    }
 
-		ScoreboardDisplayer.setScore(p,ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(),12);
-		Time t = Time.getInstance();
-		ScoreboardDisplayer.setScore(p,ChatColor.GRAY + t.getTime(),11);
-	
-		if(p.dwarvenArea == null)
-			if(ServerType.getActiveType() == ServerType.DwarvenMines)
-				ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ §2Dwarven Mines",10);
-				else
-					ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ None",10);
-		else
-			ScoreboardDisplayer.setScore(p,ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(),10);
-		
-		ScoreboardDisplayer.setScore(p,"§c   ",9);
+    public static void createScoreboard(SkyblockPlayer player) {
+        SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
 
-		/*ChatColor.GOLD + Tools.addDigits(  p.coins)*/
-		try {
-			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(player.coins), 8);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(player.coins), 8);
-		}
-		if(p.showMithrilPowder)
-			ScoreboardDisplayer.setScore(p,"§2᠅ §fMithril: §2" +Tools.addDigits(p.mithrilpowder),8);
+        assert manager != null;
+        Scoreboard board = manager.getNewScoreboard();
+        Objective obj = board.registerNewObjective("SkyBlockBoard", "dummy", ChatColor.BOLD + "§6§lSKYBLOCK");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        player.setScoreboard(board);
 
-		if(DwarvenEvent.ActiveEvent != null) {
-			if(DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
-				ScoreboardDisplayer.setScore(p,"§9Gone With The Wind",5);
-				ScoreboardDisplayer.setScore(p,getGoneWithTheWindString(p),4);
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
+        String formattedDate = date.format(format);
 
-				
-			}
-		}
-			ScoreboardDisplayer.setScore(p,ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits,7);
+        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69", 14);
 
-		ScoreboardDisplayer.setScore(p,"§8by CarsCupcake",6);
+        ScoreboardDisplayer.setScore(p, "§r   ", 13);
 
-			ScoreboardDisplayer.setScore(p,ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(),1);
+        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(), 12);
+        Time t = Time.getInstance();
+        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + t.getTime(), 11);
 
-		scoreboards.put(p, board);
-	}
+        if (p.dwarvenArea == null)
+            if (ServerType.getActiveType() == ServerType.DwarvenMines)
+                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ §2Dwarven Mines", 10);
+            else
+                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ None", 10);
+        else
+            ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(), 10);
 
-	public static String getGoneWithTheWindString(SkyblockPlayer player) {
-		int dir = DwarvenEvent.ActiveEvent.getGoneWithTheWindYaw();
-		int yaw =(int) player.getLocation().getYaw();
-		
-		if(Tools.isInRange(dir + 20, dir - 20, yaw)) {
-			
-			int spaces = (dir-yaw)/2;
+        ScoreboardDisplayer.setScore(p, "§c   ", 9);
 
-			String finalstring = " ";
-			int totspaces = 10+spaces;
-			
-				
-				for(int i = 0; i < totspaces; i++)
-					finalstring += " ";
-				finalstring += getWindColor(yaw) + "‰ˆ";
+        /*ChatColor.GOLD + Tools.addDigits(  p.coins)*/
+        try {
+            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(player.coins), 8);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(player.coins), 8);
+        }
+        if (p.showMithrilPowder)
+            ScoreboardDisplayer.setScore(p, "§2᠅ §fMithril: §2" + Tools.addDigits(p.mithrilpowder), 8);
 
-			return finalstring;
-			
-		}else {
-			if(yaw < dir) {
-				return "                      >";
-			}else
-				return "<";
-				
-		}
-	}
-	public static String getWindColor(int yaw) {
-		int dir = DwarvenEvent.ActiveEvent.getGoneWithTheWindYaw();
-		if(Tools.isInRange(dir + 5, dir - 5, yaw))
-			return "§2";
-		if(Tools.isInRange(dir + 15, dir - 15, yaw))
-			return "§a";
-		
-		return "";
-	}
+        if (DwarvenEvent.ActiveEvent != null) {
+            if (DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
+                ScoreboardDisplayer.setScore(p, "§9Gone With The Wind", 5);
+                ScoreboardDisplayer.setScore(p, getGoneWithTheWindString(p), 4);
+
+
+            }
+        }
+        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits, 7);
+
+        ScoreboardDisplayer.setScore(p, "§8by CarsCupcake", 6);
+
+        ScoreboardDisplayer.setScore(p, ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(), 1);
+
+        scoreboards.put(p, board);
+    }
+
+    public static String getGoneWithTheWindString(SkyblockPlayer player) {
+        int dir = DwarvenEvent.ActiveEvent.getGoneWithTheWindYaw();
+        int yaw = (int) player.getLocation().getYaw();
+
+        if (Tools.isInRange(dir + 20, dir - 20, yaw)) {
+
+            int spaces = (dir - yaw) / 2;
+
+            String finalstring = " ";
+            int totspaces = 10 + spaces;
+
+
+            for (int i = 0; i < totspaces; i++)
+                finalstring += " ";
+            finalstring += getWindColor(yaw) + "‰ˆ";
+
+            return finalstring;
+
+        } else {
+            if (yaw < dir) {
+                return "                      >";
+            } else
+                return "<";
+
+        }
+    }
+
+    public static String getWindColor(int yaw) {
+        int dir = DwarvenEvent.ActiveEvent.getGoneWithTheWindYaw();
+        if (Tools.isInRange(dir + 5, dir - 5, yaw))
+            return "§2";
+        if (Tools.isInRange(dir + 15, dir - 15, yaw))
+            return "§a";
+
+        return "";
+    }
 } 

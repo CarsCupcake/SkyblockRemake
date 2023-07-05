@@ -26,8 +26,8 @@ public class GUI {
     }
     public GUI(GuiTemplate template){
         this(template.getInventory());
-        for (int slot : template.getSlotActions().keySet())
-            inventoryClickAction.put(slot, template.getSlotActions().get(slot));
+        for (int slot : template.getSlotActions(this).keySet())
+            inventoryClickAction.put(slot, template.getSlotActions(this).get(slot));
         isCanceled = template.isCanceled();
     }
     public void showGUI(SkyblockPlayer player){

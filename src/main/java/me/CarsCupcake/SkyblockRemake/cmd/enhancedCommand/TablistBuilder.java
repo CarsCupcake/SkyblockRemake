@@ -13,7 +13,7 @@ public class TablistBuilder implements TabCompleter {
     public final HashMap<Comparable<String[]>, String[]> args = new HashMap<>();
 
     public TablistBuilder(Class<?> o) {
-        Assert.isTrue(o.isAnnotationPresent(CommandArgument.List.class), "It does not have any command args!");
+        Assert.isTrue(o.isAnnotationPresent(CommandArgument.List.class) || o.isAnnotationPresent(CommandArgument.class), "It does not have any command args!");
         for (CommandArgument argument : o.getAnnotationsByType(CommandArgument.class))
             args.put(new Check(argument), argument.args());
     }
@@ -38,7 +38,7 @@ public class TablistBuilder implements TabCompleter {
         }
 
         @Override
-        public int compareTo(@NotNull String[] o) {
+        public int compareTo(@NotNull String[]  o) {
             if (place == 0 && o.length == 1) return 1;
             if (place != o.length - 1) return 0;
             for (String s : hasToBeTheLast) {

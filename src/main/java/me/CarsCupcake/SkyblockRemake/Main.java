@@ -348,6 +348,8 @@ public class Main extends JavaPlugin {
             return true;
         });
         getCommand("kuudra").setExecutor(new startKuudra());
+        getCommand("rifttime").setExecutor(new RiftTimeCMD());
+        getCommand("rifttime").setTabCompleter(new TablistBuilder(RiftTimeCMD.class));
 
 
         debug.debug("Registering Events", false);

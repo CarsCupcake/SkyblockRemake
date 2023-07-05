@@ -13,11 +13,12 @@ public record RegionHandler(List<Region> regions) implements Listener {
     public void onMove(PlayerMoveEvent event) {
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if (player.getRegion() == null || !player.getRegion().isInRegion(player)) {
+            if(player.getRegion() != null) player.getRegion().leave(player);
             player.setRegion(null);
             for (Region r : regions())
                 if (r.isInRegion(player)) {
                     player.setRegion(r);
-                    if(r.onEnter() != null) r.onEnter().run(new Bundle<>(player, r));
+                    r.enter(player);
                     break;
                 }
         }

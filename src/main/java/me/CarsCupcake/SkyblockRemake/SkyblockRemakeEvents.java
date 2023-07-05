@@ -630,6 +630,7 @@ public class SkyblockRemakeEvents implements Listener {
                 e.printStackTrace();
             }
         }
+        if(player.getRegion() != null) player.getRegion().leave(player);
         player.saveCommissionProgress();
         Main.absorbtion.remove(player);
         Main.absorbtionrunntime.remove(player);
@@ -712,7 +713,7 @@ public class SkyblockRemakeEvents implements Listener {
                     e.setDroppedExp(0);
                 }
 
-                if (SkyblockEntity.livingEntity.exists(e.getEntity())) {
+                if (SkyblockEntity.livingEntity.exists(e.getEntity()) && !SkyblockEntity.livingEntity.getSbEntity(e.getEntity()).isHasDoneDeath()) {
                     SkyblockEntity.livingEntity.getSbEntity(e.getEntity()).kill();
                 }
                 if (Main.dinnerboneNametags.containsKey(e.getEntity())) {

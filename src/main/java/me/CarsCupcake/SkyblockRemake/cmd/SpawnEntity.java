@@ -14,6 +14,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.Unst
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.YoungAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.ShadowAssassin;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.SoulEater;
+import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.crux.Shy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -123,6 +124,10 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "LOST_ADVENTURER_HOLY" -> {
                     HolyAdventurer walker = new HolyAdventurer(10, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "SHY" -> {
+                    Shy walker = new Shy();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

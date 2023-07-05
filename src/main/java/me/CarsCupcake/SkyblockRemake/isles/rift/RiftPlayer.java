@@ -4,6 +4,7 @@ import kotlin.Triple;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -18,6 +19,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RiftPlayer extends SkyblockPlayer {
+    @Getter
+    @Setter
+    private long motes;
     private final long maxRiftTime;
     @Getter
     private long riftTime;
@@ -30,6 +34,15 @@ public class RiftPlayer extends SkyblockPlayer {
         riftTime = maxRiftTime;
         timer = new RiftTicker();
         Main.getDebug().debug(riftTime + " rift time left",false);
+        motes = new CustomConfig(this, "riftStats", true).get().getLong("motes", 0);
+    }
+
+    @Override
+    public void saveInventory() {
+        super.saveInventory();
+        CustomConfig c = new CustomConfig(this, "riftStats", true);
+        c.get().set("motes", motes);
+        c.save();
     }
 
     public void setRiftTime(long i) {
@@ -41,9 +54,16 @@ public class RiftPlayer extends SkyblockPlayer {
     }
 
     public void subtractRiftTime(long i) {
+        if(timer.isAdminPause()) return;
         if (riftTime < 10) return;
         if (riftTime - i < 10) setRiftTime(10);
         else setRiftTime(riftTime - i);
+    }
+    public void addMotes(long l){
+        motes += l;
+    }
+    public void removeMotes(long l){
+        motes -= l;
     }
 
     public void riftTimeRunout() {
@@ -65,7 +85,7 @@ public class RiftPlayer extends SkyblockPlayer {
             builder.append(time.getThird()).append("h").append(" ");
         if(time.getSecond() != 0)
             builder.append(time.getSecond()).append("m").append(" ");
-        builder.append(time.getFirst()).append("s");
+        builder.append((time.getFirst() < 10) ? "0" : "").append(time.getFirst()).append("s");
         return builder.toString();
     }
 

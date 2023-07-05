@@ -167,8 +167,9 @@ public strictfp class Calculator {
 
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
         if(SkyblockServer.getServer().type() == ServerType.Rift){
+            if(!(entity instanceof RiftEntity rE)) return;
             RiftCalculator c = new RiftCalculator();
-            c.damagePlayer((RiftEntity) SkyblockEntity.livingEntity.getSbEntity(e), RiftPlayer.getRiftPlayer(player));
+            c.damagePlayer(rE, RiftPlayer.getRiftPlayer(player));
             c.execute();
         }
         if (entity != null) e = entity.getEntity();

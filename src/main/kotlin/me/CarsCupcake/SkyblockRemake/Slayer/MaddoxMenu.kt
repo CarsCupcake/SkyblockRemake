@@ -146,7 +146,12 @@ object MaddoxMenu {
             builder.setItem(TemplateItems.BackArrow.item, 48)
             return builder.build()
         }
-        override fun getSlotActions(): Map<Int, GUIAction> {
+
+        override fun getSlotActions(gui: GUI): Map<Int, GUIAction>? {
+            return null
+        }
+
+        fun getSlotActions(): Map<Int, GUIAction> {
             return hashMapOf(
                 48 to GUIAction{ gui.showGUI(player) },
                 49 to GUIAction{ gui.closeInventory() },

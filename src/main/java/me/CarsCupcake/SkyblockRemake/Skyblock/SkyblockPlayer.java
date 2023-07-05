@@ -16,7 +16,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
-import me.CarsCupcake.SkyblockRemake.abilitys.SuperCompactor;
+import me.CarsCupcake.SkyblockRemake.abilities.SuperCompactor;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
@@ -162,8 +162,7 @@ public class SkyblockPlayer extends CraftPlayer {
     }
     public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
-        inventory = new CustomConfig(this, "inventory");
-        inventory = new CustomConfig(this, "inventory");
+        inventory = new CustomConfig(this, ((this instanceof RiftPlayer) ? "rInv" : "inventory"));
         player = entity.getBukkitEntity().getPlayer();
         protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
         CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
@@ -209,7 +208,7 @@ public class SkyblockPlayer extends CraftPlayer {
         new MiningSys(this);
         AbilityListener.checkArmor(this);
         Main.initAccessoryBag(player);
-        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupabilities(SkyblockPlayer.this));
+        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupAbilitys(SkyblockPlayer.this));
         //Last things to load!
         SkyblockScoreboard.createScoreboard(this);
         SkyblockLevelsHandler.initGetters(this);
@@ -268,18 +267,23 @@ public class SkyblockPlayer extends CraftPlayer {
 
     }
     public void saveInventory() {
-        Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
-            inventory.clear();
-            inventory.save();
-            inventory.reload();
-            for (int i = 0; i < 40; i++) {
-                ItemStack item = this.getInventory().getItem(i);
-                if (item != null && item.getType() != Material.AIR)
-                    inventory.get().set(i + "", this.getInventory().getItem(i));
-            }
-            inventory.save();
-            inventory.reload();
-        });
+        if(Main.getMain().isEnabled())
+            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+            saveInventory0();
+            });
+        else saveInventory0();
+    }
+    private void saveInventory0(){
+        inventory.clear();
+        inventory.save();
+        inventory.reload();
+        for (int i = 0; i < 40; i++) {
+            ItemStack item = this.getInventory().getItem(i);
+            if (item != null && item.getType() != Material.AIR)
+                inventory.get().set(i + "", this.getInventory().getItem(i));
+        }
+        inventory.save();
+        inventory.reload();
     }
 
     private HashMap<String, String> getItemAsMap(ItemStack item) {

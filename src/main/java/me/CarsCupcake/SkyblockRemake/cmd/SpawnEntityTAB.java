@@ -43,6 +43,7 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("MASTERMODE_LOST_ADVENTURER_YOUNG");
             arguments.add("LOST_ADVENTURER_HOLY");
             arguments.add("MASTERMODE_LOST_ADVENTURER_HOLY");
+            arguments.add("SHY");
         }
 
         if(args.length == 1) {
