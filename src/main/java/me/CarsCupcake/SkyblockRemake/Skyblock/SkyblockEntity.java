@@ -48,6 +48,7 @@ public abstract class SkyblockEntity implements Elementable {
 
     public void updateNameTag() {
         getEntity().setCustomName(getBaseName(this));
+        if(DiguestMobsManager.getDiguested.containsKey(getEntity())) DiguestMobsManager.getDiguested.get(getEntity()).setName(getEntity().getCustomName());
     }
     @Getter
     private boolean hasDoneDeath = false;

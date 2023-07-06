@@ -96,6 +96,7 @@ public class RiftCalculator {
                     event.getCalculator().spawnTag(event.getCalculator().getEntity().getEntity(), String.format("%.0f", event.getCalculator().heartsDamage));
                 if(event.getCalculator().getEntity().getHealth() <= 0)
                     SkyblockEntity.killEntity(event.getCalculator().getEntity(), event.getCalculator().getPlayer());
+                Main.updateentitystats(event.getCalculator().getEntity().getEntity());
             }
         },
         EntityToPlayer {

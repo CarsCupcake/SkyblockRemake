@@ -27,6 +27,7 @@ public class RiftIsle {
                         },
                                 skyblockPlayerRegionBundle -> BossFightManager.getInstance().remove(skyblockPlayerRegionBundle.getFirst()))
                 )));
+        BossFightManager.getInstance().spawn();
     }
     record StopTimerRegion(long riftTimeConsumtion) implements RunnableWithParam<Bundle<SkyblockPlayer, Region>> {
         @Override

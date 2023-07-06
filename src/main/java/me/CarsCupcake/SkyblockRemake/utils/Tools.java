@@ -1099,6 +1099,11 @@ public class Tools {
         return new Triple<>(seconds, minutes, hours);
     }
 
+
+    public static <T> T getRandom(T[] t){
+        return t[new Random().nextInt(t.length)];
+    }
+
     private static class Counter {
         private final long target;
         private final Runnable[] whenDone;
@@ -1176,6 +1181,5 @@ public class Tools {
             for (Set<Pair<Location>> s : packages) size += s.size();
             return size;
         }
-
     }
 }

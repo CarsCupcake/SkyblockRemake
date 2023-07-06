@@ -665,6 +665,12 @@ public class SkyblockRemakeEvents implements Listener {
 
         Main.updatebar(player);
     }
+    @EventHandler
+    public void noFallingBLocks(EntityChangeBlockEvent event){
+        if(event.getEntity() instanceof FallingBlock fB){
+            event.setCancelled(true);
+        }
+    }
 
     @EventHandler
     public void StopBurn(EntityCombustEvent event) {
@@ -1727,6 +1733,7 @@ public class SkyblockRemakeEvents implements Listener {
             }
         });
     }
+
 
     public static void ferocity_call(Entity e, double damage, int cccalc, int cc, Player player, int times) {
 
