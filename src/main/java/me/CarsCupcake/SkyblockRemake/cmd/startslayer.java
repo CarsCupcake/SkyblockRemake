@@ -43,31 +43,31 @@ public class startslayer implements CommandExecutor{
 						default -> slayer = null;
 					}
 					if(slayer == null){
-						p.sendMessage("not avaidable");
+						p.sendMessage("§cNot avaidable");
 						return false;
 					}
-					slayer.spawn(player.getLocation());
+					Slayer.summonSlayer(player.getLocation(), slayer);
 				}
 				case "blaze" -> {
 					if (args[1].equals("1")) {
 						BlazeSlayerT1 slayer = new BlazeSlayerT1(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
-						slayer.spawn(player.getLocation());
+						Slayer.summonSlayer(player.getLocation(), slayer);
 					}
 					if (args[1].equals("2")) {
 						BlazeSlayerT2 slayer = new BlazeSlayerT2(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
-						slayer.spawn(player.getLocation());
+						Slayer.summonSlayer(player.getLocation(), slayer);
 					}
 					if (args[1].equals("3")) {
 						BlazeSlayerT3 slayer = new BlazeSlayerT3(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
-						slayer.spawn(player.getLocation());
+						Slayer.summonSlayer(player.getLocation(), slayer);
 					}
 					if (args[1].equals("4")) {
 						BlazeSlayerT4 slayer = new BlazeSlayerT4(SkyblockPlayer.getSkyblockPlayer(player));
 						slayer.setOwner(SkyblockPlayer.getSkyblockPlayer(player));
-						slayer.spawn(player.getLocation());
+						Slayer.summonSlayer(player.getLocation(), slayer);
 					}
 				}
 				case "enderman" -> {
