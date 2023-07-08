@@ -234,6 +234,11 @@ public class SkyblockPlayer extends CraftPlayer {
 
     }
 
+    public void kill(){
+        Slayer possibleSlayer = Slayer.getSlayer(this);
+        if(possibleSlayer == null) SkyblockEntity.killEntity(possibleSlayer, null);
+    }
+
     public void initQuest() {
         Main.getDebug().debug("Registering " + player.getName() + " to Quests", false);
         if (ServerType.getActiveType() == ServerType.CrimsonIsle) {

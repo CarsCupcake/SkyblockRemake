@@ -951,9 +951,9 @@ public class Main extends JavaPlugin {
             return;
         }
         if (player.currhealth <= 0) {
-
             deathPersons.add(player);
             player.getPlayer().setHealth(0);
+            player.kill();
         }
         double maxhealth = Main.getPlayerStat(player, Stats.Health);
         if (maxhealth < 125) {

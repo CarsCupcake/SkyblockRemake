@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -15,6 +16,7 @@ public abstract class Slayer extends SkyblockEntity{
     }
 
     public static void summonSlayer(Location location, Slayer slayer){
+        Assert.state(slayers.containsKey(slayer.owner), "Multiple Slayers!");
         slayer.spawn(location);
         slayers.put(slayer.owner, slayer);
         SkyblockEntity.livingEntity.addEntity(slayer.getEntity(), slayer);
