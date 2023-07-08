@@ -29,11 +29,9 @@ public class MiningMinion extends AbstractMinion {
         List<Block> missing = new ArrayList<>(getMinableBlocks());
         if (missing.isEmpty())
             return;
-
         Collections.shuffle(missing);
         Block target = missing.iterator().next();
         missing.remove(target);
-
         Location lo = stand.getLocation().setDirection(Tools.getAsLocation(target).clone().subtract(stand.getLocation()).toVector());
         EulerAngle angle = new EulerAngle(Math.toRadians(lo.getPitch()), 0, 0);
         stand.teleport(lo);
@@ -50,7 +48,6 @@ public class MiningMinion extends AbstractMinion {
                     cancel();
                     return;
                 }
-
                 if (rotation >= 0) {
                     rotation = -90;
                     through += 1;
@@ -68,7 +65,6 @@ public class MiningMinion extends AbstractMinion {
                                 if (stand == null || stand.isDead()) {
                                     return;
                                 }
-
                                 Location l = stand.getLocation().clone();
                                 l.setYaw(0);
                                 l.setPitch(0);
@@ -80,7 +76,6 @@ public class MiningMinion extends AbstractMinion {
                         return;
                     }
                 }
-
                 rotation += 90d / 4d;
                 if (rotation >= 0)
                     rotation = 0;
@@ -89,7 +84,6 @@ public class MiningMinion extends AbstractMinion {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     ((CraftPlayer) p).getHandle().b.sendPacket(animation);
                 }
-
                 i++;
             }
         }.runTaskTimer(Main.getMain(), 10, 2);
@@ -120,19 +114,15 @@ public class MiningMinion extends AbstractMinion {
                     cancel();
                     return;
                 }
-
                 if (rotation >= 0) {
                     cancel();
                     target.setType(minion.representiveBlock());
-                    generateLoot();
-
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             if (stand == null || stand.isDead()) {
                                 return;
                             }
-
                             Location l = stand.getLocation().clone();
                             l.setYaw(0);
                             l.setPitch(0);
@@ -143,9 +133,7 @@ public class MiningMinion extends AbstractMinion {
                     }.runTaskLater(Main.getMain(), 10);
                     return;
                 }
-
                 rotation += 90d / 4d;
-
                 stand.setRightArmPose(new EulerAngle(Math.toRadians(rotation), 0, 0));
                 i++;
             }
@@ -167,7 +155,7 @@ public class MiningMinion extends AbstractMinion {
     int settableSpace() {
         int blocks = 0;
         for (Block b : getBlocks()) {
-            if (b.getType() == Material.AIR)
+            if (b.getType() != Material.AIR)
                 continue;
             blocks++;
         }

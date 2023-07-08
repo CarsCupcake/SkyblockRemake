@@ -238,6 +238,12 @@ public abstract class AbstractMinion implements Minion {
     @Override
     public void remove(MinionRemoveReason removeReason) {
         if (stand != null && !stand.isDead()) stand.remove();
+        if(message != null && !message.isDead()) message.remove();
+        if(messageTimer != null)
+            try {
+                messageTimer.cancel();
+            }catch (Exception ignored){}
+
         if (removeReason == MinionRemoveReason.QUIT) {
             saveMinion();
         } else {
@@ -247,7 +253,6 @@ public abstract class AbstractMinion implements Minion {
                 inventory.clear();
                 player.addItem(Items.SkyblockItems.get(base.id() + "_GENERATOR_" + level));
             }
-
             removeMinionFromFile();
         }
     }
