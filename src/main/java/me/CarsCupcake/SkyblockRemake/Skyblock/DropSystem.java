@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class DropSystem {
 public DropSystem(Entity entity, Player player, EntityDeathEvent e) {
-
 	LivingEntity le = (LivingEntity) entity;
 	if(SkyblockEntity.livingEntity.exists(le)){
 		e.getDrops().clear();

@@ -14,4 +14,18 @@ public class CountMap<T> extends HashMap<T, Integer> {
             add(type, amount);
         else super.put(type, amount + base);
     }
+    public void addAll(int amount){
+        for (T t : keySet())
+            add(t, amount);
+    }
+    public void filterByAmount(int amount){
+        for (T t : keySet()){
+            if(amount != get(t)) remove(t);
+        }
+    }
+    public void removeByAmount(int amount){
+        for (T t : keySet()){
+            if(amount == get(t)) remove(t);
+        }
+    }
 }

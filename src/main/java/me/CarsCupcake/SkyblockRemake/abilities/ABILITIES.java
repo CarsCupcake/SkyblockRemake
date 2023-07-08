@@ -59,6 +59,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.ItemAbility.TwilightDaggerHit;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsleListener;
+import me.CarsCupcake.SkyblockRemake.isles.rift.items.AdminItems;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.QuestItems;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -168,6 +169,7 @@ public class ABILITIES implements Listener {
         LogicalBlock.init();
         registerEvent(new TradeMenuListener());
         QuestItems.init();
+        AdminItems.init();
     }
 
     public static void disable() {

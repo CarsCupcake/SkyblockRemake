@@ -57,6 +57,15 @@ public class LeechSupremeEntity extends RiftEntity {
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         entity.setCustomNameVisible(true);
+        new EntityRunnable() {
+            @Override
+            public void run() {
+                if(isInAbility) return;
+
+                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 16)
+                    entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
+            }
+        }.runTaskTimer(Main.getMain(), 0, 1);
     }
 
     @Override
@@ -149,7 +158,6 @@ public class LeechSupremeEntity extends RiftEntity {
                     cancel();
                 }
             }
-
             @Override
             public synchronized void cancel() throws IllegalStateException {
                 super.cancel();
@@ -170,6 +178,7 @@ public class LeechSupremeEntity extends RiftEntity {
                 }.runTaskLater(Main.getMain(), 60);
             }
         }.runTaskTimer(Main.getMain(), 0, 1);
+        entity.remove();
     }
     public void move(Location location, Runnable onDone){
         boolean bef = entity.hasAI();
@@ -186,7 +195,7 @@ public class LeechSupremeEntity extends RiftEntity {
                 Color c = Color.fromBGR(r, r, r);
                 Particle.DustOptions dustOptions = new Particle.DustOptions(c, 2);
                 entity.getWorld().spawnParticle(Particle.REDSTONE, entity.getLocation(), 1, dustOptions);
-                if(entity.getLocation().distance(location) <= speed){
+                if(entity.getLocation().distance(location) <= speed + (speed * 0.5)){
                     cancel();
                     entity.teleport(location);
                     entity.setAI(bef);

@@ -16,10 +16,10 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.PacketPlayInFlying;
-import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.protocol.handshake.PacketHandshakingInSetProtocol;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
@@ -27,8 +27,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.Main;
-import net.minecraft.network.protocol.game.PacketPlayInBlockDig;
-import net.minecraft.network.protocol.game.PacketPlayInUseEntity;
 
 public class PacketReader {
 
@@ -53,7 +51,7 @@ public class PacketReader {
 
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			@Override
-			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) throws Exception {
+			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) {
 				if(packet instanceof PacketHandshakingInSetProtocol protocol){
 					System.out.println(protocol.c + " " + protocol.d);
 				}
@@ -98,6 +96,11 @@ public class PacketReader {
 				PlayerDisguise.packetOutManager((Packet<?>) msg, player);
 				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName()))
 					System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
+				if(msg instanceof PacketPlayOutBlockChange p){
+					if(Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))){
+						ReflectionUtils.setField("b", p,((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());
+					}
+				}
 				super.write(ctx, msg, promise);
 			}
 		};

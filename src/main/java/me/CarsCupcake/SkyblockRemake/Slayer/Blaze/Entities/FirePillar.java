@@ -179,7 +179,7 @@ public class FirePillar {
             timer.setCustomName("§e§l"+seconds+"s §c§l" + hits + " Hits");
     }
 
-    public static interface PillarThrower{
+    public interface PillarThrower{
         void setPillarDestroied();
         void setPillarExploded();
     }

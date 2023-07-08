@@ -1,7 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.utils.maps;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,5 +26,8 @@ public class MapList<T, K> extends HashMap<T, List<K>> {
         List<K> k = super.get(key);
         if(k == null) k = new ArrayList<>();
         return k;
+    }
+    public K get(Object key, int index){
+        return get(key).get(index);
     }
 }

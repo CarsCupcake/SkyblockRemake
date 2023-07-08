@@ -17,6 +17,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import kotlin.Triple;
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
@@ -24,11 +25,13 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.log.CustomLogger;
+import me.CarsCupcake.SkyblockRemake.utils.maps.MapList;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.core.BlockPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutBlockChange;
 import net.minecraft.network.protocol.game.PacketPlayOutMapChunk;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.server.level.WorldServer;
@@ -38,8 +41,11 @@ import net.minecraft.world.level.chunk.ChunkSection;
 import net.minecraft.world.phys.AxisAlignedBB;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_17_R1.block.data.CraftBlockData;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -923,6 +929,9 @@ public class Tools {
     public static BlockPosition asNmsBlock(Block block) {
         return new BlockPosition(block.getX(), block.getY(), block.getZ());
     }
+    public static Block asBukkitBlock(BlockPosition block, World world) {
+        return new Location(world,block.getX(), block.getY(), block.getZ()).getBlock();
+    }
 
     public static void makeAir(Location a, Location b) {
         makeAir(a, b, null);
@@ -1102,6 +1111,38 @@ public class Tools {
 
     public static <T> T getRandom(T[] t){
         return t[new Random().nextInt(t.length)];
+    }
+
+    public static FakeBlock placeFakeBlock(Block b, Material m){
+        FakeBlock f = new FakeBlock(b);
+        f.change(m);
+        return f;
+    }
+    public static class FakeBlock{
+        @Getter
+        private static final MapList<Block, FakeBlock> blocks = new MapList<>();
+        @Getter
+        public boolean released = false;
+        @Getter
+        public final Block block;
+        @Getter
+        private Material material;
+        private FakeBlock(Block b){
+            block = b;
+            material = b.getType();
+            blocks.add(b, this);
+        }
+        public void change(Material m){
+            material = m;
+            Assert.state(!released, "Block is no longer a fakeblock!");
+            for (Player p : Bukkit.getOnlinePlayers()) ((CraftPlayer) p).getHandle().b.sendPacket(new PacketPlayOutBlockChange(asNmsBlock(block), ((CraftBlockData) m.createBlockData()).getState()));
+        }
+        public void release(){
+            Assert.state(!released, "Block is no longer a fakeblock!");
+            released = true;
+            blocks.removeFromList(block, this);
+            if(!blocks.containsKey(block)) block.getState().update();
+        }
     }
 
     private static class Counter {
