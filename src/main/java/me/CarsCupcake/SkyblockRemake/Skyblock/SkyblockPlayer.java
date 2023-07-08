@@ -226,7 +226,7 @@ public class SkyblockPlayer extends CraftPlayer {
         }.runTaskLater(Main.getMain(), 10);
         Effect.load(this);
         initQuest();
-
+        Main.updatebar(this);
         player.setPlayerListHeaderFooter("§bYou are Playing on §e§l" + Main.getMain().getServer().getIp() + " \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
     }
 
