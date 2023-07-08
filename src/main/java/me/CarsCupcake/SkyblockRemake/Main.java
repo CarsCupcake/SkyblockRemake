@@ -271,7 +271,6 @@ public class Main extends JavaPlugin {
 
         ICollection.init();
         ABILITIES.init();
-        itemCMD.createItemInvs();
 
         SkyblockRecipe.init();
 

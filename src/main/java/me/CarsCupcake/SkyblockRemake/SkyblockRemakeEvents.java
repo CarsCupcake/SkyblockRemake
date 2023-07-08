@@ -873,60 +873,6 @@ public class SkyblockRemakeEvents implements Listener {
         }
     }
 
-    @EventHandler
-    public void ItemsMenu(InventoryClickEvent event) {
-        if (!event.getView().getTitle().contains("Custom Items Menu - Page ")) return;
-        if (event.getCurrentItem() == null) return;
-        if (event.getCurrentItem().getItemMeta() == null) return;
-
-        Player player = (Player) event.getWhoClicked();
-        event.setCancelled(true);
-
-        if (event.getClickedInventory().getType() == InventoryType.PLAYER) return;
-
-
-        int page = event.getView().getTopInventory().getItem(53).getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "page"), PersistentDataType.INTEGER);
-
-        if (event.getSlot() == 53) {
-
-            if (page < itemCMD.items.size()) {
-
-                player.openInventory(itemCMD.items.get(page));
-                player.updateInventory();
-            }
-            return;
-        }
-        if (event.getSlot() == 49) {
-
-            SkyblockPlayer.getSkyblockPlayer(player).setSearching(SearchTopic.CustomItems);
-            player.closeInventory();
-
-            new SignGUI(new SignManager(), e -> {
-                Bukkit.getScheduler().runTask(Main.getMain(), () -> ItemsSearch.buildInventory(SkyblockPlayer.getSkyblockPlayer(player), e.lines()[0] + e.lines()[1]));
-
-
-            }).withLines("", "", "^^^^^^^^^^^^^^^", "Enter Item Name").open(SkyblockPlayer.getSkyblockPlayer(player));
-
-            return;
-        }
-        if (event.getSlot() == 45) {
-
-            if (page != 1) {
-
-                player.openInventory(itemCMD.items.get(page - 2));
-                player.updateInventory();
-            }
-            return;
-        }
-        if (event.getSlot() > 45) {
-            return;
-        }
-        if (event.getCurrentItem().getType() == Material.AIR) return;
-        player.getInventory().addItem(Main.item_updater(Items.SkyblockItems.get(ItemHandler.getPDC("id", event.getCurrentItem(), PersistentDataType.STRING)).createNewItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
-        player.updateInventory();
-
-    }
-
     public boolean hasfreeSlot(Player p) {
         return Arrays.asList(p.getInventory().getStorageContents()).contains(null);
     }
