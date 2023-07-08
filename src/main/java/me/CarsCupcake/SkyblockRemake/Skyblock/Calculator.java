@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -205,7 +206,7 @@ public strictfp class Calculator {
         Bukkit.getPluginManager().callEvent(result);
 
         if (result.isCancelled()) return;
-
+        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) damage = 0;
         if (damage > 0) player.damage(0.0001);
 
         if (Main.absorbtion.get(player) - damage < 0) {
