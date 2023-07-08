@@ -217,6 +217,7 @@ public class TabListManager implements Listener {
 
     public void removePlayer(Player p) {
         EntityPlayer entityPlayer = playerShow.get(p);
+        if(entityPlayer == null) return;
         try {
             ((CraftPlayer) this.player).getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.e, entityPlayer));
         } catch (Exception ignored) {
