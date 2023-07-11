@@ -61,6 +61,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsleListener;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.AdminItems;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.QuestItems;
+import me.CarsCupcake.SkyblockRemake.isles.rift.boss.leechSupreme.BossFightManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -191,6 +192,7 @@ public class ABILITIES implements Listener {
             TitanumHandler.getHandlers().values().forEach(TitanumHandler::reset);
         }
         Main.petstand.values().forEach(PetFollowRunner::remove);
+        BossFightManager.FakeBlock.releaseAll();
     }
 
     @EventHandler

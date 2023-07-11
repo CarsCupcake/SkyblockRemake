@@ -4235,7 +4235,7 @@ public class Items {
     private static void placeLocationSetter() {
         ArrayList<String> abilityLore = new ArrayList<>();
         abilityLore.add("§c§lPlease do not use!!");
-        ItemManager manager = new ItemManager("Locations", "SETTER_LOCATIONS", ItemType.Non, null, "Mark location", null, abilityLore, 0, 0, 0, 0, Material.STICK, ItemRarity.SPECIAL);
+        ItemManager manager = new ItemManager("Locations", "SETTER_LOCATIONS", ItemType.Non, null, "Mark location", null, abilityLore, 0, 0, 0, 0, Material.STICK, ItemRarity.ADMIN);
 
 
         manager.addAbility(new EntityLocationSetter(), AbilityType.RightClick, "Mark location", new AbilityLore(abilityLore), 0, 0);

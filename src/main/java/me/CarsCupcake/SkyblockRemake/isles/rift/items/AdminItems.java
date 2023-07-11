@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.rift.items;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
@@ -41,6 +42,9 @@ public class AdminItems implements Listener {
                     ItemHandler.setPDC("rds", item, PersistentDataType.DOUBLE, d);
                 }catch (Exception ignored){
                     event.getPlayer().sendMessage("§cThis is not a valid number!");
+
+                }finally {
+                    Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
                 }
             }).withLines("", "^^^^^^^^", "Enter Amount", "here").open(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             return false;

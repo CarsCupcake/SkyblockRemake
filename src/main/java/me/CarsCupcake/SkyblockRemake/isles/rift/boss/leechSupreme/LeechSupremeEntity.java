@@ -62,7 +62,7 @@ public class LeechSupremeEntity extends RiftEntity {
             public void run() {
                 if(isInAbility) return;
 
-                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 16)
+                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 15)
                     entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
             }
         }.runTaskTimer(Main.getMain(), 0, 1);

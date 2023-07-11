@@ -35,6 +35,7 @@ public class RiftPlayer extends SkyblockPlayer {
         timer = new RiftTicker();
         Main.getDebug().debug(riftTime + " rift time left",false);
         motes = new CustomConfig(this, "riftStats", true).get().getLong("motes", 0);
+        Main.updatebar(this);
         setHealth(getMaxHealth(), HealthChangeReason.Force);
     }
 

@@ -7,6 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.regions.RegionCuboid;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.RegionHandler;
 import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
 import me.CarsCupcake.SkyblockRemake.isles.rift.boss.leechSupreme.BossFightManager;
+import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.spawningAreas.ShySpawning;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import org.bukkit.util.Vector;
 
@@ -27,6 +28,7 @@ public class RiftIsle {
                         },
                                 skyblockPlayerRegionBundle -> BossFightManager.getInstance().remove(skyblockPlayerRegionBundle.getFirst()))
                 )));
+        new ShySpawning();
         BossFightManager.getInstance().spawn();
     }
     record StopTimerRegion(long riftTimeConsumtion) implements RunnableWithParam<Bundle<SkyblockPlayer, Region>> {

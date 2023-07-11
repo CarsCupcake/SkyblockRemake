@@ -47,6 +47,7 @@ public class Shy extends Crux implements FinalDamageDesider {
     @Override
     public void spawn(Location loc) {
         entity = (LivingEntity) new Damager(loc).getBukkitEntity();
+        entity.setRemoveWhenFarAway(false);
         ((Ageable) entity).setBaby();
         entity.setSilent(true);
         entity.teleport(loc);
@@ -60,6 +61,7 @@ public class Shy extends Crux implements FinalDamageDesider {
             armorStand.setBasePlate(false);
             armorStand.getEquipment().setHelmet(Tools.getCustomTexturedHeadFromSkullValue(NORMAL_FACE));
             armorStand.addScoreboardTag("remove");
+            armorStand.setRemoveWhenFarAway(false);
         });
         SkyblockEntity.livingEntity.addEntity(entity, this);
         new EntityRunnable() {

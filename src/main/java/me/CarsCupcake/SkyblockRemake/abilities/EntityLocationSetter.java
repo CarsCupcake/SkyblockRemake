@@ -35,21 +35,25 @@ public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent>
             text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,new ComponentBuilder("§aClick to undo! - §cWork in progress").create()));
             event.getPlayer().spigot().sendMessage(text);
         }*/
+        Location l = new Location(event.getPlayer().getWorld(), event.getClickedBlock().getX() + 0.5, event.getClickedBlock().getY() + 1, event.getClickedBlock().getZ() + 0.5);
+        if(locations.contains(l)){
+            event.getPlayer().sendMessage("§cAlready set!");
+            return false;
+        }
         locations.add(new Location(event.getPlayer().getWorld(), event.getClickedBlock().getX() + 0.5, event.getClickedBlock().getY() + 1, event.getClickedBlock().getZ() + 0.5));
-
-        String str = "{";
+        StringBuilder str = new StringBuilder("{");
         int i = 0;
         for (Location location : locations){
-            str += "new Location(Main.getMain().getServer().getWorld(\""+location.getWorld().getName()+"\"), " + location.getX() + ", " + location.getY() + ", " + location.getZ() + ")";
+            str.append("new Location(Main.getMain().getServer().getWorld(\"").append(location.getWorld().getName()).append("\"), ").append(location.getX()).append(", ").append(location.getY()).append(", ").append(location.getZ()).append(")");
             if(i == locations.size())
-                str += "}";
+                str.append("}");
             else
-                str += ",";
+                str.append(",");
             i++;
         }
 
         TextComponent textComponent = new TextComponent("§aLocation marked (with +1 on y) §e§lClick to copy");
-        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, str));
+        textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, str.toString()));
         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("§aClick to copy!").create()));
         event.getPlayer().spigot().sendMessage(textComponent);
 

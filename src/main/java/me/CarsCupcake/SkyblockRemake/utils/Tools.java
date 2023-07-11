@@ -1122,7 +1122,7 @@ public class Tools {
         @Getter
         private static final MapList<Block, FakeBlock> blocks = new MapList<>();
         @Getter
-        public boolean released = false;
+        private boolean released = false;
         @Getter
         public final Block block;
         @Getter

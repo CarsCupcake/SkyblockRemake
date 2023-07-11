@@ -3,7 +3,6 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import java.util.*;
 
 import com.comphenix.protocol.error.BasicErrorReporter;
-import com.comphenix.protocol.injector.netty.channel.InjectionFactory;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
@@ -147,8 +146,6 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private int skyblockLevelXp = 1;
-    private static final InjectionFactory factory = new InjectionFactory(Main.getMain(), Main.getMain().getServer(), new BasicErrorReporter());
-    private final int protocolVersion;
     @Getter
     @Setter
     private DialogBuilder.DialogRunner dialog;
@@ -164,7 +161,6 @@ public class SkyblockPlayer extends CraftPlayer {
         super(server, entity);
         inventory = new CustomConfig(this, ((this instanceof RiftPlayer) ? "rInv" : "inventory"));
         player = entity.getBukkitEntity().getPlayer();
-        protocolVersion = factory.fromPlayer(player, null).getProtocolVersion();
         CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
         List<String> sl = null;
         try {
@@ -178,7 +174,7 @@ public class SkyblockPlayer extends CraftPlayer {
             return;
         }
         //Check for 1.17.1 (https://wiki.vg/Protocol_version_numbers)
-        if (protocolVersion != 756) {
+        if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
             this.sendTitle("§a1.17.1 is recomendet!", "I suggest using 1.17.1 for less buggs");
             this.sendMessage("§cThe plugin is made for Version 1.17.1, other versions could bug out and break some system's!");
         }
@@ -226,7 +222,6 @@ public class SkyblockPlayer extends CraftPlayer {
         }.runTaskLater(Main.getMain(), 10);
         Effect.load(this);
         initQuest();
-        Main.updatebar(this);
         player.setPlayerListHeaderFooter("§bYou are Playing on §e§l" + Main.getMain().getServer().getIp() + " \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
     }
 

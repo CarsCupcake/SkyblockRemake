@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.regions;
 
 import org.bukkit.Location;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
 public class RegionCuboid implements IBorder{
@@ -40,6 +41,9 @@ public class RegionCuboid implements IBorder{
     @Override
     public boolean inTheBorder(Location location) {
         return location.getX() >= minX && location.getX() <= maxX && location.getY() >= minY && location.getY() <= maxY && location.getZ() >= minZ && location.getZ() <= maxZ;
+    }
+    public BoundingBox toBoundingBox(){
+        return new BoundingBox(maxX, maxY, maxZ, minX, minY, minZ);
     }
     record Plane(Vector d1, Vector d2, Vector p){
         public Vector nextPoint(Vector v){

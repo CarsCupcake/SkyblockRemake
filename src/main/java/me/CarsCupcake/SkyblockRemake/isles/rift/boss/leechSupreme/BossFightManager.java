@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.RegionCuboid;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
+import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.utils.SinusMovement;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
@@ -23,6 +24,7 @@ import org.bukkit.craftbukkit.v1_17_R1.util.CraftMagicNumbers;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,7 +57,7 @@ public class BossFightManager {
             public void run() {
                 getInstance().spawn();
             }
-        }.runTaskLater(Main.getMain(), 200);
+        }.runTaskLater(Main.getMain(), 600);
     }
 
     public void spawn() {
@@ -195,7 +197,7 @@ public class BossFightManager {
             public void run() {
                 i++;
                 if (i > 80) cancel();
-                List<Entity> e = middle.getWorld().getNearbyEntities(middle, 16, 20, 16).stream().filter(entity -> entity instanceof Player).toList();
+                List<Entity> e = middle.getWorld().getNearbyEntities(middle, 15, 20, 15).stream().filter(entity -> entity instanceof Player).toList();
                 if (e.isEmpty()) BombAttacks.Random.run(null);
                 else e.forEach((p) -> Tools.getOneItemFromLootTable(map).run(SkyblockPlayer.getSkyblockPlayer((Player) p)));
 
@@ -277,16 +279,157 @@ public class BossFightManager {
             }
         }
     }
-
+    int leechSwarm = 0;
     public void leechSwarm() {
+        entity.getEntity().setAI(false);
+        int amount = (int) middle.getWorld().getNearbyEntities(bossArea.toBoundingBox()).stream().filter(e -> e instanceof Player).count();
+        if(amount == 0) leechSwarm = 8;
+        else if(amount <= 3) leechSwarm = 8 * amount;
+        else leechSwarm = 8 * 3;
         entity.move(Tools.getRandom(bankPos), () -> {
-
+            int large;
+            if(amount == 0) large = 2;
+            else if(amount <= 3) large = 2 * amount;
+            else large = 2 * 3;
+            for (int i = 0; i < leechSwarm - large; i++)
+                new LeechSwarm().spawn(getRandomSwarmLocation());
+            System.out.println(large);
+            for (int i = 0; i < large; i++)
+                new LeechAlpha().spawn(getRandomSwarmLocation());
         });
+    }
+    private Location getRandomSwarmLocation(){
+        Vector v = new Vector(0, 0, 17);
+        v.rotateAroundY(new Random().nextInt(360));
+        return middle.clone().add(v).subtract(0, 1, 0);
+    }
+    public void leechSwarmKill(){
+        leechSwarm--;
+        if(leechSwarm == 0){
+            entity.move(getMiddle(), () -> {
+                entity.getEntity().setAI(true);
+                entity.isInAbility = false;
+            });
+        }
     }
 
     public void mortiferousLazer() {
+        entity.getEntity().setAI(false);
+        Vector forward = new Vector(0, 0, 0.4);
+        Vector backwards = new Vector(0, 0, -0.4);
+        //Z = 71
         entity.move(Tools.getRandom(bankPos), () -> {
+            Laser l = new Laser(new Location(middle.getWorld(), -135, 33, 41), new Location(middle.getWorld(), -164, 33, 41));
+            BoundingBox box = new BoundingBox(-135.5, 33.5, 41.5, -163.5, 32.5, 40.5);
+            new EntityRunnable() {
+                boolean forw = true;
+                final CountMap<Player> cooldwon = new CountMap<>();
+                boolean rotation = false;
+                Set<FakeBlock> fakeBlocks = makeSaveSpot();
+                int loop = 0;
+                @Override
+                public void run() {
+                    for (FakeBlock b : fakeBlocks) b.b.getWorld().spawnParticle(Particle.SLIME, Tools.getAsLocation(b.b), 1);
+                    cooldwon.addAll(-1);
+                    cooldwon.removeByAmount(0);
+                    Vector v = (rotation) ? ((forw) ? new Vector(0, -0.1, 0) : new Vector(0, 0.1, 0)) : ((forw) ? forward : backwards);
+                    l.getStart().getEntity().teleport(l.getStart().getEntity().getLocation().add(v));
+                    l.getEnd().getEntity().teleport(l.getEnd().getEntity().getLocation().add(v));
+                    Location loc = l.getStart().getEntity().getLocation();
+                    if(!rotation){
+                        if (forw && Tools.isInRange(71, 72, loc.getZ())) {
+                            forw = false;
+                            rotation = true;
+                            loop++;
+                        }
+                        if (!forw && Tools.isInRange(41, 42, loc.getZ())) {
+                            forw = true;
+                            releaseSpot(fakeBlocks);
+                            fakeBlocks = makeSaveSpot();
+                            rotation = true;
+                            loop++;
+                        }
+                    }
+                    if(rotation && ((loc.getY() >= 34.7 && !forw) || (loc.getY() <= 33 && forw))) rotation = false;
+                    box.shift(v);
+                    entity.getEntity().getWorld().getNearbyEntities(box).stream().filter(entity1 -> entity1 instanceof Player p && !cooldwon.containsKey(p)).forEach(e -> {
+                        Player p = (Player) e;
+                        cooldwon.put(p, 10);
+                        RiftPlayer player = RiftPlayer.getRiftPlayer(p);
+                        player.sendMessage("§cLeech Supreme §eremoved §a60s " + Stats.RiftTime.getSymbol() + " §efrom you using §dMortiferous Lazer!");
+                        player.subtractRiftTime(60);
+                        player.setVelocity(v.clone().multiply(3).setY(1));
+                    });
+                    if (loop >= 5) {
+                        cancel();
+                        entity.move(middle, () -> {
+                            entity.getEntity().setAI(true);
+                            entity.isInAbility = false;
+                        });
+                    }
+                }
 
+                @Override
+                public synchronized void cancel() throws IllegalStateException {
+                    super.cancel();
+                    l.stop();
+                    releaseSpot(fakeBlocks);
+                }
+            }.runTaskTimer(entity, 0, 1);
         });
+    }
+    private Set<FakeBlock> makeSaveSpot(){
+        Set<FakeBlock> fakeBlocks = new HashSet<>();
+        Location l = new Location(middle.getWorld(), new Random().nextInt(-158, -140),
+                32, new Random().nextInt(48, 64));
+        fakeBlocks.add(new FakeBlock(l.clone().getBlock(), Material.SPRUCE_SLAB));
+        fakeBlocks.add(new FakeBlock(l.add(1, 0, 0).clone().getBlock(), Material.SPRUCE_SLAB));
+        fakeBlocks.add(new FakeBlock(l.add(0, 0, 1).clone().getBlock(), Material.SPRUCE_SLAB));
+        fakeBlocks.add(new FakeBlock(l.add(-1, 0, 0).clone().getBlock(), Material.SPRUCE_SLAB));
+        return fakeBlocks;
+    }
+    private void releaseSpot(Set<FakeBlock> blocks){
+        for (FakeBlock fakeBlock : blocks){
+            fakeBlock.release();
+            getPlayersInBox(fakeBlock.b.getBoundingBox()).forEach(player -> player.setVelocity(new Vector(0, 0.5, 0)));
+        }
+    }
+    private Set<RiftPlayer> getPlayersInBox(BoundingBox box){
+        Set<RiftPlayer> p = new HashSet<>();
+        entity.getEntity().getWorld().getNearbyEntities(box)
+                .stream().filter(e -> e instanceof Player)
+                .forEach(e -> p.add(RiftPlayer.getRiftPlayer((Player) e)));
+        return p;
+    }
+    public static class FakeBlock{
+        private static final Set<FakeBlock> blocks = new HashSet<>();
+        private final Block b;
+        private final Material material;
+        public FakeBlock(Block b, Material m){
+            this.b = b;
+            this.material = b.getType();
+            if(blocks.contains(this)) return;
+            b.setType(m);
+            blocks.add(this);
+        }
+        public void release(){
+            b.setType(material);
+            blocks.remove(this);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(obj instanceof FakeBlock fb) return fb.b.equals(b);
+            return super.equals(obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(b);
+        }
+
+        public static void releaseAll(){
+            for (FakeBlock b : blocks) b.release();
+        }
     }
 }
