@@ -13,7 +13,9 @@
   </a>
 </p>
 </div>
-
+<div align="center">
+<h3><b> Commercial use is strictly forbidden!</b></h3>
+</div>
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
