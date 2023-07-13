@@ -42,10 +42,13 @@ public class GUIListener implements Listener {
         event.setCancelled(gui.isCanceled());
         if(event.getClickedInventory() != null){
             if(event.getClickedInventory().getType() == InventoryType.PLAYER)
-                gui.triggerAction(GUI.GUIActions.PlayerClick, event.getSlot(),event.getClick());
-            else
-                gui.triggerAction(GUI.GUIActions.Click, event.getSlot(),event.getClick());
+                event.setCancelled(gui.triggerAction(GUI.GUIActions.PlayerClick, event.getSlot(), event.getClick()));
 
+            else {
+                event.setCancelled(gui.triggerAction(GUI.GUIActions.Click, event.getSlot(), event.getClick()));
+                if (gui.getDirectInventoryClickAction().containsKey(event.getSlot()))
+                    gui.getDirectInventoryClickAction().get(event.getSlot()).run(event);
+            }
         }
     }
     @EventHandler

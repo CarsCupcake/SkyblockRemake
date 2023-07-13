@@ -70,6 +70,11 @@ public class InventoryBuilder {
         return this;
     }
 
+    public InventoryBuilder setItem(int i, ItemStack item) {
+        itemStacks.set(i, item);
+        return this;
+    }
+
     public InventoryBuilder setItem(ItemManager item, int i) {
         return setItem(item.createNewItemStack(), i);
     }

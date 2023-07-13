@@ -1,10 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.utils.Inventories;
 
+import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -14,6 +18,9 @@ public class GUI {
     protected Inventory inv;
     protected SkyblockPlayer player;
     protected final HashMap<Integer, GUIAction> inventoryClickAction = new HashMap<>();
+    @Getter
+    @Setter
+    protected HashMap<Integer, RunnableWithParam<InventoryClickEvent>> directInventoryClickAction = new HashMap<>();
     protected final HashMap<Integer, GUIAction> playerInventoryClickAction = new HashMap<>();
     protected GUIAction closeAction;
     protected InventoryGUIAction generalAction;

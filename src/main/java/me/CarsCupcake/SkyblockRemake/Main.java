@@ -349,6 +349,8 @@ public class Main extends JavaPlugin {
         getCommand("kuudra").setExecutor(new startKuudra());
         getCommand("rifttime").setExecutor(new RiftTimeCMD());
         getCommand("rifttime").setTabCompleter(new TablistBuilder(RiftTimeCMD.class));
+        getCommand("wd").setExecutor(new WardrobeCMD());
+        getCommand("wardrobe").setExecutor(new WardrobeCMD());
 
 
         debug.debug("Registering Events", false);

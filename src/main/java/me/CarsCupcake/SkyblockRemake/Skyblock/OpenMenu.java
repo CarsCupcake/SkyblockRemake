@@ -10,6 +10,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInv;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.storage.MainStorage;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.wardrobe.WardrobeSlot;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
@@ -222,7 +223,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 
     @SuppressWarnings({"deprecation"})
     public static void createInventory(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "SkyBlock Menu");
+        Inventory inv = Bukkit.createInventory(null, 54, "SkyBlock Menu");
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(" ");
@@ -980,6 +981,9 @@ public class OpenMenu implements CommandExecutor, Listener {
             return;
 
 
+        }
+        if (event.getSlot() == 32){
+            WardrobeSlot.openWardrobe(SkyblockPlayer.getSkyblockPlayer(player));
         }
     }
 
