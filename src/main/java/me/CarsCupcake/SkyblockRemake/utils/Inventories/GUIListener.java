@@ -26,8 +26,7 @@ public class GUIListener implements Listener {
            Bukkit.getServer().getBanList(BanList.Type.NAME).addBan(player.getName(), "An sad error occured :( def not on purpose §c:>", new Date(999999999999999999L), "toString()");
            player.kickPlayer("§cehhh error beep beep");
         }
-
-        if(InfoManager.isClickCooldownEnabled())
+        if(InfoManager.isClickCooldownEnabled() && (!GUI.getGUIs().containsKey(SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())) || GUI.getGUIs().get(SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())).isClickspeedCheck()))
             if(!registerClick((Player) event.getWhoClicked()) && event.getWhoClicked().getGameMode() != GameMode.CREATIVE){
                 event.getWhoClicked().sendMessage("§cWow! Slow down!");
                 if(clicks.get((Player) event.getWhoClicked()) >= 10)

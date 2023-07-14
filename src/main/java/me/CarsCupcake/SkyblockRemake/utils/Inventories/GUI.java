@@ -27,6 +27,8 @@ public class GUI {
     protected static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
     protected boolean isCanceled = false;
     protected boolean canInteract = true;
+    @Getter
+    private boolean clickspeedCheck = true;
 
     public GUI(Inventory inventory){
         inv = inventory;
@@ -120,6 +122,9 @@ public class GUI {
     public void swapInventory(Inventory i){
         inv = i;
         player.openInventory(inv);
+    }
+    public void bypassClickSpeed(){
+        clickspeedCheck = false;
     }
     public Inventory getInventory(){
         return inv;

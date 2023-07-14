@@ -1443,7 +1443,7 @@ public class Items {
         manager.setMaxStars(5);
         manager.setDungeonItem(true);
         SkyblockItems.put(manager.itemID, manager);
-        return manager.getRawItemStack();
+        return manager.createNewItemStack();
 
 
     }

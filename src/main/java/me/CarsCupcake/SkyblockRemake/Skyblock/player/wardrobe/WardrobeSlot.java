@@ -12,6 +12,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -79,16 +80,17 @@ public class WardrobeSlot {
     public boolean isEmpty(){
         return helmet == null && chestplate == null && leggings == null && boots == null;
     }
-    public void equip(){
-        if(player.getEquipment().getHelmet() != null) player.addItem(player.getEquipment().getHelmet(), false);
+    public void equip(Player player){
+        if(player.getEquipment().getHelmet() != null) player.getInventory().addItem(player.getEquipment().getHelmet());
         player.getEquipment().setHelmet(helmet);
-        if(player.getEquipment().getChestplate() != null) player.addItem(player.getEquipment().getChestplate(), false);
+        if(player.getEquipment().getChestplate() != null) player.getInventory().addItem(player.getEquipment().getChestplate());
         player.getEquipment().setChestplate(chestplate);
-        if(player.getEquipment().getLeggings() != null) player.addItem(player.getEquipment().getLeggings(), false);
-        player.getEquipment().setHelmet(leggings);
-        if(player.getEquipment().getBoots() != null) player.addItem(player.getEquipment().getBoots(), false);
+        if(player.getEquipment().getLeggings() != null) player.getInventory().addItem(player.getEquipment().getLeggings());
+        player.getEquipment().setLeggings(leggings);
+        if(player.getEquipment().getBoots() != null) player.getInventory().addItem(player.getEquipment().getBoots());
         player.getEquipment().setBoots(boots);
         isEquiped = true;
+        player.getPlayer().updateInventory();
     }
     public void unequip(){
         player.getEquipment().setHelmet(null);
@@ -253,7 +255,7 @@ public class WardrobeSlot {
                         int id = equiped.getContent().id;
                         equiped.getContent().draw(event.getView().getTopInventory(), EMPTY_MATERIALS[id - (9 * ((int) ((id) / 9.0)))]);
                     }
-                    slot.equip();
+                    slot.equip((Player) event.getWhoClicked());
                     equiped.setContent(slot);
                 }
                 slot.draw(event.getView().getTopInventory(), m);
@@ -266,6 +268,7 @@ public class WardrobeSlot {
             final int I = i;
             GUI gui = new GUI(inv);
             guis.add(gui);
+            gui.bypassClickSpeed();
             if(i != 0) {
                 gui.getInventory().setItem(45, TemplateItems.BackArrow.getItem());
                 gui.inventoryClickAction(45, type -> guis.get(I - 1).showGUI(player));
