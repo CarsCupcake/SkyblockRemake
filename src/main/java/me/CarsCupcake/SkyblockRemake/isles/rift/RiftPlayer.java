@@ -78,7 +78,7 @@ public class RiftPlayer extends SkyblockPlayer {
         return (RiftPlayer) SkyblockPlayer.getSkyblockPlayer(player);
     }
     public void updateBar(){
-        this.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(((timer.isRunning()) ? "§a" : "§7") + toTimeString(Tools.breakDownTime(riftTime)) + Stats.RiftTime.getSymbol() + " Left   " + defenseString + "   §b"
+        this.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(((timer.isRunning()) ? "§a" : "§7") + toTimeString(Tools.breakDownTime(riftTime)) + Stats.RiftTime.getSymbol() + " Left   " + ((showDefenceString) ? defenseString : "") + "   §b"
         + currmana + "/" + Main.getPlayerStat(this, Stats.RiftInteligence)));
     }
     private String toTimeString(Triple<Long, Long, Long> time){

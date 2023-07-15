@@ -39,12 +39,12 @@ public class LeechAlpha extends RiftEntity {
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         entity.setCustomNameVisible(true);
-        entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(1));
+        entity.setVelocity(LeechFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(1));
         new EntityRunnable() {
             @Override
             public void run() {
-                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 15)
-                    entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
+                if(LeechFightManager.getMiddle().distance(entity.getLocation()) > 15)
+                    entity.setVelocity(LeechFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
             }
         }.runTaskTimer(Main.getMain(), 20, 1);
     }
@@ -77,7 +77,7 @@ public class LeechAlpha extends RiftEntity {
     @Override
     public void kill() {
         super.kill();
-        BossFightManager.getInstance().leechSwarmKill();
+        LeechFightManager.getInstance().leechSwarmKill();
     }
 
     @Override

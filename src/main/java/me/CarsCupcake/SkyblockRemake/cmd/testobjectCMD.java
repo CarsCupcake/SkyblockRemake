@@ -34,7 +34,6 @@ public class testobjectCMD implements CommandExecutor {
 */
             p.getEquipment().setHelmet(Items.wither_googles());
             return true;
-
         }
 
         return false;

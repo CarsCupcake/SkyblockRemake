@@ -14,7 +14,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -41,12 +40,12 @@ public class LeechSwarm extends RiftEntity {
             zombie.setAdult();
         });
         SkyblockEntity.livingEntity.addEntity(entity, this);
-        entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(1));
+        entity.setVelocity(LeechFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(1));
         new EntityRunnable() {
             @Override
             public void run() {
-                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 16)
-                    entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
+                if(LeechFightManager.getMiddle().distance(entity.getLocation()) > 16)
+                    entity.setVelocity(LeechFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
             }
         }.runTaskTimer(Main.getMain(), 20, 1);
     }
@@ -83,6 +82,6 @@ public class LeechSwarm extends RiftEntity {
     @Override
     public void kill() {
         super.kill();
-        BossFightManager.getInstance().leechSwarmKill();
+        LeechFightManager.getInstance().leechSwarmKill();
     }
 }

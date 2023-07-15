@@ -30,24 +30,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class BossFightManager {
+public class LeechFightManager {
     //Giant: 9 blocks down 3 back -> hand at set location
     private static final Location[] slimePots = {new Location(Bukkit.getWorld("world_the_end"), -156.5, 33, 49.5), new Location(Bukkit.getWorld("world_the_end"), -142.5, 33, 49.5), new Location(Bukkit.getWorld("world_the_end"), -156.5, 33, 63.5), new Location(Bukkit.getWorld("world_the_end"), -142.5, 33, 63.5)};
     @Getter
     private static final Location middle = new Location(Bukkit.getWorld("world_the_end"), -149.5, 33, 56.5);
     private static final Location[] bankPos = {new Location(Bukkit.getWorld("world_the_end"), -128.5, 35, 56.5), new Location(Bukkit.getWorld("world_the_end"), -170.5, 35, 56.5), new Location(Bukkit.getWorld("world_the_end"), -149.5, 35, 77.5)};
     public static final RegionCuboid bossArea = new RegionCuboid(new Vector(-178, 53, 38), new Vector(-123, 23, 80));
-    private static BossFightManager manager;
+    private static LeechFightManager manager;
     @Getter
     private final LeechSupremeEntity entity;
 
-    private BossFightManager() {
+    private LeechFightManager() {
         entity = new LeechSupremeEntity();
     }
 
     @NotNull
-    public static BossFightManager getInstance() {
-        return (manager == null) ? manager = new BossFightManager() : manager;
+    public static LeechFightManager getInstance() {
+        return (manager == null) ? manager = new LeechFightManager() : manager;
     }
 
     public void defeat() {
@@ -62,14 +62,6 @@ public class BossFightManager {
 
     public void spawn() {
         entity.spawn(new Location(Bukkit.getWorld("world_the_end"), -149.5, 33, 56.5));
-    }
-
-    public void add(SkyblockPlayer player) {
-
-    }
-
-    public void remove(SkyblockPlayer player) {
-
     }
 
     //16 radius for the platform

@@ -33,8 +33,8 @@ public class LeechSupremeEntity extends RiftEntity {
     public boolean isInAbility = false;
     private int step = 0;
     private static final int[] steps = {640, 480, 320, 160};
-    private static final Runnable[] stepRunnables = {() -> BossFightManager.getInstance().slimePound(), () -> BossFightManager.getInstance().wickedBombs(),
-            () -> BossFightManager.getInstance().leechSwarm(), () -> BossFightManager.getInstance().mortiferousLazer()};
+    private static final Runnable[] stepRunnables = {() -> LeechFightManager.getInstance().slimePound(), () -> LeechFightManager.getInstance().wickedBombs(),
+            () -> LeechFightManager.getInstance().leechSwarm(), () -> LeechFightManager.getInstance().mortiferousLazer()};
     private LivingEntity entity;
 
     @Override
@@ -62,8 +62,8 @@ public class LeechSupremeEntity extends RiftEntity {
             public void run() {
                 if(isInAbility) return;
 
-                if(BossFightManager.getMiddle().distance(entity.getLocation()) > 15)
-                    entity.setVelocity(BossFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
+                if(LeechFightManager.getMiddle().distance(entity.getLocation()) > 15)
+                    entity.setVelocity(LeechFightManager.getMiddle().toVector().subtract(entity.getLocation().toVector()).normalize().setY(0.5));
             }
         }.runTaskTimer(Main.getMain(), 0, 1);
     }
@@ -137,7 +137,7 @@ public class LeechSupremeEntity extends RiftEntity {
     @Override
     public void kill() {
         super.kill();
-        BossFightManager.getInstance().defeat();
+        LeechFightManager.getInstance().defeat();
         if(!Main.getMain().isEnabled()) return;
         EntityPlayer fake = deadBodySpawn();
         Location base = entity.getLocation();
