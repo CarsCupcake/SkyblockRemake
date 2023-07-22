@@ -8,6 +8,11 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import net.minecraft.network.protocol.Packet;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 public class InfoManager {
     private static boolean isClickCooldownEnabled;
@@ -91,6 +96,8 @@ public class InfoManager {
         @Getter
         @Setter
         private String search;
+        @Getter
+        private boolean detailed = false;
         @SneakyThrows
         private PacketLoggerFilter(){
             if(packetLogFilter != null && packetLogFilter != this) throw new IllegalAccessException("You are not allowed to call this!");
@@ -107,6 +114,20 @@ public class InfoManager {
             in = true;
             out = true;
             search = null;
+        }
+        public void detailed(){
+            detailed = !detailed;
+        }
+        public void printAsDetailed(Packet<?> packet){
+            System.out.println("sdf" + Arrays.toString(packet.getClass().getFields()));
+            for (Field f : packet.getClass().getFields()){
+                int m = f.getModifiers();
+                try {
+                    System.out.println(" " + Modifier.toString(m) + " " + f.getName() + ": " + f.get((Modifier.isStatic(m)) ? null : packet));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

@@ -529,17 +529,13 @@ public class Tools {
     }
 
     public static @NotNull ItemMeta CustomHeadTextureMeta(String url, String id) {
-        //, (short) 3
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
-
         if (url == null || url.isEmpty()) return skull.getItemMeta();
-
         ItemMeta skullMeta = skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.fromString(id), null);
         byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
         profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
         Field profileField = null;
-
         try {
             profileField = skullMeta.getClass().getDeclaredField("profile");
         } catch (NoSuchFieldException | SecurityException e) {
@@ -547,7 +543,6 @@ public class Tools {
         }
 
         profileField.setAccessible(true);
-
         try {
             profileField.set(skullMeta, profile);
         } catch (IllegalArgumentException | IllegalAccessException e) {

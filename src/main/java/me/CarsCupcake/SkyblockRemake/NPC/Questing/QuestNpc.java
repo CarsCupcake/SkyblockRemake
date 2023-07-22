@@ -149,7 +149,12 @@ public abstract class QuestNpc {
     public void step(Location location, SkyblockPlayer player) {
         Location prev = locations.get(player);
         locations.put(player, location);
-        player.getHandle().b.sendPacket(new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(npc.getId(), (short) ((location.getX() * 32 - prev.getX() * 32) * 128), (short) ((location.getY() * 32 - prev.getY() * 32) * 128), (short) ((location.getZ() * 32 - prev.getZ() * 32) * 128), (byte) ((location.getYaw() % 360.) * 256 / 360), (byte) ((location.getPitch() % 360.) * 256 / 360), true));
+        player.getHandle().b.sendPacket(new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(npc.getId(),
+                (short) ((location.getX() * 32 - prev.getX() * 32) * 128),
+                (short) ((location.getY() * 32 - prev.getY() * 32) * 128),
+                (short) ((location.getZ() * 32 - prev.getZ() * 32) * 128),
+                (byte) ((location.getYaw() % 360.) * 256 / 360),
+                (byte) ((location.getPitch() % 360.) * 256 / 360), true));
         player.getHandle().b.sendPacket(new PacketPlayOutEntityHeadRotation(npc, (byte) ((location.getYaw() % 360.) * 256 / 360)));
     }
 

@@ -82,8 +82,10 @@ public class PacketReader {
 					return;
 				}
 				PlayerDisguise.packetInManager((Packet<?>) packet);
-				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName()))
+				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
 					System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
+					if(InfoManager.getPacketLogFilter().isDetailed()) InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
+				}
 				try {
 					super.channelRead(channelHandlerContext, packet);
 				}catch (Exception e){
@@ -93,9 +95,14 @@ public class PacketReader {
 
 			@Override
 			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-				PlayerDisguise.packetOutManager((Packet<?>) msg, player);
-				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName()))
+				if(!PlayerDisguise.packetOutManager((Packet<?>) msg)) return;
+				if(msg instanceof PacketPlayOutEntityStatus p){
+					System.out.println("STATUS: " + p.b());
+				}
+				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
 					System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
+					if(InfoManager.getPacketLogFilter().isDetailed()) InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
+				}
 				if(msg instanceof PacketPlayOutBlockChange p){
 					if(Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))){
 						ReflectionUtils.setField("b", p,((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());

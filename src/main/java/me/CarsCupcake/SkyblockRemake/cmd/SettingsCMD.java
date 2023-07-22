@@ -15,7 +15,7 @@ import java.util.Arrays;
 @CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown"})
 @CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown"}, args = {"enable", "disable"}, position = 1)
 @CommandArgument(lastArg = "respawnBoss", args = {"Bladesoul", "BarbarianDukeX", "MageOutlaw", "Ashfang", "MagmaBoss"}, position = 1)
-@CommandArgument(lastArg = "packetlog", args = {"in", "out", "name", "reset"}, position = 1)
+@CommandArgument(lastArg = "packetlog", args = {"in", "out", "name", "reset", "toggledetailed"}, position = 1)
 public class SettingsCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -157,6 +157,7 @@ public class SettingsCMD implements CommandExecutor {
                         case "out" -> InfoManager.getPacketLogFilter().toggleOut();
                         case "name" -> InfoManager.getPacketLogFilter().setSearch((strings.length >= 3) ? strings[2] : null);
                         case "reset" -> InfoManager.getPacketLogFilter().reset();
+                        case "toggledetailed" -> InfoManager.getPacketLogFilter().detailed();
                         default -> commandSender.sendMessage("§cInvalid args!");
                     }
                     return false;

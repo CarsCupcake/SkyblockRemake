@@ -706,7 +706,7 @@ public class SkyblockRemakeEvents implements Listener {
     @EventHandler
     public void SoulSystem(EntityDeathEvent e) {
         if(PlayerDisguise.nonFake.containsKey(e.getEntity().getEntityId()))
-            PlayerDisguise.nonFake.get(e.getEntity().getEntityId()).kill();
+            PlayerDisguise.nonFake.get(e.getEntity().getEntityId()).kill((e.getEntity() == null || !(e.getEntity() instanceof Player p)) ? null : SkyblockPlayer.getSkyblockPlayer(p));
         if (e.getEntity() instanceof FallingBlock) {
             if (e.getEntity().getScoreboardTags().contains("voidgloom_beacon")) e.getEntity().getLocation();
         }

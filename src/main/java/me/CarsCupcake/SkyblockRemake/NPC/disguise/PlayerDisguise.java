@@ -9,10 +9,10 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.DataWatcher;
 import net.minecraft.network.syncher.DataWatcherRegistry;
 import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityLiving;
+import net.minecraft.world.phys.Vec3D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftLivingEntity;
@@ -21,6 +21,7 @@ import org.bukkit.entity.LivingEntity;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +35,10 @@ public class PlayerDisguise {
     private final EntityPlayer fakePlayer;
     private final ArmorStand name;
     final PacketPlayOutEntityTeleport dummyTp;
+    private Location l;
+    private final BukkitRunnable runnable;
     public PlayerDisguise(LivingEntity entity, Property skin){
+        l = entity.getLocation();
         this.entity = entity;
         GameProfile profile = new GameProfile(UUID.randomUUID(), "§§§§");
         name = entity.getWorld().spawn(entity.getEyeLocation(), ArmorStand.class, armorStand -> {
@@ -46,6 +50,7 @@ public class PlayerDisguise {
             armorStand.setVisible(false);
         });
         new BukkitRunnable(){
+            double maxH = 0;
             public void run(){
                 if(entity.isDead()){
                     cancel();
@@ -54,6 +59,9 @@ public class PlayerDisguise {
                 }
                 name.teleport(entity.getEyeLocation());
                 name.setCustomName(entity.getCustomName());
+                if(maxH != entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) fakePlayer.getBukkitEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                maxH = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+                fakePlayer.setHealth((float) entity.getHealth());
             }
         }.runTaskTimer(Main.getMain(), 1, 1);
 
@@ -85,8 +93,37 @@ public class PlayerDisguise {
         sendPacket(new PacketPlayOutNamedEntitySpawn(fakePlayer));
         sendPacket(new PacketPlayOutEntityMetadata(fakePlayer.getId(), watcher, false));
         sendPacket(dummyTp);
+        sendPacket(new PacketPlayOutEntityDestroy(entity.getEntityId()));
         nonFake.put(entity.getEntityId(), this);
         fake.put(fakePlayer.getId(), this);
+
+        runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if(l.equals(entity.getLocation())) return;
+                Location location = entity.getLocation();
+                Packet<?> packet;
+                if(entity.getLocation().distance(l) > 5){
+                    packet = new PacketPlayOutEntityTeleport(fakePlayer);
+                    ReflectionUtils.setField("b", packet, location.getX());
+                    ReflectionUtils.setField("c", packet, location.getY());
+                    ReflectionUtils.setField("d", packet, location.getZ());
+                    ReflectionUtils.setField("e", packet, (byte) ((int) (location.getYaw() * 256.0F / 360.0F)));
+                    ReflectionUtils.setField("f", packet, (byte) ((int) (location.getPitch() * 256.0F / 360.0F)));
+                    ReflectionUtils.setField("g", packet, true);
+                }else
+                    packet = new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(fakePlayer.getId(),
+                            (short) ((location.getX() * 32 - l.getX() * 32) * 128),
+                            (short) ((location.getY() * 32 - l.getY() * 32) * 128),
+                            (short) ((location.getZ() * 32 - l.getZ() * 32) * 128),
+                            (byte) ((location.getYaw() % 360.) * 256 / 360),
+                            (byte) ((location.getPitch() % 360.) * 256 / 360), true);
+                sendPacket(packet);
+                l = entity.getLocation();
+            }
+        };
+        runnable.runTaskTimer(Main.getMain(), 1, 1);
+
     }
     private static final HashMap<Class<? extends Packet<?>>, String> idFieldsOut = new HashMap<>();
     private static final HashMap<Class<? extends Packet<?>>, String> idFieldsIn = new HashMap<>();
@@ -104,21 +141,21 @@ public class PlayerDisguise {
         idFieldsOut.put(PacketPlayOutEntityEquipment.class, "b");
         idFieldsOut.put(PacketPlayOutAnimation.class, "g");
         idFieldsOut.put(PacketPlayOutEntityMetadata.class, "a");
-
         idFieldsIn.put(PacketPlayInEntityAction.class, "a");
         idFieldsIn.put(PacketPlayInUseEntity.class, "a");
     }
-    public void onPacketOut(Packet<?> packet, SkyblockPlayer player){
+    public boolean onPacketOut(Packet<?> packet){
         if(idFieldsOut.containsKey(packet.getClass()))
             ReflectionUtils.setField(idFieldsOut.get(packet.getClass()), packet, fakePlayer.getId());
-        if(packet instanceof PacketPlayOutEntity.PacketPlayOutEntityLook || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMove || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook){
-            //TODO: edit movement!
-            check(player);
-            sendPacket(dummyTp);
+        if(packet instanceof PacketPlayOutEntity.PacketPlayOutEntityLook || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMove || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook)
+            return false;
+
+        if(packet instanceof PacketPlayOutEntityStatus || packet instanceof PacketPlayOutEntityMetadata) {
+            fakePlayer.getBukkitEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+            fakePlayer.setHealth((float) entity.getHealth());
         }
-        if(packet instanceof PacketPlayOutEntityStatus status){
-            System.out.println(status.b());
-        }
+
+        return true;
     }
     public void onPacketIn(Packet<?> packet){
         if(idFieldsIn.containsKey(packet.getClass()))
@@ -148,19 +185,27 @@ public class PlayerDisguise {
         if(fake.containsKey(id))
             fake.get(id).onPacketIn(packet);
     }
-    public static void packetOutManager(Packet<?> packet, SkyblockPlayer player){
-        if(!idFieldsOut.containsKey(packet.getClass())) return;
+    public static boolean packetOutManager(Packet<?> packet){
+        if(!idFieldsOut.containsKey(packet.getClass())) return true;
         int id = (int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet);
         if(nonFake.containsKey(id))
-            nonFake.get(id).onPacketOut(packet, player);
+            return nonFake.get(id).onPacketOut(packet);
+        return true;
     }
-    public void kill(){
-        entity.remove();
-        sendPacket(new PacketPlayOutEntityStatus(fakePlayer, (byte) 3));
-        sendPacket(new PacketPlayOutEntityStatus(fakePlayer, (byte) 60));
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> sendPacket(new PacketPlayOutEntityDestroy(fakePlayer.getId())), 20);
-        nonFake.remove(entity.getEntityId());
-        fake.remove(fakePlayer.getId());
+    public void kill(SkyblockPlayer player){
+        if(player != null) {
+            Vector vec = entity.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().setY(0.3);
+            PacketPlayOutEntityVelocity p = new PacketPlayOutEntityVelocity(fakePlayer.getId(), new Vec3D(vec.getX(), vec.getY(), vec.getZ()));
+            sendPacket(p);
+        }
+        runnable.cancel();
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
+            sendPacket(new PacketPlayOutEntityDestroy(fakePlayer.getId()));
+            nonFake.remove(entity.getEntityId());
+            fake.remove(fakePlayer.getId());
+            entity.remove();
+        }, 20);
+
     }
     public void status(byte b){
         sendPacket(new PacketPlayOutEntityStatus(fakePlayer, b));
