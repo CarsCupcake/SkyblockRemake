@@ -3,7 +3,7 @@ name: SkyblockRemake
 version: 0.2.3
 author: CarsCupcake
 api-version: 1.17
-depend:  [ LibsDisguises, FastAsyncWorldEdit]
+depend:  [FastAsyncWorldEdit]
 
 commands:
   gm:

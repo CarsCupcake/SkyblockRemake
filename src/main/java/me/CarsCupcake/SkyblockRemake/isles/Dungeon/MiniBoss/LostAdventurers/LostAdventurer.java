@@ -172,7 +172,7 @@ public abstract class LostAdventurer extends DungeonMob {
 
     @Override
     public void updateNameTag() {
-        DiguestMobsManager.getDiguested.get(entity).setName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
+        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
         super.updateNameTag();
     }
 

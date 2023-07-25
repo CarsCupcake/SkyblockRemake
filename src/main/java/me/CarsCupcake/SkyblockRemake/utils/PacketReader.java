@@ -52,39 +52,47 @@ public class PacketReader {
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			@Override
 			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) {
-				if(packet instanceof PacketHandshakingInSetProtocol protocol){
-					System.out.println(protocol.c + " " + protocol.d);
-				}
-				if(packet instanceof PacketPlayInUpdateSign){
-					SignManager.recivePacket(player.getUniqueId(), (PacketPlayInUpdateSign) packet);
-				}
+				try {
+					if (packet instanceof PacketHandshakingInSetProtocol protocol) {
+						System.out.println(protocol.c + " " + protocol.d);
+					}
+					if (packet instanceof PacketPlayInUpdateSign) {
+						SignManager.recivePacket(player.getUniqueId(), (PacketPlayInUpdateSign) packet);
+					}
 
 
-				if(packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().type() != ServerType.PrivateIsle) {
-					SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig)packet,player);
-				}
-				if(packet instanceof PacketPlayInUseEntity) {
-					PacketReader.getPlayerMethod(player).read((PacketPlayInUseEntity)packet);
-				}
-				if(packet instanceof PacketPlayInBlockDig){
-					if(player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING) &&
-							ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING).equals("GHOST_BLOCKS_PICK"))
+					if (packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().type() != ServerType.PrivateIsle) {
+						SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig) packet, player);
+					}
+					if (packet instanceof PacketPlayInUseEntity) {
+						PacketReader.getPlayerMethod(player).read((PacketPlayInUseEntity) packet);
+					}
+					if (packet instanceof PacketPlayInBlockDig) {
+						if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING) &&
+								ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING).equals("GHOST_BLOCKS_PICK"))
+							return;
+					}
+					if (packet instanceof PacketPlayInFlying pkt && InfoManager.isMovementLag()) {
+						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getMain(), () -> {
+							try {
+								super.channelRead(channelHandlerContext, pkt);
+							} catch (Exception e) {
+								throw new RuntimeException(e);
+							}
+						}, 4);
 						return;
-				}
-				if(packet instanceof PacketPlayInFlying pkt && InfoManager.isMovementLag()){
-					Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getMain(), () -> {
-						try {
-							super.channelRead(channelHandlerContext, pkt);
-						} catch (Exception e) {
-							throw new RuntimeException(e);
-						}
-					}, 4);
+					}
+					PlayerDisguise.packetInManager((Packet<?>) packet);
+					if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
+						System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
+						if (InfoManager.getPacketLogFilter().isDetailed())
+							InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
+					}
+				}catch (Exception e){
+					System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
+					e.printStackTrace();
+					player.sendMessage("§cCould not read packet " + packet.getClass().getSimpleName());
 					return;
-				}
-				PlayerDisguise.packetInManager((Packet<?>) packet);
-				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
-					System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
-					if(InfoManager.getPacketLogFilter().isDetailed()) InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
 				}
 				try {
 					super.channelRead(channelHandlerContext, packet);
@@ -95,18 +103,26 @@ public class PacketReader {
 
 			@Override
 			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-				if(!PlayerDisguise.packetOutManager((Packet<?>) msg)) return;
-				if(msg instanceof PacketPlayOutEntityStatus p){
-					System.out.println("STATUS: " + p.b());
-				}
-				if(InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
-					System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
-					if(InfoManager.getPacketLogFilter().isDetailed()) InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
-				}
-				if(msg instanceof PacketPlayOutBlockChange p){
-					if(Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))){
-						ReflectionUtils.setField("b", p,((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());
+				try{
+					if (!PlayerDisguise.packetOutManager((Packet<?>) msg)) return;
+					if (msg instanceof PacketPlayOutEntityStatus p) {
+						System.out.println("STATUS: " + p.b());
 					}
+					if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
+						System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
+						if (InfoManager.getPacketLogFilter().isDetailed())
+							InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
+					}
+					if (msg instanceof PacketPlayOutBlockChange p) {
+						if (Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))) {
+							ReflectionUtils.setField("b", p, ((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());
+						}
+					}
+				}catch (Exception e){
+					System.out.println("Error while writing packet: " + msg.getClass().getSimpleName());
+					e.printStackTrace();
+					player.sendMessage("§cCould not write packet " + msg.getClass().getSimpleName());
+					return;
 				}
 				super.write(ctx, msg, promise);
 			}

@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.NPC.disguise;
 
 import com.mojang.authlib.GameProfile;
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
@@ -32,6 +33,7 @@ public class PlayerDisguise {
     public static final HashMap<Integer, PlayerDisguise> fake = new HashMap<>();
     private final HashSet<SkyblockPlayer> shown = new HashSet<>();
     private final LivingEntity entity;
+    @Getter
     private final EntityPlayer fakePlayer;
     private final ArmorStand name;
     final PacketPlayOutEntityTeleport dummyTp;
@@ -98,12 +100,14 @@ public class PlayerDisguise {
         fake.put(fakePlayer.getId(), this);
 
         runnable = new BukkitRunnable() {
+            int i = 0;
             @Override
             public void run() {
+                i++;
                 if(l.equals(entity.getLocation())) return;
                 Location location = entity.getLocation();
                 Packet<?> packet;
-                if(entity.getLocation().distance(l) > 5){
+                if(entity.getLocation().distance(l) > 5 || i >= 20*5){
                     packet = new PacketPlayOutEntityTeleport(fakePlayer);
                     ReflectionUtils.setField("b", packet, location.getX());
                     ReflectionUtils.setField("c", packet, location.getY());
@@ -141,6 +145,9 @@ public class PlayerDisguise {
         idFieldsOut.put(PacketPlayOutEntityEquipment.class, "b");
         idFieldsOut.put(PacketPlayOutAnimation.class, "g");
         idFieldsOut.put(PacketPlayOutEntityMetadata.class, "a");
+        idFieldsOut.put(PacketPlayOutNamedEntitySpawn.class, "a");
+        idFieldsOut.put(PacketPlayOutSpawnEntityLiving.class, "a");
+        idFieldsOut.put(PacketPlayOutSpawnEntity.class, "c");
         idFieldsIn.put(PacketPlayInEntityAction.class, "a");
         idFieldsIn.put(PacketPlayInUseEntity.class, "a");
     }
@@ -162,11 +169,22 @@ public class PlayerDisguise {
             ReflectionUtils.setField(idFieldsIn.get(packet.getClass()), packet, entity.getEntityId());
     }
     public void check(SkyblockPlayer player){
+        if(player == null) return;
         if(!shown.contains(player)) {
             if (player.getLocation().distance(entity.getLocation()) < player.getClientViewDistance() * 16) {
                 shown.add(SkyblockPlayer.getSkyblockPlayer(player));
                 player.getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, fakePlayer));
                 player.getHandle().b.sendPacket(new PacketPlayOutNamedEntitySpawn(fakePlayer));
+                Location location = entity.getLocation();
+                Packet<?> packet = new PacketPlayOutEntityTeleport(fakePlayer);
+                ReflectionUtils.setField("b", packet, location.getX());
+                ReflectionUtils.setField("c", packet, location.getY());
+                ReflectionUtils.setField("d", packet, location.getZ());
+                ReflectionUtils.setField("e", packet, (byte) ((int) (location.getYaw() * 256.0F / 360.0F)));
+                ReflectionUtils.setField("f", packet, (byte) ((int) (location.getPitch() * 256.0F / 360.0F)));
+                ReflectionUtils.setField("g", packet, true);
+                player.getHandle().b.sendPacket(packet);
+                player.getHandle().b.sendPacket(new PacketPlayOutEntityDestroy(entity.getEntityId()));
             }
         }
         else
@@ -175,7 +193,9 @@ public class PlayerDisguise {
             }
     }
     private void sendPacket(Packet<?> packet){
+        if(shown.isEmpty()) return;
         for (SkyblockPlayer player : shown){
+            if(player == null) continue;
             player.getHandle().b.sendPacket(packet);
         }
     }
@@ -186,6 +206,7 @@ public class PlayerDisguise {
             fake.get(id).onPacketIn(packet);
     }
     public static boolean packetOutManager(Packet<?> packet){
+        if((packet instanceof PacketPlayOutSpawnEntityLiving || packet instanceof PacketPlayOutSpawnEntity || packet instanceof PacketPlayOutNamedEntitySpawn) && nonFake.containsKey((int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet))) return false;
         if(!idFieldsOut.containsKey(packet.getClass())) return true;
         int id = (int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet);
         if(nonFake.containsKey(id))

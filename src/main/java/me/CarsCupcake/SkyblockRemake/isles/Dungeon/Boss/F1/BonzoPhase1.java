@@ -139,7 +139,7 @@ public class BonzoPhase1 extends SkyblockEntity {
 		entity.setRemoveWhenFarAway(false);
 
 
-		DiguestMobsManager.createEntity(entity, "Bonzo","ewogICJ0aW1lc3RhbXAiIDogMTY1OTYyNTAwNzUwMiwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS85MWU3OWY3ZTYyOGYyMWY0Mjc2MTBjYzZjZWQwZmYxNTNlMjE4ODBkNjFjYmFjNjczYmY4NjJiMWQ0ZTQ0MjZiIgogICAgfQogIH0KfQ==",
+		DiguestMobsManager.createEntity(entity, "ewogICJ0aW1lc3RhbXAiIDogMTY1OTYyNTAwNzUwMiwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS85MWU3OWY3ZTYyOGYyMWY0Mjc2MTBjYzZjZWQwZmYxNTNlMjE4ODBkNjFjYmFjNjczYmY4NjJiMWQ0ZTQ0MjZiIgogICAgfQogIH0KfQ==",
 				"Re4ZMY9+QFaiuyShGFJUpEfZ2KP+BjZn49Q195tVO8Z+at6XOu59HatnTX392oxq9mYjQmImVailc5Q9n1rdXAj8UpIilzOYYweiY7e9YP9MyHjRCQeqI1uqkWzB/JXI7zYLzRizB6zr2Wp7eLzm8Q9fTrjIQmkuqkuUYOHt6e3AYvhER4yFQtFXvGHq97RQLFEQJpqKNl4hfEf5ZgLfuVs5ep3TTVLShUPTTlFKDqrv2XIugTpGFxsJBhamFMDZ86ogDtHD46Rjb2dImIWscnVoASdrVkDCKn+P6Dnt/3QL0E/8RWzrAF+NiPJRaJfhs6tFPdMySAOwiTpMnx4nJ7xuV95YvTK394TuNPg093cR9vJpSkrN9LWsmMfrFZy+38/uTncSHMovGhHdGfI8tFsihCW15HcUdSBPCLuOKtpYDTvlIFL1BH2ayMMINzBj55IBGGfRuRqMrri+NMu3BBLJq2II+dKefIPTlAMqZUdUTnfjU0WLLbXofip5cd9jlfWHn1sXjmMq+eX5bOEkEAnozAAkC6+yfKcVRG3BCSrviJWiTwJVhrDeos1ui/18w9VoyY4rITHer2zKRCieDJeiSj8EEbVj0ljrpIw+hdgG0Hj1akd65VojevFq74umaw6Gvr5CIJU/yVvGorXUsn42QCJuXw3a+9O4JBNFhZo=");
 		SkyblockEntity.livingEntity.addEntity(entity, this);
 		dialog1();
@@ -306,32 +306,32 @@ public class BonzoPhase1 extends SkyblockEntity {
 			if (health > 9999) {
 				if (health > 999999) {
 					if (health > 9999999) {
-						DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+						entity.setCustomName("§6﴾ §c" + getName()
 						+ " §a"+ health / 1000000 + "m§c§?§" + " §6﴿");
 							
 						
 					} else {
-						DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+						entity.setCustomName("§6﴾ §c" + getName()
 						+ " §a"+ Tools.round(
 								(float) ((float) health / 1000000), 1) + "m§c§?§" + " §6﴿");
 						
 						
 					}
 				} else {
-					DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+					entity.setCustomName("§6﴾ §c" + getName()
 					+ " §a"+ health / 1000 + "k§c§?§" + " §6﴿");
 						
 					;
 
 				}
 			} else {
-				DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+				entity.setCustomName("§6﴾ §c" + getName()
 				+ " §a"+ Tools.round((float) ((float) health / 1000), 1) + "k§c§?§" + " §6﴿");
 					
 				
 			}
-		} else 
-			DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+		} else
+			entity.setCustomName("§6﴾ §c" + getName()
 			+ " §a"+ health + "§c§?§" + " §6﴿");
 			
 		for(Player p : Bukkit.getOnlinePlayers()) {

@@ -35,7 +35,7 @@ public class LeechAlpha extends RiftEntity {
             e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
             e.setAdult();
         });
-        DiguestMobsManager.createEntity(entity, SkyblockEntity.getBaseName(this), texture, signature);
+        DiguestMobsManager.createEntity(entity, texture, signature);
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         entity.setCustomNameVisible(true);

@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 
 import java.util.*;
 
-import com.comphenix.protocol.error.BasicErrorReporter;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;

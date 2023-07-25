@@ -677,15 +677,6 @@ public class Main extends JavaPlugin {
 
 
             }
-
-
-        if (DiguestMobsManager.getDiguested != null && !DiguestMobsManager.getDiguested.isEmpty())
-            DiguestMobsManager.getDiguested.forEach((entity, diguest) -> {
-
-                diguest.removeDisguise();
-                entity.remove();
-
-            });
         absorbtion.clear();
         absorbtionrunntime.clear();
         baseentityhealth.clear();
@@ -1110,8 +1101,6 @@ public class Main extends JavaPlugin {
         }
         float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
         entity.setHealth(estimated);
-
-        DiguestMobsManager.getDiguested.get(entity).setName("§7[§8Lv?§7] §c" + DiguestMobsManager.entitys.get(entity) + " §a" + (int) health + "§8/§a" + baseentityhealth.get(entity));
     }
 
 
@@ -1130,10 +1119,6 @@ public class Main extends JavaPlugin {
         if (entity.getType() == EntityType.DROPPED_ITEM) return;
         if (entity.getType() == EntityType.PLAYER) return;
         if (entitydead.containsKey(entity) && entitydead.get(entity)) return;
-        if (DiguestMobsManager.entitys.containsKey(entity)) {
-            updateDiguestedEntity(entity);
-            return;
-        }
         if (baseentityhealth.containsKey(entity) == false) {
             baseentityhealth.put(entity, (int) entity.getMaxHealth() * 5);
             currentityhealth.put(entity, (int) entity.getMaxHealth() * 5);

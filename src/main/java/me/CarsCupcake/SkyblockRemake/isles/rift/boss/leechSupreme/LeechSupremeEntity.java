@@ -53,7 +53,7 @@ public class LeechSupremeEntity extends RiftEntity {
             e.setRemoveWhenFarAway(false);
             e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
         });
-        DiguestMobsManager.createEntity(entity, SkyblockEntity.getBaseName(this), texture, signature);
+        DiguestMobsManager.createEntity(entity, texture, signature);
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         entity.setCustomNameVisible(true);

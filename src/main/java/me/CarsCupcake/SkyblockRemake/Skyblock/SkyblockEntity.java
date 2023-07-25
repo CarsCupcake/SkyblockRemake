@@ -15,7 +15,6 @@ import org.bukkit.entity.LivingEntity;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +47,6 @@ public abstract class SkyblockEntity implements Elementable {
 
     public void updateNameTag() {
         getEntity().setCustomName(getBaseName(this));
-        if(DiguestMobsManager.getDiguested.containsKey(getEntity())) DiguestMobsManager.getDiguested.get(getEntity()).setName(getEntity().getCustomName());
     }
     @Getter
     private boolean hasDoneDeath = false;
@@ -149,10 +147,6 @@ public abstract class SkyblockEntity implements Elementable {
         LivingEntity entity = e.getEntity();
 
         if (Main.entitydead.containsKey(entity) && Main.entitydead.get(entity)) return;
-        if (DiguestMobsManager.entitys.containsKey(entity)) {
-            updateDiguestedEntity(e);
-            return;
-        }
 
 
         int health;

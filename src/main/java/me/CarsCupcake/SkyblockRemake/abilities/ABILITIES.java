@@ -17,6 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.MinionListener;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.ZombieMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.trading.TradeMenuListener;
+import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.BasicSpell;
@@ -62,12 +63,18 @@ import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsleListener;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.AdminItems;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.QuestItems;
 import me.CarsCupcake.SkyblockRemake.isles.rift.boss.leechSupreme.LeechFightManager;
+import net.minecraft.network.protocol.game.PacketPlayOutEntityDestroy;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.ints.IntArrayList;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.ints.IntList;
 
 import java.util.List;
 
@@ -193,6 +200,8 @@ public class ABILITIES implements Listener {
         }
         Main.petstand.values().forEach(PetFollowRunner::remove);
         LeechFightManager.FakeBlock.releaseAll();
+        IntList integers = new IntArrayList(PlayerDisguise.fake.keySet());
+        for (Player p : Bukkit.getOnlinePlayers()) ((CraftPlayer) p).getHandle().b.sendPacket(new PacketPlayOutEntityDestroy(integers));
     }
 
     @EventHandler

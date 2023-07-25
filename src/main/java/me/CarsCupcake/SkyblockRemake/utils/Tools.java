@@ -373,6 +373,17 @@ public class Tools {
         return s;
     }
 
+    public static String stripeColorCodes(String s){
+        StringBuilder name = new StringBuilder();
+        if (s.contains("§"))
+            for (String split : s.split("§")) {
+                if (split.isEmpty()) continue;
+                name.append(split.substring(1));
+            }
+        else
+            name.append(s);
+        return name.toString();
+    }
     @Nullable
     public static <T> Constructor<T> getConstructorIfAvailable(Class<T> clazz, Class<?>... paramTypes) {
         Assert.notNull(clazz, "Class can not be null");

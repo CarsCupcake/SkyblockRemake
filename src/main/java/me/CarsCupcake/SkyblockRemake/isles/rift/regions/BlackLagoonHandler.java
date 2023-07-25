@@ -23,6 +23,7 @@ public class BlackLagoonHandler implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event){
         RiftPlayer player = RiftPlayer.getRiftPlayer(event.getPlayer());
+        if(player.getRegion() == null) return;
         if(!player.getRegion().name().contains("Black Lagoon")) return;
         Location l = player.getLocation();
         for (Mushroom mushroom : mushrooms){

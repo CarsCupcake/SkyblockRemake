@@ -4,6 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
+import java.util.List;
+
 public class RegionCuboid implements IBorder{
     private final double minX;
     private final double minY;
@@ -26,16 +28,23 @@ public class RegionCuboid implements IBorder{
     }
     @Override
     public double distance(Location location) {
+        return getNearestPoint(location).length();
+    }
+    public Vector getNearestPoint(Location location){
         Vector x = new Vector(maxX - minX, 0, 0);
         Vector y = new Vector(0, maxY - minY, 0);
         Vector z = new Vector(0, 0, maxZ - minZ);
-        double a = new Plane(x.clone(), y.clone(), v1).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        double b = new Plane(x.clone(), z.clone(), v1).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        double c = new Plane(y.clone(), z.clone(), v1).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        double d = new Plane(x.clone(), y.clone(), v2).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        double e = new Plane(x.clone(), z.clone(), v2).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        double f = new Plane(y.clone(), z.clone(), v2).nextPoint(location.toVector()).subtract(location.toVector()).length();
-        return Math.min(Math.min(Math.min(a, b), c), Math.min(Math.min(d, e), f));
+        Plane p = new Plane(y.clone(), z.clone(), v2);
+        double dis = p.nextPoint(location.toVector()).subtract(location.toVector()).length();
+        for (Plane plane : List.of(new Plane(x.clone(), y.clone(), v1), new Plane(x.clone(), z.clone(), v1),
+                new Plane(y.clone(), z.clone(), v1), new Plane(x.clone(), y.clone(), v2), new Plane(x.clone(), z.clone(), v2))){
+            double distance = plane.nextPoint(location.toVector()).subtract(location.toVector()).length();
+            if(distance < dis){
+                p = plane;
+                dis = distance;
+            }
+        }
+        return p.nextPoint(location.toVector());
     }
 
     @Override

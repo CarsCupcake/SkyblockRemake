@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.md_5.bungee.api.ChatMessageType;
@@ -17,6 +18,9 @@ import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class RiftPlayer extends SkyblockPlayer {
     @Getter
@@ -27,6 +31,8 @@ public class RiftPlayer extends SkyblockPlayer {
     private long riftTime;
     @Getter
     private final RiftTicker timer;
+    @Getter
+    private final Set<Region> paiedRegions = new HashSet<>();
 
     public RiftPlayer(CraftServer server, EntityPlayer entity) {
         super(server, entity, true);
@@ -35,7 +41,6 @@ public class RiftPlayer extends SkyblockPlayer {
         timer = new RiftTicker();
         Main.getDebug().debug(riftTime + " rift time left",false);
         motes = new CustomConfig(this, "riftStats", true).get().getLong("motes", 0);
-        Main.updatebar(this);
         setHealth(getMaxHealth(), HealthChangeReason.Force);
     }
 

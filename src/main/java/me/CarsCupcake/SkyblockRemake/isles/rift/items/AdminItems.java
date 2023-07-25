@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,9 +25,10 @@ public class AdminItems implements Listener {
         ABILITIES.registerEvent(new AdminItems());
         RIFT_ADMIN_SWORD.addAbility(new RiftAdminSword(), AbilityType.SneakRightClick, "Choose Damage", new AbilityLore(List.of("§7You can choose the amount of", "§5Rift Damage §7of this sword")), 0, 0);
     }
+
     @EventHandler
-    public void onStatsChange(GetStatFromItemEvent event){
-        if(event.getStat() != Stats.RiftDamage) return;
+    public void onStatsChange(GetStatFromItemEvent event) {
+        if (event.getStat() != Stats.RiftDamage) return;
         if (ItemHandler.getPDC("id", event.getItem(), PersistentDataType.STRING).equals(RIFT_ADMIN_SWORD.itemID))
             event.addValue(ItemHandler.getOrDefaultPDC("rds", event.getItem(), PersistentDataType.DOUBLE, 0d));
     }
@@ -40,11 +42,12 @@ public class AdminItems implements Listener {
                 try {
                     double d = Double.parseDouble(e.lines()[0]);
                     ItemHandler.setPDC("rds", item, PersistentDataType.DOUBLE, d);
-                }catch (Exception ignored){
+                } catch (Exception r) {
                     event.getPlayer().sendMessage("§cThis is not a valid number!");
+                    r.printStackTrace();
 
-                }finally {
-                    Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+                } finally {
+                    Bukkit.getScheduler().runTask(Main.getMain(), () -> Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer())));
                 }
             }).withLines("", "^^^^^^^^", "Enter Amount", "here").open(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             return false;

@@ -141,6 +141,7 @@ public class SkyblockRemakeEvents implements Listener {
 
 
         new SkyblockPlayer((CraftServer) Main.getMain().getServer(), ((CraftPlayer) event.getPlayer()).getHandle());
+        PacketReader reader = new PacketReader((event.getPlayer()));
         if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
             PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
             PetMenus.save();
@@ -155,7 +156,7 @@ public class SkyblockRemakeEvents implements Listener {
         else player.teleport(SkyblockServer.getServer().type().getLocation());
 
 
-        PacketReader reader = new PacketReader((event.getPlayer()));
+
         reader.inject();
         if (NPC.getNPCs() == null) return;
         if (NPC.getNPCs().isEmpty()) return;

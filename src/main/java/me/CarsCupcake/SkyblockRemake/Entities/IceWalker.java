@@ -60,7 +60,7 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 		
 
 		z = loc.getWorld().spawn(loc, Zombie.class,zombie -> {
-			DiguestMobsManager.createEntity(zombie, "Ice Walker","ewogICJ0aW1lc3RhbXAiIDogMTY1MjYxNzc4NjE2MCwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzX0N1cGNha2UiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJiMTJhODE0Y2VkOGFmMDJjZGRmMjlhMzdlN2YzMDExZTQzMGU4YTE4YjM4YjcwNmYyN2M2YmQzMTY1MGI2NSIKICAgIH0KICB9Cn0=",
+			DiguestMobsManager.createEntity(zombie, "ewogICJ0aW1lc3RhbXAiIDogMTY1MjYxNzc4NjE2MCwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzX0N1cGNha2UiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjJiMTJhODE0Y2VkOGFmMDJjZGRmMjlhMzdlN2YzMDExZTQzMGU4YTE4YjM4YjcwNmYyN2M2YmQzMTY1MGI2NSIKICAgIH0KICB9Cn0=",
 					"MriUt+AvuZidZbndEAVowGALYyB25rLClpjFeQ9SpkCFP4d2u2w78NOfQ+t2Ao8nRnHPk3aNrm5LrO5axb8psGdSHanc/0ywmxGz2o4BefYyd78BBIqw1j2vku2p4b0gfqfREgZGe7OG8QG9btFPcVqmJ40enEklQchJ6cs1AIEAI+nsDC0TUifbVmgQdk0PPa1BIQ4JgyhcyxEAj7oao4xVDvN/KSjUoB6rueQ0Ad7GnF1UFp/dKOind5rVnRanUdzEp2uWeGzKpRu9jXjA29QQ4YmQzeRn229iBbPqApbbavgPJjSBbH2scM4kMVHG1y/D224p61tQxzjwgoS/p9+mB7CfrhsIc+GV5MCUg2BOZXkvSUyuL63F+jElsVffHgfoivaLoG/io+VL1oZ3c+9eTpTB/4sKaaQu9GOpNQfNSeMok5r9Bu2NmV4RcCprEW8hW2k/ULvk7csvAeTqSRyIY0bCeeOM0mKvcay2BBoVMVP9d82cUnLT2WOPbHPcvk7zL2QvmuJ4r5ZGYqmGqYULIHKrVF9qsd2gU/yI2q73jqXVcNdJkM1gNXCy9ynKewd8n7WYeKyiJQNvBblbWMHfokHds19S1+c3uHowtSX5kuD7HK/f7Gm9QqT3/wJjPg2xnBDWC9rCHPGwhkbHFgv5mdVU9tndbfjW7d6+rhM="
 					);
 			
@@ -118,10 +118,10 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 	@Override
 	public void updateNameTag() {
 		if(isCorrupted)
-			DiguestMobsManager.getDiguested.get(z).setName("§7[§8Lv?§7] §5§ka§5Corrupted " + getName()
+			z.setCustomName("§7[§8Lv?§7] §5§ka§5Corrupted " + getName()
 					+ "§ka §a" + health + "§8/§a" + getMaxHealth());
 		else
-			DiguestMobsManager.getDiguested.get(z).setName("§7[§8Lv?§7] §c" + getName()
+			z.setCustomName("§7[§8Lv?§7] §c" + getName()
 		            + " §a" + health + "§8/§a" + getMaxHealth());
 		
 	}

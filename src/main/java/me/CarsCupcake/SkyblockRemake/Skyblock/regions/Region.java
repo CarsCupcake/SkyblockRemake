@@ -3,6 +3,8 @@ package me.CarsCupcake.SkyblockRemake.Skyblock.regions;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 
@@ -19,6 +21,18 @@ public record Region(String name, List<IBorder> borders, RunnableWithParam<Bundl
             lowest = Math.min(lowest, b.distance(player.getLocation()));
         }
         return lowest;
+    }
+    public Vector getNextPoint(Location l){
+        double low = borders.get(0).distance(l);
+        Vector v = borders.get(0).getNearestPoint(l);
+        for (IBorder b : borders) {
+            double d = b.distance(l);
+            if(d < low) {
+                v = b.getNearestPoint(l);
+                low = d;
+            }
+        }
+        return v;
     }
     public void leave(SkyblockPlayer player){
         if(onLeave() != null) onLeave().run(new Bundle<>(player, this));

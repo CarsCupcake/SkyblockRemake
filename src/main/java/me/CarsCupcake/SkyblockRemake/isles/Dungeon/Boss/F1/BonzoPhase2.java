@@ -142,7 +142,7 @@ public class BonzoPhase2 extends SkyblockEntity {
 		entity.setRemoveWhenFarAway(false);
 
 
-		DiguestMobsManager.createEntity(entity, "Bonzo","ewogICJ0aW1lc3RhbXAiIDogMTY1OTYyNTIwODg1MSwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9hNzdmNzZmOWViNjAwYTgxNGFkYjE4YzA1NGRjN2MyNGUyNzg5MDJjZTRhYWU0ZTlmNzE0YWYxYTg5Y2VhZGZmIgogICAgfQogIH0KfQ==",
+		DiguestMobsManager.createEntity(entity, "ewogICJ0aW1lc3RhbXAiIDogMTY1OTYyNTIwODg1MSwKICAicHJvZmlsZUlkIiA6ICI4MzE4ZmFmZDU1NjU0YTNlOTFhMTI5NmRmMjk5NWIzMiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXJzQ3VwY2FrZSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9hNzdmNzZmOWViNjAwYTgxNGFkYjE4YzA1NGRjN2MyNGUyNzg5MDJjZTRhYWU0ZTlmNzE0YWYxYTg5Y2VhZGZmIgogICAgfQogIH0KfQ==",
 				"dT4X23auQlmLPrNkMmLuY0OPCjvWSo6VOG9hgGAmXWMJUip4iRfGt7JrILxzCvCJKKMUx5VBLCc/HyTob/2BMVBfMng1nYuTsUK8pzlACQvlbLYP+RTL9gXhLNGKHSdnfbTBfo16Eg4pRtJXouwY6Ni9tk2tpPfihvIjdmMnp1lQSnjK4G8p0UwVt4mturSNGRg4INjyEquj4EO68z9BhEVFdl5hT8ZK6m1UwH0ZJltiaH27QDacmQqK6dgGb33fBdjFQjomQTjG2cL+Tbp19iUqzhLGJJQHUvVGmnbQ7vrR0ezJv+EptvPKSem0H3OaJSzALx+q0PxzLTfA1VfwaNB0gUutMQ0dT+jglbT998+MOmVKCwNICrPbnVjAE3g+CFisuePsOr1HrxNUgXrAH8UWtqAXAPdycj7kqPmo1I/QiV5ulgOl7+X/81OczYsCfdM+42wuUVXYNM7V7VSM4EvAtYyWj6iiH7KwN+8bMcPd/AIAcPzS9+yuxJwNacQJmOHwU7A6a98jMSax3eJOyOxeqeT3T4nAaevfAvsNDSG6yRBtQIqzij6m04lH4lkLGtLQmyVkQR4xEcScAe8McKUWsT0fTb4TR3WYnsaogj98vHl8ZDhGzvKJQmy2Titb45GhmmtS/BhUYBykxhRz8C1PcPAXIQOjQBwSgy+Zn1A=");
 		SkyblockEntity.livingEntity.addEntity(entity, this);
 		
@@ -311,32 +311,32 @@ public class BonzoPhase2 extends SkyblockEntity {
 			if (health > 9999) {
 				if (health > 999999) {
 					if (health > 9999999) {
-						DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+						entity.setCustomName("§6﴾ §c" + getName()
 						+ " §a"+ health / 1000000 + "m§c§?§" + " §6﴿");
 							
 						
 					} else {
-						DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+						entity.setCustomName("§6﴾ §c" + getName()
 						+ " §a"+ Tools.round(
 								(float) ((float) health / 1000000), 1) + "m§c§?§" + " §6﴿");
 						
 						
 					}
 				} else {
-					DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+					entity.setCustomName("§6﴾ §c" + getName()
 					+ " §a"+ health / 1000 + "k§c§?§" + " §6﴿");
 						
 					;
 
 				}
 			} else {
-				DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+				entity.setCustomName("§6﴾ §c" + getName()
 				+ " §a"+ Tools.round((float) ((float) health / 1000), 1) + "k§c§?§" + " §6﴿");
 					
 				
 			}
-		} else 
-			DiguestMobsManager.getDiguested.get(entity).setName("§6﴾ §c" + getName()
+		} else
+			entity.setCustomName("§6﴾ §c" + getName()
 			+ " §a"+ health + "§c§?§" + " §6﴿");
 			
 		for(Player p : Bukkit.getOnlinePlayers()) {
@@ -348,6 +348,7 @@ public class BonzoPhase2 extends SkyblockEntity {
 
 	@Override
 	public void kill() {
+		super.kill();
 		if(run != null && !run.isCancelled())
 			run.cancel();
 		if(switchPhaseRunnable != null && !switchPhaseRunnable.isCancelled())
