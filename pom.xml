@@ -6,7 +6,7 @@
 
     <groupId>me.CarsCupcake</groupId>
     <artifactId>SkyblockRemake</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <packaging>jar</packaging>
 
 
@@ -141,7 +141,6 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-
         <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
@@ -154,7 +153,6 @@
             <id>lumine</id>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
-
     </repositories>
     <dependencyManagement>
         <dependencies>
@@ -174,7 +172,6 @@
             <version>1.17.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -187,7 +184,6 @@
             <version>RELEASE</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>com.fastasyncworldedit</groupId>
             <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
