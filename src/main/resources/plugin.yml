@@ -1,6 +1,6 @@
 main: me.CarsCupcake.SkyblockRemake.Main
 name: SkyblockRemake
-version: 0.2.3
+version: 0.2.4
 author: CarsCupcake
 api-version: 1.17
 depend:  [FastAsyncWorldEdit]
