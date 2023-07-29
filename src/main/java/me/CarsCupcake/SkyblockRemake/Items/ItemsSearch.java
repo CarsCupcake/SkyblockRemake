@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 public class ItemsSearch implements Listener {
     private static final HashMap<SkyblockPlayer, ArrayList<Inventory>> inventorys = new HashMap<>();
 
-    enum Filter implements Predicate<ItemManager> {
+    public enum Filter implements Predicate<ItemManager> {
         Swords(new ItemType[]{ItemType.Sword, ItemType.Longsword}),
         Bows(new ItemType[]{ItemType.Bow}),
         Wands(new ItemType[]{ItemType.Wand}),
@@ -42,6 +42,7 @@ public class ItemsSearch implements Listener {
         Armor(new ItemType[]{ItemType.Helmet, ItemType.Chestplate, ItemType.Leggings, ItemType.Boots}),
         Accessories(new ItemType[]{ItemType.Accessory}),
         Equipment(new ItemType[]{ItemType.Bracelet, ItemType.Belt, ItemType.Cloak, ItemType.Gloves, ItemType.Necklace}),
+        Minion(new ItemType[]{ItemType.Minion}),
         Other();
         static final List<Filter> filters = List.of(Swords, Bows, Wands, Tools, Armor, Accessories, Equipment, Other);
         private final List<ItemType> itemTypes;
