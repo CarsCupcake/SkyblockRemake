@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Pair;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.*;
@@ -42,6 +43,14 @@ public class PlayerDisguise {
     private Location l;
     private final BukkitRunnable runnable;
     private boolean customSounds = true;
+
+    public PlayerDisguise(LivingEntity entity, Pair<String> textures) {
+        this(entity, textures.getFirst(), textures.getLast());
+    }
+
+    public PlayerDisguise(LivingEntity entity, String texture, String value) {
+        this(entity, new Property("textures", texture, value));
+    }
 
     public PlayerDisguise(LivingEntity entity, Property skin) {
         entity.setSilent(true);
