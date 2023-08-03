@@ -13,6 +13,8 @@ import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.phys.Vec3D;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
@@ -39,7 +41,10 @@ public class PlayerDisguise {
     final PacketPlayOutEntityTeleport dummyTp;
     private Location l;
     private final BukkitRunnable runnable;
-    public PlayerDisguise(LivingEntity entity, Property skin){
+    private boolean customSounds = true;
+
+    public PlayerDisguise(LivingEntity entity, Property skin) {
+        entity.setSilent(true);
         l = entity.getLocation();
         this.entity = entity;
         GameProfile profile = new GameProfile(UUID.randomUUID(), "§§§§");
@@ -51,17 +56,19 @@ public class PlayerDisguise {
             armorStand.addScoreboardTag("remove");
             armorStand.setVisible(false);
         });
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             double maxH = 0;
-            public void run(){
-                if(entity.isDead()){
+
+            public void run() {
+                if (entity.isDead()) {
                     cancel();
                     name.remove();
                     return;
                 }
                 name.teleport(entity.getEyeLocation());
                 name.setCustomName(entity.getCustomName());
-                if(maxH != entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue()) fakePlayer.getBukkitEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                if (maxH != entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue())
+                    fakePlayer.getBukkitEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
                 maxH = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
                 fakePlayer.setHealth((float) entity.getHealth());
             }
@@ -71,8 +78,8 @@ public class PlayerDisguise {
         fakePlayer = new EntityPlayer(((CraftServer) Bukkit.getServer()).getServer(), ((CraftWorld) entity.getWorld()).getHandle(), profile);
         fakePlayer.setPosition(entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ());
 
-        for (Player player : Bukkit.getOnlinePlayers()){
-            if(player.getLocation().distance(entity.getLocation()) < player.getClientViewDistance() * 16)
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (player.getLocation().distance(entity.getLocation()) < player.getClientViewDistance() * 16)
                 shown.add(SkyblockPlayer.getSkyblockPlayer(player));
         }
         Location location = new Location(entity.getWorld(), 0, 0, 0);
@@ -89,7 +96,7 @@ public class PlayerDisguise {
             byte b = 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40;
             watcher.set(DataWatcherRegistry.a.a(17), b);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
         sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, fakePlayer));
         sendPacket(new PacketPlayOutNamedEntitySpawn(fakePlayer));
@@ -101,13 +108,14 @@ public class PlayerDisguise {
 
         runnable = new BukkitRunnable() {
             int i = 0;
+
             @Override
             public void run() {
                 i++;
-                if(l.equals(entity.getLocation())) return;
+                if (l.equals(entity.getLocation())) return;
                 Location location = entity.getLocation();
                 Packet<?> packet;
-                if(entity.getLocation().distance(l) > 5 || i >= 20*5){
+                if (entity.getLocation().distance(l) > 5 || i >= 20 * 5) {
                     packet = new PacketPlayOutEntityTeleport(fakePlayer);
                     ReflectionUtils.setField("b", packet, location.getX());
                     ReflectionUtils.setField("c", packet, location.getY());
@@ -115,7 +123,7 @@ public class PlayerDisguise {
                     ReflectionUtils.setField("e", packet, (byte) ((int) (location.getYaw() * 256.0F / 360.0F)));
                     ReflectionUtils.setField("f", packet, (byte) ((int) (location.getPitch() * 256.0F / 360.0F)));
                     ReflectionUtils.setField("g", packet, true);
-                }else
+                } else
                     packet = new PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook(fakePlayer.getId(),
                             (short) ((location.getX() * 32 - l.getX() * 32) * 128),
                             (short) ((location.getY() * 32 - l.getY() * 32) * 128),
@@ -129,8 +137,14 @@ public class PlayerDisguise {
         runnable.runTaskTimer(Main.getMain(), 1, 1);
 
     }
+    public void toggleCustomSoundEffects() {
+        customSounds = !customSounds;
+        entity.setSilent(customSounds);
+    }
+
     private static final HashMap<Class<? extends Packet<?>>, String> idFieldsOut = new HashMap<>();
     private static final HashMap<Class<? extends Packet<?>>, String> idFieldsIn = new HashMap<>();
+
     static {
         idFieldsOut.put(PacketPlayOutEntity.PacketPlayOutEntityLook.class, "a");
         idFieldsOut.put(PacketPlayOutEntity.PacketPlayOutRelEntityMove.class, "a");
@@ -151,26 +165,30 @@ public class PlayerDisguise {
         idFieldsIn.put(PacketPlayInEntityAction.class, "a");
         idFieldsIn.put(PacketPlayInUseEntity.class, "a");
     }
-    public boolean onPacketOut(Packet<?> packet){
-        if(idFieldsOut.containsKey(packet.getClass()))
+
+    public boolean onPacketOut(Packet<?> packet) {
+        if (idFieldsOut.containsKey(packet.getClass()))
             ReflectionUtils.setField(idFieldsOut.get(packet.getClass()), packet, fakePlayer.getId());
-        if(packet instanceof PacketPlayOutEntity.PacketPlayOutEntityLook || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMove || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook)
+        if (packet instanceof PacketPlayOutEntity.PacketPlayOutEntityLook || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMove || packet instanceof PacketPlayOutEntity.PacketPlayOutRelEntityMoveLook)
             return false;
 
-        if(packet instanceof PacketPlayOutEntityStatus || packet instanceof PacketPlayOutEntityMetadata) {
+        if (packet instanceof PacketPlayOutEntityStatus || packet instanceof PacketPlayOutEntityMetadata) {
             fakePlayer.getBukkitEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
             fakePlayer.setHealth((float) entity.getHealth());
         }
-
+        if(packet instanceof PacketPlayOutEntityStatus p && customSounds && p.b() == 2)
+            for (SkyblockPlayer player : shown) player.playSound(entity.getLocation(), Sound.ENTITY_PLAYER_HURT, SoundCategory.HOSTILE, 1,1);
         return true;
     }
-    public void onPacketIn(Packet<?> packet){
-        if(idFieldsIn.containsKey(packet.getClass()))
+
+    public void onPacketIn(Packet<?> packet) {
+        if (idFieldsIn.containsKey(packet.getClass()))
             ReflectionUtils.setField(idFieldsIn.get(packet.getClass()), packet, entity.getEntityId());
     }
-    public void check(SkyblockPlayer player){
-        if(player == null) return;
-        if(!shown.contains(player)) {
+
+    public void check(SkyblockPlayer player) {
+        if (player == null) return;
+        if (!shown.contains(player)) {
             if (player.getLocation().distance(entity.getLocation()) < player.getClientViewDistance() * 16) {
                 shown.add(SkyblockPlayer.getSkyblockPlayer(player));
                 player.getHandle().b.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.a, fakePlayer));
@@ -186,38 +204,44 @@ public class PlayerDisguise {
                 player.getHandle().b.sendPacket(packet);
                 player.getHandle().b.sendPacket(new PacketPlayOutEntityDestroy(entity.getEntityId()));
             }
+        } else if (player.getLocation().distance(entity.getLocation()) > player.getClientViewDistance() * 16) {
+            shown.remove(SkyblockPlayer.getSkyblockPlayer(player));
         }
-        else
-            if(player.getLocation().distance(entity.getLocation()) > player.getClientViewDistance() * 16) {
-                shown.remove(SkyblockPlayer.getSkyblockPlayer(player));
-            }
     }
-    private void sendPacket(Packet<?> packet){
-        if(shown.isEmpty()) return;
-        for (SkyblockPlayer player : shown){
-            if(player == null) continue;
+
+    private void sendPacket(Packet<?> packet) {
+        if (shown.isEmpty()) return;
+        for (SkyblockPlayer player : shown) {
+            if (player == null) continue;
             player.getHandle().b.sendPacket(packet);
         }
     }
-    public static void packetInManager(Packet<?> packet){
-        if(!idFieldsIn.containsKey(packet.getClass())) return;
+
+    public static void packetInManager(Packet<?> packet) {
+        if (!idFieldsIn.containsKey(packet.getClass())) return;
         int id = (int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsIn.get(packet.getClass())), packet);
-        if(fake.containsKey(id))
+        if (fake.containsKey(id))
             fake.get(id).onPacketIn(packet);
     }
-    public static boolean packetOutManager(Packet<?> packet){
-        if((packet instanceof PacketPlayOutSpawnEntityLiving || packet instanceof PacketPlayOutSpawnEntity || packet instanceof PacketPlayOutNamedEntitySpawn) && nonFake.containsKey((int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet))) return false;
-        if(!idFieldsOut.containsKey(packet.getClass())) return true;
+
+    public static boolean packetOutManager(Packet<?> packet) {
+        if ((packet instanceof PacketPlayOutSpawnEntityLiving || packet instanceof PacketPlayOutSpawnEntity || packet instanceof PacketPlayOutNamedEntitySpawn) && nonFake.containsKey((int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet)))
+            return false;
+        if (!idFieldsOut.containsKey(packet.getClass())) return true;
         int id = (int) ReflectionUtils.getField(ReflectionUtils.findField(packet.getClass(), idFieldsOut.get(packet.getClass())), packet);
-        if(nonFake.containsKey(id))
+        if (nonFake.containsKey(id))
             return nonFake.get(id).onPacketOut(packet);
         return true;
     }
-    public void kill(SkyblockPlayer player){
-        if(player != null) {
+
+    public void kill(SkyblockPlayer player) {
+        if (player != null) {
             Vector vec = entity.getLocation().toVector().subtract(player.getLocation().toVector()).normalize().setY(0.3);
             PacketPlayOutEntityVelocity p = new PacketPlayOutEntityVelocity(fakePlayer.getId(), new Vec3D(vec.getX(), vec.getY(), vec.getZ()));
             sendPacket(p);
+        }
+        if(customSounds) {
+            for (SkyblockPlayer p : shown) p.playSound(entity.getLocation(), Sound.ENTITY_PLAYER_DEATH, SoundCategory.HOSTILE, 1, 1);
         }
         runnable.cancel();
         Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
@@ -228,7 +252,8 @@ public class PlayerDisguise {
         }, 20);
 
     }
-    public void status(byte b){
+
+    public void status(byte b) {
         sendPacket(new PacketPlayOutEntityStatus(fakePlayer, b));
     }
 }
