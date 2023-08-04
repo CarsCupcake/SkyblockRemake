@@ -90,24 +90,21 @@ public class PacketReader {
 					}
 				}catch (Exception e){
 					System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
-					e.printStackTrace();
+					e.printStackTrace(System.out);
 					player.sendMessage("§cCould not read packet " + packet.getClass().getSimpleName());
 					return;
 				}
 				try {
 					super.channelRead(channelHandlerContext, packet);
 				}catch (Exception e){
-					e.printStackTrace();
+					e.printStackTrace(System.out);
 				}
 			}
 
 			@Override
 			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 				try{
-					if (!PlayerDisguise.packetOutManager((Packet<?>) msg)) return;
-					if (msg instanceof PacketPlayOutEntityStatus p) {
-						System.out.println("STATUS: " + p.b());
-					}
+					if (!PlayerDisguise.packetOutManager((Packet<?>) msg, player)) return;
 					if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
 						System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
 						if (InfoManager.getPacketLogFilter().isDetailed())
@@ -120,7 +117,7 @@ public class PacketReader {
 					}
 				}catch (Exception e){
 					System.out.println("Error while writing packet: " + msg.getClass().getSimpleName());
-					e.printStackTrace();
+					e.printStackTrace(System.out);
 					player.sendMessage("§cCould not write packet " + msg.getClass().getSimpleName());
 					return;
 				}
@@ -185,24 +182,10 @@ public class PacketReader {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 		}
 		
 		return result;
 	}
-	private static final ChannelDuplexHandler loginHandler = new ChannelDuplexHandler(){
-		@Override
-		public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
-			if(packet instanceof PacketPlayInFlying) {
-				super.channelRead(ctx, packet);
-				return;
-			}
-			System.out.println(packet);
-			if(packet instanceof PacketHandshakingInSetProtocol protocol){
-				System.out.println(protocol.c + " " + protocol.d);
-			}
-			super.channelRead(ctx, packet);
-		}
-	};
-	
+
 }
