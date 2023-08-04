@@ -53,6 +53,7 @@ public class SpecialZealot extends SkyblockEntity {
             enderman.setRemoveWhenFarAway(false);
             enderman.addScoreboardTag("combatxp:40");
             enderman.setCarriedBlock(Material.END_PORTAL_FRAME.createBlockData());
+            enderman.setCustomNameVisible(true);
         });
         SkyblockEntity.livingEntity.addEntity(entity, this);
     }
@@ -77,6 +78,7 @@ public class SpecialZealot extends SkyblockEntity {
 
     @Override
     public void kill() {
+        super.kill();
         if (lastHit == null)
             return;
 

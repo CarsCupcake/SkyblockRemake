@@ -156,7 +156,6 @@ public class SkyblockRemakeEvents implements Listener {
         else player.teleport(SkyblockServer.getServer().type().getLocation());
 
 
-
         reader.inject();
         if (NPC.getNPCs() == null) return;
         if (NPC.getNPCs().isEmpty()) return;
@@ -575,18 +574,18 @@ public class SkyblockRemakeEvents implements Listener {
         });
         for (PlayerDisguise disguise : PlayerDisguise.fake.values())
             disguise.check(player);
-        for (QuestNpc npc : QuestNpc.shownNpc.get(player)){
+        for (QuestNpc npc : QuestNpc.shownNpc.get(player)) {
             Location l = npc.getLocations().get(player);
-            if(l == null) {
+            if (l == null) {
                 continue;
             }
             double distance = l.distance(player.getLocation());
-            if(distance < player.getClientViewDistance() * 16 && npc.getHidden().contains(player))
+            if (distance < player.getClientViewDistance() * 16 && npc.getHidden().contains(player))
                 npc.show(player);
-            else if(distance > player.getClientViewDistance() * 16 && !npc.getHidden().contains(player)){
+            else if (distance > player.getClientViewDistance() * 16 && !npc.getHidden().contains(player)) {
                 npc.hide(player);
             }
-            if(distance < 6){
+            if (distance < 6) {
                 PlayerConnection connection = player.getHandle().b;
                 float yaw = l.getYaw();
                 float pitch = l.getPitch();
@@ -631,7 +630,7 @@ public class SkyblockRemakeEvents implements Listener {
                 e.printStackTrace();
             }
         }
-        if(player.getRegion() != null) player.getRegion().leave(player);
+        if (player.getRegion() != null) player.getRegion().leave(player);
         player.saveCommissionProgress();
         Main.absorbtion.remove(player);
         Main.absorbtionrunntime.remove(player);
@@ -666,9 +665,10 @@ public class SkyblockRemakeEvents implements Listener {
 
         Main.updatebar(player);
     }
+
     @EventHandler
-    public void noFallingBLocks(EntityChangeBlockEvent event){
-        if(event.getEntity() instanceof FallingBlock fB){
+    public void noFallingBLocks(EntityChangeBlockEvent event) {
+        if (event.getEntity() instanceof FallingBlock fB) {
             event.setCancelled(true);
         }
     }
@@ -706,7 +706,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void SoulSystem(EntityDeathEvent e) {
-        if(PlayerDisguise.nonFake.containsKey(e.getEntity().getEntityId()))
+        if (PlayerDisguise.nonFake.containsKey(e.getEntity().getEntityId()))
             PlayerDisguise.nonFake.get(e.getEntity().getEntityId()).kill((e.getEntity() == null || !(e.getEntity() instanceof Player p)) ? null : SkyblockPlayer.getSkyblockPlayer(p));
         if (e.getEntity() instanceof FallingBlock) {
             if (e.getEntity().getScoreboardTags().contains("voidgloom_beacon")) e.getEntity().getLocation();
@@ -1110,13 +1110,11 @@ public class SkyblockRemakeEvents implements Listener {
     @EventHandler
     public void stopTeleport(EntityTeleportEvent event) {
         Entity e = event.getEntity();
-        if (e.getScoreboardTags().contains("voidgloomt1") || e.getScoreboardTags().contains("voidgloomt2") || e.getScoreboardTags().contains("voidgloomt3") || e.getScoreboardTags().contains("voidgloomt4")) {
+        if (event.getEntity().getType() == EntityType.ENDERMAN)
             event.setCancelled(true);
 
-        }
     }
 
-    @SuppressWarnings("unused")
     @EventHandler
     public void bowshootevent(EntityShootBowEvent event) {
         if (!(event.getEntity() instanceof Player)) {
@@ -1703,7 +1701,8 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     private static int getEntityHealth(LivingEntity entity) {
-        if (SkyblockEntity.livingEntity.exists(entity)) return SkyblockEntity.livingEntity.getSbEntity(entity).getHealth();
+        if (SkyblockEntity.livingEntity.exists(entity))
+            return SkyblockEntity.livingEntity.getSbEntity(entity).getHealth();
         if (Main.currentityhealth.containsKey(entity)) return Main.currentityhealth.get(entity);
 
 

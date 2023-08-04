@@ -51,6 +51,7 @@ public class Zealot extends SkyblockEntity {
             enderman.addScoreboardTag("combatxp:40");
             if(isLoot)
                 enderman.setCarriedBlock(Material.ENDER_CHEST.createBlockData());
+            enderman.setCustomNameVisible(true);
         });
         SkyblockEntity.livingEntity.addEntity(entity, this);
     }
@@ -78,6 +79,7 @@ public class Zealot extends SkyblockEntity {
 
     @Override
     public void kill() {
+        super.kill();
         if (lastHit == null)
             return;
         ExtraInformations.reload();
