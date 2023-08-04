@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 
@@ -141,12 +140,10 @@ public class PacketReader {
 	}
 	
 	private void read(PacketPlayInUseEntity packetPlayInUseEntity ) {
-
 		count++;
 		if(count == 4) {
-
 			count = 0;
-			int entityID = (int) getValue(packetPlayInUseEntity);
+			int entityID = (int) ReflectionUtils.getField(ReflectionUtils.findField(packetPlayInUseEntity.getClass(), "a"), packetPlayInUseEntity);
 			//call event
 			if(NPC.NPCPacket.containsKey(entityID)) {
 				new BukkitRunnable() {
@@ -164,28 +161,7 @@ public class PacketReader {
 						break;
 					}
 			}
-			
 		}
-	}
-	private Object getValue(Object instance) {
-		Object result = null;
-		try {
-			
-			Field field = instance.getClass().getDeclaredField("a");
-			field.setAccessible(true);
-			
-			result = field.get(instance);
-			
-			field.setAccessible(false);
-			
-			
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-		}
-		
-		return result;
 	}
 
 }
