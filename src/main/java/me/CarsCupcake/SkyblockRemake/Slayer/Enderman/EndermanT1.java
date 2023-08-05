@@ -127,6 +127,7 @@ public class EndermanT1 extends Slayer implements Listener {
 
     @Override
     public void kill() {
+        super.kill();
         try {
             aoe.cancel();
         }catch (Exception ignored){}

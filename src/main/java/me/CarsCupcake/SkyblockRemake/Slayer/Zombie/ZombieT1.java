@@ -67,12 +67,6 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
     public void updateNameTag() {
 
     }
-
-    @Override
-    public void kill() {
-        super.kill();
-
-    }
     @Override
     public boolean hasNoKB() {
         return false;

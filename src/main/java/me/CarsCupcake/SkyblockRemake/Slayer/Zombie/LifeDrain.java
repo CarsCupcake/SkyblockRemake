@@ -29,6 +29,7 @@ public abstract class LifeDrain extends ZombieSlayer {
 
     @Override @OverridingMethodsMustInvokeSuper
     public void kill() {
+        super.kill();
         try {
             lifeDrainTimer.cancel();
         }catch (Exception ignored){}

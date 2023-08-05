@@ -144,6 +144,7 @@ public class BlazeSlayerT1 extends Slayer {
 
     @Override
     public void kill() {
+        super.kill();
         run.cancel();
         stand.remove();
         aoeRunner.cancel();

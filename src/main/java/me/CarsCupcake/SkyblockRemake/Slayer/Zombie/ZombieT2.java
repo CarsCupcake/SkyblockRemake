@@ -64,11 +64,6 @@ public class ZombieT2 extends Pestilence{
     }
 
     @Override
-    public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
-    }
-
-    @Override
     public boolean hasNoKB() {
         return false;
     }

@@ -6,29 +6,33 @@ import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
 
-public abstract class Slayer extends SkyblockEntity{
+public abstract class Slayer extends SkyblockEntity {
     private static final HashMap<SkyblockPlayer, Slayer> slayers = new HashMap<>();
     protected final SkyblockPlayer owner;
-    public Slayer(SkyblockPlayer player){
+
+    public Slayer(SkyblockPlayer player) {
         owner = player;
     }
 
-    public static void summonSlayer(Location location, Slayer slayer){
+    public static void summonSlayer(Location location, Slayer slayer) {
         Assert.state(!slayers.containsKey(slayer.owner), "Multiple Slayers!");
         slayer.spawn(location);
         slayers.put(slayer.owner, slayer);
         SkyblockEntity.livingEntity.addEntity(slayer.getEntity(), slayer);
     }
-    public SkyblockPlayer getOwner(){
+
+    public SkyblockPlayer getOwner() {
         return owner;
     }
 
-    public static Slayer getSlayer(SkyblockPlayer player){
+    public static Slayer getSlayer(SkyblockPlayer player) {
         return slayers.get(player);
     }
-    public static boolean hasActiveSlayer(SkyblockPlayer player){
+
+    public static boolean hasActiveSlayer(SkyblockPlayer player) {
         return slayers.containsKey(player);
     }
 
@@ -46,13 +50,19 @@ public abstract class Slayer extends SkyblockEntity{
 
     public abstract void updateNameTag();
 
-    public abstract void kill();
+    @Override
+    @OverridingMethodsMustInvokeSuper
+    public void kill() {
+        super.kill();
+        if (owner != null)
+            slayers.remove(owner);
+    }
 
     public abstract boolean hasNoKB();
 
     public abstract int getTrueDamage();
 
-    public static String getBaseName(Slayer slayer){
+    public static String getBaseName(Slayer slayer) {
         return "§c" + Character.toChars(9760)[0] + " §b" + slayer.getName()
                 + " §a" + Tools.toShortNumber(slayer.getHealth()) + "§c" + Stats.Health.getSymbol();
     }

@@ -51,13 +51,6 @@ public abstract class Enrage extends Pestilence{
     private void equipEnrage(){
         getEntity().getEquipment().setChestplate(new ItemBuilder(Material.LEATHER_CHESTPLATE).setGlint(true).setLeatherColor(Color.RED).build());
     }
-
-    @Override
-    @OverridingMethodsMustInvokeSuper
-    public void kill() {
-        super.kill();
-
-    }
     protected abstract int getBaseDamage();
     @Override
     public int getDamage(){

@@ -147,22 +147,18 @@ object MaddoxMenu {
             return builder.build()
         }
 
-        override fun getSlotActions(gui: GUI): Map<Int, GUIAction>? {
-            return null
-        }
-
-        fun getSlotActions(): Map<Int, GUIAction> {
+        override fun getSlotActions(gui: GUI): Map<Int, GUIAction> {
             return hashMapOf(
                 48 to GUIAction{ gui.showGUI(player) },
                 49 to GUIAction{ gui.closeInventory() },
                 10 to GUIAction {
                     if(CoinUtils.spendIfEnouth(player, 2000.0)) slayers[0]?.spawn(player.location)},
-                11 to GUIAction { if(CoinUtils.spendIfEnouth(player, 7500.0)) slayers[1]?.spawn(player.location) },
-                12 to GUIAction { if(CoinUtils.spendIfEnouth(player, 50000.0)) slayers[2]?.spawn(player.location) },
-                13 to GUIAction { if(CoinUtils.spendIfEnouth(player, 100000.0)) slayers[3]?.spawn(player.location) }
+                11 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 7500.0)) slayers[1]?.spawn(player.location) },
+                12 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 50000.0)) slayers[2]?.spawn(player.location) },
+                13 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 100000.0)) slayers[3]?.spawn(player.location) }
                 ).also {
                     if(levels == 5)
-                        it[14] = GUIAction { slayers[4]?.spawn(player.location) }
+                        it[14] = GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else slayers[4]?.spawn(player.location) }
             }
         }
         override fun isCanceled():Boolean{

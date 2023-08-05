@@ -162,6 +162,7 @@ public class BlazeSlayerT3 extends Slayer implements FinalDamageDesider, FirePil
 
 	@Override
 	public void kill() {
+		super.kill();
 		run.cancel();
 		stand.remove();
 		aoeRunner.cancel();

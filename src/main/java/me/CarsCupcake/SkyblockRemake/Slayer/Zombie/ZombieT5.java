@@ -205,6 +205,7 @@ public class ZombieT5 extends ZombieSlayer implements FinalDamageDesider {
 
     @Override
     public void kill() {
+        super.kill();
         healing.cancel();
         try {
             tntThrower.cancel();

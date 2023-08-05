@@ -53,6 +53,7 @@ public abstract class BeaconThrower extends Slayer {
     }
     @Override
     public void kill(){
+        super.kill();
         beaconRunner.cancel();
         if(glyph != null){
             try {
