@@ -29,6 +29,10 @@ public class startslayer implements CommandExecutor{
 				player.sendMessage("Wrong args");
 				return true;
 			}
+			if(Slayer.getSlayer(SkyblockPlayer.getSkyblockPlayer((Player) sender)) != null) {
+				sender.sendMessage("§cYou already have a slayer summoned!");
+				return true;
+			}
 
 			switch (args[0]) {
 				case "zombie" -> {
