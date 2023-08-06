@@ -17,6 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.ArtifactAbility;
 import me.CarsCupcake.SkyblockRemake.utils.NBTEditor;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -27,6 +28,7 @@ import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BannerMeta;
@@ -43,6 +45,7 @@ import me.CarsCupcake.SkyblockRemake.Configs.EditionItems;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.Gemstone;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -120,6 +123,9 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private String mapImagePath;
+    @Getter
+    @Setter
+    private boolean dungenoizanble = false;
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;
@@ -769,6 +775,63 @@ public class ItemManager implements ItemGenerator {
             if (isAttributable()) Attribute.rool(item, this);
             return item;
         }
+    }
+    @Getter @Setter
+    private RunnableWithParam<ProjectileLaunchEvent> onBowShoot;
+    private long shorbowCooldown = -1;
+    @Getter @Setter
+    private int arrowsToShoot = 1;
+    private static final double ARROW_DEGREES = 5;
+    /**
+     * Calculates the shoot vectors for the other arrows (excludes the original)
+     * @param origin the main arrow's velocity
+     * @return the rest of the arrows vectors
+     */
+    public List<Vector> getShootVectors(Vector origin) {
+        return getShootVectors(origin, arrowsToShoot);
+    }
+    /**
+     * Calculates the shoot vectors for the other arrows (excludes the original)
+     * @param origin the main arrow's velocity
+     * @param arrowsToShoot the amount of arrows
+     * @return the rest of the arrows vectors
+     */
+    public static List<Vector> getShootVectors(Vector origin, int arrowsToShoot) {
+        if(arrowsToShoot == 1) return new ArrayList<>();
+        List<Vector> vs = new ArrayList<>();
+        boolean b = (arrowsToShoot - 1) % 2 == 0;
+        int loopcycles = (arrowsToShoot - ((b) ? 1 : 0)) / 2;
+        for (int i = 0; i < loopcycles; i++) {
+            double degree = (i + 1d) * ARROW_DEGREES;
+            vs.add(origin.clone().rotateAroundY(Math.toRadians(degree)));
+            if(loopcycles - 1 != i)
+                vs.add(origin.clone().rotateAroundY(-Math.toRadians(degree)));
+            else if(b)
+                vs.add(origin.clone().rotateAroundY(-Math.toRadians(degree)));
+        }
+        return vs;
+    }
+
+
+    /**
+     * Set the bow to a shortbow
+     * @param cooldown the cooldown in second between 2 shots at 0 attackspeed. if cooldown == -1 -> disable shortbow
+     */
+    public void setShortbow(double cooldown) {
+        if(cooldown == -1) shorbowCooldown = -1;
+        else {
+            shorbowCooldown = (long) (cooldown * 20d);
+        }
+    }
+    public boolean isShortbow() {
+        return shorbowCooldown != -1;
+    }
+    public long getShorbowCooldown(double attackspeed) {
+        if(shorbowCooldown == -1) return -1;
+        if(attackspeed >= 100) return shorbowCooldown / 2;
+        double d = attackspeed/100;
+        d = 1 - d;
+        return (long) ((((double) shorbowCooldown) / 2d) + ((((double) shorbowCooldown) / 2d) * d));
     }
 
     public void setNpcSellPrice(int i) {

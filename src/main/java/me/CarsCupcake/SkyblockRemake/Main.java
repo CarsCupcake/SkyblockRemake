@@ -821,7 +821,7 @@ public class Main extends JavaPlugin {
         runnable.runTaskLater(Main, 20);
     }
 
-    public void juju_cooldown(Player player) {
+    public void juju_cooldown(Player player, long cooldown) {
         shortbow_cd.replace(player, true);
         runnable = new BukkitRunnable() {
             @Override
@@ -829,7 +829,7 @@ public class Main extends JavaPlugin {
                 shortbow_cd.replace(player, false);
             }
         };
-        runnable.runTaskLater(Main, (long) ((0.20 * 20) + ((0.25 * (1D - Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.AttackSpeed) / 100)) * 20)));
+        runnable.runTaskLater(Main, cooldown);
     }
 
     public void absorbtioneffect(Player player, int times) {
@@ -1557,8 +1557,8 @@ public class Main extends JavaPlugin {
                 lores.add(" ");
 
             }
-
-            ItemRarity rarity = manager.getRarity(ItemRarity.valueOf(data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING)), item, player);
+            String pdcRarity = data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING);
+            ItemRarity rarity = (pdcRarity != null) ? (manager.getRarity(ItemRarity.valueOf(pdcRarity), item, player)) : manager.getRarity(item, player);
             if (itembreakingpower(item) != 0) {
                 if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") != 0) {
                     lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+" + Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") + ")");
@@ -1573,7 +1573,8 @@ public class Main extends JavaPlugin {
                 }
             }
             lores = Stats.makeItemStatsLore(item, lores, player);
-
+            if(manager.isShortbow())
+                lores.add("§7Shot Cooldown: §a" + ((double) manager.getShorbowCooldown(((player != null) ? getPlayerStat(player, Stats.AttackSpeed) : 0)) / 20d) + "s");
 
             if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
                 ArrayList<GemstoneSlot> gemSlots = GemstoneSlot.getCurrGemstones(manager, data);
@@ -1686,6 +1687,8 @@ public class Main extends JavaPlugin {
                     Bukkit.getPluginManager().callEvent(event);
                     lores.add("§8Mana Cost §3" + String.format("%.0f", event.getMana()) + "%");
                 }
+
+                if(ability.getSoulflowCost() > 0) lores.add("§8Soulflow Cost: §3" + ability.getSoulflowCost() + "⸎");
 
                 if (ability.getCooldown() > 0) lores.add("§8Ability Cooldown §a" + ability.getCooldown() + "s");
                 i++;
@@ -1828,7 +1831,7 @@ public class Main extends JavaPlugin {
             String extra = "";
             if (manager.isDungeonItem) extra = "DUNGEON ";
 
-            if (data.get(new NamespacedKey(Main, "recomed"), PersistentDataType.INTEGER) == 0)
+            if (ItemHandler.getOrDefaultPDC("recomed", item, PersistentDataType.INTEGER, 0) == 0)
                 lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase());
             else {
                 lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase() + " §kr");

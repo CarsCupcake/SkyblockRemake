@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
@@ -14,11 +15,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -75,38 +74,33 @@ public class Duplex extends UltimateEnchant implements Listener {
     private final static HashMap<SkyblockPlayer, Double> lastDuplexDamage = new HashMap<>();
 
     @EventHandler
-    public void onProjectileLounch(ProjectileLaunchEvent event) {
-        if (event.getEntity().getShooter() != null && event.getEntity().getShooter() instanceof Player p) {
-            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-            new BukkitRunnable() {
-                public void run() {
-                    if (event.getEntity().getScoreboardTags().contains("custom_arrow")) return;
-
-                    if (ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, player.getItemInHand())) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                Projectile arrow_entity = player.launchProjectile(Arrow.class);
-                                int stre = (int) Main.getPlayerStat(player, Stats.Strength);
-                                double cd = Main.getPlayerStat(player, Stats.CritDamage);
-                                int weapondmg = 0;
-                                int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
+    public void onProjectileLounch(BowShootEvent event) {
+        if (!ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, event.getBow())) return;
+        SkyblockPlayer player = event.getPlayer();
+        new BukkitRunnable() {
+            public void run() {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        Projectile arrow_entity = player.launchProjectile(Arrow.class);
+                        int stre = (int) Main.getPlayerStat(player, Stats.Strength);
+                        double cd = Main.getPlayerStat(player, Stats.CritDamage);
+                        int weapondmg = 0;
+                        int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
 
 
-                                arrow_entity.addScoreboardTag("cd:" + cd);
-                                arrow_entity.addScoreboardTag("cc:" + 0);
-                                arrow_entity.addScoreboardTag("strength:" + stre);
-                                arrow_entity.addScoreboardTag("ferocity:" + ferocity);
-                                arrow_entity.addScoreboardTag("dmg:" + weapondmg);
+                        arrow_entity.addScoreboardTag("cd:" + cd);
+                        arrow_entity.addScoreboardTag("cc:" + 0);
+                        arrow_entity.addScoreboardTag("strength:" + stre);
+                        arrow_entity.addScoreboardTag("ferocity:" + ferocity);
+                        arrow_entity.addScoreboardTag("dmg:" + weapondmg);
 
-                                arrow_entity.addScoreboardTag("arrow_duplex");
-                                arrow_entity.addScoreboardTag("custom_arrow");
-                            }
-                        }.runTaskLater(Main.getMain(), 2);
+                        arrow_entity.addScoreboardTag("arrow_duplex");
+                        arrow_entity.addScoreboardTag("custom_arrow");
                     }
-                }
-            }.runTaskLater(Main.getMain(), 1);
-        }
+                }.runTaskLater(Main.getMain(), 2);
+            }
+        }.runTaskLater(Main.getMain(), 1);
     }
 
     @EventHandler

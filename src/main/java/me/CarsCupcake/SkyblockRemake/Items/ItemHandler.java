@@ -95,4 +95,8 @@ public class ItemHandler {
 
             }
     }
+    public static ItemManager getItemManager(ItemStack item) {
+        if(item == null || !item.hasItemMeta()) return null;
+        return Items.SkyblockItems.get(getPDC("id", item, PersistentDataType.STRING));
+    }
 }

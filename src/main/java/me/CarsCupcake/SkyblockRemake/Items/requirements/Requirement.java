@@ -5,4 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 public interface Requirement {
     boolean isAllowedToWear(SkyblockPlayer player, ItemStack item);
+    default String requirementNotification() {
+        return null;
+    }
 }

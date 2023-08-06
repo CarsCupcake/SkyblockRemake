@@ -125,7 +125,8 @@ public enum Stats {
 
     public static ArrayList<String> makeItemStatsLore(ItemStack item, ArrayList<String> lore, SkyblockPlayer player) {
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
-        ItemRarity rarity = ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING));
+        String rarityPdc = ItemHandler.getPDC("rarity", item, PersistentDataType.STRING);
+        ItemRarity rarity = (rarityPdc == null) ? manager.getRarity(item, player) : manager.getRarity(ItemRarity.valueOf(rarityPdc), item, player);
         HashMap<Stats, Integer> gemstoneSlots = new HashMap<>();
 
         for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,

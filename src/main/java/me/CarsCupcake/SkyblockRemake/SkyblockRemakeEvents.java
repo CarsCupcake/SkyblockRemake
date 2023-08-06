@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
@@ -87,6 +88,7 @@ import net.minecraft.network.protocol.game.PacketPlayOutEntityHeadRotation;
 
 import net.minecraft.server.network.PlayerConnection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 @SuppressWarnings("deprecation")
@@ -850,6 +852,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void MobSpawnEvent(EntitySpawnEvent event) {
+        if(event.getEntity() instanceof LivingEntity le) le.setRemoveWhenFarAway(false);
         if (event.getEntity().getScoreboardTags().contains("npc")) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
@@ -918,63 +921,30 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void onDraw(PlayerInteractEvent event) {
-        //On interact
-        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            if (event.getItem() != null && event.getItem().getType() == Material.BOW) {
-                if (Items.SkyblockItems.get(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)) != null && Items.SkyblockItems.get(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)).customDataContainer.containsValue("term"))
-                    if (Main.termhits.get(event.getPlayer()) >= 3) {
-                        final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB((int) 255, (int) 0, (int) 0), 1);
+        ItemManager manager = Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", event.getItem(), PersistentDataType.STRING, ""));
+        if (manager == null) return;
 
 
-                        for (double i = 0; i <= 15; i += 0.5) { //iterate up to but not beyond point b
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+            ItemStack item = event.getItem();
+            if (!manager.isShortbow())
+                return;
 
-                            Vector point = event.getPlayer().getEyeLocation().getDirection().multiply(i);
-                            Location loc = event.getPlayer().getEyeLocation();
-                            loc.add(point);
-                            event.getPlayer().getLocation().getWorld().spawnParticle(Particle.DRIP_LAVA, loc.getX(), loc.getY(), loc.getZ(), 1);
-                            event.getPlayer().getLocation().getWorld().spawnParticle(Particle.REDSTONE, loc.getX(), loc.getY(), loc.getZ(), 1, dust);
-                        }
 
-                        ArrayList<Entity> alrHitEntitys = new ArrayList<>();
-                        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-                        for (double i = 0; i <= 15; i += 0.1) {
-                            if (event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 0.2, 0.2, 0.2).isEmpty())
-                                continue;
-
-                            for (Entity entity : event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 1, 1, 1)) {
-                                if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && entity != event.getPlayer() && !alrHitEntitys.contains(entity)) {
-                                    e.damage(0.0000001);
-                                    Calculator c = new Calculator();
-                                    c.playerToEntityDamage(e, player, new Bundle<>(2d, 1d));
-                                    c.damageEntity(e, player);
-                                    c.showDamageTag(e);
-                                    alrHitEntitys.add(entity);
-                                }
-                            }
-                        }
-                        Main.termhits.replace(event.getPlayer(), 0);
-                        Main.updatebar(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-                        return;
-                    }
+            event.setCancelled(true);
+            final boolean infinity;
+            if (item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
+                infinity = true;
+            } else {
+                infinity = false;
             }
-
-        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
-            if (event.getItem() != null && event.getItem().getType() == Material.BOW) {
-                ItemStack item = event.getItem();
-                if (item.getItemMeta() == null || item.getItemMeta().getPersistentDataContainer() == null || item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) == null || !item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).contains("shortbow"))
-                    return;
-
-
-                event.setCancelled(true);
-                final boolean infinity;
-                if (item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
-                    infinity = true;
-                } else {
-                    infinity = false;
-                }
-                if (!Main.shortbow_cd.get(event.getPlayer())) try {
-
-                    event.getPlayer().getInventory().forEach(i -> {
+            if (!Main.shortbow_cd.get(event.getPlayer()))
+                if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+                    SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+                    launchArrow(item, manager, player);
+                    Main.getMain().juju_cooldown(player.getPlayer(), manager.getShorbowCooldown(Main.getPlayerStat(player, Stats.AttackSpeed)));
+                } else
+                    for (ItemStack i : event.getPlayer().getInventory()) {
                         if (i != null) {
                             if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
 
@@ -982,82 +952,65 @@ public class SkyblockRemakeEvents implements Listener {
                                 if (!infinity) i.setAmount(i.getAmount() - 1);
                                 event.getPlayer().updateInventory();
                                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
-                                Arrow arrow_entity = event.getPlayer().launchProjectile(Arrow.class);
-
-
-                                int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
-
-
-                                int stre = (int) Main.getPlayerStat(player, Stats.Strength);
-                                double cd = Main.getPlayerStat(player, Stats.CritDamage);
-                                int weapondmg = (int) Main.weapondamage(event.getItem());
-                                int ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
-
-
-                                arrow_entity.addScoreboardTag("cd:" + cd);
-                                arrow_entity.addScoreboardTag("cc:" + cc);
-                                arrow_entity.addScoreboardTag("strength:" + stre);
-                                arrow_entity.addScoreboardTag("ferocity:" + ferocity);
-                                arrow_entity.addScoreboardTag("dmg:" + weapondmg);
-
-                                if (item.getEnchantments().containsKey(Enchantment.ARROW_DAMAGE)) {
-                                    arrow_entity.addScoreboardTag("power:" + item.getEnchantments().get(Enchantment.ARROW_DAMAGE));
-                                }
-                                for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
-                                    arrow_entity.addScoreboardTag(enchantment.getKey().getKey() + ":" + item.getItemMeta().getEnchantLevel(enchantment));
-                                }
-
-                                arrow_entity.setDamage(1);
-
-
-                                if (HydraStrike.hasHydraStrike(player)) {
-                                    arrow_entity.setVelocity(arrow_entity.getVelocity().multiply(HydraStrike.get(player).getFlySpeed()));
-
-
-                                    if (HydraStrike.get(player).stacks == 10) {
-                                        Arrow arrow_entity2 = event.getPlayer().launchProjectile(Arrow.class);
-                                        arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
-                                        arrow_entity2.setDamage(1);
-                                        Arrow arrow_entity3 = event.getPlayer().launchProjectile(Arrow.class);
-                                        arrow_entity3.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(-5)));
-                                        arrow_entity3.setDamage(1);
-                                        arrow_entity.addScoreboardTag("term:" + player.getName());
-                                        arrow_entity.getScoreboardTags().forEach(tag -> {
-                                            arrow_entity2.addScoreboardTag(tag);
-                                            arrow_entity3.addScoreboardTag(tag);
-                                        });
-                                        arrow_entity2.addScoreboardTag("custom_arrow");
-                                        arrow_entity3.addScoreboardTag("custom_arrow");
-                                    }
-                                }
-
-                                player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 1, 1);
-                                if (item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING) != null && item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "shoottype"), PersistentDataType.STRING).equals("term")) {
-                                    Arrow arrow_entity2 = event.getPlayer().launchProjectile(Arrow.class);
-                                    arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
-                                    arrow_entity2.setDamage(1);
-                                    Arrow arrow_entity3 = event.getPlayer().launchProjectile(Arrow.class);
-                                    arrow_entity3.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(-5)));
-                                    arrow_entity3.setDamage(1);
-                                    arrow_entity.addScoreboardTag("term:" + player.getName());
-                                    arrow_entity.getScoreboardTags().forEach(tag -> {
-                                        arrow_entity2.addScoreboardTag(tag);
-                                        arrow_entity3.addScoreboardTag(tag);
-                                    });
-                                }
-
-
-                                Main.getMain().juju_cooldown(event.getPlayer());
-
-                                throw new RuntimeException();
+                                launchArrow(item, manager, player);
+                                Main.getMain().juju_cooldown(player.getPlayer(), manager.getShorbowCooldown(Main.getPlayerStat(player, Stats.AttackSpeed)));
+                                break;
                             }
                         }
 
 
-                    });
-                } catch (RuntimeException ignored) {
-                }
+                    }
+        }
+    }
+
+    private void launchArrow(ItemStack item, ItemManager manager, SkyblockPlayer player) {
+        launchArrow(item, manager, player, null);
+    }
+
+    private void launchArrow(ItemStack item, ItemManager manager, SkyblockPlayer player, @Nullable Arrow a) {
+        List<Arrow> arrows = new ArrayList<>();
+        if (a == null)
+            arrows.add(player.launchProjectile(Arrow.class));
+        else arrows.add(a);
+        double cc = (int) Main.getPlayerStat(player, Stats.CritChance);
+        double stre = (int) Main.getPlayerStat(player, Stats.Strength);
+        double cd = Main.getPlayerStat(player, Stats.CritDamage);
+        double weapondmg = (int) Main.weapondamage(item);
+        double ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
+        for (Vector v : manager.getShootVectors(arrows.get(0).getVelocity())) {
+            Arrow arrow = player.launchProjectile(Arrow.class, v);
+            arrow.setVelocity(v);
+            arrows.add(arrow);
+        }
+        if (HydraStrike.hasHydraStrike(player) && HydraStrike.get(player).stacks == 10)
+            for (Vector v : ItemManager.getShootVectors(arrows.get(0).getVelocity(), 3)) {
+                Arrow arrow = player.launchProjectile(Arrow.class, v);
+                arrow.setVelocity(v);
+                arrows.add(arrow);
             }
+
+        for (Arrow arrow : arrows) {
+            arrow.addScoreboardTag("cd:" + cd);
+            arrow.addScoreboardTag("cc:" + cc);
+            arrow.addScoreboardTag("strength:" + stre);
+            arrow.addScoreboardTag("ferocity:" + ferocity);
+            arrow.addScoreboardTag("dmg:" + weapondmg);
+            for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
+                arrow.addScoreboardTag(enchantment.getKey().getKey() + ":" + item.getItemMeta().getEnchantLevel(enchantment));
+            }
+            if (HydraStrike.hasHydraStrike(player))
+                arrow.setVelocity(arrow.getVelocity().multiply(HydraStrike.get(player).getFlySpeed()));
+        }
+        BowShootEvent event = new BowShootEvent(player, item, arrows);
+        Bukkit.getPluginManager().callEvent(event);
+    }
+    @EventHandler
+    public void projLaunchEv(ProjectileLaunchEvent event) {
+        if(event.getEntity() instanceof Arrow && event.getEntity().getShooter() instanceof Player p) {
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
+            ItemManager manager = ItemHandler.getItemManager(player.getEquipment().getItemInMainHand());
+            if(manager.getOnBowShoot() != null) manager.getOnBowShoot().run(event);
+        }
     }
 
     @EventHandler
@@ -1073,8 +1026,8 @@ public class SkyblockRemakeEvents implements Listener {
         Player player = event.getPlayer();
         player.updateInventory();
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
-
-        if (item == null || item.getItemMeta() == null || item.getItemMeta().getPersistentDataContainer() == null || item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) == null || !item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).contains("shortbow")) {
+        ItemManager manager =  (item == null) ? null : Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", item, PersistentDataType.STRING, ""));
+        if (manager == null || !manager.isShortbow()) {
 
             for (int slot = 0; slot < player.getInventory().getSize() - 1; ++slot) {
                 ItemStack i = player.getInventory().getItem(slot);
@@ -1120,47 +1073,15 @@ public class SkyblockRemakeEvents implements Listener {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
-        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(((Player) event.getEntity()).getPlayer());
-
-        Entity arrow_entity = event.getProjectile();
-
-
-        int cc = (int) Main.getPlayerStat(player, Stats.CritChance);
-
-        float damage;
-
-        int stre = (int) Main.getPlayerStat(player, Stats.Strength);
-        double cd = Main.getPlayerStat(player, Stats.CritDamage);
-        int weapondmg = (int) Main.weapondamage(event.getBow());
-
-        if (event.getForce() != 1.0) cc = 0;
-        arrow_entity.addScoreboardTag("cd:" + cd);
-        arrow_entity.addScoreboardTag("cc:" + cc);
-        arrow_entity.addScoreboardTag("strength:" + stre);
-        arrow_entity.addScoreboardTag("dmg:" + weapondmg);
-        arrow_entity.addScoreboardTag("ferocity:" + Main.getPlayerStat(player, Stats.Ferocity));
-        for (Enchantment enchantment : event.getBow().getItemMeta().getEnchants().keySet()) {
-            arrow_entity.addScoreboardTag(enchantment.getKey().getKey() + ":" + event.getBow().getItemMeta().getEnchantLevel(enchantment));
-        }
-        if (HydraStrike.hasHydraStrike(player)) {
-            arrow_entity.setVelocity(arrow_entity.getVelocity().multiply(HydraStrike.get(player).getFlySpeed()));
-
-
-            if (HydraStrike.get(player).stacks == 10) {
-                Arrow arrow_entity2 = player.launchProjectile(Arrow.class);
-                arrow_entity2.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(5)));
-                arrow_entity2.setDamage(1);
-                Arrow arrow_entity3 = player.launchProjectile(Arrow.class);
-                arrow_entity3.setVelocity(arrow_entity.getVelocity().rotateAroundY(Math.toRadians(-5)));
-                arrow_entity3.setDamage(1);
-                arrow_entity.addScoreboardTag("term:" + player.getName());
-                arrow_entity.getScoreboardTags().forEach(tag -> {
-                    arrow_entity2.addScoreboardTag(tag);
-                    arrow_entity3.addScoreboardTag(tag);
-                });
+        if(event.getEntity() instanceof Arrow arrow){
+            ItemManager manager = ItemHandler.getItemManager(event.getBow());
+            if(manager.isShortbow()) {
+                event.setCancelled(true);
+                return;
             }
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(((Player) event.getEntity()).getPlayer());
+            launchArrow(event.getBow(), manager, player, arrow);
         }
-
 
     }
 
@@ -1180,8 +1101,8 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void ProjectileHitEvent(ProjectileHitEvent e) {
+        e.getEntity().remove();
         if (e.getHitBlock() != null) {
-            e.getEntity().remove();
             if (e.getEntity() instanceof FishHook && LavaFishingHook.contains((FishHook) e.getEntity()))
                 LavaFishingHook.get((FishHook) e.getEntity()).remove();
         }
@@ -1292,11 +1213,7 @@ public class SkyblockRemakeEvents implements Listener {
 
                     if (calculator.getResult().isCancelled()) return;
 
-                    if (stats.containsKey("term")) {
-
-                        for (String tag : e.getEntity().getScoreboardTags())
-                            if (tag.startsWith("term:"))
-                                player = SkyblockPlayer.getSkyblockPlayer(Bukkit.getPlayer(tag.split(":")[1]));
+                    if (e.getEntity().getScoreboardTags().contains("term")) {
                         if (player != null) Main.termhits.replace(player, Main.termhits.get(player) + 1);
                         Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
                     }

@@ -33,4 +33,7 @@ public class Ability {
         isPersentage = true;
         persentage = d;
     }
+    public int getSoulflowCost() {
+        return ((abilityManager == null) ? 0 : abilityManager.soulflowCost());
+    }
 }
