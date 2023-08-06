@@ -95,12 +95,6 @@ They must be installed in any case before the start!
 <h3>FAWE - WorldEdit</h3>
 Spigot Resource: https://www.spigotmc.org/resources/fastasyncworldedit.13932/
 
-<h3>Lib's Disguises</h3>
-Spigot Resource: https://www.spigotmc.org/resources/libs-disguises-free.81/
-
-<h3>ProtocolLib</h3>
-Spigot Resource: https://www.spigotmc.org/resources/protocollib.1997/
-
 <h3>PlugMan</h3>
 Bukkit Resource: https://dev.bukkit.org/projects/plugman
 _Plugman is only optional! It simplifies reloading plugins and 
