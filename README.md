@@ -14,7 +14,8 @@
 </p>
 </div>
 <div align="center">
-<h3><b> Commercial use is strictly forbidden!</b></h3>
+<h3><b>Please dont use it comercialy!</b></h3>
+<h3><b>Always give credit to me!</b></h3>
 </div>
 <!-- PROJECT LOGO -->
 <br />
