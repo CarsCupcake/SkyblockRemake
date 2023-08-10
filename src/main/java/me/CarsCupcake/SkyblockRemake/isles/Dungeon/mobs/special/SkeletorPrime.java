@@ -1,32 +1,26 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged;
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.special;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonSkeleton;
-import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.EntitySkeleton;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class SkeletonGrunt extends DungeonSkeleton {
+public class SkeletorPrime extends DungeonSkeleton {
     private LivingEntity entity;
-
-    public SkeletonGrunt(int floor, boolean master) {
+    public SkeletorPrime(int floor, boolean master) {
         super(floor, master);
     }
 
@@ -37,23 +31,20 @@ public class SkeletonGrunt extends DungeonSkeleton {
 
     @Override
     public void spawn(Location loc) {
-        SBEntity craftEntity = new SBEntity(loc);
-        ((CraftWorld) loc.getWorld()).getHandle().addEntity(craftEntity, CreatureSpawnEvent.SpawnReason.CUSTOM);
-        entity = (LivingEntity) craftEntity.getBukkitEntity();
-        entity.setAI(true);
+        SBEntity e = new SBEntity(loc);
+        ((CraftWorld) loc.getWorld()).getHandle().addEntity(e);
+        entity = (LivingEntity) e.getBukkitEntity();
+        PlayerDisguise disguise = new PlayerDisguise(entity, "ewogICJ0aW1lc3RhbXAiIDogMTYwMDc3NTY0NTk5OSwKICAicHJvZmlsZUlkIiA6ICJiZWNkZGIyOGEyYzg0OWI0YTliMDkyMmE1ODA1MTQyMCIsCiAgInByb2ZpbGVOYW1lIiA6ICJTdFR2IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzFiZDNhNGY4ZTIyZGIxNWU0ODZhY2FjNWQ0NTZmZjM1ZjM0ZWQ5YWI1YzY0ZWVjMDU3YWZkMjg2NmQ1NTk0MDEiCiAgICB9CiAgfQp9",
+                "bkd1w8Lzr1TL+oMkoE2pflrNwAGgbYNzUSt61YgdGJk+FyI93yZ2G+WLgSFCFPMNGlYfB9a87EtNDP1c1iCXkpQd0/nEOQN5/dkl74BRS0XMgVFdD5K1xR7fnlKt0pnHLCcM4Rnr8AJd7vOhBRi2Lr9q7IeIn13bDImXLtJH0OS7hbW8nHL1PeLNGmiBMZI8t9adWM8JdLoFU2MDL6xottFdJuj8gypTyq1GhEErTrJT2LuSqwZt8gi3Mjavct9omQtR6hPViP5VY/wPI/C3LDODamwIr4/vlTZikM3OnmE5CeY8TAgpmGn97rpwSSTE1HuZvZyzdD6n4xyuLw49qw8REmry8SaSO1IbF5yfsYhc4MmQltiEqvARGwC4dTVXWNQVbCbttzyuVYK0ZsGQYELqj7r0gfw3P11/gEVeuywjeTZSUfaTdu7auLb9FXDdURBXs4fTflWA+66ePpSKHjUCGG/6x7qUzjiSbIA4O+OvCSjRxzJMnSrJH/mVuxDItqBt2AtBnO7XD5zWAoFzm3HaIej3vmt5P7OVfF+IZCyW3EUps5D08OdGAytZQGwmrs72qYRc+2JwiJ6XGC7iwrwYhco73nzMKKui5mTNxnKsnWhCxffRZveNfVf5F2GRd/uG4tSdu5JvGi+MLiG5WSnC8Se5gOPuh8pKDcPcIh4=");
+        disguise.toggleCustomSoundEffects();
+        entity.getEquipment().setItemInMainHand(new ItemStack(Material.BONE));
         entity.setRemoveWhenFarAway(false);
-        entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BOW));
-        entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
-        entity.getEquipment().setHelmet(new ItemBuilder(Material.LEATHER_HELMET).setLeatherColor(Color.fromBGR(0xe1eb34)).build());
-        entity.getEquipment().setChestplate(new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherColor(Color.fromBGR(0xe1eb34)).build());
-        entity.getEquipment().setLeggings(new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherColor(Color.fromBGR(0xe1eb34)).build());
-        entity.getEquipment().setBoots(new ItemBuilder(Material.LEATHER_BOOTS).setLeatherColor(Color.fromBGR(0xe1eb34)).build());
         SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
     @Override
     public String getName() {
-        return "Skeleton Grunt";
+        return "Skeletor";
     }
 
     @Override
@@ -63,7 +54,7 @@ public class SkeletonGrunt extends DungeonSkeleton {
 
     @Override
     public boolean hasNoKB() {
-        return true;
+        return false;
     }
 
     @Override
@@ -73,22 +64,18 @@ public class SkeletonGrunt extends DungeonSkeleton {
 
     @Override
     protected int healthFromFloor(int floor, boolean master) {
-            return switch (floor) {
-                case 0 -> 18_000;
-                case 1 -> (master) ? 1_300_000 : 26_000;
-                case 2 -> (master) ? 2_400_000 : 39_000;
-                case 3 -> (master) ? 6_000_000 : 62_000;
-                default -> throw new IllegalStateException("Unexpected value: " + floor);
-            };
+        return switch (floor) {
+            case 6 -> (master) ? 17_373_736 : 1_515_151;
+            case 7 -> (master) ? 20_606_060 : 3_131_313;
+            default -> throw new IllegalStateException("Unexpected value: " + floor);
+        };
     }
 
     @Override
     protected int damageFromFloor(int floor, boolean master) {
         return switch (floor) {
-            case 0 -> 360;
-            case 1 -> (master) ? 16_000 : 544;
-            case 2 -> (master) ? 27_000 : 840;
-            case 3 -> (master) ? 60_000 : 1_600;
+            case 6 -> (master) ? 176_000 : 9_600;
+            case 7 -> (master) ? 192_000 : 20_000;
             default -> throw new IllegalStateException("Unexpected value: " + floor);
         };
     }
@@ -104,8 +91,8 @@ public class SkeletonGrunt extends DungeonSkeleton {
             super(EntityTypes.aB, ((CraftWorld) location.getWorld()).getHandle());
             setAggressive(true);
             setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
-            ReflectionUtils.setField("c", ReflectionUtils.getField("b", this), 10);
         }
+
         @Override
         public boolean setGoalTarget(EntityLiving entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
             if (entityliving instanceof EntityPlayer pl && SkyblockPlayer.getSkyblockPlayer(pl.getBukkitEntity()) != null)

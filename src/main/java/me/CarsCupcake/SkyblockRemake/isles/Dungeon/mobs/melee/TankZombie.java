@@ -1,30 +1,24 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.monster.EntitySkeleton;
 import net.minecraft.world.entity.monster.EntityZombie;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.WitherSkull;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -107,12 +101,6 @@ public class TankZombie extends DungeonMob {
             case 3 -> 2300;
             default -> throw new IllegalStateException("Unexpected value: " + floor);
         };
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
     }
 
     private static class SBEntity extends EntityZombie {

@@ -155,12 +155,6 @@ public class CryptDreadlord extends DungeonMob {
         return 0;
     }
 
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
-    }
-
     private static class SBEntity extends EntitySkeleton {
 
         public SBEntity(Location location) {

@@ -1,12 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonSkeleton;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
@@ -24,7 +22,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class SkeletonLord extends DungeonMob {
+public class SkeletonLord extends DungeonSkeleton {
     private LivingEntity entity;
 
     public SkeletonLord(int floor, boolean master) {
@@ -85,12 +83,6 @@ public class SkeletonLord extends DungeonMob {
     @Override
     protected double defenseFromFloor(int floor, boolean master) {
         return 0;
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
     }
 
     private static class SBEntity extends EntitySkeleton {

@@ -1,36 +1,25 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.SinusMovement;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.EntityZombie;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.EulerAngle;
 
 import java.util.HashMap;
 
 public class ZombieKnight extends DungeonMob {
-    private boolean hasBone = true;
     private LivingEntity entity;
 
     public ZombieKnight(int floor, boolean master) {
@@ -110,12 +99,6 @@ public class ZombieKnight extends DungeonMob {
     @Override
     protected double defenseFromFloor(int floor, boolean master) {
         return 0;
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
     }
 
     private static class SBEntity extends EntityZombie {

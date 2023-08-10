@@ -1,19 +1,15 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
 
-import com.mojang.authlib.properties.Property;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.Fel;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.special.Fel;
 import me.CarsCupcake.SkyblockRemake.utils.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Zombie;
 import org.jetbrains.annotations.NotNull;
 
 

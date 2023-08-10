@@ -1,17 +1,25 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.Secret;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.MiniBoss;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.Fel;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.special.Fel;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+
+import static me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonSkeleton.skeletorSkulls;
 
 public record Dungeon(int floor, boolean mastermode) {
+    public static final Set<SkyblockEntity> mobs = new HashSet<>();
+    public static boolean clearing = false;
     public static Dungeon INSTANCE;
 
     public Dungeon(int floor, boolean mastermode) {
@@ -53,5 +61,13 @@ public record Dungeon(int floor, boolean mastermode) {
         for (T a : t)
             if (a.hashCode() == obj.hashCode() && a.equals(obj)) return true;
         return false;
+    }
+    public void clear() {
+        clearing = true;
+        for (SkyblockEntity mob : mobs)
+            SkyblockEntity.killEntity(mob, null);
+        mobs.clear();
+        skeletorSkulls.forEach(Entity::remove);
+        skeletorSkulls.clear();
     }
 }

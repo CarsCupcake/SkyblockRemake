@@ -3,16 +3,12 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
-import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
-import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonSkeleton;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.PathfinderGoalAvoidTarget;
 import net.minecraft.world.entity.monster.EntitySkeleton;
-import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -25,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class ScaredSkeleton extends DungeonMob {
+public class ScaredSkeleton extends DungeonSkeleton {
     private LivingEntity entity;
 
     public ScaredSkeleton(int floor, boolean master) {
@@ -92,12 +88,6 @@ public class ScaredSkeleton extends DungeonMob {
     @Override
     protected double defenseFromFloor(int floor, boolean master) {
         return 0;
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
     }
 
     private static class SBEntity extends EntitySkeleton {

@@ -6,9 +6,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.EntityAtributes;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonSkeleton;
 import me.CarsCupcake.SkyblockRemake.utils.Pair;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
@@ -33,7 +32,7 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 @EntityAtributes.MagicResistance(multiplier = 0.2)
-public class Withermancer extends DungeonMob {
+public class Withermancer extends DungeonSkeleton {
     private LivingEntity entity;
 
     public Withermancer(int floor, boolean master) {
@@ -200,12 +199,6 @@ public class Withermancer extends DungeonMob {
     @Override
     protected double defenseFromFloor(int floor, boolean master) {
         return 0;
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
-        super.updateNameTag();
     }
 
     private static class SBEntity extends EntitySkeletonWither {

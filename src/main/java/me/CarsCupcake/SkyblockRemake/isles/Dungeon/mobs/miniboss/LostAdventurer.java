@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers;
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -66,7 +66,6 @@ public abstract class LostAdventurer extends DungeonMob {
                     player.setVelocity(dir);
                     c.entityToPlayerDamage(LostAdventurer.this, player, new Bundle<>(getDamage() * 2, 0));
                     player.sendMessage(name.replace("%d%", "" + (getDamage() * 2)));
-                    onDamage(player);
                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_ENDER_DRAGON_AMBIENT, 1, 1);
                     c.damagePlayer(player);
                     c.showDamageTag(player);
@@ -89,9 +88,6 @@ public abstract class LostAdventurer extends DungeonMob {
 
             }
         }
-    }
-
-    public void onDamage(SkyblockPlayer player) {
     }
 
     public LostAdventurer(int floor, boolean master) {

@@ -2,44 +2,45 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon;
 
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.ZombieKnight;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.AngryArcheologist;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.FrozenAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.FrozenAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.*;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.CryptLurker;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.TankZombie;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.ZombieLord;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.HolyAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.SuperiorAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.UnstableAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.YoungAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.HolyAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.SuperiorAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.UnstableAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.YoungAdventurer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged.*;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 
 public class DungeonEnemys {
     public static final DungeonEnemys FLOOR0 = new DungeonEnemys(new Class[]{TankZombie.class, CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class},
+            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class});
     public static final DungeonEnemys FLOOR1 = new DungeonEnemys(new Class[]{TankZombie.class, CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class},
+            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class});
     public static final DungeonEnemys FLOOR2 = new DungeonEnemys(new Class[]{TankZombie.class, CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class},
+            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, ScaredSkeleton.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class});
-    public static final DungeonEnemys FLOOR3 = new DungeonEnemys(new Class[]{TankZombie.class, CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class},
+    public static final DungeonEnemys FLOOR3 = new DungeonEnemys(new Class[]{TankZombie.class, CryptLurker.class, ZombieKnight.class},
+            new Class[]{SkeletonSoldier.class, SkeletonGrunt.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class});
-    public static final DungeonEnemys FLOOR4 = new DungeonEnemys(new Class[]{CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, Withermancer.class},
+    public static final DungeonEnemys FLOOR4 = new DungeonEnemys(new Class[]{CryptLurker.class, ZombieKnight.class},
+            new Class[]{SkeletonSoldier.class, Withermancer.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class, FrozenAdventurer.class});
-    public static final DungeonEnemys FLOOR5 = new DungeonEnemys(new Class[]{CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, Withermancer.class},
+    public static final DungeonEnemys FLOOR5 = new DungeonEnemys(new Class[]{CryptLurker.class, ZombieKnight.class},
+            new Class[]{SkeletonSoldier.class, Withermancer.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class, FrozenAdventurer.class});
-    public static final DungeonEnemys FLOOR6 = new DungeonEnemys(new Class[]{CryptLurker.class},
-            new Class[]{SkeletonSoldier.class, Withermancer.class},
+    public static final DungeonEnemys FLOOR6 = new DungeonEnemys(new Class[]{CryptLurker.class, ZombieKnight.class},
+            new Class[]{SkeletonSoldier.class, Withermancer.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class, FrozenAdventurer.class});
-    public static final DungeonEnemys FLOOR7 = new DungeonEnemys(new Class[]{ZombieLord.class, CryptLurker.class},
-            new Class[]{SkeletonLord.class, SkeletonSoldier.class, Withermancer.class},
+    public static final DungeonEnemys FLOOR7 = new DungeonEnemys(new Class[]{ZombieLord.class, CryptLurker.class, ZombieLord.class, ZombieKnight.class},
+            new Class[]{SkeletonLord.class, SkeletonSoldier.class, Withermancer.class, SoulEater.class},
             new Class[]{HolyAdventurer.class, SuperiorAdventurer.class, UnstableAdventurer.class, SuperiorAdventurer.class, YoungAdventurer.class, AngryArcheologist.class, FrozenAdventurer.class});
     private final Class<? extends DungeonMob>[] melee;
     private final Class<? extends DungeonMob>[] archer;
