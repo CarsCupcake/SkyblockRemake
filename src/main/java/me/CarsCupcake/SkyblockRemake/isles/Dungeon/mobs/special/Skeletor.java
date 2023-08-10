@@ -39,6 +39,7 @@ public class Skeletor extends DungeonSkeleton {
         entity.getEquipment().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
         entity.getEquipment().setLeggings(new ItemStack(Material.CHAINMAIL_LEGGINGS));
         entity.getEquipment().setBoots(new ItemStack(Material.CHAINMAIL_BOOTS));
+        entity.setAI(true);
         entity.setRemoveWhenFarAway(false);
         SkyblockEntity.livingEntity.addEntity(entity, this);
     }

@@ -9,6 +9,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -24,7 +25,7 @@ public abstract class DungeonSkeleton extends DungeonMob{
     @Override
     public void kill() {
         super.kill();
-        ArmorStand stand = getEntity().getWorld().spawn(getEntity().getLocation().subtract(0, 1.225, 0), ArmorStand.class, s -> {
+        ArmorStand stand = getEntity().getWorld().spawn(getEntity().getLocation().subtract(0, 1.325, 0), ArmorStand.class, s -> {
             s.setGravity(false);
             s.setCollidable(false);
             s.setInvisible(true);
@@ -41,7 +42,9 @@ public abstract class DungeonSkeleton extends DungeonMob{
         }
         if(stands.size() == 2) {
             ArmorStand stand2 = stands.get(0);
+            skeletorSkulls.remove(stand2);
             ArmorStand stand3 = stands.get(1);
+            skeletorSkulls.remove(stand3);
             Location middle = getTriangleCenter(stand.getEyeLocation(), stand2.getEyeLocation(), stand3.getEyeLocation());
             List<ArmorStand> bones = new ArrayList<>();
             List<Integer> yaws = new ArrayList<>();
@@ -49,7 +52,7 @@ public abstract class DungeonSkeleton extends DungeonMob{
             yaws.add(120);
             yaws.add(240);
             for (int i : yaws) {
-                Vector v = new Vector(1, 0.5, 0).rotateAroundY(Math.toRadians(i));
+                Vector v = new Vector(1.2, -0.25, 0).rotateAroundY(Math.toRadians(i));
                 bones.add(middle.getWorld().spawn(middle.clone().add(v), ArmorStand.class,s -> {
                     s.setInvisible(true);
                     s.setBasePlate(false);
@@ -66,7 +69,7 @@ public abstract class DungeonSkeleton extends DungeonMob{
                         cancel();
                         return;
                     }
-                    distance -= 0.05;
+                    distance -= 0.015;
                     if(distance <= 0) {
                         cancel();
                         switch (Dungeon.INSTANCE.floor()) {
@@ -79,10 +82,12 @@ public abstract class DungeonSkeleton extends DungeonMob{
                     }
                     int i = 0;
                     for (int yaw : new ArrayList<>(yaws)) {
-                        yaw += 10;
+                        yaw += 25;
                         yaws.set(i, yaw);
                         ArmorStand stand = bones.get(i);
-                        stand.teleport(stand.getLocation().add(new Vector(distance, 0.075, 0).rotateAroundY(Math.toRadians(yaw))));
+                        Location newLoc = middle.clone().add(new Vector(distance, (stand.getLocation().getY() - middle.getY()) + 0.015, 0).rotateAroundY(Math.toRadians(yaw)));
+                        newLoc.setYaw(-yaw);
+                        stand.teleport(newLoc);
                         i++;
                     }
                 }
@@ -93,6 +98,7 @@ public abstract class DungeonSkeleton extends DungeonMob{
                     if(!stand.isDead()) stand.remove();
                     if(!stand2.isDead()) stand2.remove();
                     if(!stand3.isDead()) stand3.remove();
+                    bones.forEach(Entity::remove);
                 }
             }.runTaskTimer(Main.getMain(), 0, 1);
         } else skeletorSkulls.add(stand);

@@ -44,8 +44,10 @@ public record Dungeon(int floor, boolean mastermode) {
                     : ReflectionUtils.accessibleConstructor(mobType, Integer.TYPE, Boolean.TYPE).newInstance(floor, mastermode));
             if (contains(attributes, MobAttributes.Star)) mob.setStared(room);
             mob.spawn(location);
-            mob.getEntity().setAI(false);
-            room.registerDiscoverEvent(() -> mob.getEntity().setAI(true));
+            if (room != null) {
+                mob.getEntity().setAI(false);
+                room.registerDiscoverEvent(() -> mob.getEntity().setAI(true));
+            }
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
@@ -62,6 +64,7 @@ public record Dungeon(int floor, boolean mastermode) {
             if (a.hashCode() == obj.hashCode() && a.equals(obj)) return true;
         return false;
     }
+
     public void clear() {
         clearing = true;
         for (SkyblockEntity mob : mobs)

@@ -39,6 +39,7 @@ public class SkeletorPrime extends DungeonSkeleton {
         disguise.toggleCustomSoundEffects();
         entity.getEquipment().setItemInMainHand(new ItemStack(Material.BONE));
         entity.setRemoveWhenFarAway(false);
+        entity.setAI(true);
         SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
