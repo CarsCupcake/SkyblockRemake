@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Dungeon;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Rooms.lShaped.r.Melon7;
@@ -12,6 +14,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +24,7 @@ import java.util.List;
 public class RoomCMD implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if(Dungeon.INSTANCE == null) new Dungeon(7, true);
         int rotation = 0;
         if (strings.length >= 1) rotation = Integer.parseInt(strings[0]);
         long before = System.currentTimeMillis();
@@ -35,6 +39,12 @@ public class RoomCMD implements CommandExecutor, TabCompleter {
         }
         else room = new Andeside2();
         room.place(new Location2d(0, 0), rotation);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                room.discover();
+            }
+        }.runTask(Main.getMain());
         commandSender.sendMessage("§aThis operation took " + (System.currentTimeMillis() - before) + "ms");
         return false;
     }

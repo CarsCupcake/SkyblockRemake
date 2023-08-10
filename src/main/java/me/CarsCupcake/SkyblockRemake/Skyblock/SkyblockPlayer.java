@@ -254,7 +254,12 @@ public class SkyblockPlayer extends CraftPlayer {
                     for (String k : inventory.get().getKeys(false)) {
                         int i = Integer.parseInt(k);
                         ItemStack item = inventory.get().getItemStack(k);
-                        super.getInventory().setItem(i, item);
+                        new BukkitRunnable(){
+                            public void run(){
+                                Main.item_updater(item, SkyblockPlayer.this);
+                                player.getInventory().setItem(i, item);
+                            }
+                        }.runTask(Main.getMain());
                     }
                 }
             } catch (Exception e) {
@@ -613,31 +618,35 @@ public class SkyblockPlayer extends CraftPlayer {
 
 
     private void initCommission() {
-        MiningSystem.reload();
-        if (!(MiningSystem.get().contains(super.getUniqueId().toString()))) {
-            MiningSystem.get().set(getUniqueId() + ".commissions.slots", 2);
-            MiningSystem.get().set(getUniqueId() + ".commissions.COM_0.type", Commission.generateNewConsistentCommision().getComm().toString());
-            MiningSystem.get().set(getUniqueId() + ".commissions.COM_0.progress", 0);
-
-            MiningSystem.get().set(getUniqueId() + ".commissions.COM_1.type", Commission.generateNewSituationCommision().getComm().toString());
-            MiningSystem.get().set(getUniqueId() + ".commissions.COM_1.progress", 0);
-            MiningSystem.save();
+        try {
             MiningSystem.reload();
-        }
+            if (!(MiningSystem.get().contains(super.getUniqueId().toString()))) {
+                MiningSystem.get().set(getUniqueId() + ".commissions.slots", 2);
+                MiningSystem.get().set(getUniqueId() + ".commissions.COM_0.type", Commission.generateNewConsistentCommision().getComm().toString());
+                MiningSystem.get().set(getUniqueId() + ".commissions.COM_0.progress", 0);
 
-        if (!(MiningSystem.get().contains(super.getUniqueId().toString() + ".comissions.completet"))) {
-            MiningSystem.get().set(getUniqueId() + ".commissions.completet", 0);
-            MiningSystem.save();
-            MiningSystem.reload();
-        }
+                MiningSystem.get().set(getUniqueId() + ".commissions.COM_1.type", Commission.generateNewSituationCommision().getComm().toString());
+                MiningSystem.get().set(getUniqueId() + ".commissions.COM_1.progress", 0);
+                MiningSystem.save();
+                MiningSystem.reload();
+            }
 
-        int slots = MiningSystem.get().getInt(getUniqueId() + ".commissions.slots");
-        commissionsSlots = slots;
-        for (int i = 0; i < slots; i++) {
-            Commission com = new Commission(DwarvenCommissions.valueOf(MiningSystem.get().getString(getUniqueId() + ".commissions.COM_" + i + ".type")));
-            com.setScore(MiningSystem.get().getInt(getUniqueId() + ".commissions.COM_" + i + ".progress"));
-            Comms.add(com);
+            if (!(MiningSystem.get().contains(super.getUniqueId().toString() + ".comissions.completet"))) {
+                MiningSystem.get().set(getUniqueId() + ".commissions.completet", 0);
+                MiningSystem.save();
+                MiningSystem.reload();
+            }
 
+            int slots = MiningSystem.get().getInt(getUniqueId() + ".commissions.slots");
+            commissionsSlots = slots;
+            for (int i = 0; i < slots; i++) {
+                Commission com = new Commission(DwarvenCommissions.valueOf(MiningSystem.get().getString(getUniqueId() + ".commissions.COM_" + i + ".type")));
+                com.setScore(MiningSystem.get().getInt(getUniqueId() + ".commissions.COM_" + i + ".progress"));
+                Comms.add(com);
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

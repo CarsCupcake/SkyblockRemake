@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss;
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -19,57 +19,52 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-public class AngryArcheologist extends DungeonMob {
+public class ShadowAssassin extends DungeonMob {
     private LivingEntity entity;
     private SBEntity craftEntity;
-    private final ItemBuilder theSword = new ItemBuilder(Material.DIAMOND_SWORD).setGlint(true);
-    private double tenPers;
-    private boolean heal = false;
-    private boolean healDone = false;
     private BukkitRunnable cooldown;
     private final BukkitRunnable r = new BukkitRunnable() {
-        int shootColdown = 0;
-        int shots = 0;
+        int teleportCooldown = 0;
 
         @Override
         public void run() {
-            if (heal) return;
-            if (craftEntity.getGoalTarget() != null && Bukkit.getEntity(craftEntity.getGoalTarget().getUniqueID()) != null && getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 5.5) {
-                if (shootColdown != 0) shootColdown--;
-                if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
-                    entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
-            } else {
-                if (shootColdown != 0) shootColdown--;
-                if (shootColdown > 0 && entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).getBaseValue() != 0)
-                    return;
-                if (shots >= 40) {
-                    if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.DIAMOND_SWORD)
-                        entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
-                    shootColdown = 40;
-                    shots = 0;
-                    return;
-                } else shots++;
-                if (entity.getEquipment().getItem(EquipmentSlot.HAND).getType() != Material.BOW)
-                    entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemStack(Material.BOW));
+            if (!(craftEntity.getGoalTarget() != null && Bukkit.getEntity(craftEntity.getGoalTarget().getUniqueID()) != null && getLocation(craftEntity.getGoalTarget()).distance(entity.getLocation()) < 1))  {
+                if (teleportCooldown >= 40) {
+                    double nX;
+                    double nZ;
+                    float nang = craftEntity.getGoalTarget().getYRot() + 90;
+                    if(nang < 0) nang += 360;
+                    nX = Math.cos(Math.toRadians(nang));
+                    nZ = Math.sin(Math.toRadians(nang));
 
-            }
+                    Location shadowStep = new Location(
+                            craftEntity.getGoalTarget().getBukkitEntity().getWorld(),
+                            craftEntity.getGoalTarget().getBukkitEntity().getLocation().getX() - nX,
+                            craftEntity.getGoalTarget().getBukkitEntity().getLocation().getY(),
+                            craftEntity.getGoalTarget().getBukkitEntity().getLocation().getZ() - nZ,
+                            craftEntity.getGoalTarget().getBukkitEntity().getLocation().getYaw(),
+                            craftEntity.getGoalTarget().getBukkitEntity().getLocation().getPitch()
+                    );
+
+                    craftEntity.getBukkitEntity().teleport(shadowStep);
+
+                    teleportCooldown = 0;
+                    return;
+                } else teleportCooldown++;
+            } teleportCooldown++;
         }
     };
 
-    public AngryArcheologist(int floor, boolean master) {
+    public ShadowAssassin(int floor, boolean master) {
         super(floor, master);
-        tenPers = getMaxHealth() * 0.1;
     }
 
     @Override
@@ -79,18 +74,14 @@ public class AngryArcheologist extends DungeonMob {
 
     @Override
     public void spawn(Location loc) {
-        craftEntity = new AngryArcheologist.SBEntity(loc);
+        craftEntity = new ShadowAssassin.SBEntity(loc);
         ((CraftWorld) loc.getWorld()).getHandle().addEntity(craftEntity, CreatureSpawnEvent.SpawnReason.CUSTOM);
         entity = (LivingEntity) craftEntity.getBukkitEntity();
         entity.setAI(true);
         entity.setRemoveWhenFarAway(false);
-        entity.getEquipment().setItem(EquipmentSlot.HEAD, new ItemBuilder(Material.DIAMOND_HELMET).setGlint(true).build());
-        entity.getEquipment().setItem(EquipmentSlot.CHEST, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setGlint(true).build());
-        entity.getEquipment().setItem(EquipmentSlot.LEGS, new ItemBuilder(Material.DIAMOND_LEGGINGS).setGlint(true).build());
-        entity.getEquipment().setItem(EquipmentSlot.FEET, new ItemBuilder(Material.DIAMOND_BOOTS).setGlint(true).build());
-        entity.getEquipment().setItem(EquipmentSlot.HAND, theSword.build());
+        entity.getEquipment().setItem(EquipmentSlot.HAND, new ItemBuilder(Material.IRON_SWORD).build());
         entity.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
-        DiguestMobsManager.createEntity(entity, "ewogICJ0aW1lc3RhbXAiIDogMTYxMjAzMDY5NDA5OSwKICAicHJvZmlsZUlkIiA6ICJmNWQwYjFhZTQxNmU0YTE5ODEyMTRmZGQzMWU3MzA1YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDYXRjaFRoZVdhdmUxMCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jNDhjNzgzNDU4ZTRjZjg1MThlOGFiNTg2M2ZiYzRjYjk0OGY5MDU2OGVlYjlhNjBkMTZjNGZkZTJiOTZjMDMzIgogICAgfQogIH0KfQ==", "h0EcebQKYgqarHvlkbkkkRN798ir/crHJD4PUtLWNgohxOCk0WbtPu5YxQpmCL75Y6I2Y0vVQvic7x2r4vfMUu5z0O5dfjUXwpXQ6zWYdmHIbeg796EqUsdr1VJlPHMY/PVYle+NoYflwssIXYqLOWqswaBB4cz6qfyinujYoU6wVhGbONns7h/mpCM1r+gyua0hP9g+kjgslGebpDtkQRtv/kZpJ5+19cM5KT12KmjBGlTwsmiP+RfEINt5oGv2p12wqwv0CC5TFqB+/SM1yjYcEdWXQfzmsnC9nzIfgEHpNquKiX2pcGfVPvKgjkkLkO23nnQ0e2KOfIhLKHlyHcESd/lwGP9Ea/i+JVtZMEMUmuU3lQU+ywDMCQiGNEnB9MFlDdA6LBc2mwZKYShyQNgEveXxV2V1j8dt5ctKe7ANBMrCKXRjIO0TcHv2q/PJ9GwEuSfRNwdZp88gkbb79VV+7R4nkzAzEmNpRUxpB4P0qYDpMNCaC+NYEjHrzUr3hiD3tyHQzWHqvOJYYkor5kxGBoE19lZNxfVOEv9K6dIiSAPAtyYbRc9PVL9DUwlshfQO+kYwymSfZqVqW8CUafIA2NtIpIshsuOigqPMYIJv/p1HfGZVSGZ2B1Zmb/DQ9QoTLPqv+ExZ/zMMAqLQB+aB1DL5qfMABNOYhyfSQ2c=");
+        DiguestMobsManager.createEntity(entity, "ewogICJ0aW1lc3RhbXAiIDogMTU4OTEzNzY1ODgxOSwKICAicHJvZmlsZUlkIiA6ICJlM2I0NDVjODQ3ZjU0OGZiOGM4ZmEzZjFmN2VmYmE4ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJNaW5pRGlnZ2VyVGVzdCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zMzk5ZTAwZjQwNDQxMWU0NjVkNzQzODhkZjEzMmQ1MWZlODY4ZWNmODZmMWMwNzNmYWZmYTFkOTE3MmVjMGYzIgogICAgfQogIH0KfQ==", "Zc+egPfvdkkutM0qR13oIUCXYuLIRkXGLuKutWxSUbW4H7jujEIQD+aKW+Yy9JekTbaqehvp+OArXMkjRs9h8o0ZGAJY/xlXF3OVzfBA7hIvrtx7cSaIRIr5pfjcBCUe0m1l8shByayaCtu/q11QZzZCX1+ZHKgghG9W95EnkmyAESHNjIXFBCMxPCElGfjEIsKwdt48NIlDiCmx3pUSCr3AnL8FvHrG4CMNZK+hhMStOV8nLq7l6MppsUUmRWkL0DVDTEh9BHzAWw3pBOvwP3r9Ax/5amBDrB1sN8vSa/bfuMxlxH11UGt3kb04SOuxYuMCCSCzKq0xSzlP5H5HfW3wSSk9T2zcpyEZgsIud28FZzBjcdgB+Umq0Cp7IybAi6xFbjC8zNgh+y24sNv6F4XJzv8v5eB1AwUZXStDrqrIpTb1XHIJurRNBbyXh3q8XuR2ECmpZAwupKtxWDo5og6IbigQEjKFjMrmvgnUd1dukcdro+w/p2IgmGHVXoR6jtN1YNnpldILDJiql8R097Nco3wU0crU5M1qfqkHHEvOOrf7iOZRF+psNaiJSZuBNmmTdS+13Q+nNwoTfGERFb8Em3YxKFs5j9l4a7HxbW2YvH93sGHCxuPgd9bXJ9KPh6Yp9Uch1cDB/uF4FfOwN7WMQ8ON7IhAHAegjLththc=");
         SkyblockEntity.livingEntity.addEntity(entity, this);
         updateNameTag();
         r.runTaskTimer(Main.getMain(), 5, 5);
@@ -98,7 +89,7 @@ public class AngryArcheologist extends DungeonMob {
 
     @Override
     public String getName() {
-        return "Angry Archeologist";
+        return "Shadow Assassin";
     }
 
     @Override
@@ -118,54 +109,6 @@ public class AngryArcheologist extends DungeonMob {
         } catch (Exception ignored) {
         }
         super.kill();
-    }
-
-    @Override
-    public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
-        if (!healDone && !heal && health <= tenPers) {
-            heal = true;
-            entity.setAI(false);
-            Location l = entity.getLocation();
-            l.setPitch(90);
-            entity.teleport(l);
-            new BukkitRunnable() {
-                int times;
-
-                @Override
-                public void run() {
-                    if (entity == null || entity.isDead()) {
-                        cancel();
-                        return;
-                    }
-                    times++;
-
-                    entity.getWorld().spawn(entity.getLocation(), ThrownPotion.class, splashPotion -> {
-                        ItemStack item = new ItemStack(Material.SPLASH_POTION);
-                        PotionMeta meta = (PotionMeta) item.getItemMeta();
-                        meta.setColor(Color.RED);
-                        item.setItemMeta(meta);
-                        splashPotion.setItem(item);
-                    });
-                    health += tenPers * 2;
-                    entity.getWorld().spawnParticle(Particle.HEART, entity.getLocation().clone().add(0, entity.getEyeHeight() / 2, 0), 10,0.6, entity.getEyeHeight() / 2, 0.6);
-                    if (times == 3) {
-                        tenPers -= tenPers * 0.1;
-                        cancel();
-                        entity.setAI(true);
-                        healDone = true;
-                        heal = false;
-                        cooldown = new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                healDone = false;
-                            }
-                        };
-                        cooldown.runTaskLater(Main.getMain(), 200);
-                    }
-                }
-            }.runTaskTimer(Main.getMain(), 5, 10);
-        }
     }
 
     @Override

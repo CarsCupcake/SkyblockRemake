@@ -22,31 +22,47 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Set;
 
-public interface IRoom {
-    String fileLocation();
+public abstract class IRoom {
+    private int star = 0;
+    private final Set<Runnable> discoverEvent = new HashSet<>();
 
-    void init(int rotation, Location2d base);
+    public abstract String fileLocation();
 
-    Set<Location2d> getNextLocations(Location2d base, int rotation);
+    public abstract void init(int rotation, Location2d base);
 
-    default Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
-        Vector OA = new Vector(relative.getX() + locationOfCorner.getMapX(), relative.getY(), relative.getZ() + locationOfCorner.getMapY());
-        Vector OB = rotationCorner(Generator.to3d(locationOfCorner), rotation).toVector();
-        System.out.println(OB);
-        Vector BA = OA.subtract(OB);
-        System.out.println(BA);
-        BA = BA.rotateAroundY(rotation * 90);
-        System.out.println(BA);
-        System.out.println(OA.subtract(OB).rotateAroundY(rotation * -90));
-        return Generator.to3d(locationOfCorner).add(BA);
+    public abstract Set<Location2d> getNextLocations(Location2d base, int rotation);
+
+    public Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
+        Vector v = relative.toVector();
+        v.rotateAroundY(Math.toRadians(rotation * 90));
+        Location l = locationOfCorner.asLocation(relative.getWorld(), 0).add(v);
+        return l;
     }
 
-    default void place(Location2d location2d, int rotation) {
+    public void discover() {
+        for (Runnable r : discoverEvent) r.run();
+    }
+
+    public synchronized void registerDiscoverEvent(Runnable runnable) {
+        discoverEvent.add(runnable);
+    }
+
+    protected void onClear() {
+        Bukkit.broadcastMessage("Cleared!");
+    }
+
+    public void addStar() {
+        star++;
+    }
+
+
+    public void place(Location2d location2d, int rotation) {
         rotation = makeRotation(rotation);
-        if(rotation == 1) rotation = 3;
-        else if(rotation == 3) rotation = 1;
+        if (rotation == 1) rotation = 3;
+        else if (rotation == 3) rotation = 1;
         Location base = rotationCorner(Generator.to3d(location2d), rotation);
         InputStream stream = Main.getMain().getResource(fileLocation());
         try {
@@ -61,30 +77,31 @@ public interface IRoom {
             editSession.close();
         } catch (Exception e) {
             Bukkit.broadcastMessage("§c A schematic failed to load");
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         } finally {
             try {
                 stream.close();
             } catch (Exception e) {
-                if (!(e instanceof JsonSyntaxException || e instanceof MalformedJsonException)) e.printStackTrace();
+                if (!(e instanceof JsonSyntaxException || e instanceof MalformedJsonException))
+                    e.printStackTrace(System.out);
             }
         }
         final int finalRotation = rotation;
         new BukkitRunnable() {
             @Override
-            public void run () {
-            init(finalRotation, location2d);
-        }
+            public void run() {
+                init(finalRotation, new Location2d(base.getBlockX(), base.getBlockZ()));
+            }
         }.runTask(Main.getMain());
 
-        //WIP: Will be changet TODO
+        //WIP: May be changet
         // 0 = 0°
         // 1 = 90°
         // 2 = 180°
         // 3 = -90° / 270°
     }
 
-    default Location rotationCorner(Location l, int rotation) {
+    public Location rotationCorner(Location l, int rotation) {
         return switch (rotation) {
             case 1 -> new Location(l.getWorld(), l.getX(), l.getY(), l.getZ() + 30);
             case 2 -> new Location(l.getWorld(), l.getX() + 30, l.getY(), l.getZ() + 30);
@@ -93,11 +110,11 @@ public interface IRoom {
         };
     }
 
-    default int baseRotation() {
+    public int baseRotation() {
         return 4;
     }
 
-    default int makeRotation(int r) {
+    public int makeRotation(int r) {
         int i = baseRotation() - r;
         if (i < 0) i += 4;
         if (i > 3) i -= 4;
@@ -105,9 +122,10 @@ public interface IRoom {
         return i;
     }
 
-    default void killStarMob(DungeonMob mob){
-
+    public void killStarMob(DungeonMob mob) {
+        star--;
+        if (star == 0) onClear();
     }
 
-    String getId();
+    public abstract String getId();
 }

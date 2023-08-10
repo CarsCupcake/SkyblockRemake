@@ -93,8 +93,6 @@ public class Dominus implements FullSetBonus {
         Main.updatebar(player);
 
         if (stacks < 10) stacks += 1;
-        if (stacks == 10) dominusStrike(event.getEntity().getLocation(), event.getEntity());
-
     }
 
 
@@ -120,7 +118,6 @@ public class Dominus implements FullSetBonus {
         between.normalize().multiply(0.4); //normalize our vector and specify the spacing
         double steps = length / 0.4; //determine number of steps
         ArrayList<Entity> alrHitEntitys = new ArrayList<>();
-        alrHitEntitys.add(killedEntity);
         for (int i = 0; i < steps; i++) { //iterate up to but not beyond point b
             Vector point = a.add(between);
 
@@ -129,6 +126,7 @@ public class Dominus implements FullSetBonus {
 
 
             for (Entity entity : player.getWorld().getNearbyEntities(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(i)), 1, 1, 1)) {
+                if(entity.isDead()) continue;
                 if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && entity != player && !alrHitEntitys.contains(entity) && !(entity instanceof Player)) {
                     e.damage(0.0000001);
                     double stre = Main.getPlayerStat(player, Stats.Strength);

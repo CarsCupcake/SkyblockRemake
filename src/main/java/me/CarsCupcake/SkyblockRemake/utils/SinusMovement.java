@@ -7,11 +7,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 /**
- * is used to make an entitys y move like a sin funktion
- *
- * @param strech
+ * is used to make an entitys y move like a sin function
  */
 public record SinusMovement(double strech, double maxHeight, double add) {
+    public void move(Entity e, int ticks, int staringTick, Location start, Location finish, Runnable tick) {
+        move(e, null, ticks, staringTick, start, finish, tick);
+    }
+    public void move(Entity e, int ticks, int staringTick, Location start, Location finish) {
+        move(e, null, ticks, staringTick, start, finish, null);
+    }
     public void move(Entity e, Runnable runnable, int ticks, int staringTick, Location start, Location finish) {
         move(e, runnable, ticks, staringTick, start, finish, null);
     }
@@ -22,6 +26,10 @@ public record SinusMovement(double strech, double maxHeight, double add) {
             final Vector dir = finish.toVector().subtract(start.toVector()).normalize().multiply(start.distance(finish)/(ticks - staringTick));
             @Override
             public void run() {
+                if(e.isDead()) {
+                    cancel();
+                    return;
+                }
                 i++;
                 if(ticks < i) cancel();
                 Location l = e.getLocation();

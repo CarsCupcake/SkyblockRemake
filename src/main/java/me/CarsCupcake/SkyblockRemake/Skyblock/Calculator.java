@@ -52,6 +52,7 @@ public strictfp class Calculator {
     @Getter
     @Setter
     private Element element;
+
     public Calculator() {
     }
 
@@ -86,9 +87,11 @@ public strictfp class Calculator {
     public HashMap<Stats, Double> getIfMissing(HashMap<Stats, Double> stats, SkyblockPlayer player) {
         if (!stats.containsKey(Stats.Strength)) stats.put(Stats.Strength, Main.getPlayerStat(player, Stats.Strength));
 
-        if (!stats.containsKey(Stats.CritChance)) stats.put(Stats.CritChance, Main.getPlayerStat(player, Stats.CritChance));
+        if (!stats.containsKey(Stats.CritChance))
+            stats.put(Stats.CritChance, Main.getPlayerStat(player, Stats.CritChance));
 
-        if (!stats.containsKey(Stats.CritDamage)) stats.put(Stats.CritDamage, Main.getPlayerStat(player, Stats.CritDamage));
+        if (!stats.containsKey(Stats.CritDamage))
+            stats.put(Stats.CritDamage, Main.getPlayerStat(player, Stats.CritDamage));
 
         return stats;
     }
@@ -112,11 +115,20 @@ public strictfp class Calculator {
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, double weapondamage, Bundle<Double, Double> multipliers, boolean fillMissing) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             RiftCalculator c = new RiftCalculator();
             c.damageEntity(SkyblockEntity.livingEntity.getSbEntity(e), RiftPlayer.getRiftPlayer(player));
             c.execute();
             return 0;
+        }
+        if (SkyblockEntity.livingEntity.exists(e)) {
+            EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
+            if (atributes != null)
+                for (EntityAtributes.Attributes attributes : atributes.value()) {
+                    if (attributes == EntityAtributes.Attributes.MeleeImunity) return 0;
+                    if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return 0;
+                    if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return 0;
+                }
         }
         this.e = e;
         if (e.getScoreboardTags().contains("npc")) return 0d;
@@ -167,8 +179,8 @@ public strictfp class Calculator {
     }
 
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
-            if(!(entity instanceof RiftEntity rE)) return;
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
+            if (!(entity instanceof RiftEntity rE)) return;
             RiftCalculator c = new RiftCalculator();
             c.damagePlayer(rE, RiftPlayer.getRiftPlayer(player));
             c.execute();
@@ -178,7 +190,7 @@ public strictfp class Calculator {
         double damage = stats.getFirst();
         double health = Main.getPlayerStat(player, Stats.Health);
         double defense = Main.getPlayerStat(player, Stats.Defense);
-        float ehp = (float) health  * (1 + ((float) defense/ 100));
+        float ehp = (float) health * (1 + ((float) defense / 100));
         float effectivedmg = (float) health / ehp;
         int totaldmg = (int) ((int) damage * effectivedmg);
 
@@ -186,7 +198,7 @@ public strictfp class Calculator {
         int truedamage = stats.getLast();
         if (truedamage != 0) {
             float trueehp = (float) health * (1 + ((float) Main.getPlayerStat(player, Stats.TrueDefense) / 100));
-            float effectivetruedmg = (float) health/ trueehp;
+            float effectivetruedmg = (float) health / trueehp;
             totaldmg += (int) (truedamage * effectivetruedmg);
         }
         this.damage = totaldmg;
@@ -197,7 +209,7 @@ public strictfp class Calculator {
     }
 
     public void damagePlayer(SkyblockPlayer player, EntityDamageEvent.DamageCause cause) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
 
@@ -206,7 +218,7 @@ public strictfp class Calculator {
         Bukkit.getPluginManager().callEvent(result);
 
         if (result.isCancelled()) return;
-        if(player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) damage = 0;
+        if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) damage = 0;
         if (damage > 0) player.damage(0.0001);
 
         if (Main.absorbtion.get(player) - damage < 0) {
@@ -220,18 +232,27 @@ public strictfp class Calculator {
     }
 
     public void damageEntity(LivingEntity e, SkyblockPlayer player) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
         damageEntity(e, player, EntityDamageEvent.DamageCause.CUSTOM);
     }
 
     public void damageEntity(LivingEntity e, SkyblockPlayer player, EntityDamageEvent.DamageCause cause) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
         if (Main.entitydead.containsKey(e)) return;
         if (e.getScoreboardTags().contains("npc")) return;
+        if (SkyblockEntity.livingEntity.exists(e)) {
+            EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
+            if (atributes != null)
+                for (EntityAtributes.Attributes attributes : atributes.value()) {
+                    if (attributes == EntityAtributes.Attributes.MeleeImunity) return;
+                    if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return;
+                    if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return;
+                }
+        }
         if (projectile == null) result = new SkyblockDamageEvent(player, e, this, type, cause);
         else result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
         Bukkit.getPluginManager().callEvent(result);
@@ -270,7 +291,7 @@ public strictfp class Calculator {
             if (player != null)
                 e.addScoreboardTag("killer:" + player.getName());
         } else Main.updateentitystats(e);
-        if(player != null){
+        if (player != null) {
             double ferocity = Main.getPlayerStat(player, Stats.Ferocity);
             if (!isMagic && !isFerocity && projectile == null && applyFerocity) if (ferocity > 0) {
                 if (ferocity < 100) {
@@ -310,29 +331,29 @@ public strictfp class Calculator {
 
 
         if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0) || (Main.currentityhealth.containsKey(e) && Main.currentityhealth.get(e) <= 0)) {
-            if(player != null)
-            e.addScoreboardTag("killer:" + player.getName());
+            if (player != null)
+                e.addScoreboardTag("killer:" + player.getName());
             Main.EntityDeath(e);
             e.damage(9999999, player);
             if (e instanceof EnderDragon) e.setHealth(0);
             SkyblockEntity.livingEntity.remove(e);
-            if(player != null)
-            if (projectile != null) {
-                e.addScoreboardTag("arrowkill:" + player.getName());
+            if (player != null)
+                if (projectile != null) {
+                    e.addScoreboardTag("arrowkill:" + player.getName());
 
 
-            }
+                }
             if (isMagic) e.addScoreboardTag("abilitykill");
             Main.updateentitystats(e);
-        }else {
-            if(SkyblockEntity.livingEntity.exists(e) && element != null) {
+        } else {
+            if (SkyblockEntity.livingEntity.exists(e) && element != null) {
                 Elementable.addElement(SkyblockEntity.livingEntity.getSbEntity(e), element);
             }
         }
     }
 
     public void showDamageTag(Entity e) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
         Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ());
@@ -341,7 +362,7 @@ public strictfp class Calculator {
     }
 
     public void showDamageTag(Location loc) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
         if (isCanceled) return;
@@ -405,23 +426,29 @@ public strictfp class Calculator {
     }
 
     public void playerToEntityMagicDamage(SkyblockPlayer player, @Nullable LivingEntity e, double magicDamage) {
-        if(SkyblockServer.getServer().type() == ServerType.Rift){
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
             return;
         }
         this.e = e;
         if (e != null && e.getScoreboardTags().contains("npc")) return;
 
         if (e != null && e.getScoreboardTags().contains("abilityimun")) return;
-        double abilityDamage = 0,inteligens = 0;
-        if(player != null){
+        if (e != null && SkyblockEntity.livingEntity.exists(e)) {
+            EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
+            if (atributes != null)
+                for (EntityAtributes.Attributes attributes : atributes.value())
+                    if (attributes == EntityAtributes.Attributes.AbilityImune) return;
+        }
+        double abilityDamage = 0, inteligens = 0;
+        if (player != null) {
             abilityDamage = Main.getPlayerStat(player, Stats.AbilityDamage);
             inteligens = Main.getPlayerStat(player, Stats.Inteligence);
         }
 
         double baseMult = 0;
         damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100));
-        if(e != null && SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null){
-           SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
+        if (e != null && SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null) {
+            SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             EntityAtributes.MagicResistance resistance = entity.getClass().getAnnotation(EntityAtributes.MagicResistance.class);
             damage *= resistance.multiplier();
         }

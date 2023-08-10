@@ -6,7 +6,7 @@ import org.bukkit.Location;
 
 import java.util.Set;
 
-public abstract class Room2x2 implements IRoom {
+public abstract class Room2x2 extends IRoom {
     @Override
     public Set<Location2d> getNextLocations(Location2d base, int rotation) {
        //TODO: FINISH!

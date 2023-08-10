@@ -921,6 +921,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void onDraw(PlayerInteractEvent event) {
+        if(event.getItem() == null) return;
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", event.getItem(), PersistentDataType.STRING, ""));
         if (manager == null) return;
 

@@ -126,6 +126,9 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private boolean dungenoizanble = false;
+    @Getter
+    @Setter
+    private HashMap<Integer, HashMap<Stats, Double>> dungeonStats = null;
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, ItemRarity rarity) {
         this.name = name;
@@ -277,6 +280,7 @@ public class ItemManager implements ItemGenerator {
 
     public void setDungeonItem(boolean b) {
         isDungeonItem = b;
+        if(maxStars == 0) maxStars = 5;
     }
 
     public void setEditions(boolean bol) {
@@ -343,6 +347,11 @@ public class ItemManager implements ItemGenerator {
         if (gemstoneSlots.size() < 8) {
             gemstoneSlots.add(slot);
         }
+    }
+
+    public void addDungeonStat(int floor, HashMap<Stats, Double> stats) {
+        if(dungeonStats == null) dungeonStats = new HashMap<>();
+        dungeonStats.put(floor, stats);
     }
 
     public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name, int manacost, int cooldown) {

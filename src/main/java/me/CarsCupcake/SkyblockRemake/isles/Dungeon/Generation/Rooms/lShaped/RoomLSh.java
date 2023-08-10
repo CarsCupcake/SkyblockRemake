@@ -5,7 +5,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 
 import java.util.Set;
 
-public abstract class RoomLSh implements IRoom {
+public abstract class RoomLSh extends IRoom {
     @Override
     public Set<Location2d> getNextLocations(Location2d base, int rotation) {
        //TODO: FINISH!
@@ -14,6 +14,6 @@ public abstract class RoomLSh implements IRoom {
 
     @Override
     public void place(Location2d location2d, int rotation) {
-        IRoom.super.place(location2d, baseRotation());
+        super.place(location2d, baseRotation());
     }
 }

@@ -1,8 +1,7 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers;
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
@@ -38,7 +37,11 @@ public abstract class LostAdventurer extends DungeonMob {
     protected boolean heal = false;
     protected boolean healDone = false;
     protected BukkitRunnable cooldown;
-    protected final BukkitRunnable r = new BukkitRunnable() {
+    protected final DragonsBreathRunnable r = new DragonsBreathRunnable();
+
+    protected class DragonsBreathRunnable extends BukkitRunnable {
+        public String name = "§7Lost Adventurer's Dragon's Breath damaged you for §c%d% §7damage";
+        public Particle particle = Particle.FLAME;
         int shootColdown = 0;
         int shots = 0;
         int aotdCooldown = 0;
@@ -62,12 +65,13 @@ public abstract class LostAdventurer extends DungeonMob {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(((EntityPlayer) craftEntity.getGoalTarget()).getBukkitEntity());
                     player.setVelocity(dir);
                     c.entityToPlayerDamage(LostAdventurer.this, player, new Bundle<>(getDamage() * 2, 0));
-                    player.sendMessage("§7Lost Adventurer's Dragon's Breath damaged you for §c" + (getDamage() * 2) + " §7damage");
+                    player.sendMessage(name.replace("%d%", "" + (getDamage() * 2)));
+                    onDamage(player);
                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_ENDER_DRAGON_AMBIENT, 1, 1);
                     c.damagePlayer(player);
                     c.showDamageTag(player);
                     aotdCooldown = 50;
-                    ParticleUtils.spiralParticles(entity, 0.2, 1, Particle.FLAME);
+                    ParticleUtils.spiralParticles(entity, 0.2, 1, particle);
                 }
             } else {
                 if (shootColdown != 0) shootColdown--;
@@ -85,7 +89,10 @@ public abstract class LostAdventurer extends DungeonMob {
 
             }
         }
-    };
+    }
+
+    public void onDamage(SkyblockPlayer player) {
+    }
 
     public LostAdventurer(int floor, boolean master) {
         super(floor, master);
@@ -117,7 +124,7 @@ public abstract class LostAdventurer extends DungeonMob {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
+        super.damage(damage, player);
         if (!healDone && !heal && health <= tenPers) {
             heal = true;
             entity.setAI(false);
@@ -139,7 +146,7 @@ public abstract class LostAdventurer extends DungeonMob {
                     if (i == 7) {
                         cancel();
                         entity.getWorld().spawnParticle(Particle.HEART, entity.getLocation().clone().add(0, entity.getEyeHeight() / 2, 0), 20, 0.6, entity.getEyeHeight() / 2, 0.6);
-                        health += tenPers * 5;
+                        health += (int) (tenPers * 5);
                         tenPers -= tenPers * 0.1;
                         entity.setAI(true);
                         healDone = true;

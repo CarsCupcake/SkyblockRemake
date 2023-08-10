@@ -11,6 +11,7 @@ public abstract class DungeonMob extends SkyblockEntity implements Defensive {
     protected final int maxHealth;
     protected final int damage;
     protected final double defense;
+    protected boolean stared;
     private IRoom room;
     public DungeonMob(int floor, boolean master){
         super.health = healthFromFloor(floor, master);
@@ -36,11 +37,13 @@ public abstract class DungeonMob extends SkyblockEntity implements Defensive {
     @Override
     public void updateNameTag() {
         getEntity().setCustomNameVisible(true);
-        getEntity().setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()));
+        getEntity().setCustomName("§c" + getName() + " §a" + Tools.toShortNumber(getHealth()) + ((stared) ? " §6✯" : ""));
     }
 
     public void setStared(IRoom room){
         this.room = room;
+        this.stared = true;
+        room.addStar();
     }
 
     protected abstract int healthFromFloor(int floor, boolean master);
@@ -49,7 +52,7 @@ public abstract class DungeonMob extends SkyblockEntity implements Defensive {
     @Override @OverridingMethodsMustInvokeSuper
     public void kill(){
         super.kill();
-        if(room != null)
+        if(room != null && stared)
             room.killStarMob(this);
     }
 }

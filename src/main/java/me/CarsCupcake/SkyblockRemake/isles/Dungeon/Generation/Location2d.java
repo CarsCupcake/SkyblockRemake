@@ -1,6 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation;
 
 import lombok.Getter;
+import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.Objects;
 
@@ -28,7 +30,7 @@ public class Location2d implements Cloneable {
 
     @Override
     public String toString() {
-        return "Location[x:" + x + ";y:" + y + "]";
+        return "Location2d[x:" + x + ";y:" + y + "]";
     }
 
     @Override
@@ -79,5 +81,9 @@ public class Location2d implements Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public Location asLocation(World world, double y) {
+        return new Location(world, x,y, this.y);
     }
 }

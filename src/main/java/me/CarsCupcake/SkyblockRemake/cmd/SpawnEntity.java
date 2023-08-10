@@ -7,13 +7,17 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Necron;
 import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.Thunder;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.AngryArcheologist;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.HolyAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.SuperiorAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.UnstableAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers.YoungAdventurer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.ShadowAssassin;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.SoulEater;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.AngryArcheologist;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.HolyAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.SuperiorAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.UnstableAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers.YoungAdventurer;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.ShadowAssassin;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.*;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.CryptDreadlord;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.CryptLurker;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged.SoulEater;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.ranged.Withermancer;
 import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.crux.Shy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -128,6 +132,38 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "SHY" -> {
                     Shy walker = new Shy();
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "FEL" -> {
+                    Fel walker = new Fel(7, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_FEL" -> {
+                    Fel walker = new Fel(7, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "CRYPT_DREADLORD" -> {
+                    CryptDreadlord walker = new CryptDreadlord(7, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_CRYPT_DREADLORD" -> {
+                    CryptDreadlord walker = new CryptDreadlord(7, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "CRYPT_LURKER" -> {
+                    CryptLurker walker = new CryptLurker(7, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_CRYPT_LURKER" -> {
+                    CryptLurker walker = new CryptLurker(7, true);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "WITHERMANCER" -> {
+                    Withermancer walker = new Withermancer(7, false);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MASTERMODE_WITHERMANCER" -> {
+                    Withermancer walker = new Withermancer(7, true);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

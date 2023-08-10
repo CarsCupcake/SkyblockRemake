@@ -5,7 +5,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
 
 import java.util.Set;
 
-public abstract class Room1x4 implements IRoom {
+public abstract class Room1x4 extends IRoom {
     @Override
     public Set<Location2d> getNextLocations(Location2d base, int rotation) {
        //TODO: FINISH!

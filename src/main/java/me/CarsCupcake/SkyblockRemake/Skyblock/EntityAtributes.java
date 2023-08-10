@@ -14,8 +14,11 @@ public @interface EntityAtributes {
         AbilityImune,
         ProjectileImune,
         FerocityImune,
-        MeleeImunity
+        MeleeImunity,
+        DinnerboneEntity
     }
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
     @interface MagicResistance {
         double multiplier();
     }

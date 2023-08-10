@@ -14,7 +14,9 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.MelonDicer;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.*;
+import me.CarsCupcake.SkyblockRemake.Items.requirements.SkillRequirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
@@ -464,6 +466,46 @@ public class Items {
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.COBBLESTONE + ""), 160));
         shapelessRecipe.register();
         ghostPickaxe();
+        frozenBlaze();
+        skeletonLordArmor();
+    }
+
+    private static void skeletonLordArmor() {
+        ItemManager manager = new ItemManager("Skeleton Lord Helmet", "SKELETON_LORD_HELMET", ItemType.Helmet, Material.GOLDEN_HELMET, ItemRarity.EPIC);
+        HashMap<Stats, Double> ds = new HashMap<>();
+        ds.put(Stats.Defense, 53d);
+        ds.put(Stats.Health, 26d);
+        ds.put(Stats.CritChance, 2d);
+        ds.put(Stats.CritDamage, 36d);
+        manager.addDungeonStat(7, ds);
+        manager.setDungeonItem(true);
+
+        manager = new ItemManager("Skeleton Lord Chestplate", "SKELETON_LORD_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x268105), ItemRarity.EPIC);
+        ds = new HashMap<>();
+        ds.put(Stats.Defense, 86d);
+        ds.put(Stats.Health, 44d);
+        ds.put(Stats.CritChance, 2d);
+        ds.put(Stats.CritDamage, 36d);
+        manager.addDungeonStat(7, ds);
+        manager.setDungeonItem(true);
+
+        manager = new ItemManager("Skeleton Lord Leggings", "SKELETON_LORD_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0x268105), ItemRarity.EPIC);
+        ds = new HashMap<>();
+        ds.put(Stats.Defense, 79d);
+        ds.put(Stats.Health, 40d);
+        ds.put(Stats.CritChance, 2d);
+        ds.put(Stats.CritDamage, 36d);
+        manager.addDungeonStat(7, ds);
+        manager.setDungeonItem(true);
+
+        manager = new ItemManager("Skeleton Lord Boots", "SKELETON_LORD_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x268105), ItemRarity.EPIC);
+        ds = new HashMap<>();
+        ds.put(Stats.Defense, 47d);
+        ds.put(Stats.Health, 23d);
+        ds.put(Stats.CritChance, 2d);
+        ds.put(Stats.CritDamage, 36d);
+        manager.addDungeonStat(7, ds);
+        manager.setDungeonItem(true);
     }
 
     /**
@@ -1720,7 +1762,55 @@ public class Items {
         }
     }
 
-    ;
+    public static void frozenBlaze() {
+        ItemManager manager = new ItemManager("Frozen Blaze Helmet", "FROZEN_BLAZE_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "http://textures.minecraft.net/texture/55a13bb48e3595b55de8dd6943fc38db5235371278c695bd453e49a0999");
+        manager.setUnstackeble(true);
+        manager.setStat(Stats.Defense, 105);
+        manager.setStat(Stats.Speed, 2);
+        manager.setStat(Stats.Strength, 40);
+        manager.setNpcSellPrice(576_000);
+        manager.setDungenoizanble(true);
+        manager.setMaxStars(5);
+        manager.setRequirement(new SkillRequirement(Skills.Combat, 24));
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+
+        manager = new ItemManager("Frozen Blaze Chestplate", "FROZEN_BLAZE_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0xa0daef), ItemRarity.LEGENDARY);
+        manager.setUnstackeble(true);
+        manager.setStat(Stats.Defense, 180);
+        manager.setStat(Stats.Speed, 2);
+        manager.setStat(Stats.Strength, 40);
+        manager.setNpcSellPrice(921_600);
+        manager.setDungenoizanble(true);
+        manager.setMaxStars(5);
+        manager.setRequirement(new SkillRequirement(Skills.Combat, 24));
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+
+        manager = new ItemManager("Frozen Blaze Leggings", "FROZEN_BLAZE_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xa0daef), ItemRarity.LEGENDARY);
+        manager.setUnstackeble(true);
+        manager.setStat(Stats.Defense, 140);
+        manager.setStat(Stats.Speed, 2);
+        manager.setStat(Stats.Strength, 40);
+        manager.setNpcSellPrice(806_400);
+        manager.setDungenoizanble(true);
+        manager.setMaxStars(5);
+        manager.setRequirement(new SkillRequirement(Skills.Combat, 24));
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+
+        manager = new ItemManager("Frozen Blaze Boots", "FROZEN_BLAZE_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0xa0daef), ItemRarity.LEGENDARY);
+        manager.setUnstackeble(true);
+        manager.setStat(Stats.Defense, 95);
+        manager.setStat(Stats.Speed, 2);
+        manager.setStat(Stats.Strength, 40);
+        manager.setNpcSellPrice(460_800);
+        manager.setDungenoizanble(true);
+        manager.setMaxStars(5);
+        manager.setRequirement(new SkillRequirement(Skills.Combat, 24));
+        manager.addSlot(new GemstoneSlot(SlotType.Jasper));
+        manager.addSlot(new GemstoneSlot(SlotType.Combat));
+    }
 
     public static ItemStack SkyblockMenu() {
         ItemManager manager = new ItemManager("Skyblock Menu", "SKYBLOCK_MENU", ItemType.Non, Material.NETHER_STAR, ItemRarity.SPECIAL);

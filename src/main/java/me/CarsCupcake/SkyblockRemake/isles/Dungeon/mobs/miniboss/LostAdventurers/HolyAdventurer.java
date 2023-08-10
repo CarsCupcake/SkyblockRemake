@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.MiniBoss.LostAdventurers;
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurers;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
