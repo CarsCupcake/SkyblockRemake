@@ -5,8 +5,10 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -27,6 +29,7 @@ public enum Stats {
     MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find", false, null, 0),
     MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed", false, null, 0),
     MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune", false, null, 0),
+    ForagingFortune("foragingfortune", '☘', ChatColor.GOLD, "Foraging Fortune", false, null, 0),
     Pristine("pristine", '✧', ChatColor.DARK_PURPLE, "Pristine", false, null, 0),
     AttackSpeed("as", '⚔', ChatColor.YELLOW, "Attack Speed", true, null, 0),
     TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense", false, null, 0),
@@ -35,7 +38,16 @@ public enum Stats {
     SwingRange("swingrange", ' ', ChatColor.GOLD, "Swing Range", true, null, 0),
     BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
     FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
+    CombatWisdom("combatwisdom", '☯', ChatColor.DARK_AQUA, "Combat Wisdom", false, null, 0),
+    MiningWisdom("miningwisdom", '☯', ChatColor.DARK_AQUA, "Mining Wisdom", false, null, 0),
     FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false, null, 0),
+    ForagingWisdom("foragingwisdom", '☯', ChatColor.DARK_AQUA, "Foraging Wisdom", false, null, 0),
+    FishingWisdom("fishingwisdom", '☯', ChatColor.DARK_AQUA, "Fishing Wisdom", false, null, 0),
+    EnchantingWisdom("enchantingwisdom", '☯', ChatColor.DARK_AQUA, "Enchanting Wisdom", false, null, 0),
+    AlchemyWisdom("alchemywisdom", '☯', ChatColor.DARK_AQUA, "Alchemy Wisdom", false, null, 0),
+    CarpentryWisdom("carpentrywisdom", '☯', ChatColor.DARK_AQUA, "Carpentry Wisdom", false, null, 0),
+    RunecraftingWisdom("runecraftingwisdom", '☯', ChatColor.DARK_AQUA, "Runecrafting Wisdom", false, null, 0),
+    SocialWisdom("socialwisdom", '☯', ChatColor.DARK_AQUA, "Social Wisdom", false, null, 0),
     HealthRegen("healthregen", '❣', ChatColor.RED, "Health Regen", false, null, 0),
     RiftTime("rifttime", 'ф', ChatColor.GREEN, "Rift Time", false, 480, -1, true),
     RiftInteligence("rmana", '✎', ChatColor.AQUA, "Inteligence", false, 100, -1, true),
@@ -43,9 +55,11 @@ public enum Stats {
     RiftSpeed("rspeed", '✦', ChatColor.WHITE, "Speed", false, 100, 500, true),
     Hearts("hearts", '❤', ChatColor.RED, "Hearts", false, 10, -1, true),
     RiftDamage("rdamage", '❁', ChatColor.DARK_PURPLE, "Rift Damage", true, 20, -1, true),
-    WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2);
+    WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2),
+    Vitality("vitality", '♨', ChatColor.RED, "Vitality", false),
+    Mending("mending", '☄', ChatColor.GREEN, "Mending", false);
     public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Speed, Inteligence,
-            MagicFind, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
+            MagicFind, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom, HealthRegen, Vitality, Mending);
     public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;
     private final char symbol;
@@ -63,7 +77,9 @@ public enum Stats {
     private final double maxAmount;
     @Getter
     private final boolean inRift;
-
+    Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive) {
+        this(dataName, symbol, color, name, isAggresive, null, 0);
+    }
     Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost) {
         this(dataName, symbol, color, name, isAggresive, hotPotatoBookStat, hotPotatoBookStatBoost, 0, -1);
     }
@@ -183,6 +199,42 @@ public enum Stats {
         public boolean contains(ItemType type) {
             return types.contains(type);
         }
+    }
+
+    public ItemBuilder itemPreviewBuilder() {
+        return switch (this) {
+            case WeaponDamage -> new ItemBuilder(Material.IRON_SWORD);
+            case Speed, RiftSpeed -> new ItemBuilder(Material.SUGAR);
+            case Health -> new ItemBuilder(Material.GOLDEN_APPLE);
+            case Hearts -> new ItemBuilder(Material.APPLE);
+            case RiftTime -> new ItemBuilder(Material.CLOCK);
+            case RiftDamage -> new ItemBuilder(Material.DIAMOND_SWORD);
+            case RiftInteligence, Inteligence -> new ItemBuilder(Material.ENCHANTED_BOOK);
+            case MagicFind -> new ItemBuilder(Material.STICK);
+            case Defense -> new ItemBuilder(Material.IRON_CHESTPLATE);
+            case Strength -> new ItemBuilder(Material.BLAZE_POWDER);
+            case CritChance -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/3e4f49535a276aacc4dc84133bfe81be5f2a4799a4c04d9a4ddb72d819ec2b2b");
+            case CritDamage -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/5169c90c8874ab575b201b616a69eac7e0b5ac69bbcccbb2772e36776fe69441");
+            case AttackSpeed -> new ItemBuilder(Material.GOLDEN_AXE);
+            case AbilityDamage -> new ItemBuilder(Material.BEACON);
+            case TrueDefense -> new ItemBuilder(Material.BONE_MEAL);
+            case Ferocity -> new ItemBuilder(Material.RED_DYE);
+            case HealthRegen -> new ItemBuilder(Material.POTION);
+            case Vitality -> new ItemBuilder(Material.GLISTERING_MELON_SLICE);
+            case Mending -> new ItemBuilder(Material.GHAST_TEAR);
+            case MiningSpeed -> new ItemBuilder(Material.DIAMOND_PICKAXE);
+            case MiningFortune -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/b73579575ca88b3a8afe1ed18907b3125fe0987b02a88ef0e8a01087c3d024c4");
+            case FarmingFortune -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/220ee7741ff1b958dbb9fa7cddad9c3cce93373f470f9b834da02da67c8202a4");
+            case ForagingFortune -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/4e44e2a8dff90f5b005e76e6f5db7c12ae59cbbc56d8bc8050f3e3dbf0c3b734");
+            case BreakingPower -> new ItemBuilder(Material.GOLDEN_PICKAXE);
+            case Pristine -> new ItemBuilder(Material.PLAYER_HEAD).setHead("http://textures.minecraft.net/texture/d886e0f41185b18a3afd89488d2ee4caa0735009247cccf039ced6aed752ff1a");
+            case SeaCreatureChance -> new ItemBuilder(Material.PRISMARINE);
+            case FishingSpeed -> new ItemBuilder(Material.FISHING_ROD);
+            case CombatWisdom, AlchemyWisdom, CarpentryWisdom, EnchantingWisdom, FarmingWisdom, FishingWisdom, ForagingWisdom, MiningWisdom, RunecraftingWisdom, SocialWisdom
+                    -> new ItemBuilder(Material.WRITABLE_BOOK);
+            case ManaRegen -> new ItemBuilder(Material.DIAMOND);
+            case SwingRange -> new ItemBuilder(Material.GOLDEN_SWORD);
+        };
     }
 
 }

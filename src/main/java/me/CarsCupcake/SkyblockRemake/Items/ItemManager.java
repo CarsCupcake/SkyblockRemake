@@ -150,6 +150,15 @@ public class ItemManager implements ItemGenerator {
         Items.SkyblockItems.put(itemID, this);
     }
 
+    public ItemManager(String name, String itemID, ItemType itemType, Material material, ItemRarity rarity, boolean b) {
+        this.name = name;
+        this.itemID = itemID;
+        this.type = itemType;
+        this.material = material;
+        this.rarity = rarity;
+        if(b) Items.SkyblockItems.put(itemID, this);
+    }
+
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, Color color, ItemRarity rarity) {
         this.name = name;
         this.itemID = itemID;

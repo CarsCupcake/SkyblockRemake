@@ -54,9 +54,10 @@ public class GUIListener implements Listener {
     public void invClose(InventoryCloseEvent event){
         if(!GUI.getGUIs().containsKey(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())))
             return;
+        if(GUI.getGUIs().get(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())).getInventory() != event.getInventory()) return;
         GUI gui = GUI.getGUIs().get(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer()));
-        gui.triggerAction(GUI.GUIActions.Close);
         GUI.getGUIs().remove(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer()));
+        gui.triggerAction(GUI.GUIActions.Close);
     }
     private boolean registerClick(Player player){
         if(clicks.containsKey(player)){

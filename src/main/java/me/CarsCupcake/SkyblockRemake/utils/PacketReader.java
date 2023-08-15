@@ -42,12 +42,8 @@ public class PacketReader {
 	}
 	
 	public void inject() {
-		
 		readers.put(player, this);
-
 		Channel channel = player.getHandle().b.a.k;
-
-
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			@Override
 			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) {
@@ -89,7 +85,7 @@ public class PacketReader {
 					}
 				}catch (Exception e){
 					System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
-					e.printStackTrace(System.out);
+					e.printStackTrace(System.err);
 					player.sendMessage("§cCould not read packet " + packet.getClass().getSimpleName());
 					return;
 				}

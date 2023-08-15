@@ -1,14 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.utils.SignGUI;
 
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.network.protocol.game.PacketPlayInUpdateSign;
 
 import java.beans.ConstructorProperties;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.bukkit.Bukkit;
 
 
@@ -33,26 +32,25 @@ public class SignManager {
         managers.forEach((t)->t.onPlayerJoin(packet, SkyblockPlayer.getSkyblockPlayer(Bukkit.getPlayer(uuid))));
     }
 
-    public void onPlayerJoin(PacketPlayInUpdateSign inUpdateSign, SkyblockPlayer player)
-    {
-
-
-
-
-
-        if (guiMap.containsKey(player.getUniqueId())) {
-            SignGUI signGUI = guiMap.get(player.getUniqueId());
-
-            BlockPosition blockPosition = SignReflection.getValue(inUpdateSign, "b");
-            String[] lines =  SignReflection.getValue(inUpdateSign, "c");
-            String[] lines2 = new String[4];
-            System.arraycopy(lines, 0, lines2, 0, lines.length);
-
-            signGUI.getCompleteHandler().onAnvilClick(new SignCompleteEvent(player, blockPosition, lines2));
-            guiMap.remove(player.getUniqueId());
+    public void onPlayerJoin(PacketPlayInUpdateSign inUpdateSign, SkyblockPlayer player) {
+        try {
+            Bukkit.getScheduler().runTask(Main.getMain(), () -> {
+                if (guiMap.containsKey(player.getUniqueId())) {
+                    SignGUI signGUI = guiMap.get(player.getUniqueId());
+                    BlockPosition blockPosition = SignReflection.getValue(inUpdateSign, "b");
+                    String[] lines = SignReflection.getValue(inUpdateSign, "c");
+                    String[] lines2 = new String[4];
+                    System.arraycopy(lines, 0, lines2, 0, lines.length);
+                    signGUI.getCompleteHandler().onAnvilClick(new SignCompleteEvent(player, blockPosition, lines2));
+                    guiMap.remove(player.getUniqueId());
+                }
+            });
+        }catch (Exception e) {
+            System.out.println("Error while reding sign packet!");
+            e.printStackTrace(System.err);
+            System.out.println(Arrays.toString(e.getStackTrace()));
+            System.out.println(e.getMessage());
         }
-
-
     }
 
 

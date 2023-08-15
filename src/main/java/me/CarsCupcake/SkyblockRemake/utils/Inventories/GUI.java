@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class GUI {
     protected Inventory inv;
+    @Getter
     protected SkyblockPlayer player;
     protected final HashMap<Integer, GUIAction> inventoryClickAction = new HashMap<>();
     @Getter
@@ -51,9 +52,7 @@ public class GUI {
             }
         }.runTaskLater(Main.getMain(), 4);
     }
-    public SkyblockPlayer getPlayer(){
-        return player;
-    }
+
     public void inventoryClickAction(int slot, GUIAction action){
         inventoryClickAction.put(slot, action);
     }
@@ -64,9 +63,9 @@ public class GUI {
         closeAction = action;
     }
     public void closeInventory(){
+        opened.remove(player);
         if(player != null&& player.getOpenInventory() != null)
              player.closeInventory();
-        opened.remove(player);
         player = null;
 
     }

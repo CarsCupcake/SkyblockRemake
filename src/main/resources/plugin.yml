@@ -76,3 +76,5 @@ commands:
   gsg:
     description: opens the Gemstone Grinder
     aliases: gemstonegrinder
+  customitem:
+    description: Makes an custom item

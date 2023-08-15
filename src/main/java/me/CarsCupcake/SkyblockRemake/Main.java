@@ -357,6 +357,7 @@ public class Main extends JavaPlugin {
         getCommand("compile").setExecutor(new CompileCommand());
         getCommand("gemstonegrinder").setExecutor(new GemstoneGrinderCommand());
         getCommand("gsg").setExecutor(new GemstoneGrinderCommand());
+        getCommand("customitem").setExecutor(new CustomItemCreatorCommand());
 
 
         debug.debug("Registering Events", false);
