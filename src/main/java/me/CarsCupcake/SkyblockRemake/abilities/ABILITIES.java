@@ -76,8 +76,6 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.ints.IntList;
 
-import java.util.List;
-
 public class ABILITIES implements Listener {
     public static void init() {
         registerEvent(new DreadlordHandler());
@@ -101,37 +99,6 @@ public class ABILITIES implements Listener {
         registerEvent(new ABILITIES());
         registerEvent(new KatanaDamagingAbilities());
         if (SkyblockServer.getServer().type() == ServerType.PrivateIsle) registerEvent(new PrivateIsleListener());
-        registerEvent(new Attribute() {
-            @Override
-            public String name() {
-                return null;
-            }
-
-            @Override
-            public int maxLevel() {
-                return 0;
-            }
-
-            @Override
-            public boolean isAllowed() {
-                return false;
-            }
-
-            @Override
-            public List<String> lore() {
-                return null;
-            }
-
-            @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void stop() {
-
-            }
-        });
         registerEvent(new SwingRangeStat());
         registerEvent(new TwilightDaggerHit.DaggerHit());
         if (SkyblockServer.getServer().type() == ServerType.F7) {

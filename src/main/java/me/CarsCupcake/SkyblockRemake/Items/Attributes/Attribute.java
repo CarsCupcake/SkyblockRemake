@@ -30,7 +30,7 @@ import java.util.*;
 
 import static org.bukkit.persistence.PersistentDataType.*;
 
-public abstract class Attribute implements Listener {
+public abstract class Attribute {
     private static final HashMap<String, Class<? extends Attribute>> registeredAttributes = new HashMap<>();
     @Getter
     protected int level;
