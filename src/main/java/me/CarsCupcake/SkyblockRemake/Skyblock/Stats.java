@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -127,12 +128,12 @@ public enum Stats {
     public static ArrayList<String> makeItemStatsLore(ItemStack item, ArrayList<String> lore, SkyblockPlayer player) {
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
         ItemRarity rarity = manager.getRarity(item, player);
-        HashMap<Stats, Integer> gemstoneSlots = new HashMap<>();
+        CountMap<Stats> gemstoneSlots = new CountMap<>();
 
         for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
                 item.getItemMeta().getPersistentDataContainer())) {
             if (s.currGem != null)
-                gemstoneSlots.put(s.currGem.gemType.getStat(), s.currGem.getStatBoost(rarity));
+                gemstoneSlots.add(s.currGem.gemType.getStat(), s.currGem.getStatBoost(rarity));
         }
         for (Stats stat : ((ServerType.getActiveType() == ServerType.Rift) ? riftStatItemDisplayOrder : statItemDisplayOrder)) {
             double value;

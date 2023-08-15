@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 
+@Getter
 public enum GemstoneType {
     Ruby(Stats.Health),
     Amber(Stats.MiningSpeed),
@@ -13,7 +14,6 @@ public enum GemstoneType {
     Amethyst(Stats.Defense),
     Jasper(Stats.Strength),
     Opal(Stats.TrueDefense);
-    @Getter
     private final Stats stat;
     GemstoneType(Stats stat) {
         this.stat = stat;
@@ -898,23 +898,23 @@ public enum GemstoneType {
                 }
                 case Perfect: {
                     switch (rarity) {
-                        case COMMON, UNCOMMON -> {
+                        case COMMON -> {
                             return 6;
                         }
-                        case RARE -> {
+                        case UNCOMMON -> {
                             return 7;
                         }
-                        case EPIC -> {
+                        case RARE -> {
                             return 9;
                         }
+                        case EPIC -> {
+                            return 11;
+                        }
                         case LEGENDARY -> {
-                            return 10;
+                            return 13;
                         }
-                        case MYTHIC -> {
-                            return 12;
-                        }
-                        case DIVINE, SPECIAL, SUPREME, VERY_SPECIAL -> {
-                            return 14;
+                        case MYTHIC, DIVINE, SPECIAL, SUPREME, VERY_SPECIAL -> {
+                            return 16;
                         }
                         case UNDEFINED -> {
                             return 0;

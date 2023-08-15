@@ -70,3 +70,9 @@ commands:
     description: command for a staff
   compile:
     description: command for a staff
+  gemstonegrinder:
+    description: opens the Gemstone Grinder
+    aliases: gsg
+  gsg:
+    description: opens the Gemstone Grinder
+    aliases: gemstonegrinder

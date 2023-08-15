@@ -355,6 +355,8 @@ public class Main extends JavaPlugin {
         getCommand("wardrobe").setExecutor(new WardrobeCMD());
         getCommand("drhelp").setExecutor(new DungeonStickCommand());
         getCommand("compile").setExecutor(new CompileCommand());
+        getCommand("gemstonegrinder").setExecutor(new GemstoneGrinderCommand());
+        getCommand("gsg").setExecutor(new GemstoneGrinderCommand());
 
 
         debug.debug("Registering Events", false);
@@ -1382,6 +1384,7 @@ public class Main extends JavaPlugin {
         }
         if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
             for (GemstoneSlot slot : GemstoneSlot.getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer())) {
+                if(slot.currGem == null) continue;
                 if (slot.currGem.getStat() != stat) continue;
                 value += slot.currGem.getStatBoost(rarity);
             }
