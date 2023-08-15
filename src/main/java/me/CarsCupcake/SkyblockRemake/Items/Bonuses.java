@@ -5,7 +5,6 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.SneakAbilityWrapper;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
 
 public enum Bonuses {

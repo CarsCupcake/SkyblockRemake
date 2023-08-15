@@ -1,7 +1,6 @@
-package me.CarsCupcake.SkyblockRemake;
+package me.CarsCupcake.SkyblockRemake.Items;
 
-import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
-import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
