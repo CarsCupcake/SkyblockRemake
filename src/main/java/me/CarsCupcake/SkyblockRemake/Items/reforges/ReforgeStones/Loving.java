@@ -72,8 +72,7 @@ public class Loving implements Reforge{
 
 	@Override
 	public ItemType[] Reforgable() {
-		ItemType[] types = {ItemType.Chestplate};
-		return types;
+        return new ItemType[]{ItemType.Chestplate};
 	}
 
 	@Override

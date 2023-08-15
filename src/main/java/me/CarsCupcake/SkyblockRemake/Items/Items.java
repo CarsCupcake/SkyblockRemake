@@ -2686,62 +2686,62 @@ public class Items {
 //Ruby gemsone
 
     public static ItemStack RoughRuby() {
-        Gemstone gem = new Gemstone("§?§ Rough Ruby", "ROUGH_RUBY_GEM", null, GemstoneType.Ruby, GemState.Rough, "https://textures.minecraft.net/texture/d159b03243be18a14f3eae763c4565c78f1f339a8742d26fde541be59b7de07");
+        Gemstone gem = new Gemstone("§?§ Rough Ruby", "ROUGH_RUBY_GEM", GemstoneType.Ruby, GemState.Rough, "https://textures.minecraft.net/texture/d159b03243be18a14f3eae763c4565c78f1f339a8742d26fde541be59b7de07");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedRuby() {
-        Gemstone gem = new Gemstone("§?§ Flawed Ruby", "FLAWED_RUBY_GEM", null, GemstoneType.Ruby, GemState.Flawed, "https://textures.minecraft.net/texture/46d81068cbdf4a364231a26453d6cd660a0095f9cd8795307c5be667427712e");
+        Gemstone gem = new Gemstone("§?§ Flawed Ruby", "FLAWED_RUBY_GEM", GemstoneType.Ruby, GemState.Flawed, "https://textures.minecraft.net/texture/46d81068cbdf4a364231a26453d6cd660a0095f9cd8795307c5be667427712e");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineRuby() {
-        Gemstone gem = new Gemstone("§?§ Fine Ruby", "FINE_RUBY_GEM", null, GemstoneType.Ruby, GemState.Fine, "https://textures.minecraft.net/texture/e672959028f274b379d430f068f0f15a4f793eac12afb94ae0b4e50cf895df0f");
+        Gemstone gem = new Gemstone("§?§ Fine Ruby", "FINE_RUBY_GEM", GemstoneType.Ruby, GemState.Fine, "https://textures.minecraft.net/texture/e672959028f274b379d430f068f0f15a4f793eac12afb94ae0b4e50cf895df0f");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessRuby() {
-        Gemstone gem = new Gemstone("§?§ Flawless Ruby", "FLAWLESS_RUBY_GEM", null, GemstoneType.Ruby, GemState.Flawless, "https://textures.minecraft.net/texture/926a248fbbc06cf06e2c920eca1cac8a2c96164d3260494bed142d553026cc6");
+        Gemstone gem = new Gemstone("§?§ Flawless Ruby", "FLAWLESS_RUBY_GEM", GemstoneType.Ruby, GemState.Flawless, "https://textures.minecraft.net/texture/926a248fbbc06cf06e2c920eca1cac8a2c96164d3260494bed142d553026cc6");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectRuby() {
-        Gemstone gem = new Gemstone("§?§ Perfect Ruby", "PERFECT_RUBY_GEM", null, GemstoneType.Ruby, GemState.Perfect, "https://textures.minecraft.net/texture/39b6e047d3b2bca85e8cc49e5480f9774d8a0eafe6dfa9559530590283715142");
+        Gemstone gem = new Gemstone("§?§ Perfect Ruby", "PERFECT_RUBY_GEM", GemstoneType.Ruby, GemState.Perfect, "https://textures.minecraft.net/texture/39b6e047d3b2bca85e8cc49e5480f9774d8a0eafe6dfa9559530590283715142");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     //Amber Gemstone
     public static ItemStack RoughAmber() {
-        Gemstone gem = new Gemstone("⸕ Rough Amber", "ROUGH_AMBER_GEM", null, GemstoneType.Amber, GemState.Rough, "https://textures.minecraft.net/texture/da19436f6151a7b66d65ed7624add4325cfbbc2eee815fcf76f4c29ddf08f75b");
+        Gemstone gem = new Gemstone("⸕ Rough Amber", "ROUGH_AMBER_GEM", GemstoneType.Amber, GemState.Rough, "https://textures.minecraft.net/texture/da19436f6151a7b66d65ed7624add4325cfbbc2eee815fcf76f4c29ddf08f75b");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedAmber() {
-        Gemstone gem = new Gemstone("⸕ Flawed Amber", "FLAWED_AMBER_GEM", null, GemstoneType.Amber, GemState.Flawed, "https://textures.minecraft.net/texture/173bcfc39eb85df1848535985214060a1bd1b3bb47defe4201476edc31671744");
+        Gemstone gem = new Gemstone("⸕ Flawed Amber", "FLAWED_AMBER_GEM", GemstoneType.Amber, GemState.Flawed, "https://textures.minecraft.net/texture/173bcfc39eb85df1848535985214060a1bd1b3bb47defe4201476edc31671744");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineAmber() {
-        Gemstone gem = new Gemstone("⸕ Fine Amber", "FINE_AMBER_GEM", null, GemstoneType.Amber, GemState.Fine, "https://textures.minecraft.net/texture/4b1cce22de19ed6727abc5e6c2d57864c871a44c956bbe2eb3960269b686b8b3");
+        Gemstone gem = new Gemstone("⸕ Fine Amber", "FINE_AMBER_GEM", GemstoneType.Amber, GemState.Fine, "https://textures.minecraft.net/texture/4b1cce22de19ed6727abc5e6c2d57864c871a44c956bbe2eb3960269b686b8b3");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessAmber() {
-        Gemstone gem = new Gemstone("⸕ Flawless Amber", "FLAWLESS_AMBER_GEM", null, GemstoneType.Amber, GemState.Flawless, "https://textures.minecraft.net/texture/9dce62f70ac046b881113c6cf862987727774e265885501c9a245b180db08c0d");
+        Gemstone gem = new Gemstone("⸕ Flawless Amber", "FLAWLESS_AMBER_GEM", GemstoneType.Amber, GemState.Flawless, "https://textures.minecraft.net/texture/9dce62f70ac046b881113c6cf862987727774e265885501c9a245b180db08c0d");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectAmber() {
-        Gemstone gem = new Gemstone("⸕ Perfect Amber", "PERFECT_AMBER_GEM", null, GemstoneType.Amber, GemState.Perfect, "https://textures.minecraft.net/texture/37ae236cdec3f2a6f51eae15e2c8f6228b34f137da1569fec9e803f9cd81759d");
+        Gemstone gem = new Gemstone("⸕ Perfect Amber", "PERFECT_AMBER_GEM", GemstoneType.Amber, GemState.Perfect, "https://textures.minecraft.net/texture/37ae236cdec3f2a6f51eae15e2c8f6228b34f137da1569fec9e803f9cd81759d");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
@@ -2749,31 +2749,31 @@ public class Items {
 
     //Jade Gemstone
     public static ItemStack RoughJade() {
-        Gemstone gem = new Gemstone("☘ Rough Jade", "ROUGH_JADE_GEM", null, GemstoneType.Jade, GemState.Rough, "https://textures.minecraft.net/texture/3b4c2afd544d0a6139e6ae8ef8f0bfc09a9fd837d0cad4f5cd0fe7f607b7d1a0");
+        Gemstone gem = new Gemstone("☘ Rough Jade", "ROUGH_JADE_GEM", GemstoneType.Jade, GemState.Rough, "https://textures.minecraft.net/texture/3b4c2afd544d0a6139e6ae8ef8f0bfc09a9fd837d0cad4f5cd0fe7f607b7d1a0");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedJade() {
-        Gemstone gem = new Gemstone("☘ Flawed Jade", "FLAWED_JADE_GEM", null, GemstoneType.Jade, GemState.Flawed, "https://textures.minecraft.net/texture/82282c6bb8343e0f0d61ee0747dada75344f332e9ff0acaa3adcdf09321d3dd");
+        Gemstone gem = new Gemstone("☘ Flawed Jade", "FLAWED_JADE_GEM", GemstoneType.Jade, GemState.Flawed, "https://textures.minecraft.net/texture/82282c6bb8343e0f0d61ee0747dada75344f332e9ff0acaa3adcdf09321d3dd");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineJade() {
-        Gemstone gem = new Gemstone("☘ Fine Jade", "FINE_JADE_GEM", null, GemstoneType.Jade, GemState.Fine, "https://textures.minecraft.net/texture/b28f1c0c5092e12d33770df45c5845a9610886039b34abe93a16c5e942dfc8e4");
+        Gemstone gem = new Gemstone("☘ Fine Jade", "FINE_JADE_GEM", GemstoneType.Jade, GemState.Fine, "https://textures.minecraft.net/texture/b28f1c0c5092e12d33770df45c5845a9610886039b34abe93a16c5e942dfc8e4");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessJade() {
-        Gemstone gem = new Gemstone("☘ Flawless Jade", "FLAWLESS_JADE_GEM", null, GemstoneType.Jade, GemState.Flawless, "https://textures.minecraft.net/texture/f89f75e0b00378a583dbba728dcdc6e9346f31dd601d448f3d60615c7465cc3e");
+        Gemstone gem = new Gemstone("☘ Flawless Jade", "FLAWLESS_JADE_GEM", GemstoneType.Jade, GemState.Flawless, "https://textures.minecraft.net/texture/f89f75e0b00378a583dbba728dcdc6e9346f31dd601d448f3d60615c7465cc3e");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectJade() {
-        Gemstone gem = new Gemstone("☘ Perfect Jade", "PERFECT_JADE_GEM", null, GemstoneType.Jade, GemState.Perfect, "https://textures.minecraft.net/texture/3fced7977382bf71d4ee17ff5b919e0eb7972083c4cccfa175c8753ae40ba006");
+        Gemstone gem = new Gemstone("☘ Perfect Jade", "PERFECT_JADE_GEM", GemstoneType.Jade, GemState.Perfect, "https://textures.minecraft.net/texture/3fced7977382bf71d4ee17ff5b919e0eb7972083c4cccfa175c8753ae40ba006");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
@@ -2781,31 +2781,31 @@ public class Items {
 
     //Sapphire Gemstone
     public static ItemStack RoughSapphire() {
-        Gemstone gem = new Gemstone("✎ Rough Sapphire", "ROUGH_SAPPHIRE_GEM", null, GemstoneType.Sapphire, GemState.Rough, "https://textures.minecraft.net/texture/cfcebe54dbc345ea7e22206f703e6b33befbe95b6a918bd1754b76188bc65bb5");
+        Gemstone gem = new Gemstone("✎ Rough Sapphire", "ROUGH_SAPPHIRE_GEM", GemstoneType.Sapphire, GemState.Rough, "https://textures.minecraft.net/texture/cfcebe54dbc345ea7e22206f703e6b33befbe95b6a918bd1754b76188bc65bb5");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedSapphire() {
-        Gemstone gem = new Gemstone("✎ Flawed Sapphire", "FLAWED_SAPPHIRE_GEM", null, GemstoneType.Sapphire, GemState.Flawed, "https://textures.minecraft.net/texture/8a0af99e8d8703194a847a55268cf5ef4ac4eb3b24c0ed86551339d10b646529");
+        Gemstone gem = new Gemstone("✎ Flawed Sapphire", "FLAWED_SAPPHIRE_GEM", GemstoneType.Sapphire, GemState.Flawed, "https://textures.minecraft.net/texture/8a0af99e8d8703194a847a55268cf5ef4ac4eb3b24c0ed86551339d10b646529");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineSapphire() {
-        Gemstone gem = new Gemstone("✎ Fine Sapphire", "FINE_SAPPHIRE_GEM", null, GemstoneType.Sapphire, GemState.Fine, "https://textures.minecraft.net/texture/36161daa3589ec9c8187459ac36fd4dd2646c040678d3bfacb72a2210c6c801c");
+        Gemstone gem = new Gemstone("✎ Fine Sapphire", "FINE_SAPPHIRE_GEM", GemstoneType.Sapphire, GemState.Fine, "https://textures.minecraft.net/texture/36161daa3589ec9c8187459ac36fd4dd2646c040678d3bfacb72a2210c6c801c");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessSapphire() {
-        Gemstone gem = new Gemstone("✎ Flawless Sapphire", "FLAWLESS_SAPPHIRE_GEM", null, GemstoneType.Sapphire, GemState.Flawless, "https://textures.minecraft.net/texture/957cfa9c75ba584645ee2af6d9867d767ddea4667cdfc72dc1061dd1975ca7d0");
+        Gemstone gem = new Gemstone("✎ Flawless Sapphire", "FLAWLESS_SAPPHIRE_GEM", GemstoneType.Sapphire, GemState.Flawless, "https://textures.minecraft.net/texture/957cfa9c75ba584645ee2af6d9867d767ddea4667cdfc72dc1061dd1975ca7d0");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectSapphire() {
-        Gemstone gem = new Gemstone("✎ Perfect Sapphire", "PERFECT_SAPPHIRE_GEM", null, GemstoneType.Sapphire, GemState.Perfect, "https://textures.minecraft.net/texture/8e93ebacb60b71793355fde0d4bba43a9c5ec09c3f38897c48c1f857523a0a29");
+        Gemstone gem = new Gemstone("✎ Perfect Sapphire", "PERFECT_SAPPHIRE_GEM", GemstoneType.Sapphire, GemState.Perfect, "https://textures.minecraft.net/texture/8e93ebacb60b71793355fde0d4bba43a9c5ec09c3f38897c48c1f857523a0a29");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
@@ -2813,31 +2813,31 @@ public class Items {
 
     //Amethyst Gemstone
     public static ItemStack RoughAmethyst() {
-        Gemstone gem = new Gemstone("§?§ Rough Amethyst", "ROUGH_AMETHYST_GEM", null, GemstoneType.Amethyst, GemState.Rough, "https://textures.minecraft.net/texture/e493c6f540c7001fed97b07f6b4c89128e3a7c37563aa223f0acca314f175515");
+        Gemstone gem = new Gemstone("§?§ Rough Amethyst", "ROUGH_AMETHYST_GEM", GemstoneType.Amethyst, GemState.Rough, "https://textures.minecraft.net/texture/e493c6f540c7001fed97b07f6b4c89128e3a7c37563aa223f0acca314f175515");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedAmethyst() {
-        Gemstone gem = new Gemstone("§?§ Flawed Amethyst", "FLAWED_AMETHYST_GEM", null, GemstoneType.Amethyst, GemState.Flawed, "https://textures.minecraft.net/texture/71db59260895578d37e59505880602de940b088e5fff8da3e65201d739c86e84");
+        Gemstone gem = new Gemstone("§?§ Flawed Amethyst", "FLAWED_AMETHYST_GEM", GemstoneType.Amethyst, GemState.Flawed, "https://textures.minecraft.net/texture/71db59260895578d37e59505880602de940b088e5fff8da3e65201d739c86e84");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineAmethyst() {
-        Gemstone gem = new Gemstone("§?§ Fine Amethyst", "FINE_AMETHYST_GEM", null, GemstoneType.Amethyst, GemState.Fine, "https://textures.minecraft.net/texture/7a1ee5ffce04eb7da592d42414ff35e1bf38194d6b82e310dbc6261b47fb9c91");
+        Gemstone gem = new Gemstone("§?§ Fine Amethyst", "FINE_AMETHYST_GEM", GemstoneType.Amethyst, GemState.Fine, "https://textures.minecraft.net/texture/7a1ee5ffce04eb7da592d42414ff35e1bf38194d6b82e310dbc6261b47fb9c91");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessAmethyst() {
-        Gemstone gem = new Gemstone("§?§ Flawless Amethyst", "FLAWLESS_AMETHYST_GEM", null, GemstoneType.Amethyst, GemState.Flawless, "https://textures.minecraft.net/texture/d3623521c8111ad29e9dcf7acc56085a9ab07da732d1518976aee61d0b3e3bd6");
+        Gemstone gem = new Gemstone("§?§ Flawless Amethyst", "FLAWLESS_AMETHYST_GEM", GemstoneType.Amethyst, GemState.Flawless, "https://textures.minecraft.net/texture/d3623521c8111ad29e9dcf7acc56085a9ab07da732d1518976aee61d0b3e3bd6");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectAmethyst() {
-        Gemstone gem = new Gemstone("§?§ Perfect Amethyst", "PERFECT_AMETHYST_GEM", null, GemstoneType.Amethyst, GemState.Perfect, "https://textures.minecraft.net/texture/d886e0f41185b18a3afd89488d2ee4caa0735009247cccf039ced6aed752ff1a");
+        Gemstone gem = new Gemstone("§?§ Perfect Amethyst", "PERFECT_AMETHYST_GEM", GemstoneType.Amethyst, GemState.Perfect, "https://textures.minecraft.net/texture/d886e0f41185b18a3afd89488d2ee4caa0735009247cccf039ced6aed752ff1a");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
@@ -2845,62 +2845,62 @@ public class Items {
 
     //Jasper Gemstone
     public static ItemStack RoughJasper() {
-        Gemstone gem = new Gemstone("§?? Rough Jasper", "ROUGH_JASPER_GEM", null, GemstoneType.Jasper, GemState.Rough, "https://textures.minecraft.net/texture/23d064ec150172d05844c11a18619c1421bbfb2ddd1dbb87cdc10e22252b773b");
+        Gemstone gem = new Gemstone("§?? Rough Jasper", "ROUGH_JASPER_GEM", GemstoneType.Jasper, GemState.Rough, "https://textures.minecraft.net/texture/23d064ec150172d05844c11a18619c1421bbfb2ddd1dbb87cdc10e22252b773b");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedJasper() {
-        Gemstone gem = new Gemstone("§?? Flawed Jasper", "FLAWED_JASPER_GEM", null, GemstoneType.Jasper, GemState.Flawed, "https://textures.minecraft.net/texture/a73511e504c316b139edb35febe73ef591c0f455e8caf9ee353bc12b6c14a922");
+        Gemstone gem = new Gemstone("§?? Flawed Jasper", "FLAWED_JASPER_GEM", GemstoneType.Jasper, GemState.Flawed, "https://textures.minecraft.net/texture/a73511e504c316b139edb35febe73ef591c0f455e8caf9ee353bc12b6c14a922");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineJasper() {
-        Gemstone gem = new Gemstone("§?? Fine Jasper", "FINE_JASPER_GEM", null, GemstoneType.Jasper, GemState.Fine, "https://textures.minecraft.net/texture/aac15f6fcf2ce963ef4ca71f1a8685adb97eb769e1d11194cbbd2e964a88978c");
+        Gemstone gem = new Gemstone("§?? Fine Jasper", "FINE_JASPER_GEM", GemstoneType.Jasper, GemState.Fine, "https://textures.minecraft.net/texture/aac15f6fcf2ce963ef4ca71f1a8685adb97eb769e1d11194cbbd2e964a88978c");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessJasper() {
-        Gemstone gem = new Gemstone("§?? Flawless Jasper", "FLAWLESS_JASPER_GEM", null, GemstoneType.Jasper, GemState.Flawless, "https://textures.minecraft.net/texture/ff993d3a43d40597b474485976160d0cf52ac64d157307d3b1c941db224d0ac6");
+        Gemstone gem = new Gemstone("§?? Flawless Jasper", "FLAWLESS_JASPER_GEM", GemstoneType.Jasper, GemState.Flawless, "https://textures.minecraft.net/texture/ff993d3a43d40597b474485976160d0cf52ac64d157307d3b1c941db224d0ac6");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectJasper() {
-        Gemstone gem = new Gemstone("§?? Perfect Jasper", "PERFECT_JASPER_GEM", null, GemstoneType.Jasper, GemState.Perfect, "https://textures.minecraft.net/texture/263f991b8e038e46b8ed7632f44ca2e30c15f42977070a8c8d8728e3fc04fc7c");
+        Gemstone gem = new Gemstone("§?? Perfect Jasper", "PERFECT_JASPER_GEM", GemstoneType.Jasper, GemState.Perfect, "https://textures.minecraft.net/texture/263f991b8e038e46b8ed7632f44ca2e30c15f42977070a8c8d8728e3fc04fc7c");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     //Topaz Gemstone
     public static ItemStack RoughTopaz() {
-        Gemstone gem = new Gemstone("✧ Rough Topaz", "ROUGH_TOPAZ_GEM", null, GemstoneType.Topaz, GemState.Rough, "https://textures.minecraft.net/texture/3fd960722ec29c66716ae5ca97b9b6b2628984e1d6f9d2592cd089914206a1b");
+        Gemstone gem = new Gemstone("✧ Rough Topaz", "ROUGH_TOPAZ_GEM", GemstoneType.Topaz, GemState.Rough, "https://textures.minecraft.net/texture/3fd960722ec29c66716ae5ca97b9b6b2628984e1d6f9d2592cd089914206a1b");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawedTopaz() {
-        Gemstone gem = new Gemstone("✧ Flawed Topaz", "FLAWED_TOPAZ_GEM", null, GemstoneType.Topaz, GemState.Flawed, "https://textures.minecraft.net/texture/b6392773d114be30aeb3c09c90cbe691ffeaceb399b530fe6fb53ddc0ced3714");
+        Gemstone gem = new Gemstone("✧ Flawed Topaz", "FLAWED_TOPAZ_GEM", GemstoneType.Topaz, GemState.Flawed, "https://textures.minecraft.net/texture/b6392773d114be30aeb3c09c90cbe691ffeaceb399b530fe6fb53ddc0ced3714");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FineTopaz() {
-        Gemstone gem = new Gemstone("✧ Fine Topaz", "FINE_TOPAZ_GEM", null, GemstoneType.Topaz, GemState.Fine, "https://textures.minecraft.net/texture/92cb6e51c461e7359526bea5e06209cddde7c6469a819f3405cf0a038c159502");
+        Gemstone gem = new Gemstone("✧ Fine Topaz", "FINE_TOPAZ_GEM", GemstoneType.Topaz, GemState.Fine, "https://textures.minecraft.net/texture/92cb6e51c461e7359526bea5e06209cddde7c6469a819f3405cf0a038c159502");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack FlawlessTopaz() {
-        Gemstone gem = new Gemstone("✧ Flawless Topaz", "FLAWLESS_TOPAZ_GEM", null, GemstoneType.Topaz, GemState.Flawless, "https://textures.minecraft.net/texture/b6392773d114be30aeb3c09c90cbe691ffeaceb399b530fe6fb53ddc0ced3714");
+        Gemstone gem = new Gemstone("✧ Flawless Topaz", "FLAWLESS_TOPAZ_GEM", GemstoneType.Topaz, GemState.Flawless, "https://textures.minecraft.net/texture/b6392773d114be30aeb3c09c90cbe691ffeaceb399b530fe6fb53ddc0ced3714");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }
 
     public static ItemStack PerfectTopaz() {
-        Gemstone gem = new Gemstone("✧ Perfect Topaz", "PERFECT_TOPAZ_GEM", null, GemstoneType.Topaz, GemState.Perfect, "https://textures.minecraft.net/texture/3da6ecdcbc3fe355ca0611192a3fbd35dd5635d5fcdf3fbc79ed2bc1f4a017fe");
+        Gemstone gem = new Gemstone("✧ Perfect Topaz", "PERFECT_TOPAZ_GEM", GemstoneType.Topaz, GemState.Perfect, "https://textures.minecraft.net/texture/3da6ecdcbc3fe355ca0611192a3fbd35dd5635d5fcdf3fbc79ed2bc1f4a017fe");
         SkyblockItems.put(gem.itemID, gem);
         return gem.getRawItemStack();
     }

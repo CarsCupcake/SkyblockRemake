@@ -7,7 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStatPackage;
 
-public class epic implements Reforge{
+public class Epic implements Reforge{
 
 	@Override
 	public ReforgeStatPackage CommonStats() {
@@ -70,8 +70,7 @@ public class epic implements Reforge{
 
 	@Override
 	public ItemType[] Reforgable() {
-		ItemType[] type = {ItemType.Sword};
-		return type;
+        return new ItemType[]{ItemType.Sword};
 	}
 
 	@Override

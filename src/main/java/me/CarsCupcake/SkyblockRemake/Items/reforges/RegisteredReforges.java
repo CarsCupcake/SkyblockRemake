@@ -6,8 +6,8 @@ import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Auspicious;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Jaded;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Loving;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStones.Necrotic;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.epic;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.heroic;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.Epic;
+import me.CarsCupcake.SkyblockRemake.Items.reforges.blacksmith.Heroic;
 
 
 
@@ -21,11 +21,11 @@ public static void init() {
 	initReforgeStones();
 }
 private static void initBlacksmith() {
-	blacksmith_reforges.put("Epic", new epic());
-	reforges.put("Epic", new epic());
+	blacksmith_reforges.put("Epic", new Epic());
+	reforges.put("Epic", new Epic());
 	
-	blacksmith_reforges.put("Heroic", new heroic());
-	reforges.put("Heroic", new heroic());
+	blacksmith_reforges.put("Heroic", new Heroic());
+	reforges.put("Heroic", new Heroic());
 }
 
 private static void initReforgeStones() {

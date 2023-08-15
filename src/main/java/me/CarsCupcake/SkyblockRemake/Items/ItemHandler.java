@@ -35,6 +35,12 @@ public class ItemHandler {
         item.setItemMeta(meta);
     }
 
+    public static void removePDC(String str, ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().remove(new NamespacedKey(Main.getMain(), str));
+        item.setItemMeta(meta);
+    }
+
     public static boolean hasEnchantment(Enchantment enchantment, ItemStack item) {
         if (item != null && item.getItemMeta() != null) {
             return item.getItemMeta().getEnchants().containsKey(enchantment);

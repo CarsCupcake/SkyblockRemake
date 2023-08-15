@@ -58,7 +58,6 @@ public class ItemManager implements ItemGenerator {
     @Setter
     public ArrayList<String> lore = new ArrayList<>();
     public ArrayList<GemstoneSlot> gemstoneSlots = new ArrayList<>();
-    public double dmg;
     @Setter
     public double breakingpower;
     public String itemID;
@@ -231,22 +230,21 @@ public class ItemManager implements ItemGenerator {
         isHead = true;
         Items.SkyblockItems.put(itemID, this);
     }
-    public ItemRarity getRarity(){
+
+    @Deprecated
+    public ItemRarity getRarity() {
         return rarity;
     }
-    public ItemRarity getRarity(@NotNull ItemStack item){
-        return getRarity(rarity, item);
-    }
-    public ItemRarity getRarity(@NotNull ItemStack item, @Nullable SkyblockPlayer player){
-        return getRarity(rarity, item, player);
-    }
-    public ItemRarity getRarity(ItemRarity rarity ,@NotNull ItemStack item){
-        return getRarity(rarity, item, null);
-    }
-    public ItemRarity getRarity(@NotNull ItemRarity rarity, @NotNull ItemStack item, @Nullable SkyblockPlayer player){
-        return rarityGrabber.getRarity(rarity, item, player);
+
+    public ItemRarity getRarity(@NotNull ItemStack item) {
+        return getRarity(item, null);
     }
 
+    public ItemRarity getRarity(@NotNull ItemStack item, SkyblockPlayer player) {
+        ItemRarity r = rarityGrabber.getRarity(rarity, item, player);
+        if (ItemHandler.getOrDefaultPDC("recomed", item, PersistentDataType.INTEGER, 0) == 1) r = r.getNext();
+        return r;
+    }
 
     public void setEquipmentAbility(EquipmentAbility ability, String name) {
         setEquipmentAbility(ability, name, new AbilityLore(new ArrayList<>()));
@@ -280,7 +278,7 @@ public class ItemManager implements ItemGenerator {
 
     public void setDungeonItem(boolean b) {
         isDungeonItem = b;
-        if(maxStars == 0) maxStars = 5;
+        if (maxStars == 0) maxStars = 5;
     }
 
     public void setEditions(boolean bol) {
@@ -330,12 +328,14 @@ public class ItemManager implements ItemGenerator {
         return isUnstackeble;
     }
 
+    @Deprecated
     public void setBreakingPower(int value) {
-        breakingpower = value;
+        setStat(Stats.BreakingPower, value);
     }
 
+    @Deprecated
     public void setDamage(double value) {
-        dmg = value;
+        setStat(Stats.WeaponDamage, value);
     }
 
     public ArrayList<String> getLore() {
@@ -350,7 +350,7 @@ public class ItemManager implements ItemGenerator {
     }
 
     public void addDungeonStat(int floor, HashMap<Stats, Double> stats) {
-        if(dungeonStats == null) dungeonStats = new HashMap<>();
+        if (dungeonStats == null) dungeonStats = new HashMap<>();
         dungeonStats.put(floor, stats);
     }
 
@@ -387,7 +387,7 @@ public class ItemManager implements ItemGenerator {
 
     public void setFullSetBonus(Bonuses bonus, String name, AbilityLore lore) {
         this.bonus = bonus;
-        abilities.add(new Ability(null, name, ((bonus.isSneak()) ? AbilityType.Sneak :  AbilityType.FullSetBonus), lore, 0, 0));
+        abilities.add(new Ability(null, name, ((bonus.isSneak()) ? AbilityType.Sneak : AbilityType.FullSetBonus), lore, 0, 0));
         fullSetBonusPointer = abilities.size() - 1;
     }
 
@@ -420,7 +420,7 @@ public class ItemManager implements ItemGenerator {
                 item.setItemMeta(lmeta);
             }
 
-            if(mapImagePath != null){
+            if (mapImagePath != null) {
                 MapMeta mMeta = (MapMeta) item.getItemMeta();
                 MapView view = Bukkit.createMap(Bukkit.getWorlds().get(0));
                 view.getRenderers().clear();
@@ -445,25 +445,9 @@ public class ItemManager implements ItemGenerator {
                 meta.addEnchant(enchant, level, true);
             });
             data.set(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING, itemID);
-            data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
-            if (dmg != 0) data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "" + dmg);
-            if (breakingpower != 0)
-                data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-
-            for (Stats s : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
-            if (catchMult != 0)
-                data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-            if (baseabilitydamage != 0)
-                data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
-            data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
             data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
             if (isUnstackeble)
                 data.set(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString());
-            for (Stats stat : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), stat.getDataName()), PersistentDataType.DOUBLE, stats.get(stat));
-
-
             ArrayList<String> lore = new ArrayList<>();
             if (this.lore != null) this.lore.forEach(l -> {
                 lore.add(l);
@@ -477,7 +461,15 @@ public class ItemManager implements ItemGenerator {
                     data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.STRING, arg2);
                 });
             }
-
+            if (Gemstone.gemstones.containsKey(itemID)) {
+                Gemstone gem = Gemstone.gemstones.get(itemID);
+                data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
+                data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
+            }
+            if (Pet.pets.containsKey(itemID)) {
+                data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
+                data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
+            }
             lore.add("");
             lore.add(rarity.getRarityName() + type.toString());
             meta.setLore(lore);
@@ -488,7 +480,6 @@ public class ItemManager implements ItemGenerator {
                 });
             }
             item.setItemMeta(meta);
-            NBTEditor.set(item, itemID, "ExtraAtribute", "id");
             if (!bannerPattern.isEmpty()) {
                 BannerMeta bannerMeta = (BannerMeta) item.getItemMeta();
                 for (Pattern patterns : bannerPattern)
@@ -512,21 +503,7 @@ public class ItemManager implements ItemGenerator {
                 meta.addEnchant(enchant, level, true);
             });
             PersistentDataContainer data = meta.getPersistentDataContainer();
-
             data.set(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING, itemID);
-            data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
-            if (dmg != 0) data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "" + dmg);
-
-            if (breakingpower != 0)
-                data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-            if (baseabilitydamage != 0)
-                data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
-            ;
-            for (Stats s : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
-            if (catchMult != 0)
-                data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-            data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
             data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
             ArrayList<String> lore = new ArrayList<>();
             if (this.lore != null) this.lore.forEach(l -> {
@@ -539,43 +516,30 @@ public class ItemManager implements ItemGenerator {
             }
             if (isUnstackeble)
                 data.set(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString());
-            for (Stats stat : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), stat.getDataName()), PersistentDataType.DOUBLE, stats.get(stat));
-
             lore.add(" ");
-
             lore.add(rarity.getRarityName() + type.toString());
             meta.setLore(lore);
 
             if (Gemstone.gemstones.containsKey(itemID)) {
                 Gemstone gem = Gemstone.gemstones.get(itemID);
-
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
-
             }
             if (Pet.pets.containsKey(itemID)) {
-
-
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
-
             }
             if (customIntContainer != null) {
                 customIntContainer.forEach((arg1, arg2) -> {
                     data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.INTEGER, arg2);
                 });
             }
+            if (customDataContainer != null) {
+                customDataContainer.forEach((arg1, arg2) -> {
+                    data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.STRING, arg2);
+                });
+            }
             item.setItemMeta(meta);
-            net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-            NBTTagCompound tag = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
-            NBTTagCompound d = tag.getCompound("ExtraAttributes") != null ? tag.getCompound("ExtraAttributes") : new NBTTagCompound();
-            d.setString("id", itemID);
-            tag.set("ExtraAttributes", d);
-            nmsItem.setTag(tag);
-            item = CraftItemStack.asBukkitCopy(nmsItem);
-
-
             return item;
         }
     }
@@ -592,7 +556,7 @@ public class ItemManager implements ItemGenerator {
                 lmeta.addItemFlags(ItemFlag.HIDE_DYE);
                 item.setItemMeta(lmeta);
             }
-            if(mapImagePath != null){
+            if (mapImagePath != null) {
                 MapMeta mMeta = (MapMeta) item.getItemMeta();
                 MapView view = Bukkit.createMap(Bukkit.getWorlds().get(0));
                 view.getRenderers().clear();
@@ -612,69 +576,48 @@ public class ItemManager implements ItemGenerator {
             meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
 
 
-
             PersistentDataContainer data = meta.getPersistentDataContainer();
             meta.setDisplayName(rarity.getPrefix() + name);
             if (enchants != null) enchants.forEach((enchant, level) -> {
                 meta.addEnchant(enchant, level, true);
             });
             data.set(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING, itemID);
-            data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
-            if (dmg != 0) data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "" + dmg);
-
-            if (breakingpower != 0)
-                data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-            for (Stats s : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
-            if (catchMult != 0)
-                data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-
-            if (baseabilitydamage != 0)
-                data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
-
-            data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
             data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
-
-            if (hasEdition) {
-
-                data.set(new NamespacedKey(Main.getMain(), "from"), PersistentDataType.STRING, "-");
-                data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, "-");
-                EditionItems.reload();
-                int edition = EditionItems.get().getInt(itemID) + 1;
-                EditionItems.get().set(itemID, edition);
-                EditionItems.save();
-                EditionItems.reload();
-                data.set(new NamespacedKey(Main.getMain(), "date"), PersistentDataType.STRING, df.format(new Date()));
-
-                data.set(new NamespacedKey(Main.getMain(), "editionnumber"), PersistentDataType.INTEGER, edition);
-            }
-
-            if (isUnstackeble)
-                data.set(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString());
-            for (Stats stat : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), stat.getDataName()), PersistentDataType.DOUBLE, stats.get(stat));
-
             ArrayList<String> lore = new ArrayList<>();
             if (this.lore != null) this.lore.forEach(l -> {
                 lore.add(l);
             });
+
             if (type == ItemType.Drill) {
                 data.set(new NamespacedKey(Main.getMain(), "maxfuel"), PersistentDataType.INTEGER, 3000);
                 data.set(new NamespacedKey(Main.getMain(), "fuel"), PersistentDataType.INTEGER, 3000);
             }
-            if (customDataContainer != null) {
-                customDataContainer.forEach((arg1, arg2) -> {
-                    data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.STRING, arg2);
-                });
+            if (isUnstackeble)
+                data.set(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString());
+            lore.add(" ");
+            lore.add(rarity.getRarityName() + type.toString());
+            meta.setLore(lore);
+
+            if (Gemstone.gemstones.containsKey(itemID)) {
+                Gemstone gem = Gemstone.gemstones.get(itemID);
+                data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
+                data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
+            }
+            if (Pet.pets.containsKey(itemID)) {
+                data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
+                data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
             }
             if (customIntContainer != null) {
                 customIntContainer.forEach((arg1, arg2) -> {
                     data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.INTEGER, arg2);
                 });
             }
-
+            if (customDataContainer != null) {
+                customDataContainer.forEach((arg1, arg2) -> {
+                    data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.STRING, arg2);
+                });
+            }
             lore.add(" ");
-
             lore.add(rarity.getRarityName() + type.toString());
             meta.setLore(lore);
             meta.setUnbreakable(true);
@@ -703,71 +646,40 @@ public class ItemManager implements ItemGenerator {
                 meta.addEnchant(enchant, level, true);
             });
             PersistentDataContainer data = meta.getPersistentDataContainer();
-
             data.set(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING, itemID);
-            data.set(new NamespacedKey(Main.getMain(), "type"), PersistentDataType.STRING, type.toString());
-            if (dmg != 0) data.set(new NamespacedKey(Main.getMain(), "dmg"), PersistentDataType.STRING, "" + dmg);
-            for (Stats s : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), s.getDataName()), PersistentDataType.DOUBLE, stats.get(s));
-            if (breakingpower != 0)
-                data.set(new NamespacedKey(Main.getMain(), "breakingpower"), PersistentDataType.DOUBLE, breakingpower);
-            if (baseabilitydamage != 0)
-                data.set(new NamespacedKey(Main.getMain(), "baseabilitydamage"), PersistentDataType.INTEGER, baseabilitydamage);
-
-            if (catchMult != 0)
-                data.set(new NamespacedKey(Main.getMain(), "catchmult"), PersistentDataType.DOUBLE, catchMult);
-
-            data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, rarity.toString());
             data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 0);
             ArrayList<String> lore = new ArrayList<>();
             if (this.lore != null) this.lore.forEach(l -> {
                 lore.add(l);
             });
-            if (hasEdition) {
-
-                data.set(new NamespacedKey(Main.getMain(), "from"), PersistentDataType.STRING, "-");
-                data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, "-");
-                EditionItems.reload();
-                int edition = EditionItems.get().getInt(itemID) + 1;
-                EditionItems.get().set(itemID, edition);
-                EditionItems.save();
-                EditionItems.reload();
-
-                data.set(new NamespacedKey(Main.getMain(), "editionnumber"), PersistentDataType.INTEGER, edition);
-            }
 
             if (type == ItemType.Drill) {
                 data.set(new NamespacedKey(Main.getMain(), "maxfuel"), PersistentDataType.INTEGER, 3000);
                 data.set(new NamespacedKey(Main.getMain(), "fuel"), PersistentDataType.INTEGER, 3000);
             }
-
             if (isUnstackeble)
                 data.set(new NamespacedKey(Main.getMain(), "uuid"), PersistentDataType.STRING, UUID.randomUUID().toString());
-            for (Stats stat : stats.keySet())
-                data.set(new NamespacedKey(Main.getMain(), stat.getDataName()), PersistentDataType.DOUBLE, stats.get(stat));
-
             lore.add(" ");
-
             lore.add(rarity.getRarityName() + type.toString());
             meta.setLore(lore);
 
             if (Gemstone.gemstones.containsKey(itemID)) {
                 Gemstone gem = Gemstone.gemstones.get(itemID);
-
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
-
             }
             if (Pet.pets.containsKey(itemID)) {
-
-
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
-
             }
             if (customIntContainer != null) {
                 customIntContainer.forEach((arg1, arg2) -> {
                     data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.INTEGER, arg2);
+                });
+            }
+            if (customDataContainer != null) {
+                customDataContainer.forEach((arg1, arg2) -> {
+                    data.set(new NamespacedKey(Main.getMain(), arg1), PersistentDataType.STRING, arg2);
                 });
             }
 
@@ -783,37 +695,44 @@ public class ItemManager implements ItemGenerator {
             return item;
         }
     }
-    @Getter @Setter
+
+    @Getter
+    @Setter
     private RunnableWithParam<ProjectileLaunchEvent> onBowShoot;
     private long shorbowCooldown = -1;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int arrowsToShoot = 1;
     private static final double ARROW_DEGREES = 5;
+
     /**
      * Calculates the shoot vectors for the other arrows (excludes the original)
+     *
      * @param origin the main arrow's velocity
      * @return the rest of the arrows vectors
      */
     public List<Vector> getShootVectors(Vector origin) {
         return getShootVectors(origin, arrowsToShoot);
     }
+
     /**
      * Calculates the shoot vectors for the other arrows (excludes the original)
-     * @param origin the main arrow's velocity
+     *
+     * @param origin        the main arrow's velocity
      * @param arrowsToShoot the amount of arrows
      * @return the rest of the arrows vectors
      */
     public static List<Vector> getShootVectors(Vector origin, int arrowsToShoot) {
-        if(arrowsToShoot == 1) return new ArrayList<>();
+        if (arrowsToShoot == 1) return new ArrayList<>();
         List<Vector> vs = new ArrayList<>();
         boolean b = (arrowsToShoot - 1) % 2 == 0;
         int loopcycles = (arrowsToShoot - ((b) ? 1 : 0)) / 2;
         for (int i = 0; i < loopcycles; i++) {
             double degree = (i + 1d) * ARROW_DEGREES;
             vs.add(origin.clone().rotateAroundY(Math.toRadians(degree)));
-            if(loopcycles - 1 != i)
+            if (loopcycles - 1 != i)
                 vs.add(origin.clone().rotateAroundY(-Math.toRadians(degree)));
-            else if(b)
+            else if (b)
                 vs.add(origin.clone().rotateAroundY(-Math.toRadians(degree)));
         }
         return vs;
@@ -822,21 +741,24 @@ public class ItemManager implements ItemGenerator {
 
     /**
      * Set the bow to a shortbow
+     *
      * @param cooldown the cooldown in second between 2 shots at 0 attackspeed. if cooldown == -1 -> disable shortbow
      */
     public void setShortbow(double cooldown) {
-        if(cooldown == -1) shorbowCooldown = -1;
+        if (cooldown == -1) shorbowCooldown = -1;
         else {
             shorbowCooldown = (long) (cooldown * 20d);
         }
     }
+
     public boolean isShortbow() {
         return shorbowCooldown != -1;
     }
+
     public long getShorbowCooldown(double attackspeed) {
-        if(shorbowCooldown == -1) return -1;
-        if(attackspeed >= 100) return shorbowCooldown / 2;
-        double d = attackspeed/100;
+        if (shorbowCooldown == -1) return -1;
+        if (attackspeed >= 100) return shorbowCooldown / 2;
+        double d = attackspeed / 100;
         d = 1 - d;
         return (long) ((((double) shorbowCooldown) / 2d) + ((((double) shorbowCooldown) / 2d) * d));
     }
@@ -852,20 +774,24 @@ public class ItemManager implements ItemGenerator {
     public static interface MaterialGrabber {
         Material getMaterial(ItemStack item, SkyblockPlayer player);
     }
+
     public static interface SpecialRarityGrabber {
-        ItemRarity getRarity(@NotNull ItemRarity rarity,@NotNull ItemStack item,@Nullable SkyblockPlayer player);
+        ItemRarity getRarity(@NotNull ItemRarity rarity, @NotNull ItemStack item, @Nullable SkyblockPlayer player);
     }
+
     private static class MapImageRenderer extends MapRenderer {
         private final String mapImagePath;
-        public MapImageRenderer(String mapImagePath){
+
+        public MapImageRenderer(String mapImagePath) {
             this.mapImagePath = mapImagePath;
         }
+
         @Override
         public void render(@NotNull MapView mapView, @NotNull MapCanvas mapCanvas, @NotNull Player player) {
 
             try {
                 InputStream str = Main.getMain().getResource(mapImagePath);
-                if(str == null) return;
+                if (str == null) return;
                 mapCanvas.drawImage(0, 0, ImageIO.read(str));
             } catch (IOException e) {
                 throw new RuntimeException(e);

@@ -60,8 +60,7 @@ public class Auspicious implements Reforge {
 
 	@Override
 	public ItemType[] Reforgable() {
-		ItemType[] types = {ItemType.Drill, ItemType.Pickaxe};
-		return types;
+        return new ItemType[]{ItemType.Drill, ItemType.Pickaxe};
 	}
 
 	@Override

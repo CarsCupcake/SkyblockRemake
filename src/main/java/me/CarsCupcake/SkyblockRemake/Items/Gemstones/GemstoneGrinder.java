@@ -94,92 +94,11 @@ if(event.getView().getTitle() == null || !event.getView().getTitle().contains("G
 							newSlots.add(s);
 						}
 					}
-					
 					if(freeSlot) {
-						
 						ItemStack i = event.getView().getTopInventory().getItem(13);
-
-						
-						
-						
 						i = GemstoneSlot.setSlotPersistentDataContainer(i, newSlots);
-						ItemMeta meta = i.getItemMeta();
-						PersistentDataContainer data = meta.getPersistentDataContainer();
-						if(addedgem.gemType == GemstoneType.Ruby) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER, addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						if(addedgem.gemType == GemstoneType.Amber) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE,(double) addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						if(addedgem.gemType == GemstoneType.Jade) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, (double)addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						if(addedgem.gemType == GemstoneType.Sapphire) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, (double)addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						if(addedgem.gemType == GemstoneType.Amethyst) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE,(double) addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						
-						if(addedgem.gemType == GemstoneType.Jasper) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE) + addedgem.getStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE,(double) addedgem.getStatBoost(rarity));
-								
-							}
-						}
-						if(addedgem.gemType == GemstoneType.Topaz) {
-							ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-							if(data.get(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE) != null) {
-								data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE) + addedgem.getDoubleStatBoost(rarity));
-								
-							}else {
-								data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE,(double) addedgem.getDoubleStatBoost(rarity));
-								
-							}
-						}
-						i.setItemMeta(meta);
 						i = Main.item_updater(i, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
 						event.getView().getTopInventory().setItem(13, i);
-						
 					}
 					
 					
@@ -203,48 +122,8 @@ if(event.getView().getTitle() == null || !event.getView().getTitle().contains("G
 					slots.set(gemslot, new GemstoneSlot(manager.gemstoneSlots.get(gemslot).type));
 					ItemStack item = event.getView().getTopInventory().getItem(13);
 					 item = GemstoneSlot.setSlotPersistentDataContainer(item, slots);
-					
-					
 					Gemstone gem = Gemstone.gemstones.get(event.getInventory().getItem(event.getSlot()).getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
-					ItemMeta meta = item.getItemMeta();
-					PersistentDataContainer data = meta.getPersistentDataContainer();
-					if(gem.gemType == GemstoneType.Ruby) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Amber) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Jade) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Sapphire) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Amethyst) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Jasper) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.INTEGER, data.get(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.INTEGER) - gem.getStatBoost(rarity));
-					}
-					if(gem.gemType == GemstoneType.Topaz) {
-						ItemRarity rarity = ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING));
-						data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE) - gem.getDoubleStatBoost(rarity));
-						System.out.println(data.get(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE) - gem.getDoubleStatBoost(rarity));
-					}
-					item.setItemMeta(meta);
-					item = Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+					Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
 					event.getView().getTopInventory().setItem(13, item);
 				}
 			}

@@ -60,7 +60,7 @@ public class GemstoneSlot {
 		ArrayList<GemstoneSlot> slots = getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer());
 		ItemMeta meta = item.getItemMeta();
 		PersistentDataContainer data= meta.getPersistentDataContainer();
-		ItemRarity rarity = manager.getRarity(ItemRarity.valueOf(data.get(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING)), item);
+		ItemRarity rarity = manager.getRarity(item);
 
 		for(GemstoneSlot slot : slots) {
 			if(slot.currGem != null) {

@@ -17,19 +17,9 @@ public interface Reforge {
 	 ItemType[] Reforgable();
 	 String getName();
 	 ArrayList<String> getLore();
-	
-	
-	 static double getReforgeValue(Reforge reforge, ItemRarity rarity, String s) {
-		 ReforgeStatPackage statPackage = AddReforges.getStatPackage(rarity, reforge);
-		 if(s.equals("dmg")){
-			 return statPackage.getDamage();
-		 }else {
-			 if(!s.equals("breakingpower")) {
-				 Stats stat = Stats.getFromDataName(s);
-				 return statPackage.getStat(stat);
-			 }
-		 }
-		 return 0;
+	 default double getReforgeValue(ItemRarity rarity, Stats s) {
+		 ReforgeStatPackage statPackage = AddReforges.getStatPackage(rarity, this);
+		 return statPackage.getStat(s);
 	}
 
 }

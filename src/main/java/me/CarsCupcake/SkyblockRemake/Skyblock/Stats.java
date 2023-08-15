@@ -3,7 +3,6 @@ package me.CarsCupcake.SkyblockRemake.Skyblock;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.ChatColor;
@@ -45,7 +44,7 @@ public enum Stats {
     RiftDamage("rdamage", '❁', ChatColor.DARK_PURPLE, "Rift Damage", true, 20, -1, true),
     WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2);
     public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Speed, Inteligence,
-            MagicFind, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
+            MagicFind, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
     public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;
     private final char symbol;
@@ -53,7 +52,9 @@ public enum Stats {
     private final String name;
     @Getter
     private final boolean agressive;
+    @Getter
     private final HotPotatoBookStat hotPotatoBookStat;
+    @Getter
     private final int hotPotatoBookStatBoost;
     @Getter
     private final double baseAmount;
@@ -125,8 +126,7 @@ public enum Stats {
 
     public static ArrayList<String> makeItemStatsLore(ItemStack item, ArrayList<String> lore, SkyblockPlayer player) {
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
-        String rarityPdc = ItemHandler.getPDC("rarity", item, PersistentDataType.STRING);
-        ItemRarity rarity = (rarityPdc == null) ? manager.getRarity(item, player) : manager.getRarity(ItemRarity.valueOf(rarityPdc), item, player);
+        ItemRarity rarity = manager.getRarity(item, player);
         HashMap<Stats, Integer> gemstoneSlots = new HashMap<>();
 
         for (GemstoneSlot s : GemstoneSlot.getCurrGemstones(manager,
@@ -136,16 +136,7 @@ public enum Stats {
         }
         for (Stats stat : ((ServerType.getActiveType() == ServerType.Rift) ? riftStatItemDisplayOrder : statItemDisplayOrder)) {
             double value;
-            if (stat != WeaponDamage)
-                value = Main.getItemStat(player, stat, item);
-            else {
-                if (ItemHandler.hasPDC("dmg", item, PersistentDataType.STRING))
-                    value = Main.weapondamage(item);
-                else if (ItemHandler.hasPDC("dmg", item, PersistentDataType.DOUBLE))
-                    value = Main.getItemStat(player, stat, item);
-
-                else continue;
-            }
+            value = Main.getItemStat(player, stat, item);
             if (value == 0)
                 continue;
             String row = "§7" + stat.name + " " + ((stat.agressive) ? "§c" : "§a") + ((value == Double.MAX_VALUE) ? "∞" : (((value < 0) ? "-" : "+") + String.format("%.0f", value)));
@@ -155,7 +146,7 @@ public enum Stats {
             }
 
             if (ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING)) {
-                double v = Reforge.getReforgeValue(RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)), manager.getRarity(rarity, item, player), stat.getDataName());
+                double v = RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)).getReforgeValue(manager.getRarity(item, player), stat);
                 if (v != 0)
                     row += " §9(+" + ((v % 1 == 0) ? String.format("%.0f", v) : v) + ")";
             }
@@ -171,7 +162,7 @@ public enum Stats {
         return lore;
     }
 
-    private enum HotPotatoBookStat {
+    public enum HotPotatoBookStat {
         Sword(getSwordsTypes()),
         Armor(Set.of(ItemType.Helmet, ItemType.Chestplate, ItemType.Leggings, ItemType.Boots));
         private final Set<ItemType> types;
@@ -187,6 +178,9 @@ public enum Stats {
             types.remove(ItemType.Leggings);
             types.remove(ItemType.Boots);
             return types;
+        }
+        public boolean contains(ItemType type) {
+            return types.contains(type);
         }
     }
 

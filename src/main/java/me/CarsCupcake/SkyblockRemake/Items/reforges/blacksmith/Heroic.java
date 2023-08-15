@@ -7,7 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.ReforgeStatPackage;
 
-public class heroic implements Reforge{
+public class Heroic implements Reforge{
 
 	@Override
 	public ReforgeStatPackage CommonStats() {

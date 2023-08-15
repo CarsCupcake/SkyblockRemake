@@ -10,20 +10,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
+import org.jetbrains.annotations.NotNull;
 
 
 public class AddReforgeTAB implements  TabCompleter{
 	
-List<String> arguments = new ArrayList<String>();
+List<String> arguments = new ArrayList<>();
 	
-	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 		
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(arguments.isEmpty()) {
-		for (String key : RegisteredReforges.reforges.keySet()) {
-			arguments.add(key);
-			
-		}
+			arguments.addAll(RegisteredReforges.reforges.keySet());
 		arguments.add("remove");
 		}
 		
@@ -36,9 +34,8 @@ List<String> arguments = new ArrayList<String>();
 		}
 		
 		if (args.length >= 2) {
-			for (String a : arguments) {
-				a = "";
-				result.add(a);
+			for (String ignored : arguments) {
+				result.add("");
 			}
 			return result;
 		}

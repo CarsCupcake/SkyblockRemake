@@ -3,49 +3,29 @@ package me.CarsCupcake.SkyblockRemake.Items.Gemstones;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 
 public enum GemState {
-Rough(0),
-Flawed(1),
-Fine(2),
-Flawless(3),
-Perfect(4);
-
-GemState(int i) {
-}
+Rough(),
+Flawed(),
+Fine(),
+Flawless(),
+Perfect();
 
 public ItemRarity getRarity() {
-	switch (this) {
-	case Rough:
-		return ItemRarity.COMMON;
-	case Flawed:
-		return ItemRarity.UNCOMMON;
-	case Fine:
-		return ItemRarity.RARE;
-	case Flawless:
-		return ItemRarity.EPIC;
-	case Perfect:
-		return ItemRarity.LEGENDARY;
-	default:
-		return ItemRarity.UNDEFINED;
-		
-	
-	}
+    return switch (this) {
+        case Rough -> ItemRarity.COMMON;
+        case Flawed -> ItemRarity.UNCOMMON;
+        case Fine -> ItemRarity.RARE;
+        case Flawless -> ItemRarity.EPIC;
+        case Perfect -> ItemRarity.LEGENDARY;
+    };
 }
 public String toString() {
-	switch (this) {
-	case Fine:
-		return "Fine";
-	case Flawed:
-		return "Flawed";
-	case Flawless:
-		return "Flawless";
-	case Perfect:
-		return "Perfect";
-	case Rough:
-		return "Rought";
-	default:
-		return "";
-	
-	}
+    return switch (this) {
+        case Fine -> "Fine";
+        case Flawed -> "Flawed";
+        case Flawless -> "Flawless";
+        case Perfect -> "Perfect";
+        case Rough -> "Rought";
+    };
 }
 
 }

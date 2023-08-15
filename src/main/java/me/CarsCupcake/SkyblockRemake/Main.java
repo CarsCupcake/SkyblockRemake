@@ -1366,32 +1366,24 @@ public class Main extends JavaPlugin {
 
 
     public synchronized static double getItemStat(SkyblockPlayer player, Stats stat, ItemStack item) {
-        double value = 0;
         if (item == null) {
             return 0;
-        } else {
-            ItemMeta meta = item.getItemMeta();
-            if (meta == null) {
-                return 0;
-
-            } else {
-                PersistentDataContainer data = meta.getPersistentDataContainer();
-                if (data == null) {
-                    return 0;
-                } else {/*
-			if (stat != Stats.AbilityDamage) {*/
-
-
-                    try {
-                        Double rawvalue = data.get(new NamespacedKey(getMain(), stat.getDataName()), PersistentDataType.DOUBLE);
-                        if (rawvalue == null) value = 0;
-                        else value = rawvalue;
-                    } catch (Exception ignored) {
-                        Float rawvalue = data.get(new NamespacedKey(getMain(), stat.getDataName()), PersistentDataType.FLOAT);
-                        if (rawvalue == null) value = 0;
-                        else value = rawvalue;
-                    }
-                }
+        }
+        ItemManager manager = ItemHandler.getItemManager(item);
+        if (manager == null) return 0;
+        double value = manager.getStat(stat);
+        ItemRarity rarity = manager.getRarity(item, player);
+        if(ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING))
+            value += RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)).getReforgeValue(rarity, stat);
+        if (ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0) > 0) {
+            if(stat.getHotPotatoBookStat() != null && stat.getHotPotatoBookStat().contains(manager.type) && stat.getHotPotatoBookStatBoost() > 0) {
+                value += stat.getHotPotatoBookStatBoost() * ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0);
+            }
+        }
+        if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
+            for (GemstoneSlot slot : GemstoneSlot.getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer())) {
+                if (slot.currGem.getStat() != stat) continue;
+                value += slot.currGem.getStatBoost(rarity);
             }
         }
         value *= StarHandler.getStarBuff(item);
@@ -1404,101 +1396,6 @@ public class Main extends JavaPlugin {
         return kekw;
 
     }
-
-
-    public static double weapondamage(ItemStack item) {
-
-        if (item == null) {
-            return 0;
-        }
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return 0;
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        if (data == null) return 0;
-
-        String speed = data.get(new NamespacedKey(getMain(), "dmg"), PersistentDataType.STRING);
-
-        if (speed == null) {
-
-            return 0;
-        } else {
-            return Tools.round(Double.parseDouble(speed) * StarHandler.getStarBuff(item), 1);
-        }
-    }
-
-
-    public static double itembreakingpower(ItemStack item) {
-        double speed = 0;
-        if (item == null) {
-            return 0;
-        }
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return 0;
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        if (data == null) return 0;
-        try {
-            speed = data.get(new NamespacedKey(getMain(), "breakingpower"), PersistentDataType.DOUBLE);
-        } catch (Exception e) {
-            speed = 0;
-        }
-        if (speed == 0) {
-
-            return 0;
-        } else {
-            return speed;
-        }
-    }
-
-    public static double itemcatchtime(ItemStack item) {
-        Double speed;
-        if (item == null) {
-            return 1;
-        }
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
-            return 1;
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        if (data == null) return 1;
-        try {
-            speed = data.get(new NamespacedKey(getMain(), "catchmult"), PersistentDataType.DOUBLE);
-            if (speed == null) return 1;
-        } catch (Exception e) {
-            speed = 1D;
-        }
-        if (speed == 0) {
-
-            return 0;
-        } else {
-            return speed;
-        }
-    }
-
-    public void Timer() {
-        if (time == 0) {
-            reloadConfig();
-            time = getConfig().getInt("TimerValue");
-        }
-        getConfig().set("TimerActive", true);
-        saveConfig();
-        runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                time++;
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§6 §l" + shortInteger(time)));
-                });
-            }
-        };
-        runnable.runTaskTimer(this, 0, 20);
-
-    }
-
 
     public static void saveCoins(Player player) {
         double coin = SkyblockPlayer.getSkyblockPlayer(player).coins;
@@ -1524,7 +1421,6 @@ public class Main extends JavaPlugin {
         c.reload();
     }
 
-    @SuppressWarnings({"deprecation"})
     public static ItemStack item_updater(ItemStack item, @Nullable SkyblockPlayer player) {
         if (item == null) {
             return item;
@@ -1562,11 +1458,13 @@ public class Main extends JavaPlugin {
 
             }
             String pdcRarity = data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING);
-            ItemRarity rarity = (pdcRarity != null) ? (manager.getRarity(ItemRarity.valueOf(pdcRarity), item, player)) : manager.getRarity(item, player);
-            if (itembreakingpower(item) != 0) {
-                if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") != 0) {
-                    lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)) + " §9(+" + Reforge.getReforgeValue(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)), rarity, "breakingpower") + ")");
-                } else lores.add("§8Breaking Power " + String.format("%.0f", itembreakingpower(item)));
+            ItemRarity rarity = manager.getRarity(item, player);
+            if (getItemStat(player, Stats.BreakingPower, item) != 0) {
+                double br = getItemStat(player, Stats.BreakingPower, item);
+                Reforge reforge = RegisteredReforges.reforges.get(ItemHandler.getOrDefaultPDC("reforge", item, PersistentDataType.STRING, ""));
+                if (reforge != null && reforge.getReforgeValue(rarity, Stats.BreakingPower) > 0) {
+                    lores.add("§8Breaking Power " + String.format("%.0f", br) + " §9(+" + reforge.getReforgeValue(rarity, Stats.BreakingPower) + ")");
+                } else lores.add("§8Breaking Power " + String.format("%.0f", br));
                 lores.add(" ");
             }
             if (manager.type == ItemType.FishingRod) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -15,8 +15,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -128,39 +126,11 @@ public class Dominus implements FullSetBonus {
             for (Entity entity : player.getWorld().getNearbyEntities(player.getEyeLocation().add(player.getEyeLocation().getDirection().multiply(i)), 1, 1, 1)) {
                 if(entity.isDead()) continue;
                 if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && entity != player && !alrHitEntitys.contains(entity) && !(entity instanceof Player)) {
-                    e.damage(0.0000001);
-                    double stre = Main.getPlayerStat(player, Stats.Strength);
-                    double dmg = Main.weapondamage(player.getItemInHand());
-                    double damage = (5 + (float) dmg) * (1 + ((float) stre / 100));
-
-                    if (Main.currentityhealth.get(e) != null) if (Main.currentityhealth.get(e) - damage < 0) {
-                        Main.currentityhealth.replace(e, 0);
-                    } else Main.currentityhealth.replace(e, (int) (Main.currentityhealth.get(e) - damage));
-                    Main.updateentitystats(e);
+                    Calculator calculator = new Calculator();
+                    calculator.playerToEntityDamage(e, player);
+                    calculator.damageEntity(e, player);
+                    calculator.showDamageTag(e);
                     alrHitEntitys.add(entity);
-                    final int FINAL_DAMAGE = (int) damage;
-                    Location lol = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.5, e.getLocation().getZ());
-                    ArmorStand stand = e.getWorld().spawn(lol, ArmorStand.class, armorstand -> {
-                        armorstand.setVisible(false);
-                        armorstand.setGravity(false);
-
-                        armorstand.setCustomNameVisible(true);
-
-                        armorstand.setInvulnerable(true);
-
-
-                        armorstand.setCustomName("§7" + FINAL_DAMAGE);
-
-
-                        armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
-                        armorstand.addScoreboardTag("damage_tag");
-                        armorstand.setArms(false);
-                        armorstand.setBasePlate(false);
-                        armorstand.setMarker(true);
-                    });
-                    Main.getMain().killarmorstand(stand);
-                    stand.setCustomNameVisible(true);
-
                 }
             }
 

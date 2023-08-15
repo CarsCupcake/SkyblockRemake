@@ -107,11 +107,11 @@ public strictfp class Calculator {
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, double weapondamage) {
-        return playerToEntityDamage(e, player, new HashMap<>(), Main.weapondamage(player.getItemInHand()), new Bundle<>(1d, 1d), true);
+        return playerToEntityDamage(e, player, new HashMap<>(), Main.getItemStat(player, Stats.WeaponDamage, player.getEquipment().getItemInMainHand()), new Bundle<>(1d, 1d), true);
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, Bundle<Double, Double> multipliers, boolean fillMissing) {
-        return playerToEntityDamage(e, player, stats, Main.weapondamage(player.getItemInHand()), multipliers, fillMissing);
+        return playerToEntityDamage(e, player, stats, Main.getItemStat(player, Stats.WeaponDamage, player.getEquipment().getItemInMainHand()), multipliers, fillMissing);
     }
 
     public double playerToEntityDamage(LivingEntity e, SkyblockPlayer player, HashMap<Stats, Double> stats, double weapondamage, Bundle<Double, Double> multipliers, boolean fillMissing) {

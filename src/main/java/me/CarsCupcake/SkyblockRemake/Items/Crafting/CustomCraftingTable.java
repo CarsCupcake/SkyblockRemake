@@ -1,10 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Items.Crafting;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -35,9 +32,7 @@ public class CustomCraftingTable implements Listener {
     @EventHandler
     public void onDrag(InventoryDragEvent event) {
         if (!event.getView().getTitle().equals("§8Crafting Table")) return;
-        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> {
-            checkAndProcess(event.getView().getTopInventory());
-        }, 1);
+        Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> checkAndProcess(event.getView().getTopInventory()), 1);
     }
 
     @EventHandler
@@ -114,7 +109,7 @@ public class CustomCraftingTable implements Listener {
         ItemStack item = recipe.getResult().createNewItemStack();
         item.setAmount(recipe.getAmount());
         if (recipe.hasPrio())
-            applyAttributesFromParent(inventory.getItem(CRAFTING_SLOTS[recipe.getPrior()]), item, recipe.getResult());
+            applyAttributesFromParent(inventory.getItem(CRAFTING_SLOTS[recipe.getPrior()]), item);
         return Main.item_updater(item, player);
     }
 
@@ -124,12 +119,10 @@ public class CustomCraftingTable implements Listener {
         return Main.item_updater(item, player);
     }
 
-    private void applyAttributesFromParent(ItemStack prioItem, ItemStack newItem, ItemManager newManager) {
+    private void applyAttributesFromParent(ItemStack prioItem, ItemStack newItem) {
         for (Enchantment enchantment : prioItem.getItemMeta().getEnchants().keySet())
             ItemHandler.setEnchant(enchantment, prioItem.getItemMeta().getEnchantLevel(enchantment), newItem);
         if (ItemHandler.getOrDefaultPDC("recomed", prioItem, PersistentDataType.INTEGER, 0) == 1) recom(newItem);
-        if (ItemHandler.hasPDC("reforge", prioItem, PersistentDataType.STRING))
-            AddReforges.toItemStack(newItem, newManager.getRarity(newItem), RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", prioItem, PersistentDataType.STRING)));
     }
     private void recom(ItemStack item){
         if(ItemHandler.getOrDefaultPDC("recomed", item, PersistentDataType.INTEGER, 0) != 0)

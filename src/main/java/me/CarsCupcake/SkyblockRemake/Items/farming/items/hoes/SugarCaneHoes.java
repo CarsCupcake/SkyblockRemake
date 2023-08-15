@@ -99,7 +99,7 @@ public class SugarCaneHoes implements Listener {
     }
     private int getFarmingWisdomStatBoos(ItemStack item, SkyblockPlayer player){
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
-        return switch (manager.getRarity(ItemRarity.getFromItem(item), item, player)){
+        return switch (manager.getRarity(item, player)){
             case COMMON -> 1;
             case UNCOMMON -> 2;
             case RARE -> 3;

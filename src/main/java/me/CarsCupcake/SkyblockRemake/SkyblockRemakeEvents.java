@@ -976,7 +976,7 @@ public class SkyblockRemakeEvents implements Listener {
         double cc = (int) Main.getPlayerStat(player, Stats.CritChance);
         double stre = (int) Main.getPlayerStat(player, Stats.Strength);
         double cd = Main.getPlayerStat(player, Stats.CritDamage);
-        double weapondmg = (int) Main.weapondamage(item);
+        double weapondmg = (int) Main.getItemStat(player, Stats.WeaponDamage, item);
         double ferocity = (int) Main.getPlayerStat(player, Stats.Ferocity);
         for (Vector v : manager.getShootVectors(arrows.get(0).getVelocity())) {
             Arrow arrow = player.launchProjectile(Arrow.class, v);
