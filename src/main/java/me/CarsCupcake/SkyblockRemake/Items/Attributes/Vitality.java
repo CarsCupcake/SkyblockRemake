@@ -9,14 +9,14 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-public class ManaPool extends Attribute implements Listener {
-    public ManaPool(ItemType activeType, Integer level, SkyblockPlayer player) {
+public class Vitality extends Attribute implements Listener {
+    public Vitality(ItemType activeType, Integer level, SkyblockPlayer player) {
         super(activeType, level, player);
     }
 
     @Override
     public String name() {
-        return "Mana Pool";
+        return "Vitality";
     }
 
     @Override
@@ -31,17 +31,17 @@ public class ManaPool extends Attribute implements Listener {
 
     @Override
     public List<String> lore() {
-        return List.of("§7Grants §b+" + getBuff() + "✎ Intelligence");
+        return List.of("§7Grants §b+" + getBuff() + Stats.Vitality.getSymbol() + " Vitality");
     }
-    private int getBuff(){
-        return level*20;
+    private double getBuff(){
+        return level*3;
     }
 
     @EventHandler
     public void onStatGet(GetStatFromItemEvent event) {
-        if (event.getStat() != Stats.Inteligence) return;
+        if (event.getStat() != Stats.Vitality) return;
         for (Attribute attribute : getAttributes(event.getItem())) {
-            if (attribute instanceof ManaPool magicFind) {
+            if (attribute instanceof Vitality magicFind) {
                 event.addValue(magicFind.getBuff());
             }
         }

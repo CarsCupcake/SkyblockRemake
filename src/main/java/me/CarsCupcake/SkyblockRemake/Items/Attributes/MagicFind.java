@@ -1,12 +1,15 @@
 package me.CarsCupcake.SkyblockRemake.Items.Attributes;
 
+import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
 import java.util.List;
 
-public class MagicFind extends Attribute{
+public class MagicFind extends Attribute implements Listener {
     public MagicFind(ItemType activeType, Integer level, SkyblockPlayer player) {
         super(activeType, level, player);
     }
@@ -31,16 +34,17 @@ public class MagicFind extends Attribute{
         return List.of("§7Grants §b+" + ((getBuff() % 1 == 0) ? String.format("%.0f", getBuff()) : getBuff()) + "✯ Magic Find");
     }
 
-    @Override
-    public void start() {
-        player.setBaseStat(Stats.MagicFind,player.getBaseStat(Stats.MagicFind) + getBuff());
+    private double getBuff() {
+        return level * 0.5;
     }
 
-    @Override
-    public void stop() {
-        player.setBaseStat(Stats.MagicFind,player.getBaseStat(Stats.MagicFind) - getBuff());
-    }
-    private double getBuff(){
-        return level*0.5;
+    @EventHandler
+    public void onStatGet(GetStatFromItemEvent event) {
+        if (event.getStat() != Stats.MagicFind) return;
+        for (Attribute attribute : getAttributes(event.getItem())) {
+            if (attribute instanceof MagicFind magicFind) {
+                event.addValue(magicFind.getBuff());
+            }
+        }
     }
 }
