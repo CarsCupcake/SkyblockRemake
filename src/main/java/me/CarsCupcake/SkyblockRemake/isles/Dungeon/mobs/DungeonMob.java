@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Defensive;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;

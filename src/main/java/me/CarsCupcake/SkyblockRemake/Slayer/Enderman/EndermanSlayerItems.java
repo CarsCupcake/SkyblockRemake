@@ -8,8 +8,11 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Items.requirements.SlayerRequirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Slayer.Slayers;
 import me.CarsCupcake.SkyblockRemake.abilities.Soulcry;
+import org.bukkit.Color;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -34,6 +37,8 @@ public class EndermanSlayerItems {
 
         manager = AtomsplitKatana();
         Items.SkyblockItems.put(manager.itemID, manager);
+
+        finalDestination();
     }
     public static ItemManager NullSphere(){
         ItemManager manager = new ItemManager("Null Sphere", "NULL_SPHERE", ItemType.Non, null, null, null, null, 0, 0,0, 0, Material.FIREWORK_STAR, ItemRarity.UNCOMMON);
@@ -101,4 +106,45 @@ public class EndermanSlayerItems {
         manager.setMaterialGrabber(new Soulcry());
         return manager;
     }
+
+    private static final AbilityLore fdLore = new AbilityLore(List.of(
+            "§7Costs §32⸎ Soulflow §7per 5s",
+            "§7in comabt while §asneaking§7:",
+            "§3⁍ §c+30❁ Strength",
+            "§3⁍ §e+20⚔ Bonus Attack Speed",
+            "§3⁍ §r+10✦ Speed",
+            "§3⁍ §7Multiply §b✎ Intelligence §7by §b1.25x",
+            "§3⁍ §c+200⫽ Ferocity §7against Endermen",
+            "§3⁍ §a+100% §7damage against Endermen"
+    ));
+
+    public static void finalDestination(){
+        ItemManager manager = new ItemManager("Final Destination Helmet", "FINAL_DESTINATION_HELMET", ItemType.Helmet, ItemRarity.LEGENDARY, "http://textures.minecraft.net/texture/e77e6fd3b931719d44ef0f5718a0fe346486bd3e5e9800dfbfc248a8cf1400be");
+        manager.setStat(Stats.Health, 140);
+        manager.setStat(Stats.Defense, 100);
+        manager.setStat(Stats.Inteligence, 100);
+        manager.setFullSetBonus(Bonuses.VivaciousDarkness, "Vivacious Darkness", fdLore);
+        manager.setRequirement(new SlayerRequirement(Slayers.Enderman, 4));
+
+        manager = new ItemManager("Final Destination Chestplate", "FINAL_DESTINATION_CHESTPLATE", ItemType.Chestplate, Material.LEATHER_CHESTPLATE, Color.fromRGB(0x0a0011), ItemRarity.LEGENDARY);
+        manager.setStat(Stats.Health, 200);
+        manager.setStat(Stats.Defense, 100);
+        manager.setStat(Stats.Inteligence, 100);
+        manager.setFullSetBonus(Bonuses.VivaciousDarkness, "Vivacious Darkness", fdLore);
+        manager.setRequirement(new SlayerRequirement(Slayers.Enderman, 4));
+
+        manager = new ItemManager("Final Destination Leggings", "FINAL_DESTINATION_LEGGINGS", ItemType.Leggings, Material.LEATHER_LEGGINGS, Color.fromRGB(0xff75ff), ItemRarity.LEGENDARY);
+        manager.setStat(Stats.Health, 160);
+        manager.setStat(Stats.Defense, 100);
+        manager.setStat(Stats.Inteligence, 100);
+        manager.setFullSetBonus(Bonuses.VivaciousDarkness, "Vivacious Darkness", fdLore);
+        manager.setRequirement(new SlayerRequirement(Slayers.Enderman, 4));
+
+        manager = new ItemManager("Final Destination Boots", "FINAL_DESTINATION_BOOTS", ItemType.Boots, Material.LEATHER_BOOTS, Color.fromRGB(0x0a0011), ItemRarity.LEGENDARY);
+        manager.setStat(Stats.Health, 100);
+        manager.setStat(Stats.Defense, 100);
+        manager.setStat(Stats.Inteligence, 100);
+        manager.setFullSetBonus(Bonuses.VivaciousDarkness, "Vivacious Darkness", fdLore);
+        manager.setRequirement(new SlayerRequirement(Slayers.Enderman, 4));
+     }
 }

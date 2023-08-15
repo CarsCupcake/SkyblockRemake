@@ -21,6 +21,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.TextTerminal;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.HelperItems;
 import me.CarsCupcake.SkyblockRemake.isles.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRegistration.GiantsArmorSets;
@@ -468,6 +469,7 @@ public class Items {
         ghostPickaxe();
         frozenBlaze();
         skeletonLordArmor();
+        new HelperItems();
     }
 
     private static void skeletonLordArmor() {
@@ -1210,11 +1212,8 @@ public class Items {
         manager.setDamage(120);
         manager.setStat(Stats.Strength, 100);
         manager.addSlot(new GemstoneSlot(SlotType.Sapphire));
-        manager.setDungeonItem(true);
         manager.addAbility(new AspectOfTheEnd(), AbilityType.RightClick, "Transmission", new AbilityLore(abilityLore), 45, 0);
         manager.setNpcSellPrice(56000);
-
-
         SkyblockItems.put(manager.itemID, manager);
 
     }

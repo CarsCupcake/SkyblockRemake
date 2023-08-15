@@ -1,0 +1,45 @@
+package me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Rooms.%roomType%.r;
+
+import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Dungeon;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.DungeonEnemys;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Direction;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Location2d;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Rooms.%roomType%.Room%roomTypeShort%;
+import org.bukkit.Location;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class %roomName% extends Room%roomTypeShort% {
+    private static final Location[] unstaredArchers = %unstaredArch%;
+    private static final Location[] staredArchers = %staredArch%;
+    private static final Location[] unstaredMelee = %unstaredMelee%;
+    private static final Location[] staredMelee = %staredMelee%;
+    private static final Location[] unstaredMini = %unstaredMini%;
+    private static final Location[] staredMini = %staredMini%;
+    @Override
+    public String fileLocation() {
+        return "assets/schematics/dungeon/rooms/%roomTypeShort%/%filename%;
+    }
+
+    @Override
+    public void init(int rotation, Location2d base) {
+        for (Location l : staredArchers) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base, Dungeon.MobAttributes.Star);
+        for (Location l : unstaredArchers) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base);
+        for (Location l : staredMelee) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base, Dungeon.MobAttributes.Star);
+        for (Location l : unstaredMelee) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base);
+        for (Location l : staredMelee) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base, Dungeon.MobAttributes.Star);
+        for (Location l : unstaredMelee) DungeonEnemys.getFloorPool().spawnArcher(l, this, rotation, base);
+    }
+
+    @Override
+    public Set<Location2d> getNextLocations(Location2d base, int rotation) {
+        //TODO: ADD
+    }
+
+    @Override
+    public String getId() {
+        return "%roomId%";
+    }
+}

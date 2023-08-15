@@ -27,9 +27,9 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryT
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowShooting;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.LightsTerminal;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.SimonSaysTerminal;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.BatSecret;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.ChestSecret;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.LeverSecret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.BatSecret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.ChestSecret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.LeverSecret;
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;

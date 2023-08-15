@@ -43,6 +43,8 @@ import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.CompileCommand;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.DungeonStickCommand;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
@@ -351,6 +353,8 @@ public class Main extends JavaPlugin {
         getCommand("rifttime").setTabCompleter(new TablistBuilder(RiftTimeCMD.class));
         getCommand("wd").setExecutor(new WardrobeCMD());
         getCommand("wardrobe").setExecutor(new WardrobeCMD());
+        getCommand("drhelp").setExecutor(new DungeonStickCommand());
+        getCommand("compile").setExecutor(new CompileCommand());
 
 
         debug.debug("Registering Events", false);

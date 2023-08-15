@@ -1,8 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Secrets.Secret;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.IRoom;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.Secret;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.MiniBoss;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.special.Fel;

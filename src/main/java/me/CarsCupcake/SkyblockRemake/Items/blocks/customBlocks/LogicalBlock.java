@@ -5,7 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;

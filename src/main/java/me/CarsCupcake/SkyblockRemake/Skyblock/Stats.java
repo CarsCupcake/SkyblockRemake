@@ -44,7 +44,7 @@ public enum Stats {
     Hearts("hearts", '❤', ChatColor.RED, "Hearts", false, 10, -1, true),
     RiftDamage("rdamage", '❁', ChatColor.DARK_PURPLE, "Rift Damage", true, 20, -1, true),
     WeaponDamage("dmg", ' ', ChatColor.RED, "Damage", true, HotPotatoBookStat.Sword, 2);
-    public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Inteligence,
+    public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Speed, Inteligence,
             MagicFind, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom);
     public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;

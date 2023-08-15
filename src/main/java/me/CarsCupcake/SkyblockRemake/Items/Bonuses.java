@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.FermentoArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.MelonArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.SneakAbilityWrapper;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
 
 public enum Bonuses {
@@ -34,7 +35,8 @@ public enum Bonuses {
 	MentoFermento(new SquashArmor()),
 	Feast(new FermentoArmor()),
 	ExpertMiner(new ExpertMiner()),
-	HolyBlood(new HolyBlood());
+	HolyBlood(new HolyBlood()),
+	VivaciousDarkness(new FinalDestination());
 
 	private final FullSetBonus b;
 	Bonuses(FullSetBonus bonus) {
@@ -42,14 +44,13 @@ public enum Bonuses {
 	}
 
 	public FullSetBonus getBonus(SkyblockPlayer player) {
-		FullSetBonus bonus;
-		try {
-			bonus = b.getClass().newInstance();
-			bonus.setPlayer(player);
-			return bonus;
-		}catch (Exception ignored){}
-		return null;
-
-
+		if(b.getSetType() == FullSetBonus.SetType.Sneak) {
+			SneakAbilityWrapper wrapper = new SneakAbilityWrapper(b);
+			wrapper.setPlayer(player);
+			return wrapper;
+		}else return b.makeNew(player);
+	}
+	public boolean isSneak() {
+		return b.getSetType() == FullSetBonus.SetType.Sneak;
 	}
 }

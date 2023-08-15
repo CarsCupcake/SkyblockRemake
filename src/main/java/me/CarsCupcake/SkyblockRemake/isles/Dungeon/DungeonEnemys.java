@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon;
 
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.IRoom;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Generation.Location2d;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.IRoom;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Location2d;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.melee.ZombieKnight;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.AngryArcheologist;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurers.FrozenAdventurer;

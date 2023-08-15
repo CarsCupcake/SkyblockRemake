@@ -12,5 +12,22 @@ public interface FullSetBonus {
     int getMaxPieces();
     void setPlayer(SkyblockPlayer player);
     Bonuses getBonus();
+    default SetType getSetType() {
+        return SetType.Normal;
+    }
+    default FullSetBonus makeNew(SkyblockPlayer player) {
+        FullSetBonus bonus;
+        try {
+            bonus = getClass().newInstance();
+            bonus.setPlayer(player);
+            return bonus;
+        }catch (Exception ignored){}
+        return null;
+    }
+
+    enum SetType {
+        Normal,
+        Sneak
+    }
 
 }

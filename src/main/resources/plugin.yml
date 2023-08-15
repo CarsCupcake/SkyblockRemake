@@ -7,7 +7,6 @@ depend:  [FastAsyncWorldEdit]
 
 commands:
   gm:
-    permission: gm.challange
     describtion: "Quick Gamemode Toggle"
   item:
     describtion: "Get Custom items"
@@ -67,3 +66,7 @@ commands:
   wardrobe:
     aliases:
       - wd
+  drhelp:
+    description: command for a staff
+  compile:
+    description: command for a staff

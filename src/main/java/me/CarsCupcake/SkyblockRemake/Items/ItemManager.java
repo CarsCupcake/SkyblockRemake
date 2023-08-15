@@ -377,9 +377,7 @@ public class ItemManager implements ItemGenerator {
     }
 
     public void setFullSetBonus(Bonuses bonus, String name) {
-        this.bonus = bonus;
-        abilities.add(new Ability(null, name, AbilityType.FullSetBonus, new AbilityLore(new ArrayList<>()), 0, 0));
-        fullSetBonusPointer = abilities.size() - 1;
+        setFullSetBonus(bonus, name, new AbilityLore(new ArrayList<>()));
     }
 
     public void setFullSetBonus(Bonuses bonus, String name, boolean isTiered) {
@@ -389,7 +387,7 @@ public class ItemManager implements ItemGenerator {
 
     public void setFullSetBonus(Bonuses bonus, String name, AbilityLore lore) {
         this.bonus = bonus;
-        abilities.add(new Ability(null, name, AbilityType.FullSetBonus, lore, 0, 0));
+        abilities.add(new Ability(null, name, ((bonus.isSneak()) ? AbilityType.Sneak :  AbilityType.FullSetBonus), lore, 0, 0));
         fullSetBonusPointer = abilities.size() - 1;
     }
 
