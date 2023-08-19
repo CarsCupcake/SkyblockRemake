@@ -56,7 +56,7 @@ public class BabyMagmaSlug extends SkyblockEntity implements Corruptable {
     }
 
     @Override
-    public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
         HashMap<ItemManager, Integer> drops = new HashMap<>();
         drops.put(Items.SkyblockItems.get("MAGMA_FISH"), 5);
 

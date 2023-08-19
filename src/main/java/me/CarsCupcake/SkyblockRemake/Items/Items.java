@@ -470,6 +470,22 @@ public class Items {
         frozenBlaze();
         skeletonLordArmor();
         new HelperItems();
+        addEnchanted(Material.END_STONE);
+        addEnchanted(Material.OBSIDIAN);
+        addEnchanted(Material.ENDER_EYE);
+
+        manager = new ItemManager("Crystal Fragment", "CRYSTAL_FRAGMENT", ItemType.Non, Material.QUARTZ, ItemRarity.EPIC);
+        manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+        manager.setNpcSellPrice(500);
+    }
+
+    private static void addEnchanted(Material material) {
+        ItemManager manager = new ItemManager("Enchanted " + SkyblockItems.get(material.toString()).name, "ENCHANTED_" + material, ItemType.Non, material, ItemRarity.UNCOMMON);
+        manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
+        SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(material + "", manager.itemID, 160));
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(material + ""), 160));
+        shapelessRecipe.register();
     }
 
     private static void skeletonLordArmor() {

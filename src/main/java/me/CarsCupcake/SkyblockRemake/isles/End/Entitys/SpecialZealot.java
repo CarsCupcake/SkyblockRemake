@@ -7,6 +7,8 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Enderman;
@@ -16,7 +18,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class SpecialZealot extends SkyblockEntity {
-    private int health = 13000;
     private Enderman entity;
     private SkyblockPlayer lastHit;
     private final SkyblockPlayer owner;
@@ -32,6 +33,7 @@ public class SpecialZealot extends SkyblockEntity {
 
     @Override
     public int getHealth() {
+        int health = 13000;
         return health;
     }
 
@@ -65,7 +67,7 @@ public class SpecialZealot extends SkyblockEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         HashMap<ItemManager, Integer> drops = new HashMap<>();
         drops.put(Items.SkyblockItems.get(Material.ENDER_PEARL.toString()), new Random().nextInt(2) + 2);
         return drops;
@@ -121,7 +123,7 @@ public class SpecialZealot extends SkyblockEntity {
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
+        super.damage(damage, player);
         lastHit = player;
     }
 
@@ -133,5 +135,17 @@ public class SpecialZealot extends SkyblockEntity {
     @Override
     public int getTrueDamage() {
         return 0;
+    }
+    private static final LootTable lootTable;
+    static {
+        lootTable = new LootTable();
+        lootTable.addLoot(new ItemLoot(Items.SkyblockItems.get(Material.ENDER_PEARL.toString()), 2, 4));
+        lootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_ENDER_PEARL"), 1, 1), 0.02);
+        lootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("SUMMONING_EYE"), 1, 1));
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return lootTable;
     }
 }

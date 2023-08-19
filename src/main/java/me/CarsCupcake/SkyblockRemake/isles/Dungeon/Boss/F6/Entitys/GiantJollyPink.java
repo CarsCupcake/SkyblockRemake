@@ -108,7 +108,7 @@ public class GiantJollyPink extends SkyblockEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return null;
     }
 

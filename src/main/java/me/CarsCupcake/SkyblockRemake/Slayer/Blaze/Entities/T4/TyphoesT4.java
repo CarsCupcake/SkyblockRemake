@@ -256,7 +256,7 @@ public class TyphoesT4 extends SkyblockEntity implements Demons, FinalDamageDesi
 
 
 	@Override
-	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
 
 		return null;
 	}

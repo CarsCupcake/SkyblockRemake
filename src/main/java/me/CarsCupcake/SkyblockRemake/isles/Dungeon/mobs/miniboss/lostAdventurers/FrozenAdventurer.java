@@ -51,7 +51,7 @@ public class FrozenAdventurer extends LostAdventurer {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return null;
     }
 

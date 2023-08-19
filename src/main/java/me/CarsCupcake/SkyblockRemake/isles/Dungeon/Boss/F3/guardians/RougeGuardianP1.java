@@ -7,17 +7,14 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityInsentient;
 import net.minecraft.world.entity.EntityLiving;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.GenericAttributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.PathfinderGoalNearestAttackableTarget;
-import net.minecraft.world.entity.boss.wither.EntityWither;
 import net.minecraft.world.entity.monster.EntityGuardian;
 import net.minecraft.world.entity.monster.EntityGuardianElder;
 import net.minecraft.world.entity.player.EntityHuman;
-import net.minecraft.world.level.World;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
@@ -62,7 +59,7 @@ public class RougeGuardianP1 extends SkyblockEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return null;
     }
 

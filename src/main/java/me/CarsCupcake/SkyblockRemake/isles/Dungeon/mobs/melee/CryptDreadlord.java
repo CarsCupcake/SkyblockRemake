@@ -6,7 +6,6 @@ import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.DungeonMob;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.network.protocol.game.PacketPlayOutAnimation;
 import net.minecraft.server.level.EntityPlayer;
 import net.minecraft.world.entity.EntityLiving;
@@ -97,7 +96,7 @@ public class CryptDreadlord extends DungeonMob {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return null;
     }
 

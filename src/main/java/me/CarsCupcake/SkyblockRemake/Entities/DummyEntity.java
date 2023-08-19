@@ -15,7 +15,7 @@ public class DummyEntity extends SkyblockEntity {
     private LivingEntity entity;
     private final Class<? extends LivingEntity> type;
     private final int maxHealth;
-    private int health;
+    private final int health;
     private double lastDamage = 0;
     public DummyEntity(int health){
         this(health, Zombie.class);
@@ -66,18 +66,8 @@ public class DummyEntity extends SkyblockEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public void updateNameTag() {
         entity.setCustomName("§aLast Damage: §c" + Tools.addDigits(lastDamage));
-    }
-
-    @Override
-    public void kill() {
-
     }
 
     @Override

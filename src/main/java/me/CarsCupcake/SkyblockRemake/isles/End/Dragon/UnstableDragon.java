@@ -2,13 +2,13 @@ package me.CarsCupcake.SkyblockRemake.isles.End.Dragon;
 
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.PathFind;
-import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.SkyblockDragon;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Defensive;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
@@ -28,7 +28,7 @@ public class UnstableDragon extends SkyblockEntity implements Defensive, CustomD
     private int health = 9000000;
     private EnderDragon entity;
     private ArmorStand as;
-    private SkyblockDragon dragon;
+    private EntityEnderDragon dragon;
     private BossBar bar;
     private SkyblockPlayer lastHit;
     @Override
@@ -64,7 +64,7 @@ public class UnstableDragon extends SkyblockEntity implements Defensive, CustomD
             enderDragon.addScoreboardTag("combatxp:300");
             enderDragon.
         });*/
-        dragon = new SkyblockDragon(EntityTypes.v, ((CraftWorld)loc.getWorld()).getHandle());
+        dragon = new EntityEnderDragon(EntityTypes.v, ((CraftWorld)loc.getWorld()).getHandle());
         dragon.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
 
         StartFight.maxDragHealth = getMaxHealth();
@@ -93,7 +93,7 @@ public class UnstableDragon extends SkyblockEntity implements Defensive, CustomD
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return null;
     }
 
@@ -129,7 +129,7 @@ public class UnstableDragon extends SkyblockEntity implements Defensive, CustomD
     }
 
     @Override
-    public SkyblockDragon getSkyblockDragon() {
+    public EntityEnderDragon getSkyblockDragon() {
         return dragon;
     }
     @Override

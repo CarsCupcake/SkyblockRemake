@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.isles.End.Dragon;
 
-import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.SkyblockDragon;
+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 import org.bukkit.entity.ArmorStand;
 
 public interface CustomDragon {
-    SkyblockDragon getSkyblockDragon();
+    EntityEnderDragon getSkyblockDragon();
     ArmorStand getFollower();
 }

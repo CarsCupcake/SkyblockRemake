@@ -14,8 +14,8 @@ public enum DragonTypes {
     STRONG("strong", "Strong Dragon"),
     SUPERIOR("superior", "Superior Dragon");
 
-    public String mobName;
-    public String prefix;
+    public final String mobName;
+    public final String prefix;
 
     private DragonTypes(String prefix, String name) {
         mobName = name;

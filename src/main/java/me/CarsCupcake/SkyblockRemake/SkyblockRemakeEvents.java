@@ -2,12 +2,7 @@ package me.CarsCupcake.SkyblockRemake;
 
 
 import java.rmi.server.Skeleton;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
@@ -31,6 +26,9 @@ import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
+import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.Loot;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
@@ -718,13 +716,14 @@ public class SkyblockRemakeEvents implements Listener {
             if (e.getEntity() instanceof LivingEntity) {
 
 
+
                 if (e.getEntity() instanceof EnderDragon) {
                     e.setDroppedExp(0);
                 }
 
                 if (SkyblockEntity.livingEntity.exists(e.getEntity()) && !SkyblockEntity.livingEntity.getSbEntity(e.getEntity()).isHasDoneDeath()) {
                     SkyblockEntity.livingEntity.getSbEntity(e.getEntity()).kill();
-                }
+                } else return;
                 if (Main.dinnerboneNametags.containsKey(e.getEntity())) {
                     Main.dinnerboneNametags.get(e.getEntity()).remove();
                     Main.dinnerboneNametags.remove(e.getEntity());
@@ -738,41 +737,8 @@ public class SkyblockRemakeEvents implements Listener {
                 Main.baseentityhealth.remove(e.getEntity());
 
                 if (Main.entitydamage.containsKey(e.getEntity())) Main.entitydamage.remove(e.getEntity());
-                if (e.getEntity().getScoreboardTags().contains("revslayert4")) {
-                    e.getEntity().getScoreboardTags().forEach(tag -> {
-                        if (tag.startsWith("killer:")) {
-                            new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
-                        }
-                    });
-                }
-                if (!e.getEntity().addScoreboardTag("minionkill")) {
-                    if (SkyblockEntity.livingEntity.exists((LivingEntity) e.getEntity())) {
-                        for (String tag : e.getEntity().getScoreboardTags())
-                            if (tag.startsWith("killer:")) {
-                                new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
-                                break;
-                            }
-                    }
-                } else e.getDrops().clear();
-
-                if (e.getEntity().getScoreboardTags().contains("voidgloomt2")) {
-                    e.getDrops().clear();
-
-                    e.getEntity().getScoreboardTags().forEach(tag -> {
-
-                        if (tag.startsWith("owner:")) {
-
-                            new DropSystem(e.getEntity(), Bukkit.getServer().getPlayer(tag.split(":")[1]), e);
-                        }
-                        if (tag.startsWith("rider:")) {
-                            Bukkit.getEntity(UUID.fromString(tag.split(":")[1])).remove();
-                        }
-                    });
-                }
-
+                e.getDrops().clear();
                 e.getEntity().getScoreboardTags().forEach(tag -> {
-
-
                     if (tag.startsWith("rider:")) {
                         Bukkit.getEntity(UUID.fromString(tag.split(":")[1])).remove();
                     }
@@ -780,33 +746,34 @@ public class SkyblockRemakeEvents implements Listener {
 
                 ArrayList<Player> p = new ArrayList<>();
                 e.getEntity().getScoreboardTags().forEach(tag -> {
-
                     if (tag.startsWith("killer:")) {
-
                         p.add(Bukkit.getServer().getPlayer(tag.split(":")[1]));
                     }
 
                 });
-
+                SkyblockPlayer player = null;
+                boolean autopickup = false;
                 if (!p.isEmpty()) {
-                    SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p.get(0));
-
-
+                    player = SkyblockPlayer.getSkyblockPlayer(p.get(0));
+                    if (ItemHandler.getItemManager(player.getEquipment().getItemInMainHand()) != null)
+                        autopickup = player.isAutoPickup() || ItemHandler.hasEnchantment(SkyblockEnchants.TELIKINESIS, player.getEquipment().getItemInMainHand());
                     for (String tag : e.getEntity().getScoreboardTags())
                         if (tag.startsWith("combatxp:"))
                             SkyblockPlayer.getSkyblockPlayer(player).addSkillXp(Double.parseDouble(tag.split(":")[1]), Skills.Combat);
-                    if (!p.isEmpty() && p.get(0) != null && player.getItemInHand().getItemMeta() != null && player.getItemInHand().getItemMeta().getEnchants().containsKey(SkyblockEnchants.TELIKINESIS)) {
-                        for (ItemStack d : e.getDrops()) {
-                            d = Main.item_updater(d, SkyblockPlayer.getSkyblockPlayer(player));
-                            d = Main.item_updater(d, SkyblockPlayer.getSkyblockPlayer(player));
-                            player.addItem(d);
-
-                        }
-                        e.getDrops().clear();
+                }
+                SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e.getEntity());
+                List<Loot> loot = new ArrayList<>();
+                HashMap<ItemManager, Integer> gDrops = entity.getGarantuedDrops(player);
+                if(gDrops != null) {
+                    for (ItemManager manager : gDrops.keySet()) {
+                        int a = gDrops.get(manager);
+                        loot.add(new ItemLoot(manager, a, a));
                     }
                 }
-
-
+                Main.getDebug().debug(entity.getLootTable().toString());
+                loot.addAll(entity.getLootTable().use(true, player));
+                for (Loot l : loot)
+                    l.consume(player, entity.getEntity().getLocation(), autopickup);
                 Main.EntityDeath(e.getEntity());
             }
         } else {
@@ -852,7 +819,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void MobSpawnEvent(EntitySpawnEvent event) {
-        if(event.getEntity() instanceof LivingEntity le) le.setRemoveWhenFarAway(false);
+        if (event.getEntity() instanceof LivingEntity le) le.setRemoveWhenFarAway(false);
         if (event.getEntity().getScoreboardTags().contains("npc")) return;
         Entity entity = event.getEntity();
         if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
@@ -921,7 +888,7 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void onDraw(PlayerInteractEvent event) {
-        if(event.getItem() == null) return;
+        if (event.getItem() == null) return;
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", event.getItem(), PersistentDataType.STRING, ""));
         if (manager == null) return;
 
@@ -1005,12 +972,13 @@ public class SkyblockRemakeEvents implements Listener {
         BowShootEvent event = new BowShootEvent(player, item, arrows);
         Bukkit.getPluginManager().callEvent(event);
     }
+
     @EventHandler
     public void projLaunchEv(ProjectileLaunchEvent event) {
-        if(event.getEntity() instanceof Arrow && event.getEntity().getShooter() instanceof Player p) {
+        if (event.getEntity() instanceof Arrow && event.getEntity().getShooter() instanceof Player p) {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
             ItemManager manager = ItemHandler.getItemManager(player.getEquipment().getItemInMainHand());
-            if(manager.getOnBowShoot() != null) manager.getOnBowShoot().run(event);
+            if (manager.getOnBowShoot() != null) manager.getOnBowShoot().run(event);
         }
     }
 
@@ -1027,7 +995,7 @@ public class SkyblockRemakeEvents implements Listener {
         Player player = event.getPlayer();
         player.updateInventory();
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
-        ItemManager manager =  (item == null) ? null : Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", item, PersistentDataType.STRING, ""));
+        ItemManager manager = (item == null) ? null : Items.SkyblockItems.get(ItemHandler.getOrDefaultPDC("id", item, PersistentDataType.STRING, ""));
         if (manager == null || !manager.isShortbow()) {
 
             for (int slot = 0; slot < player.getInventory().getSize() - 1; ++slot) {
@@ -1074,9 +1042,9 @@ public class SkyblockRemakeEvents implements Listener {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
-        if(event.getEntity() instanceof Arrow arrow){
+        if (event.getEntity() instanceof Arrow arrow) {
             ItemManager manager = ItemHandler.getItemManager(event.getBow());
-            if(manager.isShortbow()) {
+            if (manager.isShortbow()) {
                 event.setCancelled(true);
                 return;
             }

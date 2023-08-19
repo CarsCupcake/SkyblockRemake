@@ -300,7 +300,7 @@ public class BonzoPhase2 extends SkyblockEntity {
 	}
 
 	@Override
-	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
 		// TODO Auto-generated method stub
 		return null;
 	}

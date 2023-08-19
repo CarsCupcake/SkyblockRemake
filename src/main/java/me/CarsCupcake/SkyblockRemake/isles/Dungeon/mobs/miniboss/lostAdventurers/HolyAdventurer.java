@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurer
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -50,7 +49,7 @@ public class HolyAdventurer extends LostAdventurer {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return Tools.mapOf(List.of(EndItems.Items.HolyDragonFragment.getItem()), List.of(3));
     }
     @Override

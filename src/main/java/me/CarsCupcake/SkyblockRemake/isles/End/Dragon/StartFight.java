@@ -2,10 +2,10 @@ package me.CarsCupcake.SkyblockRemake.isles.End.Dragon;
 
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.PathFind;
-import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.SkyblockDragon;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -21,7 +21,7 @@ public class StartFight {
     public static HashMap<Player, Double> playerDMG = new HashMap<>();
     public static Location spawnLoc = new Location(Bukkit.getWorlds().get(0), -671, 80, -277);
     public static HashMap<Location, SkyblockPlayer> placedEyes = new HashMap<>();
-    public static SkyblockDragon activeDrag;
+    public static EntityEnderDragon activeDrag;
     public static SkyblockEntity entityDragon;
     public static HashMap<SkyblockPlayer, Double> weight = new HashMap<>();
     public static HashMap<Player, Double> aotdChance = new HashMap<>();

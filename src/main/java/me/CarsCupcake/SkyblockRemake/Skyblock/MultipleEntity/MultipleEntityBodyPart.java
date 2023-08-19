@@ -4,7 +4,6 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class MultipleEntityBodyPart extends SkyblockEntity {
@@ -55,8 +54,8 @@ public abstract class MultipleEntityBodyPart extends SkyblockEntity {
         return head.getName();
     }
     @Override
-    public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
-        return head.getDrops(player);
+    public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
+        return head.getGarantuedDrops(player);
     }
 
 

@@ -452,10 +452,10 @@ public class Tools {
             totalCount += d;
         double rand = new Random().nextDouble(totalCount);
         for (T loot : lootTable.keySet()) {
-            if (rand <= lootTable.get(loot)) return loot;
-            rand -= lootTable.get(loot);
+            totalCount -= lootTable.get(loot);
+            if(totalCount <= rand) return loot;
         }
-        return lootTable.keySet().iterator().next();
+        throw new Error("Not Possible");
     }
 
     /**
@@ -1117,6 +1117,9 @@ public class Tools {
 
     public static <T> T getRandom(T[] t){
         return t[new Random().nextInt(t.length)];
+    }
+    public static <T> T getRandom(List<T> t){
+        return t.get(new Random().nextInt(t.size()));
     }
 
     public static FakeBlock placeFakeBlock(Block b, Material m){

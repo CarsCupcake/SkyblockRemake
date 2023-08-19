@@ -20,6 +20,7 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
@@ -190,7 +191,7 @@ public class Main extends JavaPlugin {
                 final long after = System.currentTimeMillis();
                 this.logger.info("It took " + (after - before) + "ms to cleanup the JVM heap");
             }
-        }.runTaskTimer(this, 0L, 12000L);
+        }.runTaskTimer(this, 1L, 12000L);
         try {
             this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
             this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
@@ -430,24 +431,26 @@ public class Main extends JavaPlugin {
         }
         Recipes.loadrecipe();
         WitherSize();
+        debug.debug("Loading Loot tables");
+        try {
+            BasicEntity.initAllLootTables();
+        }catch (Exception e) {
+            e.printStackTrace();
+            debug.debug("Loading Loot tables failed");
+        }
+        debug.debug("Done!", false);
         Bukkit.getWorlds().forEach(world -> {
             if (!world.getEntities().isEmpty()) {
                 for (Entity entity : world.getEntities()) {
                     if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
                         if (entity instanceof LivingEntity) {
-                            LivingEntity e = (LivingEntity) entity;
-                            baseentityhealth.put(e, (int) e.getMaxHealth() * 5);
-                            currentityhealth.put(e, (int) e.getMaxHealth() * 5);
-                            updateentitystats(e);
-                            if (!entity.getScoreboardTags().contains("dinnerbone")) entity.setCustomNameVisible(true);
-                            e.setHealth(e.getMaxHealth());
+                            entity.remove();
                         }
                     }
                 }
             }
         });
         SkyblockServer.getServer().init();
-        debug.debug("Done!", false);
         if (!Bukkit.getOnlinePlayers().isEmpty()) for (Player p : Bukkit.getOnlinePlayers()) {
 
             SkyblockPlayer player = new SkyblockPlayer((CraftServer) this.getServer(), ((CraftPlayer) p).getHandle());
@@ -1547,7 +1550,7 @@ public class Main extends JavaPlugin {
 
             if (manager.isAttributable()) {
 
-                for (Attribute attribute : Attribute.getAttributes(item, player)) {
+                for (Attribute attribute : Attribute.getAttributes(item)) {
                     lores.add(" ");
                     lores.addAll(attribute.getAttributeLore());
                 }

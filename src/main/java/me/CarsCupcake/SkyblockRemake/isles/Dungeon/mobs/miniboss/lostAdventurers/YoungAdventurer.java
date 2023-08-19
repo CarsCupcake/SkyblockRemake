@@ -43,7 +43,7 @@ public class YoungAdventurer extends LostAdventurer {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return Tools.mapOf(List.of(EndItems.Items.YoungDragonFragment.getItem()), List.of(3));
     }
 

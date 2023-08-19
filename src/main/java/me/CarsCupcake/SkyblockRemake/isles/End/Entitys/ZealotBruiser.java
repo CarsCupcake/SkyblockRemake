@@ -2,23 +2,46 @@ package me.CarsCupcake.SkyblockRemake.isles.End.Entitys;
 
 import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.isles.End.ZealotBruiserSpawning;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.LivingEntity;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class ZealotBruiser extends SkyblockEntity {
+    public static final LootTable enhancedLootTable;
     private int health = 65000;
     private Enderman entity;
     private SkyblockPlayer lastHit;
     private boolean isLoot = false;
+    private static final LootTable lootTable;
+    private static final LootTable enderLootTable;
+    static {
+        lootTable = new LootTable();
+        lootTable.addLoot(new ItemLoot(Items.SkyblockItems.get(Material.ENDER_PEARL.toString()), 2, 4));
+        lootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_ENDER_PEARL"), 1, 1), 0.04);
+
+        enderLootTable = new LootTable();
+        enderLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get(Material.ENDER_PEARL.toString()), 2, 4));
+        enderLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_ENDER_PEARL"), 1, 1), 0.04);
+
+        enhancedLootTable = new LootTable();
+        enhancedLootTable.showRareDropMessage();
+        enhancedLootTable.setFillupLootable(true);
+        enhancedLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_ENDER_PEARL"), 2, 2), 0.4065, false);
+        enhancedLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_ENDER_EYE"), 1, 1), 0.0650, false);
+        enhancedLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("CRYSTAL_FRAGMENT"), 1, 1), 0.122, false);
+        enhancedLootTable.addLoot(new ItemLoot(Items.SkyblockItems.get("ENCHANTED_END_STONE"), 1, 1), 0.2439, false);
+
+        enderLootTable.addSubLootTable(enhancedLootTable);
+
+    }
 
     @Override
     public int getMaxHealth() {
@@ -59,15 +82,6 @@ public class ZealotBruiser extends SkyblockEntity {
     @Override
     public String getName() {
         return "Zealot Bruiser";
-    }
-
-    @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
-        HashMap<ItemManager, Integer> drops = new HashMap<>();
-        drops.put(Items.SkyblockItems.get(Material.ENDER_PEARL.toString()), new Random().nextInt(2) + 2);
-        if (isLoot)
-            player.sendMessage("Extra loot is not done yet!");
-        return drops;
     }
 
     @Override
@@ -130,5 +144,10 @@ public class ZealotBruiser extends SkyblockEntity {
     @Override
     public int getTrueDamage() {
         return 0;
+    }
+
+    @Override
+    public LootTable getLootTable() {
+        return (isLoot) ? enderLootTable : lootTable;
     }
 }

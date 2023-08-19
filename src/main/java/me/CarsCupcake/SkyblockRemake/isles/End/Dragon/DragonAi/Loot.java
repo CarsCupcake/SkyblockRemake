@@ -13,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.chat.ChatComponentText;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 import net.minecraft.world.entity.decoration.EntityArmorStand;
 import net.minecraft.world.entity.item.EntityItem;
 import org.bukkit.*;
@@ -200,7 +201,7 @@ public class Loot implements Listener {
 
     }
 
-    public static void dragonDownMessage(SkyblockDragon dragon, Player killer, Location location) {
+    public static void dragonDownMessage(EntityEnderDragon dragon, Player killer, Location location) {
         damage = sortByValue(damage);
         String pattern = "###,###";
         DecimalFormat format = new DecimalFormat(pattern);

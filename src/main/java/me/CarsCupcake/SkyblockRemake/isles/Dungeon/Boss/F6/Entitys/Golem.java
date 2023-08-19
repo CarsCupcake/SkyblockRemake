@@ -62,7 +62,7 @@ public class Golem extends SkyblockEntity implements Defensive {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         double chance = new Random().nextDouble();
         if(chance <= 0.04){
             HashMap<ItemManager, Integer> drops = new HashMap<>();

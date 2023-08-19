@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.lostAdventurer
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.mobs.miniboss.LostAdventurer;
@@ -43,7 +42,7 @@ public class SuperiorAdventurer extends LostAdventurer {
         r.runTaskTimer(Main.getMain(), 5, 5);
     }
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         return Tools.mapOf(List.of(EndItems.Items.SuperiorDragonFragment.getItem()), List.of(2));
     }
 

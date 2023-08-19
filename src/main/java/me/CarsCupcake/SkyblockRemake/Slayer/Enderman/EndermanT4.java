@@ -90,7 +90,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         int amount = new Random().nextInt(50) + 105;
         HashMap<ItemManager, Integer> map = new HashMap<>();
         map.put(Items.SkyblockItems.get("NULL_SPHERE"), amount);

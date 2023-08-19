@@ -98,7 +98,7 @@ public class IceWalker extends SkyblockEntity implements Corruptable {
 
 
 	@Override
-	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
 		HashMap<ItemManager,Integer> drops = new HashMap<>();
 		Random random = new Random();
 		if(random.nextDouble() <= 0.005)

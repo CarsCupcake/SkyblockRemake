@@ -5,5 +5,4 @@ import me.CarsCupcake.SkyblockRemake.utils.Cloneable;
 
 public interface MinionEntity extends Cloneable<SkyblockEntity> {
     String getId();
-    SkyblockEntity getInstance();
 }

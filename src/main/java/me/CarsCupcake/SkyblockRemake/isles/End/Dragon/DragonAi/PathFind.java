@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import net.minecraft.core.BlockPosition;
+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEnderDragon;
 import org.bukkit.entity.*;
@@ -27,7 +28,7 @@ public class PathFind {
     static boolean cooldwon = false;
     static List<Location> curve = new ArrayList<>();
 
-    public static void move(SkyblockDragon dragon, Location centerLoc, double radius) {
+    public static void move(EntityEnderDragon dragon, Location centerLoc, double radius) {
         EnderDragon bukkitDragon = (EnderDragon) dragon.getBukkitEntity();
 
         new BukkitRunnable() {
@@ -49,7 +50,7 @@ public class PathFind {
 
     }
 
-    public static void getDragDirection(SkyblockDragon dragon, ArmorStand as,double moveSpeed) {
+    public static void getDragDirection(EntityEnderDragon dragon, ArmorStand as, double moveSpeed) {
         cooldwon = true;
         new BukkitRunnable() {
             @Override
@@ -86,13 +87,13 @@ public class PathFind {
                         this.cancel();
                         as.remove();
                     }
-                    if (dragon.getBukkitEntity().getLocation().distance(target) < 2) {
+                    if (dragon.getBukkitEntity().getLocation().distance(target) < 5) {
                         loc1=dragon.getBukkitEntity().getLocation();
                         randomizeAs(as);
                         loc2=as.getLocation();
                         randomizeAs(as);
                         loc3=as.getLocation();
-                        curve = bezierCurve(50,loc1,loc2,loc3);
+                        curve = bezierCurve(70,loc1,loc2,loc3);
                     }
                     Vector directionforDrag = origin.clone().toVector().subtract(target.clone().toVector());
                     Location rot = dragon.getBukkitEntity().getLocation().setDirection(directionforDrag);
@@ -104,7 +105,7 @@ public class PathFind {
                     }
                     dragon.getBukkitEntity().teleport(dragon.getBukkitEntity().getLocation().add(testdir.multiply(moveSpeed)));
                     if(curve.size()>=1) {
-                        if (dragon.getBukkitEntity().getLocation().distance(curve.get(0)) < 2) {
+                        if (dragon.getBukkitEntity().getLocation().distance(curve.get(0)) < 5) {
                             curve.remove(0);
                         }
                     } else {
@@ -147,7 +148,7 @@ public class PathFind {
         int z = random.nextInt((maxZ + 1) - minZ) + minZ;
         as.teleport(new Location(as.getWorld(), x, random.nextInt(78) + 12, z));
     }
-    private static void lighting(SkyblockDragon dragon){
+    private static void lighting(EntityEnderDragon dragon){
         cooldwon = true;
         new BukkitRunnable() {
             @Override
@@ -175,7 +176,7 @@ public class PathFind {
         }.runTaskLater(Main.getMain(), 35);
     }
 
-    public static void shoot(SkyblockDragon dragon) {
+    public static void shoot(EntityEnderDragon dragon) {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(ChatColor.RED + "[" + StartFight.activeDrag.getBukkitEntity().getCustomName() + ChatColor.RED +"]" + ChatColor.GOLD + " Fireball!");
 
@@ -237,7 +238,7 @@ public class PathFind {
         return new Location(loc.getWorld(), loc.getX() + x, loc.getY(), loc.getZ() + z);
     }
 
-    public static void goToLocation(SkyblockDragon ed, ArmorStand as) {
+    public static void goToLocation(EntityEnderDragon ed, ArmorStand as) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -255,7 +256,7 @@ public class PathFind {
 
     }
 
-    public static void randomizeMovement(SkyblockDragon enderDragon) {
+    public static void randomizeMovement(EntityEnderDragon enderDragon) {
 
         LivingEntity eDragon = (LivingEntity) enderDragon.getBukkitEntity();
         Location loc = eDragon.getLocation();
@@ -308,21 +309,18 @@ public class PathFind {
 
         enderDragon.getNavigation().a(new BlockPosition(target.getX(), target.getY(), target.getZ()));
         ((CraftEnderDragon) enderDragon.getBukkitEntity()).getHandle().getNavigation().a(new BlockPosition(target.getX(), target.getY(), target.getZ()));
-        System.out.println("[DEBUG] " + target.getX() + ", " + target.getY() + ", " + target.getZ());
+        Main.getDebug().debug(target.getX() + ", " + target.getY() + ", " + target.getZ(), false);
     }
 
     private static double randomDouble(double min, double max) {
         return min + ThreadLocalRandom.current().nextDouble(Math.abs(max - min + 1));
     }
 
-    public static Location bezierPoint(float t, Location p0, Location p1, Location p2)
-    {
+    public static Location bezierPoint(float t, Location p0, Location p1, Location p2) {
         float a = (1-t)*(1-t);
         float b = 2*(1-t)*t;
         float c = t*t;
-
         Location p = p0.clone().multiply(a).add(p1.clone().multiply(b)).add(p2.clone().multiply(c));
-        //System.out.println(p);
         return p;
     }
 

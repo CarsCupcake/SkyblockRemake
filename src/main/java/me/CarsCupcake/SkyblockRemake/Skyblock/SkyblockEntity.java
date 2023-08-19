@@ -8,6 +8,7 @@ import java.util.Set;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
+import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
@@ -42,8 +43,14 @@ public abstract class SkyblockEntity implements Elementable {
     public abstract void spawn(Location loc);
 
     public abstract String getName();
+    @Deprecated
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
+        return null;
+    }
 
-    public abstract HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player);
+    public LootTable getLootTable() {
+        return new LootTable();
+    }
 
     public void updateNameTag() {
         getEntity().setCustomName(getBaseName(this));
@@ -59,7 +66,7 @@ public abstract class SkyblockEntity implements Elementable {
     }
 
     public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
+        health -= (int) damage;
     }
 
     public abstract boolean hasNoKB();

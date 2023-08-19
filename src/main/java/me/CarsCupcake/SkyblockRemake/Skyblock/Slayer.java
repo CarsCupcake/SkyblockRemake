@@ -46,7 +46,7 @@ public abstract class Slayer extends SkyblockEntity {
 
     public abstract String getName();
 
-    public abstract HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player);
+    public abstract HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player);
 
     public abstract void updateNameTag();
 

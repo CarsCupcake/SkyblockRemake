@@ -250,7 +250,7 @@ public class QuaziiT3 extends SkyblockEntity implements Demons, FinalDamageDesid
 
 
 	@Override
-	public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
 
 		return null;
 	}

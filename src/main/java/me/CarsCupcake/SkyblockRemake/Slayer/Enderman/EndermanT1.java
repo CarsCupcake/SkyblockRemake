@@ -100,7 +100,7 @@ public class EndermanT1 extends Slayer implements Listener {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
         HashMap<ItemManager, Integer> drops = new HashMap<>();
         drops.put(EndermanSlayerItems.NullSphere(), new Random().nextInt(1) + 2);
         return drops;

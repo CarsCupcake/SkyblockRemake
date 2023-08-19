@@ -13,17 +13,10 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class LordJawbus extends SkyblockEntity {
-    private int health = 100000000;
     private LivingEntity entity;
     @Override
     public int getMaxHealth() {
-        int maxHealth = 100000000;
-        return maxHealth;
-    }
-
-    @Override
-    public int getHealth() {
-        return health;
+        return 100000000;
     }
 
     @Override
@@ -52,7 +45,7 @@ public class LordJawbus extends SkyblockEntity {
     }
 
     @Override
-    public HashMap<ItemManager,Integer> getDrops(SkyblockPlayer player) {
+    public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
         HashMap<ItemManager, Integer> drops = new HashMap<>();
         drops.put(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1);
         drops.put(Items.SkyblockItems.get("MAGMA_FISH_SILVER"), new Random().nextInt(25) + 25);
@@ -62,17 +55,6 @@ public class LordJawbus extends SkyblockEntity {
     @Override
     public void updateNameTag() {
         entity.setCustomName("§e﴾" + SkyblockEntity.getBaseName(this) + "§e﴿");
-
-    }
-
-    @Override
-    public void kill() {
-
-    }
-
-    @Override
-    public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
 
     }
 
