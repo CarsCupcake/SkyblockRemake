@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.craftbukkit.libs.org.apache.http.MethodNotSupportedException;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.json.simple.JSONArray;
@@ -34,6 +35,7 @@ public class BasicEntity extends SkyblockEntity implements MinionEntity {
     }
     public BasicEntity(LivingEntity entity, int maxHealth) {
         super();
+        if (entity instanceof ArmorStand) throw new IllegalArgumentException("Not allowed to use an armorstand!");
         lootTable = lootTables.getOrDefault(entity.getType(), new LootTable());
         health = maxHealth;
         this.entity = entity;

@@ -78,10 +78,11 @@ public class FireAspect extends CustomEnchantment {
                 cancel();
                 return;
             }
-            entity.getEntity().getWorld().spawnParticle(Particle.FLAME, entity.getEntity().getLocation().add(0, 0.2, 0), 15 ,0.25, 0.7, 0.25, 0, null);
+            entity.getEntity().getWorld().spawnParticle(Particle.FLAME, entity.getEntity().getLocation().add(0, 0.2, 0), 5 ,0.25, 0.7, 0.25, 0, null);
             if(time % 20 == 0) {
                 Calculator c = new Calculator();
                 c.damage = damage;
+                c.setApplyFerocity(false);
                 c.setIgnoreHit(true);
                 c.damageEntity(entity.getEntity(), player);
                 c.showFireDamageTag(entity.getEntity());

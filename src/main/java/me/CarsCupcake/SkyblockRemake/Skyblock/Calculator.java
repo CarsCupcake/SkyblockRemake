@@ -496,7 +496,10 @@ public strictfp class Calculator {
         }
 
         double baseMult = 0;
-        damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100));
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, 1d, 1d,getIfMissing(new HashMap<>(), player), Main.getPlayerStat(player, Stats.WeaponDamage));
+        Bukkit.getPluginManager().callEvent(event);
+
+        damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100)) * (1 + (event.getPreMultiplier() / 100)) * (1 + (event.getPostMultiplier() / 100));
         if (e != null && SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null) {
             SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             EntityAtributes.MagicResistance resistance = entity.getClass().getAnnotation(EntityAtributes.MagicResistance.class);

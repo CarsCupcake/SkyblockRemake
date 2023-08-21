@@ -63,8 +63,6 @@ public class SkyblockDamageEvent extends Event implements Cancellable {
 
     @Nullable
     public Projectile getProjectile(){
-        if(projectile == null)
-            throw new NullPointerException("Projectile is null");
         return projectile;
     }
 

@@ -96,7 +96,7 @@ public class NormalEnchantsListener implements Listener {
         int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.CLEAVE, event.getPlayer().getEquipment().getItemInMainHand());
         if (level > 0 && !event.getCalculator().getTags().contains("cleave")) {
             for (Entity e : event.getEntity().getNearbyEntities(SkyblockEnchants.CLEAVE.getBlockRange(level), SkyblockEnchants.CLEAVE.getBlockRange(level), SkyblockEnchants.CLEAVE.getBlockRange(level))) {
-                if (!(e instanceof LivingEntity entity) || e instanceof Player) continue;
+                if (!(e instanceof LivingEntity entity) || e instanceof Player || e instanceof ArmorStand) continue;
                 Calculator calculator = new Calculator();
                 calculator.damage = event.getCalculator().damage * ((double) SkyblockEnchants.CLEAVE.getPersentage(level) / 100);
                 calculator.getTags().add("cleave");
@@ -120,7 +120,7 @@ public class NormalEnchantsListener implements Listener {
         if (level > 0 && event.getHits() % 3 == 0 && !event.getCalculator().getTags().contains("thunder")) {
             double damage = event.getCalculator().damage * ((double) SkyblockEnchants.THUNDERBOLT.getBoost(level) / 100);
             for (Entity entity : event.getEntity().getNearbyEntities(2, 2, 2)) {
-                if (entity instanceof LivingEntity livingEntity && !(entity instanceof Player)) {
+                if (entity instanceof LivingEntity livingEntity && !(entity instanceof Player) && !(entity instanceof ArmorStand)) {
                     Calculator calculator = new Calculator();
                     calculator.getTags().add("thunder");
                     calculator.damage = damage;
