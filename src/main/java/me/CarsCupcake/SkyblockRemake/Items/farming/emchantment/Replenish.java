@@ -1,7 +1,10 @@
 package me.CarsCupcake.SkyblockRemake.Items.farming.emchantment;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
@@ -10,8 +13,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -19,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
-public class Replenish extends Enchantment implements Listener {
+public class Replenish extends CustomEnchantment implements Listener {
     public Replenish() {
         super(new NamespacedKey(Main.getMain(), "replenish"));
     }
@@ -38,32 +39,6 @@ public class Replenish extends Enchantment implements Listener {
     @Override
     public int getStartLevel() {
         return 1;
-    }
-
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.TOOL;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return false;
     }
 
     @EventHandler
@@ -86,5 +61,15 @@ public class Replenish extends Enchantment implements Listener {
                 }
             }.runTaskLater(Main.getMain(), 1);
         }
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return new ItemType[]{ItemType.Hoe};
+    }
+
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Upon breaking crops,nether", "§7wart, or cocoa, automatically", "§7replant from materials in your", "§7inventory.");
     }
 }

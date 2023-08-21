@@ -1,16 +1,16 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class Chimera extends UltimateEnchant {
     public Chimera() {
-        super(new NamespacedKey(Main.getMain(), "Chimera"));
+        super(new NamespacedKey(Main.getMain(), "chimera"));
     }
 
     @NotNull
@@ -29,29 +29,13 @@ public class Chimera extends UltimateEnchant {
         return 1;
     }
 
-    @NotNull
     @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.WEAPON;
+    public ItemType[] getAllowedTypes() {
+        return ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]);
     }
 
     @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return true;
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Copies §a%pers%% §7of your active", "§7pet's stats.").addPlaceholder("%pers", (player, itemStack) -> String.valueOf(20* ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 }

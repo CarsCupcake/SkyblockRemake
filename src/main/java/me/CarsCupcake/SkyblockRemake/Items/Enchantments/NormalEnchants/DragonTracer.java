@@ -1,16 +1,17 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -18,9 +19,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DragonTracer extends Enchantment implements Listener {
+public class DragonTracer extends CustomEnchantment implements Listener {
     public DragonTracer() {
-        super(new NamespacedKey(Main.getMain(), "Dragon_Tracer"));
+        super(new NamespacedKey(Main.getMain(), "aiming"));
     }
 
     @NotNull
@@ -39,32 +40,6 @@ public class DragonTracer extends Enchantment implements Listener {
         return 1;
     }
 
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.BOW;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return true;
-    }
-
     @EventHandler
     public void onShoot(ProjectileLaunchEvent event){
         if(event.getEntity().getShooter() instanceof Player){
@@ -80,6 +55,16 @@ public class DragonTracer extends Enchantment implements Listener {
 
             }
         }
+    }
+
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Arrows home towards dragons if", "§7they are withing §a%blocks% §7blocks.").addPlaceholder("%blocks%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this, itemStack) * 2));
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return new ItemType[]{ItemType.Bow};
     }
 
     private static class TracingArrow{

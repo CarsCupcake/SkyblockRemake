@@ -1,18 +1,19 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -36,32 +37,6 @@ public class SoulEater extends UltimateEnchant implements Listener {
     @Override
     public int getStartLevel() {
         return 1;
-    }
-
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.WEAPON;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return false;
     }
 
     private static final HashMap<SkyblockPlayer, Double> lastEntityDamage = new HashMap<>();
@@ -91,5 +66,16 @@ public class SoulEater extends UltimateEnchant implements Listener {
 
         lastEntityDamage.put(event.getPlayer(), damage);
 
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return Tools.combine(ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]), ItemType.Type.Bow.getTypeList().toArray(new ItemType[0]));
+    }
+
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("Your weapon gains §c%mult%x §7the", "§7Damage of the latest monster", "§7killed and applies it on", "§7your next hit.")
+                .addPlaceholder("%mult%", (player, itemStack) -> String.valueOf(2 * ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 }

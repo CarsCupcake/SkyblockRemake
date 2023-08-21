@@ -3,21 +3,21 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
-public class Overload extends Enchantment implements Listener {
+public class Overload extends CustomEnchantment implements Listener {
     public Overload() {
         super(new NamespacedKey(Main.getMain(), "Overload"));
     }
@@ -38,30 +38,16 @@ public class Overload extends Enchantment implements Listener {
         return 1;
     }
 
-    @NotNull
     @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.BOW;
+    public ItemType[] getAllowedTypes() {
+        return new ItemType[]{ItemType.Bow};
     }
 
     @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return true;
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Increases §9☠ Crit Damage §7by", "§a%level%% §7and §9☣ Crit Chance §7by", "§a%level%%§7. Having a Critical chance",
+                "§7above §9100% §7grants a chance", "§7to perform a Mega Critical Hit", "§7dealing §9%level%0%§7 extra damage.")
+                .addPlaceholder("%level%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 
     @EventHandler

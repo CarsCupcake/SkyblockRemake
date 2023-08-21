@@ -7,11 +7,7 @@
 //Never gonna say goodbye
 package me.CarsCupcake.SkyblockRemake;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
@@ -22,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
@@ -57,6 +54,7 @@ import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.*;
 
 import java.io.*;
+import java.util.stream.Collectors;
 
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -173,7 +171,7 @@ public class Main extends JavaPlugin {
         try {
             DebugLogger.debug = InfoManager.getValue("debug", false);
             debug = new DebugLogger("");
-            if (DebugLogger.debug) System.out.println("Debug Logging enabled!");
+            debug.debug("Debug Logging enabled!");
         } catch (Exception e) {
             System.out.println("An error occuret why enabeling the debug logger:");
             e.printStackTrace();
@@ -434,7 +432,7 @@ public class Main extends JavaPlugin {
         debug.debug("Loading Loot tables");
         try {
             BasicEntity.initAllLootTables();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             debug.debug("Loading Loot tables failed");
         }
@@ -646,9 +644,9 @@ public class Main extends JavaPlugin {
                 try {
                     PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
                     PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
             p.saveCommissionProgress();
             saveCoins(player);
@@ -890,7 +888,7 @@ public class Main extends JavaPlugin {
 
                         player.setSaturation(100);
                         // mana regen
-                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence :  Stats.Inteligence));
+                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
                         if (player.currmana < mana) {
                             int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
                             int finalmana = manaadd + player.currmana;
@@ -902,7 +900,7 @@ public class Main extends JavaPlugin {
                         }
 
                         // health regen
-                        if(ServerType.getActiveType() != ServerType.Rift){
+                        if (ServerType.getActiveType() != ServerType.Rift) {
                             double health = Main.getPlayerStat(player, Stats.Health);
                             if (player.currhealth < health) {
                                 int healthadd = (int) (health * 0.015);
@@ -914,8 +912,8 @@ public class Main extends JavaPlugin {
                             if (player.currhealth > health) {
                                 player.setHealth(health);
                             }
-                        }else player.setMaxHealth(2 * getPlayerStat(player, Stats.Hearts));
-                        float speedpersentage = (float) Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed :  Stats.Speed)) / 100;
+                        } else player.setMaxHealth(2 * getPlayerStat(player, Stats.Hearts));
+                        float speedpersentage = (float) Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed : Stats.Speed)) / 100;
                         if (speedpersentage > 5) speedpersentage = 5;
                         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
                         SkyblockScoreboard.updateScoreboard(player);
@@ -948,7 +946,7 @@ public class Main extends JavaPlugin {
 
     public static void updatebar(SkyblockPlayer player) {
         if (deathPersons.contains(player)) return;
-        if(ServerType.getActiveType() == ServerType.Rift){
+        if (ServerType.getActiveType() == ServerType.Rift) {
             RiftPlayer.getRiftPlayer(player).updateBar();
             return;
         }
@@ -1379,16 +1377,16 @@ public class Main extends JavaPlugin {
         if (manager == null) return 0;
         double value = manager.getStat(stat);
         ItemRarity rarity = manager.getRarity(item, player);
-        if(ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING))
+        if (ItemHandler.hasPDC("reforge", item, PersistentDataType.STRING))
             value += RegisteredReforges.reforges.get(ItemHandler.getPDC("reforge", item, PersistentDataType.STRING)).getReforgeValue(rarity, stat);
         if (ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0) > 0) {
-            if(stat.getHotPotatoBookStat() != null && stat.getHotPotatoBookStat().contains(manager.type) && stat.getHotPotatoBookStatBoost() > 0) {
+            if (stat.getHotPotatoBookStat() != null && stat.getHotPotatoBookStat().contains(manager.type) && stat.getHotPotatoBookStatBoost() > 0) {
                 value += stat.getHotPotatoBookStatBoost() * ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0);
             }
         }
         if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
             for (GemstoneSlot slot : GemstoneSlot.getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer())) {
-                if(slot.currGem == null) continue;
+                if (slot.currGem == null) continue;
                 if (slot.currGem.getStat() != stat) continue;
                 value += slot.currGem.getStatBoost(rarity);
             }
@@ -1482,7 +1480,7 @@ public class Main extends JavaPlugin {
                 }
             }
             lores = Stats.makeItemStatsLore(item, lores, player);
-            if(manager.isShortbow())
+            if (manager.isShortbow())
                 lores.add("§7Shot Cooldown: §a" + ((double) manager.getShorbowCooldown(((player != null) ? getPlayerStat(player, Stats.AttackSpeed) : 0)) / 20d) + "s");
 
             if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
@@ -1505,40 +1503,48 @@ public class Main extends JavaPlugin {
 
 
             if (item.getEnchantments() != null && !item.getEnchantments().isEmpty()) {
-                lores.add(" ");
                 ArrayList<String> enchantLore = new ArrayList<>();
                 HashMap<String, Integer> operator = new HashMap<>();
                 operator.put("amount", 0);
                 operator.put("line", 0);
-
-                Bundle<ArrayList<UltimateEnchant>, ArrayList<Enchantment>> enchants = UltimateEnchant.splitEnchants(item.getItemMeta().getEnchants().keySet());
-
-                for (Enchantment enchant : UltimateEnchant.orderEnchants(enchants)) {
-                    int level = item.getItemMeta().getEnchants().get(enchant);
-                    String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
-
-
-                    if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
-                        String Name = makeStringFromID(enchant.getKey());
-                        if (operator.get("amount") == 0) {
-
-                            enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
-                            operator.replace("amount", 1);
-                        } else {
-                            enchantLore.set(operator.get("line"), enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + Tools.intToRoman(level));
-
-                            if (operator.get("amount") == 1) operator.replace("amount", 2);
-                            else {
-                                operator.replace("amount", 0);
-                                operator.replace("line", operator.get("line") + 1);
+                Set<CustomEnchantment> ench = new HashSet<>();
+                for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
+                    if (enchantment instanceof CustomEnchantment ce) {
+                        if (ce == SkyblockEnchants.ENCHANT_GLINT) continue;
+                        ench.add(ce);
+                        continue;
+                    }
+                    int level = meta.getEnchantLevel(enchantment);
+                    meta.removeEnchant(enchantment);
+                    CustomEnchantment ce = SkyblockEnchants.registeredEnchants.get(enchantment.getKey().getKey());
+                    if (ce == null) continue;
+                    meta.addEnchant(ce, level, true);
+                }
+                if (!ench.isEmpty()) {
+                    lores.add(" ");
+                    Bundle<ArrayList<UltimateEnchant>, ArrayList<CustomEnchantment>> enchants = UltimateEnchant.splitEnchants(ench);
+                    for (CustomEnchantment enchant : UltimateEnchant.orderEnchants(enchants)) {
+                        int level = item.getItemMeta().getEnchants().get(enchant);
+                        String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
+                        if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
+                            String Name = makeStringFromID(enchant.getKey());
+                            if (operator.get("amount") == 0) {
+                                enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
+                                operator.replace("amount", 1);
+                            } else {
+                                enchantLore.set(operator.get("line"), enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + Tools.intToRoman(level));
+                                if (operator.get("amount") == 1) operator.replace("amount", 2);
+                                else {
+                                    operator.replace("amount", 0);
+                                    operator.replace("line", operator.get("line") + 1);
+                                }
                             }
                         }
                     }
-                }
-                if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
-                    for (String l : enchantLore)
-                        lores.add(l);
-
+                    if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
+                        for (String l : enchantLore)
+                            lores.add(l);
+                    }
                 }
 
             }
@@ -1597,7 +1603,7 @@ public class Main extends JavaPlugin {
                     lores.add("§8Mana Cost §3" + String.format("%.0f", event.getMana()) + "%");
                 }
 
-                if(ability.getSoulflowCost() > 0) lores.add("§8Soulflow Cost: §3" + ability.getSoulflowCost() + "⸎");
+                if (ability.getSoulflowCost() > 0) lores.add("§8Soulflow Cost: §3" + ability.getSoulflowCost() + "⸎");
 
                 if (ability.getCooldown() > 0) lores.add("§8Ability Cooldown §a" + ability.getCooldown() + "s");
                 i++;

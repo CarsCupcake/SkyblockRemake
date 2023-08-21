@@ -27,7 +27,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public strictfp class Calculator {
@@ -52,6 +54,8 @@ public strictfp class Calculator {
     @Getter
     @Setter
     private Element element;
+    @Getter
+    private List<String> tags = new ArrayList();
 
     public Calculator() {
     }
@@ -283,8 +287,10 @@ public strictfp class Calculator {
         if (SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).hasNoKB())
             e.setVelocity(new Vector(0, 0, 0));
 
-        SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
-        Bukkit.getPluginManager().callEvent(event);
+        if (type == SkyblockDamageEvent.DamageType.PlayerToEntity) {
+            SkyblockDamagePlayerToEntityExecuteEvent event = new SkyblockDamagePlayerToEntityExecuteEvent(player, e, this);
+            Bukkit.getPluginManager().callEvent(event);
+        }
 
 
         if (newHealth <= 0) {

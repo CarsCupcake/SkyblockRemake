@@ -1,15 +1,18 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class Syphon extends Enchantment {
+import java.util.List;
+
+public class Syphon extends CustomEnchantment {
     public Syphon() {
-        super(new NamespacedKey(Main.getMain(), "Syphon"));
+        super(new NamespacedKey(Main.getMain(), "syphon"));
     }
 
     @NotNull
@@ -28,29 +31,14 @@ public class Syphon extends Enchantment {
         return 1;
     }
 
-    @NotNull
     @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.WEAPON;
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore(List.of("§7Heals for §a%pers%% of your", "§7max health per §9100 ☠ Crit Damage", "§7you deal per hit, up to §91,000 ☠ Crit Damage§7."))
+                .addPlaceholder("%pers%", (player, itemStack) -> ((ItemHandler.getEnchantmentLevel(this, itemStack) * 0.1) + 0.1) + "");
     }
 
     @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return false;
+    public ItemType[] getAllowedTypes() {
+        return ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]);
     }
 }

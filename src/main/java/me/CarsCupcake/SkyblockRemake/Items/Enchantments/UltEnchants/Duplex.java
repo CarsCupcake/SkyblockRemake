@@ -3,22 +3,21 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,32 +42,6 @@ public class Duplex extends UltimateEnchant implements Listener {
     @Override
     public int getStartLevel() {
         return 1;
-    }
-
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.BOW;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return false;
     }
 
     private final static HashMap<SkyblockPlayer, Double> lastDuplexDamage = new HashMap<>();
@@ -125,5 +98,17 @@ public class Duplex extends UltimateEnchant implements Listener {
         if (!ItemHandler.hasEnchantment(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile())) return;
 
         lastDuplexDamage.put(event.getPlayer(), Tools.round((((ItemHandler.getEnchantmentLevel(SkyblockEnchants.DUPLEX, event.getCalculator().getProjectile()) * 4d)) / 100d) * event.getCalculator().damage, 0));
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return ItemType.Type.Bow.getTypeList().toArray(new ItemType[0]);
+    }
+
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Shoot a second arrow dealing §c%dmg%% §7of", "§7the first arrow's damage."
+        ,"§7Targets hit take §c1.%level%x §7fire", "§7damage for §a60s§7.").addPlaceholder("%dmg%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this,itemStack)*4))
+                .addPlaceholder("%level%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this,itemStack)));
     }
 }

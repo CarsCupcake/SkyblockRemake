@@ -1,21 +1,24 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class Vicious extends Enchantment implements Listener {
+import java.util.List;
+
+public class Vicious extends CustomEnchantment implements Listener {
     public Vicious() {
-        super(new NamespacedKey(Main.getMain(), "Vicious"));
+        super(new NamespacedKey(Main.getMain(), "vicious"));
     }
 
     @NotNull
@@ -34,32 +37,6 @@ public class Vicious extends Enchantment implements Listener {
         return 3;
     }
 
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.BOW;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return true;
-    }
-
 
     @EventHandler
     public void onStatsGain(GetStatFromItemEvent event){
@@ -69,4 +46,12 @@ public class Vicious extends Enchantment implements Listener {
         }
     }
 
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore(List.of("§7Grants §c+%am% ⫽Ferocity")).addPlaceholder("%am%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this, itemStack)));
+    }
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return Tools.combine(ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]), ItemType.Type.Bow.getTypeList().toArray(new ItemType[0]));
+    }
 }

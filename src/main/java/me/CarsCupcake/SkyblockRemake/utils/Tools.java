@@ -58,6 +58,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.net.URI;
@@ -1126,6 +1127,15 @@ public class Tools {
         FakeBlock f = new FakeBlock(b);
         f.change(m);
         return f;
+    }
+    public static <T> T[] combine(T[] t1, T[] t2) {
+        T[] ts = Arrays.copyOf(t1, t1.length + t2.length);
+        int i = ts.length;
+        for (T o : t2) {
+            ts[i] = o;
+            i++;
+        }
+        return ts;
     }
     public static class FakeBlock{
         @Getter

@@ -14,6 +14,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
+import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
@@ -850,39 +851,9 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void pickupevent(PlayerPickupItemEvent event) {
-
         Player player = event.getPlayer();
-
         ItemStack item = player.getItemInHand();
         event.getItem().setItemStack(Main.item_updater(event.getItem().getItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
-        if (item.getItemMeta() == null || item.getItemMeta().getPersistentDataContainer() == null || item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) == null || !item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).contains("shortbow"))
-            return;
-        ItemStack i = event.getItem().getItemStack();
-        if (i == null) return;
-        if (i.getType() == Material.ARROW) {
-
-
-            player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1F, 1F);
-            if (i.getItemMeta().hasDisplayName()) {
-
-                item = Items.FakeArrow(i.getItemMeta().getDisplayName());
-                item.setAmount(i.getAmount());
-
-                event.getItem().setItemStack(item);
-                player.updateInventory();
-            } else {
-                item = Items.FakeArrow("Arrow");
-                item.setAmount(i.getAmount());
-                event.getItem().setItemStack(item);
-                player.updateInventory();
-            }
-
-        } else {
-
-
-        }
-
-
         event.getPlayer().updateInventory();
     }
 
@@ -907,14 +878,16 @@ public class SkyblockRemakeEvents implements Listener {
                 infinity = false;
             }
             if (!Main.shortbow_cd.get(event.getPlayer()))
-                if (event.getPlayer().getGameMode() == GameMode.CREATIVE) {
+                if (event.getPlayer().getGameMode() == GameMode.CREATIVE || !InfoManager.isNeedArrows()) {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                     launchArrow(item, manager, player);
                     Main.getMain().juju_cooldown(player.getPlayer(), manager.getShorbowCooldown(Main.getPlayerStat(player, Stats.AttackSpeed)));
                 } else
                     for (ItemStack i : event.getPlayer().getInventory()) {
                         if (i != null) {
-                            if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
+                            if (i.getItemMeta() == null || i.getItemMeta().getPersistentDataContainer() == null
+                                    || i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null
+                                    || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
 
                             } else {
                                 if (!infinity) i.setAmount(i.getAmount() - 1);

@@ -1,11 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class FatalTempo extends UltimateEnchant {
@@ -29,29 +29,14 @@ public class FatalTempo extends UltimateEnchant {
         return 1;
     }
 
-    @NotNull
     @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.BOW;
+    public ItemType[] getAllowedTypes() {
+        return Tools.combine(Tools.combine(ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]), ItemType.Type.Bow.getTypeList().toArray(new ItemType[0])),
+                new ItemType[]{ItemType.FishingRod});
     }
 
     @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return false;
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Attacking increases your §c⫽", "§cFerocity §7by §c%level%0% §7per hit,", "§7capped at §c200% §7for 3 seconds", "§7after your last attack.");
     }
 }

@@ -1,11 +1,11 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class UltimateWise extends UltimateEnchant {
@@ -28,37 +28,22 @@ public class UltimateWise extends UltimateEnchant {
     public int getStartLevel() {
         return 1;
     }
-
-    @NotNull
-    @Override
-    public EnchantmentTarget getItemTarget() {
-        return EnchantmentTarget.ALL;
-    }
-
-    @Override
-    public boolean isTreasure() {
-        return false;
-    }
-
-    @Override
-    public boolean isCursed() {
-        return false;
-    }
-
-    @Override
-    public boolean conflictsWith(@NotNull Enchantment enchantment) {
-        return false;
-    }
-
-    @Override
-    public boolean canEnchantItem(@NotNull ItemStack itemStack) {
-        return true;
-    }
     public double getPersentage(int level){
         if(level > 10)
             return 1;
         if(level < 1)
             return 0;
         return level * 0.1;
+    }
+
+    @Override
+    public ItemType[] getAllowedTypes() {
+        return ItemType.values();
+    }
+
+    @Override
+    public @NotNull AbilityLore getLore() {
+        return new AbilityLore("§7Reduces the ability mana cost of", "§7this item by §a%level%0%§7.")
+                .addPlaceholder("%level%", (player, itemStack) -> String.valueOf(ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 }

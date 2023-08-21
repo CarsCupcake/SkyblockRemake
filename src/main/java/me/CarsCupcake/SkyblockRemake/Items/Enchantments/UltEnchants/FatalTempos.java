@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -8,13 +9,11 @@ import java.util.HashMap;
 
 public class FatalTempos {
     private static final HashMap<SkyblockPlayer, FatalTempos> temposHashMap = new HashMap<>();
-    private final SkyblockPlayer player;
     private BukkitRunnable runnable;
+    @Getter
     private int hits = 0;
+    @Getter
     private int level;
-    public FatalTempos(SkyblockPlayer player){
-        this.player = player;
-    }
     public void hit(int level){
         this.level = level;
         try {
@@ -31,17 +30,12 @@ public class FatalTempos {
         };
         runnable.runTaskLater(Main.getMain(), 3*20);
     }
-    public int getHits(){
-        return hits;
-    }
-    public int getLevel(){
-        return level;
-    }
+
     public static FatalTempos getInstance(SkyblockPlayer player){
         if(temposHashMap.containsKey(player))
             return temposHashMap.get(player);
         else {
-            FatalTempos tempos = new FatalTempos(player);
+            FatalTempos tempos = new FatalTempos();
             temposHashMap.put(player, tempos);
             return tempos;
         }

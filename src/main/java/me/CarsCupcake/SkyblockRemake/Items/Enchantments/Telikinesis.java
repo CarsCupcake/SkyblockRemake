@@ -1,30 +1,26 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public class Telikinesis extends Enchantment{
+import java.util.List;
+
+public class Telikinesis extends CustomEnchantment{
 
 	public Telikinesis(NamespacedKey key) {
 		super(key);
 	}
 
 	@Override
-	public boolean canEnchantItem(ItemStack arg0) {
-		return true;
+	public ItemType[] getAllowedTypes() {
+		return ItemType.values();
 	}
 
 	@Override
-	public boolean conflictsWith(Enchantment arg0) {
-		return false;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ALL;
+	public @NotNull AbilityLore getLore() {
+		return new AbilityLore(List.of("§7Block or mob drops go directly", "§7into your inventory."));
 	}
 
 	@Override
@@ -33,23 +29,13 @@ public class Telikinesis extends Enchantment{
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Telikinesis";
 	}
 
 	@Override
 	public int getStartLevel() {
 		return 1;
-	}
-
-	@Override
-	public boolean isCursed() {
-		return false;
-	}
-
-	@Override
-	public boolean isTreasure() {
-		return false;
 	}
 
 }

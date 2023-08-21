@@ -29,6 +29,9 @@ public class AbilityLore {
     public AbilityLore(List<String> base){
         this(base, null, null);
     }
+    public AbilityLore(String... base){
+        this(Arrays.asList(base), null, null);
+    }
     public ArrayList<String> makeLore(@Nullable SkyblockPlayer player, ItemStack item){
         ArrayList<String> lore = new ArrayList<>();
         double damage = 0;
@@ -64,8 +67,9 @@ public class AbilityLore {
     public void addFlag(LoreFlags flag){
         flags.add(flag);
     }
-    public void addPlaceholder(String plshldr, UpdateFlag flag){
+    public AbilityLore addPlaceholder(String plshldr, UpdateFlag flag){
         placeholders.put(plshldr, flag);
+        return this;
     }
     public static class PersistenDataPlaceHolder<T,Z> implements UpdateFlag{
         private final PersistentDataType<T,Z> type;

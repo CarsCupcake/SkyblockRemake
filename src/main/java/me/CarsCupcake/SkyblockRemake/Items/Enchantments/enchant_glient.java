@@ -1,30 +1,21 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
 
+import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentTarget;
-import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
-public class enchant_glient extends Enchantment{
+import java.util.List;
+
+public class enchant_glient extends CustomEnchantment{
 
 	public enchant_glient(NamespacedKey key) {
 		super(key);
 	}
 
 	@Override
-	public boolean canEnchantItem(ItemStack arg0) {
-		return true;
-	}
-
-	@Override
-	public boolean conflictsWith(Enchantment arg0) {
-		return false;
-	}
-
-	@SuppressWarnings("deprecation")
-	@Override
-	public EnchantmentTarget getItemTarget() {
-		return EnchantmentTarget.ALL;
+	public ItemType[] getAllowedTypes() {
+		return ItemType.values();
 	}
 
 	@Override
@@ -33,7 +24,7 @@ public class enchant_glient extends Enchantment{
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "non";
 	}
 
@@ -43,13 +34,7 @@ public class enchant_glient extends Enchantment{
 	}
 
 	@Override
-	public boolean isCursed() {
-		return false;
+	public @NotNull AbilityLore getLore() {
+		return new AbilityLore(List.of());
 	}
-
-	@Override
-	public boolean isTreasure() {
-		return false;
-	}
-
 }

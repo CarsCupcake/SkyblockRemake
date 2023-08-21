@@ -33,6 +33,9 @@ public class InfoManager {
     @Getter
     @Setter
     private static boolean ignoreCooldwon = false;
+    @Getter
+    @Setter
+    private static boolean needArrows = false;
 
     public InfoManager(){
         config = new CustomConfig("settings");
@@ -40,6 +43,7 @@ public class InfoManager {
         unlimitedMinions = getValue("unlimitedMinions", false);
         miningFatuigeEnable = getValue("miningFatuige", ServerType.getActiveType() != ServerType.Non && ServerType.getActiveType() != ServerType.PrivateIsle);
         ignoreCooldwon = getValue("ignorecooldown", false);
+        needArrows= getValue("needArrows", false);
     }
     public static boolean isBazaarEnabled(){
         return getValue("bazaar", true);

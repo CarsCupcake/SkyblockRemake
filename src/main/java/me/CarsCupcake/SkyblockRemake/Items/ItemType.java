@@ -1,22 +1,25 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum ItemType {
 
-    Helmet,
-    Chestplate,
-    Leggings,
-    Boots,
-    Sword,
-    Bow,
+    Helmet(Type.Armor),
+    Chestplate(Type.Armor),
+    Leggings(Type.Armor),
+    Boots(Type.Armor),
+    Sword(Type.Sword),
+    Bow(Type.Bow),
     Non,
     EnchantBook,
-    PotatoBook,
-    Recom,
-    Pickaxe,
-    Drill,
+    Pickaxe(Type.Tool),
+    Drill(Type.Tool),
     Rune,
-    Gauntlet,
+    Gauntlet(Type.Tool),
     Pet,
     Gemstone,
     FuelTank,
@@ -24,23 +27,27 @@ public enum ItemType {
     UpgradeModule,
     DrillFuel,
     Accessory,
-    Necklace,
-    Cloak,
-    Belt,
-    Gloves,
-    Bracelet,
+    Necklace(Type.Equipment),
+    Cloak(Type.Equipment),
+    Belt(Type.Equipment),
+    Gloves(Type.Equipment),
+    Bracelet(Type.Equipment),
     PowerStone,
     Deployable,
-    FishingRod,
-    Axe,
-    Wand,
-    Longsword,
+    FishingRod(Type.Fishing),
+    Axe(Type.Tool),
+    Wand(Type.Wand),
+    Longsword(Type.Sword),
     Minion,
-    Hoe;
+    Hoe(Type.Tool);
 
 
-    ItemType() {
+
+    ItemType(Type type) {
+        type.getTypeList().add(this);
     }
+    ItemType() {}
+
 
     public String toString() {
         return switch (this) {
@@ -70,6 +77,20 @@ public enum ItemType {
             default -> "";
         };
 
+    }
+
+    @Getter
+    public enum Type {
+        Sword,
+        Bow,
+        Armor,
+        Tool,
+        Fishing,
+        Wand,
+        Equipment;
+        private final List<ItemType> typeList = new ArrayList<>();
+        @Getter
+        private static final List<ItemType> combat = new ArrayList<>();
     }
 
 
