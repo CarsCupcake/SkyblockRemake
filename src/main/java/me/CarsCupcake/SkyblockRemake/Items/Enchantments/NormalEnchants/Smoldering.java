@@ -8,9 +8,9 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-public class Critical extends CustomEnchantment {
-    public Critical() {
-        super(new NamespacedKey(Main.getMain(), "critical"));
+public class Smoldering extends CustomEnchantment {
+    public Smoldering() {
+        super(new NamespacedKey(Main.getMain(), "smoldering"));
     }
 
     @Override
@@ -20,29 +20,23 @@ public class Critical extends CustomEnchantment {
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases §9☠ Crit Damage §7by", "§a%pers%§7.").addPlaceholder("%pers%", (player, itemStack) ->
-                getBoost(ItemHandler.getEnchantmentLevel(this, itemStack)) + "%");
+        return new AbilityLore("§7Increases damage dealt", "§7to Blazes by %pers%")
+                .addPlaceholder("%pers%", (player, itemStack) -> (ItemHandler.getEnchantmentLevel(this, itemStack) * 3) + "%");
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Critical";
+        return "Smoldering";
     }
 
     @Override
     public int getMaxLevel() {
-        return 7;
+        return 5;
     }
 
     @Override
     public int getStartLevel() {
         return 1;
-    }
-    public int getBoost(int level) {
-        if (level < 6) return level * 10;
-        if (level == 6) return 70;
-        if (level == 7) return 100;
-        return level * 15;
     }
 }

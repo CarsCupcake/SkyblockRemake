@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -40,5 +41,10 @@ public class Syphon extends CustomEnchantment {
     @Override
     public ItemType[] getAllowedTypes() {
         return ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]);
+    }
+
+    @Override
+    public List<CustomEnchantment> conflictEnchants() {
+        return List.of(SkyblockEnchants.LIFE_STEAL, SkyblockEnchants.MANA_STEAL);
     }
 }

@@ -129,11 +129,6 @@ public class Main extends JavaPlugin {
     public static final ArrayList<Player> deathPersons = new ArrayList<>();
     public static HashMap<Player, Boolean> shortbow_cd = new HashMap<>();
     public static HashMap<Player, Integer> termhits = new HashMap<>();
-
-    // entity stats
-    public static HashMap<Entity, Integer> baseentityhealth = new HashMap<>();
-    public static HashMap<Entity, Integer> currentityhealth = new HashMap<>();
-    public static HashMap<Entity, Integer> entitydamage = new HashMap<>();
     public static HashMap<Entity, Boolean> entitydead = new HashMap<>();
     public static HashMap<Entity, ArmorStand> dinnerboneNametags = new HashMap<>();
 
@@ -368,7 +363,6 @@ public class Main extends JavaPlugin {
 
         // Terminal Listeners
         this.getServer().getPluginManager().registerEvents(new maze(), this);
-        this.getServer().getPluginManager().registerEvents(new SpawnEggEvents(), this);
         this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
         this.getServer().getPluginManager().registerEvents(new GemstoneGrinder(), this);
         this.getServer().getPluginManager().registerEvents(new DrillMerchant(), this);
@@ -687,8 +681,6 @@ public class Main extends JavaPlugin {
             }
         absorbtion.clear();
         absorbtionrunntime.clear();
-        baseentityhealth.clear();
-        currentityhealth.clear();
         shortbow_cd.clear();
         termhits.clear();
         Items.SkyblockItems.clear();
@@ -785,18 +777,6 @@ public class Main extends JavaPlugin {
 
     public static void EntityDeath(LivingEntity entity) {
         entitydead.put(entity, true);
-        BukkitRunnable runn = new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                baseentityhealth.remove(entity);
-                currentityhealth.remove(entity);
-                if (entitydamage.containsKey(entity)) entitydamage.remove(entity);
-
-            }
-
-        };
-        runn.runTaskLater(getMain(), 30 * 20);
     }
 
     public void PlayerNearbyNpc() {
@@ -1085,231 +1065,12 @@ public class Main extends JavaPlugin {
         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
 
     }
-
-    @SuppressWarnings("deprecation")
-    public static void updateDiguestedEntity(LivingEntity entity) {
-        if (baseentityhealth.containsKey(entity) == false) {
-            baseentityhealth.put(entity, (int) entity.getMaxHealth() * 5);
-            currentityhealth.put(entity, (int) entity.getMaxHealth() * 5);
-        }
-        float health;
-        float maxhealth;
-
-        try {
-            maxhealth = baseentityhealth.get((Entity) entity);
-            health = currentityhealth.get((Entity) entity);
-        } catch (Exception e) {
-            return;
-        }
-        if (health <= 0) {
-            entity.setCustomNameVisible(false);
-
-            entity.setHealth(0);
-            return;
-        }
-        float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
-        entity.setHealth(estimated);
-    }
-
-
-    @SuppressWarnings("deprecation")
     public static void updateentitystats(LivingEntity entity) {
-
         if (SkyblockEntity.livingEntity.exists(entity)) {
             SkyblockEntity.updateEntity(SkyblockEntity.livingEntity.getSbEntity(entity));
-            if (currentityhealth.containsKey(entity)) currentityhealth.remove(entity);
-            if (baseentityhealth.containsKey(entity)) baseentityhealth.remove(entity);
-
             return;
         }
-        if (entity.getScoreboardTags().contains("npc")) return;
-
-        if (entity.getType() == EntityType.DROPPED_ITEM) return;
-        if (entity.getType() == EntityType.PLAYER) return;
-        if (entitydead.containsKey(entity) && entitydead.get(entity)) return;
-        if (baseentityhealth.containsKey(entity) == false) {
-            baseentityhealth.put(entity, (int) entity.getMaxHealth() * 5);
-            currentityhealth.put(entity, (int) entity.getMaxHealth() * 5);
-        }
-
-        float health;
-        float maxhealth;
-
-        try {
-            maxhealth = baseentityhealth.get((Entity) entity);
-            health = currentityhealth.get((Entity) entity);
-        } catch (Exception e) {
-            return;
-        }
-        if (health <= 0) {
-            entity.setCustomNameVisible(false);
-            try {
-                entity.setHealth(0);
-            } catch (Exception e) {
-
-            }
-            return;
-        }
-        float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
-        entity.setHealth(estimated);
-
-
-        ArrayList<Boolean> hasCustomName = new ArrayList<>();
-        ArrayList<Boolean> isDinnerBone = new ArrayList<>();
-        ArrayList<String> StandName = new ArrayList<>();
-        ArmorStand stand = null;
-        if (entity.getScoreboardTags().contains("dinnerbone")) {
-
-            if (!dinnerboneNametags.containsKey(entity)) {
-                stand = entity.getWorld().spawn(entity.getEyeLocation().add(0, 0.5, 0), ArmorStand.class, s -> {
-                    s.setInvisible(true);
-                    s.setGravity(false);
-                    s.setInvulnerable(true);
-                    s.setMarker(true);
-                    s.setCustomNameVisible(true);
-                });
-                dinnerboneNametags.put(entity, stand);
-
-                isDinnerBone.add(true);
-
-            } else {
-                stand = dinnerboneNametags.get(entity);
-                isDinnerBone.add(true);
-            }
-        } else {
-
-        }
-
-        if (entity.getScoreboardTags().contains("slayername")) {
-
-            entity.getScoreboardTags().forEach(str -> {
-
-                if (str.startsWith("CustomName")) {
-                    String[] names = str.split(":");
-                    String name = names[1];
-                    {
-
-                        if (currentityhealth.get(entity) > 999) {
-                            if (currentityhealth.get(entity) > 9999) {
-                                if (currentityhealth.get(entity) > 999999) {
-                                    if (currentityhealth.get(entity) > 9999999) {
-                                        if (!isDinnerBone.contains(true))
-                                            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) / 1000000 + "m§c§?§");
-                                        else
-                                            StandName.add("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) / 1000000 + "m§c§?§");
-                                    } else {
-                                        if (!isDinnerBone.contains(true))
-                                            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000000), 1) + "m§c§?§");
-                                        else
-                                            StandName.add("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000000), 1) + "m§c§?§");
-                                    }
-                                } else {
-                                    if (!isDinnerBone.contains(true))
-                                        entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) / 1000 + "k§c§?§");
-                                    else
-                                        StandName.add("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) / 1000 + "k§c§?§");
-
-                                }
-                            } else {
-                                if (!isDinnerBone.contains(true))
-                                    entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000), 1) + "k§c§?§");
-                                else
-                                    StandName.add("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000), 1) + "k§c§?§");
-                            }
-                        } else if (!isDinnerBone.contains(true))
-                            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) + "§c§?§");
-                        else
-                            StandName.add("§c" + Character.toChars(9760)[0] + " §b" + name + " §a" + currentityhealth.get(entity) + "§c§?§");
-                        hasCustomName.add(true);
-                    }
-                }
-            });
-
-            if (!hasCustomName.contains(true)) {
-                entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + entity.getType().getName() + " §a" + currentityhealth.get(entity) + "§c§?§");
-            }
-
-        } else {
-            if (entity.getScoreboardTags().contains("slayerminibossname")) {
-                if (entity.getScoreboardTags().contains("strongmini")) {
-                    entity.getScoreboardTags().forEach(str -> {
-                        if (str.startsWith("CustomName")) {
-                            String[] names = str.split(":");
-                            String name = names[1];
-                            if (currentityhealth.get(entity) > 999) {
-                                if (currentityhealth.get(entity) > 9999) {
-                                    if (currentityhealth.get(entity) > 999999) {
-                                        if (currentityhealth.get(entity) > 9999999) {
-                                            entity.setCustomName("§4" + name + " §a" + currentityhealth.get(entity) / 1000000 + "m§c§?§");
-                                        } else
-                                            entity.setCustomName("§4" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000000), 1) + "m§c§?§");
-                                    } else {
-                                        entity.setCustomName("§4" + name + " §a" + currentityhealth.get(entity) / 1000 + "k§c§?§");
-                                    }
-                                } else {
-                                    entity.setCustomName("§4" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000), 1) + "k§c§?§");
-                                }
-                            } else entity.setCustomName("§4" + name + " §a" + currentityhealth.get(entity) + "§c§?§");
-                            hasCustomName.add(true);
-                        }
-                    });
-                } else {
-                    entity.getScoreboardTags().forEach(str -> {
-                        if (str.startsWith("CustomName")) {
-                            String[] names = str.split(":");
-                            String name = names[1];
-                            if (currentityhealth.get(entity) > 999) {
-                                if (currentityhealth.get(entity) > 9999) {
-                                    if (currentityhealth.get(entity) > 999999) {
-                                        if (currentityhealth.get(entity) > 9999999) {
-                                            entity.setCustomName("§b" + name + " §a" + currentityhealth.get(entity) / 1000000 + "m§c§?§");
-                                        } else
-                                            entity.setCustomName("§b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000000), 1) + "m§c§?§");
-                                    } else {
-                                        entity.setCustomName("§b" + name + " §a" + currentityhealth.get(entity) / 1000 + "k§c§?§");
-                                    }
-                                } else {
-                                    entity.setCustomName("§b" + name + " §a" + Tools.round((float) ((float) currentityhealth.get(entity) / 1000), 1) + "k§c§?§");
-                                }
-                            } else entity.setCustomName("§b" + name + " §a" + currentityhealth.get(entity) + "§c§?§");
-                            hasCustomName.add(true);
-                        }
-                    });
-                }
-                if (!hasCustomName.contains(true)) {
-                    entity.setCustomName("§b" + entity.getType().getName() + " §a" + currentityhealth.get(entity) + "§c§?§");
-                }
-            } else {
-
-                if (!isDinnerBone.contains(true)) {
-
-                    entity.setCustomName("§7[§8Lv?§7] §c" + entity.getType().getName() + " §a" + (int) health + "§8/§a" + baseentityhealth.get(entity));
-                    entity.getScoreboardTags().forEach(tag -> {
-                        if (tag.startsWith("CustomName:")) {
-                            entity.setCustomName("§7[§8Lv?§7] §c" + tag.split(":")[1] + " §a" + (int) health + "§8/§a" + baseentityhealth.get(entity));
-                        }
-                    });
-                } else
-                    StandName.add("§7[§8Lv?§7] §c" + entity.getType().getName() + " §a" + (int) health + "§8/§a" + baseentityhealth.get(entity));
-            }
-        }
-        if (entity.getScoreboardTags().contains("singlename")) {
-            entity.getScoreboardTags().forEach(str -> {
-
-                if (str.startsWith("CustomName")) {
-                    String[] names = str.split(":");
-                    String name = names[1];
-                    if (!isDinnerBone.contains(true)) entity.setCustomName("§c" + name);
-                    else StandName.set(0, "§c" + name);
-
-                }
-            });
-        }
-
-        if (stand != null) {
-            stand.setCustomName(StandName.get(0));
-        }
-
+        new BasicEntity(entity, (int) (entity.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
     }
 
     public synchronized static double getPlayerStat(SkyblockPlayer player, Stats stat) {

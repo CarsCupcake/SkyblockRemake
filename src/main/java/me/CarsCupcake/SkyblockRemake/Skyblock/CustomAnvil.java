@@ -320,10 +320,10 @@ public class CustomAnvil implements Listener {
             item1.setType(old_material);
             return true;
         }
-        if ((manager1.type == ItemType.Helmet || manager1.type == ItemType.Chestplate || manager1.type == ItemType.Leggings || manager1.type == ItemType.Boots || manager1.type == ItemType.Sword || manager1.type == ItemType.Bow) && manager2.type == ItemType.PotatoBook) {
+        if ((manager1.type == ItemType.Helmet || manager1.type == ItemType.Chestplate || manager1.type == ItemType.Leggings || manager1.type == ItemType.Boots || manager1.type == ItemType.Sword || manager1.type == ItemType.Bow) && manager2.itemID.equals("HOT_POTATO_BOOK")) {
             return true;
         }
-        if (manager2.type == ItemType.Recom) {
+        if (manager2.itemID.equals("RECOMBOBULATOR_3000")) {
             if (item1.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER) == 0) {
                 return true;
             } else {
@@ -369,7 +369,7 @@ public class CustomAnvil implements Listener {
 
             return FINAL_ITEM;
         }
-        if ((manager1.type == ItemType.Helmet || manager1.type == ItemType.Chestplate || manager1.type == ItemType.Leggings || manager1.type == ItemType.Boots || manager1.type == ItemType.Sword || manager1.type == ItemType.Bow) && manager2.type == ItemType.PotatoBook) {
+        if ((manager1.type == ItemType.Helmet || manager1.type == ItemType.Chestplate || manager1.type == ItemType.Leggings || manager1.type == ItemType.Boots || manager1.type == ItemType.Sword || manager1.type == ItemType.Bow) && manager2.itemID.equals("HOT_POTATO_BOOK")) {
             ItemStack item = new ItemStack(item1);
             int PotatoBookAmount = ItemHandler.getOrDefaultPDC("potoatobooks", item, PersistentDataType.INTEGER, 0);
             ItemMeta meta = item.getItemMeta();
@@ -379,7 +379,7 @@ public class CustomAnvil implements Listener {
                 item.setItemMeta(meta);
                 return Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
             }
-            if (manager2.type == ItemType.Recom) {
+            if (manager2.equals("RECOMBOBULATOR_3000")) {
                 item = new ItemStack(item1);
                 meta = item.getItemMeta();
                 data = meta.getPersistentDataContainer();

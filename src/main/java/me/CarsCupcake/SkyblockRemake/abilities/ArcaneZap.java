@@ -71,13 +71,6 @@ public class ArcaneZap implements AbilityManager<PlayerInteractEvent> {
                         damage = 0;
                     else
                         damage = (baseDamage * (1 + (((mana - 100) / 100) * 0.5) * (1 + (abilitidmg / 100)))) * mult;
-                    Main.currentityhealth.replace(entity, Main.currentityhealth.get(entity) - (int) damage);
-                    if (Main.currentityhealth.get(entity) <= 0) {
-                        entity.addScoreboardTag("killer:" + player.getName());
-                        entity.addScoreboardTag("abilitykill");
-
-
-                    }
                     Main.updateentitystats((LivingEntity) entity);
                     ArmorStand stand = loc.getWorld().spawn(loc, ArmorStand.class, armorstand -> {
                         armorstand.setVisible(false);

@@ -111,16 +111,12 @@ public static Entity  roolNormalFishingDice(Location loc, Player player){
 
 public static Entity Squid(Location loc) {
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Squid.class, s->{
-		Main.baseentityhealth.put(s, 2000);
-		Main.currentityhealth.put(s, 2000);
 		s.addScoreboardTag("CustomName:Squid");s.setCustomNameVisible(true);
 	});
 	return entity;
 	}
 public static Entity NightSquid(Location loc) {
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Squid.class, s->{
-		Main.baseentityhealth.put(s, 4000);
-		Main.currentityhealth.put(s, 4000);
 		s.addScoreboardTag("CustomName:Night Squid");s.setCustomNameVisible(true);
 	});
 	return entity;
@@ -128,9 +124,6 @@ public static Entity NightSquid(Location loc) {
 public static Entity SeaWalker(Location loc) {
 	@SuppressWarnings("deprecation")
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Zombie.class, s->{
-		Main.baseentityhealth.put(s, 1500);
-		Main.currentityhealth.put(s, 1500);
-		Main.entitydamage.put(s, 60);
 		s.addScoreboardTag("CustomName:Sea Walker");
 		s.getEquipment().setItemInHand(new ItemStack(Material.DIAMOND_SWORD));
 		s.setCustomNameVisible(true);
@@ -142,9 +135,6 @@ public static Entity SeaWalker(Location loc) {
 public static Entity SeaGuardian(Location loc) {
 
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Guardian.class, s->{
-		Main.baseentityhealth.put(s, 5000);
-		Main.currentityhealth.put(s, 5000);
-		Main.entitydamage.put(s, 1000);
 		s.addScoreboardTag("CustomName:Sea Guardian");
 		s.setCustomNameVisible(true);
 		
@@ -156,9 +146,6 @@ public static Entity SeaGuardian(Location loc) {
 public static Entity SeaWitch(Location loc) {
 
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Witch.class, s->{
-		Main.baseentityhealth.put(s, 6000);
-		Main.currentityhealth.put(s, 6000);
-		Main.entitydamage.put(s, 150);
 		s.addScoreboardTag("CustomName:Sea Witch");
 		s.setCustomNameVisible(true);
 		
@@ -170,9 +157,6 @@ public static Entity SeaWitch(Location loc) {
 public static Entity SeaArcher(Location loc) {
 
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Skeleton.class, s->{
-		Main.baseentityhealth.put(s, 7000);
-		Main.currentityhealth.put(s, 7000);
-		Main.entitydamage.put(s, 140);
 		s.addScoreboardTag("CustomName:Sea Archer");
 		s.setCustomNameVisible(true);
 		
@@ -183,18 +167,10 @@ public static Entity SeaArcher(Location loc) {
 
 public static Entity RiderOfTheDeep(Location loc) {
 
-	
-	
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Zombie.class, s->{
-		Main.baseentityhealth.put(s, 20000);
-		Main.currentityhealth.put(s, 20000);
-		Main.entitydamage.put(s, 225);
 		s.setBaby();
 		s.setCustomNameVisible(true);
 		s.addScoreboardTag("CustomName:Rider Of The Deep");
-
-		
-		
 	});
 	@SuppressWarnings("deprecation")
 	Chicken ch =  loc.getWorld().spawn(loc, org.bukkit.entity.Chicken.class, s->{
@@ -212,13 +188,7 @@ public static Entity Catfish(Location loc, Player player) {
 	
 	
 	Entity entity = loc.getWorld().spawn(loc, org.bukkit.entity.Ocelot.class, s->{
-		Main.baseentityhealth.put(s, 26000);
-		Main.currentityhealth.put(s, 26000);
-		Main.entitydamage.put(s, 250);
-		
-		
 		s.addScoreboardTag("CustomName:Catfish");
-
 		s.attack(player);
 		s.setCustomNameVisible(true);
 		

@@ -82,6 +82,9 @@ public abstract class SkyblockEntity implements Elementable {
     public int getLevel() {
         return -1;
     }
+    public int getXpDrop() {
+        return 0;
+    }
 
     @Override
     public Set<Element> getElements() {

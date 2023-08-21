@@ -5,15 +5,15 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Sharpness extends CustomEnchantment {
-    public Sharpness() {
-        super(Enchantment.DAMAGE_ALL.getKey());
+public class Smite extends CustomEnchantment {
+    public Smite() {
+        super(Enchantment.DAMAGE_UNDEAD.getKey());
     }
 
     @Override
@@ -23,13 +23,14 @@ public class Sharpness extends CustomEnchantment {
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases melee damage dealt by", "§a%dmg%%").addPlaceholder("%dmg%", (player, itemStack) -> String.valueOf(getAmount(ItemHandler.getEnchantmentLevel(this, itemStack))));
+        return new AbilityLore("§7Increases damage dealt to Skeletons", "§7Zombies, Zombie Pigman, Withers,", "§7and Zombies by §a%per%§7.")
+                .addPlaceholder("%per%", (player, itemStack) -> getBoost(ItemHandler.getEnchantmentLevel(this, itemStack)) + "%");
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Sharpness";
+        return "Smite";
     }
 
     @Override
@@ -41,20 +42,17 @@ public class Sharpness extends CustomEnchantment {
     public int getStartLevel() {
         return 1;
     }
-    public static int getAmount(int level) {
-        if(Tools.isInRange(4, 8, level)) {
-            return switch (level) {
-                case 5 -> 30;
-                case 6 -> 45;
-                case 7 -> 65;
-                default -> throw new IllegalStateException("Unexpected value: " + level);
-            };
-        }
-        return level * 5;
+
+    public int getBoost(int level) {
+        if (level < 5) return level * 10;
+        if (level == 5) return 60;
+        if (level == 6) return 80;
+        if (level == 7) return 100;
+        return level * 15;
     }
 
     @Override
     public List<CustomEnchantment> conflictEnchants() {
-        return List.of(SkyblockEnchants.SMITE, SkyblockEnchants.BANE_OF_ARTHROPODS);
+        return List.of(SkyblockEnchants.SHARPNESS, SkyblockEnchants.BANE_OF_ARTHROPODS);
     }
 }

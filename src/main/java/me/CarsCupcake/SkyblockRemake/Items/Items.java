@@ -208,7 +208,6 @@ public class Items {
         storm_chestplate();
         Hyperion();
         TestItem();
-        live_steal_book();
         protection_book();
         terminator();
         jujuShortbow();
@@ -1600,16 +1599,6 @@ public class Items {
         return manager.getRawItemStack();
     }
 
-    public static ItemStack live_steal_book() {
-
-        ItemManager manager = new ItemManager("Enchanted Book", "LIFE_STEAL", ItemType.EnchantBook, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
-        manager.addBaseEnchantment(SkyblockEnchants.LIFESTEAL, 1);
-
-
-        SkyblockItems.put("LIFE_STEAL", manager);
-        return manager.getRawItemStack();
-    }
-
     public static ItemStack protection_book() {
 
         ItemManager manager = new ItemManager("Enchanted Book", "PROTECTION", ItemType.EnchantBook, Material.ENCHANTED_BOOK, ItemRarity.COMMON);
@@ -1946,6 +1935,10 @@ public class Items {
         public boolean canTrigger(SkyblockPlayer player) {
             return Main.termhits.getOrDefault(player, 0) >= 3;
         }
+        @Override
+        public boolean hideCooldown() {
+            return true;
+        }
     }
 
     public static void jujuShortbow() {
@@ -2159,7 +2152,7 @@ public class Items {
         lore.add("§7with a weapon or armor piece to");
         lore.add("§7gain a small but permanent stat");
         lore.add("§7boost!");
-        ItemManager manager = new ItemManager("§5Hot Potato Book", "HOT_POTATO_BOOK", ItemType.PotatoBook, Material.BOOK, ItemRarity.EPIC);
+        ItemManager manager = new ItemManager("§5Hot Potato Book", "HOT_POTATO_BOOK", ItemType.Non, Material.BOOK, ItemRarity.EPIC);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         manager.setUnstackeble(true);
         SkyblockItems.put(manager.itemID, manager);
@@ -2167,7 +2160,7 @@ public class Items {
     }
 
     public static ItemStack Recombobulator3000() {
-        ItemManager manager = new ItemManager("Recombobulator 3000", "RECOMBOBULATOR_3000", ItemType.Recom, ItemRarity.LEGENDARY,
+        ItemManager manager = new ItemManager("Recombobulator 3000", "RECOMBOBULATOR_3000", ItemType.Non, ItemRarity.LEGENDARY,
                 "https://textures.minecraft.net/texture/57ccd36dc8f72adcb1f8c8e61ee82cd96ead140cf2a16a1366be9b5a8e3cc3fc");
         manager.setUnstackeble(true);
         manager.setMaxStars(5);

@@ -1,7 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -48,7 +50,13 @@ public abstract class CustomEnchantment extends Enchantment{
 	
 	@Override
 	public boolean canEnchantItem(@NotNull ItemStack arg0) {
-		return true;
+		for (Enchantment enchantment : arg0.getEnchantments().keySet())
+			if (conflictsWith(enchantment)) return false;
+		ItemType t = ItemHandler.getItemManager(arg0).type;
+		for (ItemType type : getAllowedTypes()) {
+			if (t == type) return true;
+		}
+		return false;
 	}
 	public abstract ItemType[] getAllowedTypes();
 	@NotNull

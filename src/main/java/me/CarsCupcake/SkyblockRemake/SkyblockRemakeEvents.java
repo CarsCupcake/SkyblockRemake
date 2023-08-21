@@ -717,7 +717,6 @@ public class SkyblockRemakeEvents implements Listener {
             if (e.getEntity() instanceof LivingEntity) {
 
 
-
                 if (e.getEntity() instanceof EnderDragon) {
                     e.setDroppedExp(0);
                 }
@@ -734,10 +733,6 @@ public class SkyblockRemakeEvents implements Listener {
 
 
                 e.getEntity().setCustomNameVisible(false);
-                Main.currentityhealth.remove(e.getEntity());
-                Main.baseentityhealth.remove(e.getEntity());
-
-                if (Main.entitydamage.containsKey(e.getEntity())) Main.entitydamage.remove(e.getEntity());
                 e.getDrops().clear();
                 e.getEntity().getScoreboardTags().forEach(tag -> {
                     if (tag.startsWith("rider:")) {
@@ -762,16 +757,28 @@ public class SkyblockRemakeEvents implements Listener {
                         if (tag.startsWith("combatxp:"))
                             SkyblockPlayer.getSkyblockPlayer(player).addSkillXp(Double.parseDouble(tag.split(":")[1]), Skills.Combat);
                 }
+                if (player != null) {
+                    int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.VAMPIRISM, player.getEquipment().getItemInMainHand());
+                    int missing = (int) (Main.getPlayerStat(player, Stats.Health) - player.currhealth);
+                    player.setHealth(missing * (level / 100), HealthChangeReason.Ability);
+                }
                 SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e.getEntity());
+                int xp = (entity instanceof BasicEntity) ? e.getDroppedExp() : entity.getXpDrop();
+                if (player != null) {
+                    int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.EXPERIENCE, player.getEquipment().getItemInMainHand());
+                    if (level > 0)
+                        if (new Random().nextDouble() <= 0.125 * level)
+                            xp *= 2;
+                }
+                e.setDroppedExp(xp);
                 List<Loot> loot = new ArrayList<>();
                 HashMap<ItemManager, Integer> gDrops = entity.getGarantuedDrops(player);
-                if(gDrops != null) {
+                if (gDrops != null) {
                     for (ItemManager manager : gDrops.keySet()) {
                         int a = gDrops.get(manager);
                         loot.add(new ItemLoot(manager, a, a));
                     }
                 }
-                Main.getDebug().debug(entity.getLootTable().toString());
                 loot.addAll(entity.getLootTable().use(true, player));
                 for (Loot l : loot)
                     l.consume(player, entity.getEntity().getLocation(), autopickup);
@@ -823,14 +830,10 @@ public class SkyblockRemakeEvents implements Listener {
         if (event.getEntity() instanceof LivingEntity le) le.setRemoveWhenFarAway(false);
         if (event.getEntity().getScoreboardTags().contains("npc")) return;
         Entity entity = event.getEntity();
-        if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
-            if (entity instanceof LivingEntity e) {
-                if (Main.baseentityhealth.get(entity) == null && !SkyblockEntity.livingEntity.exists(e)) {
+        if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL))
+            if (entity instanceof LivingEntity e)
+                if (!SkyblockEntity.livingEntity.exists(e))
                     new BasicEntity(e, (int) (e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
-                }
-                Main.updateentitystats(e);
-            }
-        }
     }
 
 
@@ -1132,7 +1135,7 @@ public class SkyblockRemakeEvents implements Listener {
                     return;
                 }
 
-                if (Main.baseentityhealth.containsKey(e.getHitEntity()) || SkyblockEntity.livingEntity.exists(e.getHitEntity())) {
+                if (SkyblockEntity.livingEntity.exists(e.getHitEntity())) {
 
                     int cccalc = (int) (Math.random() * 100 + 1);
                     Calculator calculator = new Calculator(e.getEntity());
@@ -1309,39 +1312,8 @@ public class SkyblockRemakeEvents implements Listener {
                         LivingEntity e = (LivingEntity) event.getEntity();
                         int damage = (int) event.getDamage();
                         event.setDamage(0D);
-                        if (event.getCause() != DamageCause.ENTITY_ATTACK && event.getCause() != DamageCause.ENTITY_SWEEP_ATTACK) {
-
-                            if (Main.entitydead.containsKey(event.getEntity())) return;
-                            if (!Main.currentityhealth.containsKey(event.getEntity())) return;
-                            Main.currentityhealth.replace(event.getEntity(), (int) (Main.currentityhealth.get(event.getEntity()) - (damage * 5)));
-
-                            Main.updateentitystats((LivingEntity) event.getEntity());
-                            Location fakeloc = new Location(event.getEntity().getWorld(), 0, 0, 0);
-                            Location loc = new Location(event.getEntity().getWorld(), event.getEntity().getLocation().getX(), event.getEntity().getLocation().getY() + 0.5, event.getEntity().getLocation().getZ());
-                            ArmorStand stand = (ArmorStand) event.getEntity().getWorld().spawnEntity(fakeloc, EntityType.ARMOR_STAND);
-                            stand.setVisible(false);
-                            stand.setGravity(false);
-                            stand.teleport(loc);
-                            stand.setCustomNameVisible(true);
-
-
-                            stand.setInvulnerable(true);
-                            stand.setCustomName("§7" + (int) damage * 5);
-                            stand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
-                            stand.addScoreboardTag("damage_tag");
-                            stand.setArms(false);
-                            stand.setBasePlate(false);
-                            stand.setMarker(true);
-
-                            Main.getMain().killarmorstand(stand);
-
-                            e.setCustomNameVisible(true);
-                        }
                     } else {
-
                         Main.updateentitystats((LivingEntity) event.getEntity());
-
-
                     }
                 } else {
                     event.setDamage(0);
@@ -1421,21 +1393,10 @@ public class SkyblockRemakeEvents implements Listener {
                         event.setDamage(0);
                         event.setCancelled(true);
                         Calculator c = new Calculator();
-                        if (SkyblockEntity.livingEntity.exists(event.getDamager())) {
-                            c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(event.getDamager()), player);
-                        } else {
-                            if (Main.entitydamage.containsKey(event.getDamager()))
-                                damage = Main.entitydamage.get(event.getDamager());
-                            double health = Main.getPlayerStat(player, Stats.Health);
-                            double ehp = health * (1 + (Main.getPlayerStat(player, Stats.Defense) / 100));
-                            double effectivedmg = health / ehp;
-                            double totaldmg = (damage * effectivedmg);
-                            c.damage = totaldmg;
-                        }
-
-
+                        if (!SkyblockEntity.livingEntity.exists(event.getDamager()))
+                            new BasicEntity((LivingEntity) event.getDamager());
+                        c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(event.getDamager()), player);
                         c.damagePlayer(player);
-
                     }
                 }
             }
@@ -1560,12 +1521,9 @@ public class SkyblockRemakeEvents implements Listener {
     }
 
     private static int getEntityHealth(LivingEntity entity) {
-        if (SkyblockEntity.livingEntity.exists(entity))
-            return SkyblockEntity.livingEntity.getSbEntity(entity).getHealth();
-        if (Main.currentityhealth.containsKey(entity)) return Main.currentityhealth.get(entity);
-
-
-        return 0;
+        if (!SkyblockEntity.livingEntity.exists(entity))
+            new BasicEntity(entity);
+        return SkyblockEntity.livingEntity.getSbEntity(entity).getHealth();
     }
 
     public static void ferocity_Player_call(Player e, double damage, int cccalc, int cc, Player player, int times, EntityDamageByEntityEvent event) {

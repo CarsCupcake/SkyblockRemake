@@ -29,7 +29,9 @@ public class BasicEntity extends SkyblockEntity implements MinionEntity {
     private final int damage;
     private Class<? extends LivingEntity> aClass;
     private LootTable lootTable;
-
+    public BasicEntity(LivingEntity entity) {
+        this(entity, (int) (entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
+    }
     public BasicEntity(LivingEntity entity, int maxHealth) {
         super();
         lootTable = lootTables.getOrDefault(entity.getType(), new LootTable());

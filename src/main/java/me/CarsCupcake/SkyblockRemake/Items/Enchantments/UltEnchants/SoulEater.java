@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
@@ -42,28 +43,21 @@ public class SoulEater extends UltimateEnchant implements Listener {
     private static final HashMap<SkyblockPlayer, Double> lastEntityDamage = new HashMap<>();
 
     @EventHandler
-    public void onDamage(SkyblockDamageEvent event){
-        if(event.getEntity() == null)
+    public void onDamage(SkyblockDamageEvent event) {
+        if (event.getEntity() == null)
             return;
-        if(event.getPlayer() == null)
+        if (event.getPlayer() == null)
             return;
-        if(event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity)
+        if (event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity)
             return;
-        if(event.getPlayer().getItemInHand() == null || event.getPlayer().getItemInHand().getItemMeta() == null)
+        if (event.getPlayer().getItemInHand() == null || event.getPlayer().getItemInHand().getItemMeta() == null)
             return;
-
-        if(lastEntityDamage.containsKey(event.getPlayer())){
-            event.getCalculator().damage += 2* event.getPlayer().getItemInHand().getItemMeta().getEnchantLevel(SkyblockEnchants.SOUL_EATER);
+        if (lastEntityDamage.containsKey(event.getPlayer())) {
+            event.getCalculator().damage += 2 * event.getPlayer().getItemInHand().getItemMeta().getEnchantLevel(SkyblockEnchants.SOUL_EATER);
         }
         double damage;
-        if(SkyblockEntity.livingEntity.exists(event.getEntity())){
-            damage = (SkyblockEntity.livingEntity.getSbEntity(event.getEntity()).getDamage());
-        }else if(Main.entitydamage.containsKey(event.getEntity())){
-            damage = Main.entitydamage.get(event.getEntity());
-        }else
-            damage = event.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue();
-
-
+        if (!SkyblockEntity.livingEntity.exists(event.getEntity())) new BasicEntity(event.getEntity());
+        damage = (SkyblockEntity.livingEntity.getSbEntity(event.getEntity()).getDamage());
         lastEntityDamage.put(event.getPlayer(), damage);
 
     }

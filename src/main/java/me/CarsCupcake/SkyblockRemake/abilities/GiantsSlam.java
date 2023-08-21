@@ -29,8 +29,7 @@ public class GiantsSlam implements AbilityManager<PlayerInteractEvent> {
         private final Giant giant;
 
         private Sword(Location location, SkyblockPlayer player){
-            List<Entity> e = location.getWorld().getNearbyEntities(location, 4,4,4).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand) &&
-                    (Main.currentityhealth.containsKey(entity) || SkyblockEntity.livingEntity.exists(entity))).toList();
+            List<Entity> e = location.getWorld().getNearbyEntities(location, 4,4,4).stream().filter(entity -> entity instanceof LivingEntity && !(entity instanceof ArmorStand)).toList();
             double dmg = 0;
             int i = 0;
             for(Entity entity : e){
@@ -65,7 +64,6 @@ public class GiantsSlam implements AbilityManager<PlayerInteractEvent> {
             });
 
         }
-
         @Override
         public void run() {
             giant.remove();

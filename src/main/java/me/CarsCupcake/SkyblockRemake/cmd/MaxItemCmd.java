@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.cmd;
 
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
@@ -25,24 +26,11 @@ public class MaxItemCmd implements CommandExecutor {
             player.sendMessage("Invalid item!");
             return true;
         }
-        ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
-        switch (manager.type){
-            case Axe -> {
-                ItemHandler.setEnchant(Enchantment.DIG_SPEED, 10, item);
-                ItemHandler.setEnchant(SkyblockEnchants.ULTIMATE_WISE, 5, item);
-            }
-            case Sword -> {
-                ItemHandler.setEnchant(Enchantment.DAMAGE_ALL, 7, item);
-                ItemHandler.setEnchant(Enchantment.FIRE_ASPECT, 3, item);
-            }
-            case Hoe -> {
-                ItemHandler.setEnchant(SkyblockEnchants.REPLENISH, 1, item);
-                ItemHandler.setEnchant(SkyblockEnchants.HARVESTING, 6, item);
-                ItemHandler.setEnchant(Enchantment.DIG_SPEED, 10, item);
-                ItemHandler.setPDC("counter", item, PersistentDataType.INTEGER, 10000000);
-            }
-        }
         recom(item);
+        for (CustomEnchantment enchantment : SkyblockEnchants.registeredEnchants.values()) {
+            if(enchantment.canEnchantItem(item))
+                ItemHandler.setEnchant(enchantment, enchantment.getMaxLevel(), item);
+        }
         Main.item_updater(item, player);
         return true;
     }

@@ -10,7 +10,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Wither;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Items.CustomEntities;
 
 public class Tentacles {
 	public static ArrayList<Tentacles> tentacles = new ArrayList<>();
@@ -19,7 +18,7 @@ public class Tentacles {
 	public Location startLocation;
 	
 	public Tentacles(Location loc, int tier) {
-		tentacle = (Wither) CustomEntities.KuudraTentacle(loc);
+		tentacle = null;
 		
 		if(tier > 0 && tier < 3) {
 			if(tier == 1)

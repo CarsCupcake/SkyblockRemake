@@ -10,6 +10,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
@@ -61,9 +62,10 @@ public class ItemHandler {
     }
 
     public static int getEnchantmentLevel(Enchantment enchantment, ItemStack item) {
+        if (!hasEnchantment(enchantment, item)) return 0;
         return item.getItemMeta().getEnchants().get(enchantment);
     }
-    public static void setEnchant(Enchantment enchantment, int level, ItemStack item){
+    public static void setEnchant(@NotNull Enchantment enchantment, int level, ItemStack item){
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(enchantment, level, true);
         item.setItemMeta(meta);

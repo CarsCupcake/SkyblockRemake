@@ -58,7 +58,7 @@ public class Overload extends CustomEnchantment implements Listener {
                     Random r = new Random();
                     if(r.nextBoolean()){
                         event.getCalculator().setOverload(true);
-                        event.addPreMultiplier(ItemHandler.getEnchantmentLevel(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile()) * 10);
+                        event.addPreMultiplier((double) ItemHandler.getEnchantmentLevel(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile()) / 10);
                     }
                 }
             }

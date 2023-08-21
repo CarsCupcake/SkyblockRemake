@@ -29,11 +29,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 public interface AbilityManager<T extends Event> {
 
     boolean triggerAbility(T event);
+
     default int soulflowCost() {
         return 0;
     }
+
     default boolean canTrigger(SkyblockPlayer player) {
         return true;
+    }
+
+    default boolean hideCooldown() {
+        return false;
     }
 
     HashMap<SkyblockPlayer, HashMap<String, AdditionalManaCosts>> additionalMana = new HashMap<>();
@@ -66,7 +72,7 @@ public interface AbilityManager<T extends Event> {
         if (abilities.isEmpty()) return;
 
         for (Ability ability : abilities) {
-            if(!ability.getAbilityManager().canTrigger(player)) return;
+            if (!ability.getAbilityManager().canTrigger(player)) return;
             if (ability.getType().toAction().contains(event.getAction())) {
                 if (hasSneak && isSneaking && ability.getType().isSneak()) {
                     executeAbility(ability, player, manager, event);
@@ -115,10 +121,11 @@ public interface AbilityManager<T extends Event> {
     static boolean precheck(Ability ability, SkyblockPlayer player, ItemManager manager, Action action) {
         if (!InfoManager.isIgnoreCooldwon())
             if (!allowToFire(player, ability.getAbilityManager().getClass(), ability.getType())) {
-                player.sendMessage("§cOn cooldown!");
+                if (!ability.getAbilityManager().hideCooldown())
+                    player.sendMessage("§cOn cooldown!");
                 return false;
             }
-        double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift)? Stats.RiftInteligence :  Stats.Inteligence)) * ability.getPersentage() : ability.getManacost();
+        double manacost = (ability.isPersentage()) ? Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence)) * ability.getPersentage() : ability.getManacost();
         if (additionalMana.get(player).containsKey(manager.itemID)) {
             manacost += additionalMana.get(player).get(manager.itemID).amount;
         }

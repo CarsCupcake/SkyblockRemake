@@ -103,6 +103,9 @@ public class Tools {
 
 
     }
+    public static String cleanDouble(double d) {
+        return (d % 1 == 0) ? String.format("%.0f", d) : String.valueOf(d);
+    }
 
     public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed, int baseDropChance, SkyblockPlayer player) {
         double chance = Main.getPlayerStat(player, Stats.Pristine) / 100d;
@@ -1130,7 +1133,7 @@ public class Tools {
     }
     public static <T> T[] combine(T[] t1, T[] t2) {
         T[] ts = Arrays.copyOf(t1, t1.length + t2.length);
-        int i = ts.length;
+        int i = t1.length;
         for (T o : t2) {
             ts[i] = o;
             i++;

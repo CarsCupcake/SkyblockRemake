@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
+import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import org.bukkit.Color;
@@ -75,8 +76,8 @@ public static void hit(LivingEntity e, double damage, boolean crit, Player playe
 		return;
 	particles(e);
 	playSound(e.getEyeLocation());
-	if(Main.currentityhealth.get(e) == null && !SkyblockEntity.livingEntity.exists(e))
-		return;
+	if(!SkyblockEntity.livingEntity.exists(e))
+		new BasicEntity(e);
 
 
 	Calculator calculator = new Calculator(true);

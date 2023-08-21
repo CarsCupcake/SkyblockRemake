@@ -8,6 +8,8 @@ import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
+import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
+import me.CarsCupcake.SkyblockRemake.Entities.EntityHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.abilities.Ferocity;
@@ -22,6 +24,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -56,6 +59,9 @@ public strictfp class Calculator {
     private Element element;
     @Getter
     private List<String> tags = new ArrayList();
+    @Getter
+    @Setter
+    private boolean ignoreHit = false;
 
     public Calculator() {
     }
@@ -268,20 +274,16 @@ public strictfp class Calculator {
         if (e.getScoreboardTags().contains("invinc")) {
             return;
         }
+        if (!ignoreHit)
+            EntityHandler.set("hit", e, PersistentDataType.INTEGER, EntityHandler.getOrDefault("hit", e, PersistentDataType.INTEGER, 0) + 1);
         int newHealth;
-        if (SkyblockEntity.livingEntity.exists(e)) {
-            SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(e);
-            if (se instanceof FinalDamageDesider desider) damage = desider.getFinalDamage(player, damage);
+        if (!SkyblockEntity.livingEntity.exists(e)) new BasicEntity(e);
+        SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(e);
+        if (se instanceof FinalDamageDesider desider) damage = desider.getFinalDamage(player, damage);
 
-            se.damage(damage, SkyblockPlayer.getSkyblockPlayer(player));
-            newHealth = se.getHealth();
+        se.damage(damage, SkyblockPlayer.getSkyblockPlayer(player));
+        newHealth = se.getHealth();
 
-
-        } else {
-            int live = Main.currentityhealth.get(e) - (int) damage;
-            Main.currentityhealth.replace(e, live);
-            newHealth = Main.currentityhealth.get(e);
-        }
 
         e.damage(0.00001, player);
         if (SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).hasNoKB())
@@ -336,7 +338,7 @@ public strictfp class Calculator {
         }
 
 
-        if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0) || (Main.currentityhealth.containsKey(e) && Main.currentityhealth.get(e) <= 0)) {
+        if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0)) {
             if (player != null)
                 e.addScoreboardTag("killer:" + player.getName());
             Main.EntityDeath(e);
@@ -365,6 +367,48 @@ public strictfp class Calculator {
         Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ());
         showDamageTag(loc);
 
+    }
+
+    public void showFireDamageTag(Entity e) {
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
+            return;
+        }
+        Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ());
+        final String str = String.format("%.0f", (Tools.round(damage, 0)));
+        ArmorStand stand = loc.getWorld().spawn(loc, ArmorStand.class, armorstand -> {
+            armorstand.setVisible(false);
+            armorstand.setGravity(false);
+            armorstand.setMarker(true);
+            armorstand.setCustomNameVisible(true);
+            armorstand.setInvulnerable(true);
+            armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
+            armorstand.addScoreboardTag("damage_tag");
+            armorstand.setArms(false);
+            armorstand.setBasePlate(false);
+            armorstand.setCustomName("§6" + str);
+        });
+        Main.getMain().killarmorstand(stand);
+    }
+
+    public void showThunderDamageTag(Entity e) {
+        if (SkyblockServer.getServer().type() == ServerType.Rift) {
+            return;
+        }
+        Location loc = new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ());
+        final String str = String.format("%.0f", (Tools.round(damage, 0)));
+        ArmorStand stand = loc.getWorld().spawn(loc, ArmorStand.class, armorstand -> {
+            armorstand.setVisible(false);
+            armorstand.setGravity(false);
+            armorstand.setMarker(true);
+            armorstand.setCustomNameVisible(true);
+            armorstand.setInvulnerable(true);
+            armorstand.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 999999, 999999));
+            armorstand.addScoreboardTag("damage_tag");
+            armorstand.setArms(false);
+            armorstand.setBasePlate(false);
+            armorstand.setCustomName("§9" + str);
+        });
+        Main.getMain().killarmorstand(stand);
     }
 
     public void showDamageTag(Location loc) {
@@ -482,10 +526,6 @@ public strictfp class Calculator {
 
     private int getSkyblockEntityHealth(LivingEntity e) {
         return SkyblockEntity.livingEntity.getSbEntity(e).getHealth();
-    }
-
-    private int getBaseEntity(LivingEntity e) {
-        return Main.currentityhealth.get(e);
     }
 
     public SkyblockDamageEvent getResult() {

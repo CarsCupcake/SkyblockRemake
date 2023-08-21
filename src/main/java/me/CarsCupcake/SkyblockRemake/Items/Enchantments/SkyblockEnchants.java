@@ -8,7 +8,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.BaneOfArthropods;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.FireAspect;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Sharpness;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Smite;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Harvesting;
@@ -38,8 +40,9 @@ public class SkyblockEnchants {
     public static final Duplex DUPLEX = new Duplex();
     public static final Replenish REPLENISH = new Replenish();
     public static final Harvesting HARVESTING = new Harvesting();
-
     public static final Syphon SYPHON = new Syphon();
+    public static final LifeSteal LIFE_STEAL = new LifeSteal();
+    public static final ManaSteal MANA_STEAL = new ManaSteal();
     public static final DragonTracer DRAGON_TRACER = new DragonTracer();
     public static final SugarRush SUGAR_RUSH = new SugarRush();
     public static final Sharpness SHARPNESS = new Sharpness();
@@ -52,6 +55,17 @@ public class SkyblockEnchants {
     public static final EnderSlayer ENDER_SLAYER = new EnderSlayer();
     public static final Execute EXECUTE = new Execute();
     public static final Prosecute PROSECUTE = new Prosecute();
+    public static final Experience EXPERIENCE = new Experience();
+    public static final FireAspect FIRE_ASPECT = new FireAspect();
+    public static final FirstStrike FIRST_STRIKE = new FirstStrike();
+    public static final TripleStrike TRIPLE_STRIKE = new TripleStrike();
+    public static final GiantKiller GIANT_KILLER = new GiantKiller();
+    public static final TitanKiller TITAN_KILLER = new TitanKiller();
+    public static final Smite SMITE = new Smite();
+    public static final Smoldering SMOLDERING = new Smoldering();
+    public static final Thunderbolt THUNDERBOLT = new Thunderbolt();
+    public static final Thunderlord THUNDERLORD = new Thunderlord();
+    public static final Vampirism VAMPIRISM = new Vampirism();
 
 
     private static void initEvents() {
@@ -78,9 +92,9 @@ public class SkyblockEnchants {
 
     public static void register() {
         initEvents();
-        for (Field field : SkyblockEnchants.class.getFields()) {
+        for (Field field : SkyblockEnchants.class.getDeclaredFields()) {
             try {
-                if (field.getType().isAssignableFrom(CustomEnchantment.class)) {
+                if (field.getType().getSuperclass() == CustomEnchantment.class || field.getType().getSuperclass() == UltimateEnchant.class) {
                     registerEnchantment((CustomEnchantment) field.get(null));
                 }
             } catch (Exception e) {

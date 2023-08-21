@@ -2,11 +2,13 @@ package me.CarsCupcake.SkyblockRemake.API.PlayerEvent;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.CarsCupcake.SkyblockRemake.Entities.EntityHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.HandlerList;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -26,6 +28,8 @@ public class DamagePrepairEvent extends PlayerEvent{
     @Getter
     @Setter
     private double weaponDamage;
+    @Getter
+    private final int hits;
     public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator, double pre, double post, HashMap<Stats, Double> stats, double weaponDamage) {
         super(player);
         this.entity = entity;
@@ -34,6 +38,7 @@ public class DamagePrepairEvent extends PlayerEvent{
         postMultiplier = post;
         this.stats = stats;
         this.weaponDamage = weaponDamage;
+        hits = EntityHandler.getOrDefault("hit", entity, PersistentDataType.INTEGER, 0);
     }
 
     @NotNull
