@@ -7,9 +7,9 @@ depend:  [FastAsyncWorldEdit]
 
 commands:
   gm:
-    describtion: "Quick Gamemode Toggle"
+    description: "Quick Gamemode Toggle"
   item:
-    describtion: "Get Custom items"
+    description: "Get Custom items"
   npc:
   terminal:
   lavabounce:
@@ -25,9 +25,9 @@ commands:
   beacon:
   laser:
   ench:
-    describtion: Custom enchants
+    description: Custom enchants
   av:
-    describtion: Opens an anvil
+    description: Opens an anvil
   reforge:
   coins:
   canon:
@@ -67,9 +67,9 @@ commands:
     aliases:
       - wd
   drhelp:
-    description: command for a staff
+    description: command for staff members
   compile:
-    description: command for a staff
+    description: command for staff members
   gemstonegrinder:
     description: opens the Gemstone Grinder
     aliases: gsg
