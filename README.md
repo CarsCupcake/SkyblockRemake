@@ -14,7 +14,7 @@
 </p>
 </div>
 <div align="center">
-<h3><b>Please dont use it comercialy!</b></h3>
+<h3><b>Please don't use for commercial purposes</b></h3>
 <h3><b>Always give credit to me!</b></h3>
 </div>
 <!-- PROJECT LOGO -->
@@ -98,14 +98,14 @@ Spigot Resource: https://www.spigotmc.org/resources/fastasyncworldedit.13932/
 
 <h3>PlugMan</h3>
 Bukkit Resource: https://dev.bukkit.org/projects/plugman
-_Plugman is only optional! It simplifies reloading plugins and 
-prevents errors when loading SkyblockRemake._
+<br><i>Plugman is only optional! It simplifies reloading plugins and
+prevents errors when loading SkyblockRemake.</i>
 
 ### Installation
 
 _Here you will learn briefly and concisely how to install and set up SkyblockRemake correctly._
 
-1. Download the plugin from the official [GitHub Page](https://github.com/CarsCupcake/SkyblockRemake/releases). [(LINK COMING SOON)]
+1. Download the plugin from the official [GitHub Releases Page](https://github.com/CarsCupcake/SkyblockRemake/releases).
 2. Put the downloaded .jar file into the plugins folder of your server.
 3. Reload your server with /reload.
 4. _Check if there is an error in the console._
@@ -117,7 +117,7 @@ and manages the most important settings._
 _There you can customize everything as it is most convenient for you._
 
 <h3>Important</h3>
-Make sure you change the value **`ServerType`** in the config.yml to the type you want to use.
+Make sure you change the value <b>ServerType</b> in the config.yml to the type you want to use.
 <br />
 Or click <a href="https://www.youtube.com/watch?v=X_obdx_bgCE">here</a> for a tutorial video.
 <h3>Optional</h3>
