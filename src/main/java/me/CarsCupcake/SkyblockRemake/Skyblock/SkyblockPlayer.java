@@ -42,7 +42,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.isles.Areas.DwarvenAreas;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.DwarvenCommissions;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import net.minecraft.server.level.EntityPlayer;
 
 public class SkyblockPlayer extends CraftPlayer {
@@ -230,7 +230,7 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public void kill(){
         Slayer possibleSlayer = Slayer.getSlayer(this);
-        if(possibleSlayer == null) SkyblockEntity.killEntity(possibleSlayer, null);
+        if(possibleSlayer != null) SkyblockEntity.killEntity(possibleSlayer, null);
     }
 
     public void initQuest() {

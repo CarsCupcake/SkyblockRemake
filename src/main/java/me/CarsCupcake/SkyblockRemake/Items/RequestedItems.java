@@ -1,9 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetAbility;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetType;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetAbility;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.abilities.BloodForTheBloodGod;
 import me.CarsCupcake.SkyblockRemake.abilities.ICBMDeployerAbility;

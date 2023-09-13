@@ -8,26 +8,26 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-public class Smoldering extends CustomEnchantment {
-    public Smoldering() {
-        super(new NamespacedKey(Main.getMain(), "smoldering"));
+public class BigBrain extends CustomEnchantment {
+    public BigBrain() {
+        super(new NamespacedKey(Main.getMain(), "big_brain"));
     }
 
     @Override
     public ItemType[] getAllowedTypes() {
-        return ItemType.Type.getCombat().toArray(new ItemType[0]);
+        return new ItemType[]{ItemType.Helmet};
     }
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases damage dealt", "§7to Blazes by %pers%")
-                .addPlaceholder("%pers%", (player, itemStack) -> (ItemHandler.getEnchantmentLevel(this, itemStack) * 3) + "%");
+        return new AbilityLore("§7Grants §b+%i% ✎ Intelligence")
+                .addPlaceholder("%i%", (player, itemStack) -> "" + getBonus(ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Smoldering";
+        return "Big Brain";
     }
 
     @Override
@@ -37,6 +37,9 @@ public class Smoldering extends CustomEnchantment {
 
     @Override
     public int getStartLevel() {
-        return 1;
+        return 3;
+    }
+    public int getBonus(int level) {
+        return level * 5;
     }
 }

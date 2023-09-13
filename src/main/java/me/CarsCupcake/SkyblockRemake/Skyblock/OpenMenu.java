@@ -40,8 +40,8 @@ import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryInventory;
 import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetMenuInv;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuInv;
 
 
 public class OpenMenu implements CommandExecutor, Listener {

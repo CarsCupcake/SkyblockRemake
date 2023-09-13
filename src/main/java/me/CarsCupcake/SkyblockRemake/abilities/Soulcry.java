@@ -17,7 +17,7 @@ public class Soulcry implements AbilityManager<PlayerInteractEvent>, ItemManager
     private static final Set<SkyblockPlayer> players = new HashSet<>();
     @Override
     public boolean triggerAbility(PlayerInteractEvent event) {
-        event.getItem().setType(Material.GOLDEN_SWORD);
+        event.getPlayer().getEquipment().getItemInMainHand().setType(Material.GOLDEN_SWORD);
         players.add(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
@@ -47,7 +47,7 @@ public class Soulcry implements AbilityManager<PlayerInteractEvent>, ItemManager
                         player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SCREAM, 0.1F, 0.9F);
                         player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SCREAM, 0.5F, 1.9F);
                     }
-                    default ->cancel();
+                    default -> cancel();
 
                 }
 

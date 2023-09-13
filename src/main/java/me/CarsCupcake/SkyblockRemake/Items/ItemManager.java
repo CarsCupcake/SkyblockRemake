@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -41,10 +40,9 @@ import org.bukkit.map.MapView;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import me.CarsCupcake.SkyblockRemake.Configs.EditionItems;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.Gemstone;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -164,7 +164,7 @@ public strictfp class Calculator {
         double damage;
         if (cccalc <= cc) {
             isCrit = true;
-            damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + ((float) cd / 100)) * (1 + (preMultiplier)) * (1 + (postMult));
+            damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + ((float) cd / 100)) * ((preMultiplier)) * ((postMult));
 
         } else {
             damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + (preMultiplier)) * (1 + (postMult));
@@ -274,7 +274,7 @@ public strictfp class Calculator {
         if (e.getScoreboardTags().contains("invinc")) {
             return;
         }
-        if (!ignoreHit)
+        if (!ignoreHit && e != null)
             EntityHandler.set("hit", e, PersistentDataType.INTEGER, EntityHandler.getOrDefault("hit", e, PersistentDataType.INTEGER, 0) + 1);
         int newHealth;
         if (!SkyblockEntity.livingEntity.exists(e)) new BasicEntity(e);
@@ -499,7 +499,7 @@ public strictfp class Calculator {
         DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, 1d, 1d,getIfMissing(new HashMap<>(), player), Main.getPlayerStat(player, Stats.WeaponDamage));
         Bukkit.getPluginManager().callEvent(event);
 
-        damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100)) * (1 + (event.getPreMultiplier() / 100)) * (1 + (event.getPostMultiplier() / 100));
+        damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100)) * ((event.getPreMultiplier())) * ((event.getPostMultiplier()));
         if (e != null && SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.MagicResistance.class) != null) {
             SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             EntityAtributes.MagicResistance resistance = entity.getClass().getAnnotation(EntityAtributes.MagicResistance.class);

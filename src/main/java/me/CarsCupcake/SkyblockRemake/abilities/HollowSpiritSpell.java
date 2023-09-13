@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Color;
@@ -230,10 +231,6 @@ public class HollowSpiritSpell {
                 base.getWorld().spawnParticle(Particle.REDSTONE, corner3,1, getRandom());
                 base.getWorld().spawnParticle(Particle.REDSTONE, corner4,1, getRandom());
 
-
-
-
-
                 ticks++;
             }
             private Particle.DustOptions getRandom(){
@@ -265,6 +262,7 @@ public class HollowSpiritSpell {
 
 
 
+    @Getter
     public enum Stack{
         Spirit("§c✤"),
         Hollowed("§b✦");
@@ -273,9 +271,6 @@ public class HollowSpiritSpell {
 
         Stack(String s) {
             display = s;
-        }
-        public String getDisplay(){
-            return display;
         }
     }
 }

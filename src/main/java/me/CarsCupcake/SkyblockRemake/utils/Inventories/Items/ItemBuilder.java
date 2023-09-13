@@ -30,6 +30,7 @@ public class ItemBuilder {
     private ArrayList<Pattern> bannerPatterns;
     private final HashMap<Enchantment, Integer> enchants = new HashMap<>();
     private boolean glint = false;
+    private boolean headvalue = false;
     public ItemBuilder(Material material){
         this.material = material;
     }
@@ -75,7 +76,7 @@ public class ItemBuilder {
         return this;
     }
     public ItemStack build(){
-        ItemStack item = (isHead) ? Tools.CustomHeadTexture(headURL) : new ItemStack(material);
+        ItemStack item = (isHead) ? ((headvalue) ? Tools.getCustomTexturedHeadFromSkullValue(headURL) : Tools.CustomHeadTexture(headURL) ): new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         if (!name.equals("N/A"))
             meta.setDisplayName(name);
@@ -109,6 +110,10 @@ public class ItemBuilder {
     public ItemBuilder setHead(String url){
         isHead = true;
         headURL = url;
+        return this;
+    }
+    public ItemBuilder headTextureAsValue() {
+        headvalue = true;
         return this;
     }
     public ItemBuilder setLeatherColor(Color color){

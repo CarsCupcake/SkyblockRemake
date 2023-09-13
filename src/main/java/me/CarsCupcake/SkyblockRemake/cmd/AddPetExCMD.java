@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 public class AddPetExCMD implements CommandExecutor {

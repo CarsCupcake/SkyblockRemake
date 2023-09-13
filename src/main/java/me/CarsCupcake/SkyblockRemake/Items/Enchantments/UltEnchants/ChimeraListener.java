@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

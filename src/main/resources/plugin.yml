@@ -78,3 +78,5 @@ commands:
     aliases: gemstonegrinder
   customitem:
     description: Makes an custom item
+  hex:
+    description: Opens the hex

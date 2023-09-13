@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ColorTerminal extends Terminal {
-    private static final ArrayList<Integer> slots = new ArrayList<>(List.of(12,13,14,21,22,23,30,31,32));
+    private static final List<Integer> slots = List.of(12,13,14,21,22,23,30,31,32);
 
     public ColorTerminal(F7Phase3 phase, int terminalId) {
         super(phase, terminalId);

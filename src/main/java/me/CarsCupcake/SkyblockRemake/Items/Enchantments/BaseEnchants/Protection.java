@@ -1,42 +1,45 @@
-package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
+package me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
-import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-public class Smoldering extends CustomEnchantment {
-    public Smoldering() {
-        super(new NamespacedKey(Main.getMain(), "smoldering"));
+public class Protection extends CustomEnchantment {
+    public Protection() {
+        super(PROTECTION_ENVIRONMENTAL.getKey());
     }
 
     @Override
     public ItemType[] getAllowedTypes() {
-        return ItemType.Type.getCombat().toArray(new ItemType[0]);
+        return ItemType.Type.Armor.getTypeList().toArray(new ItemType[0]);
     }
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases damage dealt", "§7to Blazes by %pers%")
-                .addPlaceholder("%pers%", (player, itemStack) -> (ItemHandler.getEnchantmentLevel(this, itemStack) * 3) + "%");
+        return new AbilityLore("§7Grants §a%a% ❈ Defense§7.")
+                .addPlaceholder("%a%", (player, itemStack) -> ("" + getBoost(ItemHandler.getEnchantmentLevel(this, itemStack))));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Smoldering";
+        return "Protection";
     }
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return 7;
     }
 
     @Override
     public int getStartLevel() {
         return 1;
+    }
+    public int getBoost(int level) {
+        if (level < 6) return level * 4;
+        return (level * 5) - 5;
     }
 }

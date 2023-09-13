@@ -1,13 +1,14 @@
-package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
+package me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityLore;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class Telikinesis extends CustomEnchantment{
+public class Telikinesis extends CustomEnchantment {
 
 	public Telikinesis(NamespacedKey key) {
 		super(key);

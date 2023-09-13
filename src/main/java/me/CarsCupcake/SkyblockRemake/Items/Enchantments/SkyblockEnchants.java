@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.BaneOfArthropods;
-import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.FireAspect;
-import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Sharpness;
-import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Smite;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.emchantment.Harvesting;
@@ -66,6 +63,20 @@ public class SkyblockEnchants {
     public static final Thunderbolt THUNDERBOLT = new Thunderbolt();
     public static final Thunderlord THUNDERLORD = new Thunderlord();
     public static final Vampirism VAMPIRISM = new Vampirism();
+    public static final Flame FLAME = new Flame();
+    public static final Piercing PIERCING = new Piercing();
+    public static final InfiniteQuiver INFINITE_QUIVER = new InfiniteQuiver();
+    public static final Power POWER = new Power();
+    public static final Snipe SNIPE = new Snipe();
+    public static final BigBrain BIG_BRAIN = new BigBrain();
+    public static final Efficiency EFFICIENCY = new Efficiency();
+    public static final Growth GROWTH = new Growth();
+    public static final Protection PROTECTION = new Protection();
+    public static final Rejuvenate REJUVENATE = new Rejuvenate();
+    public static final Thorns THORNS = new Thorns();
+    public static final Reflection REFLECTION = new Reflection();
+    public static final TrueProtection TRUE_PROTECTION = new TrueProtection();
+    public static final SmartyPants SMARTY_PANTS = new SmartyPants();
 
 
     private static void initEvents() {

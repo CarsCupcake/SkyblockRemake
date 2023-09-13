@@ -105,25 +105,6 @@ public abstract class SkyblockEntity implements Elementable {
     public static ArrayList<LivingEntity> cooldowns = new ArrayList<>();
 
 
-    static void updateDiguestedEntity(SkyblockEntity e) {
-        LivingEntity entity = e.getEntity();
-        float health;
-        float maxhealth;
-
-        maxhealth = e.getMaxHealth();
-        health = e.getHealth();
-
-        if (health <= 0) {
-            entity.setCustomNameVisible(false);
-
-            entity.setHealth(0);
-            return;
-        }
-        @SuppressWarnings("deprecation") float estimated = (float) ((health / maxhealth) * entity.getMaxHealth());
-        entity.setHealth(estimated);
-        e.updateNameTag();
-    }
-
     static String getBaseName(String name, int health, int maxhealth, int level) {
         return getBaseName(name, health, maxhealth, level,false);
     }
@@ -155,7 +136,6 @@ public abstract class SkyblockEntity implements Elementable {
 
     public static void updateEntity(SkyblockEntity e) {
         LivingEntity entity = e.getEntity();
-
         if (Main.entitydead.containsKey(entity) && Main.entitydead.get(entity)) return;
 
 
@@ -175,8 +155,6 @@ public abstract class SkyblockEntity implements Elementable {
         }
         @SuppressWarnings("deprecation") double estimated = ((double) health / (double) maxhealth) * entity.getMaxHealth();
         entity.setHealth(estimated);
-
-
         e.updateNameTag();
 
     }

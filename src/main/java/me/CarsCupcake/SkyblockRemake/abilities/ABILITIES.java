@@ -49,7 +49,7 @@ import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Mithril.TitanumHa
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Stone;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningBlock;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionItems;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionListener;

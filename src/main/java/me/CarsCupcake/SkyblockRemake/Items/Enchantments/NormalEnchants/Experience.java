@@ -16,7 +16,9 @@ public class Experience extends CustomEnchantment {
 
     @Override
     public ItemType[] getAllowedTypes() {
-        return ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]);
+        return Tools.combine(ItemType.Type.Tool
+                .getTypeList().toArray(new ItemType[0]),
+                ItemType.Type.Sword.getTypeList().toArray(new ItemType[0]));
     }
 
     @Override

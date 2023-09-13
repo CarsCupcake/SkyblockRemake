@@ -5,9 +5,9 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
-import me.CarsCupcake.SkyblockRemake.Entities.EntityHandler;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.BaneOfArthropods;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.FireAspect;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Flame;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.BaseEnchants.Sharpness;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.GiantKiller;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.NormalEnchants.TitanKiller;
@@ -21,9 +21,12 @@ import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class NormalEnchantsListener implements Listener {
     private final List<Class<? extends LivingEntity>> banseOfAtropods = List.of(Spider.class, CaveSpider.class, Silverfish.class);
@@ -57,16 +60,20 @@ public class NormalEnchantsListener implements Listener {
         if (level > 0 && event.getEntity().getClass() == Blaze.class)
             event.addPreMultiplier((double) (level * 3) / 100);
         SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(event.getEntity());
-        double persantage = Tools.round(((double) entity.getHealth() / (double) entity.getMaxHealth()) * 100, 0);
-        level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.EXECUTE, event.getPlayer().getEquipment().getItemInMainHand());
-        if (level > 0) {
-            double per = 100 - persantage;
-            event.addPreMultiplier((per * SkyblockEnchants.EXECUTE.getPers(level)) / 100);
+        if (entity != null) {
+            double persantage = Tools.round(((double) entity.getHealth() / (double) entity.getMaxHealth()) * 100, 0);
+
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.EXECUTE, event.getPlayer().getEquipment().getItemInMainHand());
+            if (level > 0) {
+                double per = 100 - persantage;
+                event.addPreMultiplier((per * SkyblockEnchants.EXECUTE.getPers(level)) / 100);
+            }
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.PROSECUTE, event.getPlayer().getEquipment().getItemInMainHand());
+            if (level > 0) {
+                event.addPreMultiplier((persantage * SkyblockEnchants.PROSECUTE.getPers(level)) / 100);
+            }
         }
-        level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.PROSECUTE, event.getPlayer().getEquipment().getItemInMainHand());
-        if (level > 0) {
-            event.addPreMultiplier((persantage * SkyblockEnchants.PROSECUTE.getPers(level)) / 100);
-        }
+
         level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.FIRST_STRIKE, event.getPlayer().getEquipment().getItemInMainHand());
         if (level > 0 && event.getHits() == 0) {
             event.addPreMultiplier((double) (25 * level) / 100);
@@ -76,7 +83,7 @@ public class NormalEnchantsListener implements Listener {
             event.addPreMultiplier((double) (10 * level) / 100);
         }
         level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.GIANT_KILLER, event.getPlayer().getEquipment().getItemInMainHand());
-        if (level > 0 && !event.getCalculator().isIgnoreHit()) {
+        if (level > 0 && !event.getCalculator().isIgnoreHit() & entity != null) {
             double p = entity.getHealth() / Main.getPlayerStat(event.getPlayer(), Stats.Health);
             p *= 100;
             if (p > GiantKiller.getTarget(level)) p = GiantKiller.getTarget(level);
@@ -88,6 +95,20 @@ public class NormalEnchantsListener implements Listener {
             double boost = TitanKiller.getPers(level) * defB;
             if (boost > TitanKiller.getTarget(level)) boost = TitanKiller.getTarget(level);
             event.addPreMultiplier(boost / 100);
+        }
+        if (event.getCalculator().getProjectile() != null) {
+            if (event.getCalculator().getProjectile().getScoreboardTags().contains("pierced")) {
+                event.addPostMultiplier(0.25 * ItemHandler.getEnchantmentLevel(SkyblockEnchants.PIERCING, event.getCalculator().getProjectile()));
+            }
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.POWER, event.getCalculator().getProjectile());
+            if (level > 0) {
+                event.addPostMultiplier((double) SkyblockEnchants.POWER.getBoost(level) / 100);
+            }
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.SNIPE, event.getCalculator().getProjectile());
+            if (level > 0) {
+                int mult = (int) (event.getCalculator().getProjectile().getLocation().distance(event.getPlayer().getLocation()) / 10);
+                event.addPostMultiplier((level * 0.01d) * mult);
+            }
         }
     }
 
@@ -142,32 +163,66 @@ public class NormalEnchantsListener implements Listener {
             calculator.showThunderDamageTag(event.getEntity());
             event.getEntity().getWorld().strikeLightningEffect(event.getEntity().getLocation());
         }
+        if (event.getCalculator().getProjectile() != null) {
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.FLAME, event.getCalculator().getProjectile());
+            if (level > 0 && !event.getCalculator().isIgnoreHit()) {
+                Flame.Fire.fire(SkyblockEntity.livingEntity.getSbEntity(event.getEntity()), level, event.getCalculator().damage, event.getPlayer());
+            }
+        }
 
     }
 
 
     @EventHandler
     public void syphon(SkyblockDamageEvent event) {
-        if (event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity)
-            return;
-        if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getItemMeta() != null) {
-            if (event.getPlayer().getItemInHand().getItemMeta().getEnchants().containsKey(SkyblockEnchants.SYPHON)
-                    && event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) != 0) {
-                double crit = Main.getPlayerStat(event.getPlayer(), Stats.CritDamage);
-                double health = Main.getPlayerStat(event.getPlayer(), Stats.Health);
-                if (crit > 1000)
-                    crit = 1000;
-                crit /= 100;
+        if (event.getType() == SkyblockDamageEvent.DamageType.PlayerToEntity) {
+            if (event.getPlayer().getItemInHand() != null && event.getPlayer().getItemInHand().getItemMeta() != null) {
+                if (event.getPlayer().getItemInHand().getItemMeta().getEnchants().containsKey(SkyblockEnchants.SYPHON)
+                        && event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) != 0) {
+                    double crit = Main.getPlayerStat(event.getPlayer(), Stats.CritDamage);
+                    double health = Main.getPlayerStat(event.getPlayer(), Stats.Health);
+                    if (crit > 1000)
+                        crit = 1000;
+                    crit /= 100;
 
-                double baseMult = 0.001 * event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) + 0.001;
-                baseMult *= crit;
-                baseMult += 1;
-                int h = (int) (baseMult * health);
-                h += event.getPlayer().currhealth;
-                if (h > health)
-                    h = (int) health;
-                event.getPlayer().setHealth(h, HealthChangeReason.Ability);
-                Main.updatebar(event.getPlayer());
+                    double baseMult = 0.001 * event.getPlayer().getItemInHand().getItemMeta().getEnchants().get(SkyblockEnchants.SYPHON) + 0.001;
+                    baseMult *= crit;
+                    baseMult += 1;
+                    int h = (int) (baseMult * health);
+                    h += event.getPlayer().currhealth;
+                    if (h > health)
+                        h = (int) health;
+                    event.getPlayer().setHealth(h, HealthChangeReason.Ability);
+                    Main.updatebar(event.getPlayer());
+                }
+            }
+        }
+        if (event.getType() == SkyblockDamageEvent.DamageType.EntityToPlayer) {
+            if (!event.getCalculator().isIgnoreHit()) {
+                for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+                    if (equipmentSlot == EquipmentSlot.HAND || equipmentSlot == EquipmentSlot.OFF_HAND) continue;
+                    ItemStack item = event.getPlayer().getEquipment().getItem(equipmentSlot);
+                    if (item == null || !item.hasItemMeta()) continue;
+                    int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.THORNS, item);
+                    if (level < 1) continue;
+                    if (new Random().nextBoolean()) {
+                        Calculator calculator = new Calculator();
+                        calculator.setApplyFerocity(false);
+                        calculator.setIgnoreHit(true);
+                        calculator.damage = (level * 0.03) * event.getCalculator().damage;
+                        calculator.damageEntity(event.getEntity(), event.getPlayer());
+                        calculator.showDamageTag(event.getEntity());
+                    }
+                }
+                int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.REFLECTION, event.getPlayer().getEquipment().getChestplate());
+                if (level > 0 && event.getProjectile() != null) {
+                    Calculator calculator = new Calculator();
+                    calculator.setIgnoreHit(true);
+                    calculator.setApplyFerocity(false);
+                    calculator.damage = Main.getPlayerStat(event.getPlayer(), Stats.Inteligence) * SkyblockEnchants.REFLECTION.getMult(level);
+                    calculator.damageEntity(event.getEntity(), event.getPlayer());
+                    calculator.showDamageTag(event.getEntity());
+                }
             }
         }
     }
@@ -181,6 +236,45 @@ public class NormalEnchantsListener implements Listener {
         if (event.getStat() == Stats.MagicFind) {
             int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.DIVINE_GIFT, event.getItem());
             if (level > 0) event.addValue(level * 2);
+        }
+        if (event.getStat() == Stats.Inteligence) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.BIG_BRAIN, event.getItem());
+            if (level > 0)
+                event.addValue(level * 5);
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.REFLECTION, event.getItem());
+            if (level > 0)
+                event.addValue(level * 2);
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.SMARTY_PANTS, event.getItem());
+            if (level > 0)
+                event.addValue(level * 5);
+        }
+        if (event.getStat() == Stats.MiningSpeed) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.EFFICIENCY, event.getItem());
+            if (level > 0)
+                event.addValue(10 + (level * 20));
+        }
+        if (event.getStat() == Stats.Health) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.GROWTH, event.getItem());
+            if (level > 0)
+                event.addValue(SkyblockEnchants.GROWTH.getBoost(level));
+        }
+        if (event.getStat() == Stats.Defense) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.PROTECTION, event.getItem());
+            if (level > 0)
+                event.addValue(SkyblockEnchants.PROTECTION.getBoost(level));
+        }
+        if (event.getStat() == Stats.HealthRegen) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.REJUVENATE, event.getItem());
+            if (level > 0)
+                event.addValue(level * 2);
+        }
+        if (event.getStat() == Stats.TrueDefense) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.REFLECTION, event.getItem());
+            if (level > 0)
+                event.addValue(level);
+            level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.TRUE_PROTECTION, event.getItem());
+            if (level > 0)
+                event.addValue(level * 5);
         }
     }
 }

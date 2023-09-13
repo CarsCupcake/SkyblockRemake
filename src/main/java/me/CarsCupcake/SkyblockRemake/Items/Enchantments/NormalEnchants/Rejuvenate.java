@@ -8,26 +8,26 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-public class Smoldering extends CustomEnchantment {
-    public Smoldering() {
-        super(new NamespacedKey(Main.getMain(), "smoldering"));
+public class Rejuvenate extends CustomEnchantment {
+    public Rejuvenate() {
+        super(new NamespacedKey(Main.getMain(), "rejuvenate"));
     }
 
     @Override
     public ItemType[] getAllowedTypes() {
-        return ItemType.Type.getCombat().toArray(new ItemType[0]);
+        return new ItemType[0];
     }
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases damage dealt", "§7to Blazes by %pers%")
-                .addPlaceholder("%pers%", (player, itemStack) -> (ItemHandler.getEnchantmentLevel(this, itemStack) * 3) + "%");
+        return new AbilityLore("§7Grants §c+%a%❣ Health Regen")
+                .addPlaceholder("%a%", (player, itemStack) -> "" + (ItemHandler.getEnchantmentLevel(this, itemStack) * 2));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Smoldering";
+        return "Rejuvenate";
     }
 
     @Override

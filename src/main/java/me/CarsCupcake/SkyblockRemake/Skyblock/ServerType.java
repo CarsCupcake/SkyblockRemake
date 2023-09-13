@@ -39,7 +39,7 @@ public enum ServerType {
         ServerType type = Non;
 
         for (ServerType types : ServerType.values())
-            if(types.s.equals(s))
+            if(types.s.equalsIgnoreCase(s))
                 type = types;
 
         return type;

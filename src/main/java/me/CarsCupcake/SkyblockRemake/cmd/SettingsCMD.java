@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown"})
-@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown"}, args = {"enable", "disable"}, position = 1)
+@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag"})
+@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag"}, args = {"enable", "disable"}, position = 1)
 @CommandArgument(lastArg = "respawnBoss", args = {"Bladesoul", "BarbarianDukeX", "MageOutlaw", "Ashfang", "MagmaBoss"}, position = 1)
 @CommandArgument(lastArg = "packetlog", args = {"in", "out", "name", "reset", "toggledetailed"}, position = 1)
 public class SettingsCMD implements CommandExecutor {
@@ -165,6 +165,20 @@ public class SettingsCMD implements CommandExecutor {
                 InfoManager.setValue("packetlog", b);
                 InfoManager.setPacketLog(b);
                 commandSender.sendMessage("Packet Log is now " + strings[1]);
+            }
+            case "lag" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    commandSender.sendMessage("Wrong arg");
+                    return true;
+                }
+                InfoManager.setValue("lag", b);
+                InfoManager.setLag(b);
+                commandSender.sendMessage("lag is now " + strings[1]);
             }
             case "ignorecooldown" -> {
                 boolean b;

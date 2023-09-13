@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets;
+package me.CarsCupcake.SkyblockRemake.Items.Pets;
 
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

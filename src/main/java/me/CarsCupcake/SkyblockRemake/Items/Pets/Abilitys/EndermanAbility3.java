@@ -1,8 +1,8 @@
-package me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Abilitys;
+package me.CarsCupcake.SkyblockRemake.Items.Pets.Abilitys;
 
 import me.CarsCupcake.SkyblockRemake.Items.UpdateFlag;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetAbility;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetAbility;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

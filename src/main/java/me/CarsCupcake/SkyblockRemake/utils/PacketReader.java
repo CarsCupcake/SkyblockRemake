@@ -29,135 +29,148 @@ import me.CarsCupcake.SkyblockRemake.Main;
 
 public class PacketReader {
 
-	private final SkyblockPlayer player;
-	private int count = 0;
-	private static final HashMap<Player, PacketReader> readers= new HashMap<>();
-	
-	public PacketReader(Player player) {
-		this.player = SkyblockPlayer.getSkyblockPlayer(player);
+    private final SkyblockPlayer player;
+    private int count = 0;
+    private static final HashMap<Player, PacketReader> readers = new HashMap<>();
 
-	}
-	public static PacketReader getPlayerMethod(Player player) {
-		return readers.get(player);
-	}
-	
-	public void inject() {
-		readers.put(player, this);
-		Channel channel = player.getHandle().b.a.k;
-		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
-			@Override
-			public void channelRead(ChannelHandlerContext channelHandlerContext,Object packet) {
-				try {
-					if (packet instanceof PacketHandshakingInSetProtocol protocol) {
-						System.out.println(protocol.c + " " + protocol.d);
-					}
-					if (packet instanceof PacketPlayInUpdateSign) {
-						SignManager.recivePacket(player.getUniqueId(), (PacketPlayInUpdateSign) packet);
-					}
+    public PacketReader(Player player) {
+        this.player = SkyblockPlayer.getSkyblockPlayer(player);
 
+    }
 
-					if (packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().type() != ServerType.PrivateIsle) {
-						SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig) packet, player);
-					}
-					if (packet instanceof PacketPlayInUseEntity) {
-						PacketReader.getPlayerMethod(player).read((PacketPlayInUseEntity) packet);
-					}
-					if (packet instanceof PacketPlayInBlockDig) {
-						if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING) &&
-								ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING).equals("GHOST_BLOCKS_PICK"))
-							return;
-					}
-					if (packet instanceof PacketPlayInFlying pkt && InfoManager.isMovementLag()) {
-						Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getMain(), () -> {
-							try {
-								super.channelRead(channelHandlerContext, pkt);
-							} catch (Exception e) {
-								throw new RuntimeException(e);
-							}
-						}, 4);
-						return;
-					}
-					PlayerDisguise.packetInManager((Packet<?>) packet);
-					if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
-						System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
-						if (InfoManager.getPacketLogFilter().isDetailed())
-							InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
-					}
-				}catch (Exception e){
-					System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
-					e.printStackTrace(System.err);
-					player.sendMessage("§cCould not read packet " + packet.getClass().getSimpleName());
-					return;
-				}
-				try {
-					super.channelRead(channelHandlerContext, packet);
-				}catch (Exception e){
-					e.printStackTrace(System.out);
-				}
-			}
+    public static PacketReader getPlayerMethod(Player player) {
+        return readers.get(player);
+    }
 
-			@Override
-			public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-				try{
-					if (!PlayerDisguise.packetOutManager((Packet<?>) msg, player)) return;
-					if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
-						System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
-						if (InfoManager.getPacketLogFilter().isDetailed())
-							InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
-					}
-					if (msg instanceof PacketPlayOutBlockChange p) {
-						if (Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))) {
-							ReflectionUtils.setField("b", p, ((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());
-						}
-					}
-				}catch (Exception e){
-					System.out.println("Error while writing packet: " + msg.getClass().getSimpleName());
-					e.printStackTrace(System.out);
-					player.sendMessage("§cCould not write packet " + msg.getClass().getSimpleName());
-					return;
-				}
-				super.write(ctx, msg, promise);
-			}
-		};
-		channel.pipeline().addBefore("packet_handler", player.getName(),channelDuplexHandler);
+    public void inject() {
+        readers.put(player, this);
+        Channel channel = player.getHandle().b.a.k;
+        ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
+            @Override
+            public void channelRead(ChannelHandlerContext channelHandlerContext, Object packet) {
+                if (InfoManager.isLag()) {
+                    Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> cR_o(channelHandlerContext, packet), 2);
+                }else cR_o(channelHandlerContext, packet);
+            }
+
+            public void cR_o(ChannelHandlerContext channelHandlerContext, Object packet) {
+                try {
+                    if (packet instanceof PacketHandshakingInSetProtocol protocol) {
+                        System.out.println(protocol.c + " " + protocol.d);
+                    }
+                    if (packet instanceof PacketPlayInUpdateSign) {
+                        SignManager.recivePacket(player.getUniqueId(), (PacketPlayInUpdateSign) packet);
+                    }
 
 
-	}
-	private boolean searchCheck(String s){
-		if(InfoManager.getPacketLogFilter().getSearch() == null) return true;
-		return s.contains(InfoManager.getPacketLogFilter().getSearch());
-	}
+                    if (packet instanceof PacketPlayInBlockDig && SkyblockServer.getServer().type() != ServerType.PrivateIsle) {
+                        SkyblockRemakeEvents.readBeakBlock((PacketPlayInBlockDig) packet, player);
+                    }
+                    if (packet instanceof PacketPlayInUseEntity) {
+                        PacketReader.getPlayerMethod(player).read((PacketPlayInUseEntity) packet);
+                    }
+                    if (packet instanceof PacketPlayInBlockDig) {
+                        if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.hasPDC("id", player.getItemInHand(), PersistentDataType.STRING) &&
+                                ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING).equals("GHOST_BLOCKS_PICK"))
+                            return;
+                    }
+                    if (packet instanceof PacketPlayInFlying pkt && InfoManager.isMovementLag()) {
+                        Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getMain(), () -> {
+                            try {
+                                super.channelRead(channelHandlerContext, pkt);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }, 4);
+                        return;
+                    }
+                    PlayerDisguise.packetInManager((Packet<?>) packet);
+                    if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
+                        System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
+                        if (InfoManager.getPacketLogFilter().isDetailed())
+                            InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
+                    e.printStackTrace(System.err);
+                    player.sendMessage("§cCould not read packet " + packet.getClass().getSimpleName());
+                    return;
+                }
+                try {
+                    super.channelRead(channelHandlerContext, packet);
+                } catch (Exception e) {
+                    e.printStackTrace(System.out);
+                }
+            }
 
-	public void uninject(Player player) {
-		CraftPlayer nmsPlayer = (CraftPlayer) player;
-		Channel channel = nmsPlayer.getHandle().b.a.k;
-		if (channel.pipeline().get(player.getName()) != null)
-			channel.pipeline().remove(player.getName());
-	}
-	
-	private void read(PacketPlayInUseEntity packetPlayInUseEntity ) {
-		count++;
-		if(count == 4) {
-			count = 0;
-			int entityID = (int) ReflectionUtils.getField(ReflectionUtils.findField(packetPlayInUseEntity.getClass(), "a"), packetPlayInUseEntity);
-			//call event
-			if(NPC.NPCPacket.containsKey(entityID)) {
-				new BukkitRunnable() {
+            @Override
+            public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+                if (InfoManager.isLag()) {
+                    Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> w(ctx, msg, promise), 2);
+                }else w(ctx, msg, promise);
+            }
+            public void w(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
+                try {
+                    if (!PlayerDisguise.packetOutManager((Packet<?>) msg, player)) return;
+                    if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
+                        System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
+                        if (InfoManager.getPacketLogFilter().isDetailed())
+                            InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
+                    }
+                    if (msg instanceof PacketPlayOutBlockChange p) {
+                        if (Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))) {
+                            ReflectionUtils.setField("b", p, ((CraftBlockData) Tools.FakeBlock.getBlocks().get(Tools.asBukkitBlock(p.c(), player.getWorld())).get(0).getMaterial().createBlockData()).getState());
+                        }
+                    }
+                    super.write(ctx, msg, promise);
+                } catch (Exception e) {
+                    System.out.println("Error while writing packet: " + msg.getClass().getSimpleName());
+                    e.printStackTrace(System.out);
+                    player.sendMessage("§cCould not write packet " + msg.getClass().getSimpleName());
+                    return;
+                }
+            }
+        };
+        channel.pipeline().addBefore("packet_handler", player.getName(), channelDuplexHandler);
 
-					@Override
-					public void run() {
-						Bukkit.getPluginManager().callEvent(new RightClickNPC(player, NPC.NPCPacket.get(entityID)));
-					}
 
-				}.runTask(Main.getPlugin(Main.class));
-			}else {
-				for (QuestNpc npc : QuestNpc.shownNpc.get(player))
-					if(npc.getNpc().getId() == entityID) {
-						npc.onClick(player);
-						break;
-					}
-			}
-		}
-	}
+    }
+
+    private boolean searchCheck(String s) {
+        if (InfoManager.getPacketLogFilter().getSearch() == null) return true;
+        return s.contains(InfoManager.getPacketLogFilter().getSearch());
+    }
+
+    public void uninject(Player player) {
+        CraftPlayer nmsPlayer = (CraftPlayer) player;
+        Channel channel = nmsPlayer.getHandle().b.a.k;
+        if (channel.pipeline().get(player.getName()) != null)
+            channel.pipeline().remove(player.getName());
+    }
+
+    private void read(PacketPlayInUseEntity packetPlayInUseEntity) {
+        count++;
+        if (count == 4) {
+            count = 0;
+            int entityID = (int) ReflectionUtils.getField(ReflectionUtils.findField(packetPlayInUseEntity.getClass(), "a"), packetPlayInUseEntity);
+            //call event
+            if (NPC.NPCPacket.containsKey(entityID)) {
+                new BukkitRunnable() {
+
+                    @Override
+                    public void run() {
+                        Bukkit.getPluginManager().callEvent(new RightClickNPC(player, NPC.NPCPacket.get(entityID)));
+                    }
+
+                }.runTask(Main.getPlugin(Main.class));
+            } else {
+                for (QuestNpc npc : QuestNpc.shownNpc.get(player))
+                    if (npc.getNpc().getId() == entityID) {
+                        npc.onClick(player);
+                        break;
+                    }
+            }
+        }
+    }
 
 }

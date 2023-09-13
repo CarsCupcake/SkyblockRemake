@@ -21,6 +21,8 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.hex.Hex;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
@@ -54,7 +56,6 @@ import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.*;
 
 import java.io.*;
-import java.util.stream.Collectors;
 
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -95,9 +96,9 @@ import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneGrinder;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.CanonObject;
 import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.Tentacles;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetMenuListener;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.Reforge;
 import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
@@ -352,9 +353,17 @@ public class Main extends JavaPlugin {
         getCommand("gemstonegrinder").setExecutor(new GemstoneGrinderCommand());
         getCommand("gsg").setExecutor(new GemstoneGrinderCommand());
         getCommand("customitem").setExecutor(new CustomItemCreatorCommand());
+        getCommand("hex").setExecutor((commandSender, command, s, strings) -> {
+            if (commandSender instanceof Player p) {
+                new Hex(SkyblockPlayer.getSkyblockPlayer(p)).openLandingPage();
+                return true;
+            }
+            return false;
+        });
 
 
         debug.debug("Registering Events", false);
+        this.getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         this.getServer().getPluginManager().registerEvents(new SkyblockRemakeEvents(), this);
         this.getServer().getPluginManager().registerEvents(new NPCInteraction(), this);
         this.getServer().getPluginManager().registerEvents(new OpenMenu(), this);
@@ -384,7 +393,6 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new BonemerangAbility(), this);
         this.getServer().getPluginManager().registerEvents(new CannonBalls(), this);
         this.getServer().getPluginManager().registerEvents(new JerryStaffAbility(), this);
-        this.getServer().getPluginManager().registerEvents(new AbilityListener(), this);
         this.getServer().getPluginManager().registerEvents(new DeployableListener(), this);
         this.getServer().getPluginManager().registerEvents(new ReleaseThePainListener(), this);
         this.getServer().getPluginManager().registerEvents(new ICBMDeployableListener(), this);
@@ -909,12 +917,6 @@ public class Main extends JavaPlugin {
 
                         if (entity.getType() == EntityType.DROPPED_ITEM)
                             if (entity.getTicksLived() >= 20 * 20) entity.remove();
-
-                        if (entity instanceof LivingEntity) {
-                            if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.EXPERIENCE_ORB) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL)) {
-                                updateentitystats((LivingEntity) entity);
-                            }
-                        }
                     });
                 });
 
@@ -1065,6 +1067,7 @@ public class Main extends JavaPlugin {
         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
 
     }
+
     public static void updateentitystats(LivingEntity entity) {
         if (SkyblockEntity.livingEntity.exists(entity)) {
             SkyblockEntity.updateEntity(SkyblockEntity.livingEntity.getSbEntity(entity));
@@ -1075,7 +1078,8 @@ public class Main extends JavaPlugin {
 
     public synchronized static double getPlayerStat(SkyblockPlayer player, Stats stat) {
         double ferocity = player.getBaseStat(stat);
-        ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
+        if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.getItemManager(player.getItemInHand()) != null && ItemHandler.getItemManager(player.getItemInHand()).type.hasInHandStats())
+            ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
         ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
         ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getChestplate());
         ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getLeggings());
@@ -1094,7 +1098,7 @@ public class Main extends JavaPlugin {
         ferocity += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(stat);
         GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), stat, ferocity);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return 0;
+        if (event.isCancelled()) return stat.getBaseAmount();
         ferocity = event.getValue() * event.getMultiplier();
         return ferocity;
     }
@@ -1283,28 +1287,38 @@ public class Main extends JavaPlugin {
                 }
                 if (!ench.isEmpty()) {
                     lores.add(" ");
-                    Bundle<ArrayList<UltimateEnchant>, ArrayList<CustomEnchantment>> enchants = UltimateEnchant.splitEnchants(ench);
-                    for (CustomEnchantment enchant : UltimateEnchant.orderEnchants(enchants)) {
-                        int level = item.getItemMeta().getEnchants().get(enchant);
-                        String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
-                        if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
-                            String Name = makeStringFromID(enchant.getKey());
-                            if (operator.get("amount") == 0) {
-                                enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
-                                operator.replace("amount", 1);
-                            } else {
-                                enchantLore.set(operator.get("line"), enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + Tools.intToRoman(level));
-                                if (operator.get("amount") == 1) operator.replace("amount", 2);
-                                else {
-                                    operator.replace("amount", 0);
-                                    operator.replace("line", operator.get("line") + 1);
+                    if (ench.size() > 6) {
+                        Bundle<ArrayList<UltimateEnchant>, ArrayList<CustomEnchantment>> enchants = UltimateEnchant.splitEnchants(ench);
+                        for (CustomEnchantment enchant : UltimateEnchant.orderEnchants(enchants)) {
+                            int level = item.getItemMeta().getEnchants().get(enchant);
+                            String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
+                            if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
+                                String Name = makeStringFromID(enchant.getKey());
+                                if (operator.get("amount") == 0) {
+                                    enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
+                                    operator.replace("amount", 1);
+                                } else {
+                                    enchantLore.set(operator.get("line"), enchantLore.get(operator.get("line")) + "§9, " + prefix + Name + " " + Tools.intToRoman(level));
+                                    if (operator.get("amount") == 1) operator.replace("amount", 2);
+                                    else {
+                                        operator.replace("amount", 0);
+                                        operator.replace("line", operator.get("line") + 1);
+                                    }
                                 }
                             }
                         }
-                    }
-                    if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
-                        for (String l : enchantLore)
-                            lores.add(l);
+                        if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
+                            for (String l : enchantLore)
+                                lores.add(l);
+                        }
+                    } else {
+                        Bundle<ArrayList<UltimateEnchant>, ArrayList<CustomEnchantment>> enchants = UltimateEnchant.splitEnchants(ench);
+                        Iterator<CustomEnchantment> it = UltimateEnchant.orderEnchants(enchants).iterator();
+                        while (it.hasNext()) {
+                            CustomEnchantment enchantment = it.next();
+                            lores.add(((enchantment instanceof UltimateEnchant) ? "§d§l" : "§9") + enchantment.getName() + " " + Tools.intToRoman(ItemHandler.getEnchantmentLevel(enchantment, item)));
+                            lores.addAll(enchantment.getLore().makeLore(player, item));
+                        }
                     }
                 }
 

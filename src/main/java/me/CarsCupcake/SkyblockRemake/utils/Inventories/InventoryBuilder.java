@@ -10,11 +10,12 @@ import org.jetbrains.annotations.Range;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class InventoryBuilder {
     private final int rows;
-    private final LinkedList<ItemStack> itemStacks;
+    private final List<ItemStack> itemStacks;
     private final String name;
 
     @Range(from = 1, to = 6)
@@ -28,9 +29,15 @@ public class InventoryBuilder {
     public InventoryBuilder(InventoryTemplate template) {
         this.rows = template.getRows();
         this.name = template.getName();
-        itemStacks = new LinkedList<>();
+        itemStacks = new ArrayList<>();
         itemStacks.addAll(Arrays.asList(template.getCompiledItems().getContents()));
         init();
+    }
+
+    public InventoryBuilder(Inventory inventory, String name) {
+        itemStacks = new ArrayList<>(Arrays.asList(inventory.getContents()));
+        this.name = name;
+        rows = inventory.getSize() / 9;
     }
 
     private void init() {

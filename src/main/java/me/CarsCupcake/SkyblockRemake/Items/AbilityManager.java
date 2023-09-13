@@ -85,28 +85,6 @@ public interface AbilityManager<T extends Event> {
         }
     }
 
-    static void executeAbility(Ability ability, SkyblockPlayer player, ItemManager manager, PlayerInteractEvent event) {
-        Action action = event.getAction();
-        if (!precheck(ability, player, manager, action)) return;
-        try {
-            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
-        } catch (Exception e) {
-            e.printStackTrace();
-            player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
-        }
-    }
-
-    static void executeAbility(Ability ability, SkyblockPlayer player, ItemManager manager, EntityDamageByEntityEvent event) {
-        Action action = Action.PHYSICAL;
-        if (!precheck(ability, player, manager, action)) return;
-        try {
-            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
-        } catch (Exception e) {
-            e.printStackTrace();
-            player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
-        }
-    }
-
     static <T extends Event> void executeAbility(Ability ability, SkyblockPlayer player, ItemManager manager, T event) {
         Action action = Action.PHYSICAL;
         if (!precheck(ability, player, manager, action)) return;

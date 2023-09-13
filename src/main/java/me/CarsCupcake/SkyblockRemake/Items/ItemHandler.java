@@ -62,6 +62,7 @@ public class ItemHandler {
     }
 
     public static int getEnchantmentLevel(Enchantment enchantment, ItemStack item) {
+        if (item == null || !item.hasItemMeta()) return 0;
         if (!hasEnchantment(enchantment, item)) return 0;
         return item.getItemMeta().getEnchants().get(enchantment);
     }

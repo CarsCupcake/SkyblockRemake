@@ -4,7 +4,6 @@ package me.CarsCupcake.SkyblockRemake;
 import java.rmi.server.Skeleton;
 import java.util.*;
 
-import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
@@ -24,10 +23,7 @@ import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIslandManager;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
-import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
-import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
 import me.CarsCupcake.SkyblockRemake.utils.loot.Loot;
 import org.bukkit.*;
@@ -54,14 +50,13 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 
+import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -71,12 +66,11 @@ import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.utils.PacketReader;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.maze;
 import me.CarsCupcake.SkyblockRemake.Skyblock.terminals.order;
 import me.CarsCupcake.SkyblockRemake.abilities.HydraStrike;
-import me.CarsCupcake.SkyblockRemake.cmd.itemCMD;
 
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 
@@ -760,7 +754,7 @@ public class SkyblockRemakeEvents implements Listener {
                 if (player != null) {
                     int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.VAMPIRISM, player.getEquipment().getItemInMainHand());
                     int missing = (int) (Main.getPlayerStat(player, Stats.Health) - player.currhealth);
-                    player.setHealth(missing * (level / 100), HealthChangeReason.Ability);
+                    player.setHealth(missing * (level / 100) + player.currhealth, HealthChangeReason.Ability);
                 }
                 SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e.getEntity());
                 int xp = (entity instanceof BasicEntity) ? e.getDroppedExp() : entity.getXpDrop();
@@ -832,8 +826,10 @@ public class SkyblockRemakeEvents implements Listener {
         Entity entity = event.getEntity();
         if (!(entity instanceof Player) && !(entity.getType() == EntityType.DROPPED_ITEM) && !(entity.getType() == EntityType.ARMOR_STAND) && !(entity.getType() == EntityType.WITHER_SKULL))
             if (entity instanceof LivingEntity e)
-                if (!SkyblockEntity.livingEntity.exists(e))
+                if (!SkyblockEntity.livingEntity.exists(e)) {
                     new BasicEntity(e, (int) (e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
+                    Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> Main.updateentitystats(e), 5);
+                }
     }
 
 
@@ -874,12 +870,7 @@ public class SkyblockRemakeEvents implements Listener {
 
 
             event.setCancelled(true);
-            final boolean infinity;
-            if (item.getEnchantments().containsKey(Enchantment.ARROW_INFINITE)) {
-                infinity = true;
-            } else {
-                infinity = false;
-            }
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.INFINITE_QUIVER, item);
             if (!Main.shortbow_cd.get(event.getPlayer()))
                 if (event.getPlayer().getGameMode() == GameMode.CREATIVE || !InfoManager.isNeedArrows()) {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
@@ -893,7 +884,10 @@ public class SkyblockRemakeEvents implements Listener {
                                     || !i.getItemMeta().getPersistentDataContainer().get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).contains("fakearrow")) {
 
                             } else {
-                                if (!infinity) i.setAmount(i.getAmount() - 1);
+                                boolean b = false;
+                                if (level > 0 && !event.getPlayer().isSneaking())
+                                    b = (level * 0.03) <= new Random().nextDouble();
+                                if (!b) i.setAmount(i.getAmount() - 1);
                                 event.getPlayer().updateInventory();
                                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                                 launchArrow(item, manager, player);
@@ -1026,6 +1020,8 @@ public class SkyblockRemakeEvents implements Listener {
             }
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(((Player) event.getEntity()).getPlayer());
             launchArrow(event.getBow(), manager, player, arrow);
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.INFINITE_QUIVER, event.getBow());
+            event.setConsumeItem(!(level > 0 && !player.isSneaking() && (level * 0.03) <= new Random().nextDouble()));
         }
 
     }
@@ -1046,10 +1042,18 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void ProjectileHitEvent(ProjectileHitEvent e) {
-        e.getEntity().remove();
+        if (e.getHitEntity() != null && e.getEntity().getShooter() instanceof Player player) {
+            if (!ItemHandler.hasEnchantment(SkyblockEnchants.PIERCING, player.getEquipment().getItemInMainHand()))
+                e.getEntity().remove();
+            else {
+                e.setCancelled(true);
+            }
+        }
         if (e.getHitBlock() != null) {
             if (e.getEntity() instanceof FishHook && LavaFishingHook.contains((FishHook) e.getEntity()))
                 LavaFishingHook.get((FishHook) e.getEntity()).remove();
+            else
+                e.getEntity().remove();
         }
         if (e.getHitEntity() != null && e.getHitEntity().getScoreboardTags().contains("npc")) {
             e.setCancelled(true);
@@ -1063,7 +1067,7 @@ public class SkyblockRemakeEvents implements Listener {
             if (e.getHitEntity() == null) return;
 
 
-            HashMap<String, Integer> stats = new HashMap<String, Integer>();
+            HashMap<String, Integer> stats = new HashMap<>();
             SkyblockPlayer player = null;
             int power = 0;
             double cd = 0;
@@ -1152,8 +1156,6 @@ public class SkyblockRemakeEvents implements Listener {
 
                     calculator.damage *= mult;
                     calculator.damageEntity((LivingEntity) e.getHitEntity(), player, DamageCause.PROJECTILE);
-
-
                     double damage = calculator.damage;
 
                     if (calculator.getResult().isCancelled()) return;
@@ -1162,49 +1164,10 @@ public class SkyblockRemakeEvents implements Listener {
                         if (player != null) Main.termhits.replace(player, Main.termhits.get(player) + 1);
                         Main.updatebar(SkyblockPlayer.getSkyblockPlayer(player));
                     }
-
-                    final double FINAL_DAMAGE = damage;
-
-                    if (ferocity != 0) {
-
-
-                        if (ferocity < 100) {
-                            Random r = new Random();
-                            int low = 1;//includes 1
-                            int high = 100;// includes 100
-                            int result = r.nextInt(high - low) + low;
-                            if (ferocity >= result) {
-
-                                Ferocity.hit((LivingEntity) e.getHitEntity(), (int) damage, cccalc <= cc, player);
-                                Main.updateentitystats((LivingEntity) e.getHitEntity());
-                            }
-                        } else {
-                            double hits = (double) ferocity / 100;
-
-                            if (hits % 1 == 0) {
-
-                                ferocity_call((Entity) e.getHitEntity(), damage, cccalc, cc, player, (int) hits);
-
-
-                            } else {
-                                int minus = (int) ((int) hits * 100);
-                                double hitchance = (double) ferocity - (double) minus;
-
-                                Random r = new Random();
-                                int low = 1;//includes 1
-                                int high = 100;// includes 100
-                                int result = r.nextInt(high - low) + low;
-
-                                if (hitchance >= result) {
-                                    hits = hits + 1;
-                                }
-                                ferocity_call((Entity) e.getHitEntity(), damage, cccalc, cc, player, (int) hits);
-                            }
-                        }
-                    }
-
-
                     calculator.showDamageTag(e.getHitEntity());
+                    if (ItemHandler.hasEnchantment(SkyblockEnchants.PIERCING, player.getEquipment().getItemInMainHand()) && e.getEntity().getScoreboardTags().contains("pierced")) {
+                        e.getEntity().addScoreboardTag("pierced");
+                    }
 
 
                 } else {

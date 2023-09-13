@@ -36,6 +36,9 @@ public class InfoManager {
     @Getter
     @Setter
     private static boolean needArrows = false;
+    @Getter
+    @Setter
+    private static boolean lag = false;
 
     public InfoManager(){
         config = new CustomConfig("settings");

@@ -25,7 +25,7 @@ public class Venomous extends CustomEnchantment {
     @NotNull
     @Override
     public String getName() {
-        return null;
+        return "Venemous";
     }
 
     @Override

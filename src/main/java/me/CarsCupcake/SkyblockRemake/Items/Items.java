@@ -59,8 +59,8 @@ import me.CarsCupcake.SkyblockRemake.Items.Gemstones.Gemstone;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneType;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.SlotType;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.Pet;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets.PetType;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -535,7 +535,7 @@ public class Items {
         ItemManager manager = new ItemManager("Shock Scythe", "IMPERIAL_SCYTHE", ItemType.Hoe, Material.DIAMOND_HOE, ItemRarity.LEGENDARY);
         manager.setDungeonItem(true);
         manager.setDamage(120);
-        manager.setLore(new ArrayList<>(List.of("§rCoded and made by Xrnd#0001")));
+        manager.setLore(new ArrayList<>(List.of("§7Coded and made by Xrnd#0001")));
         manager.setStat(Stats.Inteligence, 350);
         manager.setStat(Stats.Strength, 150);
         AbilityLore abilityLore = new AbilityLore(lore, "%dmg%", new Bundle<>(10000d, 0.3));
@@ -557,6 +557,7 @@ public class Items {
         lore.add("§eok. §c(╯°□°)╯§f︵§7┻━┻");
         lore.add("§7Just killing all entities");
         ItemManager manager = new ItemManager("§4S§cw§6o§er§ad §bOf §9T§dh§9e §bUn§ai§ev§6e§cr§4s§ce", "NOVA_SWORD", ItemType.Sword, Material.GOLDEN_SWORD, ItemRarity.ADMIN);
+        manager.addBaseEnchantment(SkyblockEnchants.SHARPNESS, 250);
         manager.setDungeonItem(false);
         manager.setDamage(Double.MAX_VALUE);
         AbilityLore abilityLore = new AbilityLore(lore, "%dmg%", new Bundle<>(10000d, 0.3));
@@ -1886,6 +1887,9 @@ public class Items {
         @Override
         public boolean triggerAbility(PlayerInteractEvent event) {
             if (Main.termhits.get(event.getPlayer()) >= 3) {
+                ItemManager manager = ItemHandler.getItemManager(event.getPlayer().getEquipment().getItemInMainHand());
+                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+                Main.getMain().juju_cooldown(event.getPlayer(), manager.getShorbowCooldown(Main.getPlayerStat(player, Stats.AttackSpeed)));
                 final Particle.DustOptions dust = new Particle.DustOptions(Color.fromRGB((int) 255, (int) 0, (int) 0), 1);
 
 
@@ -1899,15 +1903,15 @@ public class Items {
                 }
 
                 ArrayList<Entity> alrHitEntitys = new ArrayList<>();
-                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                 int hit = 0;
                 for (double i = 0; i <= 15; i += 0.1) {
-                    if (event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 0.2, 0.2, 0.2).isEmpty())
+                    Collection<Entity> hE = event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 0.2, 0.2, 0.2);
+                    if (hE.isEmpty())
                         continue;
 
-                    for (Entity entity : event.getPlayer().getWorld().getNearbyEntities(event.getPlayer().getEyeLocation().add(event.getPlayer().getEyeLocation().getDirection().multiply(i)), 1, 1, 1)) {
-                        hit++;
+                    for (Entity entity : hE) {
                         if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && entity != event.getPlayer() && !alrHitEntitys.contains(entity)) {
+                            hit++;
                             e.damage(0.0000001);
                             Calculator c = new Calculator();
                             c.playerToEntityDamage(e, player, new Bundle<>(1d, 2d));

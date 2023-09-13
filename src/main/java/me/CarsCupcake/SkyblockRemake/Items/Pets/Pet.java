@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Skyblock.player.Pets;
+package me.CarsCupcake.SkyblockRemake.Items.Pets;
 
 import java.util.ArrayList;
 import java.util.HashMap;

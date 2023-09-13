@@ -12,12 +12,12 @@ public enum AbilityType {
     SneakRightClick(true, false, true, false),
     SneakLeftClick(false, true, true, false),
     Sneak(false, false, true, false),
-    EntityHit(false, false, false, true),
-    FullSetBonus(false, false, false, true),
+    EntityHit(),
+    FullSetBonus(),
     LeftOrRightClick(true, true, false, false),
     SneakLeftOrRightClick(true, true, true, false),
-    SkyblockPreHit(false, false, false, true),
-    AfterHit(false, false, false, true);
+    SkyblockPreHit(),
+    AfterHit();
     @Getter
     private final boolean rightClick;
     @Getter
@@ -32,6 +32,9 @@ public enum AbilityType {
         leftClick = isLeftClick;
         sneak = isSneak;
         other = isOther;
+    }
+    AbilityType() {
+        this(false, false, false, true);
     }
 
     public String toString() {

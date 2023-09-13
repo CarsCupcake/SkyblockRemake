@@ -8,31 +8,31 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.NotNull;
 
-public class Smoldering extends CustomEnchantment {
-    public Smoldering() {
-        super(new NamespacedKey(Main.getMain(), "smoldering"));
+public class TrueProtection extends CustomEnchantment {
+    public TrueProtection() {
+        super(new NamespacedKey(Main.getMain(), "true_protection"));
     }
 
     @Override
     public ItemType[] getAllowedTypes() {
-        return ItemType.Type.getCombat().toArray(new ItemType[0]);
+        return new ItemType[] {ItemType.Chestplate};
     }
 
     @Override
     public @NotNull AbilityLore getLore() {
-        return new AbilityLore("§7Increases damage dealt", "§7to Blazes by %pers%")
-                .addPlaceholder("%pers%", (player, itemStack) -> (ItemHandler.getEnchantmentLevel(this, itemStack) * 3) + "%");
+        return new AbilityLore("§7Grants §f%am% ❁ True Defense")
+                .addPlaceholder("%am%", (player, itemStack) -> "+" + (5 * ItemHandler.getEnchantmentLevel(this, itemStack)));
     }
 
     @NotNull
     @Override
     public String getName() {
-        return "Smoldering";
+        return "True Protection";
     }
 
     @Override
     public int getMaxLevel() {
-        return 5;
+        return 1;
     }
 
     @Override
