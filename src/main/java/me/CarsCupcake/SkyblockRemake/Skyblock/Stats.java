@@ -35,7 +35,7 @@ public enum Stats {
     TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense", false, null, 0),
     SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance", false, null, 0, 20, 100),
     FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed", false, null, 0),
-    SwingRange("swingrange", ' ', ChatColor.GOLD, "Swing Range", true, null, 0),
+    SwingRange("swingrange", 'Ⓢ', ChatColor.GOLD, "Swing Range", true, null, 0),
     BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
     FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
     CombatWisdom("combatwisdom", '☯', ChatColor.DARK_AQUA, "Combat Wisdom", false, null, 0),
