@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.CobblestoneCollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.MithrilCollection;
@@ -10,7 +11,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandle
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 
 public abstract class ICollection implements SkyblockLevelsGetter {
-    protected static CustomConfig config;
     protected final SkyblockPlayer player;
 
     protected ICollection(SkyblockPlayer player) {
@@ -18,7 +18,6 @@ public abstract class ICollection implements SkyblockLevelsGetter {
     }
 
     public static void init(){
-        config = new CustomConfig("collections");
         CollectHandler.registeredCollections.add(new CobblestoneCollection(null));
         CollectHandler.registeredCollections.add(new MithrilCollection(null));
         CollectHandler.registeredCollections.add(new PotatoCollection(null));
@@ -28,15 +27,14 @@ public abstract class ICollection implements SkyblockLevelsGetter {
         CollectHandler.registeredCollections.add(new WheatCollection(null));
 
     }
+    @Getter
     private long collected;
     public abstract String getId();
     public abstract int getMaxLevels();
     public abstract int[] collectAmount();
     public abstract GUI getInventory();
     public abstract void sendLevelUpMessage(int level);
-    public long getCollected(){
-        return collected;
-    }
+
     public int getLevel(){
         int level = 0;
         for(int bar : collectAmount())
@@ -52,9 +50,6 @@ public abstract class ICollection implements SkyblockLevelsGetter {
     public void addCollected(long l){
         level(l);
         collected += l;
-        config.get().set(player.getUniqueId() + "." + getId(), collected);
-        config.save();
-        config.reload();
     }
     private void level(long i){
         if(getLevel() == getMaxLevels())
@@ -72,7 +67,13 @@ public abstract class ICollection implements SkyblockLevelsGetter {
         return collected;
     }
     protected void load(){
-        collected = config.get().getLong( player.getUniqueId() + "." + getId(), 0);
+        CustomConfig config = new CustomConfig(player, "collection");
+        collected = config.get().getLong( getId(), 0);
+    }
+    public void save() {
+        CustomConfig config = new CustomConfig(player, "collection");
+        config.get().set(getId(), collected);
+        config.save();
     }
     public abstract ICollection makeNew(SkyblockPlayer player);
 

@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -10,8 +11,11 @@ import org.jetbrains.annotations.NotNull;
 public class CollectionCollectEvent extends Event implements Cancellable {
     private final static HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
+    @Getter
     private final SkyblockPlayer player;
+    @Getter
     private final ICollection collection;
+    @Getter
     private int amount;
 
     public CollectionCollectEvent(@NotNull SkyblockPlayer player, @Positive int amount,@NotNull ICollection collection){
@@ -19,15 +23,7 @@ public class CollectionCollectEvent extends Event implements Cancellable {
         this.amount = amount;
         this.collection = collection;
     }
-    public ICollection getCollection(){
-        return collection;
-    }
-    public SkyblockPlayer getPlayer(){
-        return player;
-    }
-    public int getAmount(){
-        return amount;
-    }
+
     public void setAmount(int i){
         amount = i;
     }

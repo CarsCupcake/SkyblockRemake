@@ -12,6 +12,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Configs.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
 import me.CarsCupcake.SkyblockRemake.abilities.SuperCompactor;
@@ -226,6 +227,9 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public static void init() {
 
+    }
+    public void unregister() {
+        CollectHandler.collections.get(this).forEach(ICollection::save);
     }
 
     public void kill(){

@@ -665,6 +665,7 @@ public class Main extends JavaPlugin {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            p.unregister();
             for (EntityPlayer npc : NPC.getNPCs())
                 NPC.removeNPC(player, npc);
             if (QuestNpc.shownNpc.containsKey(p)) for (QuestNpc npc : new ArrayList<>(QuestNpc.shownNpc.get(p)))

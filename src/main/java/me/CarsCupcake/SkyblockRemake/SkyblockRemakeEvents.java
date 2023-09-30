@@ -641,6 +641,7 @@ public class SkyblockRemakeEvents implements Listener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        player.unregister();
         if (Main.petstand.containsKey(player)) Main.petstand.get(player).remove();
 
 
