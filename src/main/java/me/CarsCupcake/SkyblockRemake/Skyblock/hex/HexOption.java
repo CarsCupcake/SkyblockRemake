@@ -103,7 +103,7 @@ public enum HexOption implements Factory<Hex, GUI> {
                             level = Integer.parseInt(event.lines()[0]);
                             Assert.state(level > 0);
                             ItemStack item = hex.getItem();
-                            ItemHandler.setEnchant(enchantment, level, item);
+                            enchant(item, hex, enchantment, level);
                             Main.item_updater(item, hex.getPlayer());
                             hex.getGui().getInventory().setItem(22, item);
                             hex.update();
@@ -118,7 +118,7 @@ public enum HexOption implements Factory<Hex, GUI> {
                 for (int i = 0; i < enchantment.getMaxLevel(); i++) {
                     if (slot == slots[i]) {
                         ItemStack item = hex.getItem();
-                        ItemHandler.setEnchant(enchantment, i + 1, item);
+                        enchant(item, hex, enchantment, i + 1);
                         Main.item_updater(item, hex.getPlayer());
                         hex.getGui().getInventory().setItem(22, item);
                         hex.update();
@@ -129,6 +129,14 @@ public enum HexOption implements Factory<Hex, GUI> {
                 return true;
             });
             gui.showGUI(hex.getPlayer());
+        }
+        private void enchant(ItemStack item, Hex hex, CustomEnchantment enchantment, int level) {
+            for (CustomEnchantment e : hex.getAllwedEnchantments()) {
+                if (e != enchantment && e.conflictsWith(enchantment) && ItemHandler.hasEnchantment(e, item)) {
+                    ItemHandler.removeEnchant(e, item);
+                }
+            }
+            ItemHandler.setEnchant(enchantment, level, item);
         }
         private int[] getFormation(int maxLevel) {
             return switch (maxLevel) {
@@ -147,16 +155,30 @@ public enum HexOption implements Factory<Hex, GUI> {
         private void paintEnchantments(List<CustomEnchantment> enchantments, Inventory inventory, Hex hex) {
             int i = 0;
             for (CustomEnchantment enchantment : enchantments) {
-                inventory.setItem(slotList[i], new ItemBuilder(Material.ENCHANTED_BOOK).setName("§a" + enchantment.getName())
-                                .addAllLore(enchantment.getLore().makeLore(hex.getPlayer(), new ItemBuilder(Material.STICK).addEnchant(enchantment, 1).build()))
-                                .addAllLore(" ", ((ItemHandler.hasEnchantment(enchantment, hex.getItem())) ? "§a" : "§c") + enchantment.getName() + " " + ((ItemHandler.hasEnchantment(enchantment, hex.getItem())) ?
+                boolean hasConflict = false;
+                for (CustomEnchantment e : hex.getAllwedEnchantments())
+                    if (e != enchantment && e.conflictsWith(enchantment)) hasConflict = true;
+                ItemBuilder builder = new ItemBuilder(Material.ENCHANTED_BOOK).setName("§a" + enchantment.getName())
+                        .addAllLore(enchantment.getLore().makeLore(hex.getPlayer(), new ItemBuilder(Material.STICK).addEnchant(enchantment, 1).build()))
+                        .addAllLore(" ", ((ItemHandler.hasEnchantment(enchantment, hex.getItem())) ? "§a" : "§c") + enchantment.getName() + " " + ((ItemHandler.hasEnchantment(enchantment, hex.getItem())) ?
                                         (ItemHandler.getEnchantmentLevel(enchantment, hex.getItem()) +  "  ✔" )
-                                        : " ✖"))
-                        .build());
+                                        : " ✖"));
+                if (hasConflict)
+                    builder.addAllLore(" ", "§c§lTHIS CONFLICTS WITH ALREADY SET ENCHANTMENTS!");
+                inventory.setItem(slotList[i], builder.build());
                 i++;
             }
         }
+    },
+
+    UltimateEnchantment(new ItemBuilder(Material.ENCHANTED_BOOK).setName("§a§lUltimate Enchantments").build())  {
+        @Override
+        public GUI factor(Hex obj) {
+            return null;
+        }
     };
+
+
     @Getter
     private final ItemStack display;
     HexOption(@NotNull ItemStack display) {

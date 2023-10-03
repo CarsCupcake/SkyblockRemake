@@ -95,8 +95,13 @@ public class TabListManager implements Listener {
         addFakePlayer(" Gemstone Powder §d-", 11 + 1, TablistIcons.Grey, player);
         addFakePlayer("§§", 12 + 1, TablistIcons.Grey, player);
         addFakePlayer("§9§lComissions", 13 + 1, TablistIcons.Grey, player);
-        addFakePlayer(" " + player.Comms.get(0).getComm() + " §c" + Tools.round(player.Comms.get(0).getPersentage(), 1) + "%", 14 + 1, TablistIcons.Grey, player);
-        addFakePlayer(" " + player.Comms.get(1).getComm() + " §c" + Tools.round(player.Comms.get(1).getPersentage(), 1) + "%", 15 + 1, TablistIcons.Grey, player);
+        if (!player.Comms.isEmpty()) {
+            addFakePlayer(" " + player.Comms.get(0).getComm() + " §c" + Tools.round(player.Comms.get(0).getPersentage(), 1) + "%", 14 + 1, TablistIcons.Grey, player);
+            addFakePlayer(" " + player.Comms.get(1).getComm() + " §c" + Tools.round(player.Comms.get(1).getPersentage(), 1) + "%", 15 + 1, TablistIcons.Grey, player);
+        } else {
+            addFakePlayer("§cNo Commision!", 14 + 1, TablistIcons.Grey, player);
+            addFakePlayer("§cNo Commision!", 15 + 1, TablistIcons.Grey, player);
+        }
         addFakePlayer("§§§", 16 + 1, TablistIcons.Grey, player);
         addFakePlayer("§§§", 16 + 1, TablistIcons.Grey, player);
         addFakePlayer("§9§lForges", 17 + 1, TablistIcons.Grey, player);
@@ -113,11 +118,19 @@ public class TabListManager implements Listener {
         addFakePlayer("§§§§", 28 + 1, TablistIcons.Grey, player);
         addFakePlayer("§e§lSkills ", 29 + 1, TablistIcons.Grey, player);
 
-        speed = addFakePlayer(" Speed ✦" + Main.getPlayerStat(player, Stats.Speed), 30 + 1, TablistIcons.Grey, player);
-        strength = addFakePlayer(" Strength §c❁" + Main.getPlayerStat(player, Stats.Strength), 31 + 1, TablistIcons.Grey, player);
-        cc = addFakePlayer(" Crit Chance §9☣" + Main.getPlayerStat(player, Stats.CritChance), 32 + 1, TablistIcons.Grey, player);
-        cd = addFakePlayer(" Crit Damage §9☠" + Main.getPlayerStat(player, Stats.CritDamage), 33 + 1, TablistIcons.Grey, player);
-        as = addFakePlayer(" Attack Speed §e⚔" + Main.getPlayerStat(player, Stats.AttackSpeed), 34 + 1, TablistIcons.Grey, player);
+        if (SkyblockServer.getServer().type() != ServerType.Rift){
+            speed = addFakePlayer(" Speed ✦" + Main.getPlayerStat(player, Stats.Speed), 30 + 1, TablistIcons.Grey, player);
+            strength = addFakePlayer(" Strength §c❁" + Main.getPlayerStat(player, Stats.Strength), 31 + 1, TablistIcons.Grey, player);
+            cc = addFakePlayer(" Crit Chance §9☣" + Main.getPlayerStat(player, Stats.CritChance), 32 + 1, TablistIcons.Grey, player);
+            cd = addFakePlayer(" Crit Damage §9☠" + Main.getPlayerStat(player, Stats.CritDamage), 33 + 1, TablistIcons.Grey, player);
+            as = addFakePlayer(" Attack Speed §e⚔" + Main.getPlayerStat(player, Stats.AttackSpeed), 34 + 1, TablistIcons.Grey, player);
+        } else {
+            speed = addFakePlayer(" Speed ✦" + Main.getPlayerStat(player, Stats.RiftSpeed), 30 + 1, TablistIcons.Grey, player);
+            strength = addFakePlayer(" Rift Damage " + ChatColor.DARK_PURPLE + "❁" + Main.getPlayerStat(player, Stats.RiftDamage), 31 + 1, TablistIcons.Grey, player);
+            cc = null;
+            cd = null;
+            as = addFakePlayer(" Mana Regen §b⚡" + Main.getPlayerStat(player, Stats.ManaRegen), 34 + 1, TablistIcons.Grey, player);
+        }
         addFakePlayer("§§§§§", 35 + 1, TablistIcons.Grey, player);
         addFakePlayer("§e§lEvent §c-", 36 + 1, TablistIcons.Grey, player);
         addFakePlayer(" Starts In §eN/A", 37 + 1, TablistIcons.Grey, player);
@@ -365,12 +378,19 @@ public class TabListManager implements Listener {
     }
 
     public void tick() {
-        Team t = player.getScoreboard().getTeam(teams.get(strength.getUniqueID()));
-        t.setPrefix(" Strength §c❁" + Main.getPlayerStat(player, Stats.Strength));
-        setName(speed, " Speed ✦" + Main.getPlayerStat(player, Stats.Speed));
-        setName(as, " Attack Speed §e⚔" + Main.getPlayerStat(player, Stats.AttackSpeed));
-        setName(cc, " Crit Chance §9☣" + Main.getPlayerStat(player, Stats.CritChance));
-        setName(cd, " Crit Damage §9☠" + Main.getPlayerStat(player, Stats.CritDamage));
+        if (ServerType.getActiveType() != ServerType.Rift) {
+            Team t = player.getScoreboard().getTeam(teams.get(strength.getUniqueID()));
+            t.setPrefix(" Strength §c❁" + Main.getPlayerStat(player, Stats.Strength));
+            setName(speed, " Speed ✦" + Main.getPlayerStat(player, Stats.Speed));
+            setName(as, " Attack Speed §e⚔" + Main.getPlayerStat(player, Stats.AttackSpeed));
+            setName(cc, " Crit Chance §9☣" + Main.getPlayerStat(player, Stats.CritChance));
+            setName(cd, " Crit Damage §9☠" + Main.getPlayerStat(player, Stats.CritDamage));
+        } else {
+            Team t = player.getScoreboard().getTeam(teams.get(strength.getUniqueID()));
+            t.setPrefix(" Rift Damage " + ChatColor.DARK_PURPLE + "❁" + Main.getPlayerStat(player, Stats.RiftDamage));
+            setName(speed, " Speed ✦" + Main.getPlayerStat(player, Stats.RiftSpeed));
+            setName(as, " Mana Regen §b⚡" + Main.getPlayerStat(player, Stats.ManaRegen));
+        }
 
     }
 

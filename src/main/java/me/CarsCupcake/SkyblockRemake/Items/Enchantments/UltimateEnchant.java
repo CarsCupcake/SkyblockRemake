@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Items.Enchantments;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.enchantments.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -44,5 +44,11 @@ public abstract class UltimateEnchant extends CustomEnchantment {
             enchants.add(SkyblockEnchants.registeredEnchants.get(s));
         }
         return enchants;
+    }
+
+    @Override
+    public boolean conflictsWith(@NotNull Enchantment arg0) {
+        if (arg0 instanceof UltimateEnchant) return true;
+        return super.conflictsWith(arg0);
     }
 }

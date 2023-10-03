@@ -7,6 +7,7 @@ import java.util.*;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
+import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
@@ -752,7 +753,7 @@ public class SkyblockRemakeEvents implements Listener {
                         if (tag.startsWith("combatxp:"))
                             SkyblockPlayer.getSkyblockPlayer(player).addSkillXp(Double.parseDouble(tag.split(":")[1]), Skills.Combat);
                 }
-                if (player != null) {
+                if (player != null && ServerType.getActiveType() != ServerType.Rift) {
                     int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.VAMPIRISM, player.getEquipment().getItemInMainHand());
                     int missing = (int) (Main.getPlayerStat(player, Stats.Health) - player.currhealth);
                     player.setHealth(missing * (level / 100) + player.currhealth, HealthChangeReason.Ability);
@@ -1243,6 +1244,10 @@ public class SkyblockRemakeEvents implements Listener {
             if (Main.getMain().getConfig().getBoolean("StatSystem")) {
                 if (event.getCause() == DamageCause.FALL) {
                     event.setDamage(0);
+                    if (SkyblockServer.getServer().type() == ServerType.Rift) {
+                        event.setCancelled(true);
+                        return;
+                    }
 
                     int falldistance = (int) player.getFallDistance();
 
@@ -1262,7 +1267,7 @@ public class SkyblockRemakeEvents implements Listener {
 
                     } else Main.updatebar(player);
                 }
-                if (event.getCause() == DamageCause.VOID) player.setHealth(0, HealthChangeReason.Creative);
+                if (event.getCause() == DamageCause.VOID) player.setHealth(0, HealthChangeReason.Force);
                 Main.updatebar(player);
 
 
@@ -1365,19 +1370,32 @@ public class SkyblockRemakeEvents implements Listener {
                 }
             }
         } else {
+            if (event.getDamager() instanceof Player) {
+                if (event.getEntity() instanceof Player) {
+                    event.setCancelled(true);
+                    return;
+                }
+            }
+            StandCoreExtention sbE = SkyblockEntity.getExtention(event.getEntity());
+            if (sbE != null && event.getDamager() instanceof Player p) {
+                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
+                SkyblockEntity entity = sbE.owner();
+                Calculator calculator = new Calculator();
+                calculator.playerToEntityDamage(entity.getEntity(), player);
+                calculator.damageEntity(entity.getEntity(), player);
+                calculator.showDamageTag(entity.getEntity());
+                return;
+            }
 
             if (event.getEntityType() != EntityType.DROPPED_ITEM && event.getEntityType() != EntityType.ARMOR_STAND && !(event.getEntity().getType() == EntityType.WITHER_SKULL) && event.getCause() != DamageCause.PROJECTILE) {
+
+
                 if (event.getEntity() instanceof LivingEntity) {
                     LivingEntity e = (LivingEntity) event.getEntity();
                     if (Main.entitydead.containsKey(e)) return;
 
                     event.setDamage(0D);
                     if (event.getDamager() instanceof Player) {
-                        if (e instanceof Player) {
-                            event.setCancelled(true);
-                            return;
-                        }
-
                         Player player = (Player) event.getDamager();
                         int cc = (int) Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.CritChance);
 

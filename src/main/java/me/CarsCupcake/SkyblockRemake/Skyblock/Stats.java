@@ -16,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nullable;
 import java.util.*;
 
+@Getter
 public enum Stats {
     Health("health", '❤', ChatColor.RED, "Health", false, HotPotatoBookStat.Armor, 4, 100),
     Defense("def", '❈', ChatColor.GREEN, "Defense", false, HotPotatoBookStat.Armor, 2),
@@ -35,7 +36,7 @@ public enum Stats {
     TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense", false, null, 0),
     SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance", false, null, 0, 20, 100),
     FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed", false, null, 0),
-    SwingRange("swingrange", 'Ⓢ', ChatColor.GOLD, "Swing Range", true, null, 0),
+    SwingRange("swingrange", 'Ⓢ', ChatColor.GOLD, "Swing Range", true, null, 0,3, -1),
     BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
     FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
     CombatWisdom("combatwisdom", '☯', ChatColor.DARK_AQUA, "Combat Wisdom", false, null, 0),
@@ -65,17 +66,11 @@ public enum Stats {
     private final char symbol;
     private final ChatColor color;
     private final String name;
-    @Getter
     private final boolean agressive;
-    @Getter
     private final HotPotatoBookStat hotPotatoBookStat;
-    @Getter
     private final int hotPotatoBookStatBoost;
-    @Getter
     private final double baseAmount;
-    @Getter
     private final double maxAmount;
-    @Getter
     private final boolean inRift;
     Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive) {
         this(dataName, symbol, color, name, isAggresive, null, 0);
@@ -123,22 +118,6 @@ public enum Stats {
             if (s.getDataName().equals(data))
                 return s;
         throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
-    }
-
-    public String getDataName() {
-        return this.dataName;
-    }
-
-    public char getSymbol() {
-        return this.symbol;
-    }
-
-    public ChatColor getColor() {
-        return this.color;
-    }
-
-    public String getName() {
-        return this.name;
     }
 
     public static ArrayList<String> makeItemStatsLore(ItemStack item, ArrayList<String> lore, SkyblockPlayer player) {

@@ -6,12 +6,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -19,22 +21,25 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class SkyblockEntity implements Elementable {
+    private static final HashMap<Entity, StandCoreExtention> coreExtentions = new HashMap<>();
     protected int health;
+    private final Set<StandCoreExtention> extentions = new HashSet<>();
 
     public SkyblockEntity() {
         health = getMaxHealth();
     }
 
-
-    public abstract int getMaxHealth();
-
     public int getHealth() {
+        if (health > getMaxHealth()) throw new IllegalArgumentException("Health is too large");
         return health;
     }
+
+    public abstract int getMaxHealth();
 
     public abstract LivingEntity getEntity();
 
@@ -63,6 +68,7 @@ public abstract class SkyblockEntity implements Elementable {
     public void kill() {
         hasDoneDeath = true;
         EntityRunnable.remove(this);
+        removeExtention(this);
     }
 
     public void damage(double damage, SkyblockPlayer player) {
@@ -195,5 +201,15 @@ public abstract class SkyblockEntity implements Elementable {
         e.damage(9999999, killer);
         if (e instanceof EnderDragon) e.setHealth(0);
     }
-
+    public static void addExtention(StandCoreExtention extention) {
+        extention.owner().extentions.add(extention);
+        coreExtentions.put(extention.entity(), extention);
+    }
+    public static void removeExtention(SkyblockEntity e) {
+        e.extentions.forEach(extention -> extention.entity().remove());
+    }
+    @Nullable
+    public static StandCoreExtention getExtention(Entity e) {
+        return coreExtentions.get(e);
+    }
 }

@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.rift.entitys.crux;
 
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
@@ -24,7 +24,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Shy extends Crux implements FinalDamageDesider {
@@ -63,6 +62,7 @@ public class Shy extends Crux implements FinalDamageDesider {
             armorStand.addScoreboardTag("remove");
             armorStand.setRemoveWhenFarAway(false);
         });
+        SkyblockEntity.addExtention(new StandCoreExtention(stand, this));
         SkyblockEntity.livingEntity.addEntity(entity, this);
         new EntityRunnable() {
             @Override
@@ -82,11 +82,6 @@ public class Shy extends Crux implements FinalDamageDesider {
     @Override
     public String getName() {
         return "§3Shy";
-    }
-
-    @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
     }
     private boolean onHalf = false;
 

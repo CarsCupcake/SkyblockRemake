@@ -10,12 +10,12 @@ import org.bukkit.command.TabCompleter;
 
 
 public class GiveEditionItemTAB implements TabCompleter{
-	List<String> arguments = new ArrayList<String>();
-	List<String> stats = new ArrayList<String>();
+	List<String> arguments = new ArrayList<>();
+	List<String> stats = new ArrayList<>();
 	
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(stats.isEmpty()) {
 			stats.add("dctrspacehelmet");
 			stats.add("kloonboat");

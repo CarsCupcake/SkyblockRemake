@@ -54,8 +54,8 @@ public class ItemManager implements ItemGenerator {
     public static SimpleDateFormat df = new SimpleDateFormat(pattern);
     public String name;
     @Setter
-    public ArrayList<String> lore = new ArrayList<>();
-    public ArrayList<GemstoneSlot> gemstoneSlots = new ArrayList<>();
+    public List<String> lore = new ArrayList<>();
+    public List<GemstoneSlot> gemstoneSlots = new ArrayList<>();
     @Setter
     public double breakingpower;
     public String itemID;
@@ -345,7 +345,7 @@ public class ItemManager implements ItemGenerator {
         setStat(Stats.WeaponDamage, value);
     }
 
-    public ArrayList<String> getLore() {
+    public List<String> getLore() {
         if (lore == null) return new ArrayList<>();
         else return lore;
     }

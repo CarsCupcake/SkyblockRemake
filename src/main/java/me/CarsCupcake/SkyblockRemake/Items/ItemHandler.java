@@ -71,6 +71,11 @@ public class ItemHandler {
         meta.addEnchant(enchantment, level, true);
         item.setItemMeta(meta);
     }
+    public static void removeEnchant(@NotNull Enchantment enchantment, ItemStack item){
+        ItemMeta meta = item.getItemMeta();
+        meta.removeEnchant(enchantment);
+        item.setItemMeta(meta);
+    }
 
     @SneakyThrows
     public static void registerAll(Object obj) {
