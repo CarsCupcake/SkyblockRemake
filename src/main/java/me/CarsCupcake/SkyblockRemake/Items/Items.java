@@ -478,6 +478,14 @@ public class Items {
         manager.setNpcSellPrice(500);
     }
 
+    private static void racingHelmet() {
+        ItemManager manager = new ItemManager("Racing Helmet", "RACING_HELMET", ItemType.Helmet, ItemRarity.SPECIAL, "");
+        manager.setLore(List.of("§7When horses are not fast", "§7enough, use a Racing Helmet", "§7instead", " " , "§8Increases your speed cap to", "§a500"));
+        manager.setEditions(true);
+        manager.setStat(Stats.Speed, 500);
+        manager.setUnstackeble(true);
+    }
+
     private static void addEnchanted(Material material) {
         ItemManager manager = new ItemManager("Enchanted " + SkyblockItems.get(material.toString()).name, "ENCHANTED_" + material, ItemType.Non, material, ItemRarity.UNCOMMON);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);

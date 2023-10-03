@@ -21,6 +21,7 @@ public class GiveEditionItemTAB implements TabCompleter{
 			stats.add("kloonboat");
 			stats.add("susflare");
 			stats.add("INTELLIJ".toLowerCase());
+			stats.add("racinghelmet");
 			}
 		if (args.length == 1) {
 			for (String a : stats) {
