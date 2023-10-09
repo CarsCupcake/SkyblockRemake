@@ -36,18 +36,18 @@ public class MessageHandler implements PluginMessageListener {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
-    public static void sendMessage(String message) {
+    public static void sendMessage(String message, String... s) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
         try {
             out.writeUTF(message);
-
+            for (String ss : s) out.writeUTF(ss);
         } catch (IOException e) {
 
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
         Main.getMain().getServer().sendPluginMessage(Main.getMain(), "skyblock:main", stream.toByteArray());

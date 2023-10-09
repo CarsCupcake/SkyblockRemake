@@ -197,7 +197,7 @@ public class Main extends JavaPlugin {
         Time t = new Time();
         if (config.getBoolean("bungeeCordTime")) {
             try {
-                MessageHandler.sendMessage("registerTimer");
+                MessageHandler.sendMessage("add", ServerType.getActiveType().s);
                 debug.debug("Registering at BungeeCord", false);
             } catch (Exception e) {
                 e.printStackTrace();
