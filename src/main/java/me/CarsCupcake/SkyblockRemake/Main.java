@@ -7,6 +7,7 @@
 //Never gonna say goodbye
 package me.CarsCupcake.SkyblockRemake;
 
+import java.net.Socket;
 import java.util.*;
 
 import lombok.Getter;
@@ -53,6 +54,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUIListener;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;
 import me.CarsCupcake.SkyblockRemake.utils.log.CustomLogger;
 import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
+import me.CarsCupcake.SkyblockRemake.utils.serverMessaging.ServerMessenger;
 import org.bukkit.*;
 
 import java.io.*;
@@ -143,6 +145,7 @@ public class Main extends JavaPlugin {
     public static CustomConfig bazaarFile;
     @Getter
     public static DebugLogger debug;
+    public static ServerMessenger messenger;
 
 
     @SuppressWarnings("deprecation")
@@ -186,21 +189,26 @@ public class Main extends JavaPlugin {
                 this.logger.info("It took " + (after - before) + "ms to cleanup the JVM heap");
             }
         }.runTaskTimer(this, 1L, 12000L);
-        try {
-            this.getServer().getMessenger().registerIncomingPluginChannel(this, "skyblock:main", new MessageHandler());
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "skyblock:main");
-            debug.debug("Enabeling messenger channel", false);
-        } catch (Exception e) {
-            e.printStackTrace();
-            debug.debug("Enabeling messenger channel failed!");
-        }
         Time t = new Time();
-        if (config.getBoolean("bungeeCordTime")) {
+        if (checkIfBungee()){
             try {
-                MessageHandler.sendMessage("add", ServerType.getActiveType().s);
-                debug.debug("Registering at BungeeCord", false);
+                messenger = new ServerMessenger(Integer.parseInt(String.valueOf(getServer().getPort()).substring(String.valueOf(getServer().getPort()).length() - 3)));
+                messenger.sendBufferedMessage("add:" + ServerType.getActiveType().s);
+                debug.debug("Enabeling messenger channel", false);
+                messenger.registerListener(s -> {
+                    debug.debug("Recieved Message: " + s);
+                });
+                try {
+                    Socket socket = new Socket("127.0.0.1", 20);
+                    PrintWriter writer = new PrintWriter(socket.getOutputStream());
+                    writer.println(getServer().getPort());
+                    writer.flush();
+                    socket.close();
+                    writer.close();
+                } catch (Exception ignored) {}
             } catch (Exception e) {
                 e.printStackTrace();
+                debug.debug("Enabeling messenger channel failed!");
             }
         } else t.runTaskTimer(getMain(), 1, 1);
         sql = new SQL();
@@ -641,6 +649,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        messenger.remove();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (ServerType.getActiveType() == ServerType.PrivateIsle)
                 try {
@@ -1724,6 +1733,8 @@ public class Main extends JavaPlugin {
         }
 
     }
-
-
+    private boolean checkIfBungee()
+    {
+        return getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean("bungeecord");
+    }
 }

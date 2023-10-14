@@ -95,7 +95,7 @@ object MaddoxMenu {
                             .addAllLore(
                                 listOf(
                                     " ",
-                                    "§7Health §c${slayer.health}${Stats.Health.getSymbol()}",
+                                    "§7Health §c${slayer.health}${Stats.Health.symbol}",
                                     "§7Damage: §c${slayer.damage} §7per second",
                                     " ",
                                     "§7Cost to start: §6${when(s){
@@ -127,7 +127,7 @@ object MaddoxMenu {
                         .addAllLore(
                             listOf(
                                 " ",
-                                "§7Health §c${slayers[4]?.health}${Stats.Health.getSymbol()}",
+                                "§7Health §c${slayers[4]?.health}${Stats.Health.symbol}",
                                 "§7Damage: §c${slayers[4]?.damage} §7per second",
                                 " ",
                                 "§7Cost to start: §6100,000 coins",

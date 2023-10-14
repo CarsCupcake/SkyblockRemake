@@ -6,7 +6,7 @@
 
     <groupId>me.CarsCupcake</groupId>
     <artifactId>SkyblockRemake</artifactId>
-    <version>0.2.6</version>
+    <version>0.2.7</version>
     <packaging>jar</packaging>
 
 
@@ -20,7 +20,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -33,7 +32,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\Rift Isle\plugins\SkyblockRemake.jar
+                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\Dungeon\plugins\SkyblockRemake.jar
                             </outputFile>
                         </configuration>
                     </execution>
@@ -142,6 +141,10 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
+            <id>sonatype-snapshot</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
             <id>papermc</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
@@ -167,8 +170,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>bungeecord-api</artifactId>
+            <groupId>io.github.waterfallmc</groupId>
+            <artifactId>waterfall-api</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -176,7 +179,6 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
             <version>1.17.1-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>

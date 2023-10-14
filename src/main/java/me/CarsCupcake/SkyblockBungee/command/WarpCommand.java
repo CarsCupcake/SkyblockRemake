@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockBungee.command;
 
 import me.CarsCupcake.SkyblockBungee.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+import me.CarsCupcake.SkyblockBungee.features.ServerType;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;

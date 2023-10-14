@@ -63,7 +63,7 @@ public enum Stats {
             MagicFind, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom, HealthRegen, Vitality, Mending);
     public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;
-    private final char symbol;
+    public final char symbol;
     private final ChatColor color;
     private final String name;
     private final boolean agressive;

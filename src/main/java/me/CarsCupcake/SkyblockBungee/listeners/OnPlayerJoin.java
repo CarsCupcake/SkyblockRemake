@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockBungee.listeners;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import me.CarsCupcake.SkyblockBungee.BungeeConfig;
 import me.CarsCupcake.SkyblockBungee.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+import me.CarsCupcake.SkyblockBungee.features.ServerType;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.event.ServerConnectEvent;

@@ -1,4 +1,4 @@
 name: SkyblockBungee
-version: '${project.version}'
+version: "0.2.7"
 main: me.CarsCupcake.SkyblockBungee.Main
 author: CarsCupcake

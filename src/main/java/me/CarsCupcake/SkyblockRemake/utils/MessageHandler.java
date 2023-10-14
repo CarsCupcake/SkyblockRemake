@@ -42,14 +42,15 @@ public class MessageHandler implements PluginMessageListener {
     public static void sendMessage(String message, String... s) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(stream);
+        StringBuilder builder = new StringBuilder(message);
         try {
-            out.writeUTF(message);
-            for (String ss : s) out.writeUTF(ss);
+            for (String ss : s) builder.append(":").append(ss);
+            out.writeUTF(builder.toString());
         } catch (IOException e) {
 
             e.printStackTrace(System.err);
         }
-
+        System.out.println("Sending message: " + builder);
         Main.getMain().getServer().sendPluginMessage(Main.getMain(), "skyblock:main", stream.toByteArray());
     }
 }
