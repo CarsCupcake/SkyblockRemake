@@ -20,7 +20,7 @@ public class Main extends Plugin {
     @Getter
     private static final MapList<ServerType, ServerInfo> orderdServer = new MapList<>();
     @Getter
-    private static final Map<ServerInfo, ServerType> servers = new HashMap<>();
+    private static final Map<Integer, ServerType> servers = new HashMap<>();
     public static BungeeConfig config;
     @Getter
     private static Main main;
@@ -29,9 +29,12 @@ public class Main extends Plugin {
     public void onEnable() {
         main = this;
         config = new BungeeConfig("config", false);
+        config.get().set("SkyblockDataPath", config.get().get("SkyblockDataPath", "./data"));
+        config.save();
         this.getProxy().getPluginManager().registerListener(this, new OnPlayerJoin());
         this.getProxy().getPluginManager().registerCommand(this, new WarpCommand());
         this.getProxy().getPluginManager().registerCommand(this, new MessangerChannelTest());
+        Time.start();
         System.out.println("Initing Listener at port 20");
         try {
             new ServerGeneralPort(20);
@@ -78,7 +81,8 @@ public class Main extends Plugin {
         }
         ServerGeneralPort.INSTANCE.remove();
     }
+    @SuppressWarnings("deprecation")
     public static void sendMessage(String s, ServerInfo serverInfo) {
-        ServerHandler.servers.get(serverInfo).sendMessage(s);
+        ServerHandler.address.get(serverInfo.getAddress().getPort()).sendMessage(s);
     }
 }

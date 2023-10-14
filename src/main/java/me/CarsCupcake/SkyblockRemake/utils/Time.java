@@ -26,12 +26,11 @@ public class Time extends BukkitRunnable {
         this.hour = 0;
         this.minute = 0;
         instance = this;
-        hasBungeeCord = Main.getMain().getConfig().getBoolean("bungeeCordTime", false);
+        hasBungeeCord = Main.getMain().checkIfBungee();
         load();
     }
     public void load(){
         if(hasBungeeCord){
-            MessageHandler.sendMessage("requestTime");
             return;
         }
         CustomConfig c = new CustomConfig("time");
@@ -121,6 +120,7 @@ public class Time extends BukkitRunnable {
         }else cancel();
     }
 
+    @Getter
     public enum Season{
         EARLY_SPRING("Early Spring", 1),
         SPRING("Spring", 2),
@@ -134,9 +134,7 @@ public class Time extends BukkitRunnable {
         EARLY_WINTER("Early Winter", 10),
         WINTER("Winter", 11),
         LATE_WINTER("Late Winter", 12);
-        @Getter
         private final String name;
-        @Getter
         private final int id;
 
         Season(String s, int id) {

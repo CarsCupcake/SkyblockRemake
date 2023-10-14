@@ -31,11 +31,13 @@ public class WarpCommand extends Command implements TabExecutor {
             return;
         }
         List<ServerInfo> servers = Main.getOrderdServer().get(type);
+        System.out.println(servers + " " + type);
         if (servers.isEmpty()) {
             commandSender.sendMessage(new TextComponent("§c" + strings[0] + " is not online!"));
             return;
         }
         //TODO: Better distribution system!
+        System.out.println(player.getServer() + " " + servers.get(0));
         player.connect(servers.get(0), ServerConnectEvent.Reason.COMMAND);
     }
 

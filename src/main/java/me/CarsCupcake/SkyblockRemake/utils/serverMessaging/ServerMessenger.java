@@ -108,7 +108,11 @@ public class ServerMessenger extends Thread {
                         }
                         synchronized (Main.getMain()) {
                             for (RunnableWithParam<String> listener : listeners)
-                                listener.run(line);
+                                try {
+                                    listener.run(line);
+                                } catch (Exception e) {
+                                    e.printStackTrace(System.err);
+                                }
                         }
                     } catch (Exception e) {
                         e.printStackTrace(System.err);

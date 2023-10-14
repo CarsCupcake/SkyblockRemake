@@ -15,13 +15,15 @@ import java.util.List;
 
 public class OnPlayerJoin implements Listener {
     @EventHandler
-    public void  onJoin(ServerConnectEvent event) {
-        if(Main.getServers().isEmpty()) {
+    public void onJoin(ServerConnectEvent event) {
+        if (event.getReason() == ServerConnectEvent.Reason.COMMAND || event.getReason() == ServerConnectEvent.Reason.PLUGIN)
+            return;
+        if (Main.getServers().isEmpty()) {
             event.getPlayer().disconnect(new TextComponent("§cNo Server found!"));
             return;
         }
         BungeeConfig config = new BungeeConfig(event.getPlayer(), "server");
-        ServerType type =  ServerType.getFromString(config.get().getString("id", ServerType.Hub.s));
+        ServerType type = ServerType.getFromString(config.get().getString("id", ServerType.Hub.s));
         List<ServerInfo> servers = Main.getOrderdServer().get(type);
         if (!servers.isEmpty()) {
             event.setTarget(servers.get(0));
@@ -35,11 +37,14 @@ public class OnPlayerJoin implements Listener {
             }
         }
     }
+
     @EventHandler
+    @SuppressWarnings("deprecation")
     public void onDisconnect(ServerDisconnectEvent event) {
         new ThreadFactoryBuilder().build().newThread(() -> {
+            System.out.println("Player disconnect from " + event.getTarget().getAddress() + "(" + Main.getServers().get(event.getTarget().getAddress().getPort()) + ")");
             BungeeConfig config = new BungeeConfig(event.getPlayer(), "server");
-            config.get().set("id", Main.getServers().get(event.getTarget()).s);
+            config.get().set("id", Main.getServers().get(event.getTarget().getAddress().getPort()).s);
             config.save();
         }).start();
     }

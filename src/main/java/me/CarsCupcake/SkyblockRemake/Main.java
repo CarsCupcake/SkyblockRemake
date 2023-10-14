@@ -198,6 +198,21 @@ public class Main extends JavaPlugin {
                 messenger.registerListener(s -> {
                     debug.debug("Recieved Message: " + s);
                 });
+                messenger.registerListener(s -> {
+                    if (s.startsWith("datapath:")) {
+                        String[] split = s.split(":");
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 1; i < split.length; i++)
+                            builder.append(split[i]);
+                        config.set("SkyblockDataPath", builder.toString());
+                    }
+                    if(s.startsWith("time:")){
+                        Time.getInstance().deserialize(s.split(":")[1]);
+                    }
+                    if(s.startsWith("season:")){
+                        Time.getInstance().setSeason(Integer.parseInt(s.split(":")[1]));
+                    }
+                });
                 try {
                     Socket socket = new Socket("127.0.0.1", 20);
                     PrintWriter writer = new PrintWriter(socket.getOutputStream());
@@ -1733,7 +1748,7 @@ public class Main extends JavaPlugin {
         }
 
     }
-    private boolean checkIfBungee()
+    public boolean checkIfBungee()
     {
         return getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean("bungeecord");
     }
