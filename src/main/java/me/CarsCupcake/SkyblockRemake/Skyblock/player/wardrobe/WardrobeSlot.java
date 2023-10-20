@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.wardrobe;
 
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
@@ -38,7 +38,7 @@ public class WardrobeSlot {
         load();
     }
     public void save(){
-        CustomConfig customConfig = new CustomConfig(player, "warderobe\\" + id);
+        ConfigFile customConfig = new ConfigFile(player, "warderobe\\" + id);
         customConfig.get().set("helmet", helmet);
         customConfig.get().set("chestplate", chestplate);
         customConfig.get().set("leggings", leggings);
@@ -47,7 +47,7 @@ public class WardrobeSlot {
         customConfig.save();
     }
     public void load(){
-        CustomConfig customConfig = new CustomConfig(player, "warderobe\\" + id);
+        ConfigFile customConfig = new ConfigFile(player, "warderobe\\" + id);
         isEquiped = customConfig.get().getBoolean("equiped", false);
         if(isEquiped){
             helmet = player.getEquipment().getHelmet();

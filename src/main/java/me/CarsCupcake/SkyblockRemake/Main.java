@@ -22,7 +22,6 @@ import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.hex.Hex;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
@@ -142,7 +141,7 @@ public class Main extends JavaPlugin {
     public SQL sql;
 
     //Configs
-    public static CustomConfig bazaarFile;
+    public static ConfigFile bazaarFile;
     @Getter
     public static DebugLogger debug;
     public static ServerMessenger messenger;
@@ -234,7 +233,7 @@ public class Main extends JavaPlugin {
                     entity.remove();
         data = new DataManager(this);
 
-        bazaarFile = new CustomConfig("bazaarData");
+        bazaarFile = new ConfigFile("bazaarData");
 
 
         try {
@@ -665,6 +664,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         messenger.remove();
+        ConfigFile.thread.finish();
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (ServerType.getActiveType() == ServerType.PrivateIsle)
                 try {
@@ -1194,7 +1194,7 @@ public class Main extends JavaPlugin {
 
     public static void saveCoins(Player player) {
         double coin = SkyblockPlayer.getSkyblockPlayer(player).coins;
-        CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+        ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
         c.get().set(player.getUniqueId().toString() + ".coins", coin);
         c.save();
         c.reload();
@@ -1202,7 +1202,7 @@ public class Main extends JavaPlugin {
 
     public static void saveBits(Player player) {
         int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).bits;
-        CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+        ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
         c.get().set(player.getUniqueId().toString() + ".bits", bit);
         c.save();
         c.reload();
@@ -1210,7 +1210,7 @@ public class Main extends JavaPlugin {
 
     public static void saveMithrilPowder(Player player) {
         int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).mithrilpowder;
-        CustomConfig c = new CustomConfig(SkyblockPlayer.getSkyblockPlayer(player), "stats");
+        ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
         c.get().set(player.getUniqueId().toString() + ".mithrilpowder", bit);
         c.save();
         c.reload();

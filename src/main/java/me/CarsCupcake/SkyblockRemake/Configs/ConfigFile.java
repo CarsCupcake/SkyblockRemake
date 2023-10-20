@@ -2,29 +2,37 @@ package me.CarsCupcake.SkyblockRemake.Configs;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.ThreadHalt;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
 
-public class CustomConfig {
+public class ConfigFile {
+    public static final FileThread thread;
+
+    static {
+        thread = new FileThread();
+    }
+
     private File file;
     private FileConfiguration customFile;
 
-    public CustomConfig(File file) {
+    public ConfigFile(File file) {
         this.file = file;
         init();
     }
 
-    public CustomConfig(String name) {
+    public ConfigFile(String name) {
         //"C:\\Users\\09car\\Desktop\\Plugin\\Skyblock 1.17.1 Network\\files"
         String path = Main.getMain().config.getString("SkyblockDataPath");
         file = new File(path, name + ".yml");
         init();
     }
 
-    public CustomConfig(String name, boolean isInDataPath) {
+    public ConfigFile(String name, boolean isInDataPath) {
         if (!isInDataPath) file = new File(Main.getMain().getDataFolder(), name + ".yml");
         else {
             String path = Main.getMain().config.getString("SkyblockDataPath");
@@ -33,11 +41,11 @@ public class CustomConfig {
         init();
     }
 
-    public CustomConfig(SkyblockPlayer player, String name) {
+    public ConfigFile(SkyblockPlayer player, String name) {
         this(new File(Main.getMain().config.getString("SkyblockDataPath") + "\\playerData\\" + player.getUniqueId(), name + ".yml"));
     }
 
-    public CustomConfig(SkyblockPlayer player, String name, boolean isInDataPath) {
+    public ConfigFile(SkyblockPlayer player, String name, boolean isInDataPath) {
         if (isInDataPath) {
             file = new File(Main.getMain().config.getString("SkyblockDataPath") + "\\playerData\\" + player.getUniqueId(), name + ".yml");
         } else {
@@ -71,11 +79,7 @@ public class CustomConfig {
     }
 
     public void save() {
-        try {
-            customFile.save(file);
-        } catch (IOException e) {
-            System.out.println(file.getName() + " has saving errors");
-        }
+        thread.append(this);
     }
 
     public void reload() {
@@ -84,12 +88,55 @@ public class CustomConfig {
 
     public void clear() {
         try {
-            if(!file.delete()) System.out.println("Deletion of a file failed!");
+            if (!file.delete()) System.out.println("Deletion of a file failed!");
             file = new File(file.getPath());
-            if(!file.createNewFile()) System.out.println("no new file was created!");
+            if (!file.createNewFile()) System.out.println("no new file was created!");
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         customFile = YamlConfiguration.loadConfiguration(file);
+    }
+
+    public static class FileThread extends Thread {
+        public static boolean online = true;
+        private final ThreadHalt asyncHalt = new ThreadHalt();
+        private final ArrayDeque<ConfigFile> files = new ArrayDeque<>();
+
+        public FileThread() {
+            start();
+            setName("I/O Thread");
+        }
+
+        public void append(ConfigFile file) {
+            synchronized (files) {
+                files.add(file);
+                asyncHalt.run();
+            }
+        }
+
+        public void finish() {
+            online = false;
+            asyncHalt.run();
+        }
+
+        @Override
+        public void run() {
+            while (online) {
+                try {
+                    asyncHalt.await();
+                    if (!online) break;
+                    synchronized (files) {
+                        ConfigFile configFile = files.pop();
+                        try {
+                            configFile.customFile.save(configFile.file);
+                        } catch (Exception e) {
+                            e.printStackTrace(System.err);
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 }

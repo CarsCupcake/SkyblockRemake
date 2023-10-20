@@ -4,10 +4,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 
 public class EditionItems {
-	private static CustomConfig c;
+	private static ConfigFile c;
 
 	public static void setup() {
-		c = new CustomConfig("EditionItems");
+		c = new ConfigFile("EditionItems");
 
 	}
 

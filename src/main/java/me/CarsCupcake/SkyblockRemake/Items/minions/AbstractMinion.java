@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Items.minions;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -87,7 +86,7 @@ public abstract class AbstractMinion implements Minion {
 
     public void loadInventory() {
         inventory.clear();
-        CustomConfig config = new CustomConfig(player, "minions", false);
+        ConfigFile config = new ConfigFile(player, "minions", false);
         ConfigurationSection section = config.get().getConfigurationSection(minionId + ".items");
         if (section == null) return;
         ArrayList<Bundle<Integer, ItemStack>> values = new ArrayList<>();
@@ -130,7 +129,7 @@ public abstract class AbstractMinion implements Minion {
     }
 
     public void saveMinion() {
-        CustomConfig config = new CustomConfig(player, "minions", false);
+        ConfigFile config = new ConfigFile(player, "minions", false);
         config.get().set(minionId, null);
         config.get().set(minionId + ".lastDate", new Date().getTime());
         config.get().set(minionId + ".id", base.id() + "-" + level);
@@ -147,7 +146,7 @@ public abstract class AbstractMinion implements Minion {
     }
 
     public void removeMinionFromFile() {
-        CustomConfig config = new CustomConfig(player, "minions", false);
+        ConfigFile config = new ConfigFile(player, "minions", false);
         config.get().set(minionId, null);
         config.save();
     }

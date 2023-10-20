@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 
@@ -35,7 +35,7 @@ public class statsCMD implements CommandExecutor{
 			}
 			SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
 			double value = Double.parseDouble(args[1]);
-			CustomConfig statsConfig = new CustomConfig(p, "stats");
+			ConfigFile statsConfig = new ConfigFile(p, "stats");
 			Stats s = Stats.getFromDataName(args[0]);
 			if(s == null) return false;
 			player.sendMessage("Set Base "+s.getName()+" to: " + args[1]);

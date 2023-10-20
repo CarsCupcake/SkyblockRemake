@@ -5,42 +5,25 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.OutputExtent;
-import com.sk89q.worldedit.math.BlockVector2;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.Polygonal2DRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.world.World;
-import com.sk89q.worldedit.world.block.BaseBlock;
-import com.sk89q.worldedit.world.block.BlockState;
 import com.sk89q.worldedit.world.block.BlockTypes;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.BlockVector;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class PrivateIslandManager {
     public static final HashMap<SkyblockPlayer, Location> baseLocations = new HashMap<>();
     //Max travel distance: 120, Every so + 300 for a new isle
     public static void addToIsle(SkyblockPlayer player){
-        CustomConfig config = new CustomConfig(player, "PrivateIsle");
+        ConfigFile config = new ConfigFile(player, "PrivateIsle");
         ConfigurationSection section = config.get().getConfigurationSection("privateSpace");
         Location isleLocation;
         if(section == null){
@@ -59,7 +42,7 @@ public class PrivateIslandManager {
 
     public static Location createNewIsle(SkyblockPlayer player){
 
-        CustomConfig config = new CustomConfig("privateIsle");
+        ConfigFile config = new ConfigFile("privateIsle");
         int distance = config.get().getInt("distanceBetweenLocs", 0);
         config.get().set("distanceBetweenLocs", distance + 300);
         config.save();

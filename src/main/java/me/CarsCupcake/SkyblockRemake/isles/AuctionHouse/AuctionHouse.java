@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.AuctionHouse;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
@@ -27,7 +27,8 @@ import java.util.Set;
 public class AuctionHouse implements Listener {
     private static AuctionHouse main = null;
 
-    private final CustomConfig file;
+    @Getter
+    private final ConfigFile file;
     private final NamespacedKey pointerKey;
     @Getter
     private final Set<GUI> guis = new HashSet<>();
@@ -37,7 +38,7 @@ public class AuctionHouse implements Listener {
             throw new AuctionHouseException("Can not start Auction House!");
         }
         main = this;
-        file = new CustomConfig("ah");
+        file = new ConfigFile("ah");
         pointerKey = new NamespacedKey(Main.getMain(), "pointer");
 
     }
@@ -49,10 +50,6 @@ public class AuctionHouse implements Listener {
     public void shutdown() {
         for (GUI gui : guis)
             gui.closeInventory();
-    }
-
-    public CustomConfig getFile() {
-        return file;
     }
 
     @EventHandler

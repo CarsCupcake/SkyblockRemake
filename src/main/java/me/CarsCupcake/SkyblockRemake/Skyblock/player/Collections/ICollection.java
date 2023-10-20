@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.farming.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.CobblestoneCollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.Items.mining.MithrilCollection;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsGetter;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
@@ -67,11 +67,11 @@ public abstract class ICollection implements SkyblockLevelsGetter {
         return collected;
     }
     protected void load(){
-        CustomConfig config = new CustomConfig(player, "collection");
+        ConfigFile config = new ConfigFile(player, "collection");
         collected = config.get().getLong( getId(), 0);
     }
     public void save() {
-        CustomConfig config = new CustomConfig(player, "collection");
+        ConfigFile config = new ConfigFile(player, "collection");
         config.get().set(getId(), collected);
         config.save();
     }

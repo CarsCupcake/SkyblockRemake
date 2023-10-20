@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -15,7 +15,7 @@ public class Combat implements Skill {
 	private final int maxlevel = 60;
 	
 	private final double cdPerLevel = 0.5;
-	private CustomConfig skill;
+	private ConfigFile skill;
 
 	
 	
@@ -71,7 +71,7 @@ public class Combat implements Skill {
 	@Override
 	public void setPlayer(SkyblockPlayer player) {
 		this.player = player;
-		skill = new CustomConfig(player, "Skills");
+		skill = new ConfigFile(player, "Skills");
 	}
 
 	@Override

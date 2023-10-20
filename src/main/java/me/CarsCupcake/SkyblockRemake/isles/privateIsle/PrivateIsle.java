@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.privateIsle;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;
@@ -28,7 +28,7 @@ public class PrivateIsle {
         System.out.println("Player isle addition of " + player.getName());
         this.player = player;
         isles.put(player, this);
-        CustomConfig config = new CustomConfig(player, "minions", false);
+        ConfigFile config = new ConfigFile(player, "minions", false);
         ConfigurationSection section = config.get().getConfigurationSection("");
         if (section != null) {
             for (String id : section.getKeys(false)) {
@@ -36,7 +36,7 @@ public class PrivateIsle {
                     String[] args = config.get().getString(id + ".id").split("-");
                     addMinion(IMinionData.minions.get(args[0]), Integer.parseInt(args[1]), new Location(Bukkit.getWorld("world"), Double.parseDouble(config.get().getString(id + ".location.x")), Double.parseDouble(config.get().getString(id + ".location.y")), Double.parseDouble(config.get().getString(id + ".location.z"))), UUID.fromString(id));
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    e.printStackTrace(System.err);
                 }
             }
         }

@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 import org.bukkit.Bukkit;
@@ -33,7 +33,7 @@ public class Time extends BukkitRunnable {
         if(hasBungeeCord){
             return;
         }
-        CustomConfig c = new CustomConfig("time");
+        ConfigFile c = new ConfigFile("time");
         season = Season.getById(c.get().getInt("season", 1));
         day = c.get().getInt("day", 1);
         hour = c.get().getInt("hour", 0);
@@ -42,7 +42,7 @@ public class Time extends BukkitRunnable {
 
     }
     public void save(){
-        CustomConfig c = new CustomConfig("time");
+        ConfigFile c = new ConfigFile("time");
         c.get().set("season", season.getId());
         c.get().set("day", day);
         c.get().set("hour", hour);

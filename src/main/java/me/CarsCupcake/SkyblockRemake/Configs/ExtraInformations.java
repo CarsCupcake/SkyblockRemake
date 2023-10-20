@@ -4,10 +4,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 
 public class ExtraInformations {
-	private static CustomConfig c;
+	private static ConfigFile c;
 
 	public static void setup() {
-		c = new CustomConfig("ExtraInfos");
+		c = new ConfigFile("ExtraInfos");
 
 	}
 

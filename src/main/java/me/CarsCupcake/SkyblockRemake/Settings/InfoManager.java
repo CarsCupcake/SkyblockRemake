@@ -7,7 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import net.minecraft.network.protocol.Packet;
 
 import java.lang.reflect.Field;
@@ -29,7 +29,7 @@ public class InfoManager {
     private static boolean packetLog = false;
     @Getter
     private static PacketLoggerFilter packetLogFilter = new PacketLoggerFilter();
-    private static CustomConfig config;
+    private static ConfigFile config;
     @Getter
     @Setter
     private static boolean ignoreCooldwon = false;
@@ -41,7 +41,7 @@ public class InfoManager {
     private static boolean lag = false;
 
     public InfoManager(){
-        config = new CustomConfig("settings");
+        config = new ConfigFile("settings");
         isClickCooldownEnabled = getValue("clickCooldown", true);
         unlimitedMinions = getValue("unlimitedMinions", false);
         miningFatuigeEnable = getValue("miningFatuige", ServerType.getActiveType() != ServerType.Non && ServerType.getActiveType() != ServerType.PrivateIsle);

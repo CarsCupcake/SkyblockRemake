@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
@@ -11,12 +11,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
 public abstract class Effect {
-    @Getter
     private long duration;
-    @Getter
     private final SkyblockPlayer player;
-    @Getter
     private final int level;
     public Effect(SkyblockPlayer player, Integer level, Long duration){
         this.player = player;
@@ -28,7 +26,7 @@ public abstract class Effect {
         start();
     }
     public static void load(SkyblockPlayer player){
-        CustomConfig c = new CustomConfig(player, "potion");
+        ConfigFile c = new ConfigFile(player, "potion");
         if(c.get().isConfigurationSection("")){
             Set<String> prepairedStatement = new HashSet<>();
             for (String s : c.get().getConfigurationSection("").getKeys(false)){
@@ -93,7 +91,7 @@ public abstract class Effect {
     }
     public void removeEffect(){
         stop();
-        CustomConfig c = new CustomConfig(player, "potion");
+        ConfigFile c = new ConfigFile(player, "potion");
         player.getActiveEffects().remove(this);
         if(duration > 0){
             c.get().set(id(), duration);

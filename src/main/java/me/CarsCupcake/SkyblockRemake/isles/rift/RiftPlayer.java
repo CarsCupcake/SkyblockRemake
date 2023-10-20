@@ -4,7 +4,7 @@ import kotlin.Triple;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -21,7 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Set;
-
+@SuppressWarnings({"unused", "deprecation"})
 public class RiftPlayer extends SkyblockPlayer {
     @Getter
     @Setter
@@ -40,14 +40,14 @@ public class RiftPlayer extends SkyblockPlayer {
         riftTime = maxRiftTime;
         timer = new RiftTicker();
         Main.getDebug().debug(riftTime + " rift time left",false);
-        motes = new CustomConfig(this, "riftStats", true).get().getLong("motes", 0);
+        motes = new ConfigFile(this, "riftStats", true).get().getLong("motes", 0);
         setHealth(getMaxHealth(), HealthChangeReason.Force);
     }
 
     @Override
     public void saveInventory() {
         super.saveInventory();
-        CustomConfig c = new CustomConfig(this, "riftStats", true);
+        ConfigFile c = new ConfigFile(this, "riftStats", true);
         c.get().set("motes", motes);
         c.save();
     }
@@ -126,8 +126,8 @@ public class RiftPlayer extends SkyblockPlayer {
         getPlayer().setHealth(value);
     }
 
+    @Getter
     public class RiftTicker extends BukkitRunnable {
-        @Getter
         @Setter
         private boolean adminPause = false;
 

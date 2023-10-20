@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -13,7 +13,7 @@ public class Mining implements Skill {
 	private int level = 0;
 
 	private final double miningFortunePerLevel = 4;
-	private CustomConfig skill;
+	private ConfigFile skill;
 
 	@Override
 	public int getSkyblockXp() {
@@ -95,15 +95,13 @@ public class Mining implements Skill {
 	}
 	@Override
 	public int getMaxLevel() {
-
-		int maxlevel = 60;
-		return maxlevel;
+        return 60;
 	}
 	
 	@Override
 	public void setPlayer(SkyblockPlayer player) {
 		this.player = player;
-		skill = new CustomConfig(player, "Skills");
+		skill = new ConfigFile(player, "Skills");
 	}
 
 	@Override

@@ -5,10 +5,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 
 public class MiningSystem {
-	private static CustomConfig c;
+	private static ConfigFile c;
 
 	public static void setup() {
-		c = new CustomConfig("MiningSys");
+		c = new ConfigFile("MiningSys");
 
 	}
 

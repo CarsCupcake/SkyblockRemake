@@ -128,13 +128,13 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public EquipmentManager equipmentManager = new EquipmentManager(this);
     private double baseTrophyFishChance;
-    private final CustomConfig inventory;
+    private final ConfigFile inventory;
     @Getter
     @Setter
     private int magicalpower = 0;
     @Getter
     private final SortedSet<Effect> activeEffects = new TreeSet<>((o1, o2) -> o1.name().compareTo(o2.name()));
-    private final CustomConfig statsConfig = new CustomConfig(this, "stats");
+    private final ConfigFile statsConfig = new ConfigFile(this, "stats");
     @Getter
     @Setter
     private boolean autoPickup = false;
@@ -159,9 +159,9 @@ public class SkyblockPlayer extends CraftPlayer {
     }
     public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
-        inventory = new CustomConfig(this, ((this instanceof RiftPlayer) ? "rInv" : "inventory"));
+        inventory = new ConfigFile(this, ((this instanceof RiftPlayer) ? "rInv" : "inventory"));
         player = entity.getBukkitEntity().getPlayer();
-        CustomConfig riftMainStoryFile = new CustomConfig(this, "\\rift\\main", true);
+        ConfigFile riftMainStoryFile = new ConfigFile(this, "\\rift\\main", true);
         List<String> sl = null;
         try {
             sl = riftMainStoryFile.get().getStringList("timecharm");
@@ -394,7 +394,7 @@ public class SkyblockPlayer extends CraftPlayer {
         additiveMultiplier += value;
     }
 
-    private final CustomConfig SkillsSave = new CustomConfig(this, "Skills");
+    private final ConfigFile SkillsSave = new ConfigFile(this, "Skills");
 
     public void initSkills() {
         SkillsSave.reload();

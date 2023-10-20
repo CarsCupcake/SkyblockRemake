@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliveries;
 
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.IDelivery;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -54,7 +54,7 @@ public class CoinsDelivery implements IDelivery {
     @Override
     public void save() {
         IDelivery.config.reload();
-        CustomConfig file = IDelivery.config;
+        ConfigFile file = IDelivery.config;
         int var = 1;
         if (file.get().getConfigurationSection(player.getUniqueId() + ".coins") != null && file.get().contains(player.getUniqueId() + ".coins"))
             var = file.get().getConfigurationSection(player.getUniqueId() + ".coins").getKeys(false).size() + 1;
@@ -68,7 +68,7 @@ public class CoinsDelivery implements IDelivery {
     public @NotNull ArrayList<IDelivery> getDeliverys(SkyblockPlayer player) {
         ArrayList<IDelivery> deliveries = new ArrayList<>();
         IDelivery.config.reload();
-        CustomConfig file = IDelivery.config;
+        ConfigFile file = IDelivery.config;
         if(file.get().getConfigurationSection(player.getUniqueId() + ".coins") != null)
             file.get().getConfigurationSection(player.getUniqueId() + ".coins").getKeys(false).forEach(var -> {
                 CoinsDelivery delivery = new CoinsDelivery(player, file.get().getInt(player.getUniqueId() + ".coins." + var + ".amount"));

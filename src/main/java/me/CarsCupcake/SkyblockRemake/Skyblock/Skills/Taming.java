@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
-import me.CarsCupcake.SkyblockRemake.Configs.CustomConfig;
+import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
@@ -8,7 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandle
 public class Taming implements Skill {	private SkyblockPlayer player;
     private double xp = 0;
     private int level = 0;
-    private CustomConfig skill;
+    private ConfigFile skill;
     @Override
     public int getSkyblockXp() {
         int total = 0;
@@ -95,7 +95,7 @@ public class Taming implements Skill {	private SkyblockPlayer player;
     @Override
     public void setPlayer(SkyblockPlayer player) {
         this.player = player;
-        skill = new CustomConfig(player, "Skills");
+        skill = new ConfigFile(player, "Skills");
     }
 
     @Override

@@ -4,10 +4,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 
 public class AccessoryBag {
-	private static CustomConfig c;
+	private static ConfigFile c;
 	
 	public static void setup() {
-		c = new CustomConfig("Accessorys");
+		c = new ConfigFile("Accessorys");
 		
 	}
 	
