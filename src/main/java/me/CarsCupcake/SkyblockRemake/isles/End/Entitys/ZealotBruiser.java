@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.End.Entitys;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
+import me.CarsCupcake.SkyblockRemake.configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.isles.End.ZealotBruiserSpawning;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;

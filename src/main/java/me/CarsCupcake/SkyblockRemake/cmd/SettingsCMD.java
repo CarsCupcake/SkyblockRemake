@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag"})
-@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag"}, args = {"enable", "disable"}, position = 1)
+@CommandArgument(args = {"bazaar", "ah", "killnpcs", "clickCooldown", "setDataPath", "setUnlimitedMinions", "respawnBoss", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag", "debugMessengerChannel"})
+@CommandArgument(lastArg = {"bazaar", "ah", "killnpcs", "clickCooldown", "setUnlimitedMinions", "debug", "miningfatuige", "movementlag", "packetlog", "ignorecooldown", "lag", "debugMessengerChannel"}, args = {"enable", "disable"}, position = 1)
 @CommandArgument(lastArg = "respawnBoss", args = {"Bladesoul", "BarbarianDukeX", "MageOutlaw", "Ashfang", "MagmaBoss"}, position = 1)
 @CommandArgument(lastArg = "packetlog", args = {"in", "out", "name", "reset", "toggledetailed"}, position = 1)
 public class SettingsCMD implements CommandExecutor {
@@ -193,6 +193,19 @@ public class SettingsCMD implements CommandExecutor {
                 InfoManager.setValue("ignorecooldown", b);
                 InfoManager.setIgnoreCooldwon(b);
                 commandSender.sendMessage("Ignore Cooldown is now " + strings[1]);
+            }
+            case "debugMessengerChannel" -> {
+                boolean b;
+                if (strings[1].equals("enable")) {
+                    b = true;
+                } else if (strings[1].equals("disable")) {
+                    b = false;
+                } else {
+                    commandSender.sendMessage("§cInvalid args!");
+                    return false;
+                }
+                InfoManager.setValue("debugMessengerChannel", b);
+                commandSender.sendMessage("Debug Messenger Channel is now " + strings[1]);
             }
 
             default -> commandSender.sendMessage("§cThe setting: " + strings[0] + " does not exist.");

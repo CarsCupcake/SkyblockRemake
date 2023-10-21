@@ -171,6 +171,7 @@ public strictfp class Calculator {
         }
         if (SkyblockEntity.livingEntity.exists(e)) {
             SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
+            if (SkyblockEntity.isExtention(entity.getEntity())) entity = SkyblockEntity.getExtention(entity.getEntity()).owner();
             if (entity instanceof Defensive ed) {
                 double defense = ed.getDefense();
                 double ehp = entity.getMaxHealth() * (1 + (defense / 100));
@@ -279,8 +280,8 @@ public strictfp class Calculator {
         int newHealth;
         if (!SkyblockEntity.livingEntity.exists(e)) new BasicEntity(e);
         SkyblockEntity se = SkyblockEntity.livingEntity.getSbEntity(e);
+        if (SkyblockEntity.isExtention(e)) se = SkyblockEntity.getExtention(e).owner();
         if (se instanceof FinalDamageDesider desider) damage = desider.getFinalDamage(player, damage);
-
         se.damage(damage, SkyblockPlayer.getSkyblockPlayer(player));
         newHealth = se.getHealth();
 
@@ -339,12 +340,7 @@ public strictfp class Calculator {
 
 
         if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0)) {
-            if (player != null)
-                e.addScoreboardTag("killer:" + player.getName());
-            Main.EntityDeath(e);
-            e.damage(9999999, player);
-            if (e instanceof EnderDragon) e.setHealth(0);
-            SkyblockEntity.livingEntity.remove(e);
+            SkyblockEntity.killEntity(se, player);
             if (player != null)
                 if (projectile != null) {
                     e.addScoreboardTag("arrowkill:" + player.getName());

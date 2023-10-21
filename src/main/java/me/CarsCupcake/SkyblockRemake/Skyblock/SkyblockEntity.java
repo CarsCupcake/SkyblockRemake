@@ -26,9 +26,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class SkyblockEntity implements Elementable {
-    private static final HashMap<Entity, StandCoreExtention> coreExtentions = new HashMap<>();
+    protected static final HashMap<Entity, StandCoreExtention> coreExtentions = new HashMap<>();
     protected int health;
-    private final Set<StandCoreExtention> extentions = new HashSet<>();
+    protected final Set<StandCoreExtention> extentions = new HashSet<>();
 
     public SkyblockEntity() {
         health = getMaxHealth();
@@ -68,7 +68,7 @@ public abstract class SkyblockEntity implements Elementable {
     public void kill() {
         hasDoneDeath = true;
         EntityRunnable.remove(this);
-        removeExtention(this);
+        removeExtention();
     }
 
     public void damage(double damage, SkyblockPlayer player) {
@@ -143,7 +143,10 @@ public abstract class SkyblockEntity implements Elementable {
     public static void updateEntity(SkyblockEntity e) {
         LivingEntity entity = e.getEntity();
         if (Main.entitydead.containsKey(entity) && Main.entitydead.get(entity)) return;
-
+        if (coreExtentions.containsKey(e.getEntity())) {
+            if (coreExtentions.get(e.getEntity()).owner().hasDoneDeath) e.getEntity().remove();
+            return;
+        }
 
         int health;
         int maxhealth;
@@ -205,11 +208,14 @@ public abstract class SkyblockEntity implements Elementable {
         extention.owner().extentions.add(extention);
         coreExtentions.put(extention.entity(), extention);
     }
-    public static void removeExtention(SkyblockEntity e) {
-        e.extentions.forEach(extention -> extention.entity().remove());
+    private void removeExtention() {
+        extentions.forEach(extention -> extention.entity().remove());
     }
     @Nullable
     public static StandCoreExtention getExtention(Entity e) {
         return coreExtentions.get(e);
+    }
+    public static boolean isExtention(Entity e) {
+        return coreExtentions.containsKey(e);
     }
 }

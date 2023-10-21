@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.levelGetters;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ExtraInformations;
+import me.CarsCupcake.SkyblockRemake.configs.ExtraInformations;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsGetter;
 

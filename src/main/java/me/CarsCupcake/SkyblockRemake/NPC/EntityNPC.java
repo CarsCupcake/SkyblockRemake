@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.NPC;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import net.minecraft.world.entity.EntityLiving;
 import org.bukkit.Bukkit;

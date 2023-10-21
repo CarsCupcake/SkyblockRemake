@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Skills;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skill;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;

@@ -10,14 +10,15 @@ public class ThreadHalt {
 
     public void run() {
         runs++;
+        synchronized (read) {
+            read.notifyAll();
+        }
     }
 
     public void await() throws InterruptedException {
         synchronized (read) {
-            while (runs == 0) {
-                runs--;
-                read.wait();
-            }
+            if (runs != 0) runs--;
+            else read.wait();
         }
     }
 }

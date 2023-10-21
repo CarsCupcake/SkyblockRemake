@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.storage;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;

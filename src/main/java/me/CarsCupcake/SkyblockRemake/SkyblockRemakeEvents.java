@@ -51,7 +51,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 
-import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -63,7 +62,7 @@ import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Puzzler;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.utils.PacketReader;

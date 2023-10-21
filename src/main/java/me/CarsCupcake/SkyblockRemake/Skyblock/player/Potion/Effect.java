@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;

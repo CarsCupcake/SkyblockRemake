@@ -7,13 +7,13 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import net.minecraft.network.protocol.Packet;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-
+@SuppressWarnings("unused")
 public class InfoManager {
     private static boolean isClickCooldownEnabled;
     @Getter
@@ -48,7 +48,7 @@ public class InfoManager {
         ignoreCooldwon = getValue("ignorecooldown", false);
         needArrows= getValue("needArrows", false);
     }
-    public static boolean isBazaarEnabled(){
+    public static boolean isBazaarDisabled(){
         return getValue("bazaar", true);
     }
     public static void setBazaarEnabled(boolean b){
@@ -95,15 +95,12 @@ public class InfoManager {
             config.reload();
 
     }
+    @Getter
     public static class PacketLoggerFilter{
-        @Getter
         private boolean in = true;
-        @Getter
         private boolean out = true;
-        @Getter
         @Setter
         private String search;
-        @Getter
         private boolean detailed = false;
         @SneakyThrows
         private PacketLoggerFilter(){

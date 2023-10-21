@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Items.minions;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;

@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 
 public class PetMenuListener implements Listener {
 	@EventHandler

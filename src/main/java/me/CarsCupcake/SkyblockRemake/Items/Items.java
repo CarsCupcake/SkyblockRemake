@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.Items.requirements.SkillRequirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
+import me.CarsCupcake.SkyblockRemake.Slayer.spider.item.SpiderSlayerItems;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.TextTerminal;
@@ -26,8 +27,8 @@ import me.CarsCupcake.SkyblockRemake.isles.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRegistration.GiantsArmorSets;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.BlazeSlayerItems;
-import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
+import me.CarsCupcake.SkyblockRemake.Slayer.blaze.BlazeSlayerItems;
+import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanSlayerItems;
 import me.CarsCupcake.SkyblockRemake.isles.WinterIsle.WinterItems;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
 import org.bukkit.*;
@@ -476,6 +477,7 @@ public class Items {
         manager = new ItemManager("Crystal Fragment", "CRYSTAL_FRAGMENT", ItemType.Non, Material.QUARTZ, ItemRarity.EPIC);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         manager.setNpcSellPrice(500);
+        SpiderSlayerItems.init();
     }
 
     private static void racingHelmet() {

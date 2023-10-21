@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
 
+@Getter
 public abstract class Slayer extends SkyblockEntity {
     private static final HashMap<SkyblockPlayer, Slayer> slayers = new HashMap<>();
     protected final SkyblockPlayer owner;
@@ -24,10 +25,6 @@ public abstract class Slayer extends SkyblockEntity {
         SkyblockEntity.livingEntity.addEntity(slayer.getEntity(), slayer);
     }
 
-    public SkyblockPlayer getOwner() {
-        return owner;
-    }
-
     public static Slayer getSlayer(SkyblockPlayer player) {
         return slayers.get(player);
     }
@@ -38,17 +35,16 @@ public abstract class Slayer extends SkyblockEntity {
 
     public abstract LivingEntity getEntity();
 
-    public abstract void setHealth(int i);
-
     public abstract int getDamage();
 
     public abstract void spawn(Location loc);
 
     public abstract String getName();
 
-    public abstract HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player);
-
-    public abstract void updateNameTag();
+    public void updateNameTag() {
+        getEntity().setCustomName(getBaseName(this));
+        getEntity().setCustomNameVisible(true);
+    }
 
     @Override
     @OverridingMethodsMustInvokeSuper
@@ -58,9 +54,13 @@ public abstract class Slayer extends SkyblockEntity {
             slayers.remove(owner);
     }
 
-    public abstract boolean hasNoKB();
+    public boolean hasNoKB() {
+        return false;
+    }
 
-    public abstract int getTrueDamage();
+    public int getTrueDamage() {
+        return 0;
+    }
 
     public static String getBaseName(Slayer slayer) {
         return "§c" + Character.toChars(9760)[0] + " §b" + slayer.getName()

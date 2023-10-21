@@ -38,8 +38,8 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryInventory;
-import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.AccessoryBag;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuInv;
 

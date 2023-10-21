@@ -4,7 +4,7 @@ import kotlin.Triple;
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

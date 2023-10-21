@@ -10,6 +10,7 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.requirements.Requirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
@@ -264,6 +265,9 @@ public class ItemManager implements ItemGenerator {
 
     public EquipmentAbility getEquipmentAbility() {
         return startStopAbility;
+    }
+    public void setGlint() {
+        addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
     }
 
     public void setRodType(RodType type) {

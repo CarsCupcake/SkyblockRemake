@@ -23,12 +23,13 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.hex.Hex;
+import me.CarsCupcake.SkyblockRemake.Slayer.spider.entity.SpiderListener;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.TablistBuilder;
 import me.CarsCupcake.SkyblockRemake.isles.AuctionHouse.AuctionHouse;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarListener;
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.BazaarManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
-import me.CarsCupcake.SkyblockRemake.Configs.*;
+import me.CarsCupcake.SkyblockRemake.configs.*;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.SkyblockRecipe;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase1;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
@@ -189,26 +190,25 @@ public class Main extends JavaPlugin {
             }
         }.runTaskTimer(this, 1L, 12000L);
         Time t = new Time();
-        if (checkIfBungee()){
+        if (checkIfBungee()) {
             try {
                 messenger = new ServerMessenger(Integer.parseInt(String.valueOf(getServer().getPort()).substring(String.valueOf(getServer().getPort()).length() - 3)));
                 messenger.sendBufferedMessage("add:" + ServerType.getActiveType().s);
                 debug.debug("Enabeling messenger channel", false);
                 messenger.registerListener(s -> {
-                    debug.debug("Recieved Message: " + s);
+                    if (InfoManager.getValue("debugMessengerChannel", false)) debug.debug("Recieved Message: " + s);
                 });
                 messenger.registerListener(s -> {
                     if (s.startsWith("datapath:")) {
-                        String[] split = s.split(":");
-                        StringBuilder builder = new StringBuilder();
-                        for (int i = 1; i < split.length; i++)
-                            builder.append(split[i]);
-                        config.set("SkyblockDataPath", builder.toString());
+                        String[] split = s.split(":", 2);
+                        config.set("SkyblockDataPath", split[1]);
+                        debug.debug("Set Datapath to " + split[1]);
+                        saveConfig();
                     }
-                    if(s.startsWith("time:")){
+                    if (s.startsWith("time:")) {
                         Time.getInstance().deserialize(s.split(":")[1]);
                     }
-                    if(s.startsWith("season:")){
+                    if (s.startsWith("season:")) {
                         Time.getInstance().setSeason(Integer.parseInt(s.split(":")[1]));
                     }
                 });
@@ -219,7 +219,8 @@ public class Main extends JavaPlugin {
                     writer.flush();
                     socket.close();
                     writer.close();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 debug.debug("Enabeling messenger channel failed!");
@@ -391,8 +392,6 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new OpenMenu(), this);
         this.getServer().getPluginManager().registerEvents(new SkyblockScoreboard(), this);
         this.getServer().getPluginManager().registerEvents(new PetMenuListener(), this);
-
-        // Terminal Listeners
         this.getServer().getPluginManager().registerEvents(new maze(), this);
         this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
         this.getServer().getPluginManager().registerEvents(new GemstoneGrinder(), this);
@@ -409,9 +408,6 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new BazaarListener(), this);
         this.getServer().getPluginManager().registerEvents(new GUIListener(), this);
         this.getServer().getPluginManager().registerEvents(new NPCEventHandler(), this);
-
-
-        // Item Abilities
         this.getServer().getPluginManager().registerEvents(new BonemerangAbility(), this);
         this.getServer().getPluginManager().registerEvents(new CannonBalls(), this);
         this.getServer().getPluginManager().registerEvents(new JerryStaffAbility(), this);
@@ -419,6 +415,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new ReleaseThePainListener(), this);
         this.getServer().getPluginManager().registerEvents(new ICBMDeployableListener(), this);
         this.getServer().getPluginManager().registerEvents(new AuctionHouse(), this);
+        this.getServer().getPluginManager().registerEvents(new SpiderListener(), this);
         this.getServer().getPluginManager().registerEvents(new ExtraDamageAbility() {
             @Override
             public void extraDamageEvent(SkyblockDamageEvent event) {
@@ -666,13 +663,12 @@ public class Main extends JavaPlugin {
         messenger.remove();
         ConfigFile.thread.finish();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (ServerType.getActiveType() == ServerType.PrivateIsle)
-                try {
-                    PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
-                    PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (ServerType.getActiveType() == ServerType.PrivateIsle) try {
+                PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
+                PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
             p.saveCommissionProgress();
             saveCoins(player);
@@ -1748,8 +1744,8 @@ public class Main extends JavaPlugin {
         }
 
     }
-    public boolean checkIfBungee()
-    {
+
+    public boolean checkIfBungee() {
         return getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean("bungeecord");
     }
 }

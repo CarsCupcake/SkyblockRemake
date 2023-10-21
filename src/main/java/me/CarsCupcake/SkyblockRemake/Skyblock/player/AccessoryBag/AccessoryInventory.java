@@ -17,7 +17,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
+import me.CarsCupcake.SkyblockRemake.configs.AccessoryBag;
 
 public class AccessoryInventory {
  public	ArrayList<Inventory> invs = new ArrayList<>();

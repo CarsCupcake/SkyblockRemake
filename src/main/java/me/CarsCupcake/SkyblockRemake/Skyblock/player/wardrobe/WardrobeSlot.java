@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.wardrobe;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;

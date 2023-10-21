@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
 import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Main;

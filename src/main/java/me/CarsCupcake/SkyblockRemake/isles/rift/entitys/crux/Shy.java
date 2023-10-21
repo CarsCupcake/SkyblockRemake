@@ -63,6 +63,7 @@ public class Shy extends Crux implements FinalDamageDesider {
             armorStand.setRemoveWhenFarAway(false);
         });
         SkyblockEntity.addExtention(new StandCoreExtention(stand, this));
+
         SkyblockEntity.livingEntity.addEntity(entity, this);
         new EntityRunnable() {
             @Override

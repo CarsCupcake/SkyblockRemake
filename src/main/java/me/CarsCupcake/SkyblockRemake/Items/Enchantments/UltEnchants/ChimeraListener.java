@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import org.bukkit.event.EventHandler;

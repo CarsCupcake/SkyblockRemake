@@ -21,6 +21,7 @@ public class ServerMessenger extends Thread {
     public ServerMessenger(int port) throws IOException {
         Main.getDebug().debug("Connecting to port " + port);
         serverSocket = new ServerSocket(port);
+        setName("Messenger Channel");
         start();
 
     }
@@ -81,6 +82,7 @@ public class ServerMessenger extends Thread {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+            setName("Bungee Conection");
         }
 
         @Override

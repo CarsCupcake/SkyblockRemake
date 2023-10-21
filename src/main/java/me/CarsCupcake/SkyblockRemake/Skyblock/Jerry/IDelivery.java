@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.Jerry;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliveries.CoinsDelivery;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Jerry.Deliveries.ItemDelivery;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

@@ -14,7 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.Configs.MiningSystem;
+import me.CarsCupcake.SkyblockRemake.configs.MiningSystem;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 
 public class CommissionInv {

@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.privateIsle;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;

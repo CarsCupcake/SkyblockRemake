@@ -9,7 +9,7 @@ import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Configs.PetMenus;
+import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 
 public class PetFollowRunner {
 	private BukkitRunnable run;

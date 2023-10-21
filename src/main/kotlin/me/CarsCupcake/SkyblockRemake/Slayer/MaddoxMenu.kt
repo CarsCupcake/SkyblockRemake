@@ -4,17 +4,18 @@ import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T1.BlazeSlayerT1
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T2.BlazeSlayerT2
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T3.BlazeSlayerT3
-import me.CarsCupcake.SkyblockRemake.Slayer.Blaze.Entities.T4.BlazeSlayerT4
-import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT1
-import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanT4
-import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT1
-import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT2
-import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT3
-import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT4
-import me.CarsCupcake.SkyblockRemake.Slayer.Zombie.ZombieT5
+import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T1.BlazeSlayerT1
+import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T2.BlazeSlayerT2
+import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T3.BlazeSlayerT3
+import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T4.BlazeSlayerT4
+import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT1
+import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT4
+import me.CarsCupcake.SkyblockRemake.Slayer.spider.entity.*
+import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT1
+import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT2
+import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT3
+import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT4
+import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT5
 import me.CarsCupcake.SkyblockRemake.utils.Assert
 import me.CarsCupcake.SkyblockRemake.utils.CoinUtils
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.*
@@ -31,8 +32,8 @@ object MaddoxMenu {
                 .setName("§c☠ §eRevenant Horror")
                 .addAllLore(listOf("§7Abhorrent Zombie stuck", "§7between life and death for", "§7an eternity."))
                 .build(), 10)
-            .setItem(ItemBuilder(Material.COAL_BLOCK)
-                .setName("§cComming Soon!")
+            .setItem(ItemBuilder(Material.COBWEB)
+                .setName("§c☠ §eTarantula Broodfather")
                 .build(), 11)
             .setItem(ItemBuilder(Material.COAL_BLOCK)
                 .setName("§cComming Soon!")
@@ -51,6 +52,14 @@ object MaddoxMenu {
             val g = GUI(
                 SlayerTemplate("§eRevenant Horror", Material.ROTTEN_FLESH, 5, listOf(
                     ZombieT1(player), ZombieT2(player), ZombieT3(player), ZombieT4(player), ZombieT5(player)
+                ), gui, player)
+            )
+            g.showGUI(player)
+        }
+        gui.inventoryClickAction(11) {
+            val g = GUI(
+                SlayerTemplate("§eTarantula Broodfather", Material.COBWEB, 4, listOf(
+                    SpiderSlayerT1(player), SpiderSlayerT2(player), SpiderSlayerT3(player), SpiderSlayerT4(player)
                 ), gui, player)
             )
             g.showGUI(player)
@@ -152,13 +161,13 @@ object MaddoxMenu {
                 48 to GUIAction{ gui.showGUI(player) },
                 49 to GUIAction{ gui.closeInventory() },
                 10 to GUIAction {
-                    if(CoinUtils.spendIfEnouth(player, 2000.0)) slayers[0]?.spawn(player.location)},
-                11 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 7500.0)) slayers[1]?.spawn(player.location) },
-                12 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 50000.0)) slayers[2]?.spawn(player.location) },
-                13 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 100000.0)) slayers[3]?.spawn(player.location) }
+                    if(CoinUtils.spendIfEnouth(player, 2000.0)) Slayer.summonSlayer(player.location, slayers[0])},
+                11 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 7500.0)) Slayer.summonSlayer(player.location, slayers[1]) },
+                12 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 50000.0)) Slayer.summonSlayer(player.location, slayers[2]) },
+                13 to GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else if(CoinUtils.spendIfEnouth(player, 100000.0)) Slayer.summonSlayer(player.location, slayers[3]) }
                 ).also {
                     if(levels == 5)
-                        it[14] = GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else slayers[4]?.spawn(player.location) }
+                        it[14] = GUIAction { if(Slayer.getSlayer(player) != null) player.sendMessage("§cA Slayer already spawned!") else Slayer.summonSlayer(player.location, slayers[4]) }
             }
         }
         override fun isCanceled():Boolean{

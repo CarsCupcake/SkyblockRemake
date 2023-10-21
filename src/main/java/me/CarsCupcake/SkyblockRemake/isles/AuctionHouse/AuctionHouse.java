@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.AuctionHouse;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
 import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;

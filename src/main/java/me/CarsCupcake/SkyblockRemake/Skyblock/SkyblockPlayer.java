@@ -11,7 +11,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
-import me.CarsCupcake.SkyblockRemake.Configs.*;
+import me.CarsCupcake.SkyblockRemake.configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;

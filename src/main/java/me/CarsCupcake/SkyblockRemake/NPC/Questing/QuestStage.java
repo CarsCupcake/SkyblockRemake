@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.NPC.Questing;
 
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 @SuppressWarnings("unused")
 public class QuestStage {

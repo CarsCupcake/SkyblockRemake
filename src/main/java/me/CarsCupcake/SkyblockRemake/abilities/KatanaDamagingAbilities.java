@@ -3,7 +3,7 @@ package me.CarsCupcake.SkyblockRemake.abilities;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Slayer.Enderman.EndermanSlayerItems;
+import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanSlayerItems;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Enderman;
 import org.bukkit.event.EventHandler;

@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.Configs.EquipmentFile;
+import me.CarsCupcake.SkyblockRemake.configs.EquipmentFile;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityListener;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;

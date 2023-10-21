@@ -1,7 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
 import lombok.Getter;
-import me.CarsCupcake.SkyblockRemake.Configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
 import org.bukkit.Bukkit;

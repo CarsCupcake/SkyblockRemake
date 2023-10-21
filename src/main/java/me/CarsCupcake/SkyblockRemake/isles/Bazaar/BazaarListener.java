@@ -32,7 +32,7 @@ public class BazaarListener implements Listener {
     public void onNpcInteract(RightClickNPC event){
         final SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if(event.getNPC().getName().equalsIgnoreCase("Bazaar")){
-            if(!InfoManager.isBazaarEnabled()){
+            if(InfoManager.isBazaarDisabled()){
                 player.sendMessage("§cBazaar is temporarily disabled!");
                 return;
             }
@@ -85,7 +85,7 @@ public class BazaarListener implements Listener {
     }
     public static void openBazzar(SkyblockPlayer player){
 
-        if(!InfoManager.isBazaarEnabled()){
+        if(InfoManager.isBazaarDisabled()){
             player.sendMessage("§cBazaar is temporarily disabled!");
             return;
         }

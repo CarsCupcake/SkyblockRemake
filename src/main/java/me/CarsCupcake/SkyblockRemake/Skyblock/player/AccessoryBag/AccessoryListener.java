@@ -15,7 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Configs.AccessoryBag;
+import me.CarsCupcake.SkyblockRemake.configs.AccessoryBag;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import org.bukkit.scheduler.BukkitRunnable;

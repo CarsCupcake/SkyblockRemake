@@ -20,7 +20,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-
+@SuppressWarnings("unused")
 public class CustomItemsManager {
     private final String id;
     @Getter
