@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Bazaar.Offers.Oddities.Recombobulator
 import me.CarsCupcake.SkyblockRemake.isles.Bazaar.Offers.Oddities.StockOfStonk;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
@@ -32,7 +32,7 @@ public class BazaarListener implements Listener {
     public void onNpcInteract(RightClickNPC event){
         final SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         if(event.getNPC().getName().equalsIgnoreCase("Bazaar")){
-            if(InfoManager.isBazaarDisabled()){
+            if(ServerSettings.isBazaarDisabled()){
                 player.sendMessage("§cBazaar is temporarily disabled!");
                 return;
             }
@@ -85,7 +85,7 @@ public class BazaarListener implements Listener {
     }
     public static void openBazzar(SkyblockPlayer player){
 
-        if(InfoManager.isBazaarDisabled()){
+        if(ServerSettings.isBazaarDisabled()){
             player.sendMessage("§cBazaar is temporarily disabled!");
             return;
         }

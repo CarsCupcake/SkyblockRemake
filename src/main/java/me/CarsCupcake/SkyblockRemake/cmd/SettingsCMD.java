@@ -2,7 +2,7 @@ package me.CarsCupcake.SkyblockRemake.cmd;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.cmd.enhancedCommand.CommandArgument;
 import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import org.bukkit.command.Command;
@@ -37,7 +37,7 @@ public class SettingsCMD implements CommandExecutor {
 
                 }
 
-                InfoManager.setBazaarEnabled(b);
+                ServerSettings.setBazaarEnabled(b);
                 if (b) commandSender.sendMessage("§eBazzar is now enabled!");
                 else commandSender.sendMessage("§eBazzar is now disabled!");
 
@@ -56,7 +56,7 @@ public class SettingsCMD implements CommandExecutor {
 
                 }
 
-                InfoManager.setAhEnabled(b);
+                ServerSettings.setAhEnabled(b);
                 if (b) commandSender.sendMessage("§aAh is now enabled!");
                 else commandSender.sendMessage("§cAh is now disabled!");
 
@@ -89,7 +89,7 @@ public class SettingsCMD implements CommandExecutor {
                     return false;
 
                 }
-                InfoManager.setClickCooldownEnabled(b);
+                ServerSettings.setClickCooldownEnabled(b);
             }
             case "setDataPath" -> {
                 if (!commandSender.isOp()) return false;
@@ -113,7 +113,7 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setValue("debug", b);
+                ServerSettings.setValue("debug", b);
                 commandSender.sendMessage("Debuging is now " + strings[1]);
                 DebugLogger.setDebug(b);
             }
@@ -127,8 +127,8 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setValue("miningfatuige", b);
-                InfoManager.setMiningFatuigeEnable(b);
+                ServerSettings.setValue("miningfatuige", b);
+                ServerSettings.setMiningFatuigeEnable(b);
                 commandSender.sendMessage("Mining Fatuige is now " + strings[1]);
             }
             case "movementlag" -> {
@@ -141,8 +141,8 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setValue("movementlag", b);
-                InfoManager.setMovementLag(b);
+                ServerSettings.setValue("movementlag", b);
+                ServerSettings.setMovementLag(b);
                 commandSender.sendMessage("Movement Lag is now " + strings[1] + " " + ((b) ? "the value is around 200ms" : ""));
             }
             case "packetlog" -> {
@@ -153,17 +153,17 @@ public class SettingsCMD implements CommandExecutor {
                     b = false;
                 } else {
                     switch (strings[1]){
-                        case "in" -> InfoManager.getPacketLogFilter().toggleIn();
-                        case "out" -> InfoManager.getPacketLogFilter().toggleOut();
-                        case "name" -> InfoManager.getPacketLogFilter().setSearch((strings.length >= 3) ? strings[2] : null);
-                        case "reset" -> InfoManager.getPacketLogFilter().reset();
-                        case "toggledetailed" -> InfoManager.getPacketLogFilter().detailed();
+                        case "in" -> ServerSettings.getPacketLogFilter().toggleIn();
+                        case "out" -> ServerSettings.getPacketLogFilter().toggleOut();
+                        case "name" -> ServerSettings.getPacketLogFilter().setSearch((strings.length >= 3) ? strings[2] : null);
+                        case "reset" -> ServerSettings.getPacketLogFilter().reset();
+                        case "toggledetailed" -> ServerSettings.getPacketLogFilter().detailed();
                         default -> commandSender.sendMessage("§cInvalid args!");
                     }
                     return false;
                 }
-                InfoManager.setValue("packetlog", b);
-                InfoManager.setPacketLog(b);
+                ServerSettings.setValue("packetlog", b);
+                ServerSettings.setPacketLog(b);
                 commandSender.sendMessage("Packet Log is now " + strings[1]);
             }
             case "lag" -> {
@@ -176,8 +176,8 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("Wrong arg");
                     return true;
                 }
-                InfoManager.setValue("lag", b);
-                InfoManager.setLag(b);
+                ServerSettings.setValue("lag", b);
+                ServerSettings.setLag(b);
                 commandSender.sendMessage("lag is now " + strings[1]);
             }
             case "ignorecooldown" -> {
@@ -190,8 +190,8 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setValue("ignorecooldown", b);
-                InfoManager.setIgnoreCooldwon(b);
+                ServerSettings.setValue("ignorecooldown", b);
+                ServerSettings.setIgnoreCooldown(b);
                 commandSender.sendMessage("Ignore Cooldown is now " + strings[1]);
             }
             case "debugMessengerChannel" -> {
@@ -204,7 +204,7 @@ public class SettingsCMD implements CommandExecutor {
                     commandSender.sendMessage("§cInvalid args!");
                     return false;
                 }
-                InfoManager.setValue("debugMessengerChannel", b);
+                ServerSettings.setValue("debugMessengerChannel", b);
                 commandSender.sendMessage("Debug Messenger Channel is now " + strings[1]);
             }
 

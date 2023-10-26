@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public abstract class Slayer extends SkyblockEntity {
 
     public abstract int getDamage();
 
-    public abstract void spawn(Location loc);
+    public abstract void spawn(@NotNull Location loc);
 
     public abstract String getName();
 

@@ -8,7 +8,7 @@ import java.util.List;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -97,7 +97,7 @@ public interface AbilityManager<T extends Event> {
     }
 
     static boolean precheck(Ability ability, SkyblockPlayer player, ItemManager manager, Action action) {
-        if (!InfoManager.isIgnoreCooldwon())
+        if (!ServerSettings.isIgnoreCooldown())
             if (!allowToFire(player, ability.getAbilityManager().getClass(), ability.getType())) {
                 if (!ability.getAbilityManager().hideCooldown())
                     player.sendMessage("§cOn cooldown!");

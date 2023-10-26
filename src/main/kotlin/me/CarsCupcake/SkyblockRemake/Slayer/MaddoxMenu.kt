@@ -11,6 +11,10 @@ import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T4.BlazeSlayerT4
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT1
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT4
 import me.CarsCupcake.SkyblockRemake.Slayer.spider.entity.*
+import me.CarsCupcake.SkyblockRemake.Slayer.sven.entity.SvenSlayerT1
+import me.CarsCupcake.SkyblockRemake.Slayer.sven.entity.SvenSlayerT2
+import me.CarsCupcake.SkyblockRemake.Slayer.sven.entity.SvenSlayerT3
+import me.CarsCupcake.SkyblockRemake.Slayer.sven.entity.SvenSlayerT4
 import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT1
 import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT2
 import me.CarsCupcake.SkyblockRemake.Slayer.zombie.ZombieT3
@@ -35,8 +39,8 @@ object MaddoxMenu {
             .setItem(ItemBuilder(Material.COBWEB)
                 .setName("§c☠ §eTarantula Broodfather")
                 .build(), 11)
-            .setItem(ItemBuilder(Material.COAL_BLOCK)
-                .setName("§cComming Soon!")
+            .setItem(ItemBuilder(Material.MUTTON)
+                .setName("§c☠ §eSven Packmaster")
                 .build(), 12)
             .setItem(ItemBuilder(Material.ENDER_PEARL)
                 .setName("§eVoidgloom Seraph")
@@ -60,6 +64,15 @@ object MaddoxMenu {
             val g = GUI(
                 SlayerTemplate("§eTarantula Broodfather", Material.COBWEB, 4, listOf(
                     SpiderSlayerT1(player), SpiderSlayerT2(player), SpiderSlayerT3(player), SpiderSlayerT4(player)
+                ), gui, player)
+            )
+            g.showGUI(player)
+        }
+        gui.inventoryClickAction(13
+        ) {
+            val g = GUI(
+                SlayerTemplate("§eSven Packmaster", Material.MUTTON, 4, listOf(
+                    SvenSlayerT1(player), SvenSlayerT2(player), SvenSlayerT3(player), SvenSlayerT4(player)
                 ), gui, player)
             )
             g.showGUI(player)

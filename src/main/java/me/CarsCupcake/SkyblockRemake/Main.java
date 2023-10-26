@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
+import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
@@ -40,7 +41,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Potion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionCommand;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
 import me.CarsCupcake.SkyblockRemake.cmd.*;
@@ -115,12 +116,14 @@ import javax.annotation.Nullable;
 
 public class Main extends JavaPlugin {
     public static String VERSION = "0.0.0";
+    @Getter
     private static Main Main;
+    @Getter
     private BukkitRunnable runnable;
     private BukkitRunnable statrunnable;
+    @Getter
     public int time;
     public static DataManager data;
-    public static boolean soulchallengeacctive;
     public FileConfiguration config = getConfig();
 
     public static boolean isLocalHost = true;
@@ -165,19 +168,19 @@ public class Main extends JavaPlugin {
         new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
 
         if (SkyblockServer.getServer().type() == null) return;
-        new InfoManager();
+        new ServerSettings();
         SpigotConfig.movedWronglyThreshold = 6;
         try {
-            DebugLogger.debug = InfoManager.getValue("debug", false);
+            DebugLogger.debug = ServerSettings.getValue("debug", false);
             debug = new DebugLogger("");
             debug.debug("Debug Logging enabled!");
         } catch (Exception e) {
             System.out.println("An error occuret why enabeling the debug logger:");
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         debug.debug("Set Server type", false);
         new BukkitRunnable() {
-            CustomLogger logger = new CustomLogger("Cleanup Task");
+            final CustomLogger logger = new CustomLogger("Cleanup Task");
 
             @Override
             public void run() {
@@ -196,7 +199,7 @@ public class Main extends JavaPlugin {
                 messenger.sendBufferedMessage("add:" + ServerType.getActiveType().s);
                 debug.debug("Enabeling messenger channel", false);
                 messenger.registerListener(s -> {
-                    if (InfoManager.getValue("debugMessengerChannel", false)) debug.debug("Recieved Message: " + s);
+                    if (ServerSettings.getValue("debugMessengerChannel", false)) debug.debug("Recieved Message: " + s);
                 });
                 messenger.registerListener(s -> {
                     if (s.startsWith("datapath:")) {
@@ -222,7 +225,7 @@ public class Main extends JavaPlugin {
                 } catch (Exception ignored) {
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
                 debug.debug("Enabeling messenger channel failed!");
             }
         } else t.runTaskTimer(getMain(), 1, 1);
@@ -240,9 +243,9 @@ public class Main extends JavaPlugin {
         try {
             SkyblockEnchants.register();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
-        getCommand("fixenchants").setExecutor((commandSender, command, s, strings) -> {
+        Objects.requireNonNull(getCommand("fixenchants")).setExecutor((commandSender, command, s, strings) -> {
             SkyblockEnchants.unregister();
             SkyblockEnchants.register();
             return false;
@@ -454,7 +457,7 @@ public class Main extends JavaPlugin {
         try {
             BasicEntity.initAllLootTables();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             debug.debug("Loading Loot tables failed");
         }
         debug.debug("Done!", false);
@@ -478,7 +481,7 @@ public class Main extends JavaPlugin {
             shortbow_cd.put(player, false);
             termhits.put(player, 0);
 
-            if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
+            if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !Objects.requireNonNull(PetMenus.get().getConfigurationSection(player.getUniqueId().toString())).getKeys(false).contains("equiped")) {
                 PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
                 PetMenus.save();
                 PetMenus.reload();
@@ -506,7 +509,7 @@ public class Main extends JavaPlugin {
     }
 
     public static void initAccessoryBag(Player player) {
-        if (AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString()) == null || !AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("slots")) {
+        if (AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString()) == null || !Objects.requireNonNull(AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString())).getKeys(false).contains("slots")) {
             AccessoryBag.get().set(player.getUniqueId() + ".slots", 0);
             AccessoryBag.save();
             AccessoryBag.reload();
@@ -524,10 +527,10 @@ public class Main extends JavaPlugin {
                 if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
                 int magicalpower = 0;
                 switch (rarity) {
-                    case COMMON:
+                    case COMMON, SPECIAL:
                         magicalpower = 3;
                         break;
-                    case DIVINE:
+                    case DIVINE, MYTHIC:
                         magicalpower = 22;
                         break;
                     case EPIC:
@@ -536,25 +539,10 @@ public class Main extends JavaPlugin {
                     case LEGENDARY:
                         magicalpower = 16;
                         break;
-                    case MYTHIC:
-                        magicalpower = 22;
-                        break;
                     case RARE:
                         magicalpower = 8;
                         break;
-                    case SPECIAL:
-                        magicalpower = 3;
-                        break;
-                    case SUPREME:
-                        magicalpower = 5;
-                        break;
-                    case UNCOMMON:
-                        magicalpower = 5;
-                        break;
-                    case UNDEFINED:
-                        magicalpower = 0;
-                        break;
-                    case VERY_SPECIAL:
+                    case SUPREME, VERY_SPECIAL, UNCOMMON:
                         magicalpower = 5;
                         break;
                     default:
@@ -570,6 +558,7 @@ public class Main extends JavaPlugin {
     }
 
     public static void calculateMagicalPower(Player player) {
+        //TODO: Update!
         int slots = AccessoryBag.get().getInt(player.getUniqueId() + ".slots");
         int totmagpow = 0;
         if (slots != 0) {
@@ -583,10 +572,10 @@ public class Main extends JavaPlugin {
                 if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
                 int magicalpower = 0;
                 switch (rarity) {
-                    case COMMON:
+                    case COMMON, SPECIAL:
                         magicalpower = 3;
                         break;
-                    case DIVINE:
+                    case DIVINE, MYTHIC:
                         magicalpower = 22;
                         break;
                     case EPIC:
@@ -595,25 +584,10 @@ public class Main extends JavaPlugin {
                     case LEGENDARY:
                         magicalpower = 16;
                         break;
-                    case MYTHIC:
-                        magicalpower = 22;
-                        break;
                     case RARE:
                         magicalpower = 8;
                         break;
-                    case SPECIAL:
-                        magicalpower = 3;
-                        break;
-                    case SUPREME:
-                        magicalpower = 5;
-                        break;
-                    case UNCOMMON:
-                        magicalpower = 5;
-                        break;
-                    case UNDEFINED:
-                        magicalpower = 0;
-                        break;
-                    case VERY_SPECIAL:
+                    case SUPREME, VERY_SPECIAL, UNCOMMON:
                         magicalpower = 5;
                         break;
                     default:
@@ -667,7 +641,7 @@ public class Main extends JavaPlugin {
                 PrivateIsle.isles.get(SkyblockPlayer.getSkyblockPlayer(player)).remove();
                 PrivateIsle.isles.remove(SkyblockPlayer.getSkyblockPlayer(player));
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
             p.saveCommissionProgress();
@@ -678,12 +652,12 @@ public class Main extends JavaPlugin {
                 PacketReader reader = new PacketReader(player);
                 reader.uninject(player);
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             try {
                 SkyblockPlayer.getSkyblockPlayer(player).saveInventory();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(System.err);
             }
             p.unregister();
             for (EntityPlayer npc : NPC.getNPCs())
@@ -699,7 +673,7 @@ public class Main extends JavaPlugin {
                 if (entity instanceof LivingEntity e && !(entity instanceof ArmorStand) && !(entity instanceof Player)) {
                     entity.remove();
                     if (SkyblockEntity.livingEntity.exists(e)) try {
-                        SkyblockEntity.livingEntity.getSbEntity(e).kill();
+                        Objects.requireNonNull(SkyblockEntity.livingEntity.getSbEntity(e)).kill();
                     } catch (Exception ignored) {
                     }
                 }
@@ -716,23 +690,10 @@ public class Main extends JavaPlugin {
         if (DwarvenEvent.ActiveEvent != null) DwarvenEvent.ActiveEvent.cancleEvent();
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
-        try {
-            if (config.getBoolean("bungeeCordTime")) {
-                try {
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-
-        }
-
 
         for (Titanium tit : SkyblockRemakeEvents.TitaniumObject.values()) {
             tit.resetTitaniumBlock();
         }
-
-
         for (Player player : Bukkit.getOnlinePlayers()) {
             SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
             TabListManager.managers.get(p).removePlayers();
@@ -756,16 +717,14 @@ public class Main extends JavaPlugin {
         }
         if (F7Phase1.instance != null) F7Phase1.instance.removeAll();
 
-        if (!dinnerboneNametags.isEmpty()) dinnerboneNametags.values().forEach(stand -> {
-            stand.remove();
-        });
+        if (!dinnerboneNametags.isEmpty()) dinnerboneNametags.values().forEach(Entity::remove);
         CanonObject.removeAll();
         ABILITIES.disable();
         try {
 
             Tentacles.removeAllTentakle();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
@@ -861,10 +820,10 @@ public class Main extends JavaPlugin {
                     absorbtionrunntime.replace(player, absorbtionrunntime.get(player) - 1);
 
                     if (absorbtionrunntime.get(player) <= 0) {
-                        double health = Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health);
-                        if (absorbtion.get(player) + p.currhealth > health) p.setHealth(health);
+                        double health = getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health);
+                        if (absorbtion.get(player) + p.currhealth > health) p.setHealth(health, HealthChangeReason.Ability);
                         else {
-                            p.setHealth((absorbtion.get(player) + p.currhealth) * p.healingMulti);
+                            p.setHealth((absorbtion.get(player) + p.currhealth) * p.healingMulti, HealthChangeReason.Ability);
                         }
                         absorbtion.replace(player, 0);
 
@@ -890,14 +849,14 @@ public class Main extends JavaPlugin {
 
                 Bukkit.getOnlinePlayers().forEach(p -> {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
-                    if (ServerType.getActiveType() != ServerType.PrivateIsle && InfoManager.isMiningFatuigeEnable())
+                    if (ServerType.getActiveType() != ServerType.PrivateIsle && ServerSettings.isMiningFatuigeEnable())
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 25, -1, false, false, false));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 30, 255, false, false, false));
                     if (!deathPersons.contains(player)) {
 
                         player.setSaturation(100);
                         // mana regen
-                        double mana = Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
+                        double mana = getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
                         if (player.currmana < mana) {
                             int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
                             int finalmana = manaadd + player.currmana;
@@ -910,7 +869,7 @@ public class Main extends JavaPlugin {
 
                         // health regen
                         if (ServerType.getActiveType() != ServerType.Rift) {
-                            double health = Main.getPlayerStat(player, Stats.Health);
+                            double health = getPlayerStat(player, Stats.Health);
                             if (player.currhealth < health) {
                                 int healthadd = (int) (health * 0.015);
                                 int finalhealth = (int) (player.currhealth + (healthadd * player.healingMulti));
@@ -919,10 +878,10 @@ public class Main extends JavaPlugin {
 
                             }
                             if (player.currhealth > health) {
-                                player.setHealth(health);
+                                player.setHealth(health, HealthChangeReason.Regenerate);
                             }
                         } else player.setMaxHealth(2 * getPlayerStat(player, Stats.Hearts));
-                        float speedpersentage = (float) Main.getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed : Stats.Speed)) / 100;
+                        float speedpersentage = (float) getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed : Stats.Speed)) / 100;
                         if (speedpersentage > 5) speedpersentage = 5;
                         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
                         SkyblockScoreboard.updateScoreboard(player);
@@ -955,10 +914,11 @@ public class Main extends JavaPlugin {
         }
         if (player.currhealth <= 0) {
             deathPersons.add(player);
+            assert player.getPlayer() != null;
             player.getPlayer().setHealth(0);
             player.kill();
         }
-        double maxhealth = Main.getPlayerStat(player, Stats.Health);
+        double maxhealth = getPlayerStat(player, Stats.Health);
         if (maxhealth < 125) {
             player.setMaxHealth(20);
         } else if (maxhealth < 165) {
@@ -1009,7 +969,7 @@ public class Main extends JavaPlugin {
                 player.setAbsorptionAmount(18);
             } else if (abs < 1250) {
                 player.setAbsorptionAmount(20);
-            } else if (abs >= 1250) {
+            } else {
                 player.setAbsorptionAmount(22);
             }
         } else {
@@ -1027,6 +987,7 @@ public class Main extends JavaPlugin {
 
         if (estimated < 0) estimated = 0;
         if (estimated > player.getMaxHealth()) estimated = (float) player.getMaxHealth();
+        assert player.getPlayer() != null;
         player.getPlayer().setHealth(estimated);
 
         String stackMsg = "";
@@ -1072,9 +1033,9 @@ public class Main extends JavaPlugin {
             afterManaString = "    " + StaticCharge.getPlayerDisplay(player);
         }
 
-        health = Main.getPlayerStat(player, Stats.Health);
-        double defense = Main.getPlayerStat(player, Stats.Defense);
-        double mana = Main.getPlayerStat(player, Stats.Inteligence);
+        health = getPlayerStat(player, Stats.Health);
+        double defense = getPlayerStat(player, Stats.Defense);
+        double mana = getPlayerStat(player, Stats.Inteligence);
 
         String defenseString = "§a" + String.format("%.0f", Tools.round(defense, 0)) + "❈ Defense";
         if (player.showDefenceString) defenseString = player.defenseString;
@@ -1091,7 +1052,7 @@ public class Main extends JavaPlugin {
 
     public static void updateentitystats(LivingEntity entity) {
         if (SkyblockEntity.livingEntity.exists(entity)) {
-            SkyblockEntity.updateEntity(SkyblockEntity.livingEntity.getSbEntity(entity));
+            SkyblockEntity.updateEntity(Objects.requireNonNull(SkyblockEntity.livingEntity.getSbEntity(entity)));
             return;
         }
         new BasicEntity(entity, (int) (entity.getAttribute(org.bukkit.attribute.Attribute.GENERIC_MAX_HEALTH).getBaseValue() * 5));
@@ -1128,7 +1089,7 @@ public class Main extends JavaPlugin {
     public static double playerTrophyFishingChance(Player player) {
         double ferocity = SkyblockPlayer.getSkyblockPlayer(player).getBaseTrophyFishChance();
 
-        ferocity *= itemTrophyFishingChance(player.getItemInHand()) + 1;
+        ferocity *= itemTrophyFishingChance(player.getEquipment().getItemInMainHand()) + 1;
         ferocity *= itemTrophyFishingChance(player.getInventory().getHelmet()) + 1;
         ferocity *= itemTrophyFishingChance(player.getInventory().getChestplate()) + 1;
         ferocity *= itemTrophyFishingChance(player.getInventory().getLeggings()) + 1;
@@ -1147,7 +1108,6 @@ public class Main extends JavaPlugin {
                 return 0;
             } else {
                 PersistentDataContainer data = meta.getPersistentDataContainer();
-                if (data == null) return 0;
                 return Items.SkyblockItems.get(data.get(new NamespacedKey(getMain(), "id"), PersistentDataType.STRING)).getTrophyFishChance();
             }
         }
@@ -1171,7 +1131,7 @@ public class Main extends JavaPlugin {
             }
         }
         if (manager.gemstoneSlots != null && !manager.gemstoneSlots.isEmpty()) {
-            for (GemstoneSlot slot : GemstoneSlot.getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer())) {
+            for (GemstoneSlot slot : GemstoneSlot.getCurrGemstones(manager, Objects.requireNonNull(item.getItemMeta()).getPersistentDataContainer())) {
                 if (slot.currGem == null) continue;
                 if (slot.currGem.getStat() != stat) continue;
                 value += slot.currGem.getStatBoost(rarity);
@@ -1191,7 +1151,7 @@ public class Main extends JavaPlugin {
     public static void saveCoins(Player player) {
         double coin = SkyblockPlayer.getSkyblockPlayer(player).coins;
         ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
-        c.get().set(player.getUniqueId().toString() + ".coins", coin);
+        c.get().set(player.getUniqueId() + ".coins", coin);
         c.save();
         c.reload();
     }
@@ -1199,7 +1159,7 @@ public class Main extends JavaPlugin {
     public static void saveBits(Player player) {
         int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).bits;
         ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
-        c.get().set(player.getUniqueId().toString() + ".bits", bit);
+        c.get().set(player.getUniqueId() + ".bits", bit);
         c.save();
         c.reload();
     }
@@ -1207,7 +1167,7 @@ public class Main extends JavaPlugin {
     public static void saveMithrilPowder(Player player) {
         int bit = (int) SkyblockPlayer.getSkyblockPlayer(player).mithrilpowder;
         ConfigFile c = new ConfigFile(SkyblockPlayer.getSkyblockPlayer(player), "stats");
-        c.get().set(player.getUniqueId().toString() + ".mithrilpowder", bit);
+        c.get().set(player.getUniqueId() + ".mithrilpowder", bit);
         c.save();
         c.reload();
     }
@@ -1259,13 +1219,11 @@ public class Main extends JavaPlugin {
                 lores.add(" ");
             }
             if (manager.type == ItemType.FishingRod) {
-                switch (manager.getRodType()) {
-                    case LavaRod -> {
-                        lores.add("§8Lava Rod");
-                    }
+                if (Objects.requireNonNull(manager.getRodType()) == RodType.LavaRod) {
+                    lores.add("§8Lava Rod");
                 }
             }
-            lores = Stats.makeItemStatsLore(item, lores, player);
+            Stats.makeItemStatsLore(item, lores, player);
             if (manager.isShortbow())
                 lores.add("§7Shot Cooldown: §a" + ((double) manager.getShorbowCooldown(((player != null) ? getPlayerStat(player, Stats.AttackSpeed) : 0)) / 20d) + "s");
 
@@ -1279,7 +1237,7 @@ public class Main extends JavaPlugin {
                         gomstoneLine += slot.currGem.getRarity().getPrefix() + "[" + slot.currGem.gemType.getPrefix() + slot.type.getSymbol() + slot.currGem.getRarity().getPrefix() + "] ";
                     }
                 }
-                if (!gomstoneLine.equals("") && !gomstoneLine.isEmpty()) lores.add(gomstoneLine);
+                lores.add(gomstoneLine);
 
             }
 
@@ -1288,13 +1246,14 @@ public class Main extends JavaPlugin {
             }
 
 
-            if (item.getEnchantments() != null && !item.getEnchantments().isEmpty()) {
+            item.getEnchantments();
+            if (!item.getEnchantments().isEmpty()) {
                 ArrayList<String> enchantLore = new ArrayList<>();
                 HashMap<String, Integer> operator = new HashMap<>();
                 operator.put("amount", 0);
                 operator.put("line", 0);
                 Set<CustomEnchantment> ench = new HashSet<>();
-                for (Enchantment enchantment : item.getItemMeta().getEnchants().keySet()) {
+                for (Enchantment enchantment : Objects.requireNonNull(item.getItemMeta()).getEnchants().keySet()) {
                     if (enchantment instanceof CustomEnchantment ce) {
                         if (ce == SkyblockEnchants.ENCHANT_GLINT) continue;
                         ench.add(ce);
@@ -1313,7 +1272,7 @@ public class Main extends JavaPlugin {
                         for (CustomEnchantment enchant : UltimateEnchant.orderEnchants(enchants)) {
                             int level = item.getItemMeta().getEnchants().get(enchant);
                             String prefix = (UltimateEnchant.isUltEnchant(enchant)) ? "§d§l" : "§9";
-                            if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
+                            if (!enchant.getName().equals("non") && !enchant.getName().isEmpty()) {
                                 String Name = makeStringFromID(enchant.getKey());
                                 if (operator.get("amount") == 0) {
                                     enchantLore.add(prefix + Name + " " + Tools.intToRoman(level));
@@ -1328,15 +1287,12 @@ public class Main extends JavaPlugin {
                                 }
                             }
                         }
-                        if (!enchantLore.isEmpty() && !enchantLore.get(0).equals("")) {
-                            for (String l : enchantLore)
-                                lores.add(l);
+                        if (!enchantLore.isEmpty() && !enchantLore.get(0).isEmpty()) {
+                            lores.addAll(enchantLore);
                         }
                     } else {
                         Bundle<ArrayList<UltimateEnchant>, ArrayList<CustomEnchantment>> enchants = UltimateEnchant.splitEnchants(ench);
-                        Iterator<CustomEnchantment> it = UltimateEnchant.orderEnchants(enchants).iterator();
-                        while (it.hasNext()) {
-                            CustomEnchantment enchantment = it.next();
+                        for (CustomEnchantment enchantment : UltimateEnchant.orderEnchants(enchants)) {
                             lores.add(((enchantment instanceof UltimateEnchant) ? "§d§l" : "§9") + enchantment.getName() + " " + Tools.intToRoman(ItemHandler.getEnchantmentLevel(enchantment, item)));
                             lores.addAll(enchantment.getLore().makeLore(player, item));
                         }
@@ -1378,16 +1334,14 @@ public class Main extends JavaPlugin {
 
 
                     ArrayList<String> firstAblilityLore = l.makeLore(player, item);
-                    for (String str : firstAblilityLore)
-                        lores.add(str);
+                    lores.addAll(firstAblilityLore);
                 }
             }
             int i = 0;
             for (Ability ability : manager.getAbilities()) {
                 lores.add(" ");
                 if (ability.getName() != null) lores.add(manager.getAbilityHeadline(player, i));
-                if (ability.getLore() != null) for (String s : ability.getLore().makeLore(player, item))
-                    lores.add(s);
+                if (ability.getLore() != null) lores.addAll(ability.getLore().makeLore(player, item));
 
                 if (ability.getManacost() > 0 && !ability.isPersentage()) {
                     ManaUpdateEvent event = new ManaUpdateEvent(item, ability.getManacost());
@@ -1431,9 +1385,7 @@ public class Main extends JavaPlugin {
                     lores.add(" ");
                     DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "fueltank"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
-                    for (String s : part.appliedLore) {
-                        lores.add(s);
-                    }
+                    lores.addAll(part.appliedLore);
 
                 } else {
                     lores.add("§7Fuel Tank: §cNot Installed");
@@ -1444,9 +1396,7 @@ public class Main extends JavaPlugin {
                 if (data.get(new NamespacedKey(Main, "drillengine"), PersistentDataType.STRING) != null) {
                     DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "drillengine"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
-                    for (String s : part.appliedLore) {
-                        lores.add(s);
-                    }
+                    lores.addAll(part.appliedLore);
                 } else {
                     lores.add("§7Drill Engine: §cNot Installed");
                     lores.add("§7Increases §6⸕Mining Speed");
@@ -1456,9 +1406,7 @@ public class Main extends JavaPlugin {
                 if (data.get(new NamespacedKey(Main, "upgrademodule"), PersistentDataType.STRING) != null) {
                     DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "upgrademodule"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
-                    for (String s : part.appliedLore) {
-                        lores.add(s);
-                    }
+                    lores.addAll(part.appliedLore);
                 } else {
                     lores.add("§7Upgrade Module: §cNot Installed");
                     lores.add("§7Aplies a passive upgrade with");
@@ -1472,9 +1420,7 @@ public class Main extends JavaPlugin {
 
             if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)) && RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore() != null) {
                 lores.add("");
-                for (String l : RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore()) {
-                    lores.add(l);
-                }
+                lores.addAll(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore());
                 lores.add("");
             }
 
@@ -1489,17 +1435,17 @@ public class Main extends JavaPlugin {
                     double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.getOrDefault(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER, 1));
                     double pers = currxp / reqxp;
                     int colored = (int) (20 * pers);
-                    String str = "";
+                    StringBuilder str = new StringBuilder();
                     for (int c = 0; c < 20; c++) {
-                        if (colored > c) str = str + "§2";
-                        else str = str + "§7";
-                        str += "-";
+                        if (colored > c) str.append("§2");
+                        else str.append("§7");
+                        str.append("-");
 
                     }
-                    str += " §e" + Tools.round(currxp, 1) + "§6/§e" + Tools.toShortNumber((int) reqxp);
+                    str.append(" §e").append(Tools.round(currxp, 1)).append("§6/§e").append(Tools.toShortNumber((int) reqxp));
 
 
-                    lores.add(str);
+                    lores.add(str.toString());
 
 
                 }
@@ -1555,8 +1501,7 @@ public class Main extends JavaPlugin {
 
                 ItemStack newItem = Items.SkyblockItems.get("ENCHANTED_BOOK").getRawItemStack();
 
-                if (item.getItemMeta() instanceof EnchantmentStorageMeta) {
-                    EnchantmentStorageMeta enchStorage = (EnchantmentStorageMeta) item.getItemMeta();
+                if (item.getItemMeta() instanceof EnchantmentStorageMeta enchStorage) {
 
                     ArrayList<String> enchantLore = new ArrayList<>();
                     HashMap<String, Integer> operator = new HashMap<>();
@@ -1565,12 +1510,13 @@ public class Main extends JavaPlugin {
                     meta = newItem.getItemMeta();
                     for (Enchantment enchant : enchStorage.getStoredEnchants().keySet()) {
                         int level = enchStorage.getStoredEnchantLevel(enchant);
+                        assert meta != null;
                         meta.addEnchant(enchant, level, true);
 
                     }
                     enchStorage.getStoredEnchants().forEach((enchant, level) -> {
 
-                        if (!enchant.getName().equals("non") && !enchant.getName().equals("")) {
+                        if (!enchant.getName().equals("non") && !enchant.getName().isBlank()) {
                             if (operator.get("amount") == 0) {
                                 String Name = enchant.getKey().getKey().substring(0, 1).toUpperCase() + enchant.getKey().getKey().substring(1);
 
@@ -1586,9 +1532,7 @@ public class Main extends JavaPlugin {
                             }
                         }
                     });
-                    enchantLore.forEach(l -> {
-                        lore.add(l);
-                    });
+                    lore.addAll(enchantLore);
                 }
 
                 item = newItem;
@@ -1605,6 +1549,7 @@ public class Main extends JavaPlugin {
 
             }
 
+            assert meta != null;
             meta.setLore(lore);
         }
 
@@ -1614,24 +1559,12 @@ public class Main extends JavaPlugin {
 
     }
 
-    public static Main getMain() {
-        return Main;
-    }
-
-    public BukkitRunnable getRunnable() {
-        return runnable;
-    }
-
     public BukkitRunnable getStatRunnable() {
         return statrunnable;
     }
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public int getTime() {
-        return time;
     }
 
     public String shortInteger(int duration) {
@@ -1652,30 +1585,30 @@ public class Main extends JavaPlugin {
         }
         if (duration >= 1) seconds = duration;
         if (hours == 0) {
-            string = String.valueOf(string) + "";
+            string = string + "";
         } else {
             if (hours <= 9) {
-                string = String.valueOf(string) + "0" + hours + " Stunden ";
+                string = string + "0" + hours + " Stunden ";
             } else {
-                string = String.valueOf(string) + hours + " Stunden ";
+                string = string + hours + " Stunden ";
             }
         }
         if (minutes == 0) {
-            string = String.valueOf(string) + "";
+            string = string + "";
         } else {
             if (minutes <= 9) {
-                string = String.valueOf(string) + "0" + minutes + " Minuten ";
+                string = string + "0" + minutes + " Minuten ";
             } else {
-                string = String.valueOf(string) + minutes + " Minuten ";
+                string = string + minutes + " Minuten ";
             }
         }
         if (seconds == 0) {
-            string = String.valueOf(string) + "";
+            string = string + "";
         } else {
             if (seconds <= 9) {
-                string = String.valueOf(string) + "0" + seconds + " Sekunden";
+                string = string + "0" + seconds + " Sekunden";
             } else {
-                string = String.valueOf(string) + seconds + " Sekunden";
+                string = string + seconds + " Sekunden";
             }
         }
         return string;
@@ -1690,19 +1623,10 @@ public class Main extends JavaPlugin {
         data.saveConfig();
     }
 
-    public ArrayList<String> getSoulStats(Player player) {
-        ArrayList<String> soulstats = new ArrayList<>();
-        if (getConfig().contains(player.getUniqueId().toString() + ".soulstats")) {
-            soulstats = (ArrayList<String>) getConfig().getStringList(player.getUniqueId().toString() + ".soulstats");
-        }
-
-        return soulstats;
-    }
-
     public static void loadNPC() {
         FileConfiguration file = data.getConfig();
-        data.getConfig().getConfigurationSection("data").getKeys(false).forEach(npc -> {
-            Location location = new Location(Bukkit.getWorld(file.getString("data." + npc + ".world")), file.getDouble("data." + npc + ".x"), file.getDouble("data." + npc + ".y"), file.getDouble("data." + npc + ".z"));
+        Objects.requireNonNull(data.getConfig().getConfigurationSection("data")).getKeys(false).forEach(npc -> {
+            Location location = new Location(Bukkit.getWorld(Objects.requireNonNull(file.getString("data." + npc + ".world"))), file.getDouble("data." + npc + ".x"), file.getDouble("data." + npc + ".y"), file.getDouble("data." + npc + ".z"));
             location.setPitch((float) file.getDouble("data." + npc + ".p"));
             location.setYaw((float) file.getDouble("data." + npc + ".ya"));
 
@@ -1715,19 +1639,19 @@ public class Main extends JavaPlugin {
     }
 
     private static String makeStringFromID(NamespacedKey key) {
-        String newString = "";
+        StringBuilder newString = new StringBuilder();
         String itemName = key.getKey();
         String[] minis = itemName.split("_");
         for (int i = 0; i != minis.length; i++) {
-            minis[i].toLowerCase();
+            minis[i] = minis[i].toLowerCase();
             minis[i] = minis[i].substring(0, 1).toUpperCase() + minis[i].substring(1).toLowerCase();
 
             if (i == minis.length - 1) {
-                newString = newString + minis[i];
-            } else newString = newString + minis[i] + " ";
+                newString.append(minis[i]);
+            } else newString.append(minis[i]).append(" ");
 
         }
-        return newString;
+        return newString.toString();
     }
 
     public InputStream getFileFromResourceAsStream(String fileName) {
@@ -1746,6 +1670,6 @@ public class Main extends JavaPlugin {
     }
 
     public boolean checkIfBungee() {
-        return getServer().spigot().getConfig().getConfigurationSection("settings").getBoolean("bungeecord");
+        return Objects.requireNonNull(getServer().spigot().getConfig().getConfigurationSection("settings")).getBoolean("bungeecord");
     }
 }

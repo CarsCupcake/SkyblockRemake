@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 @SuppressWarnings("unused")
-public class InfoManager {
+public class ServerSettings {
     private static boolean isClickCooldownEnabled;
     @Getter
     private static boolean unlimitedMinions;
@@ -32,7 +32,7 @@ public class InfoManager {
     private static ConfigFile config;
     @Getter
     @Setter
-    private static boolean ignoreCooldwon = false;
+    private static boolean ignoreCooldown = false;
     @Getter
     @Setter
     private static boolean needArrows = false;
@@ -40,12 +40,12 @@ public class InfoManager {
     @Setter
     private static boolean lag = false;
 
-    public InfoManager(){
+    public ServerSettings(){
         config = new ConfigFile("settings");
         isClickCooldownEnabled = getValue("clickCooldown", true);
         unlimitedMinions = getValue("unlimitedMinions", false);
         miningFatuigeEnable = getValue("miningFatuige", ServerType.getActiveType() != ServerType.Non && ServerType.getActiveType() != ServerType.PrivateIsle);
-        ignoreCooldwon = getValue("ignorecooldown", false);
+        ignoreCooldown = getValue("ignorecooldown", false);
         needArrows= getValue("needArrows", false);
     }
     public static boolean isBazaarDisabled(){

@@ -9,7 +9,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
@@ -48,7 +48,7 @@ public class PacketReader {
         ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
             @Override
             public void channelRead(ChannelHandlerContext channelHandlerContext, Object packet) {
-                if (InfoManager.isLag()) {
+                if (ServerSettings.isLag()) {
                     Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> cR_o(channelHandlerContext, packet), 2);
                 }else cR_o(channelHandlerContext, packet);
             }
@@ -74,7 +74,7 @@ public class PacketReader {
                                 ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING).equals("GHOST_BLOCKS_PICK"))
                             return;
                     }
-                    if (packet instanceof PacketPlayInFlying pkt && InfoManager.isMovementLag()) {
+                    if (packet instanceof PacketPlayInFlying pkt && ServerSettings.isMovementLag()) {
                         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getMain(), () -> {
                             try {
                                 super.channelRead(channelHandlerContext, pkt);
@@ -85,10 +85,10 @@ public class PacketReader {
                         return;
                     }
                     PlayerDisguise.packetInManager((Packet<?>) packet);
-                    if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
+                    if (ServerSettings.isPacketLog() && ServerSettings.getPacketLogFilter().isIn() && searchCheck(packet.getClass().getSimpleName())) {
                         System.out.println(player.getName() + " IN: " + packet.getClass().getSimpleName());
-                        if (InfoManager.getPacketLogFilter().isDetailed())
-                            InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
+                        if (ServerSettings.getPacketLogFilter().isDetailed())
+                            ServerSettings.getPacketLogFilter().printAsDetailed((Packet<?>) packet);
                     }
                 } catch (Exception e) {
                     System.out.println("Error while reading packet: " + packet.getClass().getSimpleName());
@@ -105,17 +105,17 @@ public class PacketReader {
 
             @Override
             public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
-                if (InfoManager.isLag()) {
+                if (ServerSettings.isLag()) {
                     Bukkit.getScheduler().runTaskLater(Main.getMain(), () -> w(ctx, msg, promise), 2);
                 }else w(ctx, msg, promise);
             }
             public void w(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) {
                 try {
                     if (!PlayerDisguise.packetOutManager((Packet<?>) msg, player)) return;
-                    if (InfoManager.isPacketLog() && InfoManager.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
+                    if (ServerSettings.isPacketLog() && ServerSettings.getPacketLogFilter().isOut() && searchCheck(msg.getClass().getSimpleName())) {
                         System.out.println(player.getName() + " OUT: " + msg.getClass().getSimpleName());
-                        if (InfoManager.getPacketLogFilter().isDetailed())
-                            InfoManager.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
+                        if (ServerSettings.getPacketLogFilter().isDetailed())
+                            ServerSettings.getPacketLogFilter().printAsDetailed((Packet<?>) msg);
                     }
                     if (msg instanceof PacketPlayOutBlockChange p) {
                         if (Tools.FakeBlock.getBlocks().containsKey(Tools.asBukkitBlock(p.c(), player.getWorld()))) {
@@ -137,8 +137,8 @@ public class PacketReader {
     }
 
     private boolean searchCheck(String s) {
-        if (InfoManager.getPacketLogFilter().getSearch() == null) return true;
-        return s.contains(InfoManager.getPacketLogFilter().getSearch());
+        if (ServerSettings.getPacketLogFilter().getSearch() == null) return true;
+        return s.contains(ServerSettings.getPacketLogFilter().getSearch());
     }
 
     public void uninject(Player player) {

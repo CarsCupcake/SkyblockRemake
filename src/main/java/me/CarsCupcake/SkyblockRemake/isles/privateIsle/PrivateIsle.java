@@ -6,7 +6,7 @@ import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Items.minions.IMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.minions.Minion;
 import me.CarsCupcake.SkyblockRemake.Items.minions.MinionRemoveReason;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
@@ -49,7 +49,7 @@ public class PrivateIsle {
     }
 
     public boolean addMinion(IMinionData minion, int level, Location location, UUID uuid) {
-        if (!InfoManager.isUnlimitedMinions()) if (minions.size() + 1 >= maxMinions) return false;
+        if (!ServerSettings.isUnlimitedMinions()) if (minions.size() + 1 >= maxMinions) return false;
         minions.put(uuid, Minion.getMinion(minion, level, location, uuid.toString(), player));
         return true;
     }

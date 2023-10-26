@@ -14,7 +14,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
@@ -873,7 +873,7 @@ public class SkyblockRemakeEvents implements Listener {
             event.setCancelled(true);
             int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.INFINITE_QUIVER, item);
             if (!Main.shortbow_cd.get(event.getPlayer()))
-                if (event.getPlayer().getGameMode() == GameMode.CREATIVE || !InfoManager.isNeedArrows()) {
+                if (event.getPlayer().getGameMode() == GameMode.CREATIVE || !ServerSettings.isNeedArrows()) {
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                     launchArrow(item, manager, player);
                     Main.getMain().juju_cooldown(player.getPlayer(), manager.getShorbowCooldown(Main.getPlayerStat(player, Stats.AttackSpeed)));

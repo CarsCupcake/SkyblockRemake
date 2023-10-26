@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.utils.log;
 
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 
 public class DebugLogger {
     public static boolean debug = false;
@@ -20,7 +20,7 @@ public class DebugLogger {
     }
     public void debug(final String s, boolean withTrace) {
         if (!debug) return;
-        if(withTrace && InfoManager.getValue("debugWithTrace", false))
+        if(withTrace && ServerSettings.getValue("debugWithTrace", false))
         try {
             throw new RuntimeException();
         } catch (Exception tool) {

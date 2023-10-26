@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.RightClickNPC;
-import me.CarsCupcake.SkyblockRemake.Settings.InfoManager;
+import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
@@ -61,7 +61,7 @@ public class AuctionHouse implements Listener {
     }
 
     public void openInv(SkyblockPlayer player) {
-        if (!InfoManager.getValue("ah", true)) {
+        if (!ServerSettings.getValue("ah", true)) {
             player.sendMessage("§cAuction Hause is currently disabled");
             return;
         }
