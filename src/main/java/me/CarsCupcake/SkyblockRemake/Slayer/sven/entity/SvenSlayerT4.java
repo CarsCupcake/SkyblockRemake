@@ -9,7 +9,17 @@ public class SvenSlayerT4 extends SvenSlayerT3 {
 
     @Override
     public int getTrueDamage() {
-        return 640;
+        return 200;
+    }
+
+    @Override
+    public int getDamage() {
+        return 440;
+    }
+
+    @Override
+    public int getMaxHealth() {
+        return 2_000_000;
     }
 
     @Override

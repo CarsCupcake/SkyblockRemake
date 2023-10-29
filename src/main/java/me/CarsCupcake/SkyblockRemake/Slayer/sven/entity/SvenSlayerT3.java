@@ -26,24 +26,37 @@ public class SvenSlayerT3 extends SvenSlayerT2 implements FinalDamageDesider {
     }
 
     @Override
+    public int getDamage() {
+        return 180;
+    }
+
+    @Override
     public int getTrueDamage() {
-        return 180 + 50;
+        return 50;
+    }
+    public void removePup(Pup pup) {
+        pups.remove(pup);
+        if (pups.isEmpty() && !invin)
+            runnable.cancel();
     }
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
         super.damage(damage, player);
-        getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
-        ArmorStand stand = getEntity().getWorld().spawn(getEntity().getLocation(), ArmorStand.class, armorStand -> {
-            armorStand.setInvisible(true);
-            armorStand.setBasePlate(false);
-            armorStand.setCustomName("Call the Pups!");
-            armorStand.setCustomNameVisible(true);
-            armorStand.setMarker(true);
-        });
-        if (!hasTriggered && (double) getHealth() / (double)  getMaxHealth() <= 0.5) {
-            hasTriggered = true;
+        if (!hasTriggered && (double) getHealth() / (double) getMaxHealth() <= 0.5) {
             //Call the pups!
+            getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0);
+            ArmorStand stand = getEntity().getWorld().spawn(getEntity().getLocation().add(0, 1, 0), ArmorStand.class, armorStand -> {
+                armorStand.setInvisible(true);
+                armorStand.setBasePlate(false);
+                armorStand.setCustomName("§fCall the Pups!");
+                armorStand.setCustomNameVisible(true);
+                armorStand.setMarker(true);
+                armorStand.addScoreboardTag("remove");
+            });
+            follow(stand);
+            getEntity().setAI(false);
+            hasTriggered = true;
             invin = true;
             new EntityRunnable() {
                 int i = 0;
@@ -53,9 +66,9 @@ public class SvenSlayerT3 extends SvenSlayerT2 implements FinalDamageDesider {
                     pups.add(makeNew());
                     i++;
                     if (i == 5) {
+                        getEntity().setAI(true);
                         invin = false;
                         stand.setCustomName("§3Protected!");
-                        follow(stand);
                         cancel();
                         getEntity().getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(MOVEMENT_SPEED);
                     }
@@ -63,12 +76,13 @@ public class SvenSlayerT3 extends SvenSlayerT2 implements FinalDamageDesider {
             }.runTaskTimer(this, 5, 10);
         }
     }
+    private EntityRunnable runnable;
 
     private void follow(ArmorStand stand) {
-        new EntityRunnable() {
+         runnable = new EntityRunnable() {
             @Override
             public void run() {
-                stand.teleport(getEntity().getLocation());
+                stand.teleport(getEntity().getLocation().add(0, 1, 0));
             }
 
             @Override
@@ -76,7 +90,8 @@ public class SvenSlayerT3 extends SvenSlayerT2 implements FinalDamageDesider {
                 super.cancel();
                 stand.remove();
             }
-        }.runTaskTimer(this, 0, 1);
+        };
+        runnable.runTaskTimer(this, 0, 1);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.sven.entity;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Wolf;
@@ -19,7 +20,7 @@ public class PupT3 extends SkyblockEntity implements Pup{
 
     @Override
     public int getMaxHealth() {
-        return slayer.getMaxHealth() * 10;
+        return 75_000;
     }
 
     @Override
@@ -40,6 +41,12 @@ public class PupT3 extends SkyblockEntity implements Pup{
         });
         entity.setCustomNameVisible(true);
         entity.setAngry(true);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
+    }
+
+    @Override
+    public void updateNameTag() {
+        entity.setCustomName(Slayer.getBaseName(this));
     }
 
     @Override
@@ -60,6 +67,6 @@ public class PupT3 extends SkyblockEntity implements Pup{
     @Override
     public void kill() {
         super.kill();
-        slayer.getPups().remove(this);
+        slayer.removePup(this);
     }
 }

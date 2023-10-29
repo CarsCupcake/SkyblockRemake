@@ -6,6 +6,11 @@ public class PupT4 extends PupT3{
     }
 
     @Override
+    public int getMaxHealth() {
+        return 200_000;
+    }
+
+    @Override
     public int getDamage() {
         return 220;
     }

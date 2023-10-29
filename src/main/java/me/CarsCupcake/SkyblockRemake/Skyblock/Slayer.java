@@ -63,7 +63,7 @@ public abstract class Slayer extends SkyblockEntity {
         return 0;
     }
 
-    public static String getBaseName(Slayer slayer) {
+    public static String getBaseName(SkyblockEntity slayer) {
         return "§c" + Character.toChars(9760)[0] + " §b" + slayer.getName()
                 + " §a" + Tools.toShortNumber(slayer.getHealth()) + "§c" + Stats.Health.getSymbol();
     }

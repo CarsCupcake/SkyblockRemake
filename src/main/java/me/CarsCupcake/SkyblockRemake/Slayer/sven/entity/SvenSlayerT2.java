@@ -9,12 +9,12 @@ public class SvenSlayerT2 extends SvenSlayerT1{
 
     @Override
     public int getDamage() {
-        return 0;
+        return 80;
     }
 
     @Override
     public int getTrueDamage() {
-        return 90;
+        return 10;
     }
 
     @Override

@@ -68,7 +68,7 @@ object MaddoxMenu {
             )
             g.showGUI(player)
         }
-        gui.inventoryClickAction(13
+        gui.inventoryClickAction(12
         ) {
             val g = GUI(
                 SlayerTemplate("§eSven Packmaster", Material.MUTTON, 4, listOf(

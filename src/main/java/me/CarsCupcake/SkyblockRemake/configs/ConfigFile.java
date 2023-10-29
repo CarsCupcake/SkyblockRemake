@@ -100,7 +100,7 @@ public class ConfigFile {
     public static class FileThread extends Thread {
         public static boolean online = true;
         private final ThreadHalt asyncHalt = new ThreadHalt();
-        private ArrayDeque<ConfigFile> files;
+        private ArrayDeque<ConfigFile> files = new ArrayDeque<>();
 
         public FileThread() {
             start();
