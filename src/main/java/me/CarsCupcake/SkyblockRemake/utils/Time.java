@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.utils;
 
 import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockScoreboard;
@@ -99,13 +100,13 @@ public class Time extends BukkitRunnable {
         day = Integer.parseInt(message[3]);
         //Season comming soon
         for (Player p : Bukkit.getOnlinePlayers())
-            SkyblockScoreboard.updateScoreboard(p);
+            SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(p));
     }
 
     public void setSeason(int i){
         season = Season.getById(i);
         for (Player p : Bukkit.getOnlinePlayers())
-            SkyblockScoreboard.updateScoreboard(p);
+            SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(p));
     }
 
 

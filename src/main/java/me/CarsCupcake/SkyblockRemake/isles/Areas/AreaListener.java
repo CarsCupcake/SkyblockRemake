@@ -19,7 +19,7 @@ public void movement(PlayerMoveEvent event) {
 		SkyblockPlayer.getSkyblockPlayer(event.getPlayer()).setDwarvenArea(DwarvenAreas.movement(event));
 
 		if(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()).dwarvenArea != oldarea)
-			SkyblockScoreboard.updateScoreboard(event.getPlayer());
+			SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
 	}
 }
 }

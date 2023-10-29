@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardImpl;
+import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardSection;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Time;
 import org.bukkit.Bukkit;
@@ -14,11 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-
-import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.*;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -27,68 +25,36 @@ import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 
 
 public class SkyblockScoreboard implements Listener {
-    public static HashMap<SkyblockPlayer, Scoreboard> scoreboards = new HashMap<>();
 
     @EventHandler
     public void sbonJoin(PlayerJoinEvent event) {
         new BukkitRunnable() {
             @Override
             public void run() {
-                updateScoreboard(event.getPlayer());
+                updateScoreboard(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             }
         }.runTaskLater(Main.getMain(), 5);
 
 
     }
 
-    public static void updateScoreboard(Player player) {
-        SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
-
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
-        String formattedDate = date.format(format);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69", 14);
-
-        ScoreboardDisplayer.setScore(p, "§r   ", 13);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(), 12);
-        Time t = Time.getInstance();
-        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + t.getTime(), 11);
-
-        if (p.dwarvenArea == null)
-            if (SkyblockServer.getServer().type() == ServerType.DwarvenMines)
-                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ §2Dwarven Mines", 10);
-            else if (p.getRegion() == null)
-                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ None", 10);
-            else ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.getRegion().name(), 10);
-        else
-            ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(), 10);
-
-        ScoreboardDisplayer.setScore(p, "§c   ", 9);
-        String nm = (ServerType.getActiveType() == ServerType.Rift) ? "Motes" : "Purse";
-        String cl = (ServerType.getActiveType() == ServerType.Rift) ? "d" : "6";
-        try {
-            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : p.coins)), 8);
-        } catch (Exception e) {
-            ScoreboardDisplayer.setScore(p, ChatColor.WHITE  + nm + ": " + "§" + cl + Tools.toShortNumber((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : p.coins), 8);
-        }
-        if (p.showMithrilPowder)
-            ScoreboardDisplayer.setScore(p, "§2᠅ §fMithril: §2" + Tools.addDigits(p.mithrilpowder), 8);
-
-        if (DwarvenEvent.ActiveEvent != null) {
-            if (DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
-                ScoreboardDisplayer.setScore(p, "§9Gone With The Wind", 5);
-                ScoreboardDisplayer.setScore(p, getGoneWithTheWindString(p), 4);
-
+    public static void updateScoreboard(SkyblockPlayer player) {
+        int score = 0;
+        for (ScoreboardSection scoreboardSection : player.getScoreboardSections()) {
+            for (String s : scoreboardSection.score(player)){
+                ScoreboardDisplayer.setScore(player, s, score);
+                score--;
             }
         }
-        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits, 7);
-
-        ScoreboardDisplayer.setScore(p, "§8by CarsCupcake", 6);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(), 1);
-
+        if (Math.abs(score) < player.getScoreboard().getEntries().size() - 1) {
+            for (int i = Math.abs(score); i <= player.getScoreboard().getEntries().size(); i++) {
+                Team t = player.getScoreboard().getTeam("score-" + (-i));
+                t.removeEntry(ScoreboardDisplayer.buildString(Math.abs(i)));
+                t.unregister();
+                player.getScoreboard().resetScores("score-" + (-i));
+                player.getScoreboard().resetScores(ScoreboardDisplayer.buildString(Math.abs(i)));
+            }
+        }
     }
 
     public static void createScoreboard(SkyblockPlayer player) {
@@ -100,54 +66,8 @@ public class SkyblockScoreboard implements Listener {
         Objective obj = board.registerNewObjective("SkyBlockBoard", "dummy", ChatColor.BOLD + "§6§lSKYBLOCK");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
         player.setScoreboard(board);
-
-        LocalDateTime date = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yy");
-        String formattedDate = date.format(format);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + formattedDate + ChatColor.DARK_GRAY + " mega69", 14);
-
-        ScoreboardDisplayer.setScore(p, "§r   ", 13);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + " " + Time.getInstance().getSeason().getName() + " " + Time.getInstance().getDay() + Time.getInstance().getDaySuffix(), 12);
-        Time t = Time.getInstance();
-        ScoreboardDisplayer.setScore(p, ChatColor.GRAY + t.getTime(), 11);
-
-        if (p.dwarvenArea == null)
-            if (ServerType.getActiveType() == ServerType.DwarvenMines)
-                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ §2Dwarven Mines", 10);
-            else
-                ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ None", 10);
-        else
-            ScoreboardDisplayer.setScore(p, ChatColor.GRAY + "⏣ " + p.dwarvenArea.getString(), 10);
-
-        ScoreboardDisplayer.setScore(p, "§c   ", 9);
-
-        /*ChatColor.GOLD + Tools.addDigits(  p.coins)*/
-        try {
-            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.addDigits(player.coins), 8);
-        } catch (Exception e) {
-            e.printStackTrace();
-            ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Purse: " + "§6" + Tools.toShortNumber(player.coins), 8);
-        }
-        if (p.showMithrilPowder)
-            ScoreboardDisplayer.setScore(p, "§2᠅ §fMithril: §2" + Tools.addDigits(p.mithrilpowder), 8);
-
-        if (DwarvenEvent.ActiveEvent != null) {
-            if (DwarvenEvent.ActiveEvent.getEvent() == DwarvenEvents.GoneWithTheWind) {
-                ScoreboardDisplayer.setScore(p, "§9Gone With The Wind", 5);
-                ScoreboardDisplayer.setScore(p, getGoneWithTheWindString(p), 4);
-
-
-            }
-        }
-        ScoreboardDisplayer.setScore(p, ChatColor.WHITE + "Bits: " + ChatColor.AQUA + p.bits, 7);
-
-        ScoreboardDisplayer.setScore(p, "§8by CarsCupcake", 6);
-
-        ScoreboardDisplayer.setScore(p, ChatColor.YELLOW + "localhost:" + Main.getMain().getServer().getPort(), 1);
-
-        scoreboards.put(p, board);
+        for (ScoreboardImpl i : ScoreboardImpl.values())
+            ScoreboardSection.addToScoreboard(i.getSection(), player);
     }
 
     public static String getGoneWithTheWindString(SkyblockPlayer player) {

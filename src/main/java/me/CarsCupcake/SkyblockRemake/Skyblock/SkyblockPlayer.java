@@ -11,6 +11,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
+import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardSection;
 import me.CarsCupcake.SkyblockRemake.configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
@@ -50,6 +51,8 @@ public class SkyblockPlayer extends CraftPlayer {
 
     private static HashMap<Player, SkyblockPlayer> players = new HashMap<>();
     private final Player player;
+    @Getter
+    private final List<ScoreboardSection> scoreboardSections = new ArrayList<>();
     public double healingMulti = 1;
     public int currhealth;
     public int currmana;
@@ -721,7 +724,7 @@ public class SkyblockPlayer extends CraftPlayer {
         mithrilpowderrunntime = 2;
         showMithrilPowder = true;
         if (mithrilrun == null || mithrilrun.isCancelled()) mithrilpowderRunner();
-        SkyblockScoreboard.updateScoreboard(player);
+        SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(player));
 
 
     }
@@ -739,7 +742,7 @@ public class SkyblockPlayer extends CraftPlayer {
 
                 if (mithrilpowderrunntime == 0) {
                     showMithrilPowder = false;
-                    SkyblockScoreboard.updateScoreboard(player);
+                    SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(player));
                     cancel();
                 } else mithrilpowderRunner();
 

@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents;
 
 import java.util.Random;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarFlag;
@@ -53,7 +54,7 @@ public class DwarvenEvent {
 		ActiveEvent = null;
 		bar.removeAll();
 		for(Player player : Bukkit.getOnlinePlayers())
-			SkyblockScoreboard.updateScoreboard(player);
+			SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(player));
 	}
 	//if there is no gwtw event it will return 0
 	public int getGoneWithTheWindStatBoost(double Yaw) {
@@ -94,7 +95,7 @@ public class DwarvenEvent {
 					Bukkit.broadcastMessage("§aThe wind has changed Direction!");
 					changeWindDirection();
 					for(Player player : Bukkit.getOnlinePlayers())
-						SkyblockScoreboard.updateScoreboard(player);
+						SkyblockScoreboard.updateScoreboard(SkyblockPlayer.getSkyblockPlayer(player));
 				}
 				
 				int duration = time;

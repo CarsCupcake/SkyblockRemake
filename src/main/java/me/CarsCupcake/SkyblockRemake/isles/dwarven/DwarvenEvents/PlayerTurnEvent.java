@@ -25,11 +25,8 @@ public class PlayerTurnEvent extends Event{
 	public static HandlerList getHandlerList() {
         return HANDLERS;
     }
-	public SkyblockPlayer getSkyblockPlayer() {
+	public SkyblockPlayer getPlayer() {
 		return player;
-	}
-	public Player getPlayer() {
-		return player.getPlayer();
 	}
 	
 	
