@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T3.BlazeSlayerT3;
 import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T4.BlazeSlayerT4;
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT4;
+import me.CarsCupcake.SkyblockRemake.Slayer.vampire.VampireSlayerT1;
 import me.CarsCupcake.SkyblockRemake.Slayer.zombie.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -83,6 +84,19 @@ public class startslayer implements CommandExecutor{
 						EndermanT4 slayer = new EndermanT4(SkyblockPlayer.getSkyblockPlayer(player));
 						Slayer.summonSlayer(player.getLocation(), slayer);
 					}
+				}
+				case "vampire" -> {
+					SkyblockPlayer p = SkyblockPlayer.getSkyblockPlayer(player);
+					Slayer slayer;
+					switch (args[1]){
+						case "1" -> slayer = new VampireSlayerT1(p);
+						default -> slayer = null;
+					}
+					if(slayer == null){
+						p.sendMessage("§cNot avaidable");
+						return false;
+					}
+					Slayer.summonSlayer(player.getLocation(), slayer);
 				}
 			}
 			}

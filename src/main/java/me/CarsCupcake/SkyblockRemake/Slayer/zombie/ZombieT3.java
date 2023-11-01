@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
+import org.jetbrains.annotations.NotNull;
 
 public class ZombieT3 extends Enrage{
     private Zombie entity;
@@ -29,7 +30,7 @@ public class ZombieT3 extends Enrage{
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         super.spawn(loc);
         entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> {
             zombie.setAdult();

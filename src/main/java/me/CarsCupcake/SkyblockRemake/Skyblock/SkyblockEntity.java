@@ -9,6 +9,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
+import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
@@ -43,7 +44,17 @@ public abstract class SkyblockEntity implements Elementable {
 
     public abstract LivingEntity getEntity();
 
-    public abstract int getDamage();
+    public int getDamage() {
+        return  0;
+    }
+
+    public double getRiftDamage() {
+        return 0;
+    }
+
+    public int getRiftTimeDamage() {
+        return 0;
+    }
 
     public abstract void spawn(Location loc);
 
@@ -77,7 +88,9 @@ public abstract class SkyblockEntity implements Elementable {
 
     public abstract boolean hasNoKB();
 
-    public abstract int getTrueDamage();
+    public int getTrueDamage() {
+        return 0;
+    }
 
     public boolean isIgnored() {
         return false;

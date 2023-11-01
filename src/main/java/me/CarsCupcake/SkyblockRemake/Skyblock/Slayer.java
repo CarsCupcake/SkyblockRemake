@@ -36,8 +36,6 @@ public abstract class Slayer extends SkyblockEntity {
 
     public abstract LivingEntity getEntity();
 
-    public abstract int getDamage();
-
     public abstract void spawn(@NotNull Location loc);
 
     public abstract String getName();
@@ -57,10 +55,6 @@ public abstract class Slayer extends SkyblockEntity {
 
     public boolean hasNoKB() {
         return false;
-    }
-
-    public int getTrueDamage() {
-        return 0;
     }
 
     public static String getBaseName(SkyblockEntity slayer) {

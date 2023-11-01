@@ -166,11 +166,6 @@ public class Shy extends Crux implements FinalDamageDesider {
 
         super.damage(damage, player);
     }
-
-    @Override
-    public double getHeartsDamage() {
-        return 0;
-    }
     private class Damager extends EntityZombie {
         public Damager(Location location) {
             super(EntityTypes.be, ((CraftWorld)location.getWorld()).getHandle());

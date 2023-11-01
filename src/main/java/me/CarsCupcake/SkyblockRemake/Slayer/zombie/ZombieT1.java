@@ -9,6 +9,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Zombie;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 
 @EntityAtributes({EntityAtributes.Attributes.AbilityImune, EntityAtributes.Attributes.ProjectileImune})
@@ -34,7 +36,7 @@ public class ZombieT1 extends LifeDrain implements SkillDroper {
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         super.spawn(loc);
         entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> {
             zombie.setAdult();

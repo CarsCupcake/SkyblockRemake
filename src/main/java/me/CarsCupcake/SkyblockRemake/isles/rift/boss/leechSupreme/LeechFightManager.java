@@ -3,11 +3,11 @@ package me.CarsCupcake.SkyblockRemake.isles.rift.boss.leechSupreme;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.RegionCuboid;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.utils.SinusMovement;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -211,7 +211,7 @@ public class LeechFightManager {
         private final Block center;
         private final ArmorStand bomb;
 
-        public BombAttack(Location location, RiftEntity entity) {
+        public BombAttack(Location location, SkyblockEntity entity) {
             location.setY(32);
             center = location.getBlock();
             for (var x = center.getX() - 1; x <= center.getX() + 1; x++)

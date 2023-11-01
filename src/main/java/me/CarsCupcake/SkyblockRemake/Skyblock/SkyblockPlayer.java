@@ -807,6 +807,7 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public void setMana(int value) {
         currmana = value;
+        if (currmana > Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
     }
 
     public void addBaseStat(Stats stat, double v) {

@@ -4,7 +4,6 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
@@ -17,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class LeechSwarm extends RiftEntity {
+public class LeechSwarm extends SkyblockEntity{
     private static final String headTexture = "ewogICJ0aW1lc3RhbXAiIDogMTYwNDYxNDc0Mjg3NywKICAicHJvZmlsZUlkIiA6ICI0ZDcwNDg2ZjUwOTI0ZDMzODZiYmZjOWMxMmJhYjRhZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJzaXJGYWJpb3pzY2hlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2Q5NzZmZmRkMjkyYzM0ZmRhYmIyYWNmYTYyZGJmZDRmMGQxMzAwMDg3ODU4MDliZTAxNmQzZDcyNTdiYjMxZjIiCiAgICB9CiAgfQp9";
     private LivingEntity entity;
     @Override
@@ -56,11 +55,6 @@ public class LeechSwarm extends RiftEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public boolean hasNoKB() {
         return false;
     }
@@ -68,11 +62,6 @@ public class LeechSwarm extends RiftEntity {
     @Override
     public int getRiftTimeDamage() {
         return 4;
-    }
-
-    @Override
-    public double getHeartsDamage() {
-        return 0;
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Spider;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 public class SpiderSlayerT1 extends Slayer {
     protected Spider entity;
@@ -39,7 +40,7 @@ public class SpiderSlayerT1 extends Slayer {
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Spider.class);
         entity.setAware(true);
         entity.setTarget(owner);

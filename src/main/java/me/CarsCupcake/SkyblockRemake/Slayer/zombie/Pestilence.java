@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -15,7 +16,7 @@ public abstract class Pestilence extends LifeDrain{
     }
 
     @Override @OverridingMethodsMustInvokeSuper
-     public void spawn(Location loc) {
+     public void spawn(@NotNull Location loc) {
         super.spawn(loc);
         runnable = new BukkitRunnable() {
             @Override

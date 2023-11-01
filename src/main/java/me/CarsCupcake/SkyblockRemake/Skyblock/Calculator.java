@@ -17,7 +17,6 @@ import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftCalculator;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -191,9 +190,8 @@ public strictfp class Calculator {
 
     public void entityToPlayerDamage(SkyblockEntity entity, SkyblockPlayer player, Bundle<Integer, Integer> stats) {
         if (SkyblockServer.getServer().type() == ServerType.Rift) {
-            if (!(entity instanceof RiftEntity rE)) return;
             RiftCalculator c = new RiftCalculator();
-            c.damagePlayer(rE, RiftPlayer.getRiftPlayer(player));
+            c.damagePlayer(entity, RiftPlayer.getRiftPlayer(player));
             c.execute();
         }
         if (entity != null) e = entity.getEntity();

@@ -19,6 +19,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.Slayer.spider.item.SpiderSlayerItems;
+import me.CarsCupcake.SkyblockRemake.Slayer.vampire.VampireItems;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.F6Items;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.TextTerminal;
@@ -473,11 +474,13 @@ public class Items {
         addEnchanted(Material.END_STONE);
         addEnchanted(Material.OBSIDIAN);
         addEnchanted(Material.ENDER_EYE);
-
+        VampireItems.init();
         manager = new ItemManager("Crystal Fragment", "CRYSTAL_FRAGMENT", ItemType.Non, Material.QUARTZ, ItemRarity.EPIC);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         manager.setNpcSellPrice(500);
         SpiderSlayerItems.init();
+        manager = new ItemManager("Shadows indicate riddles, illuminating unseen stars", "RIDDLE_STAR", ItemType.Non, Material.NETHER_STAR, ItemRarity.EPIC);
+        manager.setLore(List.of("§7Lorem ipsum dolor sit amet, consetetur sadipscing elitr"));
     }
 
     private static void racingHelmet() {

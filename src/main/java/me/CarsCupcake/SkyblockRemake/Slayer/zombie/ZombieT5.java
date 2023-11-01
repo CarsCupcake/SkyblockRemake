@@ -14,6 +14,7 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +63,7 @@ public class ZombieT5 extends ZombieSlayer implements FinalDamageDesider {
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Zombie.class, z -> {
             equip(z);
             z.setCustomNameVisible(true);

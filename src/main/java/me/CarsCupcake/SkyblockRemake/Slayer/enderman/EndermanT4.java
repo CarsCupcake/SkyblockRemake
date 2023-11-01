@@ -14,6 +14,7 @@ import org.bukkit.Particle;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -51,7 +52,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Enderman.class, enderman -> enderman.setRemoveWhenFarAway(false));
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);

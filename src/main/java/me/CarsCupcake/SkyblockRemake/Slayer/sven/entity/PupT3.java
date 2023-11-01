@@ -60,11 +60,6 @@ public class PupT3 extends SkyblockEntity implements Pup{
     }
 
     @Override
-    public int getTrueDamage() {
-        return 0;
-    }
-
-    @Override
     public void kill() {
         super.kill();
         slayer.removePup(this);

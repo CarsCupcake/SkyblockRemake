@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Zombie;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -20,7 +21,7 @@ public abstract class Enrage extends Pestilence{
 
     @Override
     @OverridingMethodsMustInvokeSuper
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         super.spawn(loc);
         stopEnrage();
     }

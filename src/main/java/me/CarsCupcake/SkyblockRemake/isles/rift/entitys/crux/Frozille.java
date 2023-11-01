@@ -42,12 +42,7 @@ public class Frozille extends Crux implements FinalDamageDesider {
 
     @Override
     public String getName() {
-        return "§3Shy";
-    }
-
-    @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
+        return "§3Frozille";
     }
 
 
@@ -112,10 +107,5 @@ public class Frozille extends Crux implements FinalDamageDesider {
     @Override
     public int getRiftTimeDamage() {
         return 5;
-    }
-
-    @Override
-    public double getHeartsDamage() {
-        return 0;
     }
 }

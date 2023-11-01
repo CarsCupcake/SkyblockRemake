@@ -6,6 +6,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.SlayerLootTable;
 import me.CarsCupcake.SkyblockRemake.Slayer.spider.item.SpiderSlayerItems;
 import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 @EntitySkillXp(100)
 public class SpiderSlayerT2 extends SpiderSlayerT1{
@@ -31,7 +32,7 @@ public class SpiderSlayerT2 extends SpiderSlayerT1{
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         super.spawn(loc);
         SpiderListener.players.add(owner);
     }

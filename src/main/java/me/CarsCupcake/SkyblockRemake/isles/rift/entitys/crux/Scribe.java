@@ -113,9 +113,4 @@ public class Scribe extends Crux implements FinalDamageDesider {
     public int getRiftTimeDamage() {
         return 5;
     }
-
-    @Override
-    public double getHeartsDamage() {
-        return 0;
-    }
 }

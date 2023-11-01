@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class BlazeSlayerT1 extends Slayer {
     private LivingEntity entity;
@@ -66,7 +67,7 @@ public class BlazeSlayerT1 extends Slayer {
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Blaze.class, blaze -> {
             blaze.setCustomNameVisible(true);
             blaze.addScoreboardTag("combatxp:50");

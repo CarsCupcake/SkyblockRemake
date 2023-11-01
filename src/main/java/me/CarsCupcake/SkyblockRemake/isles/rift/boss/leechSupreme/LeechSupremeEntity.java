@@ -2,12 +2,10 @@ package me.CarsCupcake.SkyblockRemake.isles.rift.boss.leechSupreme;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.NPC.DiguestMobsManager;
+import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.DataWatcher;
@@ -27,7 +25,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class LeechSupremeEntity extends RiftEntity {
+public class LeechSupremeEntity extends SkyblockEntity {
     private static final String texture = "ewogICJ0aW1lc3RhbXAiIDogMTYwNDYxNDc0Mjg3NywKICAicHJvZmlsZUlkIiA6ICI0ZDcwNDg2ZjUwOTI0ZDMzODZiYmZjOWMxMmJhYjRhZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJzaXJGYWJpb3pzY2hlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2Q5NzZmZmRkMjkyYzM0ZmRhYmIyYWNmYTYyZGJmZDRmMGQxMzAwMDg3ODU4MDliZTAxNmQzZDcyNTdiYjMxZjIiCiAgICB9CiAgfQp9";
     private static final String signature = "OUZ7cpgqW4m9lxL155ISzLjbkSjzn41asRnWsffNTaHdLI5ImVtaHAVeIh8C5eSSi/lelmBpcsrB+3VWXWwicWcCcczXan5Ztps6Jp0uY9FlwqCrH7faGDBz8qXe5KL98Lox0ceJQc4SMQfUpmbEHdKIwCCSWosm4RbS2GoPji9k5q0tbzPpvxuHGYM8DvSk19qZ+p/NmooAFJ6cZxd4eDgJjQ8cbxMK77Tb17alkrubi7Eh346sDz2H1U622GnVMV0zKuUpao19V7QXyo4rglLcIx7OcshlTS3d0XgLhzRxD0OGQYD91jYy4TM8aedvNsH+qtX2vgmgt75ZUUEFE91NCsBfR5y7TfoN4yIdTuCMqtTahJZV7Qs0TFSofj+KLEmdv1lCwdqukBO8HAtIzDS9f6llVA+pa35xkiSH+hIkO4OYnUCs37t68rL+2o/emUx8AJX3DyemBWS8nvvY8dQAUdOSwa/4de5ewEcPPigZhKFCZcDBmyrEq+cj187zXDeWcZ0Rv4sL5A1HUYWsOD/GxxYk0on02nk30X4nGfgjo3hexFwxdJdZKSUbHcPztFk1y9rI/dAJSWK1+8MYXpjXqqbIPKBPZsupQLI99nol2IJ2aecL0uTPwrBW6tITZr9JfiBkqVyVbZIEEewAmdikPFv1bqblIzpBGSHn4fg=";
     public boolean isInAbility = false;
@@ -53,7 +51,7 @@ public class LeechSupremeEntity extends RiftEntity {
             e.setRemoveWhenFarAway(false);
             e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.4);
         });
-        DiguestMobsManager.createEntity(entity, texture, signature);
+        new PlayerDisguise(entity, texture, signature);
         SkyblockEntity.livingEntity.addEntity(entity, this);
         Main.updateentitystats(entity);
         entity.setCustomNameVisible(true);
@@ -74,23 +72,8 @@ public class LeechSupremeEntity extends RiftEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public boolean hasNoKB() {
         return false;
-    }
-
-    @Override
-    public int getRiftTimeDamage() {
-        return 0;
-    }
-
-    @Override
-    public double getHeartsDamage() {
-        return 0;
     }
 
     @Override
@@ -121,7 +104,7 @@ public class LeechSupremeEntity extends RiftEntity {
             byte b = 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40;
             watcher.set(DataWatcherRegistry.a.a(17), b);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
         entityPlayer.setCustomNameVisible(false);
         for (Player on : Bukkit.getOnlinePlayers()) {

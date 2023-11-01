@@ -5,7 +5,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.isles.rift.entitys.RiftEntity;
 import me.CarsCupcake.SkyblockRemake.isles.rift.events.RiftCalculatorEvent;
 import me.CarsCupcake.SkyblockRemake.isles.rift.events.RiftDamageEvent;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
@@ -31,16 +30,16 @@ public class RiftCalculator {
     @Getter
     private Action action;
     private boolean isDone = false;
-    public void damagePlayer(RiftEntity entity, RiftPlayer player){
+    public void damagePlayer(SkyblockEntity entity, RiftPlayer player){
         damagePlayer(entity, player, 0);
     }
-    public void damagePlayer(@Nullable RiftEntity entity,@NotNull RiftPlayer player, int extraHeartDamage){
+    public void damagePlayer(@Nullable SkyblockEntity entity,@NotNull RiftPlayer player, int extraHeartDamage){
         Assert.notNull(player, "Player is not allowed to be null!");
         if(entity == null) action = Action.PlayerSelfe; else action = Action.EntityToPlayer;
         this.entity = entity;
         this.player = player;
         timeDamage = (entity != null) ? entity.getRiftTimeDamage() : 0;
-        heartsDamage = ((entity != null) ? entity.getHeartsDamage() : 0) + extraHeartDamage;
+        heartsDamage = ((entity != null) ? entity.getRiftDamage() : 0) + extraHeartDamage;
     }
     public void damageEntity(SkyblockEntity entity, RiftPlayer player){
         damageEntity(entity, player, 0);

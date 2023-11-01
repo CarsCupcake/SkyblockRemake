@@ -18,6 +18,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -50,7 +51,7 @@ public class EndermanT1 extends Slayer implements Listener {
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Enderman.class, enderman ->{
 
         });

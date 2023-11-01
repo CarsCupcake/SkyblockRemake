@@ -20,6 +20,7 @@ public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Comman
 			slayer.add("zombie");
 			slayer.add("blaze");
 			slayer.add("enderman");
+			slayer.add("vampire");
 			
 			}
 	if(arguments.isEmpty()) {

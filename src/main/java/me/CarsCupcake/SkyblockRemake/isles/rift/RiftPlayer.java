@@ -98,32 +98,32 @@ public class RiftPlayer extends SkyblockPlayer {
 
     @Override
     public void setHealth(int value, HealthChangeReason reason) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Override
     public void setHealth(float value, HealthChangeReason reason) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Override
     public void setHealth(double value, HealthChangeReason reason) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Override
     public void setHealth(int value) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Override
     public void setHealth(float value) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Override
     public void setHealth(double value) {
-        getPlayer().setHealth(value);
+        getPlayer().setHealth(Math.min(value, getMaxHealth()));
     }
 
     @Getter

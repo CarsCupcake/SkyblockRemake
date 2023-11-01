@@ -16,6 +16,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -72,7 +73,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
     }
 
     @Override
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Blaze.class, blaze -> {
             blaze.setCustomNameVisible(true);
             blaze.addScoreboardTag("combatxp:200");

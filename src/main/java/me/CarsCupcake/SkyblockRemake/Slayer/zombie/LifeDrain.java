@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
@@ -15,7 +16,7 @@ public abstract class LifeDrain extends ZombieSlayer {
     }
 
     @Override @OverridingMethodsMustInvokeSuper
-    public void spawn(Location loc) {
+    public void spawn(@NotNull Location loc) {
         lifeDrainTimer = new BukkitRunnable() {
             @Override
             public void run() {
