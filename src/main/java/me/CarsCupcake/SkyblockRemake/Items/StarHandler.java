@@ -67,7 +67,12 @@ public class StarHandler {
         }
         ItemHandler.setPDC("stars", item, PersistentDataType.INTEGER, i);
     }
-    public static void addMasterStars(ItemStack item){
+
+    /**
+     * adds 1 master star to the item
+     * @param item The selected item
+     */
+    public static void addMasterStar(ItemStack item){
         Assert.allNotNull("", item, item.getItemMeta(), item.getItemMeta().getPersistentDataContainer());
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
         Assert.isTrue(manager.isDungeonItem, "The item is not a dungeon item");
@@ -77,13 +82,19 @@ public class StarHandler {
             return;
         ItemHandler.setPDC("master_stars", item, PersistentDataType.INTEGER, stars);
     }
-    public static void setMasterStars(ItemStack item, int stars){
+
+    /**
+     * adds master stars to the item
+     * @param item the item
+     * @param amount the amount
+     */
+    public static void setMasterStars(ItemStack item, int amount){
         Assert.allNotNull("", item, item.getItemMeta(), item.getItemMeta().getPersistentDataContainer());
-        Assert.isTrue(stars >= 0, "stars have to be larger then 0");
+        Assert.isTrue(amount >= 0, "stars have to be larger then 0");
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
         Assert.isTrue(manager.isDungeonItem, "The item is not a dungeon item");
-        Assert.isTrue(stars <= 5, "The stars canot be larger then 5");
-        ItemHandler.setPDC("master_stars", item, PersistentDataType.INTEGER, stars);
+        Assert.isTrue(amount <= 5, "The stars canot be larger then 5");
+        ItemHandler.setPDC("master_stars", item, PersistentDataType.INTEGER, amount);
     }
     public static double getStarBuff(ItemStack item){
         double i = 1;

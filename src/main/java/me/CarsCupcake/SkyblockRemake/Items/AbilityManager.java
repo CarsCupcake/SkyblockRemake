@@ -11,6 +11,7 @@ import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntit
 import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.isles.rift.events.RiftDamageEvent;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -182,6 +183,38 @@ public interface AbilityManager<T extends Event> {
         for (Ability ability : manager.getAbilities()) {
             if (ability.getAbilityManager() == null) continue;
             if (ability.getType() == AbilityType.SkyblockPreHit) {
+                abilities.add(ability);
+            }
+        }
+
+        if (abilities.isEmpty()) return;
+
+        for (Ability ability : abilities) {
+            executeAbility(ability, player, manager, event);
+        }
+
+    }
+
+    static void abilityTrigger(RiftDamageEvent event) {
+        SkyblockPlayer player = event.getCalculator().getPlayer();
+
+        if (!player.getItemInHand().hasItemMeta()) return;
+
+        boolean isSneaking = player.isSneaking();
+
+        ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", player.getItemInHand(), PersistentDataType.STRING));
+
+        if (manager == null) return;
+
+        if (manager.getAbilities().isEmpty()) return;
+
+        List<Ability> abilities = new ArrayList<>();
+
+        boolean hasSneak = false;
+
+        for (Ability ability : manager.getAbilities()) {
+            if (ability.getAbilityManager() == null) continue;
+            if (ability.getType() == AbilityType.RiftHit) {
                 abilities.add(ability);
             }
         }

@@ -2,12 +2,14 @@ package me.CarsCupcake.SkyblockRemake.Slayer.vampire;
 
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.Slayer.vampire.itemAbilities.SteakStake;
 import me.CarsCupcake.SkyblockRemake.Slayer.vampire.itemAbilities.VampireSword;
 import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
 import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import org.bukkit.Material;
+
+import java.util.List;
 
 @Getter
 public enum VampireItems implements Factory<String, ItemManager> {
@@ -33,6 +35,15 @@ public enum VampireItems implements Factory<String, ItemManager> {
             manager.setStat(Stats.RiftDamage, 6);
             manager.setStat(Stats.Speed, 15);
             manager.setGlint();
+            return manager;
+        }
+    },
+    SteakStake("STEAK_STAKE") {
+        @Override
+        public ItemManager factor(String obj) {
+            ItemManager manager = new ItemManager("Steak Stake", obj, ItemType.Sword, Material.COOKED_MUTTON, ItemRarity.RARE);
+            manager.addAbility(new SteakStake(), AbilityType.RiftHit, " A bit of Impalement", new AbilityLore(List.of("§7Stab a §4Vampire §7at §c20%" + Stats.Hearts.getSymbol(), "§7to instantly vanquish it.", "§8(Does not actually hurt the vampire)")));
+            manager.setUnstackeble(true);
             return manager;
         }
     };

@@ -18,6 +18,9 @@ public class DebugLogger {
     public void debug(final String s) {
         debug(s, true);
     }
+    public void debug(final Object s) {
+        debug(s.toString());
+    }
     public void debug(final String s, boolean withTrace) {
         if (!debug) return;
         if(withTrace && ServerSettings.getValue("debugWithTrace", false))

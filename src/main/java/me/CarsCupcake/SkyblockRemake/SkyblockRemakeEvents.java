@@ -1159,7 +1159,7 @@ public class SkyblockRemakeEvents implements Listener {
                     calculator.damageEntity((LivingEntity) e.getHitEntity(), player, DamageCause.PROJECTILE);
                     double damage = calculator.damage;
 
-                    if (calculator.getResult().isCancelled()) return;
+                    if (calculator.getResult() != null && calculator.getResult().isCancelled()) return;
 
                     if (e.getEntity().getScoreboardTags().contains("term")) {
                         if (player != null) Main.termhits.replace(player, Main.termhits.get(player) + 1);

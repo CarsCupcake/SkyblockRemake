@@ -364,7 +364,12 @@ public class ItemManager implements ItemGenerator {
         if (dungeonStats == null) dungeonStats = new HashMap<>();
         dungeonStats.put(floor, stats);
     }
-
+    public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name) {
+        addAbility(ability, type, name, 0, 0);
+    }
+    public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name, AbilityLore lore) {
+        addAbility(ability, type, name, lore, 0, 0);
+    }
     public void addAbility(AbilityManager<? extends Event> ability, AbilityType type, String name, int manacost, int cooldown) {
         abilities.add(new Ability(ability, name, type, new AbilityLore(new ArrayList<>()), manacost, cooldown));
     }

@@ -17,7 +17,8 @@ public enum AbilityType {
     LeftOrRightClick(true, true, false, false),
     SneakLeftOrRightClick(true, true, true, false),
     SkyblockPreHit(),
-    AfterHit();
+    AfterHit(),
+    RiftHit();
     @Getter
     private final boolean rightClick;
     @Getter
@@ -39,7 +40,7 @@ public enum AbilityType {
 
     public String toString() {
         return switch (this) {
-            case EntityHit, SkyblockPreHit, AfterHit -> "Hit";
+            case EntityHit, SkyblockPreHit, AfterHit, RiftHit -> "Hit";
             case LeftClick -> "Left Click";
             case RightClick -> "Right Click";
             case Sneak -> "Sneak";

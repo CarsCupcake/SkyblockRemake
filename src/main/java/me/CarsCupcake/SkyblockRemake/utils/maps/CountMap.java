@@ -4,6 +4,7 @@ package me.CarsCupcake.SkyblockRemake.utils.maps;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class CountMap<T> extends HashMap<T, Integer> {
     public void add(T type, int amount) {
@@ -26,13 +27,13 @@ public class CountMap<T> extends HashMap<T, Integer> {
     public List<T> getByAmount(int amount) {
         List<T> l = new ArrayList<>();
         for (T t : keySet()) {
-            if (amount != get(t)) l.add(t);
+            if (amount == get(t)) l.add(t);
         }
         return l;
     }
 
     public void removeByAmount(int amount) {
-        for (T t : keySet()) {
+        for (T t : Set.copyOf(keySet())) {
             if (amount == get(t)) remove(t);
         }
     }

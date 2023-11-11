@@ -9,12 +9,39 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Projectile;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataAdapterContext;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
 
 public class ItemHandler {
+    public static PersistentDataType<Byte, Boolean> BOOLEAN = new PersistentDataType<>() {
+        @NotNull
+        @Override
+        public Class<Byte> getPrimitiveType() {
+            return Byte.TYPE;
+        }
+
+        @NotNull
+        @Override
+        public Class<Boolean> getComplexType() {
+            return Boolean.TYPE;
+        }
+
+        @NotNull
+        @Override
+        public Byte toPrimitive(@NotNull Boolean aBoolean, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+            return (byte)((aBoolean) ? 1 : 0);
+        }
+
+        @NotNull
+        @Override
+        public Boolean fromPrimitive(@NotNull Byte aByte, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
+            Assert.state(aByte < 2, "Byte is in a illegal state!");
+            return aByte == 1;
+        }
+    };
     public static <T, Z> boolean hasPDC(String str, ItemStack item, PersistentDataType<T, Z> type) {
         if (item != null && item.getItemMeta() != null) {
             return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), str), type);
@@ -113,4 +140,14 @@ public class ItemHandler {
         if(item == null || !item.hasItemMeta()) return null;
         return Items.SkyblockItems.get(getPDC("id", item, PersistentDataType.STRING));
     }
+    public static void dungeonize(ItemStack item, boolean b) {
+        Assert.isTrue(getItemManager(item).isDungenoizanble(), "Item is not dungeonizable!");
+        setPDC("dungeon", item, BOOLEAN, b);
+    }
+    public static boolean isDungeonItem(ItemStack item) {
+        if (getItemManager(item).isDungeonItem) return true;
+        if (!hasPDC("dungeon", item, BOOLEAN)) return false;
+        return getPDC("dungeon", item, BOOLEAN);
+    }
+
 }

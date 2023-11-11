@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T1;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
@@ -15,7 +14,6 @@ import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.jetbrains.annotations.NotNull;
@@ -97,12 +95,6 @@ public class BlazeSlayerT1 extends Slayer {
     @Override
     public String getName() {
         return "Inferno Demonlord";
-    }
-
-
-    @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
     }
 
 

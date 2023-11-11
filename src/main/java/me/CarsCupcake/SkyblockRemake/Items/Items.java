@@ -1883,6 +1883,7 @@ public class Items {
         manager.setArrowsToShoot(3);
         manager.setOnBowShoot(event -> event.getEntity().addScoreboardTag("term"));
         manager.setMaxStars(5);
+        manager.setDungenoizanble(true);
         manager.addAbility(new LaserBeam(), AbilityType.RightClick, "Salvation", new AbilityLore(List.of(
                 "§7Can be casted after landing §63 §7hits.",
                 "§7Shoot a beam, penetrating up",
@@ -1965,8 +1966,7 @@ public class Items {
         manager.setStat(Stats.CritChance, 10);
         manager.setStat(Stats.CritDamage, 110);
         manager.setShortbow(0.5);
-
-        SkyblockItems.put(manager.itemID, manager);
+        manager.setDungenoizanble(true);
 
     }
 

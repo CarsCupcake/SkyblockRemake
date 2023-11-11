@@ -24,35 +24,24 @@ import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvent;
 import me.CarsCupcake.SkyblockRemake.isles.dwarven.DwarvenEvents.DwarvenEvents;
 
 
-public class SkyblockScoreboard implements Listener {
-
-    @EventHandler
-    public void sbonJoin(PlayerJoinEvent event) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                updateScoreboard(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-            }
-        }.runTaskLater(Main.getMain(), 5);
-
-
-    }
+public class SkyblockScoreboard {
 
     public static void updateScoreboard(SkyblockPlayer player) {
+        if (player == null) return;
         int score = 0;
         for (ScoreboardSection scoreboardSection : player.getScoreboardSections()) {
             for (String s : scoreboardSection.score(player)){
-                ScoreboardDisplayer.setScore(player, s, score);
+                ScoreboardDisplayer.setScore(player, s, score + 14);
                 score--;
             }
         }
         if (Math.abs(score) < player.getScoreboard().getEntries().size() - 1) {
             for (int i = Math.abs(score); i <= player.getScoreboard().getEntries().size(); i++) {
-                Team t = player.getScoreboard().getTeam("score-" + (-i));
-                t.removeEntry(ScoreboardDisplayer.buildString(Math.abs(i)));
+                Team t = player.getScoreboard().getTeam("score-" + ((-i) + 14));
+                t.removeEntry(ScoreboardDisplayer.buildString(Math.abs((-i) + 14)));
                 t.unregister();
-                player.getScoreboard().resetScores("score-" + (-i));
-                player.getScoreboard().resetScores(ScoreboardDisplayer.buildString(Math.abs(i)));
+                player.getScoreboard().resetScores("score-" + ((-i) + 14));
+                player.getScoreboard().resetScores(ScoreboardDisplayer.buildString(Math.abs((-i) + 14)));
             }
         }
     }

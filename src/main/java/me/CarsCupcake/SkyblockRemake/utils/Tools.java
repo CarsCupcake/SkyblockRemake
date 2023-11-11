@@ -106,6 +106,9 @@ public class Tools {
     public static String cleanDouble(double d) {
         return (d % 1 == 0) ? String.format("%.0f", d) : String.valueOf(d);
     }
+    public static String cleanDouble(double d, int digids) {
+        return (d % 1 == 0) ? String.format("%.0f", d) : String.format("%." + digids + "f", d);
+    }
 
     public static ArrayList<ItemStack> applyPristine(ItemManager rough, ItemManager flawed, int baseDropChance, SkyblockPlayer player) {
         double chance = Main.getPlayerStat(player, Stats.Pristine) / 100d;

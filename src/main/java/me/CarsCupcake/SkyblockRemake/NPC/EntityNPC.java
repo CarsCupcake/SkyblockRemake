@@ -11,12 +11,13 @@ import org.bukkit.craftbukkit.v1_17_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
 @Getter
 public class EntityNPC extends CraftLivingEntity {
-    private static final ConfigFile file = new ConfigFile("EntityNpc", true);
+    private static final ConfigFile file = new ConfigFile("EntityNpc", false);
     private static final HashMap<LivingEntity, EntityNPC> npcs = new HashMap<>();
     private final LivingEntity entity;
     public static boolean isKillable = false;
@@ -47,6 +48,12 @@ public class EntityNPC extends CraftLivingEntity {
 
     }
 
+    @Override
+    public void remove() {
+        super.remove();
+        npcs.remove(entity);
+    }
+
     public EntityNPC(String name, Location location, EntityLiving entity, Class<? extends LivingEntity> e, LivingEntity base) {
         this(name, location, entity, e, base, false);
     }
@@ -57,18 +64,20 @@ public class EntityNPC extends CraftLivingEntity {
         return entity.getType();
     }
 
-    public static void makeNPC(String name, Class<? extends LivingEntity> coreEntity, Location location) {
+    public static EntityNPC makeNPC(@Nullable String name, Class<? extends LivingEntity> coreEntity, Location location) {
+        return makeNPC(name, coreEntity, location, false);
+    }
+    public static EntityNPC makeNPC(@Nullable String name, Class<? extends LivingEntity> coreEntity, Location location, boolean temp) {
         LivingEntity entity = location.getWorld().spawn(location, coreEntity, r -> {
             r.setAI(false);
             r.setGravity(false);
             r.setRemoveWhenFarAway(false);
             r.setCustomName(name);
-            r.setCustomNameVisible(true);
+            r.setCustomNameVisible(name != null);
             r.addScoreboardTag("npc");
             r.setSilent(true);
         });
-        new EntityNPC(name, location, ((CraftLivingEntity) entity).getHandle(), coreEntity, entity);
-
+        return new EntityNPC(name, location, ((CraftLivingEntity) entity).getHandle(), coreEntity, entity, temp);
     }
 
     public static void loadNPC() {

@@ -393,7 +393,6 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new SkyblockRemakeEvents(), this);
         this.getServer().getPluginManager().registerEvents(new NPCInteraction(), this);
         this.getServer().getPluginManager().registerEvents(new OpenMenu(), this);
-        this.getServer().getPluginManager().registerEvents(new SkyblockScoreboard(), this);
         this.getServer().getPluginManager().registerEvents(new PetMenuListener(), this);
         this.getServer().getPluginManager().registerEvents(new maze(), this);
         this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
@@ -1486,7 +1485,7 @@ public class Main extends JavaPlugin {
             }
             lores.add(" ");
             String extra = "";
-            if (manager.isDungeonItem) extra = "DUNGEON ";
+            if (ItemHandler.isDungeonItem(item)) extra = "DUNGEON ";
 
             if (ItemHandler.getOrDefaultPDC("recomed", item, PersistentDataType.INTEGER, 0) == 0)
                 lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase());
