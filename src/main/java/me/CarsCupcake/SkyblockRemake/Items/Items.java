@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
+import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.*;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.EnchantedCrops;
@@ -15,7 +17,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.SquashArmor;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.axes.MelonDicer;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.*;
 import me.CarsCupcake.SkyblockRemake.Items.requirements.SkillRequirement;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
+import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.Slayer.spider.item.SpiderSlayerItems;
@@ -27,7 +29,6 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.HelperItems;
 import me.CarsCupcake.SkyblockRemake.isles.End.EndItems;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRegistration.GiantsArmorSets;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Slayer.blaze.BlazeSlayerItems;
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanSlayerItems;
 import me.CarsCupcake.SkyblockRemake.isles.WinterIsle.WinterItems;
@@ -52,7 +53,6 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Items.Drill.DrillPart;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
@@ -481,11 +481,46 @@ public class Items {
         SpiderSlayerItems.init();
         manager = new ItemManager("Shadows indicate riddles, illuminating unseen stars", "RIDDLE_STAR", ItemType.Non, Material.NETHER_STAR, ItemRarity.EPIC);
         manager.setLore(List.of("§7Lorem ipsum dolor sit amet, consetetur sadipscing elitr"));
+
+        manager = new ItemManager("Emerald Blade", "EMERALD_BLADE", ItemType.Sword, Material.EMERALD, ItemRarity.EPIC);
+        manager.setNpcSellPrice(153_000);
+        manager.setStat(Stats.WeaponDamage, 130);
+        manager.addAbility(new EmeraldBlade(), AbilityType.SkyblockPreHit, "", new AbilityLore(List.of(
+                "§7A powerful blade made from pure",
+                "§2Emeralds§7. This blade becomes",
+                "§7stronger as you carry more",
+                "§6coins §7in your purse",
+                "§8(Capped at 2B coins)",
+                " ",
+                "§7Recieve §4Curse of Greed §7when",
+                "§7striken, §cCANCELLING §7any effect",
+                "§7modifying your §6coins §7loss on",
+                "§4death§7!",
+                "§c§lNOTE: §4Curse of Greed §7is not done!",
+                " ",
+                "§7Current Damage Bonus: §a%buff%"
+        )).addPlaceholder("%buff%", (player, itemStack) -> {
+            return (SkyblockServer.getServer().type() == ServerType.Rift) ? "§kN/A" :
+                    String.valueOf(EmeraldBlade.getBuff(player));
+        }));
+    }
+
+    public static class EmeraldBlade implements AbilityManager<DamagePrepairEvent> {
+
+        @Override
+        public boolean triggerAbility(DamagePrepairEvent event) {
+            event.setWeaponDamage(event.getWeaponDamage() + getBuff(event.getPlayer()));
+            return false;
+        }
+
+        private static double getBuff(SkyblockPlayer player) {
+            return Tools.round(Math.pow(Math.min(2_000_000_000, player.coins), 1d / 4d) * 2.5, 1);
+        }
     }
 
     private static void racingHelmet() {
         ItemManager manager = new ItemManager("Racing Helmet", "RACING_HELMET", ItemType.Helmet, ItemRarity.SPECIAL, "");
-        manager.setLore(List.of("§7When horses are not fast", "§7enough, use a Racing Helmet", "§7instead", " " , "§8Increases your speed cap to", "§a500"));
+        manager.setLore(List.of("§7When horses are not fast", "§7enough, use a Racing Helmet", "§7instead", " ", "§8Increases your speed cap to", "§a500"));
         manager.setEditions(true);
         manager.setStat(Stats.Speed, 500);
         manager.setUnstackeble(true);
@@ -1953,6 +1988,7 @@ public class Items {
         public boolean canTrigger(SkyblockPlayer player) {
             return Main.termhits.getOrDefault(player, 0) >= 3;
         }
+
         @Override
         public boolean hideCooldown() {
             return true;
