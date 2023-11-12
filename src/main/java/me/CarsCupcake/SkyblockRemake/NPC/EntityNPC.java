@@ -13,6 +13,7 @@ import org.bukkit.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Getter
@@ -106,7 +107,7 @@ public class EntityNPC extends CraftLivingEntity {
     }
 
     public static void shutdown() {
-        for (EntityNPC npc : npcs.values())
+        for (EntityNPC npc : new ArrayList<>(npcs.values()))
             npc.remove();
     }
 

@@ -159,14 +159,15 @@ public strictfp class Calculator {
 
         double preMultiplier = event.getPreMultiplier();
         double postMult = event.getPostMultiplier();
+        System.out.println(stre + " " + cd + " " + weapondamage);
 
         double damage;
         if (cccalc <= cc) {
             isCrit = true;
-            damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + ((float) cd / 100)) * ((preMultiplier)) * ((postMult));
+            damage = (5 + (double) weapondmg) * (1 + ((double) stre / 100)) * (1 + ((double) cd / 100)) * ((preMultiplier)) * ((postMult));
 
         } else {
-            damage = (5 + (float) weapondmg) * (1 + ((float) stre / 100)) * (1 + (preMultiplier)) * (1 + (postMult));
+            damage = (5 + (double) weapondmg) * (1 + ((double) stre / 100)) * ((preMultiplier)) * ((postMult));
         }
         if (SkyblockEntity.livingEntity.exists(e)) {
             SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);

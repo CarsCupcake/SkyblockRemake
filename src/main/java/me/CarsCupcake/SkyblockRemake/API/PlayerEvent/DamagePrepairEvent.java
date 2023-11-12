@@ -13,22 +13,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
+@Getter
 public class DamagePrepairEvent extends PlayerEvent{
     private static final HandlerList HANDLERS = new HandlerList();
-    @Getter
     private final LivingEntity entity;
-    @Getter
     private double preMultiplier;
-    @Getter
     private double postMultiplier;
-    @Getter
     private final Calculator calculator;
-    @Getter
     private final HashMap<Stats, Double> stats;
-    @Getter
     @Setter
     private double weaponDamage;
-    @Getter
     private final int hits;
     public DamagePrepairEvent(SkyblockPlayer player, LivingEntity entity, Calculator calculator, double pre, double post, HashMap<Stats, Double> stats, double weaponDamage) {
         super(player);

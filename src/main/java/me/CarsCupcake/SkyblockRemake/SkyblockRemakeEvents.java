@@ -6,6 +6,7 @@ import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.BowShootEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
@@ -1543,5 +1544,12 @@ public class SkyblockRemakeEvents implements Listener {
             }
         }.runTaskLater(Main.getMain(), 1L);
 
+    }
+    @EventHandler
+    public void termCritChance(GetTotalStatEvent event) {
+        if (event.getStat() != Stats.CritChance) return;
+        if (ItemHandler.getPDC("id", event.getPlayer().getItemInHand(), PersistentDataType.STRING).equals("TERMINATOR")) {
+            event.addMultiplier(0.25);
+        }
     }
 }

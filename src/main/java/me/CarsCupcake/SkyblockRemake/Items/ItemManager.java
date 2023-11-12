@@ -298,9 +298,8 @@ public class ItemManager implements ItemGenerator {
 
     public String getAbilityHeadline(SkyblockPlayer player, int i) {
         Ability ability = abilities.get(i);
-
+        if (ability.getName() == null || ability.getName().isBlank()) return "";
         if (ability.getType() == null) return "§6" + ability.getName();
-
         if (!TieredBonus)
             return "§6Ability: " + ability.getName() + " §e§l" + ability.getType().toString().toUpperCase();
         else {

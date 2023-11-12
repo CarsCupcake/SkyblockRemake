@@ -820,7 +820,8 @@ public class Main extends JavaPlugin {
 
                     if (absorbtionrunntime.get(player) <= 0) {
                         double health = getPlayerStat(SkyblockPlayer.getSkyblockPlayer(player), Stats.Health);
-                        if (absorbtion.get(player) + p.currhealth > health) p.setHealth(health, HealthChangeReason.Ability);
+                        if (absorbtion.get(player) + p.currhealth > health)
+                            p.setHealth(health, HealthChangeReason.Ability);
                         else {
                             p.setHealth((absorbtion.get(player) + p.currhealth) * p.healingMulti, HealthChangeReason.Ability);
                         }
@@ -1339,7 +1340,10 @@ public class Main extends JavaPlugin {
             int i = 0;
             for (Ability ability : manager.getAbilities()) {
                 lores.add(" ");
-                if (ability.getName() != null) lores.add(manager.getAbilityHeadline(player, i));
+                if (ability.getName() != null) {
+                    String headline = manager.getAbilityHeadline(player, i);
+                    if (!headline.isBlank()) lores.add(headline);
+                }
                 if (ability.getLore() != null) lores.addAll(ability.getLore().makeLore(player, item));
 
                 if (ability.getManacost() > 0 && !ability.isPersentage()) {
