@@ -514,6 +514,7 @@ public class Items {
         }
 
         private static double getBuff(SkyblockPlayer player) {
+            if (player == null) return 0;
             return Tools.round(Math.pow(Math.min(2_000_000_000, player.coins), 1d / 4d) * 2.5, 1);
         }
     }
