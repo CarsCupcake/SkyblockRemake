@@ -52,11 +52,12 @@ public class Overload extends CustomEnchantment implements Listener {
 
     @EventHandler
     public void onHit(DamagePrepairEvent event) {
-        if(event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && event.getCalculator().getProjectile() != null) {
-            if (ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile())){
-                if(Main.getPlayerStat(event.getPlayer(), Stats.CritChance) > 100){
+        if (event.getCalculator().getType() == SkyblockDamageEvent.DamageType.PlayerToEntity && event.getCalculator().getProjectile() != null) {
+            if (ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile())) {
+                double cc = Main.getPlayerStat(event.getPlayer(), Stats.CritChance);
+                if (cc > 100) {
                     Random r = new Random();
-                    if(r.nextBoolean()){
+                    if (r.nextDouble() <= cc / 100) {
                         event.getCalculator().setOverload(true);
                         event.addPreMultiplier((double) ItemHandler.getEnchantmentLevel(SkyblockEnchants.OVERLOAD, event.getCalculator().getProjectile()) / 10);
                     }
@@ -66,9 +67,9 @@ public class Overload extends CustomEnchantment implements Listener {
     }
 
     @EventHandler
-    public void onStatsGain(GetStatFromItemEvent event){
-        if(event.getStat() == Stats.CritDamage || event.getStat() == Stats.CritChance){
-            if(ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getItem()))
+    public void onStatsGain(GetStatFromItemEvent event) {
+        if (event.getStat() == Stats.CritDamage || event.getStat() == Stats.CritChance) {
+            if (ItemHandler.hasEnchantment(SkyblockEnchants.OVERLOAD, event.getItem()))
                 event.setValue(event.getValue() + event.getItem().getItemMeta().getEnchants().get(SkyblockEnchants.OVERLOAD));
         }
     }
