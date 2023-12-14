@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.SkyblockDamagePlayerToEntityExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.isles.rift.events.RiftDamageEvent;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -60,12 +59,12 @@ public class AbilityListener implements Listener {
 							@Override
 							public void run() {
 								SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked());
-								player.getEquipment().setHelmet(Main.item_updater(player.getEquipment().getHelmet() , player));
-								player.getEquipment().setChestplate(Main.item_updater(player.getEquipment().getChestplate() , player));
-								player.getEquipment().setLeggings(Main.item_updater(player.getEquipment().getLeggings() , player));
-								player.getEquipment().setBoots(Main.item_updater(player.getEquipment().getBoots() , player));
+								player.getEquipment().setHelmet(Main.itemUpdater(player.getEquipment().getHelmet() , player));
+								player.getEquipment().setChestplate(Main.itemUpdater(player.getEquipment().getChestplate() , player));
+								player.getEquipment().setLeggings(Main.itemUpdater(player.getEquipment().getLeggings() , player));
+								player.getEquipment().setBoots(Main.itemUpdater(player.getEquipment().getBoots() , player));
 								if(event.getCurrentItem() != null)
-									event.setCurrentItem(Main.item_updater(event.getCurrentItem(), player));
+									event.setCurrentItem(Main.itemUpdater(event.getCurrentItem(), player));
 							}
 						}.runTaskLater(Main.getMain(), 2);
 					}

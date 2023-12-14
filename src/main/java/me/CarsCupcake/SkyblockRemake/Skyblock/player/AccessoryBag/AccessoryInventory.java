@@ -67,7 +67,7 @@ public AccessoryInventory(Player player) {
 			AccessoryBag.reload();
 			if(list < slots && AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + list) != null) {
 				ItemStack it = AccessoryBag.get().getItemStack(player.getUniqueId() + ".SLOT_" + list + ".item");
-				inv.setItem(i, Main.item_updater(it, SkyblockPlayer.getSkyblockPlayer(player)));
+				inv.setItem(i, Main.itemUpdater(it, SkyblockPlayer.getSkyblockPlayer(player)));
 				
 				
 				

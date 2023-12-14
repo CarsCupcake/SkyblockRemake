@@ -79,7 +79,7 @@ public void inventoryClickEvent(InventoryClickEvent event) {
 		if(event.getCurrentItem() != null) {
 			event.setCancelled(true);
 			
-			event.setCurrentItem(Main.item_updater(event.getCurrentItem(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
+			event.setCurrentItem(Main.itemUpdater(event.getCurrentItem(), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
 			
 			event.setCancelled(false);
 		}

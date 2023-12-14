@@ -51,11 +51,11 @@ public abstract class Crop {
                 if (manager.getRarityGrabber() instanceof UpgradebleHoe upgradebleHoe)
                     if (upgradebleHoe.crop == b.getType()) {
                         ItemHandler.setPDC("counter", itemInHand, PersistentDataType.INTEGER, ItemHandler.getOrDefaultPDC("counter", itemInHand, PersistentDataType.INTEGER, 0) + 1);
-                        Main.item_updater(itemInHand, player);
+                        Main.itemUpdater(itemInHand, player);
                     }
             }
         }
-        return Main.item_updater(item, player);
+        return Main.itemUpdater(item, player);
     }
 
     public void addSkillXp(PlayerFarmEvent event) {

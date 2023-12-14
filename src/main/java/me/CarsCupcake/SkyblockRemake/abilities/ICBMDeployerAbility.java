@@ -62,7 +62,7 @@ public class ICBMDeployerAbility implements AbilityManager<PlayerInteractEvent> 
         emptyFuelSlot.setItemMeta(meta);
         for (int i = 11; i < 16; i++)
             inv.setItem(i, emptyFuelSlot);
-        ItemStack fuelTank = Main.item_updater(Items.uraniumFuel().getRawItemStack(), player);
+        ItemStack fuelTank = Main.itemUpdater(Items.uraniumFuel().getRawItemStack(), player);
         if (fuel > 0)
             for (int i = 11; i < 11 + fuel; i++)
                 inv.setItem(i, fuelTank);

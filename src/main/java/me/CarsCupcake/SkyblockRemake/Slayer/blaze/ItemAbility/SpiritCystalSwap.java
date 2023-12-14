@@ -33,7 +33,7 @@ public class SpiritCystalSwap implements AbilityManager<PlayerInteractEvent>, Up
             ItemHandler.setPDC("attuned", event.getItem(), PersistentDataType.STRING, "crystal");
             event.getPlayer().sendTitle("§bCrystal", "", 0, 20, 0);
         }
-        Main.item_updater(event.getItem(), SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+        Main.itemUpdater(event.getItem(), SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         return false;
     }
 

@@ -42,6 +42,9 @@ public interface AbilityManager<T extends Event> {
     default boolean hideCooldown() {
         return false;
     }
+    default <T extends Event> AbilityManager<T> newInstance() throws InstantiationException, IllegalAccessException {
+        return this.getClass().newInstance();
+    }
 
     HashMap<SkyblockPlayer, HashMap<String, AdditionalManaCosts>> additionalMana = new HashMap<>();
 
@@ -90,7 +93,7 @@ public interface AbilityManager<T extends Event> {
         Action action = Action.PHYSICAL;
         if (!precheck(ability, player, manager, action)) return;
         try {
-            ability.getAbilityManager().getClass().newInstance().triggerAbility(event);
+            ability.getAbilityManager().newInstance().triggerAbility(event);
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");

@@ -18,13 +18,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 
@@ -97,7 +95,7 @@ if(event.getView().getTitle() == null || !event.getView().getTitle().contains("G
 					if(freeSlot) {
 						ItemStack i = event.getView().getTopInventory().getItem(13);
 						i = GemstoneSlot.setSlotPersistentDataContainer(i, newSlots);
-						i = Main.item_updater(i, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+						i = Main.itemUpdater(i, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
 						event.getView().getTopInventory().setItem(13, i);
 					}
 					
@@ -123,7 +121,7 @@ if(event.getView().getTitle() == null || !event.getView().getTitle().contains("G
 					ItemStack item = event.getView().getTopInventory().getItem(13);
 					 item = GemstoneSlot.setSlotPersistentDataContainer(item, slots);
 					Gemstone gem = Gemstone.gemstones.get(event.getInventory().getItem(event.getSlot()).getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
-					Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+					Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
 					event.getView().getTopInventory().setItem(13, item);
 				}
 			}
@@ -152,7 +150,7 @@ if(event.getView().getTitle() == null || !event.getView().getTitle().contains("G
 			    		
 			    		if(slots.get(r).currGem != null) {
 			    		item = slots.get(r).currGem.getRawItemStack();
-			    		item = Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
+			    		item = Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
 			    		}else {
 			    			ItemMeta meta = item.getItemMeta();
 			    			meta.setDisplayName(slots.get(r).type.getPrefix() + slots.get(r).type.getSymbol() + " " + slots.get(r).type.toString() + " Gemstone Slot");

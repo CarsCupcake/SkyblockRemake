@@ -171,7 +171,7 @@ public class EndItems {
         manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_HELMET", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -199,7 +199,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -227,7 +227,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.SuperiorDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -255,7 +255,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.SuperiorBlood, "Superior Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("SUPERIOR_DRAGON_BOOTS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -284,7 +284,7 @@ public class EndItems {
         manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_HELMET", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -307,7 +307,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -330,7 +330,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -353,7 +353,7 @@ public class EndItems {
         AbilityLore lore = new AbilityLore(abilityLore);
         manager.setFullSetBonus(Bonuses.HolyBlood, "Holy Blood", lore);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("HOLY_DRAGON_BOOTS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.HolyDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());

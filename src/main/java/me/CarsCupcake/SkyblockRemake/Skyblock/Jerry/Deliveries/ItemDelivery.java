@@ -44,7 +44,7 @@ public class ItemDelivery implements IDelivery {
     public void claim() {
         ItemStack itemStack = item.createNewItemStack();
         itemStack.setAmount(amount);
-        player.getInventory().addItem(Main.item_updater(itemStack, player));
+        player.getInventory().addItem(Main.itemUpdater(itemStack, player));
         IDelivery.config.reload();
         IDelivery.config.get().set(player.getUniqueId() + ".item." + filevar, null);
         IDelivery.config.save();

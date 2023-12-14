@@ -38,7 +38,7 @@ public class AddCustomEnchantCMD implements CommandExecutor {
             else
                 meta.removeEnchant(SkyblockEnchants.enchantments.get(SkyblockEnchants.skyblockEnchantIds.indexOf(arg3[0])));
             player.getItemInHand().setItemMeta(meta);
-            Main.item_updater(player.getItemInHand(), player);
+            Main.itemUpdater(player.getItemInHand(), player);
 
         } else
             player.sendMessage(arg3[0] + " dosent exist");

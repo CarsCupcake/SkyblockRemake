@@ -117,8 +117,8 @@ static class GiftData {
             gifter.sendMessage("You got §3" + String.format("%.0f", s.getValue()) + " " + xp.getSkill());
             reciver.sendMessage("You got §3" + String.format("%.0f", s.getValue()) + " " + xp.getSkill());
         } else {
-            gifter.addItem(Main.item_updater(generator.createNewItemStack(), gifter));
-            reciver.addItem(Main.item_updater(generator.createNewItemStack(), reciver));
+            gifter.addItem(Main.itemUpdater(generator.createNewItemStack(), gifter));
+            reciver.addItem(Main.itemUpdater(generator.createNewItemStack(), reciver));
             if (generator instanceof ItemManager m) {
                 gifter.sendMessage("You got " + m.getRarity().getPrefix() + m.name);
                 reciver.sendMessage("You got " + m.getRarity().getPrefix() + m.name);

@@ -201,6 +201,7 @@ public abstract class SkyblockEntity implements Elementable {
         if (killer != null) e.addScoreboardTag("killer:" + killer.getName());
         Main.EntityDeath(e);
         e.damage(9999999, killer);
+        e.setHealth(0);
         if (e instanceof EnderDragon) e.setHealth(0);
         if(!entity.hasDoneDeath) entity.kill();
         SkyblockEntity.livingEntity.remove(e);

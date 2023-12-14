@@ -37,7 +37,7 @@ public class GemstoneSlot {
 			i++;
 		}
 		item.setItemMeta(meta);
-		item = Main.item_updater(item, null);
+		item = Main.itemUpdater(item, null);
 		return item;
 	}
 	public static ArrayList<GemstoneSlot> getCurrGemstones(ItemManager manager, PersistentDataContainer data){

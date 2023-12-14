@@ -12,14 +12,25 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.log.DebugLogger;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.network.protocol.game.PacketPlayOutUpdateAttributes;
+import net.minecraft.network.protocol.game.PacketPlayOutUpdateHealth;
 import net.minecraft.server.level.EntityPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeBase;
+import net.minecraft.world.entity.ai.attributes.AttributeModifiable;
+import net.minecraft.world.entity.ai.attributes.AttributeRanged;
+import net.royawesome.jlibnoise.module.combiner.Max;
+import org.bukkit.GameMode;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @SuppressWarnings({"unused", "deprecation"})
 public class RiftPlayer extends SkyblockPlayer {
@@ -85,6 +96,9 @@ public class RiftPlayer extends SkyblockPlayer {
     public void updateBar(){
         this.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(((timer.isRunning()) ? "§a" : "§7") + toTimeString(Tools.breakDownTime(riftTime)) + Stats.RiftTime.getSymbol() + " Left   " + ((showDefenceString) ? defenseString : "") + "   §b"
         + currmana + "/" + Main.getPlayerStat(this, Stats.RiftInteligence)));
+        double maxHealth = Main.getPlayerStat(this, Stats.Hearts) * 2;
+        if (getMaxHealth() != maxHealth)
+            setMaxHealth(maxHealth);
     }
     private String toTimeString(Triple<Long, Long, Long> time){
         StringBuilder builder = new StringBuilder();
@@ -95,35 +109,44 @@ public class RiftPlayer extends SkyblockPlayer {
         builder.append((time.getFirst() < 10) ? "0" : "").append(time.getFirst()).append("s");
         return builder.toString();
     }
+    private double health;
+
+    @Override
+    public double getHealth() {
+        return health;
+    }
 
     @Override
     public void setHealth(int value, HealthChangeReason reason) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        setHealth((double) value, reason);
     }
 
     @Override
     public void setHealth(float value, HealthChangeReason reason) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        setHealth((double) value, reason);
     }
 
     @Override
     public void setHealth(double value, HealthChangeReason reason) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        if (getGameMode() != GameMode.SURVIVAL) return;
+        health = Math.max(0, Math.min(getMaxHealth(), value));
+        getHandle().b.sendPacket(new PacketPlayOutUpdateHealth((float) health, 20, 5));
+        if (health == 0) getPlayer().setHealth(0);
     }
 
     @Override
     public void setHealth(int value) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        setHealth(value, HealthChangeReason.Force);
     }
 
     @Override
     public void setHealth(float value) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        setHealth(value, HealthChangeReason.Force);
     }
 
     @Override
     public void setHealth(double value) {
-        getPlayer().setHealth(Math.min(value, getMaxHealth()));
+        setHealth(value, HealthChangeReason.Force);
     }
 
     @Getter

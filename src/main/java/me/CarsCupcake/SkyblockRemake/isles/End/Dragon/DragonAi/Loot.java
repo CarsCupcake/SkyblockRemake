@@ -127,7 +127,7 @@ public class Loot implements Listener {
                         if (b.getZ() - 3 == middle.getBlockZ() && b.getX() == middle.getBlockX()) {
                             for(Player p : Bukkit.getOnlinePlayers()) {
                                 ItemStack item = new ItemStack(Material.ENDER_PEARL);
-                                item = Main.item_updater(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(p)), SkyblockPlayer.getSkyblockPlayer(p));
+                                item = Main.itemUpdater(Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(p)), SkyblockPlayer.getSkyblockPlayer(p));
                                 item.setAmount(15);
                                 spawnLoot(p, b.getLocation(), item);
                             }
@@ -408,7 +408,7 @@ public class Loot implements Listener {
             }
             //spawning drop
             if (drop != null) {
-                drop = Main.item_updater(drop, SkyblockPlayer.getSkyblockPlayer(p));
+                drop = Main.itemUpdater(drop, SkyblockPlayer.getSkyblockPlayer(p));
                 spawnLoot(p, loc, drop);
             }
         } catch (Exception ex) {

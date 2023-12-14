@@ -24,13 +24,13 @@ public class AddReforge implements CommandExecutor {
         if (arg3[0].equals("remove")) {
             ItemStack item = player.getEquipment().getItemInMainHand();
             ItemHandler.removePDC("reforge", item);
-            Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
+            Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(player));
             return false;
         }
         if (RegisteredReforges.reforges.containsKey(arg3[0])) {
             ItemStack item = player.getEquipment().getItemInMainHand();
             ItemHandler.setPDC("reforge", item, PersistentDataType.STRING, arg3[0]);
-            Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
+            Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(player));
         }else player.sendMessage("Illegal reforge");
         return false;
     }

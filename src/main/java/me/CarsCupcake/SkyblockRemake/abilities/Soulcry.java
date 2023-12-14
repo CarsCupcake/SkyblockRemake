@@ -97,7 +97,7 @@ public class Soulcry implements AbilityManager<PlayerInteractEvent>, ItemManager
 
 
                 for (ItemStack item : event.getPlayer().getInventory().getContents())
-                    Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+                    Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             }
         }.runTaskLater(Main.getMain(), 4*20);
         return false;

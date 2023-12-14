@@ -21,7 +21,7 @@ public class generateMap implements CommandExecutor {
 	public boolean onCommand(@NotNull CommandSender arg0, @NotNull Command arg1, String arg2, String[] arg3) {
 		
 		if(arg2.equalsIgnoreCase("generate") && arg0 instanceof Player player) {
-			ItemStack item = Main.item_updater(Items.MagicalMap(), SkyblockPlayer.getSkyblockPlayer(player));
+			ItemStack item = Main.itemUpdater(Items.MagicalMap(), SkyblockPlayer.getSkyblockPlayer(player));
 			Generator render = new Generator();
 			render.generateMap(player.getWorld());
 			MapMeta meta = (MapMeta) item.getItemMeta();

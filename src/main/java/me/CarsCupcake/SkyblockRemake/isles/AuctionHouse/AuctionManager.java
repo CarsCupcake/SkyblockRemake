@@ -120,7 +120,7 @@ public class AuctionManager {
                 meta.addEnchant(Enchantment.getByKey(key), AuctionHouse.getInstance().getFile().get().getInt(auctionPointer + ".ench." + t), false);
             }
         item.setItemMeta(meta);
-        item = Main.item_updater(item, null);
+        item = Main.itemUpdater(item, null);
         Date d;
 
         d = df.parse(AuctionHouse.getInstance().getFile().get().getString(auctionPointer + ".exp"));
@@ -175,7 +175,7 @@ public class AuctionManager {
 
         item.setItemMeta(meta);
 
-        return Main.item_updater(item, null);
+        return Main.itemUpdater(item, null);
 
     }
 

@@ -45,7 +45,7 @@ public class MithrilGrey extends MiningBlock {
         ItemStack item = Items.Mithril();
         item.setAmount(SkyblockRemakeEvents.dropAmount((int)Main.getPlayerStat(player, Stats.MiningFortune), 1));
         return new ArrayList<>(List.of(
-                Main.item_updater(item, player)
+                Main.itemUpdater(item, player)
         ));
     }
     @Override

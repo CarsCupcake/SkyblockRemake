@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.rift;
 
 import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.FinalDamageDesider;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
@@ -30,46 +31,57 @@ public class RiftCalculator {
     @Getter
     private Action action;
     private boolean isDone = false;
-    public void damagePlayer(SkyblockEntity entity, RiftPlayer player){
+
+    public void damagePlayer(SkyblockEntity entity, RiftPlayer player) {
         damagePlayer(entity, player, 0);
     }
-    public void damagePlayer(@Nullable SkyblockEntity entity,@NotNull RiftPlayer player, int extraHeartDamage){
+
+    public void damagePlayer(@Nullable SkyblockEntity entity, @NotNull RiftPlayer player, int extraHeartDamage) {
         Assert.notNull(player, "Player is not allowed to be null!");
-        if(entity == null) action = Action.PlayerSelfe; else action = Action.EntityToPlayer;
+        if (entity == null) action = Action.PlayerSelfe;
+        else action = Action.EntityToPlayer;
         this.entity = entity;
         this.player = player;
         timeDamage = (entity != null) ? entity.getRiftTimeDamage() : 0;
         heartsDamage = ((entity != null) ? entity.getRiftDamage() : 0) + extraHeartDamage;
     }
-    public void damageEntity(SkyblockEntity entity, RiftPlayer player){
+
+    public void damageEntity(SkyblockEntity entity, RiftPlayer player) {
         damageEntity(entity, player, 0);
     }
-    public void damageEntity(SkyblockEntity entity, RiftPlayer player, int extraHeartDamage){
+
+    public void damageEntity(SkyblockEntity entity, RiftPlayer player, int extraHeartDamage) {
         Assert.notNull(entity, "Entity is not allowed to be null!");
-        if(player == null) action = Action.EntitySelfe; else action = Action.PlayerToEntity;
+        if (player == null) action = Action.EntitySelfe;
+        else action = Action.PlayerToEntity;
         this.entity = entity;
         this.player = player;
         timeDamage = 0;
         heartsDamage = ((player != null) ? Main.getPlayerStat(player, Stats.RiftDamage) : 0) + extraHeartDamage;
     }
-    public void execute(){
+
+    public void execute() {
         RiftCalculatorEvent event = new RiftDamageEvent(this);
         Bukkit.getPluginManager().callEvent(event);
-        if(event.isCancelled()) return;
-        if(action == Action.PlayerToEntity && entity instanceof FinalDamageDesider fdd)
+        if (event.isCancelled()) return;
+        if (action == Action.PlayerToEntity && entity instanceof FinalDamageDesider fdd)
             heartsDamage = fdd.getFinalDamage(player, heartsDamage);
         isDone = true;
+        System.out.println("do: " + heartsDamage);
         action.run(event);
         isDone = false;
     }
-    public void spawnTag(SkyblockEntity entity, String str){
+
+    public void spawnTag(SkyblockEntity entity, String str) {
         Entity e = entity.getEntity();
         spawnTag(new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ()), str);
     }
-    public void spawnTag(Entity e, String str){
+
+    public void spawnTag(Entity e, String str) {
         spawnTag(new Location(e.getWorld(), e.getLocation().getX(), e.getLocation().getY() + 0.7, e.getLocation().getZ()), str);
     }
-    public void spawnTag(Location loc, String str){
+
+    public void spawnTag(Location loc, String str) {
         loc = loc.clone().add(new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2, new Random().nextDouble(0.4) - 0.2);
         ArmorStand stand = loc.getWorld().spawn(loc, ArmorStand.class, armorstand -> {
             armorstand.setVisible(false);
@@ -85,15 +97,17 @@ public class RiftCalculator {
         });
         Main.getMain().killarmorstand(stand);
     }
+
     public enum Action implements RunnableWithParam<RiftCalculatorEvent> {
         PlayerToEntity() {
             @Override
             public void run(RiftCalculatorEvent event) {
-                if(!event.getCalculator().isDone) throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
+                if (!event.getCalculator().isDone)
+                    throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
                 event.getCalculator().entity.damage(event.getCalculator().heartsDamage * event.getMultiplier(), event.getCalculator().getPlayer());
-                if(event.getCalculator().heartsDamage > 0)
+                if (event.getCalculator().heartsDamage > 0)
                     event.getCalculator().spawnTag(event.getCalculator().getEntity().getEntity(), String.format("%.0f", event.getCalculator().heartsDamage));
-                if(event.getCalculator().getEntity().getHealth() <= 0)
+                if (event.getCalculator().getEntity().getHealth() <= 0)
                     SkyblockEntity.killEntity(event.getCalculator().getEntity(), event.getCalculator().getPlayer());
                 Main.updateentitystats(event.getCalculator().getEntity().getEntity());
             }
@@ -101,28 +115,32 @@ public class RiftCalculator {
         EntityToPlayer {
             @Override
             public void run(RiftCalculatorEvent event) {
-                if(!event.getCalculator().isDone) throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
-                event.getCalculator().player.damage(event.getCalculator().heartsDamage * event.getMultiplier(), event.getCalculator().entity.getEntity());
+                if (!event.getCalculator().isDone)
+                    throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
+                if (event.getCalculator().heartsDamage != 0) {
+                    event.getCalculator().player.setHealth(Math.max(0, event.getCalculator().player.getHealth() - (event.getCalculator().heartsDamage * event.getMultiplier() * 2)), HealthChangeReason.Damage);
+                    event.getCalculator().player.damage(0.1, event.getCalculator().entity.getEntity());
+                }
                 event.getCalculator().player.subtractRiftTime(event.getCalculator().timeDamage);
-                if(event.getCalculator().heartsDamage > 0)
+                if (event.getCalculator().heartsDamage > 0)
                     event.getCalculator().spawnTag(event.getCalculator().getPlayer(), String.format("%.0f", event.getCalculator().heartsDamage));
-                if(event.getCalculator().timeDamage > 0)
+                if (event.getCalculator().timeDamage > 0)
                     event.getCalculator().spawnTag(event.getCalculator().getPlayer(), "§a" + event.getCalculator().timeDamage);
             }
-        },
-        PlayerSelfe{
+        }, PlayerSelfe {
             @Override
             public void run(RiftCalculatorEvent event) {
-                if(!event.getCalculator().isDone) throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
-                event.getCalculator().player.damage(event.getCalculator().heartsDamage * event.getMultiplier());
+                if (!event.getCalculator().isDone)
+                    throw new IllegalCallerException("Not allowed to call this before the calculation is done!");
+                if (event.getCalculator().heartsDamage != 0)
+                    event.getCalculator().player.damage(event.getCalculator().heartsDamage * 2 * event.getMultiplier());
                 event.getCalculator().player.subtractRiftTime(event.getCalculator().timeDamage);
-                if(event.getCalculator().heartsDamage > 0)
+                if (event.getCalculator().heartsDamage > 0)
                     event.getCalculator().spawnTag(event.getCalculator().getPlayer(), String.format("%.0f", event.getCalculator().heartsDamage));
-                if(event.getCalculator().timeDamage > 0)
+                if (event.getCalculator().timeDamage > 0)
                     event.getCalculator().spawnTag(event.getCalculator().getPlayer(), "§a" + event.getCalculator().timeDamage);
             }
-        },
-        EntitySelfe {
+        }, EntitySelfe {
             @Override
             public void run(RiftCalculatorEvent event) {
                 PlayerToEntity.run(event);

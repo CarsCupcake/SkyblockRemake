@@ -7,21 +7,20 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 
 public class SkyblockShapedRecipe extends SkyblockRecipe {
-
-    private final String id;
     private final ItemManager result;
     private final int amount;
     @Getter
     private int prior = -1;
 
+    @Getter
     private ArrayList<CraftingObject> recipe = new ArrayList<>();
 
 
-    public SkyblockShapedRecipe(String id, ItemManager manager, int amount) {
-        this.id = id;
+    public SkyblockShapedRecipe(ItemManager manager, int amount) {
         result = manager;
         this.amount = amount;
     }
+
 
     public void setRecipe(ArrayList<CraftingObject> recipe) {
         this.recipe = recipe;
@@ -31,19 +30,7 @@ public class SkyblockShapedRecipe extends SkyblockRecipe {
 
     @Override
     public ItemManager getResult() {
-        //yes
-
-
         return result;
-    }
-
-    public ArrayList<CraftingObject> getRecipe() {
-        return recipe;
-    }
-
-    @Override
-    public String getId() {
-        return id;
     }
 
     @Override

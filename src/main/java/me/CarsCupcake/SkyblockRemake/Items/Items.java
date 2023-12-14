@@ -6,7 +6,6 @@ import java.util.*;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
-import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.*;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.EnchantedCrops;
@@ -464,7 +463,7 @@ public class Items {
 
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.COBBLESTONE + "", manager.itemID, 160));
 
-        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.COBBLESTONE + ""), 160));
         shapelessRecipe.register();
         ghostPickaxe();
@@ -531,7 +530,7 @@ public class Items {
         ItemManager manager = new ItemManager("Enchanted " + SkyblockItems.get(material.toString()).name, "ENCHANTED_" + material, ItemType.Non, material, ItemRarity.UNCOMMON);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(material + "", manager.itemID, 160));
-        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(material + ""), 160));
         shapelessRecipe.register();
     }
@@ -622,7 +621,7 @@ public class Items {
         SkyblockItems.put(longStick.itemID, longStick);
         ShapeEncoder encoder = new ShapeEncoder(" s ", " s ", " s ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get(Material.STICK + ""), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("LONG_STICK", longStick, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(longStick, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -632,7 +631,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         encoder = new ShapeEncoder(" s ", " s ", " s ");
         encoder.setKey('s', new CraftingObject(longStick, 1));
-        shapedRecipe = new SkyblockShapedRecipe("WAND", manager, 1);
+        shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
     }
@@ -742,7 +741,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("s s", "s s", " s ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_NECKLACE", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -778,7 +777,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_HELMET", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -813,7 +812,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -847,7 +846,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
     }
@@ -880,7 +879,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("s s", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("THUNDER_SHARDS"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("THUNDERBOLT_BOOTS", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -1001,7 +1000,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_HELMET", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -1039,7 +1038,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -1076,7 +1075,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -1113,7 +1112,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("s s", "s s", "   ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_BOOTS", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 
@@ -1149,7 +1148,7 @@ public class Items {
         SkyblockItems.put(manager.itemID, manager);
         ShapeEncoder encoder = new ShapeEncoder("sss", "sss", "   ");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("MAGMA_LORD_FRAGMENT"), 1));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("MAGMA_LORD_BOOTS", manager, 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(manager, 1);
         shapedRecipe.setRecipe(encoder.encode());
         SkyblockRecipe.recipes.add(shapedRecipe);
 

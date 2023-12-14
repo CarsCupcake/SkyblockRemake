@@ -15,7 +15,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(160);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.MELON_SLICE + ""), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.MELON_SLICE + "", manager.itemID, 160));
@@ -24,7 +24,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(25600);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get("ENCHANTED_MELON"), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe("ENCHANTED_MELON", manager.itemID, 160));
@@ -33,7 +33,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(640);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.PUMPKIN + ""), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.PUMPKIN + "", manager.itemID, 160));
@@ -42,7 +42,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(320);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.NETHER_WART + ""), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.NETHER_WART + "", manager.itemID, 160));
@@ -51,7 +51,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(51200);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get("ENCHANTED_NETHER_STALK"), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe("ENCHANTED_NETHER_STALK", manager.itemID, 160));
@@ -60,7 +60,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(320);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.SUGAR_CANE + ""), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.SUGAR_CANE + "", manager.itemID, 160));
@@ -69,7 +69,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(51200);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get("ENCHANTED_SUGAR"), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe("ENCHANTED_SUGAR", manager.itemID, 160));
@@ -78,7 +78,7 @@ public class EnchantedCrops {
         manager.setNpcSellPrice(160);
         manager.addBaseEnchantment(SkyblockEnchants.ENCHANT_GLINT, 1);
         SkyblockItems.put(manager.itemID, manager);
-        shapelessRecipe = new SkyblockShapelessRecipe("", manager);
+        shapelessRecipe = new SkyblockShapelessRecipe(manager);
         shapelessRecipe.addIngredient(new CraftingObject(SkyblockItems.get(Material.POTATO + ""), 160));
         shapelessRecipe.register();
         SuperCompactor.registerRecipe(new SuperCompactor.SuperCompactorRecipe(Material.POTATO + "", manager.itemID, 160));

@@ -33,7 +33,7 @@ public class AshenAuricSwap implements AbilityManager<PlayerInteractEvent>, Upda
             ItemHandler.setPDC("attuned", event.getItem(), PersistentDataType.STRING, "auric");
             event.getPlayer().sendTitle("§eAuric", "", 0, 20, 0);
         }
-        Main.item_updater(event.getItem(), SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+        Main.itemUpdater(event.getItem(), SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
         return false;
     }
 

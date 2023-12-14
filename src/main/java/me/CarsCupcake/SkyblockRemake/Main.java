@@ -117,7 +117,7 @@ import javax.annotation.Nullable;
 public class Main extends JavaPlugin {
     public static String VERSION = "0.0.0";
     @Getter
-    private static Main Main;
+    private static Main main;
     @Getter
     private BukkitRunnable runnable;
     private BukkitRunnable statrunnable;
@@ -164,7 +164,7 @@ public class Main extends JavaPlugin {
         config.addDefault("ServerType", "");
         config.options().copyDefaults(true);
         saveConfig();
-        Main = this;
+        main = this;
         new SkyblockServer(ServerType.getFromString(config.getString("ServerType")));
 
         if (SkyblockServer.getServer().type() == null) return;
@@ -492,7 +492,7 @@ public class Main extends JavaPlugin {
             SkyblockScoreboard.updateScoreboard(player);
 
             player.getInventory().forEach(item -> {
-                item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
+                itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(player));
                 player.updateInventory();
 
             });
@@ -628,7 +628,7 @@ public class Main extends JavaPlugin {
 
                 }
             }
-        }.runTaskTimer(Main, 0, 1);
+        }.runTaskTimer(main, 0, 1);
     }
 
     @Override
@@ -757,7 +757,7 @@ public class Main extends JavaPlugin {
                 }
 
             }
-        }.runTaskTimer(Main, 0, 1);
+        }.runTaskTimer(main, 0, 1);
 
     }
 
@@ -793,7 +793,7 @@ public class Main extends JavaPlugin {
                 stand.remove();
             }
         };
-        runnable.runTaskLater(Main, 20);
+        runnable.runTaskLater(main, 20);
     }
 
     public void juju_cooldown(Player player, long cooldown) {
@@ -804,7 +804,7 @@ public class Main extends JavaPlugin {
                 shortbow_cd.replace(player, false);
             }
         };
-        runnable.runTaskLater(Main, cooldown);
+        runnable.runTaskLater(main, cooldown);
     }
 
     public void absorbtioneffect(Player player, int times) {
@@ -836,7 +836,7 @@ public class Main extends JavaPlugin {
                 }
             }
         };
-        runnable.runTaskLater(Main, 20);
+        runnable.runTaskLater(main, 20);
 
     }
 
@@ -880,7 +880,7 @@ public class Main extends JavaPlugin {
                             if (player.currhealth > health) {
                                 player.setHealth(health, HealthChangeReason.Regenerate);
                             }
-                        } else player.setMaxHealth(2 * getPlayerStat(player, Stats.Hearts));
+                        }
                         float speedpersentage = (float) getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftSpeed : Stats.Speed)) / 100;
                         if (speedpersentage > 5) speedpersentage = 5;
                         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
@@ -1044,7 +1044,7 @@ public class Main extends JavaPlugin {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§6" + (player.currhealth + absorbtion.get(player)) + "/" + String.format("%.0f", Tools.round(health, 0)) + "❤ " + stackMsg + "    " + defenseString + "  " + extraafterdef + "   §b" + player.currmana + "/" + String.format("%.0f", Tools.round(mana, 0)) + "✎ Mana" + afterManaString));
         } else
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§c" + player.currhealth + "/" + String.format("%.0f", Tools.round(health, 0)) + "❤ " + stackMsg + "    " + defenseString + "  " + extraafterdef + "   §b" + player.currmana + "/" + String.format("%.0f", Tools.round(mana, 0)) + "✎ Mana" + afterManaString));
-        float speedpersentage = (float) Main.getPlayerStat(player, Stats.Speed) / 100;
+        float speedpersentage = (float) main.getPlayerStat(player, Stats.Speed) / 100;
         if (speedpersentage > 5) speedpersentage = 5;
         player.setWalkSpeed((float) 0.2 * (float) speedpersentage);
 
@@ -1172,7 +1172,7 @@ public class Main extends JavaPlugin {
         c.reload();
     }
 
-    public static ItemStack item_updater(ItemStack item, @Nullable SkyblockPlayer player) {
+    public static ItemStack itemUpdater(ItemStack item, @Nullable SkyblockPlayer player) {
         if (item == null) {
             return item;
         }
@@ -1186,8 +1186,8 @@ public class Main extends JavaPlugin {
 
         List<String> lore = new ArrayList<>();
 
-        if (data.get(new NamespacedKey(Main, "id"), PersistentDataType.STRING) != null) {
-            ItemManager manager = Items.SkyblockItems.get(data.get(new NamespacedKey(Main, "id"), PersistentDataType.STRING));
+        if (data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING) != null) {
+            ItemManager manager = Items.SkyblockItems.get(data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING));
             if (manager == null) return item;
 
             if (Pet.pets.containsKey(manager.itemID)) {
@@ -1208,7 +1208,7 @@ public class Main extends JavaPlugin {
                 lores.add(" ");
 
             }
-            String pdcRarity = data.get(new NamespacedKey(Main, "rarity"), PersistentDataType.STRING);
+            String pdcRarity = data.get(new NamespacedKey(main, "rarity"), PersistentDataType.STRING);
             ItemRarity rarity = manager.getRarity(item, player);
             if (getItemStat(player, Stats.BreakingPower, item) != 0) {
                 double br = getItemStat(player, Stats.BreakingPower, item);
@@ -1316,9 +1316,9 @@ public class Main extends JavaPlugin {
 
 
             if (Pet.pets.containsKey(manager.itemID)) {
-                meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER) + "] " + rarity.getPrefix() + Pet.pets.get(manager.itemID).name);
-            } else if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)))
-                meta.setDisplayName(rarity.getPrefix() + data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) + " " + rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
+                meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(main, "level"), PersistentDataType.INTEGER) + "] " + rarity.getPrefix() + Pet.pets.get(manager.itemID).name);
+            } else if (data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING)))
+                meta.setDisplayName(rarity.getPrefix() + data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING) + " " + rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
             else meta.setDisplayName(rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
 
             //Tako was here
@@ -1384,9 +1384,9 @@ public class Main extends JavaPlugin {
 
             if (manager.type == ItemType.Drill) {
 
-                if (data.get(new NamespacedKey(Main, "fueltank"), PersistentDataType.STRING) != null) {
+                if (data.get(new NamespacedKey(main, "fueltank"), PersistentDataType.STRING) != null) {
                     lores.add(" ");
-                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "fueltank"), PersistentDataType.STRING));
+                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(main, "fueltank"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
                     lores.addAll(part.appliedLore);
 
@@ -1396,8 +1396,8 @@ public class Main extends JavaPlugin {
                     lores.add("§7part installed.");
                 }
                 lores.add(" ");
-                if (data.get(new NamespacedKey(Main, "drillengine"), PersistentDataType.STRING) != null) {
-                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "drillengine"), PersistentDataType.STRING));
+                if (data.get(new NamespacedKey(main, "drillengine"), PersistentDataType.STRING) != null) {
+                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(main, "drillengine"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
                     lores.addAll(part.appliedLore);
                 } else {
@@ -1406,8 +1406,8 @@ public class Main extends JavaPlugin {
                     lores.add("§7with part installed.");
                 }
                 lores.add(" ");
-                if (data.get(new NamespacedKey(Main, "upgrademodule"), PersistentDataType.STRING) != null) {
-                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(Main, "upgrademodule"), PersistentDataType.STRING));
+                if (data.get(new NamespacedKey(main, "upgrademodule"), PersistentDataType.STRING) != null) {
+                    DrillPart part = DrillPart.parts.get(data.get(new NamespacedKey(main, "upgrademodule"), PersistentDataType.STRING));
                     lores.add("§a" + part.name);
                     lores.addAll(part.appliedLore);
                 } else {
@@ -1417,25 +1417,25 @@ public class Main extends JavaPlugin {
                 }
                 lores.add(" ");
 
-                lores.add("§7Fuel: §2" + data.get(new NamespacedKey(Main, "fuel"), PersistentDataType.INTEGER) + "§8/" + data.get(new NamespacedKey(Main, "maxfuel"), PersistentDataType.INTEGER));
+                lores.add("§7Fuel: §2" + data.get(new NamespacedKey(main, "fuel"), PersistentDataType.INTEGER) + "§8/" + data.get(new NamespacedKey(main, "maxfuel"), PersistentDataType.INTEGER));
 
             }
 
-            if (data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)) && RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore() != null) {
+            if (data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING)) && RegisteredReforges.reforges.get(data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING)).getLore() != null) {
                 lores.add("");
-                lores.addAll(RegisteredReforges.reforges.get(data.get(new NamespacedKey(Main, "reforge"), PersistentDataType.STRING)).getLore());
+                lores.addAll(RegisteredReforges.reforges.get(data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING)).getLore());
                 lores.add("");
             }
 
             if (Pet.pets.containsKey(manager.itemID)) {
                 lores.add(" ");
-                if (data.getOrDefault(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER, 1) == (Pet.pets.get(manager.itemID).MaxLevel))
+                if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) == (Pet.pets.get(manager.itemID).MaxLevel))
                     lores.add("§b§lMax Level!");
-                else if (data.getOrDefault(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER, 1) > (Pet.pets.get(manager.itemID).MaxLevel))
+                else if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) > (Pet.pets.get(manager.itemID).MaxLevel))
                     lores.add("§c§l§k l §r§c§lOver Leveled! §kl");
                 else {
-                    double currxp = data.getOrDefault(new NamespacedKey(Main, "currxp"), PersistentDataType.DOUBLE, 0d);
-                    double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.getOrDefault(new NamespacedKey(Main, "level"), PersistentDataType.INTEGER, 1));
+                    double currxp = data.getOrDefault(new NamespacedKey(main, "currxp"), PersistentDataType.DOUBLE, 0d);
+                    double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1));
                     double pers = currxp / reqxp;
                     int colored = (int) (20 * pers);
                     StringBuilder str = new StringBuilder();
@@ -1458,24 +1458,24 @@ public class Main extends JavaPlugin {
             if (manager.hasEdition) {
                 lores.add(" ");
                 String to = "§7To: §f-";
-                if (data.get(new NamespacedKey(Main, "to"), PersistentDataType.STRING) != null) {
-                    to = "§7To: §f" + data.get(new NamespacedKey(Main, "to"), PersistentDataType.STRING);
+                if (data.get(new NamespacedKey(main, "to"), PersistentDataType.STRING) != null) {
+                    to = "§7To: §f" + data.get(new NamespacedKey(main, "to"), PersistentDataType.STRING);
                 }
 
 
                 String from = "§7From: §f-";
-                if (data.get(new NamespacedKey(Main, "from"), PersistentDataType.STRING) != null) {
-                    from = "§7From: §f" + data.get(new NamespacedKey(Main, "from"), PersistentDataType.STRING);
+                if (data.get(new NamespacedKey(main, "from"), PersistentDataType.STRING) != null) {
+                    from = "§7From: §f" + data.get(new NamespacedKey(main, "from"), PersistentDataType.STRING);
                 }
 
                 String edition = "§8Edition: N/A";
-                if (data.get(new NamespacedKey(Main, "editionnumber"), PersistentDataType.INTEGER) != null) {
-                    edition = "§8Edition: #" + data.get(new NamespacedKey(Main, "editionnumber"), PersistentDataType.INTEGER);
+                if (data.get(new NamespacedKey(main, "editionnumber"), PersistentDataType.INTEGER) != null) {
+                    edition = "§8Edition: #" + data.get(new NamespacedKey(main, "editionnumber"), PersistentDataType.INTEGER);
                 }
 
                 String date = "§8N/A";
-                if (data.get(new NamespacedKey(Main, "date"), PersistentDataType.STRING) != null) {
-                    date = "§8" + data.get(new NamespacedKey(Main, "date"), PersistentDataType.STRING);
+                if (data.get(new NamespacedKey(main, "date"), PersistentDataType.STRING) != null) {
+                    date = "§8" + data.get(new NamespacedKey(main, "date"), PersistentDataType.STRING);
                 }
                 lores.add(" ");
                 lores.add(to);
@@ -1541,7 +1541,7 @@ public class Main extends JavaPlugin {
                 item = newItem;
 
             } else {
-                if ((data.get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !data.get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).equals("fakearrow")) && data.get(new NamespacedKey(Main, "type"), PersistentDataType.STRING) == null) {
+                if ((data.get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING) == null || !data.get(NamespacedKey.minecraft("spetial"), PersistentDataType.STRING).equals("fakearrow")) && data.get(new NamespacedKey(main, "type"), PersistentDataType.STRING) == null) {
 
                     int amount = item.getAmount();
 
@@ -1674,5 +1674,9 @@ public class Main extends JavaPlugin {
 
     public boolean checkIfBungee() {
         return Objects.requireNonNull(getServer().spigot().getConfig().getConfigurationSection("settings")).getBoolean("bungeecord");
+    }
+
+    public static Main getMain() {
+        return main;
     }
 }

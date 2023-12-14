@@ -263,7 +263,7 @@ public class SkyblockPlayer extends CraftPlayer {
                         ItemStack item = inventory.get().getItemStack(k);
                         new BukkitRunnable(){
                             public void run(){
-                                Main.item_updater(item, SkyblockPlayer.this);
+                                Main.itemUpdater(item, SkyblockPlayer.this);
                                 player.getInventory().setItem(i, item);
                             }
                         }.runTask(Main.getMain());
@@ -581,7 +581,7 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public void addItem(ItemManager manager, int amount) {
         ItemStack item = manager.createNewItemStack();
-        item = Main.item_updater(item, this);
+        item = Main.itemUpdater(item, this);
         item.setAmount(amount);
         addItem(item);
     }

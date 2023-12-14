@@ -78,7 +78,7 @@ public class SquashArmor implements FullSetBonus, Listener {
         manager.setNpcSellPrice(9000);
         Items.SkyblockItems.put(manager.itemID, manager);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("CONDENSED_FERMENTO", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "sss", "sss");
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("FERMENTO"), 1));
         recipe.setRecipe(encoder.encode());

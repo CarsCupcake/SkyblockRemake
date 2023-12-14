@@ -85,7 +85,7 @@ public class PetMenuInv {
 					 continue;
 				 if(!(i > 44)) {
 					 Pet petOBJ = Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "."  + str + ".id"));
-					 ItemStack pet =  Main.item_updater(petOBJ.getRawItemStack(),SkyblockPlayer.getSkyblockPlayer(player));
+					 ItemStack pet =  Main.itemUpdater(petOBJ.getRawItemStack(),SkyblockPlayer.getSkyblockPlayer(player));
 					 ItemMeta m = pet.getItemMeta();
 					 PersistentDataContainer data = m.getPersistentDataContainer();
 					 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER,PetMenus.get().getInt(player.getUniqueId() + "."  + str + ".level") );
@@ -95,7 +95,7 @@ public class PetMenuInv {
 					 
 					 pet.setItemMeta(m);
 					 pet = petOBJ.updatePet(pet);
-					 pet = Main.item_updater(pet, SkyblockPlayer.getSkyblockPlayer(player));
+					 pet = Main.itemUpdater(pet, SkyblockPlayer.getSkyblockPlayer(player));
 
 					 m = pet.getItemMeta();
 					 lore = (ArrayList<String>) m.getLore();

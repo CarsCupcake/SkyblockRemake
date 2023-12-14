@@ -82,7 +82,7 @@ public class OldBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_HELMET", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -107,7 +107,7 @@ public class OldBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -132,7 +132,7 @@ public class OldBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -157,7 +157,7 @@ public class OldBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.OldBlood, "Old Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("OLD_DRAGON_BOOTS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.OldDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());

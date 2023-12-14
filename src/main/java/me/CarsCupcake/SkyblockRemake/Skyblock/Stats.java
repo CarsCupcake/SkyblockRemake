@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -20,36 +21,36 @@ import java.util.*;
 public enum Stats {
     Health("health", '❤', ChatColor.RED, "Health", false, HotPotatoBookStat.Armor, 4, 100),
     Defense("def", '❈', ChatColor.GREEN, "Defense", false, HotPotatoBookStat.Armor, 2),
-    Inteligence("mana", '✎', ChatColor.AQUA, "Inteligence", false, null, 0, 100),
-    Speed("speed", '✦', ChatColor.WHITE, "Speed", false, null, 0, 100, 500),
+    Inteligence("mana", '✎', ChatColor.AQUA, "Inteligence", false, 100),
+    Speed("speed", '✦', ChatColor.WHITE, "Speed", false, 100, 500),
     Strength("strength", '❁', ChatColor.RED, "Strength", true, HotPotatoBookStat.Sword, 2),
     CritDamage("cd", '☠', ChatColor.BLUE, "Crit Damage", true, null, 0, 50),
-    CritChance("cc", '☣', ChatColor.BLUE, "Crit Chance", true, null, 0, 30),
-    AbilityDamage("abilitydamage", '๑', ChatColor.RED, "Ability Damage", true, null, 0),
-    Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity", false, null, 0),
-    MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find", false, null, 0),
-    MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed", false, null, 0),
-    MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune", false, null, 0),
-    ForagingFortune("foragingfortune", '☘', ChatColor.GOLD, "Foraging Fortune", false, null, 0),
-    Pristine("pristine", '✧', ChatColor.DARK_PURPLE, "Pristine", false, null, 0),
-    AttackSpeed("as", '⚔', ChatColor.YELLOW, "Attack Speed", true, null, 0),
-    TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense", false, null, 0),
-    SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance", false, null, 0, 20, 100),
+    CritChance("cc", '☣', ChatColor.BLUE, "Crit Chance", true,30),
+    AbilityDamage("abilitydamage", '๑', ChatColor.RED, "Ability Damage", true),
+    Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity", false),
+    MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find", false),
+    MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed", false),
+    MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune", false),
+    ForagingFortune("foragingfortune", '☘', ChatColor.GOLD, "Foraging Fortune", false),
+    Pristine("pristine", '✧', ChatColor.DARK_PURPLE, "Pristine", false),
+    AttackSpeed("as", '⚔', ChatColor.YELLOW, "Attack Speed", true),
+    TrueDefense("truedefense", '❂', ChatColor.WHITE, "True Defense", false),
+    SeaCreatureChance("seacreaturechance", 'α', ChatColor.DARK_AQUA, "Sea Creature Chance", false, 20, 100),
     FishingSpeed("fishingspeed", '☂', ChatColor.AQUA, "Fishing Speed", false, null, 0),
-    SwingRange("swingrange", 'Ⓢ', ChatColor.GOLD, "Swing Range", true, null, 0,3, -1),
-    BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false, null, 0),
-    FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false, null, 0),
-    CombatWisdom("combatwisdom", '☯', ChatColor.DARK_AQUA, "Combat Wisdom", false, null, 0),
-    MiningWisdom("miningwisdom", '☯', ChatColor.DARK_AQUA, "Mining Wisdom", false, null, 0),
-    FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false, null, 0),
-    ForagingWisdom("foragingwisdom", '☯', ChatColor.DARK_AQUA, "Foraging Wisdom", false, null, 0),
-    FishingWisdom("fishingwisdom", '☯', ChatColor.DARK_AQUA, "Fishing Wisdom", false, null, 0),
-    EnchantingWisdom("enchantingwisdom", '☯', ChatColor.DARK_AQUA, "Enchanting Wisdom", false, null, 0),
-    AlchemyWisdom("alchemywisdom", '☯', ChatColor.DARK_AQUA, "Alchemy Wisdom", false, null, 0),
-    CarpentryWisdom("carpentrywisdom", '☯', ChatColor.DARK_AQUA, "Carpentry Wisdom", false, null, 0),
-    RunecraftingWisdom("runecraftingwisdom", '☯', ChatColor.DARK_AQUA, "Runecrafting Wisdom", false, null, 0),
-    SocialWisdom("socialwisdom", '☯', ChatColor.DARK_AQUA, "Social Wisdom", false, null, 0),
-    HealthRegen("healthregen", '❣', ChatColor.RED, "Health Regen", false, null, 0),
+    SwingRange("swingrange", 'Ⓢ', ChatColor.GOLD, "Swing Range", true,3, -1),
+    BreakingPower("breakingpower", '℗', ChatColor.DARK_GREEN, "Breaking Power", false),
+    FarmingFortune("farmingfortune", '☘', ChatColor.GOLD, "Farming Fortune", false),
+    CombatWisdom("combatwisdom", '☯', ChatColor.DARK_AQUA, "Combat Wisdom", false),
+    MiningWisdom("miningwisdom", '☯', ChatColor.DARK_AQUA, "Mining Wisdom", false),
+    FarmingWisdom("farmingwisdom", '☯', ChatColor.DARK_AQUA, "Farming Wisdom", false),
+    ForagingWisdom("foragingwisdom", '☯', ChatColor.DARK_AQUA, "Foraging Wisdom", false),
+    FishingWisdom("fishingwisdom", '☯', ChatColor.DARK_AQUA, "Fishing Wisdom", false),
+    EnchantingWisdom("enchantingwisdom", '☯', ChatColor.DARK_AQUA, "Enchanting Wisdom", false),
+    AlchemyWisdom("alchemywisdom", '☯', ChatColor.DARK_AQUA, "Alchemy Wisdom", false),
+    CarpentryWisdom("carpentrywisdom", '☯', ChatColor.DARK_AQUA, "Carpentry Wisdom", false),
+    RunecraftingWisdom("runecraftingwisdom", '☯', ChatColor.DARK_AQUA, "Runecrafting Wisdom", false),
+    SocialWisdom("socialwisdom", '☯', ChatColor.DARK_AQUA, "Social Wisdom", false),
+    HealthRegen("healthregen", '❣', ChatColor.RED, "Health Regen", false),
     RiftTime("rifttime", 'ф', ChatColor.GREEN, "Rift Time", false, 480, -1, true),
     RiftInteligence("rmana", '✎', ChatColor.AQUA, "Inteligence", false, 100, -1, true),
     ManaRegen("manaregen", '⚡', ChatColor.AQUA, "Mana Regen", false, 0, -1, true),
@@ -72,18 +73,24 @@ public enum Stats {
     private final double baseAmount;
     private final double maxAmount;
     private final boolean inRift;
-    Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive) {
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive) {
         this(dataName, symbol, color, name, isAggresive, null, 0);
     }
-    Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost) {
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive, double baseAmount) {
+        this(dataName, symbol, color, name, isAggresive, null, 0, baseAmount, -1);
+    }
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive, double baseAmount, double maxAmount) {
+        this(dataName, symbol, color, name, isAggresive, null, 0, baseAmount, maxAmount);
+    }
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost) {
         this(dataName, symbol, color, name, isAggresive, hotPotatoBookStat, hotPotatoBookStatBoost, 0, -1);
     }
 
-    Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost, double baseAmount) {
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost, double baseAmount) {
         this(dataName, symbol, color, name, isAggresive, hotPotatoBookStat, hotPotatoBookStatBoost, baseAmount, -1);
     }
 
-    Stats(String dataName, char symbol, ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost, double baseAmount, double maxAmount) {
+    Stats(String dataName, char symbol, @NotNull ChatColor color, String name, boolean isAggresive, @Nullable HotPotatoBookStat hotPotatoBookStat, int hotPotatoBookStatBoost, double baseAmount, double maxAmount) {
         this.dataName = dataName;
         this.symbol = symbol;
         this.color = color;

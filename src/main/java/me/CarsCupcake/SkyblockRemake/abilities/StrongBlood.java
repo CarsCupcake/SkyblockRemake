@@ -85,7 +85,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_HELMET", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "   ");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -113,7 +113,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_CHESTPLATE", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("s s", "sss", "sss");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -141,7 +141,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_LEGGINGS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("sss", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());
@@ -169,7 +169,7 @@ public class StrongBlood implements FullSetBonus {
         manager.setFullSetBonus(Bonuses.StrongBlood, "Strong Blood", lore);
         manager.setUnstackeble(true);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("STRONG_DRAGON_BOOTS", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder("   ", "s s", "s s");
         encoder.setKey('s', new CraftingObject(EndItems.Items.StrongDragonFragment.getItem(), 10));
         recipe.setRecipe(encoder.encode());

@@ -35,8 +35,8 @@ public class Stone extends MiningBlock {
 
     @Override
     public ArrayList<ItemStack> getDrops(SkyblockPlayer player) {
-        return new ArrayList<>(List.of(Main.item_updater(
-                Main.item_updater(new ItemStack(Material.COBBLESTONE), player)
+        return new ArrayList<>(List.of(Main.itemUpdater(
+                Main.itemUpdater(new ItemStack(Material.COBBLESTONE), player)
                 , player)));
     }
     @Override

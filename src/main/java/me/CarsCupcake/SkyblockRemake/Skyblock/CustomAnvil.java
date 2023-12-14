@@ -24,8 +24,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.AddReforges;
-import me.CarsCupcake.SkyblockRemake.Items.reforges.RegisteredReforges;
 
 
 public class CustomAnvil implements Listener {
@@ -102,7 +100,7 @@ public class CustomAnvil implements Listener {
 
         }
         if (slot == 13 && !event.getView().getTopInventory().getItem(13).equals(AnvilInventory.DenieButton()) && !((inv.getItem(33) != null && inv.getItem(33).getType() != Material.AIR) && (inv.getItem(29) != null && inv.getItem(29).getType() != Material.AIR))) {
-            event.getView().getTopInventory().setItem(13, Main.item_updater(event.getView().getTopInventory().getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
+            event.getView().getTopInventory().setItem(13, Main.itemUpdater(event.getView().getTopInventory().getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
             event.setCancelled(false);
 
             inv.setItem(29, new ItemStack(Material.AIR));
@@ -158,7 +156,7 @@ public class CustomAnvil implements Listener {
         if (inv.getItem(33) != null && inv.getItem(33).getType() != Material.AIR)
             event.getPlayer().getInventory().addItem(inv.getItem(33));
         if (inv.getItem(13) != null && !inv.getItem(13).equals(AnvilInventory.DenieButton()) && (inv.getItem(33) == null || inv.getItem(33).getType() == Material.AIR) && (inv.getItem(29) == null || inv.getItem(29).getType() == Material.AIR)) {
-            event.getPlayer().getInventory().addItem(Main.item_updater(inv.getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())));
+            event.getPlayer().getInventory().addItem(Main.itemUpdater(inv.getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())));
         }
 
     }
@@ -365,7 +363,7 @@ public class CustomAnvil implements Listener {
 
             item1.setType(Material.STICK);
             item.setType(Material.STICK);
-            final ItemStack FINAL_ITEM = new ItemStack(Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer((Player) SkyblockPlayer.getSkyblockPlayer(player))));
+            final ItemStack FINAL_ITEM = new ItemStack(Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer((Player) SkyblockPlayer.getSkyblockPlayer(player))));
 
             return FINAL_ITEM;
         }
@@ -377,7 +375,7 @@ public class CustomAnvil implements Listener {
             if (manager1.type == ItemType.Helmet || manager1.type == ItemType.Chestplate || manager1.type == ItemType.Leggings || manager1.type == ItemType.Boots) {
                 data.set(new NamespacedKey(Main.getMain(), "potatobooks"), PersistentDataType.INTEGER, PotatoBookAmount + 1);
                 item.setItemMeta(meta);
-                return Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(player));
+                return Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(player));
             }
             if (manager2.equals("RECOMBOBULATOR_3000")) {
                 item = new ItemStack(item1);
@@ -387,7 +385,7 @@ public class CustomAnvil implements Listener {
                 data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING)).getNext().toString());
                 item.setItemMeta(meta);
                 item = GemstoneSlot.recomGemstone(manager1, item);
-                final ItemStack FINAL_ITEM = new ItemStack(Main.item_updater(item, null));
+                final ItemStack FINAL_ITEM = new ItemStack(Main.itemUpdater(item, null));
 
                 return FINAL_ITEM;
 

@@ -160,7 +160,7 @@ public class ItemsSearch implements Listener {
 
                 if (!(list >= managers.size())) {
                     if (!managers.get(list).hasEdition)
-                        inv.setItem(i, Main.item_updater(managers.get(list).getRawItemStack(), null));
+                        inv.setItem(i, Main.itemUpdater(managers.get(list).getRawItemStack(), null));
                     else
                         i -= 1;
                 }
@@ -258,7 +258,7 @@ public class ItemsSearch implements Listener {
         }
         if (event.getCurrentItem().getType() == Material.AIR)
             return;
-        player.getInventory().addItem(Main.item_updater(Items.SkyblockItems.get(ItemHandler.getPDC("id", event.getCurrentItem(), PersistentDataType.STRING)).createNewItemStack(), player));
+        player.getInventory().addItem(Main.itemUpdater(Items.SkyblockItems.get(ItemHandler.getPDC("id", event.getCurrentItem(), PersistentDataType.STRING)).createNewItemStack(), player));
         player.updateInventory();
 
     }

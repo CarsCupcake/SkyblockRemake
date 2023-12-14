@@ -149,5 +149,8 @@ public class ItemHandler {
         if (!hasPDC("dungeon", item, BOOLEAN)) return false;
         return getPDC("dungeon", item, BOOLEAN);
     }
+    public static boolean valid(ItemStack item) {
+        return !(item == null || !item.hasItemMeta());
+    }
 
 }

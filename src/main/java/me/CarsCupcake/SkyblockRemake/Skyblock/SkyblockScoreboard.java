@@ -35,7 +35,7 @@ public class SkyblockScoreboard {
                 score--;
             }
         }
-        if (Math.abs(score) < player.getScoreboard().getEntries().size() - 1) {
+        if (Math.abs(score) < player.getScoreboard().getEntries().size()) {
             for (int i = Math.abs(score); i <= player.getScoreboard().getEntries().size(); i++) {
                 Team t = player.getScoreboard().getTeam("score-" + ((-i) + 14));
                 t.removeEntry(ScoreboardDisplayer.buildString(Math.abs((-i) + 14)));

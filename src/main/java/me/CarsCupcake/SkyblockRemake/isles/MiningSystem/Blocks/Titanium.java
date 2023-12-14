@@ -41,7 +41,7 @@ public class Titanium extends MiningBlock {
         ItemStack item = Items.Titanium();
         item.setAmount(SkyblockRemakeEvents.dropAmount((int) Main.getPlayerStat(player, Stats.MiningFortune), 2, 4));
 
-        return new ArrayList<>(List.of(Main.item_updater(item, player)));
+        return new ArrayList<>(List.of(Main.itemUpdater(item, player)));
     }
     @Override
     public void breakBlock(Block b, SkyblockPlayer player){

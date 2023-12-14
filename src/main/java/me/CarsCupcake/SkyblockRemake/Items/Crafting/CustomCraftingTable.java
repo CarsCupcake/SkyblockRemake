@@ -110,13 +110,13 @@ public class CustomCraftingTable implements Listener {
         item.setAmount(recipe.getAmount());
         if (recipe.hasPrio())
             applyAttributesFromParent(inventory.getItem(CRAFTING_SLOTS[recipe.getPrior()]), item);
-        return Main.item_updater(item, player);
+        return Main.itemUpdater(item, player);
     }
 
     private ItemStack getItem(SkyblockShapelessRecipe recipe, SkyblockPlayer player) {
         ItemStack item = recipe.getResult().createNewItemStack();
         item.setAmount(recipe.getAmount());
-        return Main.item_updater(item, player);
+        return Main.itemUpdater(item, player);
     }
 
     private void applyAttributesFromParent(ItemStack prioItem, ItemStack newItem) {

@@ -52,7 +52,7 @@ public class EndermanSlayerItems {
         manager.setStat(Stats.Strength, 40);
         manager.setStat(Stats.CritDamage, 10);
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager.itemID, manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder(" v ", " v ", " s ");
         encoder.setKey('v', new CraftingObject(NullSphere(), 16));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get(Material.STICK.toString()), 1));

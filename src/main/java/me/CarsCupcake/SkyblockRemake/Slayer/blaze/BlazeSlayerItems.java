@@ -35,7 +35,7 @@ public class BlazeSlayerItems {
         manager.getFlags().add(ItemFlag.SPECIAL_MATERIAL_GRABBER);
         manager.setMaterialGrabber(new AshenAuricSwap());
 
-        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe("firedust dagger", manager, 1);
+        SkyblockShapedRecipe recipe = new SkyblockShapedRecipe(manager, 1);
         ShapeEncoder encoder = new ShapeEncoder(" f ", " m ", " s ");
         encoder.setKey('f', new CraftingObject(Items.SkyblockItems.get("MAGMA_FISH_SILVER"), 30));
         encoder.setKey('m', new CraftingObject(Items.SkyblockItems.get("MOLTEN_POWDER"), 1));

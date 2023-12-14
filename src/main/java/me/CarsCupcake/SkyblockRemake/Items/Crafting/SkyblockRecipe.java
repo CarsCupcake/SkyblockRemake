@@ -22,8 +22,6 @@ public abstract class SkyblockRecipe {
 
     public abstract ItemManager getResult();
 
-    public abstract String getId();
-
     public abstract int getAmount();
     public void register(){
         recipes.add(this);
@@ -150,7 +148,7 @@ public abstract class SkyblockRecipe {
         objects.add(new CraftingObject(Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8));
         objects.add(new CraftingObject(Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8));
         objects.add(new CraftingObject(Items.SkyblockItems.get("FLAWLESS_RUBY_GEM"), 8));
-        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe("GemstoneGolemPet;COMMON", Items.SkyblockItems.get("GEMSTONE_GOLEM;COMMON"), 1);
+        SkyblockShapedRecipe shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("GEMSTONE_GOLEM;COMMON"), 1);
         shapedRecipe.setRecipe(objects);
         recipes.add(shapedRecipe);
 
@@ -164,7 +162,7 @@ public abstract class SkyblockRecipe {
         objects.add(new CraftingObject(null, 0));
         objects.add(new CraftingObject(Items.SkyblockItems.get("MOLTEN_POWDER"), 8));
         objects.add(new CraftingObject(null, 0));
-        shapedRecipe = new SkyblockShapedRecipe("WarningFlare", Items.SkyblockItems.get("WARNING_FLARE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("WARNING_FLARE"), 1);
         shapedRecipe.setRecipe(objects);
         recipes.add(shapedRecipe);
 
@@ -178,7 +176,7 @@ public abstract class SkyblockRecipe {
         objects.add(new CraftingObject(Items.SkyblockItems.get("INFERNO_VERTEX"), 8));
         objects.add(new CraftingObject(Items.SkyblockItems.get("WARNING_FLARE"), 1));
         objects.add(new CraftingObject(null, 0));
-        shapedRecipe = new SkyblockShapedRecipe("AlertFlare", Items.SkyblockItems.get("ALERT_FLARE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("ALERT_FLARE"), 1);
         shapedRecipe.setRecipe(objects);
         recipes.add(shapedRecipe);
 
@@ -192,14 +190,14 @@ public abstract class SkyblockRecipe {
         objects.add(new CraftingObject(Items.SkyblockItems.get("WILSON_ENGINEERING_PLANS"), 1));
         objects.add(new CraftingObject(Items.SkyblockItems.get("ALERT_FLARE"), 1));
         objects.add(new CraftingObject(Items.SkyblockItems.get("INFERNO_VERTEX"), 8));
-        shapedRecipe = new SkyblockShapedRecipe("SosFlare", Items.SkyblockItems.get("SOS_FLARE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("SOS_FLARE"), 1);
         shapedRecipe.setRecipe(objects);
         recipes.add(shapedRecipe);
 
         ShapeEncoder encoder = new ShapeEncoder(" k ", " k ", " h ");
         encoder.setKey('k', new CraftingObject(Items.SkyblockItems.get("WITHER_CATALYST"), 12));
         encoder.setKey('h', new CraftingObject(Items.SkyblockItems.get("NECRON_HANDLE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("necronsblade", Items.SkyblockItems.get("NECRON_BLADE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("NECRON_BLADE"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         recipes.add(shapedRecipe);
 
@@ -208,25 +206,25 @@ public abstract class SkyblockRecipe {
         encoder = new ShapeEncoder("eee", "ese", "eee");
         encoder.setKey('e', new CraftingObject(Items.laser_eye(), 1));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("NECRON_BLADE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("HYPERION1", Items.SkyblockItems.get("HYPERION"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("HYPERION"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("VALKYRIE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("HYPERION2", Items.SkyblockItems.get("HYPERION"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("HYPERION"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("ASTRAEA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("HYPERION3", Items.SkyblockItems.get("HYPERION"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("HYPERION"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("SCYLLA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("HYPERION4", Items.SkyblockItems.get("HYPERION"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("HYPERION"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
@@ -236,25 +234,25 @@ public abstract class SkyblockRecipe {
         encoder = new ShapeEncoder("eee", "ese", "eee");
         encoder.setKey('e', new CraftingObject(Items.diamantesHandle(), 1));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("NECRON_BLADE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("valkyrie1", Items.SkyblockItems.get("VALKYRIE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("VALKYRIE"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("HYPERION"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("valkyrie2", Items.SkyblockItems.get("VALKYRIE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("VALKYRIE"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("ASTRAEA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("valkyrie3", Items.SkyblockItems.get("VALKYRIE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("VALKYRIE"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("SCYLLA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("valkyrie4", Items.SkyblockItems.get("VALKYRIE"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("VALKYRIE"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
@@ -263,25 +261,25 @@ public abstract class SkyblockRecipe {
         encoder = new ShapeEncoder("eee", "ese", "eee");
         encoder.setKey('e', new CraftingObject(Items.jollyPinkRock(), 1));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("NECRON_BLADE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("astraea1", Items.SkyblockItems.get("ASTRAEA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("ASTRAEA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("HYPERION"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("astraea2", Items.SkyblockItems.get("ASTRAEA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("ASTRAEA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("VALKYRIE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("astraea3", Items.SkyblockItems.get("ASTRAEA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("ASTRAEA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("SCYLLA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("astraea4", Items.SkyblockItems.get("ASTRAEA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("ASTRAEA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
@@ -290,34 +288,34 @@ public abstract class SkyblockRecipe {
         encoder = new ShapeEncoder("eee", "ese", "eee");
         encoder.setKey('e', new CraftingObject(Items.bigfootsLasso(), 1));
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("NECRON_BLADE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("scylla1", Items.SkyblockItems.get("SCYLLA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("SCYLLA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("HYPERION"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("scylla2", Items.SkyblockItems.get("SCYLLA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("SCYLLA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("VALKYRIE"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("scylla3", Items.SkyblockItems.get("SCYLLA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("SCYLLA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
         encoder.setKey('s', new CraftingObject(Items.SkyblockItems.get("ASTRAEA"), 1));
-        shapedRecipe = new SkyblockShapedRecipe("scylla4", Items.SkyblockItems.get("SCYLLA"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("SCYLLA"), 1);
         shapedRecipe.setRecipe(encoder.encode());
         shapedRecipe.setPrio(4);
         recipes.add(shapedRecipe);
 
-        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe("STUFFED_CHILI_PEPPER", Items.stuffedChiliPepper());
+        SkyblockShapelessRecipe shapelessRecipe = new SkyblockShapelessRecipe(Items.stuffedChiliPepper());
         shapelessRecipe.addIngredient(new CraftingObject(Items.chiliPepper(), 160));
         recipes.add(shapelessRecipe);
 
-        shapedRecipe = new SkyblockShapedRecipe("Pain_Releaser", Items.SkyblockItems.get("PAIN_RELEASER"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("PAIN_RELEASER"), 1);
         encoder = new ShapeEncoder("#&#", "&*&", "#&#");
         encoder.setKey('*', new CraftingObject(Items.reaperPepper(), 1));
         encoder.setKey('&', new CraftingObject(Items.stuffedChiliPepper(), 5));
@@ -325,7 +323,7 @@ public abstract class SkyblockRecipe {
         shapedRecipe.setRecipe(encoder.encode());
         recipes.add(shapedRecipe);
 
-        shapedRecipe = new SkyblockShapedRecipe("Chad_Stick", Items.SkyblockItems.get("CHAD_STICK"), 1);
+        shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get("CHAD_STICK"), 1);
         encoder = new ShapeEncoder("#*#", "*&*", "#+#");
         encoder.setKey('*', new CraftingObject(Items.reaperPepper(), 1));
         encoder.setKey('&', new CraftingObject(Items.SkyblockItems.get("PAIN_RELEASER"), 1));
@@ -372,14 +370,14 @@ public abstract class SkyblockRecipe {
                     }
                 }
 
-                shapedRecipe = new SkyblockShapedRecipe(sh.getKey().getKey(), Items.SkyblockItems.get(sh.getResult().getType().toString()), sh.getResult().getAmount());
+                shapedRecipe = new SkyblockShapedRecipe(Items.SkyblockItems.get(sh.getResult().getType().toString()), sh.getResult().getAmount());
                 shapedRecipe.setRecipe(objects1);
                 recipes.add(shapedRecipe);
 
 
             }
             if (recipe instanceof ShapelessRecipe shapelessRecipee) {
-                SkyblockShapelessRecipe newShapeles = new SkyblockShapelessRecipe(shapelessRecipee.getKey().getKey(), Items.SkyblockItems.get(shapelessRecipee.getResult().getType().toString()));
+                SkyblockShapelessRecipe newShapeles = new SkyblockShapelessRecipe(Items.SkyblockItems.get(shapelessRecipee.getResult().getType().toString()));
                 for (ItemStack item : shapelessRecipee.getIngredientList())
                     newShapeles.addIngredient(new CraftingObject(Items.SkyblockItems.get(item.getType().toString()), 1));
                 recipes.add(newShapeles);

@@ -90,7 +90,7 @@ public class DrillMerchant implements Listener{
 			
 		}
 		if(slot == 13 && !event.getView().getTopInventory().getItem(13).equals(DrillMechanicInv.DenieAnvil()) && !((inv.getItem(33) != null && inv.getItem(33).getType() != Material.AIR) && (inv.getItem(29) != null && inv.getItem(29).getType() != Material.AIR)) ) {
-			event.getView().getTopInventory().setItem(13, Main.item_updater(event.getView().getTopInventory().getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
+			event.getView().getTopInventory().setItem(13, Main.itemUpdater(event.getView().getTopInventory().getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked())));
 			event.setCancelled(false);
 			
 			inv.setItem(29, new ItemStack(Material.AIR));
@@ -145,7 +145,7 @@ public class DrillMerchant implements Listener{
 		if(inv.getItem(33) != null && inv.getItem(33).getType() != Material.AIR)
 			event.getPlayer().getInventory().addItem(inv.getItem(33));
 		if(inv.getItem(13) != null && !inv.getItem(13).equals(DrillMechanicInv.DenieAnvil()) && (inv.getItem(33) == null || inv.getItem(33).getType() == Material.AIR) && (inv.getItem(29) == null || inv.getItem(29).getType() == Material.AIR)) {
-			event.getPlayer().getInventory().addItem(Main.item_updater(inv.getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())));
+			event.getPlayer().getInventory().addItem(Main.itemUpdater(inv.getItem(13), SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())));
 		}
 		
 	}
@@ -174,13 +174,13 @@ public class DrillMerchant implements Listener{
 			if(Items.SkyblockItems.get(i.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING)).type == ItemType.Drill) {
 				PersistentDataContainer data = i.getItemMeta().getPersistentDataContainer();
 				if(data.get(new NamespacedKey(Main.getMain(), "fueltank"), PersistentDataType.STRING) != null) {
-					inv.setItem(9,Main.item_updater(DrillPart.parts.get(data.get(new NamespacedKey(Main.getMain(), "fueltank"), PersistentDataType.STRING)).getRawItemStack(),SkyblockPlayer.getSkyblockPlayer(player)));
+					inv.setItem(9,Main.itemUpdater(DrillPart.parts.get(data.get(new NamespacedKey(Main.getMain(), "fueltank"), PersistentDataType.STRING)).getRawItemStack(),SkyblockPlayer.getSkyblockPlayer(player)));
 				}else {
 					inv.setItem(9, DrillMechanicInv.NoDrillFuelTank());
 				}
 				
 				if(data.get(new NamespacedKey(Main.getMain(), "drillengine"), PersistentDataType.STRING) != null) {
-					inv.setItem(18,Main.item_updater(DrillPart.parts.get(data.get(new NamespacedKey(Main.getMain(), "drillengine"), PersistentDataType.STRING)).getRawItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
+					inv.setItem(18,Main.itemUpdater(DrillPart.parts.get(data.get(new NamespacedKey(Main.getMain(), "drillengine"), PersistentDataType.STRING)).getRawItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
 				}else {
 					inv.setItem(18, DrillMechanicInv.NoDrillDrillEngin());
 				}
@@ -346,7 +346,7 @@ public class DrillMerchant implements Listener{
 				
 			data.set(new NamespacedKey(Main.getMain(), "fuel"), PersistentDataType.INTEGER, currfuel);
 			item.setItemMeta(meta);
-			return Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));
+			return Main.itemUpdater(item,SkyblockPlayer.getSkyblockPlayer(player));
 			
 			
 			
@@ -363,7 +363,7 @@ public class DrillMerchant implements Listener{
 						data.set(new NamespacedKey(Main.getMain(), "maxfuel"), PersistentDataType.INTEGER, newFuel);
 						data.set(new NamespacedKey(Main.getMain(), "fueltank"), PersistentDataType.STRING, manager2.itemID);
 						item.setItemMeta(meta);
-						return Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));
+						return Main.itemUpdater(item,SkyblockPlayer.getSkyblockPlayer(player));
 					}
 		if(manager2.type == ItemType.DrillEngine) {
 			ItemStack item = item1.clone();
@@ -375,7 +375,7 @@ public class DrillMerchant implements Listener{
 						data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, currMiningspeed +  newFuel);
 						data.set(new NamespacedKey(Main.getMain(), "drillengine"), PersistentDataType.STRING, manager2.itemID);
 						item.setItemMeta(meta);
-						return Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player));
+						return Main.itemUpdater(item,SkyblockPlayer.getSkyblockPlayer(player));
 					}
 		
 		return item1;

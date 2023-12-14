@@ -141,7 +141,7 @@ public class EquipmentManager implements Listener {
         } );
         item.setItemMeta(meta);
 
-        return Main.item_updater(item, player);
+        return Main.itemUpdater(item, player);
 
     }
 

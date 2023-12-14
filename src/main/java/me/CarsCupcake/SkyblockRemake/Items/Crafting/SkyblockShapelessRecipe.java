@@ -2,33 +2,29 @@ package me.CarsCupcake.SkyblockRemake.Items.Crafting;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 
-public class SkyblockShapelessRecipe extends SkyblockRecipe{
-	private final ArrayList<CraftingObject> ingredients = new ArrayList<>();
-	private final ItemManager result;
-	private final String id;
-public SkyblockShapelessRecipe(String id, ItemManager manager) {
-	this.id = id;
-	result = manager;
-}
-public void addIngredient(CraftingObject manager) {
-	ingredients.add(manager);
-}
-public ArrayList<CraftingObject> getIngredients(){
-	return ingredients;
-}
-public String getId() {
-	return id;
-}
+public class SkyblockShapelessRecipe extends SkyblockRecipe {
+    @Getter
+    private final ArrayList<CraftingObject> ingredients = new ArrayList<>();
+    private final ItemManager result;
 
-	@Override
-	public int getAmount() {
-		return 0;
-	}
+    public SkyblockShapelessRecipe(ItemManager manager) {
+        result = manager;
+    }
 
-	@Override
-	public ItemManager getResult() {
-	return result;
-}
+    public void addIngredient(CraftingObject manager) {
+        ingredients.add(manager);
+    }
+
+    @Override
+    public int getAmount() {
+        return 0;
+    }
+
+    @Override
+    public ItemManager getResult() {
+        return result;
+    }
 }

@@ -42,7 +42,7 @@ public class GiveEditionItemCMD implements CommandExecutor {
 			data.set(new NamespacedKey(Main.getMain(), "to"), PersistentDataType.STRING, arg3[1]);
 			data.set(new NamespacedKey(Main.getMain(), "from"), PersistentDataType.STRING, arg0.getName());
 			item.setItemMeta(meta);
-			player.getInventory().addItem(Main.item_updater(item,SkyblockPlayer.getSkyblockPlayer(player)));
+			player.getInventory().addItem(Main.itemUpdater(item,SkyblockPlayer.getSkyblockPlayer(player)));
 		}
 		return false;
 	}

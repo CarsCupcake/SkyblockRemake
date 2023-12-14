@@ -9,6 +9,12 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
+/**
+ *
+ * @param manager the item that will get rolled
+ * @param min the minimum amount (inclusive)
+ * @param max the maximum amount (exclusive)
+ */
 public record ItemLoot(ItemManager manager, int min, int max) implements Loot{
     @Override
     public void consume(SkyblockPlayer killer, Location dropLocation, boolean toPlayer) {
@@ -16,7 +22,7 @@ public record ItemLoot(ItemManager manager, int min, int max) implements Loot{
         ItemStack item = manager.createNewItemStack();
         if (item.getType() == Material.AIR) return;
         item.setAmount(amount);
-        Main.item_updater(item, killer);
+        Main.itemUpdater(item, killer);
         if(toPlayer && killer != null) {
             killer.addItem(item, true);
         } else dropLocation.getWorld().dropItemNaturally(dropLocation, item);

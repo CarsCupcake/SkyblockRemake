@@ -72,7 +72,7 @@ public class PotionListener implements Listener {
 
 
                 if(!(list >= managers.size())) {
-                    inv.setItem(i, Main.item_updater(managers.get(list).createNewItemStack(),null) );
+                    inv.setItem(i, Main.itemUpdater(managers.get(list).createNewItemStack(),null) );
 
                 }
 

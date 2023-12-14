@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Slayer.vampire;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
@@ -11,8 +12,11 @@ import me.CarsCupcake.SkyblockRemake.isles.rift.RiftCalculator;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.SinusMovement;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -38,6 +42,7 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
     protected boolean innvincible = false;
     private final CountMap<Bundle<VampireAbility, Runnable>> tasks = new CountMap<>();
     private int phaseMilestone;
+    private boolean block = false;
 
     public VampireSlayerT1(SkyblockPlayer player) {
         super(player);
@@ -78,8 +83,17 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
     }
 
     @Override
+    public LootTable getLootTable() {
+        LootTable lootTable = new LootTable();
+        lootTable.addLoot(new ItemLoot(VampireItems.CovenSeal.getManager(), 1, 4));
+        return lootTable;
+    }
+
+    @Override
     public void spawn(@NotNull Location loc) {
-        entity = loc.getWorld().spawn(loc, Zombie.class);
+        entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> {
+            zombie.setTarget(owner);
+        });
         new PlayerDisguise(entity, texture, signature);
         stand = entity.getWorld().spawn(loc.clone().add(0, -0.1, 0), ArmorStand.class, s -> {
             s.setGravity(false);
@@ -93,7 +107,7 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
         new EntityRunnable() {
             @Override
             public void run() {
-                damagePlayer(getDamage());
+                damagePlayer(getRiftDamage());
             }
         }.runTaskTimer(this, 20, 20);
         new EntityRunnable() {
@@ -102,6 +116,7 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
             @Override
             public void run() {
                 stand.teleport(entity.getLocation().add(0, 0.15, 0));
+                if (block) return;
                 tasks.addAll(-1);
                 List<Bundle<VampireAbility, Runnable>> abilitys = tasks.getByAmount(0);
                 tasks.removeByAmount(0);
@@ -167,6 +182,14 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
         calculator.heartsDamage = damage;
         //TODO Iced buff
         calculator.execute();
+        if (damage == 0.5) {
+            System.out.println("1 damage!");
+            try {
+                throw new RuntimeException();
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace()[1]);
+            }
+        }
     }
 
     @Override
@@ -265,7 +288,6 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
                     if (time == -1) {
                         time = 50;
                         phase = new Random().nextInt(3) + 1;
-                        System.out.println(phase);
                         mark(phase);
                     }
                     if (time == 0) {
@@ -440,6 +462,7 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
         }
 
         private void komet() {
+            block = true;
             innvincible = true;
             entity.setAI(false);
             entity.setGravity(false);
@@ -450,20 +473,27 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
 
                 @Override
                 public void run() {
-                    if (i < 60) if (i < 20) {
-                        entity.teleport(entity.getLocation().add(0, 0.5, 0));
-                        i++;
-                        return;
-                    } else
-                        l = owner.getLocation();
+                    if (i < 60) {
+                        if (i < 20) {
+                            entity.teleport(entity.getLocation().add(0, 0.5, 0));
+                            i++;
+                            return;
+                        } else
+                            l = owner.getLocation();
+                    }
                     if (i % 2 == 0) {
                         animation(fitting(l.getBlock().getRelative(-3, 0, -3)));
                     }
                     if (i >= 90) {
-                        if (i == 60) {
-                            l = owner.getLocation();
+                        if (i == 90) {
                             v = owner.getLocation().toVector().subtract(entity.getLocation().toVector());
                             v = v.normalize();
+                            if (entity.getWorld() != owner.getWorld()) {
+                                killEntity(VampireSlayerT1.this, null);
+                                owner.sendMessage("There was an error with the vampire slayer!");
+                                cancel();
+                                return;
+                            }
                             v = v.multiply(owner.getLocation().distance(entity.getLocation()) / 10);
                         }
                         entity.teleport(entity.getLocation().add(v));
@@ -510,6 +540,7 @@ public class VampireSlayerT1 extends Slayer implements FinalDamageDesider {
                 @Override
                 public synchronized void cancel() throws IllegalStateException {
                     super.cancel();
+                    block = false;
                     innvincible = false;
                     p1.forEach(Entity::remove);
                     p2.forEach(Entity::remove);

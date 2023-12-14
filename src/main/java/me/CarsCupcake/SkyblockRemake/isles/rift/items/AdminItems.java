@@ -47,7 +47,7 @@ public class AdminItems implements Listener {
                     r.printStackTrace();
 
                 } finally {
-                    Bukkit.getScheduler().runTask(Main.getMain(), () -> Main.item_updater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer())));
+                    Bukkit.getScheduler().runTask(Main.getMain(), () -> Main.itemUpdater(item, SkyblockPlayer.getSkyblockPlayer(event.getPlayer())));
                 }
             }).withLines("", "^^^^^^^^", "Enter Amount", "here").open(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
             return false;

@@ -39,6 +39,6 @@ public abstract class RiftCalculatorEvent extends Event implements Cancellable {
         return handlers;
     }
     public void multiplyMultiplyer(double d){
-        multiplier += d;
+        multiplier *= d;
     }
 }

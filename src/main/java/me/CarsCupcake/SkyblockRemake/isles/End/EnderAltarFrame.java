@@ -36,7 +36,7 @@ public class EnderAltarFrame {
             placed = player.getItemInHand();
             ItemStack item = EndItems.Items.SleepingEye.getItem().getRawItemStack();
             placed.setItemMeta(item.getItemMeta());
-            Main.item_updater(placed, placer);
+            Main.itemUpdater(placed, placer);
         }
         alrPlaced++;
         Bukkit.broadcastMessage("§5☬ §d"+player.getName()+" placed a Summoning Eye! " + ((alrPlaced == 8) ? "Brace yourselve! §7(§a8§7/§a8§7)" : "§7(§e" + alrPlaced + "§7/§a8§7)"));
@@ -55,7 +55,7 @@ public class EnderAltarFrame {
         if(placed != null){
             ItemStack item = EndItems.Items.SummoningEye.getItem().getRawItemStack();
             placed.setItemMeta(item.getItemMeta());
-            Main.item_updater(placed, placer);
+            Main.itemUpdater(placed, placer);
         }
 
         if(placer.getItemInHand().getItemMeta() != null && placer.getItemInHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING).equals(EndItems.Items.SleepingEye.getItem().itemID))
@@ -72,7 +72,7 @@ public class EnderAltarFrame {
         if(placed != null){
             ItemStack item = EndItems.Items.RemnantOfTheEye.getItem().getRawItemStack();
             placed.setItemMeta(item.getItemMeta());
-            Main.item_updater(placed, placer);
+            Main.itemUpdater(placed, placer);
         }
         placer = null;
         placed = null;

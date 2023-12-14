@@ -104,7 +104,7 @@ public enum HexOption implements Factory<Hex, GUI> {
                             Assert.state(level > 0);
                             ItemStack item = hex.getItem();
                             enchant(item, hex, enchantment, level);
-                            Main.item_updater(item, hex.getPlayer());
+                            Main.itemUpdater(item, hex.getPlayer());
                             hex.getGui().getInventory().setItem(22, item);
                             hex.update();
                             HexOption.Enchantment.factor(hex).showGUI(hex.getPlayer());
@@ -119,7 +119,7 @@ public enum HexOption implements Factory<Hex, GUI> {
                     if (slot == slots[i]) {
                         ItemStack item = hex.getItem();
                         enchant(item, hex, enchantment, i + 1);
-                        Main.item_updater(item, hex.getPlayer());
+                        Main.itemUpdater(item, hex.getPlayer());
                         hex.getGui().getInventory().setItem(22, item);
                         hex.update();
                         HexOption.Enchantment.factor(hex).showGUI(hex.getPlayer());
