@@ -1489,7 +1489,7 @@ public class SkyblockRemakeEvents implements Listener {
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                Ferocity.hit((LivingEntity) e, damage, cccalc <= cc, player);
+                Ferocity.hit((LivingEntity) e, player);
 
                 Main.updateentitystats((LivingEntity) e);
                 if (getEntityHealth((LivingEntity) e) <= 0) hits.replace(player, 1);

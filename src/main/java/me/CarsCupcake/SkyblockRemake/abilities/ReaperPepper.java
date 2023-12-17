@@ -19,7 +19,7 @@ public class ReaperPepper implements AbilityManager<PlayerInteractEvent> {
             ExtraInformations.get().set(player.getUniqueId() + ".reaperpepper", reaperPepperAmount);
             ExtraInformations.save();
             ExtraInformations.reload();
-            player.setBaseStat(Stats.Health, 1 + player.basehealth);
+            player.setBaseStat(Stats.Health, 1 + player.getBaseStat(Stats.Health));
             switch (reaperPepperAmount) {
                 case 1 -> player.sendMessage("§aYou've eaten a reaper pepper, it's delicious!");
                 case 2 -> player.sendMessage("§aYou've eaten a reaper pepper, it's uh, really hot.");

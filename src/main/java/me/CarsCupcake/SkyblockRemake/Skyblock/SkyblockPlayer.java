@@ -56,24 +56,7 @@ public class SkyblockPlayer extends CraftPlayer {
     public double healingMulti = 1;
     public int currhealth;
     public int currmana;
-
-    public int basehealth;
-    public int basemana;
-    public int basedef;
-    public int basespeed;
-    public int basestrength;
-    public int basecc;
-    public double basecd;
-    public float baseabilitydamage;
-    public int baseferocity;
-    public int basemagicfind;
-    public int baseminingspeed;
-    public int baseminingfortune;
     public double titaniumchance;
-    public double basepristine;
-    public int baseattackspeed;
-    public int basetruedefense;
-    public double baseseacreaturechance;
     public DwarvenAreas dwarvenArea;
     public CrimsonIsleAreas crimsonArea;
     public double coins;
@@ -157,9 +140,11 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private Region region;
-    public SkyblockPlayer(CraftServer server, EntityPlayer entity){
+
+    public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
         this(server, entity, false);
     }
+
     public SkyblockPlayer(CraftServer server, EntityPlayer entity, boolean isChecked) {
         super(server, entity);
         inventory = new ConfigFile(this, ((this instanceof RiftPlayer) ? "rInv" : "inventory"));
@@ -168,11 +153,11 @@ public class SkyblockPlayer extends CraftPlayer {
         List<String> sl = null;
         try {
             sl = riftMainStoryFile.get().getStringList("timecharm");
-        }catch (Exception ignored){}
-        if (sl == null)
-            timeCharms = new ArrayList<>();
+        } catch (Exception ignored) {
+        }
+        if (sl == null) timeCharms = new ArrayList<>();
         else timeCharms = sl;
-        if(ServerType.getActiveType() == ServerType.Rift && !isChecked) {
+        if (ServerType.getActiveType() == ServerType.Rift && !isChecked) {
             new RiftPlayer(server, entity);
             return;
         }
@@ -231,13 +216,14 @@ public class SkyblockPlayer extends CraftPlayer {
     public static void init() {
 
     }
+
     public void unregister() {
         CollectHandler.collections.get(this).forEach(ICollection::save);
     }
 
-    public void kill(){
+    public void kill() {
         Slayer possibleSlayer = Slayer.getSlayer(this);
-        if(possibleSlayer != null) SkyblockEntity.killEntity(possibleSlayer, null);
+        if (possibleSlayer != null) SkyblockEntity.killEntity(possibleSlayer, null);
     }
 
     public void initQuest() {
@@ -261,8 +247,8 @@ public class SkyblockPlayer extends CraftPlayer {
                     for (String k : inventory.get().getKeys(false)) {
                         int i = Integer.parseInt(k);
                         ItemStack item = inventory.get().getItemStack(k);
-                        new BukkitRunnable(){
-                            public void run(){
+                        new BukkitRunnable() {
+                            public void run() {
                                 Main.itemUpdater(item, SkyblockPlayer.this);
                                 player.getInventory().setItem(i, item);
                             }
@@ -277,14 +263,15 @@ public class SkyblockPlayer extends CraftPlayer {
         });
 
     }
+
     public void saveInventory() {
-        if(Main.getMain().isEnabled())
-            Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
+        if (Main.getMain().isEnabled()) Bukkit.getScheduler().runTaskAsynchronously(Main.getMain(), () -> {
             saveInventory0();
-            });
+        });
         else saveInventory0();
     }
-    private void saveInventory0(){
+
+    private void saveInventory0() {
         inventory.clear();
         inventory.save();
         inventory.reload();
@@ -442,7 +429,7 @@ public class SkyblockPlayer extends CraftPlayer {
         farming = Skill.getInstance(Skills.Farming, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Farming.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." + Skills.Farming.toString().toLowerCase() + ".xp"));
         taming = Skill.getInstance(Skills.Taming, this, SkillsSave.get().getInt(player.getUniqueId().toString() + "." + Skills.Taming.toString().toLowerCase() + ".level"), SkillsSave.get().getDouble(player.getUniqueId().toString() + "." + Skills.Taming.toString().toLowerCase() + ".xp"));
         int reaperPepperAmount = ExtraInformations.get().getInt(player.getUniqueId() + ".reaperpepper");
-        setBaseStat(Stats.Health, reaperPepperAmount + basehealth);
+        setBaseStat(Stats.Health, reaperPepperAmount + getBaseStat(Stats.Health));
         for (FullSetBonus bonus : activeBonuses) {
             bonus.start();
         }
@@ -652,7 +639,7 @@ public class SkyblockPlayer extends CraftPlayer {
                 Comms.add(com);
 
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -807,7 +794,8 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public void setMana(int value) {
         currmana = value;
-        if (currmana > Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
+        if (currmana > Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence))
+            ;
     }
 
     public void addBaseStat(Stats stat, double v) {
@@ -815,118 +803,11 @@ public class SkyblockPlayer extends CraftPlayer {
     }
 
     public void setBaseStat(Stats stat, double value) {
-        switch (stat) {
-            case AbilityDamage:
-                baseabilitydamage = (float) value;
-                break;
-            case AttackSpeed:
-                baseattackspeed = (int) value;
-                break;
-            case CritChance:
-                basecc = (int) value;
-                break;
-            case CritDamage:
-                basecd = value;
-                break;
-            case Defense:
-                basedef = (int) value;
-                break;
-            case Ferocity:
-                baseferocity = (int) value;
-                break;
-            case Health:
-                basehealth = (int) value;
-                break;
-            case Inteligence:
-                basemana = (int) value;
-                break;
-            case MagicFind:
-                basemagicfind = (int) value;
-                break;
-            case MiningFortune:
-                baseminingfortune = (int) value;
-                break;
-            case MiningSpeed:
-                baseminingspeed = (int) value;
-                break;
-            case Pristine:
-                basepristine = value;
-                break;
-            case Speed:
-                basespeed = (int) value;
-                break;
-            case Strength:
-                basestrength = (int) value;
-
-                break;
-            case TrueDefense:
-                basetruedefense = (int) value;
-                break;
-            case SeaCreatureChance:
-                baseseacreaturechance = value;
-                break;
-            default:
-                baseStat.put(stat, value);
-                break;
-
-        }
+        baseStat.put(stat, value);
     }
 
     public double getBaseStat(Stats stat) {
-        switch (stat) {
-            case AbilityDamage:
-                return baseabilitydamage;
-
-            case AttackSpeed:
-                return baseattackspeed;
-
-            case CritChance:
-                return basecc;
-
-            case CritDamage:
-                return basecd;
-
-            case Defense:
-                return basedef;
-
-            case Ferocity:
-                return baseferocity;
-
-            case Health:
-                return basehealth;
-
-            case Inteligence:
-                return basemana;
-
-            case MagicFind:
-                return basemagicfind;
-
-            case MiningFortune:
-                return baseminingfortune;
-
-            case MiningSpeed:
-                return baseminingspeed;
-
-            case Pristine:
-                return basepristine;
-
-            case Speed:
-                return basespeed;
-
-            case Strength:
-                return basestrength;
-
-
-            case TrueDefense:
-                return basetruedefense;
-
-            case SeaCreatureChance:
-                return baseseacreaturechance;
-
-            default:
-                if (baseStat.get(stat) != null) return baseStat.get(stat);
-                else return 0;
-        }
+        return baseStat.getOrDefault(stat, 0d);
     }
 
     public void setTitaniumChance(double value) {

@@ -93,7 +93,7 @@ public class Combat implements Skill {
 		setXp(0);
 		sendLevelUpMessage();
 		player.addAdititveMultiplier(0.4);
-		player.setBaseStat(Stats.CritDamage, player.basecd + cdPerLevel);
+		player.setBaseStat(Stats.CritDamage, player.getBaseStat(Stats.CritDamage) + cdPerLevel);
 		int total = 5;
 		if (level > 10) total += 5;
 		if (level > 10) total += 5;
@@ -103,7 +103,7 @@ public class Combat implements Skill {
 	}
 	
 	public void initStats() {
-		player.setBaseStat(Stats.CritDamage, player.basecd + (cdPerLevel * level));
+		player.setBaseStat(Stats.CritDamage, player.getBaseStat(Stats.CritDamage) + (cdPerLevel * level));
 		player.addAdititveMultiplier(0.4*level);
 
 	}

@@ -120,6 +120,7 @@ public class NormalEnchantsListener implements Listener {
                 if (!(e instanceof LivingEntity entity) || e instanceof Player || e instanceof ArmorStand) continue;
                 Calculator calculator = new Calculator();
                 calculator.damage = event.getCalculator().damage * ((double) SkyblockEnchants.CLEAVE.getPersentage(level) / 100);
+                calculator.setApplyFerocity(false);
                 calculator.getTags().add("cleave");
                 calculator.damageEntity(entity, event.getPlayer());
             }
@@ -145,6 +146,7 @@ public class NormalEnchantsListener implements Listener {
                     Calculator calculator = new Calculator();
                     calculator.getTags().add("thunder");
                     calculator.damage = damage;
+                    calculator.setApplyFerocity(false);
                     calculator.setIgnoreHit(true);
                     calculator.damageEntity(livingEntity, event.getPlayer());
                     calculator.showThunderDamageTag(entity);
@@ -158,6 +160,7 @@ public class NormalEnchantsListener implements Listener {
             Calculator calculator = new Calculator();
             calculator.getTags().add("thunder");
             calculator.damage = damage;
+            calculator.setApplyFerocity(false);
             calculator.setIgnoreHit(true);
             calculator.damageEntity(event.getEntity(), event.getPlayer());
             calculator.showThunderDamageTag(event.getEntity());

@@ -72,10 +72,10 @@ public class AlertFlare implements Deployable {
         isActive = false;
         Deployable.deployables.remove(shooter);
         for (SkyblockPlayer player : boosts){
-            player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 20);
+            player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 20);
             player.addHealingMult(-0.2);
             player.addManaRegenMult(-0.5);
-            player.setBaseStat(Stats.Ferocity, player.baseferocity - 10);
+            player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) - 10);
         }
         shooter.setDeployable(null);
     }
@@ -103,8 +103,8 @@ public class AlertFlare implements Deployable {
             if(!boosts.contains(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()))){
                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                 boosts.add(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense + 20);
-                player.setBaseStat(Stats.Ferocity, player.baseferocity + 10);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) + 20);
+                player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) + 10);
                 player.addHealingMult(0.2);
                 player.addManaRegenMult(0.5);
 
@@ -113,10 +113,10 @@ public class AlertFlare implements Deployable {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
             if(boosts.contains(player)){
                 boosts.remove(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 20);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 20);
                 player.addHealingMult(-0.2);
                 player.addManaRegenMult(-0.5);
-                player.setBaseStat(Stats.Ferocity, player.baseferocity - 10);
+                player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) - 10);
 
             }
         }

@@ -87,8 +87,8 @@ public class Alchemy implements Skill {
         setLevel(level + 1);
         setXp(0);
         sendLevelUpMessage();
-        if (level < 15) player.setBaseStat(Stats.Inteligence, player.basemana + 1);
-        else player.setBaseStat(Stats.Inteligence, player.basemana + 2);
+        if (level < 15) player.setBaseStat(Stats.Inteligence, player.getBaseStat(Stats.Inteligence) + 1);
+        else player.setBaseStat(Stats.Inteligence, player.getBaseStat(Stats.Inteligence) + 2);
         int total = 5;
         if (level > 10) total += 5;
         if (level > 25) total += 10;
@@ -98,10 +98,10 @@ public class Alchemy implements Skill {
 
     public void initStats() {
         if (level > 14) {
-            player.setBaseStat(Stats.Inteligence, player.basemana + 14);
-            player.setBaseStat(Stats.Inteligence, player.basemana + ((level - 14) * 2));
+            player.setBaseStat(Stats.Inteligence, player.getBaseStat(Stats.Inteligence) + 14);
+            player.setBaseStat(Stats.Inteligence, player.getBaseStat(Stats.Inteligence) + ((level - 14) * 2));
         } else {
-            player.setBaseStat(Stats.Inteligence, player.basemana + (level));
+            player.setBaseStat(Stats.Inteligence, player.getBaseStat(Stats.Inteligence) + (level));
         }
     }
 

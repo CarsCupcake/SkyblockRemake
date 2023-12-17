@@ -132,12 +132,11 @@ public strictfp class Calculator {
         }
         if (SkyblockEntity.livingEntity.exists(e)) {
             EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
-            if (atributes != null)
-                for (EntityAtributes.Attributes attributes : atributes.value()) {
-                    if (attributes == EntityAtributes.Attributes.MeleeImunity) return 0;
-                    if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return 0;
-                    if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return 0;
-                }
+            if (atributes != null) for (EntityAtributes.Attributes attributes : atributes.value()) {
+                if (attributes == EntityAtributes.Attributes.MeleeImunity) return 0;
+                if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return 0;
+                if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return 0;
+            }
         }
         this.e = e;
         if (e.getScoreboardTags().contains("npc")) return 0d;
@@ -159,7 +158,6 @@ public strictfp class Calculator {
 
         double preMultiplier = event.getPreMultiplier();
         double postMult = event.getPostMultiplier();
-        System.out.println(stre + " " + cd + " " + weapondamage);
 
         double damage;
         if (cccalc <= cc) {
@@ -171,7 +169,8 @@ public strictfp class Calculator {
         }
         if (SkyblockEntity.livingEntity.exists(e)) {
             SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
-            if (SkyblockEntity.isExtention(entity.getEntity())) entity = SkyblockEntity.getExtention(entity.getEntity()).owner();
+            if (SkyblockEntity.isExtention(entity.getEntity()))
+                entity = SkyblockEntity.getExtention(entity.getEntity()).owner();
             if (entity instanceof Defensive ed) {
                 double defense = ed.getDefense();
                 double ehp = entity.getMaxHealth() * (1 + (defense / 100));
@@ -256,12 +255,11 @@ public strictfp class Calculator {
         if (e.getScoreboardTags().contains("npc")) return;
         if (SkyblockEntity.livingEntity.exists(e)) {
             EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
-            if (atributes != null)
-                for (EntityAtributes.Attributes attributes : atributes.value()) {
-                    if (attributes == EntityAtributes.Attributes.MeleeImunity) return;
-                    if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return;
-                    if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return;
-                }
+            if (atributes != null) for (EntityAtributes.Attributes attributes : atributes.value()) {
+                if (attributes == EntityAtributes.Attributes.MeleeImunity) return;
+                if (attributes == EntityAtributes.Attributes.ProjectileImune && projectile != null) return;
+                if (attributes == EntityAtributes.Attributes.FerocityImune && isFerocity) return;
+            }
         }
         if (projectile == null) result = new SkyblockDamageEvent(player, e, this, type, cause);
         else result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
@@ -296,56 +294,55 @@ public strictfp class Calculator {
 
 
         if (newHealth <= 0) {
-            if (player != null)
-                e.addScoreboardTag("killer:" + player.getName());
+            if (player != null) e.addScoreboardTag("killer:" + player.getName());
         } else Main.updateentitystats(e);
         if (player != null) {
             double ferocity = Main.getPlayerStat(player, Stats.Ferocity);
-            if (!isMagic && !isFerocity && projectile == null && applyFerocity) if (ferocity > 0) {
-                if (ferocity < 100) {
-                    Random r = new Random();
-                    int low = 1;//includes 1
-                    int high = 100;// includes 100
-                    int result = r.nextInt(high - low) + low;
-                    if (ferocity >= result) {
-
-                        Ferocity.hit(e, damage, cccalc <= Main.getPlayerStat(player, Stats.CritChance), player);
-                        Main.updateentitystats(e);
-                    }
-                } else {
-                    double hits = (double) ferocity / 100;
-                    if (hits % 1 == 0) {
-
-                        SkyblockRemakeEvents.ferocity_call(e, damage, cccalc, (int) Main.getPlayerStat(player, Stats.CritChance), player, (int) hits);
-
-
-                    } else {
-                        int minus = ((int) hits * 100);
-                        double hitchance = (double) ferocity - (double) minus;
-
+            if (!isMagic && !isFerocity && projectile == null && applyFerocity)
+                if (ferocity > 0) {
+                    if (ferocity < 100) {
                         Random r = new Random();
                         int low = 1;//includes 1
                         int high = 100;// includes 100
                         int result = r.nextInt(high - low) + low;
+                        if (ferocity >= result) {
 
-                        if (hitchance >= result) {
-                            hits = hits + 1;
+                            Ferocity.hit(e, player);
+                            Main.updateentitystats(e);
                         }
-                        SkyblockRemakeEvents.ferocity_call(e, damage, cccalc, (int) Main.getPlayerStat(player, Stats.CritChance), player, (int) hits);
+                    } else {
+                        double hits = (double) ferocity / 100;
+                        if (hits % 1 == 0) {
+
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc, (int) Main.getPlayerStat(player, Stats.CritChance), player, (int) hits);
+
+
+                        } else {
+                            int minus = ((int) hits * 100);
+                            double hitchance = (double) ferocity - (double) minus;
+
+                            Random r = new Random();
+                            int low = 1;//includes 1
+                            int high = 100;// includes 100
+                            int result = r.nextInt(high - low) + low;
+
+                            if (hitchance >= result) {
+                                hits = hits + 1;
+                            }
+                            SkyblockRemakeEvents.ferocity_call(e, damage, cccalc, (int) Main.getPlayerStat(player, Stats.CritChance), player, (int) hits);
+                        }
                     }
                 }
-            }
         }
 
 
         if ((SkyblockEntity.livingEntity.exists(e) && SkyblockEntity.livingEntity.getSbEntity(e).getHealth() <= 0)) {
             SkyblockEntity.killEntity(se, player);
-            if (player != null)
-                if (projectile != null) {
-                    e.addScoreboardTag("arrowkill:" + player.getName());
+            if (player != null) if (projectile != null) {
+                e.addScoreboardTag("arrowkill:" + player.getName());
 
 
-                }
+            }
             if (isMagic) e.addScoreboardTag("abilitykill");
             Main.updateentitystats(e);
         } else {
@@ -480,9 +477,8 @@ public strictfp class Calculator {
         if (e != null && e.getScoreboardTags().contains("abilityimun")) return;
         if (e != null && SkyblockEntity.livingEntity.exists(e)) {
             EntityAtributes atributes = SkyblockEntity.livingEntity.getSbEntity(e).getClass().getAnnotation(EntityAtributes.class);
-            if (atributes != null)
-                for (EntityAtributes.Attributes attributes : atributes.value())
-                    if (attributes == EntityAtributes.Attributes.AbilityImune) return;
+            if (atributes != null) for (EntityAtributes.Attributes attributes : atributes.value())
+                if (attributes == EntityAtributes.Attributes.AbilityImune) return;
         }
         double abilityDamage = 0, inteligens = 0;
         if (player != null) {
@@ -491,7 +487,7 @@ public strictfp class Calculator {
         }
 
         double baseMult = 0;
-        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, 1d, 1d,getIfMissing(new HashMap<>(), player), Main.getPlayerStat(player, Stats.WeaponDamage));
+        DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, 1d, 1d, getIfMissing(new HashMap<>(), player), Main.getPlayerStat(player, Stats.WeaponDamage));
         Bukkit.getPluginManager().callEvent(event);
 
         damage = magicDamage * (1 + (inteligens / 100) * abilityScaling) * (1 + (baseMult / 100)) * (1 + (abilityDamage / 100)) * ((event.getPreMultiplier())) * ((event.getPostMultiplier()));

@@ -177,7 +177,7 @@ public class EndermanT1 extends Slayer implements Listener {
             if(slayer instanceof EndermanT1 endermanT1){
                 if(!endermanT1.isInHitsPhase)
                     if(event.getStat() == Stats.Ferocity)
-                        event.setValue(event.getValue()*0.25);
+                        event.addMultiplier(0.25);
             }
         }
     }

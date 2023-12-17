@@ -72,11 +72,11 @@ public class SusFlare implements Deployable {
         isActive = false;
         Deployable.deployables.remove(shooter);
         for (SkyblockPlayer player : boosts){
-            player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 25);
+            player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 25);
             player.addHealingMult(-0.3);
             player.addManaRegenMult(-1.25);
-            player.setBaseStat(Stats.Ferocity, player.baseferocity - 10);
-            player.setBaseStat(Stats.AttackSpeed, player.baseattackspeed - 5);
+            player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) - 10);
+            player.setBaseStat(Stats.AttackSpeed, player.getBaseStat(Stats.AttackSpeed) - 5);
         }
         shooter.setDeployable(null);
     }
@@ -104,9 +104,9 @@ public class SusFlare implements Deployable {
             if(!boosts.contains(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()))){
                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                 boosts.add(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense + 25);
-                player.setBaseStat(Stats.Ferocity, player.baseferocity + 10);
-                player.setBaseStat(Stats.AttackSpeed, player.baseattackspeed + 5);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) + 25);
+                player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) + 10);
+                player.setBaseStat(Stats.AttackSpeed, player.getBaseStat(Stats.AttackSpeed) + 5);
                 player.addHealingMult(0.3);
                 player.addManaRegenMult(1.25);
 
@@ -115,11 +115,11 @@ public class SusFlare implements Deployable {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
             if(boosts.contains(player)){
                 boosts.remove(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 25);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 25);
                 player.addHealingMult(-0.3);
                 player.addManaRegenMult(-1.25);
-                player.setBaseStat(Stats.Ferocity, player.baseferocity - 10);
-                player.setBaseStat(Stats.AttackSpeed, player.baseattackspeed - 5);
+                player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) - 10);
+                player.setBaseStat(Stats.AttackSpeed, player.getBaseStat(Stats.AttackSpeed) - 5);
 
             }
         }

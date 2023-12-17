@@ -17,16 +17,16 @@ public class Maid implements FullSetBonus {
 	public void start() {
 		hearts();
 		
-		player.setBaseStat(Stats.Ferocity, player.baseferocity + 35);
-		player.setBaseStat(Stats.Health, player.basehealth + 500);
+		player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) + 35);
+		player.setBaseStat(Stats.Health, player.getBaseStat(Stats.Health) + 500);
 
 	}
 
 	@Override
 	public void stop() {
 		try {
-			player.setBaseStat(Stats.Ferocity, player.baseferocity - 35);
-			player.setBaseStat(Stats.Health, player.basehealth - 500);
+			player.setBaseStat(Stats.Ferocity, player.getBaseStat(Stats.Ferocity) - 35);
+			player.setBaseStat(Stats.Health, player.getBaseStat(Stats.Health) - 500);
 			run.cancel();
 		} catch (Exception ignore) {
 		

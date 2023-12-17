@@ -25,7 +25,7 @@ public class MagmaLordArmor implements FullSetBonus {
         runnable.runTaskTimer(Main.getMain(), 0, 20);
         pieces = player.bonusAmounts.get(getBonus());
         if(pieces > 4){
-            player.setBaseStat(Stats.SeaCreatureChance, player.baseseacreaturechance+1.5);
+            player.setBaseStat(Stats.SeaCreatureChance, player.getBaseStat(Stats.SeaCreatureChance)+1.5);
         }
 
     }
@@ -34,7 +34,7 @@ public class MagmaLordArmor implements FullSetBonus {
     public void stop() {
         runnable.cancel();
         if(pieces > 4){
-            player.setBaseStat(Stats.SeaCreatureChance, player.baseseacreaturechance-1.5);
+            player.setBaseStat(Stats.SeaCreatureChance, player.getBaseStat(Stats.SeaCreatureChance)-1.5);
         }
 
     }

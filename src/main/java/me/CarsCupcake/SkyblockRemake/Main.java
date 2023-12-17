@@ -1062,17 +1062,16 @@ public class Main extends JavaPlugin {
         double ferocity = player.getBaseStat(stat);
         if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.getItemManager(player.getItemInHand()) != null && ItemHandler.getItemManager(player.getItemInHand()).type.hasInHandStats())
             ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
-        ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
-        ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getChestplate());
-        ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getLeggings());
-        ferocity = ferocity + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getBoots());
-
-        if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
+        ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
+        ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getChestplate());
+        ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getLeggings());
+        ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getBoots());
+        //TODO Rewrite Pet system!
+        //File call -> Inefficient!
+       /* if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
             Pet pet = Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
             ferocity += pet.getStat(stat, PetMenus.get().getInt(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-        }
+        }*/
         if (Powers.activepower.containsKey(player)) {
             Powers power = Powers.activepower.get(player);
             ferocity += power.CalculateStats(stat, player);

@@ -29,6 +29,7 @@ public enum Stats {
     AbilityDamage("abilitydamage", '๑', ChatColor.RED, "Ability Damage", true),
     Ferocity("ferocity", '⫽', ChatColor.RED, "Ferocity", false),
     MagicFind("magicfind", '✯', ChatColor.AQUA, "Magic Find", false),
+    PetLuck("petluck", '♣', ChatColor.LIGHT_PURPLE, "Pet Luck", false),
     MiningSpeed("miningspeed", '⸕', ChatColor.GOLD, "Mining Speed", false),
     MiningFortune("miningfortune", '☘', ChatColor.GOLD, "Mining Fortune", false),
     ForagingFortune("foragingfortune", '☘', ChatColor.GOLD, "Foraging Fortune", false),
@@ -61,7 +62,7 @@ public enum Stats {
     Vitality("vitality", '♨', ChatColor.RED, "Vitality", false),
     Mending("mending", '☄', ChatColor.GREEN, "Mending", false);
     public static final List<Stats> statItemDisplayOrder = List.of(WeaponDamage, Strength, CritChance, CritDamage, AttackSpeed, AbilityDamage, SwingRange, Health, Defense, Speed, Inteligence,
-            MagicFind, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom, HealthRegen, Vitality, Mending);
+            MagicFind, PetLuck, TrueDefense, Ferocity, MiningSpeed, Pristine, MiningFortune, FarmingFortune, SeaCreatureChance, FishingSpeed, FarmingWisdom, HealthRegen, Vitality, Mending);
     public static final List<Stats> riftStatItemDisplayOrder = List.of(RiftTime, RiftDamage, Hearts, RiftInteligence, RiftSpeed, ManaRegen);
     private final String dataName;
     public final char symbol;
@@ -114,6 +115,10 @@ public enum Stats {
         this.maxAmount = maxAmount;
         this.inRift = isInRift;
         this.agressive = isAggresive;
+    }
+
+    public String toString() {
+        return color.toString() + symbol + " " + name;
     }
 
     public NamespacedKey getKey() {
@@ -219,6 +224,7 @@ public enum Stats {
                     -> new ItemBuilder(Material.WRITABLE_BOOK);
             case ManaRegen -> new ItemBuilder(Material.DIAMOND);
             case SwingRange -> new ItemBuilder(Material.GOLDEN_SWORD);
+            case PetLuck -> new ItemBuilder(Material.LILY_PAD);
         };
     }
 

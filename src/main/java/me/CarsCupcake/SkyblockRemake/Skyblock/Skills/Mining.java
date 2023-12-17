@@ -122,7 +122,7 @@ public class Mining implements Skill {
 		setLevel(level + 1);
 		setXp(0);
 		sendLevelUpMessage();
-		player.setBaseStat(Stats.MiningFortune, player.baseminingfortune + miningFortunePerLevel);
+		player.setBaseStat(Stats.MiningFortune, player.getBaseStat(Stats.MiningFortune) + miningFortunePerLevel);
 		int total = 5;
 		if (level > 10) total += 5;
 		if (level > 25) total += 10;
@@ -131,7 +131,7 @@ public class Mining implements Skill {
 	}
 	
 	public void initStats() {
-		player.setBaseStat(Stats.MiningFortune, player.baseminingfortune + (miningFortunePerLevel * level));
+		player.setBaseStat(Stats.MiningFortune, player.getBaseStat(Stats.MiningFortune) + (miningFortunePerLevel * level));
 
 	}
 

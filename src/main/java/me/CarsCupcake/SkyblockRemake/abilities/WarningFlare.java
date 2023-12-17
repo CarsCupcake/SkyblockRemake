@@ -72,7 +72,7 @@ public class WarningFlare implements Deployable {
         isActive = false;
         Deployable.deployables.remove(shooter);
         for (SkyblockPlayer player : boosts){
-            player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 10);
+            player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 10);
             player.addHealingMult(-0.1);
         }
         shooter.setDeployable(null);
@@ -101,7 +101,7 @@ public class WarningFlare implements Deployable {
             if(!boosts.contains(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()))){
                 SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
                 boosts.add(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense + 10);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) + 10);
                 player.addHealingMult(0.1);
 
             }
@@ -109,7 +109,7 @@ public class WarningFlare implements Deployable {
             SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
             if(boosts.contains(player)){
                 boosts.remove(player);
-                player.setBaseStat(Stats.TrueDefense, player.basetruedefense - 10);
+                player.setBaseStat(Stats.TrueDefense, player.getBaseStat(Stats.TrueDefense) - 10);
                 player.addHealingMult(-0.1);
 
             }

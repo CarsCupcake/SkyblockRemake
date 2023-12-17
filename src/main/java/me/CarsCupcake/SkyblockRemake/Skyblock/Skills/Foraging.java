@@ -124,9 +124,9 @@ public class Foraging implements Skill {
 		setXp(0);
 		sendLevelUpMessage();
 		if(level < 15)
-		player.setBaseStat(Stats.Strength, player.basestrength + 1);
+		player.setBaseStat(Stats.Strength, player.getBaseStat(Stats.Strength) + 1);
 		else
-			player.setBaseStat(Stats.Strength, player.basestrength + 2);
+			player.setBaseStat(Stats.Strength, player.getBaseStat(Stats.Strength) + 2);
 		int total = 5;
 		if (level > 10) total += 5;
 		if (level > 25) total += 10;
@@ -136,10 +136,10 @@ public class Foraging implements Skill {
 	
 	public void initStats() {
 		if(level > 14) {
-			player.setBaseStat(Stats.Strength, player.basestrength + 14);
-			player.setBaseStat(Stats.Strength, player.basestrength + ((level - 14) * 2));
+			player.setBaseStat(Stats.Strength, player.getBaseStat(Stats.Strength) + 14);
+			player.setBaseStat(Stats.Strength, player.getBaseStat(Stats.Strength) + ((level - 14) * 2));
 		}else {
-			player.setBaseStat(Stats.Strength, player.basestrength + (level));
+			player.setBaseStat(Stats.Strength, player.getBaseStat(Stats.Strength) + (level));
 			
 		}
 

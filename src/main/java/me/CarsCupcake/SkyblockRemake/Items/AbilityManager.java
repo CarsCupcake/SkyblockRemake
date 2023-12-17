@@ -15,6 +15,7 @@ import me.CarsCupcake.SkyblockRemake.isles.rift.events.RiftDamageEvent;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -93,7 +94,10 @@ public interface AbilityManager<T extends Event> {
         Action action = Action.PHYSICAL;
         if (!precheck(ability, player, manager, action)) return;
         try {
-            ability.getAbilityManager().newInstance().triggerAbility(event);
+            Object o = ability.getAbilityManager().newInstance().triggerAbility(event);
+            if (o instanceof Cancellable cancellable) {
+                cancellable.setCancelled(cancellable.isCancelled() || (Boolean) o);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");

@@ -31,7 +31,7 @@ public class FatalTempoListner implements Listener {
         double pers = (10*tempos.getLevel())* tempos.getHits();
         if(pers > 200)
             pers = 200;
-        event.setValue(pers);
+        event.setValue(event.getValue() + pers);
 
     }
 }

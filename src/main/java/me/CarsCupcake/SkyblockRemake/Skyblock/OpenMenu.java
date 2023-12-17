@@ -201,7 +201,7 @@ public class OpenMenu implements CommandExecutor, Listener {
         lore.add("§7Health is your total maximum");
         lore.add("§7every §a2s.");
         lore.add(" ");
-        lore.add("§7Base Health: §a" + p.basehealth);
+        lore.add("§7Base Health: §a" + p.getBaseStat(Stats.Health));
         lore.add(" §8§oIncrease your base Health by");
         lore.add(" §8§oleveling your Farming and");
         lore.add(" §8§oFishing Skills and contributing");

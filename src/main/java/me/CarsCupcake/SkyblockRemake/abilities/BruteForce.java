@@ -70,7 +70,7 @@ public class BruteForce implements FullSetBonus {
         return Bonuses.BruteForce;
     }
     private  int playerspeedcalc() {
-        int speed = SkyblockPlayer.getSkyblockPlayer(player).basespeed;
+        int speed = (int) SkyblockPlayer.getSkyblockPlayer(player).getBaseStat(Stats.Speed);
         speed = (int) (speed + Main.getItemStat(player, Stats.Speed, player.getItemInHand()));
         speed = speed + (int)Main.getItemStat(player, Stats.Speed,player.getInventory().getHelmet());
         speed = speed +(int) Main.getItemStat(player, Stats.Speed,player.getInventory().getChestplate());
