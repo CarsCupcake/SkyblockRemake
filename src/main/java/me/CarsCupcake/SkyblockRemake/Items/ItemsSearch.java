@@ -27,7 +27,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.SearchTopic;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.cmd.itemCMD;
+import me.CarsCupcake.SkyblockRemake.cmd.impl.generals.itemCMD;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")

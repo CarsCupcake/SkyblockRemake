@@ -18,6 +18,7 @@ import me.CarsCupcake.SkyblockRemake.Items.farming.items.hoes.*;
 import me.CarsCupcake.SkyblockRemake.Items.requirements.SkillRequirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.DianaItems;
 import me.CarsCupcake.SkyblockRemake.Slayer.MaddoxBatphone;
 import me.CarsCupcake.SkyblockRemake.Slayer.spider.item.SpiderSlayerItems;
 import me.CarsCupcake.SkyblockRemake.Slayer.vampire.VampireItems;
@@ -502,6 +503,7 @@ public class Items {
             return (SkyblockServer.getServer().type() == ServerType.Rift) ? "§kN/A" :
                     String.valueOf(EmeraldBlade.getBuff(player));
         }));
+        DianaItems.init();
     }
 
     public static class EmeraldBlade implements AbilityManager<DamagePrepairEvent> {

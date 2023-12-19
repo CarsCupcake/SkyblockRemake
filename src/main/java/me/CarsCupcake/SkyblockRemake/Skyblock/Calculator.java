@@ -61,6 +61,8 @@ public strictfp class Calculator {
     @Getter
     @Setter
     private boolean ignoreHit = false;
+    @Getter
+    private SkyblockEntity skyblockEntity;
 
     public Calculator() {
     }
@@ -146,6 +148,8 @@ public strictfp class Calculator {
         weapondmg *= player.getRawDamageMult();
         if (fillMissing) stats = getIfMissing(stats, player);
         else stats = fillWithNull(stats);
+        SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
+        skyblockEntity = entity;
         DamagePrepairEvent event = new DamagePrepairEvent(player, e, this, multipliers.getFirst(), multipliers.getLast(), stats, weapondamage);
         event.addPreMultiplier(SkyblockPlayer.getSkyblockPlayer(player).getAdititveMultiplier() - 1);
         Bukkit.getPluginManager().callEvent(event);
@@ -168,7 +172,6 @@ public strictfp class Calculator {
             damage = (5 + (double) weapondmg) * (1 + ((double) stre / 100)) * ((preMultiplier)) * ((postMult));
         }
         if (SkyblockEntity.livingEntity.exists(e)) {
-            SkyblockEntity entity = SkyblockEntity.livingEntity.getSbEntity(e);
             if (SkyblockEntity.isExtention(entity.getEntity()))
                 entity = SkyblockEntity.getExtention(entity.getEntity()).owner();
             if (entity instanceof Defensive ed) {
@@ -195,6 +198,7 @@ public strictfp class Calculator {
             c.execute();
         }
         if (entity != null) e = entity.getEntity();
+        skyblockEntity = entity;
         type = SkyblockDamageEvent.DamageType.EntityToPlayer;
         double damage = stats.getFirst();
         double health = Main.getPlayerStat(player, Stats.Health);
@@ -225,7 +229,6 @@ public strictfp class Calculator {
         if (projectile == null) result = new SkyblockDamageEvent(player, e, this, type, cause);
         else result = new SkyblockDamageEvent(player, e, this, type, cause, projectile);
         Bukkit.getPluginManager().callEvent(result);
-
         if (result.isCancelled()) return;
         if (player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) damage = 0;
         if (damage > 0) player.damage(0.0001);

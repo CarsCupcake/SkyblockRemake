@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
+import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
@@ -18,6 +19,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.combat.Zombie
 import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.CobblestoneMinionData;
 import me.CarsCupcake.SkyblockRemake.Items.trading.TradeMenuListener;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosChampion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.BasicSpell;
@@ -133,6 +135,7 @@ public class ABILITIES implements Listener {
         registerEvent(new LeverSecret.LeverInteract());
         registerEvent(new ChestSecret.ChestInteract());
         registerEvent(new BatSecret.EventListener());
+        registerEvent(new MinosChampion(ItemRarity.COMMON));
 
         //Minions
         IMinionData.registerMinion(new CobblestoneMinionData());
