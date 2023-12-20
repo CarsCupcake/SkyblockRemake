@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana;
 
+import kotlin.Triple;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -45,6 +46,7 @@ public class MythologicalPerk {
     private List<BurrowChain> chains = new ArrayList<>();
     private BurrowChain tracked;
     private final SkyblockPlayer player;
+    private final HashMap<SkyblockEntity, BurrowChain> entitys = new HashMap<>();
 
     public MythologicalPerk(SkyblockPlayer player) {
         this.player = player;
@@ -103,6 +105,9 @@ public class MythologicalPerk {
         }
         throw new IllegalArgumentException("Should not happen!");
     }
+    public void kill(SkyblockEntity entity) {
+
+    }
 
     public class BurrowChain {
         private Block block;
@@ -150,52 +155,55 @@ public class MythologicalPerk {
         Treasure,
         Mob
     }
-    public enum Mobs implements Factory<Bundle<ItemRarity, Location>, SkyblockEntity> {
+    public enum Mobs implements Factory<Triple<ItemRarity, Location, MythologicalPerk>, SkyblockEntity> {
         MinosHunter {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
-                SkyblockEntity entity = new MinosHunter(b.getFirst());
-                entity.spawn(b.getLast());
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
+                SkyblockEntity entity = new MinosHunter(b.getFirst(), b.getThird());
+                entity.spawn(b.getSecond());
                 return entity;
             }
         },
         SiamesLynx {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
-                SkyblockEntity entity = new SiameseLynx(b.getFirst());
-                entity.spawn(b.getLast());
-                return entity;
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
+                SkyblockEntity bagheera = new SiameseLynx(b.getFirst(), b.getThird(), "Bagheera");
+                bagheera.spawn(b.getSecond());
+                b.getThird().entitys.put(bagheera, b.getThird().tracked);
+                SkyblockEntity azrael = new SiameseLynx(b.getFirst(), b.getThird(), "Azrael");
+                azrael.spawn(b.getSecond());
+                return null;
             }
         },
         Minotaur {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
-                SkyblockEntity entity = new Minotaur(b.getFirst());
-                entity.spawn(b.getLast());
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
+                SkyblockEntity entity = new Minotaur(b.getFirst(), b.getThird());
+                entity.spawn(b.getSecond());
                 return entity;
             }
         },
         GaiaConstruct {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
-                SkyblockEntity entity = new GaiaConstruct(b.getFirst());
-                entity.spawn(b.getLast());
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
+                SkyblockEntity entity = new GaiaConstruct(b.getFirst(), b.getThird());
+                entity.spawn(b.getSecond());
                 return entity;
             }
         },
         MinosChampion {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
-                SkyblockEntity entity = new MinosChampion(b.getFirst());
-                entity.spawn(b.getLast());
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
+                SkyblockEntity entity = new MinosChampion(b.getFirst(), b.getThird());
+                entity.spawn(b.getSecond());
                 return entity;
             }
         },
         MinosInquisitor {
             @Override
-            public SkyblockEntity factor(Bundle<ItemRarity, Location> b) {
+            public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
                 SkyblockEntity entity = new MinosInquisitor();
-                entity.spawn(b.getLast());
+                entity.spawn(b.getSecond());
                 return entity;
             }
         }

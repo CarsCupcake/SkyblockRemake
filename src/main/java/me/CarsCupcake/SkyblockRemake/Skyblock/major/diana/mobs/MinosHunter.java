@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -13,7 +14,8 @@ public class MinosHunter extends SkyblockEntity {
     private int maxHealth = 1;
     private final int damage;
     private LivingEntity entity;
-    public MinosHunter(ItemRarity rarity) {
+    private final MythologicalPerk perk;
+    public MinosHunter(ItemRarity rarity, MythologicalPerk perk) {
         switch (rarity) {
             case RARE, EPIC -> {
                 maxHealth = 100_000;
@@ -29,7 +31,7 @@ public class MinosHunter extends SkyblockEntity {
             }
         }
         health = maxHealth;
-
+        this.perk = perk;
     }
     @Override
     public int getMaxHealth() {
@@ -68,5 +70,11 @@ public class MinosHunter extends SkyblockEntity {
     @Override
     public int getDamage() {
         return damage;
+    }
+
+    @Override
+    public void kill() {
+        super.kill();
+        if (perk != null) perk.kill(this);
     }
 }

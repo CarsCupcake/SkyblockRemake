@@ -135,7 +135,7 @@ public class ABILITIES implements Listener {
         registerEvent(new LeverSecret.LeverInteract());
         registerEvent(new ChestSecret.ChestInteract());
         registerEvent(new BatSecret.EventListener());
-        registerEvent(new MinosChampion(ItemRarity.COMMON));
+        registerEvent(new MinosChampion(ItemRarity.COMMON, null));
 
         //Minions
         IMinionData.registerMinion(new CobblestoneMinionData());

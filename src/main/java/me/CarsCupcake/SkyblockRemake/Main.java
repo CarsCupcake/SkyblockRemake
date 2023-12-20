@@ -47,7 +47,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionCommand;
 import me.CarsCupcake.SkyblockRemake.Settings.ServerSettings;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilities.*;
-import me.CarsCupcake.SkyblockRemake.cmd.*;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.CompileCommand;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.helper.DungeonStickCommand;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
@@ -549,7 +548,6 @@ public class Main extends JavaPlugin {
                         break;
                     default:
                         break;
-
                 }
                 totmagpow += magicalpower;
 

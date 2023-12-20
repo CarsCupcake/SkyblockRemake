@@ -170,11 +170,11 @@ public class SpawnEntity implements CommandExecutor {
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "GAIA_CONSTRUCT" -> {
-                    GaiaConstruct walker = new GaiaConstruct(ItemRarity.LEGENDARY);
+                    GaiaConstruct walker = new GaiaConstruct(ItemRarity.LEGENDARY, null);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "MINOS_CHAMPION" -> {
-                    MinosChampion walker = new MinosChampion(ItemRarity.LEGENDARY);
+                    MinosChampion walker = new MinosChampion(ItemRarity.LEGENDARY, null);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

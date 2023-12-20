@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Bukkit;
@@ -28,7 +29,8 @@ public class MinosChampion extends SkyblockEntity implements Listener {
     private final int damage;
     private final boolean legendary;
     private double damageMultiplier = 0d;
-    public MinosChampion(ItemRarity rarity) {
+    private final MythologicalPerk perk;
+    public MinosChampion(ItemRarity rarity, MythologicalPerk perk) {
         if (Objects.requireNonNull(rarity) == ItemRarity.LEGENDARY) {
             maxHealth = 12_000_000;
             damage = 3_800;
@@ -38,6 +40,7 @@ public class MinosChampion extends SkyblockEntity implements Listener {
         }
         health = maxHealth;
         this.legendary = rarity == ItemRarity.LEGENDARY;
+        this.perk = perk;
     }
     @Override
     public int getMaxHealth() {
@@ -117,6 +120,7 @@ public class MinosChampion extends SkyblockEntity implements Listener {
     public void kill() {
         super.kill();
         damageStand.remove();
+        if (perk != null) perk.kill(this);
     }
 
     @EventHandler

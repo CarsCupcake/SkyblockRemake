@@ -4,6 +4,7 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
@@ -23,8 +24,9 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
     private final int damage;
     int hits = 6;
     final boolean highLevel;
+    private final MythologicalPerk perk;
 
-    public GaiaConstruct(ItemRarity rarity) {
+    public GaiaConstruct(ItemRarity rarity, MythologicalPerk perk) {
         if (Objects.requireNonNull(rarity) == ItemRarity.LEGENDARY) {
             maxHealth = 1_500_000;
             damage = 3_400;
@@ -35,7 +37,7 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
             highLevel = false;
         }
         health = maxHealth;
-
+        this.perk = perk;
     }
 
     @Override
@@ -112,6 +114,7 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
                 super.cancel();
                 release();
             }
+
             private void release() {
                 fake.forEach(Tools.FakeBlock::release);
                 fake.clear();
@@ -160,5 +163,11 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
     @Override
     public int getXpDrop() {
         return (highLevel) ? 250 : 70;
+    }
+
+    @Override
+    public void kill() {
+        super.kill();
+        if (perk != null) perk.kill(this);
     }
 }
