@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs;
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
-import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.DamagePrepairEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -63,6 +62,7 @@ public class MinosChampion extends SkyblockEntity implements Listener {
             s.setInvisible(true);
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
+            s.addScoreboardTag("remove");
         });
         updateTag();
         new EntityRunnable() {
@@ -92,6 +92,11 @@ public class MinosChampion extends SkyblockEntity implements Listener {
         }.runTaskTimer(Main.getMain(), 1, 1);
     }
 
+
+    @Override
+    protected NametagType nametagType() {
+        return NametagType.SmallNumber;
+    }
     public void updateTag() {
         damageStand.setCustomName("§c+" + Tools.cleanDouble(damageMultiplier) + "% damage");
     }
@@ -128,6 +133,6 @@ public class MinosChampion extends SkyblockEntity implements Listener {
         if (event.getCalculator().getSkyblockEntity() == null) return;
         if (!(event.getCalculator().getSkyblockEntity() instanceof MinosChampion champion)) return;
         double mult = (1 + (champion.damageMultiplier / 100d));
-        event.getCalculator().damage += mult;
+        event.getCalculator().damage *= mult;
     }
 }

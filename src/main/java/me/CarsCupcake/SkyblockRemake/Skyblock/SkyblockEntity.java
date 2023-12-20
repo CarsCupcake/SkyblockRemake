@@ -9,7 +9,7 @@ import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.elements.Element;
 import me.CarsCupcake.SkyblockRemake.elements.Elementable;
-import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
@@ -96,6 +96,10 @@ public abstract class SkyblockEntity implements Elementable {
         return false;
     }
 
+    protected NametagType nametagType() {
+        return NametagType.Normal;
+    }
+
     protected final Set<Element> elements = new HashSet<>();
 
     public int getLevel() {
@@ -125,32 +129,35 @@ public abstract class SkyblockEntity implements Elementable {
 
 
     static String getBaseName(String name, int health, int maxhealth, int level) {
-        return getBaseName(name, health, maxhealth, level,false);
+        return getBaseName(name, health, maxhealth, level,false, false);
+    }
+    static String getBaseName(String name, int health, int maxhealth, int level, boolean smallNumber) {
+        return getBaseName(name, health, maxhealth, level,false, smallNumber);
     }
 
-    static String getBaseName(String name, int health, int maxhealth, int level, boolean isCorrupted) {
+    static String getBaseName(String name, int health, int maxhealth, int level, boolean isCorrupted, boolean smallNumber) {
         if (level == -1) {
-            return getBaseName(name, health, maxhealth, isCorrupted);
+            return getBaseName(name, health, maxhealth, isCorrupted, smallNumber);
         } else {
             String str;
             if (isCorrupted)
-                str = "§7[§8Lv" + level + "§7] §5§ka§5Corrupted " + name + "§ka §a" + health + "§8/§a" + maxhealth;
-            else str = "§7[§8Lv" + level + "§7] §c" + name + " §a" + health + "§8/§a" + maxhealth;
+                str = "§7[§8Lv" + level + "§7] §5§ka§5Corrupted " + name + ((smallNumber) ? (" §c" + Tools.toShortNumber(health) + " " + Stats.Health.symbol) : (" §ka §a" + health + "§8/§a" + maxhealth));
+            else str = "§7[§8Lv" + level + "§7] §c" + name + ((smallNumber) ? (" §c" + Tools.toShortNumber(health) + " " + Stats.Health.symbol) : (" §a" + health + "§8/§a" + maxhealth));
             return str;
         }
     }
 
-    static String getBaseName(String name, int health, int maxhealth, boolean isCorrupted) {
+    static String getBaseName(String name, int health, int maxhealth, boolean isCorrupted, boolean smallNumber) {
         String str;
-        if (isCorrupted) str = "§7[§8Lv?§7] §5§ka§5Corrupted " + name + "§ka §a" + health + "§8/§a" + maxhealth;
-        else str = "§7[§8Lv?§7] §c" + name + " §a" + health + "§8/§a" + maxhealth;
+        if (isCorrupted) str = "§7[§8Lv?§7] §5§ka§5Corrupted " + name + ((smallNumber) ? (" §c" + Tools.toShortNumber(health) + " " + Stats.Health.symbol) : (" §ka §a" + health + "§8/§a" + maxhealth));
+        else str = "§7[§8Lv?§7] §c" + name + ((smallNumber) ? (" §c" + Tools.toShortNumber(health) + " " + Stats.Health.symbol) : (" §a" + health + "§8/§a" + maxhealth));
         return str;
     }
 
     public static String getBaseName(SkyblockEntity entity) {
         if (entity instanceof Corruptable)
-            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(),((Corruptable) entity).isCorrupted());
-        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel());
+            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(),((Corruptable) entity).isCorrupted(), entity.nametagType() == NametagType.SmallNumber);
+        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(), entity.nametagType() == NametagType.SmallNumber);
     }
 
     public static void updateEntity(SkyblockEntity e) {
@@ -231,5 +238,10 @@ public abstract class SkyblockEntity implements Elementable {
     }
     public static boolean isExtention(Entity e) {
         return coreExtentions.containsKey(e);
+    }
+    public enum NametagType {
+        Normal,
+        SmallNumber,
+        Boss
     }
 }

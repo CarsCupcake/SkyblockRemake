@@ -58,6 +58,11 @@ public class MinosHunter extends SkyblockEntity {
     }
 
     @Override
+    protected NametagType nametagType() {
+        return NametagType.SmallNumber;
+    }
+
+    @Override
     public String getName() {
         return "Minos Hunter";
     }

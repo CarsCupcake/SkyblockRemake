@@ -17,7 +17,6 @@ import org.bukkit.entity.*;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider {
     private int maxHealth = 1;
@@ -41,6 +40,11 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
     }
 
     @Override
+    protected NametagType nametagType() {
+        return NametagType.SmallNumber;
+    }
+
+    @Override
     public int getMaxHealth() {
         return maxHealth;
     }
@@ -54,9 +58,7 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
 
     @Override
     public void spawn(Location loc) {
-        entity = loc.getWorld().spawn(loc, IronGolem.class, golem -> {
-            golem.setCustomNameVisible(true);
-        });
+        entity = loc.getWorld().spawn(loc, IronGolem.class, golem -> golem.setCustomNameVisible(true));
         SkyblockEntity.livingEntity.addEntity(entity, this);
         new EntityRunnable() {
             int i = 0;
@@ -162,7 +164,7 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
 
     @Override
     public int getXpDrop() {
-        return (highLevel) ? 250 : 70;
+        return (highLevel) ? 20 : 8;
     }
 
     @Override

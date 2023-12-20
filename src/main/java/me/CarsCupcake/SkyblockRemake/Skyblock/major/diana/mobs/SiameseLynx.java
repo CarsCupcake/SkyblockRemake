@@ -9,11 +9,9 @@ import net.minecraft.world.entity.ai.goal.PathfinderGoalOcelotAttack;
 import net.minecraft.world.entity.ai.goal.target.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.world.entity.animal.EntityCat;
 import net.minecraft.world.entity.player.EntityHuman;
-import net.minecraft.world.level.World;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
-import org.bukkit.entity.Cat;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
@@ -63,6 +61,11 @@ public class SiameseLynx extends SkyblockEntity {
                 entity.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entity.getEyeLocation(), 1);
             }
         }.runTaskTimer(this, 1, 2);
+    }
+
+    @Override
+    protected NametagType nametagType() {
+        return NametagType.SmallNumber;
     }
 
     @Override

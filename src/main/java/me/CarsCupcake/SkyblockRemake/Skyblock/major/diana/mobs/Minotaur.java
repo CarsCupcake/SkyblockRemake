@@ -63,4 +63,9 @@ public class Minotaur extends SkyblockEntity {
         super.kill();
         if (perk != null) perk.kill(this);
     }
+
+    @Override
+    protected NametagType nametagType() {
+        return NametagType.SmallNumber;
+    }
 }

@@ -1,16 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana;
 
 import kotlin.Triple;
-import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockServer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.*;
 import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -43,7 +40,7 @@ public class MythologicalPerk {
     );
     public static HashMap<SkyblockPlayer, MythologicalPerk> mythologicalPerkHashMap = new HashMap<>();
     private List<Block> settet;
-    private List<BurrowChain> chains = new ArrayList<>();
+    private final List<BurrowChain> chains = new ArrayList<>();
     private BurrowChain tracked;
     private final SkyblockPlayer player;
     private final HashMap<SkyblockEntity, BurrowChain> entitys = new HashMap<>();
@@ -202,7 +199,7 @@ public class MythologicalPerk {
         MinosInquisitor {
             @Override
             public SkyblockEntity factor(Triple<ItemRarity, Location, MythologicalPerk> b) {
-                SkyblockEntity entity = new MinosInquisitor();
+                SkyblockEntity entity = new MinosInquisitor(b.getThird());
                 entity.spawn(b.getSecond());
                 return entity;
             }
