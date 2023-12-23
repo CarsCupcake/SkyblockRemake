@@ -503,8 +503,6 @@ public class Main extends JavaPlugin {
             Powers.initPower(player);
             Powers.powers.get("Slender").addObitained(player);
             Powers.powers.get("Slender").setActive(player);
-
-            new PrivateIsle(player);
         }
 
     }

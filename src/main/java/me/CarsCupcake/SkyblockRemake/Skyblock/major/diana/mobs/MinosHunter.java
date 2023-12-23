@@ -46,7 +46,7 @@ public class MinosHunter extends SkyblockEntity {
     @Override
     public void spawn(Location loc) {
         entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> {
-            zombie.getEquipment().setHelmet(new ItemBuilder(Material.PLAYER_HEAD).build());
+            zombie.getEquipment().setHelmet(new ItemBuilder(Material.PLAYER_HEAD).headTextureAsValue().setHead("ewogICJ0aW1lc3RhbXAiIDogMTU5ODQzOTU1MzMzMCwKICAicHJvZmlsZUlkIiA6ICI0MWQzYWJjMmQ3NDk0MDBjOTA5MGQ1NDM0ZDAzODMxYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJNZWdha2xvb24iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI3MDUwNjg3NDBjZDZiNGMyYjAyNjNkYWVhYjYxMDNkNjUyYjllZmJjYWFkOGFjYmFiZWU2OGU2ZmQxYzRiNCIKICAgIH0KICB9Cn0=").build());
             zombie.getEquipment().setChestplate(new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherColor(Color.RED).setGlint(true).build());
             zombie.getEquipment().setLeggings(new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherColor(Color.RED).setGlint(true).build());
             zombie.getEquipment().setBoots(new ItemBuilder(Material.LEATHER_BOOTS).setLeatherColor(Color.BLACK).setGlint(true).build());
@@ -64,7 +64,7 @@ public class MinosHunter extends SkyblockEntity {
 
     @Override
     public String getName() {
-        return "Minos Hunter";
+        return "§aMinos Hunter";
     }
 
     @Override

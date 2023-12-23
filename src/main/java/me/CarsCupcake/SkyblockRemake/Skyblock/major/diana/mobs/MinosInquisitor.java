@@ -47,9 +47,13 @@ public class MinosInquisitor extends SkyblockEntity implements Listener {
     private ArmorStand damageStand;
     @Override
     public void spawn(Location loc) {
-        entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> zombie.getEquipment().setItemInMainHand(new ItemStack(Material.ARMOR_STAND)));
+        entity = loc.getWorld().spawn(loc, Zombie.class, zombie -> {
+            zombie.setAdult();
+            zombie.getEquipment().setItemInMainHand(new ItemStack(Material.ARMOR_STAND));
+        });
+        SkyblockEntity.livingEntity.addEntity(entity, this);
         new PlayerDisguise(entity, texture, signature);
-        damageStand = entity.getWorld().spawn(loc.add(0,0.7,0), ArmorStand.class, s ->{
+        damageStand = entity.getWorld().spawn(loc.add(0,0.15,0), ArmorStand.class, s ->{
             s.setGravity(false);
             s.setInvisible(true);
             s.setInvulnerable(true);
@@ -62,7 +66,7 @@ public class MinosInquisitor extends SkyblockEntity implements Listener {
             int i = 0;
             @Override
             public void run() {
-                damageStand.teleport(entity.getLocation().add(0,0.7,0));
+                damageStand.teleport(entity.getLocation().add(0,0.15,0));
                 i++;
                 if (i == 20) {
                     if (damageMult == 600) {

@@ -61,6 +61,7 @@ public class SiameseLynx extends SkyblockEntity {
                 entity.getWorld().spawnParticle(Particle.VILLAGER_ANGRY, entity.getEyeLocation(), 1);
             }
         }.runTaskTimer(this, 1, 2);
+        SkyblockEntity.livingEntity.addEntity(entity, this);
     }
 
     @Override

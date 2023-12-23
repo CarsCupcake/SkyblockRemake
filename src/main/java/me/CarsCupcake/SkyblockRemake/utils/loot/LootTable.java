@@ -17,6 +17,11 @@ public class LootTable {
     private boolean fillupLootable = false;
     private boolean showRareDropMessage = false;
     private final Map<Loot, LootChance> lootPool = new HashMap<>();
+    public LootTable(){}
+    public LootTable(boolean breakIfFound, boolean fillupLootable) {
+        this.breakIfFound = breakIfFound;
+        this.fillupLootable = fillupLootable;
+    }
 
     public void showRareDropMessage() {
         showRareDropMessage = true;

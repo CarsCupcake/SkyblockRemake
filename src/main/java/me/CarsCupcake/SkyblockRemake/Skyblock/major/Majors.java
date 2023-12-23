@@ -14,7 +14,6 @@ public enum Majors implements RunnableWithParam<Major> {
             new Perk("Mythological Ritual", "§7Maypr Diana will sell the", "Griffin pet, which lets you", "§7find §2Mythological Creatures", "§7and tons of §cunique", "§citems§7.")){
         @Override
         public void run(Major major) {
-
         }
     };
     private final String name;

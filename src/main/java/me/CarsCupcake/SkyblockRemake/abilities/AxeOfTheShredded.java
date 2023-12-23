@@ -2,7 +2,6 @@ package me.CarsCupcake.SkyblockRemake.abilities;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Random;
 
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
@@ -16,15 +15,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
-import me.CarsCupcake.SkyblockRemake.SkyblockRemakeEvents;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 
 public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManager<PlayerInteractEvent> {
@@ -117,6 +112,7 @@ public class AxeOfTheShredded extends ExtraDamageAbility implements AbilityManag
 
     @Override
     public void extraDamageEvent(SkyblockDamageEvent event) {
+        if (event.getType() != SkyblockDamageEvent.DamageType.PlayerToEntity) return;
         int newHealth = event.getPlayer().currhealth + 50;
         double health = Main.getPlayerStat(event.getPlayer(), Stats.Health);
         if (newHealth > health)

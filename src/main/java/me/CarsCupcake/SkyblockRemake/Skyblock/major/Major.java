@@ -12,4 +12,8 @@ public record Major(Majors major, int... perks) {
         //TODO propper gen rules!
         return List.of(new Major(Majors.Diana, 1, 2, 3));
     }
+    public boolean hasPerk(int i) {
+        for (int perk : perks) if (perk == i) return true;
+        return false;
+    }
 }

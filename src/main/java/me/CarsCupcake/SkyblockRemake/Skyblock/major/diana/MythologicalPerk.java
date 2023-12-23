@@ -1,6 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana;
 
 import kotlin.Triple;
+import lombok.Getter;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
@@ -8,13 +10,18 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.*;
 import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.loot.Loot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
+import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class MythologicalPerk {
     public static List<Location[]> blocks = List.of(
@@ -39,11 +46,14 @@ public class MythologicalPerk {
 
     );
     public static HashMap<SkyblockPlayer, MythologicalPerk> mythologicalPerkHashMap = new HashMap<>();
-    private List<Block> settet;
+    private final List<Block> settet = new LinkedList<>();
     private final List<BurrowChain> chains = new ArrayList<>();
     private BurrowChain tracked;
+    @Getter
     private final SkyblockPlayer player;
     private final HashMap<SkyblockEntity, BurrowChain> entitys = new HashMap<>();
+    @Getter
+    private final DianaRunner runnable;
 
     public MythologicalPerk(SkyblockPlayer player) {
         this.player = player;
@@ -56,6 +66,11 @@ public class MythologicalPerk {
                 e.printStackTrace(System.err);
             }
         }
+        runnable = new DianaRunner();
+    }
+
+    public BurrowChain getTracked() {
+        return (tracked == null) ? chains.get(0) : tracked;
     }
 
     public void makeNewChain() {
@@ -77,11 +92,13 @@ public class MythologicalPerk {
     }
 
     public void dig(Block block) {
-        for (BurrowChain chain : chains) {
+        for (BurrowChain chain : new ArrayList<>(chains)) {
             if (!chain.block.equals(block))
                 continue;
             settet.remove(block);
             if (chain.dig(player)) {
+                chains.remove(chain);
+                tracked = null;
                 try {
                     makeNewChain();
                 } catch (Exception e) {
@@ -90,27 +107,32 @@ public class MythologicalPerk {
                 }
             } else {
                 settet.add(chain.block);
+                tracked = chain;
             }
         }
     }
 
     public Block randomBlock() {
         for (int i = 0; i < 10; i++) {
-            Block block = Tools.getRandom(Tools.getRandom(blocks)).getBlock();
+            Block block = Tools.getRandom(Tools.getRandom(blocks)).getBlock().getRelative(BlockFace.DOWN);
             if (settet.contains(block)) continue;
             return block;
         }
         throw new IllegalArgumentException("Should not happen!");
     }
     public void kill(SkyblockEntity entity) {
-
+        BurrowChain chain = entitys.get(entity);
+        if (chain == null) return;
+        chain.alive--;
+        entitys.remove(entity);
     }
 
+    @Getter
     public class BurrowChain {
         private Block block;
         private BurrowType type;
         int i = 0;
-
+        int alive = -1;
         public BurrowChain() {
             set(BurrowType.Start);
         }
@@ -125,24 +147,39 @@ public class MythologicalPerk {
          * @return if the burrow is finished
          */
         public boolean dig(SkyblockPlayer player) {
+            //TODO: Griffin detection
+            ItemRarity rarity = ItemRarity.LEGENDARY;
             switch (type) {
                 case Mob -> {
-                    player.sendMessage("");
-                }
-                case Start -> {
+                    if (alive == -1) {
+                        Mobs mob = ((Mobs.MobLoot) Mobs.getLootTable(rarity).use(false, player).get(0)).mob;
+                        alive = (mob == Mobs.SiamesLynx) ? 2 : 1;
+                        SkyblockEntity entity = mob.factor(new Triple<>(rarity, Tools.getAsLocation(block).add(0, 1, 0), MythologicalPerk.this));
+                        entitys.put(entity, this);
+                        player.sendMessage("§c§lOi! §aYou dug out a §2" + ((entity == null) ? "Siames Lynx" : entity.getName()));
+                        return false;
+                    }
+                    if (alive > 0) {
+                        player.sendMessage("§cKill all creatures that guard this place!");
+                        return false;
+                    }
+                    player.sendMessage("§eYou dug a burrow §7(" + (i + 1) + "/4)");
+                    alive = -1;
 
                 }
-                case Treasure -> {
-
-                }
+                case Start -> player.sendMessage("§eStarted a burrow chain §7(1/4)");
+                case Treasure -> //TODO add loot
+                        player.sendMessage("§eYOu dug out a Treasure §7(" + (i + 1) + "/4)");
             }
             if (i == 3) return true;
             next();
             return false;
         }
         public void next() {
+            player.playSound(block.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1.7f);
+            player.spawnParticle(Particle.EXPLOSION_HUGE, Tools.getAsLocation(block).add(0, 0.5, 0), 1);
             i++;
-            BurrowType t = (i == 3) ? BurrowType.Treasure : Tools.randomEnum(BurrowType.class);
+            BurrowType t = (i == 3) ? BurrowType.Treasure : ((new Random().nextDouble() <= 0.1) ? BurrowType.Treasure : BurrowType.Mob);
             set(t);
         }
     }
@@ -169,6 +206,7 @@ public class MythologicalPerk {
                 b.getThird().entitys.put(bagheera, b.getThird().tracked);
                 SkyblockEntity azrael = new SiameseLynx(b.getFirst(), b.getThird(), "Azrael");
                 azrael.spawn(b.getSecond());
+                b.getThird().entitys.put(azrael, b.getThird().tracked);
                 return null;
             }
         },
@@ -203,6 +241,98 @@ public class MythologicalPerk {
                 entity.spawn(b.getSecond());
                 return entity;
             }
+        };
+        private static final LootTable common = new LootTable(true, true);
+        private static final LootTable uncommon = new LootTable(true, true);
+        private static final LootTable rare = new LootTable(true, true);
+        private static final LootTable epic = new LootTable(true, true);
+        private static final LootTable legendary = new LootTable(true, true);
+        static {
+            MobLoot minosHunter = new MobLoot(MinosHunter);
+            MobLoot siamesLynx = new MobLoot(SiamesLynx);
+            MobLoot minotaur = new MobLoot(Minotaur);
+            MobLoot gaiaConstruct = new MobLoot(GaiaConstruct);
+            MobLoot minosChampion = new MobLoot(MinosChampion);
+            MobLoot minosInquisitor = new MobLoot(MinosInquisitor);
+
+            common.addLoot(minosHunter, 0.5714, false);
+            common.addLoot(siamesLynx, 0.4286, false);
+
+            uncommon.addLoot(minosHunter, 0.2667, false);
+            uncommon.addLoot(siamesLynx, 0.4, false);
+            uncommon.addLoot(minotaur, 0.3333, false);
+
+            rare.addLoot(minosHunter, 0.1667, false);
+            rare.addLoot(siamesLynx, 0.2778, false);
+            rare.addLoot(minotaur, 0.3333, false);
+            rare.addLoot(gaiaConstruct, 0.2222, false);
+
+            epic.addLoot(minosHunter, 0.0962, false);
+            epic.addLoot(siamesLynx, 0.1905, false);
+            epic.addLoot(minotaur, 0.2381,false);
+            epic.addLoot(gaiaConstruct, 0.2857, false);
+            epic.addLoot(minosChampion, 0.1905, false);
+
+            legendary.addLoot(minosHunter, 0.1235, false);
+            legendary.addLoot(siamesLynx, 0.1852, false);
+            legendary.addLoot(minotaur, 0.2469, false);
+            legendary.addLoot(gaiaConstruct, 0.2469, false);
+            legendary.addLoot(minosChampion, 0.1852, false);
+            legendary.addLoot(minosInquisitor, 0.0123, false);
+        }
+        private static final class MobLoot implements Loot{
+            private final Mobs mob;
+            public MobLoot(Mobs mobs) {
+                mob = mobs;
+            }
+
+            @Override
+            public void consume(SkyblockPlayer killer, Location dropLocation, boolean toPlayer) {}
+
+            @Override
+            public String name() {
+                return mob.name();
+            }
+        }
+        public static LootTable getLootTable(ItemRarity rarity) {
+            return switch (rarity) {
+                case UNCOMMON -> uncommon;
+                case RARE -> rare;
+                case EPIC -> epic;
+                case LEGENDARY -> legendary;
+                default -> common;
+            };
+        }
+    }
+    public class DianaRunner extends BukkitRunnable {
+        public DianaRunner() {
+            runTaskTimer(Main.getMain(), 0, 2);
+        }
+        @Override
+        public void run() {
+            if (ItemHandler.getItemManager(player.getEquipment().getItemInMainHand()) != DianaItems.AncestralSpade.getItem()) return;
+            for (BurrowChain chain : chains) {
+                if (chain.getBlock().getLocation().distance(player.getLocation()) > 25) {
+                    continue;
+                }
+                particle(Particle.REDSTONE, chain.getBlock(), new Particle.DustOptions(Color.GRAY, 1.5f));
+                particle(Particle.REDSTONE, chain.getBlock(), new Particle.DustOptions(Color.GRAY, 1.5f));
+                Particle particle = switch (chain.type) {
+                    case Start -> Particle.CRIT;
+                    case Mob -> Particle.ASH;
+                    case Treasure -> Particle.DRIP_LAVA;
+                };
+                particle(particle, chain.getBlock());
+            }
+        }
+        public void particle(Particle particle, Block base) {
+            player.spawnParticle(particle, random(base), 1, 0, 0, 0 ,0);
+        }
+        public <T> void  particle(Particle particle, Block base, T t) {
+            player.spawnParticle(particle, random(base),1, 0, 0, 0 ,0, t);
+        }
+        private Location random(Block base) {
+            return base.getLocation().add(new Random().nextDouble(), 1.1, new Random().nextDouble());
         }
     }
 }

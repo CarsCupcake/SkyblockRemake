@@ -9,6 +9,9 @@ import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.Elections;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.Major;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardSection;
@@ -26,6 +29,7 @@ import me.CarsCupcake.SkyblockRemake.abilities.Deployable;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import net.minecraft.network.protocol.Packet;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -210,6 +214,11 @@ public class SkyblockPlayer extends CraftPlayer {
         }.runTaskLater(Main.getMain(), 10);
         Effect.load(this);
         initQuest();
+        if (Elections.major.hasPerk(3) && ServerType.getActiveType() == ServerType.Hub) {
+            synchronized (Main.getMain()) {
+                new MythologicalPerk(this);
+            }
+        }
         player.setPlayerListHeaderFooter("§bYou are Playing on §e§l" + Main.getMain().getServer().getIp() + " \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
     }
 
@@ -219,6 +228,11 @@ public class SkyblockPlayer extends CraftPlayer {
 
     public void unregister() {
         CollectHandler.collections.get(this).forEach(ICollection::save);
+        try {
+            MythologicalPerk.getPlayer(this).getRunnable().cancel();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public void kill() {
@@ -922,6 +936,9 @@ public class SkyblockPlayer extends CraftPlayer {
         baseTrophyFishChance = filebaseabilitydaamge;
 
 
+    }
+    public void sendPacket(Packet<?> packet) {
+        getHandle().b.sendPacket(packet);
     }
 
 	/*@Override

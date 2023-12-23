@@ -73,6 +73,13 @@ import java.util.stream.Stream;
 
 
 public class Tools {
+
+    public strictfp static double log(double from, double number)
+    {
+        int result = (int)(Math.log(number) / Math.log(from));
+        return result;
+    }
+
     public static double round(double num, int digit) {
         double d = Math.pow(10, digit);
 

@@ -54,6 +54,7 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("MASTERMODE_WITHERMANCER");
             arguments.add("GAIA_CONSTRUCT");
             arguments.add("MINOS_CHAMPION");
+            arguments.add("MINOS_INQUISITOR");
         }
 
         if(args.length == 1) {
@@ -65,10 +66,7 @@ public class SpawnEntityTAB implements TabCompleter {
         }
 
         if (args.length >= 2) {
-            for (String a : arguments) {
-                a = "";
-                result.add(a);
-            }
+            result.add("");
             return result;
         }
 
