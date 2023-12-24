@@ -168,7 +168,6 @@ public class ABILITIES implements Listener {
             MiningBlock.getBlocks().forEach(me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningBlock::reset);
             TitanumHandler.getHandlers().values().forEach(TitanumHandler::reset);
         }
-        Main.petstand.values().forEach(PetFollowRunner::remove);
         LeechFightManager.FakeBlock.releaseAll();
         IntList integers = new IntArrayList(PlayerDisguise.fake.keySet());
         for (Player p : Bukkit.getOnlinePlayers()) ((CraftPlayer) p).getHandle().b.sendPacket(new PacketPlayOutEntityDestroy(integers));

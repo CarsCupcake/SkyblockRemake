@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
-import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
 import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -77,14 +76,7 @@ public class BruteForce implements FullSetBonus {
         speed = speed + (int)Main.getItemStat(player, Stats.Speed,player.getInventory().getLeggings());
         speed = speed +(int) Main.getItemStat(player, Stats.Speed,player.getInventory().getBoots());
 
-        if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-            Pet pet = Pet.pets.get(PetMenus.get().getString(
-                    player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-
-            speed += (int) pet.getStat(Stats.Speed, PetMenus.get().getInt(
-                    player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-
-        }
+        if (player.getPetEquip() != null) speed += player.getPetEquip().getStat(Stats.Speed);
 
         if (Powers.activepower.containsKey(player)) {
             Powers power = Powers.activepower.get(player);

@@ -5,7 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.event.HandlerList;
 
 public class PetLevelUpEvent extends PlayerEvent {
-    private static HandlerList HANDLERS = new HandlerList();
+    private static final HandlerList HANDLERS = new HandlerList();
     private final Pet pet;
     private final int level;
 

@@ -11,6 +11,7 @@ import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.Entities.StandCoreExtention;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.LavaFishingHook;
 import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
 import me.CarsCupcake.SkyblockRemake.Items.farming.FarmingUtils;
 import me.CarsCupcake.SkyblockRemake.NPC.EntityNPC;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
@@ -20,6 +21,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
 import me.CarsCupcake.SkyblockRemake.abilities.Ferocity;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.CurrentMiningBlock;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Titanium;
@@ -63,7 +65,6 @@ import org.bukkit.util.Vector;
 
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Puzzler;
-import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.utils.PacketReader;
@@ -126,26 +127,29 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
 
-        player.getInventory().setItem(8, Items.SkyblockMenu());
-        Main.absorbtion.put(player, 0);
-        Main.absorbtionrunntime.put(player, 0);
-        Main.shortbow_cd.put(player, false);
-        Main.termhits.put(player, 0);
-        Powers.initPower(player);
+        event.getPlayer().getInventory().setItem(8, Items.SkyblockMenu());
+        Main.absorbtion.put(event.getPlayer(), 0);
+        Main.absorbtionrunntime.put(event.getPlayer(), 0);
+        Main.shortbow_cd.put(event.getPlayer(), false);
+        Main.termhits.put(event.getPlayer(), 0);
+        Powers.initPower(event.getPlayer());
 
 
-        new SkyblockPlayer((CraftServer) Main.getMain().getServer(), ((CraftPlayer) event.getPlayer()).getHandle());
+        SkyblockPlayer player = new SkyblockPlayer((CraftServer) Main.getMain().getServer(), ((CraftPlayer) event.getPlayer()).getHandle());
+        ConfigFile configFile = new ConfigFile(player, "pet", true);
         PacketReader reader = new PacketReader((event.getPlayer()));
-        if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).contains("equiped")) {
-            PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
-            PetMenus.save();
-            PetMenus.reload();
+        if (!configFile.get().getKeys(false).contains("equiped")) {
+            configFile.get().set("equiped", 0);
+            configFile.save();
         }
 
-        if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-            new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
+        if (configFile.get().getInt(player.getUniqueId() + ".equiped") != 0) {
+            int id = configFile.get().getInt("equiped");
+            Pet pet = (Pet) Items.SkyblockItems.get(configFile.get().getString(id + ".id"));
+            new PetFollowRunner(player, pet, id);
+            new PetEquip(player);
+            System.out.println("Spawned Pet " + pet.name);
         }
         if (SkyblockServer.getServer().type() == ServerType.PrivateIsle)
             PrivateIslandManager.addToIsle(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
@@ -642,7 +646,10 @@ public class SkyblockRemakeEvents implements Listener {
             e.printStackTrace();
         }
         player.unregister();
-        if (Main.petstand.containsKey(player)) Main.petstand.get(player).remove();
+        if (player.getPetFollowRunner() != null) {
+            player.getPetFollowRunner().remove();
+        }
+        if (player.getPetEquip() != null) player.getPetEquip().despawn();
 
 
     }
@@ -805,7 +812,7 @@ public class SkyblockRemakeEvents implements Listener {
                     if (itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING) != null && itemStack.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "ability"), PersistentDataType.STRING).equals("skyblockmenu")) {
 
 
-                        OpenMenu.createInventory(event.getPlayer());
+                        OpenMenu.createInventory(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
                         event.getPlayer().openInventory(OpenMenu.skyblockmenu);
 
                     }
@@ -846,7 +853,7 @@ public class SkyblockRemakeEvents implements Listener {
         if (event.getClickedInventory() != null && event.getClickedInventory().getType() != null && event.getClickedInventory().getType() == InventoryType.PLAYER) {
             if (event.getSlot() == 8) {
                 event.setCancelled(true);
-                OpenMenu.createInventory((Player) event.getWhoClicked());
+                OpenMenu.createInventory(SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()));
                 event.getWhoClicked().openInventory(OpenMenu.skyblockmenu);
             }
         }

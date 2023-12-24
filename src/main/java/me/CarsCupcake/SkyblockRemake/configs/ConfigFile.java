@@ -56,7 +56,6 @@ public class ConfigFile {
 
     private void init() {
         setup();
-        save();
         reload();
     }
 
@@ -79,7 +78,16 @@ public class ConfigFile {
     }
 
     public void save() {
-        thread.append(this);
+        save(true);
+    }
+
+    public void save(boolean async) {
+        if (async) thread.append(this);
+        else try {
+            customFile.save(file);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
     }
 
     public void reload() {
@@ -100,7 +108,7 @@ public class ConfigFile {
     public static class FileThread extends Thread {
         public static boolean online = true;
         private final ThreadHalt asyncHalt = new ThreadHalt();
-        private ArrayDeque<ConfigFile> files = new ArrayDeque<>();
+        private final ArrayDeque<ConfigFile> files = new ArrayDeque<>();
 
         public FileThread() {
             start();
@@ -129,7 +137,6 @@ public class ConfigFile {
 
         @Override
         public void run() {
-            files = new ArrayDeque<>();
             while (online) {
                 try {
                     asyncHalt.await();

@@ -39,7 +39,6 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryInventory;
 import me.CarsCupcake.SkyblockRemake.configs.AccessoryBag;
-import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuInv;
 
@@ -222,7 +221,7 @@ public class OpenMenu implements CommandExecutor, Listener {
     }
 
     @SuppressWarnings({"deprecation"})
-    public static void createInventory(Player player) {
+    public static void createInventory(SkyblockPlayer player) {
         Inventory inv = Bukkit.createInventory(null, 54, "SkyBlock Menu");
         ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
@@ -548,9 +547,9 @@ public class OpenMenu implements CommandExecutor, Listener {
         lore.add(ChatColor.GRAY + "gaining xp in ther favorite");
         lore.add(ChatColor.GRAY + "skill!");
         lore.add(" ");
-        if (PetMenuInv.getPetName(player) != null)
-            lore.add(ChatColor.GRAY + "Selected pet: " + Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")).getRarity().getPrefix() + PetMenuInv.getPetName(player));
-        else lore.add(ChatColor.GRAY + "Selected pet: " + ChatColor.RED + "None");
+        if (player.getPetEquip() != null) {
+            lore.add(ChatColor.GRAY + "Selected pet: " + player.getPetEquip().getPet().getRarity().getPrefix() + PetMenuInv.getPetName(player));
+        }else lore.add(ChatColor.GRAY + "Selected pet: " + ChatColor.RED + "None");
         lore.add(" ");
         lore.add(ChatColor.YELLOW + "Click to view!");
         meta.setLore(lore);
@@ -884,7 +883,7 @@ public class OpenMenu implements CommandExecutor, Listener {
                 sender.sendMessage("Du kannst das net");
                 return true;
             }
-            Player player = (Player) sender;
+            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) sender);
 
             if (player.hasPermission("skyblock.beta")) {
                 createInventory(player);
@@ -964,7 +963,7 @@ public class OpenMenu implements CommandExecutor, Listener {
 
         if (event.getSlot() == 30) {
             player.updateInventory();
-            player.openInventory(PetMenuInv.createMenu(player));
+            player.openInventory(PetMenuInv.createMenu(SkyblockPlayer.getSkyblockPlayer(player)));
             return;
         }
 

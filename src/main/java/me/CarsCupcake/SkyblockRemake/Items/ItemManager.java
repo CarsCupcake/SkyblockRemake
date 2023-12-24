@@ -481,7 +481,7 @@ public class ItemManager implements ItemGenerator {
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
             }
-            if (Pet.pets.containsKey(itemID)) {
+            if (this instanceof Pet) {
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
             }
@@ -540,7 +540,7 @@ public class ItemManager implements ItemGenerator {
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
             }
-            if (Pet.pets.containsKey(itemID)) {
+            if (this instanceof Pet) {
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
             }
@@ -618,7 +618,7 @@ public class ItemManager implements ItemGenerator {
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
             }
-            if (Pet.pets.containsKey(itemID)) {
+            if (this instanceof Pet) {
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
             }
@@ -683,7 +683,7 @@ public class ItemManager implements ItemGenerator {
                 data.set(new NamespacedKey(Main.getMain(), "QUALITY"), PersistentDataType.STRING, gem.gemState.toString());
                 data.set(new NamespacedKey(Main.getMain(), "GEMTYPE"), PersistentDataType.STRING, gem.gemType.toString());
             }
-            if (Pet.pets.containsKey(itemID)) {
+            if (this instanceof Pet) {
                 data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, 0D);
             }

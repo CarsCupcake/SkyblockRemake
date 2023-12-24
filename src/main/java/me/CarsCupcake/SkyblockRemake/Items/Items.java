@@ -291,11 +291,11 @@ public class Items {
         EnderDragonLegendary();
         CarsCupcakeSpetial();
 
-        GemstoneGolemCommon();
+        /*GemstoneGolemCommon();
         GemstoneGolemUncommon();
         GemstoneGolemRare();
         GemstoneGolemEpic();
-        GemstoneGolemLegendary();
+        GemstoneGolemLegendary();*/
         TestAccessory();
         RoyalPigeon();
 
@@ -2630,20 +2630,23 @@ public class Items {
         lore2.add("§7and §a%ability2-2% §c Strenght.");
         ArrayList<String> lore3 = new ArrayList<>();
         lore3.add("§7Increases most stats by §a%ability3%");
-        Pet pet = new Pet("Ender Dragon", "ENDER_DRAGON;LEGENDARY", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 50, 50, 0, 0, 0, 0, 0, 0, 0, 0, Material.PLAYER_HEAD, ItemRarity.LEGENDARY, 100, PetType.Combat, "End Strike", lore1, "One with the Dragons", lore2, "Superior", lore3, "http://textures.minecraft.net/texture/c279dc91373b427769043fae889ce2add3ae32166496534a4d6a8a8aaa2d");
+        Pet pet = new Pet("Ender Dragon", "ENDER_DRAGON;LEGENDARY",  "http://textures.minecraft.net/texture/c279dc91373b427769043fae889ce2add3ae32166496534a4d6a8a8aaa2d", ItemRarity.LEGENDARY, 100, PetType.Combat);
+        pet.addPetAbility("End Strike", new AbilityLore(lore1), null);
+        pet.addPetAbility("One with the Dragons", new AbilityLore(lore2), null);
+        pet.addPetAbility("Superior", new AbilityLore(lore3), null);
         return pet.getRawItemStack();
     }
 
     public static ItemStack CarsCupcakeSpetial() {
         ArrayList<String> lore1 = new ArrayList<>();
         lore1.add("§7Its just op");
-        ;
         ArrayList<String> lore2 = new ArrayList<>();
         lore2.add("§7Gives you admin power");
 
         ArrayList<String> lore3 = new ArrayList<>();
         lore3.add("§7Increases all stats by §a100% §7cuz idk ¯\\_(ツ)_/¯");
-        Pet pet = new Pet("CarsCupcake", "ADMIN_PET;SPETIAL", 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, Material.PLAYER_HEAD, ItemRarity.SPECIAL, 100, PetType.Mining, "Op", lore1, "Admin", lore2, "More Stats!", lore3, "http://textures.minecraft.net/texture/d3b83f3763982eada0538a90122cab68a20c0750f956ffc129f9bfff71b537c");
+        Pet pet = new Pet("CarsCupcake", "ADMIN_PET;SPETIAL", "http://textures.minecraft.net/texture/d3b83f3763982eada0538a90122cab68a20c0750f956ffc129f9bfff71b537c", ItemRarity.SPECIAL, 100, PetType.Mining);
+        for (Stats stats : Stats.values()) pet.addStat(stats, 50, 100);
         return pet.getRawItemStack();
     }
 
@@ -2656,8 +2659,7 @@ public class Items {
 //1. Spetial one: has universal gemstone slots +1 for each rarity
 //2. Ability More Minig Fortune while breaking gemstones
 //3. More Gemstone Powder while breaking gemstone
-
-    public static ItemStack GemstoneGolemCommon() {
+/* public static ItemStack GemstoneGolemCommon() {
         ArrayList<String> lore1 = new ArrayList<>();
         lore1.add("§7This Pet is able to use 1 gemstone");
 
@@ -2744,7 +2746,8 @@ public class Items {
         pet.addSlot(new GemstoneSlot(SlotType.Universal));
         pet.addSlot(new GemstoneSlot(SlotType.Universal));
         return pet.getRawItemStack();
-    }
+    }*/
+
 
 
 //Ruby gemsone

@@ -1,9 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltEnchants;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
-import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
-import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -14,16 +13,10 @@ public class ChimeraListener implements Listener {
             return;
         if(event.getItem().getItemMeta() == null)
             return;
-        if(!event.getItem().getItemMeta().getEnchants().containsKey(SkyblockEnchants.CHIMERA))
+        if(!ItemHandler.hasEnchantment(SkyblockEnchants.CHIMERA, event.getItem()))
             return;
-        if (PetMenus.get().getInt(event.getPlayer().getUniqueId() + ".equiped") != 0) {
-            Pet pet = Pet.pets.get(PetMenus.get().getString(
-                    event.getPlayer().getUniqueId() + "." + PetMenus.get().getInt(event.getPlayer().getUniqueId() + ".equiped") + ".id"));
-
-            event.setValue( event.getValue() + getValue(pet.getStat(event.getStat(), PetMenus.get().getInt(
-                    event.getPlayer().getUniqueId() + "." + PetMenus.get().getInt(event.getPlayer().getUniqueId() + ".equiped") + ".level")),
-                    event.getItem().getItemMeta().getEnchants().get(SkyblockEnchants.CHIMERA)));
-
+        if (event.getPlayer().getPetEquip() != null) {
+            event.addValue(getValue(event.getPlayer().getPetEquip().getStat(event.getStat()), ItemHandler.getEnchantmentLevel(SkyblockEnchants.CHIMERA, event.getItem())));
         }
     }
     private double getValue(double petStat, int chimera){

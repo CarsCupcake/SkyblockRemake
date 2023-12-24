@@ -7,6 +7,8 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.Elections;
@@ -144,6 +146,12 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private Region region;
+    @Getter
+    @Setter
+    private PetEquip petEquip;
+    @Getter
+    @Setter
+    private PetFollowRunner petFollowRunner;
 
     public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
         this(server, entity, false);
@@ -233,6 +241,8 @@ public class SkyblockPlayer extends CraftPlayer {
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
+        if (getPetFollowRunner() != null) getPetFollowRunner().remove();
+        if (getPetEquip() != null) getPetEquip().despawn();
     }
 
     public void kill() {
@@ -502,7 +512,7 @@ public class SkyblockPlayer extends CraftPlayer {
         hideDefenceString();
         Main.updatebar(this);
         if (skill == Skills.Mining || skill == Skills.Fishing || skill == Skills.Combat || skill == Skills.Farming || skill == Skills.Foraging || skill == Skills.Enchanting || skill == Skills.Alchemy)
-            Pet.addPetXP(this, amount, skill);
+            getPetEquip().addPetXP(amount, skill);
 
     }
 

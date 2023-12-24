@@ -1,5 +1,9 @@
 package me.CarsCupcake.SkyblockRemake.Items.Pets;
 
+import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.Items;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,87 +18,101 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.configs.PetMenus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PetMenuListener implements Listener {
-	@EventHandler
-		public void addToPetMenu(PlayerInteractEvent event) {
-		if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if(event.getItem() != null && event.getItem().getItemMeta() != null && Pet.pets.containsKey(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING))) {
-				Pet pet = Pet.pets.get(event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "id"), PersistentDataType.STRING));
-				Player player = event.getPlayer();
-				PetMenus.reload();
-				int var = 1;
-				if (PetMenus.get().contains(player.getUniqueId().toString()))
-					var = PetMenus.get().getConfigurationSection(player.getUniqueId().toString()).getKeys(false).size() + 1;
-				PetMenus.get().set(player.getUniqueId().toString() + "." + var + ".id", pet.itemID);
-				PetMenus.get().set(player.getUniqueId().toString() + "." + var + ".level", event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER));
-				PetMenus.get().set(player.getUniqueId().toString() + "." + var + ".currxp", event.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE));
-				PetMenus.get().set(player.getUniqueId().toString() + "." + var + ".equiped", false);
-				PetMenus.save();
-				PetMenus.reload();
-				event.getItem().setAmount(0);
-				player.updateInventory();
-			}
-		}
-	}
-	@EventHandler
-	public void inventoryClickEvent(InventoryClickEvent event) {
-		if(event.getView().getTitle() == null || !event.getView().getTitle().contains("Pets")) {
-			return;
-		}
-		event.setCancelled(true);
-		if(event.getClickedInventory() != null &&event.getClickedInventory().getType() == InventoryType.PLAYER) {
-			return;
-		}
-		Inventory inv = event.getView().getTopInventory();
-		ItemStack item = inv.getItem(event.getSlot());
-		if(item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer() != null) {
-			PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
-			if(data.get(new NamespacedKey(Main.getMain(), "pet"), PersistentDataType.STRING) != null ) {
-				int petfile = data.get(new NamespacedKey(Main.getMain(), "fileid"), PersistentDataType.INTEGER);
-				PetMenus.reload();
-				if(petfile == PetMenus.get().getInt(event.getWhoClicked().getUniqueId().toString() + ".equiped")) {
-					//despawn pet
-					event.getWhoClicked().sendMessage("§cPet got despawned");
-					event.getWhoClicked().closeInventory();
-					PetMenus.get().set(event.getWhoClicked().getUniqueId().toString() + ".equiped", 0);
-					PetMenus.get().set(event.getWhoClicked().getUniqueId() + "." + petfile + ".equiped", false);
-					PetMenus.save();
-					Main.petstand.get((Player) event.getWhoClicked()).remove();
-					Main.petstand.remove((Player) event.getWhoClicked());
-					
-				}else {
-					//pet not the spawned pet/no pet equiped
-					
-					//check if the player has a pet equiped
-					if(0 != PetMenus.get().getInt(event.getWhoClicked().getUniqueId().toString() + ".equiped")) {
-						//despawn old pet spawn new pet
-						event.getWhoClicked().closeInventory();
-						
-						PetMenus.get().set(event.getWhoClicked().getUniqueId() + "." + PetMenus.get().getInt(event.getWhoClicked().getUniqueId().toString() + ".equiped") + ".equiped", false);PetMenus.get().set(event.getWhoClicked().getUniqueId().toString() + ".equiped", petfile);
-						PetMenus.get().set(event.getWhoClicked().getUniqueId() + "." + petfile + ".equiped", true);
-						event.getWhoClicked().sendMessage("§aSpawned new Pet");PetMenus.save();
-						Main.petstand.get((Player) event.getWhoClicked()).remove();
-						new PetFollowRunner((Player)event.getWhoClicked(), Pet.pets.get(PetMenus.get().getString(event.getWhoClicked().getUniqueId() + "." + petfile + ".id")), petfile);
-						
-					}else {
-						//spawn new pet
-						event.getWhoClicked().closeInventory();
-						PetMenus.get().set(event.getWhoClicked().getUniqueId().toString() + ".equiped", petfile);
-						PetMenus.get().set(event.getWhoClicked().getUniqueId() + "." + petfile + ".equiped", true);
-						event.getWhoClicked().sendMessage("§aSpawned new Pet");PetMenus.save();
-						
-						new PetFollowRunner((Player)event.getWhoClicked(), Pet.pets.get(PetMenus.get().getString(event.getWhoClicked().getUniqueId() + "." + petfile + ".id")), petfile);
-						
-					}
-					
-				}
-				
-				PetMenus.reload();
-			}
-		}
-	
-		
-	}
+    @EventHandler
+    public void addToPetMenu(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getItem() != null && event.getItem().getItemMeta() != null && ItemHandler.getItemManager(event.getItem()) instanceof Pet pet) {
+                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
+                ConfigFile configFile = new ConfigFile(player, "pet", true);
+                List<Integer> intList = new ArrayList<>();
+                int lowest = 1;
+                int highest = 1;
+                for (String str : configFile.get().getKeys(false)) {
+                    if (str.equals("equiped")) continue;
+                    try {
+                        int i = Integer.parseInt(str);
+                        if (i <= lowest) lowest = i - 1;
+                        if (i >= highest) highest = i + 1;
+                    } catch (Exception e) {
+                        e.printStackTrace(System.err);
+                    }
+                }
+                int var = (lowest == 0) ? highest : lowest;
+                configFile.get().set(var + ".id", pet.itemID);
+                configFile.get().set(var + ".level", ItemHandler.getOrDefaultPDC("level", event.getItem(), PersistentDataType.INTEGER, 1));
+                configFile.get().set(var + ".currxp", ItemHandler.getOrDefaultPDC("currxp", event.getItem(), PersistentDataType.DOUBLE, 0d));
+                configFile.get().set(var + ".equiped", false);
+                configFile.save();
+                event.getItem().setAmount(0);
+                player.updateInventory();
+            }
+        }
+    }
+
+    @EventHandler
+    public void inventoryClickEvent(InventoryClickEvent event) {
+        if (event.getView().getTitle() == null || !event.getView().getTitle().contains("Pets")) {
+            return;
+        }
+        event.setCancelled(true);
+        if (event.getClickedInventory() != null && event.getClickedInventory().getType() == InventoryType.PLAYER) {
+            return;
+        }
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked());
+        ConfigFile configFile = new ConfigFile(player, "pet", true);
+        Inventory inv = event.getView().getTopInventory();
+        ItemStack item = inv.getItem(event.getSlot());
+        if (item != null && item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer() != null) {
+            PersistentDataContainer data = item.getItemMeta().getPersistentDataContainer();
+            if (data.get(new NamespacedKey(Main.getMain(), "pet"), PersistentDataType.STRING) != null) {
+                int petfile = data.get(new NamespacedKey(Main.getMain(), "fileid"), PersistentDataType.INTEGER);
+                configFile.reload();
+                if (petfile == configFile.get().getInt("equiped")) {
+                    //despawn pet
+                    event.getWhoClicked().sendMessage("§cPet got despawned");
+                    event.getWhoClicked().closeInventory();
+                    configFile.get().set("equiped", 0);
+                    configFile.get().set(petfile + ".equiped", false);
+                    configFile.save(false);
+                    player.getPetFollowRunner().remove();
+                    player.setPetFollowRunner(null);
+                    if (player.getPetEquip() != null) player.getPetEquip().despawn();
+                } else {
+                    //pet not the spawned pet/no pet equiped
+
+                    //check if the player has a pet equiped
+                    if (0 != configFile.get().getInt("equiped", 0)) {
+                        //despawn old pet spawn new pet
+                        event.getWhoClicked().closeInventory();
+
+                        configFile.get().set(configFile.get().getInt("equiped") + ".equiped", false);
+                        configFile.get().set("equiped", petfile);
+                        configFile.get().set(petfile + ".equiped", true);
+                        configFile.save(false);
+                        event.getWhoClicked().sendMessage("§aSpawned new Pet");
+                        player.getPetFollowRunner().remove();
+                        player.setPetFollowRunner(null);
+                        if (player.getPetEquip() != null) player.getPetEquip().despawn();
+
+                    } else {
+                        //spawn new pet
+                        event.getWhoClicked().closeInventory();
+                        configFile.get().set("equiped", petfile);
+                        configFile.get().set(petfile + ".equiped", true);
+                        configFile.save(false);
+                        event.getWhoClicked().sendMessage("§aSpawned new Pet");
+                    }
+                    new PetFollowRunner(player, (Pet) Items.SkyblockItems.get(configFile.get().getString(petfile + ".id")), petfile);
+                    new PetEquip(player);
+                }
+            }
+        }
+
+
+    }
 }

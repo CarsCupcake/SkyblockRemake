@@ -21,6 +21,7 @@ import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.QuestNpc;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.Selection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.hex.Hex;
@@ -129,8 +130,6 @@ public class Main extends JavaPlugin {
     public FileConfiguration config = getConfig();
 
     public static boolean isLocalHost = true;
-
-    public static HashMap<Player, PetFollowRunner> petstand = new HashMap<>();
 
     public static HashMap<Player, Integer> absorbtion = new HashMap<>();
     public static HashMap<Player, Integer> absorbtionrunntime = new HashMap<>();
@@ -254,10 +253,6 @@ public class Main extends JavaPlugin {
         });
 
         if (data.getConfig().contains("data")) loadNPC();
-        PetMenus.setup();
-        PetMenus.save();
-        PetMenus.setup();
-        PetMenus.reload();
         AccessoryBag.setup();
         AccessoryBag.save();
         AccessoryBag.reload();
@@ -481,14 +476,11 @@ public class Main extends JavaPlugin {
             absorbtionrunntime.put(player, 0);
             shortbow_cd.put(player, false);
             termhits.put(player, 0);
-
-            if (PetMenus.get().getConfigurationSection(player.getUniqueId().toString()) == null || !Objects.requireNonNull(PetMenus.get().getConfigurationSection(player.getUniqueId().toString())).getKeys(false).contains("equiped")) {
-                PetMenus.get().set(player.getUniqueId() + ".equiped", 0);
-                PetMenus.save();
-                PetMenus.reload();
-            }
-            if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-                new PetFollowRunner(player, Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id")), PetMenus.get().getInt(player.getUniqueId() + ".equiped"));
+            ConfigFile file = new ConfigFile(player, "pet", true);
+            int petId = file.get().getInt("equiped", 0);
+            if (petId != 0) {
+                new PetFollowRunner(player, (Pet) Items.SkyblockItems.get(file.get().getString(petId + ".id")), petId);
+                new PetEquip(player);
             }
 
             SkyblockScoreboard.updateScoreboard(player);
@@ -704,14 +696,6 @@ public class Main extends JavaPlugin {
 
         if (!Deployable.deployables.isEmpty()) for (Deployable flare : Deployable.deployables.values()) {
             flare.stop();
-        }
-        if (!petstand.isEmpty()) {
-            for (PetFollowRunner runners : petstand.values()) {
-
-                runners.remove();
-
-            }
-            petstand.clear();
         }
         if (F7Phase1.instance != null) F7Phase1.instance.removeAll();
 
@@ -1065,12 +1049,7 @@ public class Main extends JavaPlugin {
         ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getChestplate());
         ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getLeggings());
         ferocity += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getBoots());
-        //TODO Rewrite Pet system!
-        //File call -> Inefficient!
-       /* if (PetMenus.get().getInt(player.getUniqueId() + ".equiped") != 0) {
-            Pet pet = Pet.pets.get(PetMenus.get().getString(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".id"));
-            ferocity += pet.getStat(stat, PetMenus.get().getInt(player.getUniqueId() + "." + PetMenus.get().getInt(player.getUniqueId() + ".equiped") + ".level"));
-        }*/
+        if (player.getPetEquip() != null) ferocity += player.getPetEquip().getStat(stat);
         if (Powers.activepower.containsKey(player)) {
             Powers power = Powers.activepower.get(player);
             ferocity += power.CalculateStats(stat, player);
@@ -1187,11 +1166,6 @@ public class Main extends JavaPlugin {
         if (data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING) != null) {
             ItemManager manager = Items.SkyblockItems.get(data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING));
             if (manager == null) return item;
-
-            if (Pet.pets.containsKey(manager.itemID)) {
-                item = Pet.pets.get(manager.itemID).updatePet(item);
-            }
-
             if (manager.getFlags().contains(me.CarsCupcake.SkyblockRemake.Items.ItemFlag.SPECIAL_MATERIAL_GRABBER)) {
                 if (manager.getMaterialGrabber() != null)
                     item.setType(manager.getMaterialGrabber().getMaterial(item, player));
@@ -1201,8 +1175,8 @@ public class Main extends JavaPlugin {
 
             ArrayList<String> lores = new ArrayList<>();
 
-            if (Pet.pets.containsKey(manager.itemID)) {
-                lores.add("§8" + Pet.pets.get(manager.itemID).Petype + " Pet");
+            if (manager instanceof Pet pet) {
+                lores.add("§8" + pet.petType + " Pet");
                 lores.add(" ");
 
             }
@@ -1313,8 +1287,8 @@ public class Main extends JavaPlugin {
             }
 
 
-            if (Pet.pets.containsKey(manager.itemID)) {
-                meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(main, "level"), PersistentDataType.INTEGER) + "] " + rarity.getPrefix() + Pet.pets.get(manager.itemID).name);
+            if (manager instanceof Pet pet) {
+                meta.setDisplayName("§7[Lvl " + data.get(new NamespacedKey(main, "level"), PersistentDataType.INTEGER) + "] " + rarity.getPrefix() + pet.name);
             } else if (data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING) != null && RegisteredReforges.reforges.containsKey(data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING)))
                 meta.setDisplayName(rarity.getPrefix() + data.get(new NamespacedKey(main, "reforge"), PersistentDataType.STRING) + " " + rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
             else meta.setDisplayName(rarity.getPrefix() + manager.name + " " + StarHandler.getStarSuffix(item));
@@ -1360,8 +1334,7 @@ public class Main extends JavaPlugin {
                 i++;
             }
 
-            if (Pet.pets.containsKey(manager.itemID)) {
-                Pet pet = Pet.pets.get(manager.itemID);
+            if (manager instanceof Pet pet) {
                 lores.add(" ");
                 lores.addAll(pet.buildAbilityLore(player, item));
             }
@@ -1425,15 +1398,15 @@ public class Main extends JavaPlugin {
                 lores.add("");
             }
 
-            if (Pet.pets.containsKey(manager.itemID)) {
+            if (manager instanceof Pet pet) {
                 lores.add(" ");
-                if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) == (Pet.pets.get(manager.itemID).MaxLevel))
+                if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) == (pet.maxLevel))
                     lores.add("§b§lMax Level!");
-                else if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) > (Pet.pets.get(manager.itemID).MaxLevel))
+                else if (data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1) > (pet.maxLevel))
                     lores.add("§c§l§k l §r§c§lOver Leveled! §kl");
                 else {
                     double currxp = data.getOrDefault(new NamespacedKey(main, "currxp"), PersistentDataType.DOUBLE, 0d);
-                    double reqxp = Pet.pets.get(manager.itemID).getRequieredXp(data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1));
+                    double reqxp = pet.getRequieredXp(data.getOrDefault(new NamespacedKey(main, "level"), PersistentDataType.INTEGER, 1));
                     double pers = currxp / reqxp;
                     int colored = (int) (20 * pers);
                     StringBuilder str = new StringBuilder();
@@ -1495,9 +1468,7 @@ public class Main extends JavaPlugin {
                 lores.add(((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getPrefix() : rarity.getPrefix()) + "§k§lr§r " + ((item.getType() == Material.POTION) ? me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getRarityFromLevel(me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionEffect.getHighestLevel(item)).getNext().getRarityName() : rarity.getRarityName()) + " " + extra + manager.type.toString().toUpperCase() + " §kr");
             }
             meta.setLore(lores);
-
         } else {
-
             if (item.getType() == Material.ENCHANTED_BOOK) {
 
                 ItemStack newItem = Items.SkyblockItems.get("ENCHANTED_BOOK").getRawItemStack();
