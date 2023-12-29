@@ -61,7 +61,7 @@ public class SkyblockPlayer extends CraftPlayer {
     private final List<ScoreboardSection> scoreboardSections = new ArrayList<>();
     public double healingMulti = 1;
     public int currhealth;
-    public int currmana;
+    public double currmana;
     public double titaniumchance;
     public DwarvenAreas dwarvenArea;
     public CrimsonIsleAreas crimsonArea;
@@ -816,10 +816,11 @@ public class SkyblockPlayer extends CraftPlayer {
         setHealth((double) value, reason);
     }
 
-    public void setMana(int value) {
+    public void setMana(double value) {
         currmana = value;
-        if (currmana > Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence))
-            ;
+        double max = Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence);
+        if (currmana > max)
+            currmana = max;
     }
 
     public void addBaseStat(Stats stat, double v) {
@@ -949,6 +950,11 @@ public class SkyblockPlayer extends CraftPlayer {
     }
     public void sendPacket(Packet<?> packet) {
         getHandle().b.sendPacket(packet);
+    }
+    public String coinsChange = "";
+    public void addCoins(double v) {
+        coins += v;
+        coinsChange = " §e(+" + Tools.cleanDouble(v, 1) + ")";
     }
 
 	/*@Override

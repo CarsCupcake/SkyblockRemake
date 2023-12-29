@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Abilitys.GriffinListener;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.customBlocks.LogicalBlock;
 import me.CarsCupcake.SkyblockRemake.Items.farming.items.armor.CropieArmor;
@@ -51,7 +52,6 @@ import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Mithril.TitanumHa
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Stone;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Titanium;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningBlock;
-import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionItems;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.PotionListener;
@@ -125,8 +125,6 @@ public class ABILITIES implements Listener {
         registerEvent(new CropieArmor());
         registerEvent(new SquashArmor());
         registerEvent(new FermentoArmor());
-
-
         registerEvent(new MelonDicer());
         registerEvent(new PumpkinDicer());
         registerEvent(new CocoChopper());
@@ -136,6 +134,7 @@ public class ABILITIES implements Listener {
         registerEvent(new ChestSecret.ChestInteract());
         registerEvent(new BatSecret.EventListener());
         registerEvent(new MinosChampion(ItemRarity.COMMON, null));
+        registerEvent(new GriffinListener());
 
         //Minions
         IMinionData.registerMinion(new CobblestoneMinionData());

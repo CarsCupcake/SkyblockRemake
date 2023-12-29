@@ -865,9 +865,17 @@ public class SkyblockRemakeEvents implements Listener {
 
     @EventHandler
     public void pickupevent(PlayerPickupItemEvent event) {
-        Player player = event.getPlayer();
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         ItemStack item = player.getItemInHand();
-        event.getItem().setItemStack(Main.itemUpdater(event.getItem().getItemStack(), SkyblockPlayer.getSkyblockPlayer(player)));
+        ItemManager manager = ItemHandler.getItemManager(event.getItem().getItemStack());
+        if (manager != null && manager.itemID.equals("COINS_ITEM")) {
+            event.setCancelled(true);
+            double value = ItemHandler.getOrDefaultPDC("coinsvalue", event.getItem().getItemStack(), PersistentDataType.DOUBLE, 0d);
+            player.addCoins(value);
+            event.getItem().remove();
+            return;
+        }
+        event.getItem().setItemStack(Main.itemUpdater(event.getItem().getItemStack(), player));
         event.getPlayer().updateInventory();
     }
 

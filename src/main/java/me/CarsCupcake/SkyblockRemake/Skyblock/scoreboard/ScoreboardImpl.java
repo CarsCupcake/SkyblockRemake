@@ -5,7 +5,6 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Factory;
-import me.CarsCupcake.SkyblockRemake.utils.Time;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.ChatColor;
 
@@ -41,7 +40,7 @@ public enum ScoreboardImpl implements Factory<SkyblockPlayer, String[]> {
         public String[] factor(SkyblockPlayer player) {
             String nm = (ServerType.getActiveType() == ServerType.Rift) ? "Motes" : "Purse";
             String cl = (ServerType.getActiveType() == ServerType.Rift) ? "d" : "6";
-            return new String[]{((player.showMithrilPowder) ? ("§2᠅ §fMithril: §2" + Tools.addDigits(player.mithrilpowder)) : (nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : player.coins)))),
+            return new String[]{((player.showMithrilPowder) ? ("§2᠅ §fMithril: §2" + Tools.addDigits(player.mithrilpowder)) : (nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : player.coins) + player.coinsChange))),
                     "Bits: " + ChatColor.AQUA + Tools.addDigits(player.bits)};
         }
     },

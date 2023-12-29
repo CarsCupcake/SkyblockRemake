@@ -16,6 +16,12 @@ import java.util.Random;
  * @param max the maximum amount (exclusive)
  */
 public record ItemLoot(ItemManager manager, int min, int max) implements Loot{
+    public ItemLoot(ItemManager manager) {
+        this(manager, 1);
+    }
+    public ItemLoot(ItemManager manager, int amount) {
+        this(manager, amount, amount + 1);
+    }
     @Override
     public void consume(SkyblockPlayer killer, Location dropLocation, boolean toPlayer) {
         int amount = ((max - min == 0) ? 0 : new Random().nextInt(max - min)) + min;

@@ -841,8 +841,8 @@ public class Main extends JavaPlugin {
                         // mana regen
                         double mana = getPlayerStat(player, ((ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence));
                         if (player.currmana < mana) {
-                            int manaadd = (int) ((mana * 0.02) * player.getManaRegenMult());
-                            int finalmana = manaadd + player.currmana;
+                            double manaadd = ((mana * 0.02) * player.getManaRegenMult());
+                            double finalmana = manaadd + player.currmana;
                             player.setMana(finalmana);
 
                         }

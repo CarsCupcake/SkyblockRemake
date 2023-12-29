@@ -10,6 +10,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.*;
 import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.loot.CoinLoot;
+import me.CarsCupcake.SkyblockRemake.utils.loot.ItemLoot;
 import me.CarsCupcake.SkyblockRemake.utils.loot.Loot;
 import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import org.bukkit.Color;
@@ -147,8 +149,7 @@ public class MythologicalPerk {
          * @return if the burrow is finished
          */
         public boolean dig(SkyblockPlayer player) {
-            //TODO: Griffin detection
-            ItemRarity rarity = ItemRarity.LEGENDARY;
+            ItemRarity rarity = (player.getPetEquip() != null && player.getPetEquip().getPet().itemID.startsWith("GRIFFIN;")) ? player.getPetEquip().getPet().getRarity() : ItemRarity.COMMON;
             switch (type) {
                 case Mob -> {
                     if (alive == -1) {
@@ -168,8 +169,18 @@ public class MythologicalPerk {
 
                 }
                 case Start -> player.sendMessage("§eStarted a burrow chain §7(1/4)");
-                case Treasure -> //TODO add loot
-                        player.sendMessage("§eYOu dug out a Treasure §7(" + (i + 1) + "/4)");
+                case Treasure -> {
+                    LootTable lootTable = switch (rarity) {
+                        case UNCOMMON -> uncommonTreasure;
+                        case RARE -> rareTreasure;
+                        case EPIC -> epicTreasure;
+                        case LEGENDARY -> legendaryTreasure;
+                        default -> commonTreasure;
+                    };
+                    Loot loot = lootTable.use(false, player).get(0);
+                    loot.consume(player, Tools.getAsLocation(block).add(0, 1, 0), false);
+                    player.sendMessage("§eYou dug out " + loot.name() + " §7(" + (i + 1) + "/4)");
+                }
             }
             if (i == 3) return true;
             next();
@@ -182,6 +193,57 @@ public class MythologicalPerk {
             BurrowType t = (i == 3) ? BurrowType.Treasure : ((new Random().nextDouble() <= 0.1) ? BurrowType.Treasure : BurrowType.Mob);
             set(t);
         }
+    }
+    public static final LootTable commonTreasure = new LootTable(true, true);
+    public static final LootTable uncommonTreasure = new LootTable(true, true);
+    public static final LootTable rareTreasure = new LootTable(true, true);
+    public static final LootTable epicTreasure = new LootTable(true, true);
+    public static final LootTable legendaryTreasure = new LootTable(true, true);
+    static {
+        commonTreasure.addLoot(new ItemLoot(DianaItems.GRIFFIN_FEATHER.getItem()), 0.666);
+        commonTreasure.addLoot(new CoinLoot(1_000), 0.1515);
+        commonTreasure.addLoot(new CoinLoot(1_500), 0.0758);
+        commonTreasure.addLoot(new CoinLoot(3_000), 0.0758);
+        commonTreasure.addLoot(new CoinLoot(5_000), 0.0303);
+
+
+        uncommonTreasure.addLoot(new ItemLoot(DianaItems.GRIFFIN_FEATHER.getItem()), 0.666);
+        uncommonTreasure.addLoot(new CoinLoot(3_000), 0.1235);
+        uncommonTreasure.addLoot(new CoinLoot(5_000), 0.1235);
+        uncommonTreasure.addLoot(new CoinLoot(7_500), 0.0617);
+        uncommonTreasure.addLoot(new CoinLoot(10_000), 0.0247);
+
+        rareTreasure.addLoot(new ItemLoot(DianaItems.GRIFFIN_FEATHER.getItem()), 0.666);
+        rareTreasure.addLoot(new CoinLoot(4_000), 0.1797);
+        rareTreasure.addLoot(new CoinLoot(8_000), 0.0898);
+        rareTreasure.addLoot(new CoinLoot(12_500), 0.0449);
+        rareTreasure.addLoot(new CoinLoot(20_000), 0.018);
+        rareTreasure.addLoot(new CoinLoot(100_000), 0.009);
+
+        epicTreasure.addLoot(new ItemLoot(DianaItems.GRIFFIN_FEATHER.getItem()), 0.666);
+        epicTreasure.addLoot(new ItemLoot(DianaItems.CROWN_OF_GREED.getItem()), 0.0012);
+        epicTreasure.addLoot(new CoinLoot(5_000), 0.1182);
+        epicTreasure.addLoot(new CoinLoot(8_000), 0.1182);
+        epicTreasure.addLoot(new CoinLoot(12_000), 0.0591);
+        epicTreasure.addLoot(new CoinLoot(20_000), 0.0236);
+        epicTreasure.addLoot(new CoinLoot(30_000), 0.0059);
+        epicTreasure.addLoot(new CoinLoot(50_000), 0.0035);
+        epicTreasure.addLoot(new CoinLoot(100_000), 0.0012);
+        epicTreasure.addLoot(new CoinLoot(150_000), 0.0012);
+        epicTreasure.addLoot(new CoinLoot(250_000), 0.0012);
+
+        legendaryTreasure.addLoot(new ItemLoot(DianaItems.GRIFFIN_FEATHER.getItem()), 0.666);
+        legendaryTreasure.addLoot(new ItemLoot(DianaItems.CROWN_OF_GREED.getItem()), 0.0039);
+        legendaryTreasure.addLoot(new CoinLoot(10_000), 0.0392);
+        legendaryTreasure.addLoot(new CoinLoot(15_000), 0.0588);
+        legendaryTreasure.addLoot(new CoinLoot(25_000), 0.0784);
+        legendaryTreasure.addLoot(new CoinLoot(40_000), 0.0588);
+        legendaryTreasure.addLoot(new CoinLoot(50_000), 0.0392);
+        legendaryTreasure.addLoot(new CoinLoot(75_000), 0.0196);
+        legendaryTreasure.addLoot(new CoinLoot(100_000), 0.0118);
+        legendaryTreasure.addLoot(new CoinLoot(250_000), 0.0078);
+        legendaryTreasure.addLoot(new CoinLoot(500_000), 0.0039);
+        legendaryTreasure.addLoot(new CoinLoot(750_000), 0.0039);
     }
 
     public enum BurrowType {
