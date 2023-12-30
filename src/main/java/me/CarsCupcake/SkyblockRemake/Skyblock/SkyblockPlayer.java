@@ -182,7 +182,6 @@ public class SkyblockPlayer extends CraftPlayer {
 
         players.put(player, this);
         AbilityManager.additionalMana.put(this, new HashMap<>());
-        statsConfig.reload();
         for (Stats stat : Stats.values()) {
             if (stat == Stats.WeaponDamage) continue;
             double value = statsConfig.get().getDouble(stat.getDataName(), stat.getBaseAmount());
@@ -227,6 +226,13 @@ public class SkyblockPlayer extends CraftPlayer {
                 new MythologicalPerk(this);
             }
         }
+        ConfigFile file = new ConfigFile(this, "pet", true);
+        int petId = file.get().getInt("equiped", 0);
+        if (petId != 0) {
+            Pet pet = (Pet) Items.SkyblockItems.get(file.get().getString(petId + ".id"));
+            new PetFollowRunner(this, pet, petId);
+            new PetEquip(this);
+        }
         player.setPlayerListHeaderFooter("§bYou are Playing on §e§l" + Main.getMain().getServer().getIp() + " \n ", " \n§a§lActive Effects§r \nNo Active Effects. Drink Potions or Splash\nthem on the ground to buff yourselfe!\n \n§d§lCookie Buff§r\nNot Active! Obtain booster cookies from the\ncommunity shop in the hub.\n \n§r§aRanks, Boosters & MORE! §c§lSTORE.HYPIXEL.NET");
     }
 
@@ -242,7 +248,12 @@ public class SkyblockPlayer extends CraftPlayer {
             e.printStackTrace(System.err);
         }
         if (getPetFollowRunner() != null) getPetFollowRunner().remove();
-        if (getPetEquip() != null) getPetEquip().despawn();
+        if (getPetEquip() != null) getPetEquip().despawn(true);
+        for (Stats stats : Stats.values()) {
+            if (stats == Stats.WeaponDamage) continue;
+            statsConfig.get().set(stats.getDataName(), getBaseStat(stats));
+        }
+        statsConfig.save(Main.getMain().isEnabled());
     }
 
     public void kill() {

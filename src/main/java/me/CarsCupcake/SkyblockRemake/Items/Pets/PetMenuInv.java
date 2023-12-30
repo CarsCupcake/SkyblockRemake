@@ -84,7 +84,7 @@ public class PetMenuInv {
                 ItemStack pet = Main.itemUpdater(petOBJ.getRawItemStack(), SkyblockPlayer.getSkyblockPlayer(player));
                 ItemMeta m = pet.getItemMeta();
                 PersistentDataContainer data = m.getPersistentDataContainer();
-                if (!file.get().getBoolean(str + ".equiped")) {
+                if (!file.get().getBoolean(str + ".equiped") || player.getPetEquip() == null) {
                     data.set(new NamespacedKey(Main.getMain(), "level"), PersistentDataType.INTEGER, file.get().getInt(str + ".level"));
                     data.set(new NamespacedKey(Main.getMain(), "currxp"), PersistentDataType.DOUBLE, file.get().getDouble(str + ".currxp"));
                 } else {

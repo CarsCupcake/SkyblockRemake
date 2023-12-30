@@ -40,7 +40,9 @@ public enum ScoreboardImpl implements Factory<SkyblockPlayer, String[]> {
         public String[] factor(SkyblockPlayer player) {
             String nm = (ServerType.getActiveType() == ServerType.Rift) ? "Motes" : "Purse";
             String cl = (ServerType.getActiveType() == ServerType.Rift) ? "d" : "6";
-            return new String[]{((player.showMithrilPowder) ? ("§2᠅ §fMithril: §2" + Tools.addDigits(player.mithrilpowder)) : (nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : player.coins) + player.coinsChange))),
+            String bef = player.coinsChange;
+            player.coinsChange = "";
+            return new String[]{((player.showMithrilPowder) ? ("§2᠅ §fMithril: §2" + Tools.addDigits(player.mithrilpowder)) : (nm + ": " + "§" + cl + (Tools.addDigits((ServerType.getActiveType() == ServerType.Rift) ? RiftPlayer.getRiftPlayer(player).getMotes() : player.coins) + bef))),
                     "Bits: " + ChatColor.AQUA + Tools.addDigits(player.bits)};
         }
     },

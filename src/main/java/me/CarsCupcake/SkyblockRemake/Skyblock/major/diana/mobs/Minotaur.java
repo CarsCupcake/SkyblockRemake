@@ -36,6 +36,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
     private final MythologicalPerk perk;
     private int counter = 0;
     Date lastHit = new Date();
+
     public Minotaur(ItemRarity rarity, MythologicalPerk perk) {
         switch (rarity) {
             case RARE, EPIC -> {
@@ -54,6 +55,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         health = maxHealth;
         this.perk = perk;
     }
+
     @Override
     public int getMaxHealth() {
         return maxHealth;
@@ -63,8 +65,10 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
     public LivingEntity getEntity() {
         return zombie;
     }
+
     private Zombie zombie;
     private ArmorStand damageStand;
+
     @Override
     public void spawn(Location loc) {
         MinotaurZombie nmsZombie = new MinotaurZombie(loc);
@@ -73,13 +77,14 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         zombie.setCustomNameVisible(true);
         zombie.setAdult();
         zombie.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE));
-        damageStand = zombie.getWorld().spawn(loc.add(0,0.15,0), ArmorStand.class, s ->{
+        damageStand = zombie.getWorld().spawn(loc.add(0, 0.15, 0), ArmorStand.class, s -> {
             s.setGravity(false);
             s.setInvisible(true);
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
             s.addScoreboardTag("remove");
         });
+        updateTag();
         new PlayerDisguise(zombie, texture, signature);
         SkyblockEntity.livingEntity.addEntity(zombie, this);
         new EntityRunnable() {
@@ -95,7 +100,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             public void run() {
                 new ThrowingAxe(perk.getPlayer().getLocation().toVector().subtract(getEntity().getLocation().toVector()));
             }
-        }.runTaskTimer(this,30, 30);
+        }.runTaskTimer(this, 30, 30);
 
         //Bleed Ability
         new EntityRunnable() {
@@ -114,6 +119,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             }
         }.runTaskTimer(this, 20, 20);
     }
+
     private void updateTag() {
         damageStand.setCustomName("§cBleed " + counter);
     }
@@ -157,14 +163,16 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
 
         @Override
         protected void initPathfinder() {
-            this.bP.a(0, new ChaseAndRunAwayPathFinder<>(Minotaur.this, this, EntityHuman.class, 5,1,1));
+            this.bP.a(0, new ChaseAndRunAwayPathFinder<>(Minotaur.this, this, EntityHuman.class, 5, 1, 1));
             this.bQ.a(2, new PathfinderGoalNearestAttackableTarget<>(this, EntityHuman.class, true));
         }
     }
+
     public class ThrowingAxe extends EntityRunnable {
         private static final double SPEED = 0.15;
         private final Vector dir;
         private final ArmorStand stand;
+
         public ThrowingAxe(Vector v) {
             dir = v.normalize().multiply(SPEED);
             stand = getEntity().getWorld().spawn(getEntity().getLocation(), ArmorStand.class, armorStand -> {
@@ -176,21 +184,23 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             });
             runTaskTimer(Minotaur.this, 0, 1);
         }
+
         int i = 0;
-        int lastHit= -10;
+        int lastHit = -10;
+
         @Override
         public void run() {
             i++;
             if (i == 20 * 5) cancel();
             if (lastHit - i <= -10) {
-                if (perk.getPlayer().getLocation().distance(stand.getEyeLocation()) <= 0.5) {
+                if (perk.getPlayer().getLocation().distance(stand.getEyeLocation().subtract(0, 0.5, 0)) <= 1.5) {
                     lastHit = i;
                     counter += 2;
                     Calculator calculator = new Calculator();
                     calculator.entityToPlayerDamage(Minotaur.this, perk.getPlayer());
                     calculator.damagePlayer(perk.getPlayer());
                     calculator.showDamageTag(perk.getPlayer());
-                } else System.out.println(perk.getPlayer().getLocation().distance(stand.getEyeLocation()));
+                }
             }
             stand.teleport(stand.getLocation().add(dir));
             double xPos = stand.getRightArmPose().getX();
@@ -203,6 +213,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             stand.remove();
         }
     }
+
     @EventHandler
     public void onDamage(SkyblockDamageEvent event) {
         if (event.isCancelled()) return;

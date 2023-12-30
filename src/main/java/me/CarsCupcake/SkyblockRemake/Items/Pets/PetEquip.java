@@ -33,6 +33,9 @@ public class PetEquip {
     }
 
     public void despawn() {
+        despawn(false);
+    }
+    public void despawn(boolean b) {
         player.setPetEquip(null);
         for (PetAbility petAbility : pet.getPetAbilities())
             petAbility.stop(player);
@@ -40,7 +43,7 @@ public class PetEquip {
         file.get().set(id + "." + "level", level);
         file.get().set(id + "." + "currxp", xp);
         file.get().set(id + ".id", pet.itemID);
-        file.get().set(id + ".equiped", false);
+        file.get().set(id + ".equiped", b);
         file.save(false);
     }
 
