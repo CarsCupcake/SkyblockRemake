@@ -55,6 +55,7 @@ public class SpawnEntityTAB implements TabCompleter {
             arguments.add("GAIA_CONSTRUCT");
             arguments.add("MINOS_CHAMPION");
             arguments.add("MINOS_INQUISITOR");
+            arguments.add("MINOTAUR");
         }
 
         if(args.length == 1) {

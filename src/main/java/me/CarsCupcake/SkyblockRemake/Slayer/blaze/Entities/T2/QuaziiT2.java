@@ -174,6 +174,7 @@ public class QuaziiT2 extends SkyblockEntity implements Demons, FinalDamageDesid
 		s.setInvisible(true);
 		s.setInvulnerable(true);
 		s.setCustomNameVisible(true);
+		s.addScoreboardTag("remove");
 	
 	});
 	startTimer();
@@ -185,14 +186,6 @@ public class QuaziiT2 extends SkyblockEntity implements Demons, FinalDamageDesid
 	public String getName() {
 		// TODO Auto-generated method stub
 		return name;
-	}
-
-
-
-	@Override
-	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
-
-		return null;
 	}
 
 	@Override

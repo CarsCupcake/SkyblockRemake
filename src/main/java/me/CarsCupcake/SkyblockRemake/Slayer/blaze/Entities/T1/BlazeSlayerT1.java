@@ -2,6 +2,8 @@ package me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T1;
 
 import java.util.Random;
 
+import lombok.Setter;
+import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.Location;
@@ -20,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlazeSlayerT1 extends Slayer {
     private LivingEntity entity;
+    @Setter
     public SkyblockPlayer owner;
     private BukkitRunnable run;
     private int ticks = 0;
@@ -60,11 +63,6 @@ public class BlazeSlayerT1 extends Slayer {
 
 
     @Override
-    public int getDamage() {
-        return 0;
-    }
-
-    @Override
     public void spawn(@NotNull Location loc) {
         entity = loc.getWorld().spawn(loc, Blaze.class, blaze -> {
             blaze.setCustomNameVisible(true);
@@ -81,16 +79,12 @@ public class BlazeSlayerT1 extends Slayer {
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
             s.setCustomName("§c" + shortInteger(time));
+            s.addScoreboardTag("remove");
         });
         timeTag();
         Main.updateentitystats(entity);
 
     }
-
-    public void setOwner(SkyblockPlayer player) {
-        owner = player;
-    }
-
 
     @Override
     public String getName() {
@@ -133,7 +127,6 @@ public class BlazeSlayerT1 extends Slayer {
         run.cancel();
         stand.remove();
         aoeRunner.cancel();
-
     }
 
     private void timeTag() {
@@ -297,6 +290,7 @@ public class BlazeSlayerT1 extends Slayer {
     }
 
     private void summounBlazeSlayerBack(SkyblockEntity e) {
+        if (!demonsplitHasActivated) return;
         isInvincible = false;
         Location loc = e.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 1, 0, null);
@@ -373,7 +367,7 @@ public class BlazeSlayerT1 extends Slayer {
     @Override
     public void damage(double damage, SkyblockPlayer player) {
         if (isInvincible) return;
-        health -= damage;
+        health -= (int) damage;
         if (health > 0) demonsplit();
 
     }
@@ -402,13 +396,13 @@ public class BlazeSlayerT1 extends Slayer {
                 if (Main.absorbtion.get(owner) - totaldmg < 0) {
                     float restdamage = (float) totaldmg - (float) Main.absorbtion.get(owner);
                     Main.absorbtion.replace(owner, 0);
-                    owner.setHealth(owner.currhealth - (int) restdamage);
+                    owner.setHealth(owner.currhealth - (int) restdamage, HealthChangeReason.Damage);
                 } else {
                     Main.absorbtion.replace(owner, Main.absorbtion.get(owner) - totaldmg);
                 }
 
                 if (owner.currhealth <= 0) {
-                    owner.setHealth(0);
+                    owner.setHealth(0, HealthChangeReason.Damage);
 
                 }
                 Main.updatebar(owner);

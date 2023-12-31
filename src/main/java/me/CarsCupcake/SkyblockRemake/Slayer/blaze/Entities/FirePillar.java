@@ -148,7 +148,7 @@ public class FirePillar {
                 if(seconds == 0){
                     cancel();
                     player.setHealth(0, HealthChangeReason.Ability);
-                    setRemoved();
+                    remove();
                     if(entity instanceof PillarThrower thrower)
                         thrower.setPillarExploded();
                     return;
@@ -160,7 +160,7 @@ public class FirePillar {
         }.runTaskTimer(Main.getMain(), 20, 20);
     }
 
-    public void setRemoved(){
+    public void remove(){
         isRemoved = true;
         timer.remove();
         for (Bundle<Block, Material> blockData : blocks){
@@ -171,7 +171,7 @@ public class FirePillar {
     public void hit(){
         hits--;
         if(hits == 0) {
-            setRemoved();
+            remove();
             if(entity instanceof PillarThrower thrower)
                 thrower.setPillarDestroied();
         }
@@ -179,7 +179,7 @@ public class FirePillar {
             timer.setCustomName("§e§l"+seconds+"s §c§l" + hits + " Hits");
     }
 
-    public interface PillarThrower{
+    public interface PillarThrower {
         void setPillarDestroied();
         void setPillarExploded();
     }

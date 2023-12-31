@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.utils.Pair;
 import me.CarsCupcake.SkyblockRemake.utils.ai.ChaseAndRunAwayPathFinder;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.goal.target.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.world.entity.monster.EntityZombie;
 import net.minecraft.world.entity.player.EntityHuman;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
@@ -98,7 +100,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         new EntityRunnable() {
             @Override
             public void run() {
-                new ThrowingAxe(perk.getPlayer().getLocation().toVector().subtract(getEntity().getLocation().toVector()));
+                new ThrowingAxe(((perk == null) ? SkyblockPlayer.getSkyblockPlayer(Bukkit.getOnlinePlayers().stream().toList().get(0)) : perk.getPlayer()).getLocation().toVector().subtract(getEntity().getLocation().toVector()));
             }
         }.runTaskTimer(this, 30, 30);
 
@@ -107,6 +109,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             @Override
             public void run() {
                 if (new Date().getTime() - lastHit.getTime() >= 5000) {
+                    System.out.println(new Date().getTime() - lastHit.getTime());
                     counter = 0;
                     updateTag();
                 }
@@ -152,7 +155,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
 
     @Override
     public boolean check() {
-        return counter >= 27;
+        return counter < 27;
     }
 
     public class MinotaurZombie extends EntityZombie {
@@ -172,8 +175,10 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         private static final double SPEED = 0.15;
         private final Vector dir;
         private final ArmorStand stand;
+        private final SkyblockPlayer player;
 
         public ThrowingAxe(Vector v) {
+            this.player = ((perk == null) ? SkyblockPlayer.getSkyblockPlayer(Bukkit.getOnlinePlayers().stream().toList().get(0)) : perk.getPlayer());
             dir = v.normalize().multiply(SPEED);
             stand = getEntity().getWorld().spawn(getEntity().getLocation(), ArmorStand.class, armorStand -> {
                 armorStand.setInvisible(true);
@@ -193,7 +198,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
             i++;
             if (i == 20 * 5) cancel();
             if (lastHit - i <= -10) {
-                if (perk.getPlayer().getLocation().distance(stand.getEyeLocation().subtract(0, 0.5, 0)) <= 1.5) {
+                if (player.getLocation().distance(stand.getEyeLocation().subtract(0, 0.5, 0)) <= 1.5) {
                     lastHit = i;
                     counter += 2;
                     Calculator calculator = new Calculator();

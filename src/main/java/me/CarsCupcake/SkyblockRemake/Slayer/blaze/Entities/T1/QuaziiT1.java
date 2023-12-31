@@ -167,6 +167,7 @@ public class QuaziiT1 extends SkyblockEntity implements Demons {
 		s.setInvisible(true);
 		s.setInvulnerable(true);
 		s.setCustomNameVisible(true);
+		s.addScoreboardTag("remove");
 	
 	});
 	startTimer();
@@ -178,14 +179,6 @@ public class QuaziiT1 extends SkyblockEntity implements Demons {
 	public String getName() {
 		// TODO Auto-generated method stub
 		return name;
-	}
-
-
-
-	@Override
-	public HashMap<ItemManager,Integer> getGarantuedDrops(SkyblockPlayer player) {
-
-		return null;
 	}
 
 	@Override

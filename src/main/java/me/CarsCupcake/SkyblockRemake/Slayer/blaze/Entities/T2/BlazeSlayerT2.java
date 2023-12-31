@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T2;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
@@ -23,6 +24,7 @@ import java.util.Random;
 
 public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePillar.PillarThrower {
 	private LivingEntity entity;
+	@Setter
 	public SkyblockPlayer owner;
 	private BukkitRunnable run;
 	private int ticks = 0;
@@ -45,6 +47,7 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 	private BukkitRunnable aoeRunner;
 	private HellionShield shield = HellionShield.Ashen;
 	private int hits = 8;
+	private FirePillar pillar;
 	public BlazeSlayerT2(SkyblockPlayer player) {
 		super(player);
 	}
@@ -86,13 +89,11 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 			s.setInvulnerable(true);
 			s.setCustomNameVisible(true);
 			s.setCustomName(shield.getName() +" "+ hits +" §c" +shortInteger(time));
+			s.addScoreboardTag("remove");
 		});
 		timeTag();
 		Main.updateentitystats(entity);
 		
-	}
-	public void setOwner(SkyblockPlayer player) {
-		owner = player;
 	}
 
 
@@ -156,7 +157,7 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 		run.cancel();
 		stand.remove();
 		aoeRunner.cancel();
-		
+		if (pillar != null) pillar.remove();
 	}
 	
 	private void timeTag() {
@@ -331,6 +332,7 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 	}
 	
 	private void summounBlazeSlayerBack(SkyblockEntity e) {
+		if (!demonsplitHasActivated) return;
 		isInvincible = false;
 		Location loc = e.getEntity().getLocation();
 		loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 1, 0, null);
@@ -358,7 +360,7 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 			public void run() {
 				if(entity == null || entity.isDead())
 					return;
-				new FirePillar(BlazeSlayerT2.this, owner);
+				pillar = new FirePillar(BlazeSlayerT2.this, owner);
 			}
 		}.runTaskLater(Main.getMain(), 60);
 	}
@@ -524,18 +526,20 @@ public class BlazeSlayerT2 extends Slayer implements FinalDamageDesider, FirePil
 
 	@Override
 	public void setPillarDestroied() {
+		this.pillar = null;
 		new BukkitRunnable() {
 			@Override
 			public void run() {
 				if(entity == null || entity.isDead())
 					return;
-				new FirePillar(BlazeSlayerT2.this, owner);
+				pillar = new FirePillar(BlazeSlayerT2.this, owner);
 			}
 		}.runTaskLater(Main.getMain(), 200);
 	}
 
 	@Override
 	public void setPillarExploded() {
+		pillar = null;
 		kill();
 		entity.remove();
 		owner.sendMessage("§cYou failed!");

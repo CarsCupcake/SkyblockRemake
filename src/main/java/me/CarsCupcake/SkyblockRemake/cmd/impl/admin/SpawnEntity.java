@@ -5,6 +5,7 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.GaiaConstruct;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosChampion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosInquisitor;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.Minotaur;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.Entitys.*;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.MastermodeNecron;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Necron;
@@ -180,6 +181,10 @@ public class SpawnEntity implements CommandExecutor {
                 }
                 case "MINOS_INQUISITOR" -> {
                     MinosInquisitor walker = new MinosInquisitor(null);
+                    walker.spawn(((Player)commandSender).getLocation());
+                }
+                case "MINOTAUR" -> {
+                    Minotaur walker = new Minotaur( ItemRarity.LEGENDARY,null);
                     walker.spawn(((Player)commandSender).getLocation());
                 }
 

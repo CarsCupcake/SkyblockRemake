@@ -117,6 +117,7 @@ public class TyphoesT1 extends SkyblockEntity implements Demons {
             s.setInvisible(true);
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
+            s.addScoreboardTag("remove");
 
         });
         startTimer();

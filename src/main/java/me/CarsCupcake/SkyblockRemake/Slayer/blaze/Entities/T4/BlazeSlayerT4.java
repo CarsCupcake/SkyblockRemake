@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.T4;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.HellionShield;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -22,6 +23,7 @@ import java.util.Random;
 
 public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePillar.PillarThrower, FirePits.FirePitExecuter {
     private LivingEntity entity;
+    @Setter
     public SkyblockPlayer owner;
     private BukkitRunnable run;
     private int ticks = 0;
@@ -47,6 +49,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
     private FirePits firePit;
     private HellionShield shield = HellionShield.Ashen;
     private int hits = 8;
+    private FirePillar pillar;
 
     public BlazeSlayerT4(SkyblockPlayer player) {
         super(player);
@@ -89,14 +92,11 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
             s.setCustomName(shield.getName() + " " + hits + " §c" + shortInteger(time));
+            s.addScoreboardTag("remove");
         });
         timeTag();
         Main.updateentitystats(entity);
 
-    }
-
-    public void setOwner(SkyblockPlayer player) {
-        owner = player;
     }
 
 
@@ -142,7 +142,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
         stand.remove();
         aoeRunner.cancel();
         if (firePit != null) firePit.remove();
-
+        if (pillar != null) pillar.remove();
     }
 
     private void timeTag() {
@@ -310,6 +310,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
     }
 
     private void summounBlazeSlayerBack(SkyblockEntity e) {
+        if (!demonsplitHasActivated) return;
         isInvincible = false;
         Location loc = e.getEntity().getLocation();
         loc.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, loc, 0, 0, 0, 1, 0, null);
@@ -328,6 +329,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
             s.setInvulnerable(true);
             s.setCustomNameVisible(true);
             s.setCustomName(shield.getName() + " " + hits + " §c" + shortInteger(time));
+            s.addScoreboardTag("remove");
         });
         Main.updateentitystats(entity);
         demonsplitHasActivated = false;
@@ -340,8 +342,11 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (entity == null || entity.isDead()) return;
-                    new FirePillar(BlazeSlayerT4.this, owner);
+                    if (entity == null || entity.isDead()) {
+                        cancel();
+                        return;
+                    }
+                    pillar = new FirePillar(BlazeSlayerT4.this, owner);
                 }
             }.runTaskLater(Main.getMain(), 60);
         }
@@ -408,7 +413,7 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
                     @Override
                     public void run() {
                         if (entity == null || entity.isDead()) return;
-                        new FirePillar(BlazeSlayerT4.this, owner);
+                        pillar = new FirePillar(BlazeSlayerT4.this, owner);
                     }
                 }.runTaskLater(Main.getMain(), 60);
             }
@@ -509,17 +514,19 @@ public class BlazeSlayerT4 extends Slayer implements FinalDamageDesider, FirePil
 
     @Override
     public void setPillarDestroied() {
+        pillar = null;
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (entity == null || entity.isDead()) return;
-                new FirePillar(BlazeSlayerT4.this, owner);
+                pillar = new FirePillar(BlazeSlayerT4.this, owner);
             }
         }.runTaskLater(Main.getMain(), 200);
     }
 
     @Override
     public void setPillarExploded() {
+        pillar = null;
         kill();
         entity.remove();
         owner.sendMessage("§cYou failed!");
