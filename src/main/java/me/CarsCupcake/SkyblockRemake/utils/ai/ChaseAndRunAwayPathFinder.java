@@ -15,6 +15,10 @@ import java.util.EnumSet;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+/**
+ * Ussage: add this in the 0th pathfinder slot
+ * @param <T> the target group of entities
+ */
 public class ChaseAndRunAwayPathFinder<T extends EntityLiving> extends PathfinderGoal {
 
 
@@ -30,7 +34,6 @@ public class ChaseAndRunAwayPathFinder<T extends EntityLiving> extends Pathfinde
     protected final Predicate<EntityLiving> g;
     protected final Predicate<EntityLiving> h;
     private final PathfinderTargetCondition k;
-
 
     public ChaseAndRunAwayPathFinder(@NotNull("Status not allowed to be null!") Status q, EntityCreature var0, Class<T> var1, float var2, double var3, double var5) {
         this(Objects.requireNonNull(q),var0, var1, (var0x) -> true, var2, var3, var5, IEntitySelector.e::test);

@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.EntityHuman;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
@@ -40,6 +41,11 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
     Date lastHit = new Date();
 
     public Minotaur(ItemRarity rarity, MythologicalPerk perk) {
+        if (rarity == null && perk == null) {
+            this.perk = null;
+            this.damage = 0;
+            return;
+        }
         switch (rarity) {
             case RARE, EPIC -> {
                 maxHealth = 625_000;
@@ -79,6 +85,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         zombie.setCustomNameVisible(true);
         zombie.setAdult();
         zombie.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_AXE));
+        zombie.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.25);
         damageStand = zombie.getWorld().spawn(loc.add(0, 0.15, 0), ArmorStand.class, s -> {
             s.setGravity(false);
             s.setInvisible(true);
@@ -108,16 +115,18 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         new EntityRunnable() {
             @Override
             public void run() {
-                if (new Date().getTime() - lastHit.getTime() >= 5000) {
-                    System.out.println(new Date().getTime() - lastHit.getTime());
+                if (new Date().getTime() - lastHit.getTime() >= 5001) {
                     counter = 0;
+                    lastHit = new Date();
                     updateTag();
                 }
                 if (counter != 0) {
+                    SkyblockPlayer target = (perk == null) ? SkyblockPlayer.getSkyblockPlayer(Bukkit.getOnlinePlayers().stream().toList().get(0)) : perk.getPlayer();
                     Calculator calculator = new Calculator();
-                    calculator.entityToPlayerDamage(Minotaur.this, perk.getPlayer(), new Pair<>(counter * 75, 0));
-                    calculator.damagePlayer(perk.getPlayer());
-                    calculator.showDamageTag(perk.getPlayer());
+                    calculator.getTags().add("bleed");
+                    calculator.entityToPlayerDamage(Minotaur.this, target, new Pair<>(counter * 75, 0));
+                    calculator.damagePlayer(target);
+                    calculator.showDamageTag(target);
                 }
             }
         }.runTaskTimer(this, 20, 20);
@@ -146,6 +155,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
     public void kill() {
         super.kill();
         if (perk != null) perk.kill(this);
+        damageStand.remove();
     }
 
     @Override
@@ -166,8 +176,8 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
 
         @Override
         protected void initPathfinder() {
+            super.initPathfinder();
             this.bP.a(0, new ChaseAndRunAwayPathFinder<>(Minotaur.this, this, EntityHuman.class, 5, 1, 1));
-            this.bQ.a(2, new PathfinderGoalNearestAttackableTarget<>(this, EntityHuman.class, true));
         }
     }
 
@@ -202,9 +212,9 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
                     lastHit = i;
                     counter += 2;
                     Calculator calculator = new Calculator();
-                    calculator.entityToPlayerDamage(Minotaur.this, perk.getPlayer());
-                    calculator.damagePlayer(perk.getPlayer());
-                    calculator.showDamageTag(perk.getPlayer());
+                    calculator.entityToPlayerDamage(Minotaur.this, player);
+                    calculator.damagePlayer(player);
+                    calculator.showDamageTag(player);
                 }
             }
             stand.teleport(stand.getLocation().add(dir));
@@ -224,8 +234,9 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
         if (event.isCancelled()) return;
         if (event.getType() != SkyblockDamageEvent.DamageType.EntityToPlayer) return;
         if (!(event.getCalculator().getSkyblockEntity() instanceof Minotaur minotaur)) return;
+        if (event.getCalculator().getTags().contains("bleed")) return;
         minotaur.counter++;
-        updateTag();
-        lastHit = new Date();
+        minotaur.updateTag();
+        minotaur.lastHit = new Date();
     }
 }

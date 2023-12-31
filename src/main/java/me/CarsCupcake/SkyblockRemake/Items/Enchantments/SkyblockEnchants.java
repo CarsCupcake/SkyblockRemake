@@ -163,8 +163,6 @@ public class SkyblockEnchants {
         } catch (Exception e) {
             System.out.println("Something went wrong while unregistering the enchant: " + enchantment.getKey().getKey());
             e.printStackTrace(System.err);
-            return;
         }
-        System.out.println("Succesfully removed " + enchantment.getKey().getKey());
     }
 }

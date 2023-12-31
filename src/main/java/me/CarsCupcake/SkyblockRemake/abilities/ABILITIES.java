@@ -21,6 +21,7 @@ import me.CarsCupcake.SkyblockRemake.Items.minions.implementations.mining.Cobble
 import me.CarsCupcake.SkyblockRemake.Items.trading.TradeMenuListener;
 import me.CarsCupcake.SkyblockRemake.NPC.disguise.PlayerDisguise;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosChampion;
+import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.Minotaur;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.AvadaKedavra;
 import me.CarsCupcake.SkyblockRemake.abilities.WandSpells.BasicSpell;
@@ -135,6 +136,7 @@ public class ABILITIES implements Listener {
         registerEvent(new BatSecret.EventListener());
         registerEvent(new MinosChampion(ItemRarity.COMMON, null));
         registerEvent(new GriffinListener());
+        registerEvent(new Minotaur(null, null));
 
         //Minions
         IMinionData.registerMinion(new CobblestoneMinionData());
