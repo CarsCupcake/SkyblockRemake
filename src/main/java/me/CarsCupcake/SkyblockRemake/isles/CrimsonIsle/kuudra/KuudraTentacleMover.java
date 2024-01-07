@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class KuudraTentacleMover {
     private static final int maxIterations = 50;
     private static final double minDist = 1d;
+    // Creddit: https://www.youtube.com/watch?v=PGk0rnyTa1U
     public static List<Location> calculateTentaclePositions(List<Location> locs, Vector tipNew) {
         List<Vector> vecs = locs.stream().map(Location::toVector).collect(Collectors.toList());
         Vector origin = vecs.get(0);
