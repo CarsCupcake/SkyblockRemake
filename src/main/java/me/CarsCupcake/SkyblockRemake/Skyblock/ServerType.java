@@ -11,7 +11,7 @@ public enum ServerType {
     Non("", 0, Bukkit.getWorlds().get(0).getSpawnLocation(), "non"),
     DwarvenMines("dwarven", 25564, new Location(Bukkit.getServer().getWorld("world"), -48.5, 200, -121.5, 270, 0), "mines"),
     CrimsonIsle("crimsonisle", 25568, new Location(Bukkit.getServer().getWorld("world_nether"), -360.5, 80, -426.5, 180, 0), "nether"),
-    TheInstance("kuudra", 25569, new Location(Bukkit.getServer().getWorld("world"), -101.5, 41, -185.5, 0, 0), "kuudra"),
+    TheInstance("kuudra", 25569, new Location(Bukkit.getServer().getWorld("world"), -101.5, 79.25, -187.5, 0, 0), "kuudra"),
     DungeonHub("dh", 25570, new Location(Bukkit.getServer().getWorld("world"), -29.5, 121, 0.5, 90, 0), "dungeon_hub"),
     F1("f1", 25567, new Location(Bukkit.getServer().getWorld("world"), -42.5, 71.5, 42.5, 180, 0), "f1"),
     F7("f7", 25567, new Location(Bukkit.getServer().getWorld("world"), -73.5, 221.5, -15.5, 0, 0), "f7"),

@@ -132,8 +132,7 @@ public enum Stats {
         throw new IndexOutOfBoundsException("There is no stat with the id: " + data);
     }
 
-    public static void makeItemStatsLore(ItemStack item, ArrayList<String> lore, SkyblockPlayer player) {
-        ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, PersistentDataType.STRING));
+    public static void makeItemStatsLore(ItemStack item, ItemManager manager,ArrayList<String> lore, SkyblockPlayer player) {
         ItemRarity rarity = manager.getRarity(item, player);
         CountMap<Stats> gemstoneSlots = new CountMap<>();
 

@@ -1167,7 +1167,10 @@ public class Main extends JavaPlugin {
             ItemManager manager = Items.SkyblockItems.get(data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING));
             if (manager == null) {
                 manager = ItemManager.getPrimitive(item.getType());
+                ItemHandler.setPDC("id", item, PersistentDataType.STRING, manager.itemID);
+                meta = item.getItemMeta();
             }
+            if (manager == null) return item;
             if (manager.getFlags().contains(me.CarsCupcake.SkyblockRemake.Items.ItemFlag.SPECIAL_MATERIAL_GRABBER)) {
                 if (manager.getMaterialGrabber() != null)
                     item.setType(manager.getMaterialGrabber().getMaterial(item, player));
@@ -1197,7 +1200,7 @@ public class Main extends JavaPlugin {
                     lores.add("§8Lava Rod");
                 }
             }
-            Stats.makeItemStatsLore(item, lores, player);
+            Stats.makeItemStatsLore(item, manager, lores, player);
             if (manager.isShortbow())
                 lores.add("§7Shot Cooldown: §a" + ((double) manager.getShorbowCooldown(((player != null) ? getPlayerStat(player, Stats.AttackSpeed) : 0)) / 20d) + "s");
 
