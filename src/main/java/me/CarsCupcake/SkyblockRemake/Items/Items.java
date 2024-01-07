@@ -1909,8 +1909,6 @@ public class Items {
     }
 
     public static ItemStack terminator() {
-
-
         ItemManager manager = new ItemManager("Terminator", "terminator", ItemType.Bow, Material.BOW, ItemRarity.LEGENDARY);
         manager.setDamage(310);
         manager.setStat(Stats.Strength, 50);
@@ -1921,7 +1919,7 @@ public class Items {
         manager.setOnBowShoot(event -> event.getEntity().addScoreboardTag("term"));
         manager.setMaxStars(5);
         manager.setDungenoizanble(true);
-        manager.addAbility(new LaserBeam(), AbilityType.RightClick, "Salvation", new AbilityLore(List.of(
+        manager.addAbility(new LaserBeam(), AbilityType.LeftClick, "Salvation", new AbilityLore(List.of(
                 "§7Can be casted after landing §63 §7hits.",
                 "§7Shoot a beam, penetrating up",
                 "§7to §e5 §7foes and deling §c2x",

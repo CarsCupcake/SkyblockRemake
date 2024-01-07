@@ -1165,7 +1165,9 @@ public class Main extends JavaPlugin {
 
         if (data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING) != null) {
             ItemManager manager = Items.SkyblockItems.get(data.get(new NamespacedKey(main, "id"), PersistentDataType.STRING));
-            if (manager == null) return item;
+            if (manager == null) {
+                manager = ItemManager.getPrimitive(item.getType());
+            }
             if (manager.getFlags().contains(me.CarsCupcake.SkyblockRemake.Items.ItemFlag.SPECIAL_MATERIAL_GRABBER)) {
                 if (manager.getMaterialGrabber() != null)
                     item.setType(manager.getMaterialGrabber().getMaterial(item, player));

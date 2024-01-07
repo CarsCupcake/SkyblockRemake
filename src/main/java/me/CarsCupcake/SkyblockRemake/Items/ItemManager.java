@@ -785,6 +785,9 @@ public class ItemManager implements ItemGenerator {
     public int getSellPrice() {
         return npcSellPrice;
     }
+    public static ItemManager getPrimitive(Material material) {
+        return Items.SkyblockItems.get(material.toString());
+    }
 
     public static interface MaterialGrabber {
         Material getMaterial(ItemStack item, SkyblockPlayer player);

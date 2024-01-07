@@ -20,7 +20,7 @@ public class ItemHandler {
         @NotNull
         @Override
         public Class<Byte> getPrimitiveType() {
-            return Byte.TYPE;
+            return Byte.class;
         }
 
         @NotNull
@@ -32,7 +32,7 @@ public class ItemHandler {
         @NotNull
         @Override
         public Byte toPrimitive(@NotNull Boolean aBoolean, @NotNull PersistentDataAdapterContext persistentDataAdapterContext) {
-            return (byte)((aBoolean) ? 1 : 0);
+            return (byte) ((aBoolean) ? 1 : 0);
         }
 
         @NotNull
