@@ -1,15 +1,12 @@
 package me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.kuudra;
 
-import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashSet;
@@ -26,6 +23,10 @@ public class TentacleAI {
             @Override
             public void run() {
                 SkyblockPlayer player = KuudraBossfight.bossfight.getAlive().get(new Random().nextInt(KuudraBossfight.bossfight.getAlive().size()));
+                if (tentacle.getAnimations() != TentacleAnimations.Idle) {
+                    launchNewAttack();
+                    return;
+                }
                 launchAttackAtTarget(player.getLocation(), true);
             }
         }.runTaskLater(tentacle, 400 + new Random().nextInt(400));
@@ -65,10 +66,6 @@ public class TentacleAI {
                     l.setY(78);
                     Set<SkyblockPlayer> possibleAllives = new HashSet<>(KuudraBossfight.bossfight.getAlive());
                     for (int i = 0; i <= 54; i++) {
-                        if (tentacle.getAnimations() != TentacleAnimations.Idle) {
-                            launchNewAttack();
-                            return;
-                        }
                         l.add(v);
                         for (SkyblockPlayer player : new HashSet<>(possibleAllives)) {
                             if (player.getLocation().distance(l) <= 3d) {
