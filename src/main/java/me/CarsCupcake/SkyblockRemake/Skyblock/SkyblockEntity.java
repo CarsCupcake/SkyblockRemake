@@ -12,6 +12,7 @@ import me.CarsCupcake.SkyblockRemake.elements.Elementable;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.loot.LootTable;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.SequencedRunnable;
 import org.bukkit.Location;
 import org.bukkit.entity.EnderDragon;
 import org.bukkit.entity.Entity;
@@ -30,6 +31,8 @@ public abstract class SkyblockEntity implements Elementable {
     protected static final HashMap<Entity, StandCoreExtention> coreExtentions = new HashMap<>();
     protected int health;
     protected final Set<StandCoreExtention> extentions = new HashSet<>();
+    @Getter
+    protected final Set<SequencedRunnable> sequencedRunnables = new HashSet<>();
 
     public SkyblockEntity() {
         health = getMaxHealth();
@@ -80,6 +83,7 @@ public abstract class SkyblockEntity implements Elementable {
         hasDoneDeath = true;
         EntityRunnable.remove(this);
         removeExtention();
+        sequencedRunnables.forEach(SequencedRunnable::setCancelled);
     }
 
     public void damage(double damage, SkyblockPlayer player) {

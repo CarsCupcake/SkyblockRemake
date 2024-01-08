@@ -1,7 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.kuudra.entitys;
 
-import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
-import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.kuudra.KuudraEntity;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import org.bukkit.Color;
@@ -14,9 +12,20 @@ import java.util.HashMap;
 
 public class KuudraFollower extends KuudraEntity {
     private LivingEntity entity;
+
+    public KuudraFollower(int tier) {
+        super(tier);
+    }
+
     @Override
     public int getMaxHealth() {
-        return 12_500_000;
+        return switch (tier) {
+            case  2 -> 6_500_000;
+            case  3 -> 8_500_000;
+            case  4 -> 10_000_000;
+            case  5 -> 12_500_000;
+            default -> 4_200_000;
+        };
     }
 
     @Override
@@ -26,7 +35,13 @@ public class KuudraFollower extends KuudraEntity {
 
     @Override
     public int getDamage() {
-        return 9000;
+        return switch (tier) {
+            case  2 -> 5_000;
+            case  3 -> 5_800;
+            case  4 -> 7_000;
+            case  5 -> 9_000;
+            default -> 4_000;
+        };
     }
 
     @Override
@@ -47,11 +62,6 @@ public class KuudraFollower extends KuudraEntity {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public void updateNameTag() {
         entity.setCustomName(getBaseName(this));
     }
@@ -62,12 +72,7 @@ public class KuudraFollower extends KuudraEntity {
     }
 
     @Override
-    public int getTrueDamage() {
-        return 0;
-    }
-
-    @Override
     public int getTokens() {
-        return 0;
+        return 4;
     }
 }

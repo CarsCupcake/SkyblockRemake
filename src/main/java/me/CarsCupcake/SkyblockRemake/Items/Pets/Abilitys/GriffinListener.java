@@ -25,6 +25,7 @@ public class GriffinListener implements Listener {
     @EventHandler
     public void onDamageEvent(SkyblockDamageEvent event) {
         if (event.getType() != SkyblockDamageEvent.DamageType.EntityToPlayer && event.getType() != SkyblockDamageEvent.DamageType.PlayerSelve) return;
+        if (event.getPlayer().getPetEquip() == null) return;
         if (event.getPlayer().getPetEquip().getPet() == null) return;
         if (!event.getPlayer().getPetEquip().getPet().itemID.startsWith("GRIFFIN;")) return;
         if (event.getPlayer().getPetEquip().getPet().getRarity() != ItemRarity.EPIC && event.getPlayer().getPetEquip().getPet().getRarity() != ItemRarity.LEGENDARY) return;

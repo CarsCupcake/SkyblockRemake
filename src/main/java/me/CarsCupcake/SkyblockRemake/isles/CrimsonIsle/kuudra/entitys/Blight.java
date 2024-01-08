@@ -18,9 +18,20 @@ public class Blight extends KuudraEntity implements FinalDamageDesider {
     private static final Color green = Color.fromBGR(0x268105);
     private LivingEntity entity;
     private int stage = 0;
+
+    public Blight(int tier) {
+        super(tier);
+    }
+
     @Override
     public int getMaxHealth() {
-        return 9_000_000;
+        return switch (tier) {
+            case  2 -> 4_500_000;
+            case  3 -> 5_500_000;
+            case  4 -> 7_000_000;
+            case  5 -> 9_000_000;
+            default -> 4_000_000;
+        };
     }
 
     @Override
@@ -30,7 +41,13 @@ public class Blight extends KuudraEntity implements FinalDamageDesider {
 
     @Override
     public int getDamage() {
-        return 10_000;
+        return switch (tier) {
+            case  2 -> 6_000;
+            case  3 -> 7_000;
+            case  4 -> 8_000;
+            case  5 -> 10_000;
+            default -> 4_500;
+        };
     }
 
     @Override
@@ -66,11 +83,6 @@ public class Blight extends KuudraEntity implements FinalDamageDesider {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public void updateNameTag() {
         entity.setCustomName(getBaseName(this));
     }
@@ -78,11 +90,6 @@ public class Blight extends KuudraEntity implements FinalDamageDesider {
     @Override
     public boolean hasNoKB() {
         return false;
-    }
-
-    @Override
-    public int getTrueDamage() {
-        return 0;
     }
 
     @Override

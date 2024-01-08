@@ -1,5 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.kuudra;
 
+import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
+import me.CarsCupcake.SkyblockRemake.utils.math.Line;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
@@ -39,11 +41,26 @@ public class KuudraTentacleMover {
         return vecs.stream().map(vector -> vector.toLocation(locs.get(0).getWorld())).toList();
     }
     public static void moveTentacle(KuudraTentacle tentacle, Location target) {
-        List<Location> locs = calculateTentaclePositions(tentacle.getEntities().stream().map(Entity::getLocation).toList(), target.toVector());
+        List<Location> locs = calculateTentaclePositions(tentacle.getImaginaryLocation(), target.toVector());
         int i = 0;
-        for (Location location : locs) {
-            tentacle.getEntities().get(i).teleport(location);
-            i++;
+        Line l = new Line(tentacle.getEntity().getLocation().toVector(), target.toVector().subtract(tentacle.getEntity().getLocation().toVector()));
+        try {
+            for (Location location : locs) {
+                tentacle.getImaginaryLocation().set(i, location);
+                if (tentacle.mirroredPoints) {
+                    Vector point = l.getNearestPoint(location.toVector());
+                    Vector dir = point.clone().subtract(location.toVector());
+                    location = point.toLocation(location.getWorld());
+                    location.add(dir);
+                }
+                tentacle.getEntities().get(i).teleport(location);
+                i++;
+            }
+        } catch (Exception e) {
+            //Reset Tentakles
+            System.out.println("Tentakle Animation Error! Reseting");
+            SkyblockEntity.killEntity(tentacle, null);
+            KuudraBossfight.bossfight.spawnTentacle(tentacle.getEntity().getLocation());
         }
     }
 }

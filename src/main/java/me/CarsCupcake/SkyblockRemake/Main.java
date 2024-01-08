@@ -100,8 +100,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingListener;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneGrinder;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneSlot;
-import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.CanonObject;
-import me.CarsCupcake.SkyblockRemake.isles.KuudraBossFight.Tentacles;
+import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.kuudra.CanonObject;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuListener;
@@ -383,6 +382,7 @@ public class Main extends JavaPlugin {
             }
             return false;
         });
+        getCommand("tentakleattack").setExecutor(new TentakleAttackCommand());
 
 
         debug.debug("Registering Events", false);
@@ -702,12 +702,6 @@ public class Main extends JavaPlugin {
         if (!dinnerboneNametags.isEmpty()) dinnerboneNametags.values().forEach(Entity::remove);
         CanonObject.removeAll();
         ABILITIES.disable();
-        try {
-
-            Tentacles.removeAllTentakle();
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
     }
 
     public void ArmorStandTeleportation() {

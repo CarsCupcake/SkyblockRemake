@@ -25,10 +25,12 @@ public record ItemLoot(ItemManager manager, int min, int max) implements Loot{
     @Override
     public void consume(SkyblockPlayer killer, Location dropLocation, boolean toPlayer) {
         int amount = ((max - min == 0) ? 0 : new Random().nextInt(max - min)) + min;
+        if (amount == 0) return;
         ItemStack item = manager.createNewItemStack();
         if (item.getType() == Material.AIR) return;
         item.setAmount(amount);
         Main.itemUpdater(item, killer);
+        if (item.getType() == Material.AIR) return;
         if(toPlayer && killer != null) {
             killer.addItem(item, true);
         } else dropLocation.getWorld().dropItemNaturally(dropLocation, item);
