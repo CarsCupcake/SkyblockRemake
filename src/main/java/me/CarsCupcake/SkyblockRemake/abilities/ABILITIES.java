@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.*;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Abilitys.GriffinListener;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
@@ -37,9 +38,6 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.LeverSecre
 import me.CarsCupcake.SkyblockRemake.isles.End.Dragon.DragonAi.Loot;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.MagicFind;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.ManaPool;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.Blocks.Cobblestone;
@@ -112,8 +110,15 @@ public class ABILITIES implements Listener {
             registerEvent(new ArrowPointing(null, -1));
             registerEvent(new FallDownArmorstand(null, null));
         }
-        Attribute.registerAttribute(new ManaPool(null, 0, null));
-        Attribute.registerAttribute(new MagicFind(null, 0, null));
+        Attribute.registerAttribute(new ManaPool());
+        Attribute.registerAttribute(new MagicFind());
+        Attribute.registerAttribute(new AttackSpeed());
+        Attribute.registerAttribute(new FishingSpeed());
+        Attribute.registerAttribute(new Fortitude());
+        Attribute.registerAttribute(new Hunter());
+        Attribute.registerAttribute(new LifeRegeneration());
+        Attribute.registerAttribute(new Speed());
+        Attribute.registerAttribute(new Vitality());
         Effect.init();
         new PotionItems();
         registerEvent(new PotionListener());

@@ -1,7 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Items.Attributes;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
-import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import org.bukkit.event.EventHandler;
@@ -10,9 +9,6 @@ import org.bukkit.event.Listener;
 import java.util.List;
 
 public class AttackSpeed extends Attribute implements Listener {
-    public AttackSpeed(ItemType activeType, Integer level, SkyblockPlayer player) {
-        super(activeType, level, player);
-    }
 
     @Override
     public String name() {
@@ -25,24 +21,21 @@ public class AttackSpeed extends Attribute implements Listener {
     }
 
     @Override
-    public boolean isAllowed() {
+    public boolean isAllowed(SkyblockPlayer player) {
         return true;
     }
 
     @Override
-    public List<String> lore() {
-        return List.of("Grants §e+" + getBuff() + Stats.AttackSpeed.getSymbol() + " Bonus Attack Speed§7.");
-    }
-    private double getBuff(){
-        return level;
+    public List<String> lore(int level) {
+        return List.of("Grants §e+" + level + Stats.AttackSpeed.getSymbol() + " Bonus Attack Speed§7.");
     }
 
     @EventHandler
     public void onStatGet(GetStatFromItemEvent event) {
         if (event.getStat() != Stats.AttackSpeed) return;
-        for (Attribute attribute : getAttributes(event.getItem())) {
-            if (attribute instanceof AttackSpeed magicFind) {
-                event.addValue(magicFind.getBuff());
+        for (AppliedAttribute attribute : getAttributes(event.getItem())) {
+            if (attribute.attribute() instanceof AttackSpeed magicFind) {
+                event.addValue(attribute.level());
             }
         }
     }

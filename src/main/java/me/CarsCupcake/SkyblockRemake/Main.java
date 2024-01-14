@@ -19,6 +19,7 @@ import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
+import me.CarsCupcake.SkyblockRemake.Items.Attributes.AppliedAttribute;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
@@ -1279,9 +1280,9 @@ public class Main extends JavaPlugin {
 
             if (manager.isAttributable()) {
 
-                for (Attribute attribute : Attribute.getAttributes(item)) {
+                for (AppliedAttribute attribute : Attribute.getAttributes(item)) {
                     lores.add(" ");
-                    lores.addAll(attribute.getAttributeLore());
+                    lores.addAll(attribute.attribute().getAttributeLore(attribute.level()));
                 }
             }
 

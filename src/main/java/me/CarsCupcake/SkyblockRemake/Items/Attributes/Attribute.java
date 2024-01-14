@@ -31,9 +31,7 @@ import java.util.*;
 import static org.bukkit.persistence.PersistentDataType.*;
 
 public abstract class Attribute {
-    private static final HashMap<String, Class<? extends Attribute>> registeredAttributes = new HashMap<>();
-    @Getter
-    protected int level;
+    private static final HashMap<String, Attribute> registeredAttributes = new HashMap<>();
     private final ItemType activeType;
     protected final String id;
 
@@ -43,30 +41,24 @@ public abstract class Attribute {
     }
 
     public static void registerAttribute(Attribute atribute) {
-        registeredAttributes.put(atribute.getId(), atribute.getClass());
-    }
-
-    public Attribute(ItemType activeType, Integer level, SkyblockPlayer player) {
-        id = name().toLowerCase().replace(" ", "_");
-        this.activeType = activeType;
-        this.level = level;
+        registeredAttributes.put(atribute.getId(), atribute);
     }
 
     public abstract String name();
 
     public abstract int maxLevel();
 
-    public abstract boolean isAllowed();
+    public abstract boolean isAllowed(SkyblockPlayer player);
 
-    public abstract List<String> lore();
+    public abstract List<String> lore(int level);
 
     public ItemType activeType() {
         return activeType;
     }
 
-    public List<String> getAttributeLore() {
+    public List<String> getAttributeLore(int level) {
         ArrayList<String> lore = new ArrayList<>(List.of("§b" + name() + " " + Tools.intToRoman(level)));
-        lore.addAll(lore());
+        lore.addAll(lore(level));
         return lore;
     }
 
@@ -79,34 +71,35 @@ public abstract class Attribute {
     }
 
     public static void rool(ItemStack item, ItemManager manager) {
-        Collection<Class<? extends Attribute>> atr = registeredAttributes.values();
-        ArrayList<Class<? extends Attribute>> attrebuteList = new ArrayList<>(atr);
+        Collection<Attribute> atr = registeredAttributes.values();
+        ArrayList<Attribute> attrebuteList = new ArrayList<>(atr);
         Collections.shuffle(attrebuteList);
-        Constructor<? extends Attribute> constructor = Tools.getConstructorIfAvailable(attrebuteList.get(0), ItemType.class, Integer.class);
-        constructor = Tools.getConstructorIfAvailable(attrebuteList.get(1), ItemType.class, Integer.class);
-        applyAttrebute(new Attribute[]{ClassUtils.instantiateClass(constructor, manager.type, 1), ClassUtils.instantiateClass(constructor, manager.type, 1)}, item);
+        applyAttrebute(new Attribute[]{attrebuteList.get(0), attrebuteList.get(1)}, new int[]{1, 1}, item);
     }
 
-    public static void applyAttrebute(Attribute[] attribute, ItemStack item) {
+    public static void applyAttrebute(Attribute[] attribute, int[] levels, ItemStack item) {
+        Assert.state(attribute.length == levels.length);
         Assert.notNull(attribute, "Attribute canot be null");
         Assert.isTrue(attribute.length > 0 && attribute.length < 3, "Slot is out of range");
         Assert.notNull(item, "item canot be null!");
         PersistentDataContainer container = new CraftPersistentDataContainer(new CraftPersistentDataTypeRegistry());
-        for (Attribute a : attribute)
-            container.set(a.makeNamespacedKey(), INTEGER, a.level);
+        int i = 0;
+        for (Attribute a : attribute) {
+            container.set(a.makeNamespacedKey(), INTEGER, levels[i]);
+            i++;
+        }
         ItemHandler.setPDC("attributes", item, TAG_CONTAINER, container);
     }
 
-    public static List<Attribute> getAttributes(ItemStack item) {
+    public static List<AppliedAttribute> getAttributes(ItemStack item) {
         Assert.notNull(item, "item canot be null");
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, STRING));
         Assert.isTrue(manager.isAttributable(), "manager has to be attribuatble!");
-        List<Attribute> attributes = new ArrayList<>();
+        List<AppliedAttribute> attributes = new ArrayList<>();
         PersistentDataContainer container = ItemHandler.getOrDefaultPDC("attributes", item, TAG_CONTAINER, new CraftPersistentDataContainer(new CraftPersistentDataTypeRegistry()));
         for (NamespacedKey s : container.getKeys()) {
             String id = s.getKey();
-            Constructor<? extends Attribute> constructor = Tools.getConstructorIfAvailable(registeredAttributes.get(id), ItemType.class, Integer.class);
-            Attribute attribute = ClassUtils.instantiateClass(constructor, manager.type, container.get(s, INTEGER));
+            attributes.add(new AppliedAttribute(registeredAttributes.get(id), container.get(s, INTEGER)));
         }
         return attributes;
     }

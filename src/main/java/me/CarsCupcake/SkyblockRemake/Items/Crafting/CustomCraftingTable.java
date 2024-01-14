@@ -89,7 +89,9 @@ public class CustomCraftingTable implements Listener {
         int c = 0;
         for (int i : CRAFTING_SLOTS) {
             if (recipe.getRecipe().get(c) == null) continue;
-            inventory.getItem(i).setAmount(inventory.getItem(i).getAmount() - recipe.getRecipe().get(c).amount());
+            if (inventory.getItem(i) != null){
+                inventory.getItem(i).setAmount(inventory.getItem(i).getAmount() - recipe.getRecipe().get(c).amount());
+            }
             c++;
         }
         return item;

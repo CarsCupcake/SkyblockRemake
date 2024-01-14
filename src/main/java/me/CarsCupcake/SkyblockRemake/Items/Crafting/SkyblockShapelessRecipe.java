@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 
-public class SkyblockShapelessRecipe extends SkyblockRecipe {
+public final class SkyblockShapelessRecipe extends SkyblockRecipe {
     @Getter
     private final ArrayList<CraftingObject> ingredients = new ArrayList<>();
     private final ItemManager result;

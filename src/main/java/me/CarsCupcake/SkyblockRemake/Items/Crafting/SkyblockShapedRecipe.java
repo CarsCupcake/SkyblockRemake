@@ -3,15 +3,17 @@ package me.CarsCupcake.SkyblockRemake.Items.Crafting;
 import java.util.ArrayList;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 
-public class SkyblockShapedRecipe extends SkyblockRecipe {
+public final class SkyblockShapedRecipe extends SkyblockRecipe {
     private final ItemManager result;
     private final int amount;
     @Getter
     private int prior = -1;
 
+    @Setter
     @Getter
     private ArrayList<CraftingObject> recipe = new ArrayList<>();
 
@@ -21,12 +23,6 @@ public class SkyblockShapedRecipe extends SkyblockRecipe {
         this.amount = amount;
     }
 
-
-    public void setRecipe(ArrayList<CraftingObject> recipe) {
-        this.recipe = recipe;
-
-
-    }
 
     @Override
     public ItemManager getResult() {

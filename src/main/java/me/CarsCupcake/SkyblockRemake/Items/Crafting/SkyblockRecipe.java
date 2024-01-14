@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
-public abstract class SkyblockRecipe {
+public sealed abstract class SkyblockRecipe permits SkyblockShapedRecipe, SkyblockShapelessRecipe {
 
     public static Set<SkyblockRecipe> recipes = new HashSet<>();
 
@@ -93,7 +93,7 @@ public abstract class SkyblockRecipe {
                 for (ItemStack item : stacks) {
                     if (item == null) continue;
                     String str = ItemHandler.getOrDefaultPDC("id", item, PersistentDataType.STRING, "");
-                    if (str.equals("")) continue;
+                    if (str.isEmpty()) continue;
                     boolean contains = false;
                     CraftingObject object = null;
                     for (CraftingObject obj : ingredients) {
