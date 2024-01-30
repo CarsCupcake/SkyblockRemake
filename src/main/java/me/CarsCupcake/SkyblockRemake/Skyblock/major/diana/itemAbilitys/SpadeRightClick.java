@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.itemAbilitys;
 
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
@@ -14,6 +15,7 @@ import org.bukkit.util.Vector;
 public class SpadeRightClick implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean triggerAbility(PlayerInteractEvent event) {
+        if (ServerType.getActiveType() != ServerType.Hub) return false;
         SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(event.getPlayer());
         Block b = event.getClickedBlock();
         if (b == null) {

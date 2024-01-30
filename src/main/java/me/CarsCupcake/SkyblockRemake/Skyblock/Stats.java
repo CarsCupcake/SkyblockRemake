@@ -10,6 +10,7 @@ import me.CarsCupcake.SkyblockRemake.utils.maps.CountMap;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -146,7 +147,7 @@ public enum Stats {
             value = Main.getItemStat(player, stat, item);
             if (value == 0)
                 continue;
-            String row = "§7" + stat.name + " " + ((stat.agressive) ? "§c" : "§a") + ((value == Double.MAX_VALUE) ? "∞" : (((value < 0) ? "-" : "+") + String.format("%.0f", value)));
+            String row = "§7" + stat.name + " " + ((stat.agressive) ? "§c" : "§a") + ((value >= Double.MAX_VALUE) ? "∞" : (((value < 0) ? "-" : "+") + String.format("%.0f", value)));
 
             if (stat.hotPotatoBookStat != null && ItemHandler.getOrDefaultPDC("potatobooks", item, PersistentDataType.INTEGER, 0) > 0 && stat.hotPotatoBookStat.types.contains(manager.type)) {
                 row += " §e(+" + (ItemHandler.getPDC("potatobooks", item, PersistentDataType.INTEGER) * stat.hotPotatoBookStatBoost) + ")";

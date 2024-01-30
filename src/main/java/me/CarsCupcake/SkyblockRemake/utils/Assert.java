@@ -10,6 +10,15 @@ public class Assert {
         if(obj == null)
             throw new NullPointerException(msg);
     }
+    @SafeVarargs
+    public static <T> void notNull(T... obj){
+        for (T t : obj) notNull(t);
+    }
+
+    @SafeVarargs
+    public static <T> void notNull(String msg, T... obj){
+        for (T t : obj) notNull(t, msg);
+    }
     public static void isTrue(boolean expression, String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);
