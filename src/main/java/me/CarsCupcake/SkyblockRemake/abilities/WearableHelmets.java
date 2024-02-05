@@ -22,7 +22,7 @@ public class WearableHelmets implements Listener{
 @EventHandler 
 public void inventoryClickEvent(InventoryClickEvent event) {
 
-	if(!event.getView().getTitle().equals("Crafting")) {
+	if(GUI.hasOpen(SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked()) || event.getView().getType() != InventoryType.PLAYER) {
 
 		return;}
 	
