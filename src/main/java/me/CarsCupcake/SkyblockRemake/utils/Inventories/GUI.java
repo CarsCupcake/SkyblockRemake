@@ -114,6 +114,9 @@ public class GUI {
     public static HashMap<SkyblockPlayer, GUI> getGUIs(){
        return opened;
     }
+    public static boolean hasOpen(SkyblockPlayer player) {
+       return getGUIs().containsKey(player);
+    }
     public void setGeneralAction(InventoryGUIAction action){
         generalAction = action;
     }
