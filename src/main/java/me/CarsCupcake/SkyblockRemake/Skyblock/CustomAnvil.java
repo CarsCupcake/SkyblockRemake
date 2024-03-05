@@ -384,7 +384,6 @@ public class CustomAnvil implements Listener {
                 data.set(new NamespacedKey(Main.getMain(), "recomed"), PersistentDataType.INTEGER, 1);
                 data.set(new NamespacedKey(Main.getMain(), "rarity"), PersistentDataType.STRING, ItemRarity.valueOf(ItemHandler.getPDC("rarity", item, PersistentDataType.STRING)).getNext().toString());
                 item.setItemMeta(meta);
-                item = GemstoneSlot.recomGemstone(manager1, item);
                 final ItemStack FINAL_ITEM = new ItemStack(Main.itemUpdater(item, null));
 
                 return FINAL_ITEM;

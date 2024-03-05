@@ -7,8 +7,8 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosChampion;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.MinosInquisitor;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.mobs.Minotaur;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F6.Entitys.*;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.MastermodeNecron;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Necron;
+import me.CarsCupcake.SkyblockRemake.Entities.FakeMastermodeNecron;
+import me.CarsCupcake.SkyblockRemake.Entities.FakeNecron;
 import me.CarsCupcake.SkyblockRemake.Entities.IceWalker;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.LordJawbus;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.FishingLoottables.LavaFishingSeaCreatures.Thunder;
@@ -76,11 +76,11 @@ public class SpawnEntity implements CommandExecutor {
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "NECRON" ->{
-                    Necron walker = new Necron();
+                    FakeNecron walker = new FakeNecron();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "MASTERMODE_NECRON" ->{
-                    MastermodeNecron walker = new MastermodeNecron();
+                    FakeMastermodeNecron walker = new FakeMastermodeNecron();
                     walker.spawn(((Player)commandSender).getLocation());
                 }
                 case "SOUL_EATER" -> {

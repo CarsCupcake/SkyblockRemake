@@ -9,7 +9,6 @@
     <version>0.2.7</version>
     <packaging>jar</packaging>
 
-
     <name>SkyblockRemake</name>
 
     <properties>
@@ -22,6 +21,49 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <forceCreation>true</forceCreation>
+                    <archive>
+                        <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Main-Class>me.CarsCupcake.SkyblockRemake.setup.Main</Main-Class>
+                            <Implementation-Title>SkyblockRemake</Implementation-Title>
+                            <Implementation-Version>${version}</Implementation-Version>
+                            <Implementation-Vendor>CarsCupcake</Implementation-Vendor>
+                            <Specification-Title>SkyblockRemake</Specification-Title>
+                            <Specification-Version>${version}</Specification-Version>
+                            <Specification-Vendor>CarsCupcake</Specification-Vendor>
+                            <Multi-Release>true</Multi-Release>
+                        </manifestEntries>
+                        <manifestSections>
+                            <manifestSection>
+                                <name>me/CarsCupcake/</name>
+                                <manifestEntries>
+                                    <Sealed>true</Sealed>
+                                </manifestEntries>
+                            </manifestSection>
+                            <manifestSection>
+                                <name>me/CarsCupcake/</name>
+                                <manifestEntries>
+                                    <Sealed>true</Sealed>
+                                </manifestEntries>
+                            </manifestSection>
+                            <manifestSection>
+                                <name>me/CarsCupcake/</name>
+                                <manifestEntries>
+                                    <Sealed>true</Sealed>
+                                </manifestEntries>
+                            </manifestSection>
+                        </manifestSections>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
@@ -32,26 +74,17 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\The Instance\plugins\SkyblockRemake.jar
-                            </outputFile>
+                            <outputFile>C:\Users\09car\Desktop\Plugin\Skyblock 1.17.1 Network\DwarvenMines\plugins\SkyblockRemake.jar</outputFile>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <transformers>
+                                <transformer implementation=
+                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>me.CarsCupcake.SkyblockRemake.setup.Main</mainClass>
+                                </transformer>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>
-                                me.CarsCupcake.ServerManager.Main
-                            </mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -60,6 +93,7 @@
                 <executions>
                     <execution>
                         <id>compile</id>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -96,6 +130,47 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>me.CarsCupcake.SkyblockRemake.setup.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <archive>
+                                <manifest>
+                                    <mainClass>me.CarsCupcake.SkyblockRemake.setup.Main</mainClass>
+                                    <addDefaultEntries>false</addDefaultEntries>
+                                </manifest>
+                                <manifestEntries>
+                                    <Main-Class>me.CarsCupcake.SkyblockRemake.setup.Main</Main-Class>
+                                </manifestEntries>
+                            </archive>
+                            <attach>false</attach>
+                            <descriptors>
+                                <descriptor>${project.basedir}/src/assembly/bootstrap.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -170,6 +245,11 @@
         <repository>
             <id>lumine</id>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>http://repo.spring.io/release</url>
         </repository>
     </repositories>
     <dependencyManagement>

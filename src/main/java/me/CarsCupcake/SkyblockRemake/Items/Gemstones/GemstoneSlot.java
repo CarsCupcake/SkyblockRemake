@@ -54,42 +54,5 @@ public class GemstoneSlot {
 		
 		return slots;
 	}
-	public static ItemStack recomGemstone(ItemManager manager, ItemStack item) {
-		if(manager.gemstoneSlots == null && manager.gemstoneSlots.isEmpty())
-			return item;
-		ArrayList<GemstoneSlot> slots = getCurrGemstones(manager, item.getItemMeta().getPersistentDataContainer());
-		ItemMeta meta = item.getItemMeta();
-		PersistentDataContainer data= meta.getPersistentDataContainer();
-		ItemRarity rarity = manager.getRarity(item);
-
-		for(GemstoneSlot slot : slots) {
-			if(slot.currGem != null) {
-				if(slot.currGem.gemType == GemstoneType.Ruby) {
-					data.set(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "health"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-			}
-				if(slot.currGem.gemType == GemstoneType.Amber) {
-					data.set(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "miningspeed"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-					}
-				if(slot.currGem.gemType == GemstoneType.Jade) {
-					data.set(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "miningfortune"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-		}
-				if(slot.currGem.gemType == GemstoneType.Sapphire) {
-					data.set(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "mana"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-		}
-				if(slot.currGem.gemType == GemstoneType.Amethyst) {
-					data.set(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "def"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-		}
-				if(slot.currGem.gemType == GemstoneType.Jasper) {
-					data.set(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "strength"), PersistentDataType.DOUBLE) + slot.currGem.statBoostRecom(rarity.getBefore(), rarity));
-		}
-				if(slot.currGem.gemType == GemstoneType.Topaz) {
-					data.set(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE, data.get(new NamespacedKey(Main.getMain(), "pristine"), PersistentDataType.DOUBLE) + slot.currGem.doublestatBoostRecom(rarity.getBefore(), rarity));
-		}
-			}
-		}
-		item.setItemMeta(meta);
-		return item;
-		
-	}
 	
 }

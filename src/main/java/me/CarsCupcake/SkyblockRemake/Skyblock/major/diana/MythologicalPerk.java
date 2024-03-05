@@ -157,7 +157,7 @@ public class MythologicalPerk {
                         alive = (mob == Mobs.SiamesLynx) ? 2 : 1;
                         SkyblockEntity entity = mob.factor(new Triple<>(rarity, Tools.getAsLocation(block).add(0, 1, 0), MythologicalPerk.this));
                         entitys.put(entity, this);
-                        player.sendMessage("§c§lOi! §aYou dug out a §2" + ((entity == null) ? "Siames Lynx" : entity.getName()));
+                        player.sendMessage("§c§l" + Tools.getRandom(List.of("OI", "Oh oh", "Woah", "Good grief")) +"! §eYou dug out a §2" + ((entity == null) ? "Siames Lynx" : entity.getName()) + "§e!");
                         return false;
                     }
                     if (alive > 0) {
@@ -179,7 +179,7 @@ public class MythologicalPerk {
                     };
                     Loot loot = lootTable.use(false, player).get(0);
                     loot.consume(player, Tools.getAsLocation(block).add(0, 1, 0), false);
-                    player.sendMessage("§eYou dug out " + loot.name() + " §7(" + (i + 1) + "/4)");
+                    player.sendMessage("§6§lRARE DROP! §eYou dug out a " + loot.name());
                 }
             }
             if (i == 3) return true;

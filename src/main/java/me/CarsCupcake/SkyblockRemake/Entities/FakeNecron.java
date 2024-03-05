@@ -1,8 +1,7 @@
-package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7;
+package me.CarsCupcake.SkyblockRemake.Entities;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Defensive;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Bukkit;
@@ -18,13 +17,13 @@ import org.bukkit.entity.Wither;
 
 import java.util.HashMap;
 
-public class MastermodeNecron extends SkyblockEntity implements Defensive {
-    private int health = 1400000000;
+public class FakeNecron extends SkyblockEntity {
+    private int health = 1000000000;
     private BossBar display;
     private LivingEntity entity;
     @Override
     public int getMaxHealth() {
-        return 1400000000;
+        return 1000000000;
     }
 
     @Override
@@ -37,11 +36,6 @@ public class MastermodeNecron extends SkyblockEntity implements Defensive {
         return entity;
     }
 
-
-    @Override
-    public int getDamage() {
-        return 0;
-    }
 
     @Override
     public void spawn(Location loc) {
@@ -65,11 +59,6 @@ public class MastermodeNecron extends SkyblockEntity implements Defensive {
     }
 
     @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
     public void updateNameTag() {
         entity.setCustomName("§cNecron");
         ((CraftWither)entity).getBossBar().removeFlag(BarFlag.DARKEN_SKY);
@@ -79,12 +68,13 @@ public class MastermodeNecron extends SkyblockEntity implements Defensive {
 
     @Override
     public void kill() {
+        super.kill();
         display.removeAll();
     }
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
+        health -= (int) damage;
     }
 
     @Override
@@ -92,13 +82,4 @@ public class MastermodeNecron extends SkyblockEntity implements Defensive {
         return true;
     }
 
-    @Override
-    public int getTrueDamage() {
-        return 0;
-    }
-
-    @Override
-    public double getDefense() {
-        return 2100;
-    }
 }

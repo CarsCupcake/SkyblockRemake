@@ -1,6 +1,4 @@
-package me.CarsCupcake.ServerManager;
-
-import me.CarsCupcake.SkyblockRemake.Skyblock.ServerType;
+package me.CarsCupcake.SkyblockRemake.setup;
 
 import java.io.BufferedReader;
 import java.io.IOException;

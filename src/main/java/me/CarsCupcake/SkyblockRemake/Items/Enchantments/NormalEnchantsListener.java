@@ -236,6 +236,10 @@ public class NormalEnchantsListener implements Listener {
             int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.CRITICAL, event.getItem());
             if (level > 0) event.addValue(SkyblockEnchants.CRITICAL.getBoost(level));
         }
+        if (event.getStat() == Stats.Pristine) {
+            int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.PRISTINE, event.getItem());
+            if (level > 0) event.addValue(level);
+        }
         if (event.getStat() == Stats.MagicFind) {
             int level = ItemHandler.getEnchantmentLevel(SkyblockEnchants.DIVINE_GIFT, event.getItem());
             if (level > 0) event.addValue(level * 2);

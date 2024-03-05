@@ -82,3 +82,4 @@ commands:
     description: Opens the hex
   tentakleattack:
     description: Debug Command
+  regenboss:

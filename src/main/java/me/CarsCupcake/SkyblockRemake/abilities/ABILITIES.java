@@ -1,6 +1,7 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
 import me.CarsCupcake.SkyblockRemake.Items.Attributes.*;
+import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneBuffsEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Abilitys.GriffinListener;
 import me.CarsCupcake.SkyblockRemake.Items.blocks.CustomBlock;
@@ -69,6 +70,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.persistence.CraftPersistentDataTypeRegistry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -105,7 +107,6 @@ public class ABILITIES implements Listener {
         if (SkyblockServer.getServer().type() == ServerType.F7) {
             registerEvent(new F7Phase3(true));
             registerEvent(new SimonSaysTerminal(null, -1));
-            registerEvent(new LightsTerminal(null, -1));
             registerEvent(new ArrowShooting(null, -1));
             registerEvent(new ArrowPointing(null, -1));
             registerEvent(new FallDownArmorstand(null, null));
@@ -142,6 +143,7 @@ public class ABILITIES implements Listener {
         registerEvent(new MinosChampion(ItemRarity.COMMON, null));
         registerEvent(new GriffinListener());
         registerEvent(new Minotaur(null, null));
+        registerEvent(new GemstoneBuffsEvent());
 
         //Minions
         IMinionData.registerMinion(new CobblestoneMinionData());

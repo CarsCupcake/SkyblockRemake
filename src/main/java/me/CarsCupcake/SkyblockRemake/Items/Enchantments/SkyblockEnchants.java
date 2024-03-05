@@ -77,6 +77,7 @@ public class SkyblockEnchants {
     public static final Reflection REFLECTION = new Reflection();
     public static final TrueProtection TRUE_PROTECTION = new TrueProtection();
     public static final SmartyPants SMARTY_PANTS = new SmartyPants();
+    public static final Pristine PRISTINE = new Pristine();
 
 
     private static void initEvents() {

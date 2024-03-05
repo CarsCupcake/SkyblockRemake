@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
-import de.carscupcake.gameoflegends.utils.Inventorys.MultipleGui;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityPreExecuteEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
@@ -9,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.MultipleGui;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import org.bukkit.Location;
 import org.bukkit.Material;

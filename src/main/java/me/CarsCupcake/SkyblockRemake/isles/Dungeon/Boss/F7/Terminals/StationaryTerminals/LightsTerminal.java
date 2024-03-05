@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminal;
 import me.CarsCupcake.SkyblockRemake.Main;
@@ -18,7 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LightsTerminal extends Terminal implements Listener {
+public class LightsTerminal extends Terminal {
+    @Getter
     private static final ArrayList<Location> levers = new ArrayList<>(List.of(new Location(Main.getMain().getServer().getWorld("world"), 62, 133.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 61, 133.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 60, 133.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 59, 133.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 58, 133.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 58, 134.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 59, 134.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 60, 134.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 61, 134.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 62, 134.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 62, 135.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 61, 135.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 60, 135.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 59, 135.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 58, 135.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 58, 136.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 59, 136.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 60, 136.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 61, 136.0, 142), new Location(Main.getMain().getServer().getWorld("world"), 62, 136.0, 142)));
 
     public LightsTerminal(F7Phase3 phase, int terminalId) {
@@ -47,12 +49,5 @@ public class LightsTerminal extends Terminal implements Listener {
                     l.getBlock().setType(Material.AIR);
             }
         }.runTaskLater(Main.getMain(), 1);
-    }
-
-    @EventHandler
-    public void leverFlick(PlayerInteractEvent event){
-        if(event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.LEVER && levers.contains(event.getClickedBlock().getLocation()) && F7Phase3.lightsTerminal != null){
-            F7Phase3.lightsTerminal.flick(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
-        }
     }
 }

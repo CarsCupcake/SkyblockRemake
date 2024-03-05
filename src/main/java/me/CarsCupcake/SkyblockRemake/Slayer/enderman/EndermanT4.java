@@ -5,10 +5,9 @@ import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.*;
-import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.abilities.EntityAbilities;
+import me.CarsCupcake.SkyblockRemake.utils.Laser;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
@@ -20,7 +19,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider{
+public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider {
     public boolean isInHitsPhase = true;
     public boolean isInRotationPhase = false;
     public int hitphaseHits = 100;
@@ -62,7 +61,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
             @Override
             public void run() {
                 Calculator calculator = new Calculator();
-                calculator.entityToPlayerDamage(EndermanT4.this, owner, new Bundle<>(getDamage()/2, getTrueDamage()));
+                calculator.entityToPlayerDamage(EndermanT4.this, owner, new Bundle<>(getDamage() / 2, getTrueDamage()));
                 calculator.damagePlayer(owner);
                 calculator.showDamageTag(owner);
                 owner.damage(0.0000001);
@@ -71,13 +70,12 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
         aoe.runTaskTimer(Main.getMain(), 20, 20);
         tp = new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 EntityAbilities.voidgloomTeleport(entity, owner);
             }
 
         };
-        tp.runTaskTimer(Main.getMain(), 20*5, 20*5);
+        tp.runTaskTimer(Main.getMain(), 20 * 5, 20 * 5);
     }
 
     @Override
@@ -95,64 +93,58 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
 
     @Override
     public void updateNameTag() {
-        if(isInHitsPhase){
-            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + getName() + " "+getColor()+"§l"
-                    + hitphaseHits + "Hits");
-        }else
-            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + getName() + " §a"
-                    + Tools.toShortNumber(health) + "§c");
+        if (isInHitsPhase) {
+            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + getName() + " " + getColor() + "§l" + hitphaseHits + "Hits");
+        } else
+            entity.setCustomName("§c" + Character.toChars(9760)[0] + " §b" + getName() + " §a" + Tools.toShortNumber(health) + "§c");
     }
 
     @Override
-    public void kill(){
+    public void kill() {
         super.kill();
         try {
             tp.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         try {
             aoe.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
-    private String getColor(){
-        double pers = hitphaseHits/100d;
-        if(pers > 0.6)
-            return "§r";
-        if (pers > 0.3)
-            return "§d";
-        else
-            return "§5";
+    private String getColor() {
+        double pers = hitphaseHits / 100d;
+        if (pers > 0.6) return "§r";
+        if (pers > 0.3) return "§d";
+        else return "§5";
     }
 
     @Override
     public void damage(double damage, SkyblockPlayer player) {
-        if(!entity.hasAI())
-            return;
+        if (!entity.hasAI()) return;
 
-        if(isInHitsPhase) {
+        if (isInHitsPhase) {
             hitphaseHits--;
-            if(hitphaseHits <= 0) {
+            if (hitphaseHits <= 0) {
                 isInHitsPhase = false;
                 hitsPhase++;
             }
-        }else {
+        } else {
             health -= damage;
-            if(health == 0)
-                return;
+            if (health == 0) return;
 
-            if(toNextHitPhase() && health != 0){
+            if (toNextHitPhase() && health != 0) {
                 hitphaseHits = 100;
                 isInHitsPhase = true;
             }
-            if(!isInRotationPhase && toNextRotationPhase())
-                doHeartRotation();
+            if (!isInRotationPhase && toNextRotationPhase()) doHeartRotation();
 
-            if(!isInHeadsPhase && getHealth() <= getMaxHealth() * 0.33) {
+            if (!isInHeadsPhase && getHealth() <= getMaxHealth() * 0.33) {
                 isInHeadsPhase = true;
                 startNukekubiFixations();
             }
 
-            if(!isInBeaconPhase && getHealth() <= getMaxHealth() / 2){
+            if (!isInBeaconPhase && getHealth() <= getMaxHealth() / 2) {
                 isInBeaconPhase = true;
                 startBeaconPhase();
             }
@@ -160,23 +152,25 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
         }
     }
 
-    private boolean toNextHitPhase(){
+    private boolean toNextHitPhase() {
 
-        if(hitsPhase == 1 && health <=140000000){
+        if (hitsPhase == 1 && health <= 140000000) {
             return true;
         }
         return hitsPhase == 2 && health <= 70000000;
     }
-    private boolean toNextRotationPhase(){
 
-        if(rotationPhase == 0 && health <= 175000000){
+    private boolean toNextRotationPhase() {
+
+        if (rotationPhase == 0 && health <= 175000000) {
             return true;
         }
-        if(rotationPhase == 1 && health <= 105000000){
+        if (rotationPhase == 1 && health <= 105000000) {
             return true;
         }
         return rotationPhase == 2 && health <= 35000000;
     }
+
     private void doHeartRotation() {
         entity.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, entity.getLocation(), 1);
         rotationPhase++;
@@ -186,11 +180,12 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
         entity.teleport(eL);
         try {
             tp.cancel();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
         entity.setAI(false);
 
-        ArmorStand stand = entity.getLocation().getWorld().spawn(entity.getLocation().add(0,-0.5,0), ArmorStand.class, s -> {
+        ArmorStand stand = entity.getLocation().getWorld().spawn(entity.getLocation().add(0, -0.5, 0), ArmorStand.class, s -> {
             s.setInvisible(true);
             s.setInvulnerable(true);
             s.setCollidable(false);
@@ -198,42 +193,36 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
 
         stand.addPassenger(entity);
 
-        Laser l1 = new Laser(entity.getLocation(), entity.getLocation().add(10,0,0));
+        Laser l1 = new Laser(entity.getLocation(), entity.getLocation().add(10, 0, 0));
         Vector ve = new Vector(10, 0, 0);
         HashMap<Laser, Vector> items = new HashMap<>();
         items.put(l1, ve.clone());
-        l1 = new Laser(entity.getLocation().add(0, 1.45, 0), entity.getLocation().add(10,1.45,0));
+        l1 = new Laser(entity.getLocation().add(0, 1.45, 0), entity.getLocation().add(10, 1.45, 0));
         items.put(l1, ve.clone());
-        l1 = new Laser(entity.getEyeLocation(), entity.getEyeLocation().add(10,0,0));
+        l1 = new Laser(entity.getEyeLocation(), entity.getEyeLocation().add(10, 0, 0));
         items.put(l1, ve.clone());
         HashMap<Laser, Vector> clone = new HashMap<>(items);
+        for (Laser l : clone.keySet()) {
+            Vector v = new Vector(-10, 0, 0);
+            Laser nL = new Laser(l.getStart().getEntity().getLocation(), l.getStart().getEntity().getLocation().add(v));
+            items.put(nL, v);
 
+            v = new Vector(0, 0, 10);
+            nL = new Laser(l.getStart().getEntity().getLocation(), l.getStart().getEntity().getLocation().add(v));
+            items.put(nL, v);
 
-
-
-            for (Laser l : clone.keySet()) {
-                Vector v = new Vector(-10, 0, 0);
-                Laser nL = new Laser(l.getStart().getEntity().getLocation(),
-                        l.getStart().getEntity().getLocation().add(v));
-                items.put(nL, v);
-
-                v = new Vector(0, 0, 10);
-                nL = new Laser(l.getStart().getEntity().getLocation(),
-                        l.getStart().getEntity().getLocation().add(v));
-                items.put(nL, v);
-
-                v = new Vector(0, 0, -10);
-                nL = new Laser(l.getStart().getEntity().getLocation(),
-                        l.getStart().getEntity().getLocation().add(v));
-                items.put(nL, v);
-            }
+            v = new Vector(0, 0, -10);
+            nL = new Laser(l.getStart().getEntity().getLocation(), l.getStart().getEntity().getLocation().add(v));
+            items.put(nL, v);
+        }
 
         new BukkitRunnable() {
             int i = 0;
             final HashMap<SkyblockPlayer, Integer> hitCooldown = new HashMap<>();
+
             @Override
             public void run() {
-                for (Laser l : items.keySet()){
+                for (Laser l : items.keySet()) {
                     Vector v = items.get(l);
                     v.rotateAroundY(0.025);
                     l.getEnd().getEntity().teleport(l.getStart().getEntity().getLocation().add(v));
@@ -241,45 +230,41 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
                     Location k = entity.getLocation();
                     k.setY(y);
                     l.getStart().getEntity().teleport(k);
-                    ((Guardian)l.getStart().getEntity()).setTarget(l.getEnd().getEntity());
+                    ((Guardian) l.getStart().getEntity()).setTarget(l.getEnd().getEntity());
                     Vector dir = v.clone().normalize().multiply(0.3);
                     Location lol = l.getStart().getEntity().getLocation();
-                    if(i > 10)
-                        for (double d = 0.3; d < 10; d += 0.3){
-                            Stream<Entity> e = lol.getWorld().getNearbyEntities(lol,0.3, 0.3, 0.3).
-                                    stream().filter(c -> c instanceof Player p && SkyblockPlayer.getSkyblockPlayer(p) != null && !hitCooldown.containsKey(SkyblockPlayer.getSkyblockPlayer(p) ));
-                            e.forEach(b -> {
-                                hitCooldown.put(SkyblockPlayer.getSkyblockPlayer((Player) b), 0);
-                                Calculator c = new Calculator();
-                                SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) b);
-                                c.entityToPlayerDamage(EndermanT4.this, player, new Bundle<>(0, (int)( Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer((Player) b), Stats.Health) * 0.25)));
-                                c.damagePlayer(player);
-                                c.showDamageTag(player);
-                            });
+                    if (i > 10) for (double d = 0.3; d < 10; d += 0.3) {
+                        Stream<Entity> e = lol.getWorld().getNearbyEntities(lol, 0.3, 0.3, 0.3).stream().filter(c -> c instanceof Player p && SkyblockPlayer.getSkyblockPlayer(p) != null && !hitCooldown.containsKey(SkyblockPlayer.getSkyblockPlayer(p)));
+                        e.forEach(b -> {
+                            hitCooldown.put(SkyblockPlayer.getSkyblockPlayer((Player) b), 0);
+                            Calculator c = new Calculator();
+                            SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) b);
+                            c.entityToPlayerDamage(EndermanT4.this, player, new Bundle<>(0, (int) (Main.getPlayerStat(SkyblockPlayer.getSkyblockPlayer((Player) b), Stats.Health) * 0.25)));
+                            c.damagePlayer(player);
+                            c.showDamageTag(player);
+                        });
 
-                            lol = lol.add(dir);
-                        }
+                        lol = lol.add(dir);
+                    }
                 }
-                for (SkyblockPlayer player : hitCooldown.keySet()){
+                for (SkyblockPlayer player : hitCooldown.keySet()) {
                     hitCooldown.replace(player, hitCooldown.get(player) + 1);
-                    if(hitCooldown.get(player) > 10)
-                        hitCooldown.remove(player);
+                    if (hitCooldown.get(player) > 10) hitCooldown.remove(player);
                 }
                 i++;
-                if(i > 200){
+                if (i > 20 * 7) {
                     stand.removePassenger(entity);
                     stand.remove();
                     entity.setAI(true);
                     cancel();
                     tp = new BukkitRunnable() {
                         @Override
-                        public void run()
-                        {
+                        public void run() {
                             EntityAbilities.voidgloomTeleport(entity, owner);
                         }
 
                     };
-                    tp.runTaskTimer(Main.getMain(), 20*5, 20*5);
+                    tp.runTaskTimer(Main.getMain(), 20 * 5, 20 * 5);
                     isInRotationPhase = false;
 
                     for (Laser l : items.keySet())
@@ -294,16 +279,10 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
         return true;
     }
 
-    @Override
-    public int getTrueDamage() {
-        return 0;
-    }
-
 
     @Override
     public double getFinalDamage(SkyblockPlayer player, double damage) {
-        if(!entity.hasAI())
-            return 0;
+        if (!entity.hasAI()) return 0;
 
         return (isInHitsPhase) ? 1 : damage;
     }

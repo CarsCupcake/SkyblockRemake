@@ -17,6 +17,7 @@ import java.util.Random;
 
 public enum TentacleAnimations implements RunnableWithParam<KuudraTentacle> {
     Idle {
+        double HEIGHT = 124d;
         @Override
         public void run(KuudraTentacle tentacle) {
             new EntityRunnable() {
@@ -38,14 +39,14 @@ public enum TentacleAnimations implements RunnableWithParam<KuudraTentacle> {
                         return;
                     }
                     tentacle.setMovementPointer(tentacle.getMovementPointer().add(targetDir));
-                    if (tentacle.getMovementPointer().getY() <= 123.5) tentacle.setMovementPointer(idleTarget);
+                    if (tentacle.getMovementPointer().getY() <= HEIGHT) tentacle.setMovementPointer(idleTarget);
                 }
             }.runTaskTimer(tentacle, 0, 1);
         }
 
         private Location nextIdle(Location base) {
             Location next = base.clone();
-            next.setY(124);
+            next.setY(HEIGHT);
             Vector v = new Vector(14, 0, 0);
             v.rotateAroundY(Math.toRadians(new Random().nextInt(360)));
             return next.add(v);

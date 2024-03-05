@@ -26,13 +26,13 @@ public enum ScoreboardImpl implements Factory<SkyblockPlayer, String[]> {
         @Override
         public String[] factor(SkyblockPlayer player) {
             me.CarsCupcake.SkyblockRemake.utils.Time t = me.CarsCupcake.SkyblockRemake.utils.Time.getInstance();
-            return new String[] {t.getSeason().getName() + " " + t.getDay() +t.getDaySuffix(), t.getTime()};
+            return new String[] {" " + t.getSeason().getName() + " " + t.getDay() +t.getDaySuffix(), " §7" + t.getTime()};
         }
     },
     Location{
         @Override
         public String[] factor(SkyblockPlayer player) {
-            return new String[]{"§7⏣ " + ((player.getRegion() == null) ? "None" : player.getRegion().name()), "§7 "};
+            return new String[]{" §7⏣ " + ((player.getRegion() == null) ? "None" : player.getRegion().name()), "§7 "};
         }
     },
     Purse{

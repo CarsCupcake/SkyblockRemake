@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.Slayer
 
-import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GuiTemplate
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Slayer
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats

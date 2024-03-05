@@ -1,37 +1,44 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock;
 
-import java.util.*;
-
 import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
+import me.CarsCupcake.SkyblockRemake.Items.*;
+import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetFollowRunner;
+import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.Elections;
-import me.CarsCupcake.SkyblockRemake.Skyblock.major.Major;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
-import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardSection;
-import me.CarsCupcake.SkyblockRemake.configs.*;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.DwarvenCommissions;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.levels.SkyblockLevelsHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.regions.Region;
+import me.CarsCupcake.SkyblockRemake.Skyblock.scoreboard.ScoreboardSection;
+import me.CarsCupcake.SkyblockRemake.abilities.Deployable;
 import me.CarsCupcake.SkyblockRemake.abilities.SuperCompactor;
+import me.CarsCupcake.SkyblockRemake.configs.ConfigFile;
+import me.CarsCupcake.SkyblockRemake.configs.ExtraInformations;
+import me.CarsCupcake.SkyblockRemake.configs.MiningSystem;
+import me.CarsCupcake.SkyblockRemake.isles.Areas.DwarvenAreas;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsle;
 import me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.CrimsonIsleAreas;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentManager;
-import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Effect;
-import me.CarsCupcake.SkyblockRemake.abilities.Deployable;
+import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -44,14 +51,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.CarsCupcake.SkyblockRemake.Main;
-import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
-import me.CarsCupcake.SkyblockRemake.utils.Tools;
-import me.CarsCupcake.SkyblockRemake.isles.Areas.DwarvenAreas;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.DwarvenCommissions;
-import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
-import net.minecraft.server.level.EntityPlayer;
+import java.util.*;
 
 public class SkyblockPlayer extends CraftPlayer {
 
@@ -243,7 +243,7 @@ public class SkyblockPlayer extends CraftPlayer {
     public void unregister() {
         CollectHandler.collections.get(this).forEach(ICollection::save);
         try {
-            MythologicalPerk.getPlayer(this).getRunnable().cancel();
+            if (ServerType.getActiveType() == ServerType.Hub) MythologicalPerk.getPlayer(this).getRunnable().cancel();
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -830,8 +830,7 @@ public class SkyblockPlayer extends CraftPlayer {
     public void setMana(double value) {
         currmana = value;
         double max = Main.getPlayerStat(this, (ServerType.getActiveType() == ServerType.Rift) ? Stats.RiftInteligence : Stats.Inteligence);
-        if (currmana > max)
-            currmana = max;
+        if (currmana > max) currmana = max;
     }
 
     public void addBaseStat(Stats stat, double v) {
@@ -959,10 +958,13 @@ public class SkyblockPlayer extends CraftPlayer {
 
 
     }
+
     public void sendPacket(Packet<?> packet) {
         getHandle().b.sendPacket(packet);
     }
+
     public String coinsChange = "";
+
     public void addCoins(double v) {
         coins += v;
         coinsChange = " §e(+" + Tools.cleanDouble(v, 1) + ")";

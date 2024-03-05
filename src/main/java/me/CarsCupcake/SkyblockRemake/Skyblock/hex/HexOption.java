@@ -1,6 +1,5 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.hex;
 
-import de.carscupcake.gameoflegends.utils.Inventorys.MultipleGui;
 import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
@@ -12,6 +11,7 @@ import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.MultipleGui;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignGUI;
 import me.CarsCupcake.SkyblockRemake.utils.SignGUI.SignManager;

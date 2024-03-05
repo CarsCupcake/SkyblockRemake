@@ -1,8 +1,8 @@
-package me.CarsCupcake.SkyblockRemake.utils.Inventorys.Templates;
+package me.CarsCupcake.SkyblockRemake.utils.Inventories.Templates;
 
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.Consumable;
-import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GuiTemplate;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUIAction;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;

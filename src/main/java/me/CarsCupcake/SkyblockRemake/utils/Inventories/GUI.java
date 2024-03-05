@@ -5,7 +5,6 @@ import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
-import me.CarsCupcake.SkyblockRemake.utils.Inventory.GuiTemplate;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.RunnableWithParam;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;

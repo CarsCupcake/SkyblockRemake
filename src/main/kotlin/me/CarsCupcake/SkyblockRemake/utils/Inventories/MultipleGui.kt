@@ -1,4 +1,4 @@
-package de.carscupcake.gameoflegends.utils.Inventorys
+package me.CarsCupcake.SkyblockRemake.utils.Inventories
 
 import me.CarsCupcake.SkyblockRemake.API.Bundle
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer

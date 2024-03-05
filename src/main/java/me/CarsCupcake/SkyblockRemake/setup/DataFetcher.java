@@ -1,4 +1,4 @@
-package me.CarsCupcake.ServerManager;
+package me.CarsCupcake.SkyblockRemake.setup;
 
 import me.CarsCupcake.SkyblockBungee.features.ServerType;
 import net.sf.sevenzipjbinding.ExtractOperationResult;
@@ -26,6 +26,7 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         File tempFolder = new File(dir, "work");
         tempFolder.mkdirs();
         AtomicReference<File> file = new AtomicReference<>();
+        AtomicReference<File> spigotExe = new AtomicReference<>();
         Thread t1 = new Thread(() -> {
             try {
                 file.set(DownloadUtil.navigate(type.getUrl(), null, tempFolder));
@@ -35,7 +36,8 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         });
         Thread t2 = new Thread(() -> {
             try {
-                DownloadUtil.navigate(Main.spigotFileDownload, null, dir);
+               spigotExe.set(DownloadUtil.navigate(Main.spigotFileDownload, null, dir));
+                spigotExe.get().renameTo(new File(dir, "server.jar"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -74,7 +76,7 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
             batchFile.createNewFile();
             FileWriter writer = new FileWriter(batchFile);
             writer.append("@echo off\n");
-            writer.append("java -Xms2G -Xmx2G -XX:+UseG1GC -jar spigot-1.17.1.jar nogui");
+            writer.append("java -Xms2G -Xmx2G -XX:+UseG1GC -jar server.jar nogui");
             writer.flush();
         } catch (Exception e) {
             throw new RuntimeException(e);

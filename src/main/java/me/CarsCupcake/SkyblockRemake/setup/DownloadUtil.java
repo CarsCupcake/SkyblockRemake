@@ -1,4 +1,4 @@
-package me.CarsCupcake.ServerManager;
+package me.CarsCupcake.SkyblockRemake.setup;
 
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 

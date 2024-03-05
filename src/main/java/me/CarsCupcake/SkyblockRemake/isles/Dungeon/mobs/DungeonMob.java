@@ -12,8 +12,12 @@ public abstract class DungeonMob extends SkyblockEntity implements Defensive {
     protected final int damage;
     protected final double defense;
     protected boolean stared;
+    protected boolean master;
+    protected int floor;
     private IRoom room;
     public DungeonMob(int floor, boolean master){
+        this.floor = floor;
+        this.master = master;
         super.health = healthFromFloor(floor, master);
         maxHealth = health;
         damage = damageFromFloor(floor, master);

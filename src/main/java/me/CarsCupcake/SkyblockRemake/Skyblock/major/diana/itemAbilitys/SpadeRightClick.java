@@ -12,6 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 public class SpadeRightClick implements AbilityManager<PlayerInteractEvent> {
     @Override
     public boolean triggerAbility(PlayerInteractEvent event) {
@@ -57,7 +59,7 @@ public class SpadeRightClick implements AbilityManager<PlayerInteractEvent> {
                 Location rel = current.clone().add(0, y, 0);
                 player.spawnParticle(Particle.DRIP_LAVA, rel, 1,0,0,0, 0);
                 player.spawnParticle(Particle.FIREWORKS_SPARK, rel, 1,0,0,0, 0);
-                player.playSound(rel, Sound.BLOCK_NOTE_BLOCK_PLING, 1F, (float) (0.5f + ((double) i / (double) stepps)));
+                player.playSound(rel, (new Random().nextDouble() <= .1) ? Tools.randomEnum(Sound.class) : Sound.BLOCK_NOTE_BLOCK_PLING, 1F, (float) (0.5f + ((double) i / (double) stepps)));
                 if (i >= stepps) {
                     cancel();
                 }

@@ -366,7 +366,7 @@ public class Main extends JavaPlugin {
                 Selection.selections.get((Player) commandSender).select(UUID.fromString(strings[0]));
             return true;
         });
-        getCommand("kuudra").setExecutor(new startKuudra());
+        getCommand("kuudra").setExecutor(new StartKuudra());
         getCommand("rifttime").setExecutor(new RiftTimeCMD());
         getCommand("rifttime").setTabCompleter(new TablistBuilder(RiftTimeCMD.class));
         getCommand("wd").setExecutor(new WardrobeCMD());
@@ -384,6 +384,7 @@ public class Main extends JavaPlugin {
             return false;
         });
         getCommand("tentakleattack").setExecutor(new TentakleAttackCommand());
+        getCommand("regenboss").setExecutor(new RegenF7Boss());
 
 
         debug.debug("Registering Events", false);

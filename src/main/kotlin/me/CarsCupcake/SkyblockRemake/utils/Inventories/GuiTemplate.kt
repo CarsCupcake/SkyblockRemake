@@ -1,6 +1,5 @@
-package me.CarsCupcake.SkyblockRemake.utils.Inventory
+package me.CarsCupcake.SkyblockRemake.utils.Inventories
 
-import me.CarsCupcake.SkyblockRemake.utils.Inventories.*
 import org.bukkit.inventory.Inventory
 
 abstract class GuiTemplate {

@@ -72,6 +72,12 @@ public class F7Phase3 implements Listener {
             Items.SkyblockItems.put(manager.itemID, manager);
         }
     }
+    @EventHandler
+    public void leverFlick(PlayerInteractEvent event){
+        if(event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.LEVER && LightsTerminal.getLevers().contains(event.getClickedBlock().getLocation()) && F7Phase3.lightsTerminal != null){
+            F7Phase3.lightsTerminal.flick(SkyblockPlayer.getSkyblockPlayer(event.getPlayer()));
+        }
+    }
     public F7Phase3(){
         regenerate();
         for (Location l : tLocations){
