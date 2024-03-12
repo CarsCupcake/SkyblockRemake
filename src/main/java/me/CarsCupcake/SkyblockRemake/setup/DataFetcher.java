@@ -18,7 +18,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type) {
-    public void install() {
+    public void install() throws IOException {
+        GitHub gitHub =  GitHub.connectAnonymously();
         File dir = new File("./" + type.getName());
         dir.mkdirs();
         File pluginsFolder = new File(dir, "plugins");
@@ -29,18 +30,14 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         AtomicReference<File> spigotExe = new AtomicReference<>();
         Thread t1 = new Thread(() -> {
             try {
-                file.set(DownloadUtil.navigate(type.getUrl(), null, tempFolder));
+                file.set(DownloadUtil.navigate(gitHub.getUser("CarsCupcake").getRepository("SkyblockRemake").getFileContent(type.getGithubPath()).getDownloadUrl(), null, tempFolder));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
         Thread t2 = new Thread(() -> {
             try {
-               spigotExe.set(DownloadUtil.navigate(Main.spigotFileDownload, null, dir));
-               boolean result = spigotExe.get().renameTo(new File(dir, "server.jar"));
-               if (!result) {
-                   throw new RuntimeException("Error while renaming!");
-               }
+               spigotExe.set(DownloadUtil.navigate(gitHub.getUser("CarsCupcake").getRepository("SkyblockRemake").getFileContent("resources/server.jar").getDownloadUrl(), null, dir));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -109,7 +106,6 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         }
         try {
             System.out.println("Fetching latest plugin");
-            GitHub gitHub =  GitHub.connectAnonymously();
             for (GHAsset asset : gitHub.getUser("CarsCupcake").getRepository("SkyblockRemake").getLatestRelease().listAssets().toList()) {
                 if (asset.getName().endsWith(".jar")) {
                     DownloadUtil.navigate(asset.getBrowserDownloadUrl(), null, pluginsFolder);
@@ -121,7 +117,6 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         System.out.println("Done!");
         try {
             System.out.println("Fetching latest FAWE version");
-            GitHub gitHub =  GitHub.connectAnonymously();
             for (GHAsset asset : gitHub.getUser("IntellectualSites").getRepository("FastAsyncWorldEdit").getLatestRelease().listAssets().toList()) {
                 if (asset.getName().endsWith(".jar")) {
                     DownloadUtil.navigate(asset.getBrowserDownloadUrl(), null, pluginsFolder);
