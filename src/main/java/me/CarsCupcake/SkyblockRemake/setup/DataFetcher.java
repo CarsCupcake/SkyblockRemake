@@ -37,7 +37,10 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         Thread t2 = new Thread(() -> {
             try {
                spigotExe.set(DownloadUtil.navigate(Main.spigotFileDownload, null, dir));
-                spigotExe.get().renameTo(new File(dir, "server.jar"));
+               boolean result = spigotExe.get().renameTo(new File(dir, "server.jar"));
+               if (!result) {
+                   throw new RuntimeException("Error while renaming!");
+               }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -73,7 +76,9 @@ public record DataFetcher(me.CarsCupcake.SkyblockBungee.features.ServerType type
         System.out.println("Done");
         File batchFile = new File(dir, "start.bat");
         try {
-            batchFile.createNewFile();
+            if (!batchFile.createNewFile()) {
+                throw new RuntimeException("Error while creating start.bat!");
+            }
             FileWriter writer = new FileWriter(batchFile);
             writer.append("@echo off\n");
             writer.append("java -Xms2G -Xmx2G -XX:+UseG1GC -jar server.jar nogui");
