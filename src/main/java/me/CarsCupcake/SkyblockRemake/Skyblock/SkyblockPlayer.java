@@ -980,7 +980,12 @@ public class SkyblockPlayer extends CraftPlayer {
         }
         updateAccessoryBag();
     }
-    Set<ArtifactAbility> accessoryAbilities = new HashSet<>();
+    private Set<ArtifactAbility> accessoryAbilities = new HashSet<>();
+    private HashMap<Stats, Double> accessoryBagStats = new HashMap<>();
+
+    public double getAccessoryBagStat(Stats stat) {
+        return accessoryBagStats.getOrDefault(stat, 0d);
+    }
 
     private void updateAccessoryBag() {
         int totmagpow = 0;
