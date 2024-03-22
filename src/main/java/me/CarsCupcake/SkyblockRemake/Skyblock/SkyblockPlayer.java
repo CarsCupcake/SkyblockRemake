@@ -14,7 +14,7 @@ import me.CarsCupcake.SkyblockRemake.NPC.Questing.DialogBuilder;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.Elections;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.ArtifactAbility;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
@@ -122,7 +122,6 @@ public class SkyblockPlayer extends CraftPlayer {
     private double baseTrophyFishChance;
     private final ConfigFile inventory;
     @Getter
-    @Setter
     private int magicalpower = 0;
     @Getter
     private final SortedSet<Effect> activeEffects = new TreeSet<>((o1, o2) -> o1.name().compareTo(o2.name()));
@@ -133,7 +132,7 @@ public class SkyblockPlayer extends CraftPlayer {
 
     @Getter
     @Setter
-    private int skyblockLevel = 1;
+    private int skyblockLevel = 0;
 
     @Getter
     @Setter
@@ -152,6 +151,10 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private PetFollowRunner petFollowRunner;
+    @Getter
+    @Setter
+    private ConfigFile generalConfig;
+    private ConfigFile accessoryBagFile;
 
     public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
         this(server, entity, false);
@@ -181,6 +184,7 @@ public class SkyblockPlayer extends CraftPlayer {
         autoPickup = entity.displayName.equals("CarsCupcake");
 
         players.put(player, this);
+        generalConfig = new ConfigFile(this, "general");
         AbilityManager.additionalMana.put(this, new HashMap<>());
         for (Stats stat : Stats.values()) {
             if (stat == Stats.WeaponDamage) continue;
@@ -202,8 +206,7 @@ public class SkyblockPlayer extends CraftPlayer {
         loadInventory();
         new MiningSys(this);
         AbilityListener.checkArmor(this);
-        Main.initAccessoryBag(player);
-        Main.getMain().getServer().getScheduler().runTaskAsynchronously(Main.getMain(), () -> AccessoryListener.startupAbilitys(SkyblockPlayer.this));
+        initAccessoryBag();
         //Last things to load!
         SkyblockScoreboard.createScoreboard(this);
         SkyblockLevelsHandler.initGetters(this);
@@ -254,6 +257,7 @@ public class SkyblockPlayer extends CraftPlayer {
             statsConfig.get().set(stats.getDataName(), getBaseStat(stats));
         }
         statsConfig.save(Main.getMain().isEnabled());
+        saveAccessoryBag();
     }
 
     public void kill() {
@@ -957,6 +961,85 @@ public class SkyblockPlayer extends CraftPlayer {
         baseTrophyFishChance = filebaseabilitydaamge;
 
 
+    }
+    @Getter
+    private List<ItemStack> accessoryBag = new ArrayList<>();
+    @Getter
+    @Setter
+    private int maxAccessoryBagSlots = 0;
+    public void initAccessoryBag() {
+        maxAccessoryBagSlots = generalConfig.get().getInt("accessoryBagSlots", 0);
+        accessoryBagFile = new ConfigFile(this, "accessorybag");
+
+        if (accessoryBagFile.get().getKeys(false).isEmpty()) {
+            return;
+        }
+        for (Object o : accessoryBagFile.get().getList("", new ArrayList<>())) {
+            if (o instanceof ItemStack item) accessoryBag.add(item);
+            else sendMessage("An Error Occured while loading you Accessory Bag!\n" + o.toString());
+        }
+        updateAccessoryBag();
+    }
+    Set<ArtifactAbility> accessoryAbilities = new HashSet<>();
+
+    private void updateAccessoryBag() {
+        int totmagpow = 0;
+        if (!accessoryBag.isEmpty()) {
+            Set<String> alreadyCalculatedIds = new HashSet<>();
+            Map<String, ItemRarity> accessoryIds = new HashMap<>();
+            Map<ArtifactAbility, ItemStack> artifactBaseAbility = new HashMap<>();
+            Map<String, Bundle<ArtifactAbility, ItemStack>> artifactIdAbilities = new HashMap<>();
+            for (ItemStack item : accessoryBag) {
+                ItemManager base = ItemHandler.getItemManager(item);
+                ItemRarity rarity = base.getRarity(item, this);
+                if (alreadyCalculatedIds.contains(base.itemID)) continue;
+                alreadyCalculatedIds.add(base.itemID);
+                int magicalpower = 0;
+                if (base.getAccessoryId() != null) {
+                    ItemRarity otherRarity = accessoryIds.get(base.getAccessoryId());
+                    if (otherRarity != null) {
+                        if (getMagicalPower(otherRarity) < getMagicalPower(rarity)) {
+                            magicalpower -= getMagicalPower(otherRarity);
+                            accessoryIds.put(base.getAccessoryId(), rarity);
+                            artifactIdAbilities.remove(base.getAccessoryId());
+                            if (base.getArtifactAbility() != null) artifactIdAbilities.put(base.getAccessoryId(), new Bundle<>(base.getArtifactAbility(), item));
+                        }
+                    } else {
+                        accessoryIds.put(base.getAccessoryId(), rarity);
+                        if (base.getArtifactAbility() != null) artifactIdAbilities.put(base.getAccessoryId(), new Bundle<>(base.getArtifactAbility(), item));
+                    }
+                } else {
+                    if (base.getArtifactAbility() != null) artifactBaseAbility.put(base.getArtifactAbility(), item);
+                }
+                totmagpow += magicalpower + getMagicalPower(rarity);
+            }
+            for (Map.Entry<ArtifactAbility, ItemStack> entry : artifactBaseAbility.entrySet()) entry.getKey().start(this, entry.getValue());
+            for (Bundle<ArtifactAbility, ItemStack> entry : artifactIdAbilities.values()) entry.getFirst().start(this, entry.getLast());
+        }
+        magicalpower = totmagpow;
+    }
+
+    public void swapAccessoryBag(List<ItemStack> items) {
+        for(ArtifactAbility ability : accessoryAbilities) ability.stop(this);
+        accessoryBag = items;
+        updateAccessoryBag();
+    }
+
+    private int getMagicalPower(ItemRarity rarity) {
+        return switch (rarity) {
+            case COMMON, SPECIAL -> 3;
+            case DIVINE, MYTHIC -> 22;
+            case EPIC -> 12;
+            case LEGENDARY -> 16;
+            case UNCOMMON, SUPREME, VERY_SPECIAL -> 5;
+            case RARE -> 8;
+            default -> 0;
+        };
+    }
+
+    public void saveAccessoryBag() {
+        accessoryBagFile.get().set("", accessoryBag);
+        accessoryBagFile.save();
     }
 
     public void sendPacket(Packet<?> packet) {

@@ -84,7 +84,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Bloody;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.MaxwellListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
@@ -253,9 +252,6 @@ public class Main extends JavaPlugin {
         });
 
         if (data.getConfig().contains("data")) loadNPC();
-        AccessoryBag.setup();
-        AccessoryBag.save();
-        AccessoryBag.reload();
 
         MiningSystem.setup();
         MiningSystem.save();
@@ -385,6 +381,9 @@ public class Main extends JavaPlugin {
         });
         getCommand("tentakleattack").setExecutor(new TentakleAttackCommand());
         getCommand("regenboss").setExecutor(new RegenF7Boss());
+        getCommand("acessorybag").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("acessories").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("acessory").setExecutor(new AccessoryBagQuickCommand());
 
 
         debug.debug("Registering Events", false);
@@ -397,7 +396,6 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new CustomAnvil(), this);
         this.getServer().getPluginManager().registerEvents(new GemstoneGrinder(), this);
         this.getServer().getPluginManager().registerEvents(new DrillMerchant(), this);
-        this.getServer().getPluginManager().registerEvents(new AccessoryListener(), this);
         this.getServer().getPluginManager().registerEvents(new MaxwellListener(), this);
         this.getServer().getPluginManager().registerEvents(new AreaListener(), this);
         this.getServer().getPluginManager().registerEvents(new CommissionListener(), this);
@@ -499,98 +497,6 @@ public class Main extends JavaPlugin {
             Powers.powers.get("Slender").setActive(player);
         }
 
-    }
-
-    public static void initAccessoryBag(Player player) {
-        if (AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString()) == null || !Objects.requireNonNull(AccessoryBag.get().getConfigurationSection(player.getUniqueId().toString())).getKeys(false).contains("slots")) {
-            AccessoryBag.get().set(player.getUniqueId() + ".slots", 0);
-            AccessoryBag.save();
-            AccessoryBag.reload();
-        }
-        int slots = AccessoryBag.get().getInt(player.getUniqueId() + ".slots");
-        int totmagpow = 0;
-        if (slots != 0) {
-
-            for (int i = 0; i < slots; i++) {
-                String baseDir = player.getUniqueId() + ".SLOT_" + i;
-                if (AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + i) == null) continue;
-
-                ItemManager manager = Items.SkyblockItems.get(AccessoryBag.get().getString(baseDir + ".id"));
-                ItemRarity rarity = manager.getRarity();
-                if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
-                int magicalpower = 0;
-                switch (rarity) {
-                    case COMMON, SPECIAL:
-                        magicalpower = 3;
-                        break;
-                    case DIVINE, MYTHIC:
-                        magicalpower = 22;
-                        break;
-                    case EPIC:
-                        magicalpower = 12;
-                        break;
-                    case LEGENDARY:
-                        magicalpower = 16;
-                        break;
-                    case RARE:
-                        magicalpower = 8;
-                        break;
-                    case SUPREME, VERY_SPECIAL, UNCOMMON:
-                        magicalpower = 5;
-                        break;
-                    default:
-                        break;
-                }
-                totmagpow += magicalpower;
-
-            }
-        }
-        SkyblockPlayer.getSkyblockPlayer(player).setMagicalpower(totmagpow);
-
-    }
-
-    public static void calculateMagicalPower(Player player) {
-        //TODO: Update!
-        int slots = AccessoryBag.get().getInt(player.getUniqueId() + ".slots");
-        int totmagpow = 0;
-        if (slots != 0) {
-
-            for (int i = 0; i < slots; i++) {
-                String baseDir = player.getUniqueId() + ".SLOT_" + i;
-                if (AccessoryBag.get().getConfigurationSection(player.getUniqueId() + ".SLOT_" + i) == null) continue;
-
-                ItemManager manager = Items.SkyblockItems.get(AccessoryBag.get().getString(baseDir + ".id"));
-                ItemRarity rarity = manager.getRarity();
-                if (AccessoryBag.get().getBoolean(baseDir + ".recom")) rarity = rarity.getNext();
-                int magicalpower = 0;
-                switch (rarity) {
-                    case COMMON, SPECIAL:
-                        magicalpower = 3;
-                        break;
-                    case DIVINE, MYTHIC:
-                        magicalpower = 22;
-                        break;
-                    case EPIC:
-                        magicalpower = 12;
-                        break;
-                    case LEGENDARY:
-                        magicalpower = 16;
-                        break;
-                    case RARE:
-                        magicalpower = 8;
-                        break;
-                    case SUPREME, VERY_SPECIAL, UNCOMMON:
-                        magicalpower = 5;
-                        break;
-                    default:
-                        break;
-
-                }
-                totmagpow += magicalpower;
-
-            }
-        }
-        SkyblockPlayer.getSkyblockPlayer(player).setMagicalpower(totmagpow);
     }
 
     public void eventRegister() {

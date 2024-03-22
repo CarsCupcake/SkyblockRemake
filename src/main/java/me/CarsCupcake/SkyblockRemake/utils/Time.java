@@ -14,9 +14,12 @@ public class Time extends BukkitRunnable {
     private static Time instance;
     @Getter
     private int day = 1;
+    @Getter
     private int hour;
+    @Getter
     private int minute;
     private int runVar;
+    @Getter
     private String ampm = "am";
     private final boolean hasBungeeCord;
     @Getter

@@ -1,12 +1,14 @@
 package me.CarsCupcake.SkyblockRemake.utils.loot;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
+import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -16,11 +18,29 @@ import java.util.Random;
  * @param max the maximum amount (exclusive)
  */
 public record ItemLoot(ItemManager manager, int min, int max) implements Loot{
+    public ItemLoot(String material) {
+        this(Items.SkyblockItems.get(material), 1);
+    }
+    public ItemLoot(String material, int count) {
+        this(Items.SkyblockItems.get(material), count);
+    }
+    public ItemLoot(String material, int min, int max) {
+        this(Objects.requireNonNull(Items.SkyblockItems.get(material)), min, max);
+    }
+    public ItemLoot(Material material) {
+        this(ItemManager.getPrimitive(material), 1);
+    }
+    public ItemLoot(Material material, int count) {
+        this(ItemManager.getPrimitive(material), count);
+    }
+    public ItemLoot(Material material, int min, int max) {
+        this(ItemManager.getPrimitive(material), min, max);
+    }
     public ItemLoot(ItemManager manager) {
         this(manager, 1);
     }
     public ItemLoot(ItemManager manager, int amount) {
-        this(manager, amount, amount + 1);
+        this(Objects.requireNonNull(manager), amount, amount + 1);
     }
     @Override
     public void consume(SkyblockPlayer killer, Location dropLocation, boolean toPlayer) {

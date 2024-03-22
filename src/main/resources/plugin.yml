@@ -83,3 +83,6 @@ commands:
   tentakleattack:
     description: Debug Command
   regenboss:
+  accessory:
+  accessories:
+  accessorybag:

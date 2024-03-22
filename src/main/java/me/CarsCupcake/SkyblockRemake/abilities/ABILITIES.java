@@ -31,7 +31,6 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase3;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.FallDownArmorstand;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowPointing;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.ArrowShooting;
-import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.LightsTerminal;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.Terminals.StationaryTerminals.SimonSaysTerminal;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.BatSecret;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Secrets.ChestSecret;
@@ -61,6 +60,7 @@ import me.CarsCupcake.SkyblockRemake.Slayer.blaze.Entities.BlazeSlayerListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.blaze.ItemAbility.TwilightDaggerHit;
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanListener;
 import me.CarsCupcake.SkyblockRemake.Slayer.enderman.EndermanT1;
+import me.CarsCupcake.SkyblockRemake.isles.hub.HubManager;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsleListener;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.AdminItems;
 import me.CarsCupcake.SkyblockRemake.isles.rift.items.QuestItems;
@@ -70,7 +70,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.ints.IntArrayList;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.persistence.CraftPersistentDataTypeRegistry;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -156,6 +155,9 @@ public class ABILITIES implements Listener {
         registerEvent(new TradeMenuListener());
         QuestItems.init();
         AdminItems.init();
+
+        if (ServerType.getActiveType() == ServerType.Hub)
+            new HubManager();
     }
 
     public static void disable() {

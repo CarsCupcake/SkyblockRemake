@@ -90,7 +90,9 @@ public abstract class SkyblockEntity implements Elementable {
         health -= (int) damage;
     }
 
-    public abstract boolean hasNoKB();
+    public boolean hasNoKB() {
+        return false;
+    }
 
     public int getTrueDamage() {
         return 0;

@@ -68,10 +68,11 @@ public abstract class Spawnable implements Listener {
         for(int i = 0; i < getSpawnLocations().length; i++){
             if(!entitys.containsKey(i)) {
                 SkyblockEntity entity = getNewEntity();
-                entity.spawn(getSpawnLocations()[i]);
-                entity.getEntity().addScoreboardTag("spawnId:" + i);
-                entitys.put(i, entity);
-
+                if (canSpawn(getSpawnLocations()[i])){
+                    entity.spawn(getSpawnLocations()[i]);
+                    entity.getEntity().addScoreboardTag("spawnId:" + i);
+                    entitys.put(i, entity);
+                }
             }
         }
     }
@@ -79,6 +80,10 @@ public abstract class Spawnable implements Listener {
         for (Spawnable spawnable : a){
             spawnable.stop();
         }
+    }
+
+    protected boolean canSpawn(Location location) {
+        return true;
     }
 
 

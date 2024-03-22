@@ -200,7 +200,6 @@ public class Items {
             }
         });
 
-
         initAllItems();
         initBaseItems();
         NOVA_SWORD();
@@ -504,6 +503,12 @@ public class Items {
                     String.valueOf(EmeraldBlade.getBuff(player));
         }));
         DianaItems.init();
+        manager = new ItemManager("Golden Powder", "GOLDEN_POWDER", ItemType.Non, Material.GLOWSTONE_DUST, ItemRarity.EPIC);
+        manager.setGlint();
+        manager = new ItemManager("Wolf Talisman", "WOLF_TALISMAN", ItemType.Accessory, ItemRarity.COMMON, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjlkMWQzMTEzZWM0M2FjMjk2MWRkNTlmMjgxNzVmYjQ3MTg4NzNjNmM0NDhkZmNhODcyMjMxN2Q2NyJ9fX0=");
+        manager.setLore(List.of("§7Reduces the damage taken from", "§7Wolves by §a5%§7."));
+        manager.setNpcSellPrice(50);
+        manager.setAccessoryId("WOLF_TALISMANS");
     }
 
     public static class EmeraldBlade implements AbilityManager<DamagePrepairEvent> {

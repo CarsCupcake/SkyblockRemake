@@ -23,36 +23,44 @@ public class LootTable {
         this.fillupLootable = fillupLootable;
     }
 
-    public void showRareDropMessage() {
+    public LootTable showRareDropMessage() {
         showRareDropMessage = true;
+        return this;
     }
 
-    public void addLoot(Loot loot, double chance, boolean magicFind) {
+    public LootTable addLoot(Loot loot, double chance, boolean magicFind) {
         lootPool.put(loot, new LootChance(chance, magicFind));
+        return this;
     }
 
-    public void addLootFamily(List<Loot> loots, double chance, boolean magicFind) {
+    public LootTable addLootFamily(List<Loot> loots, double chance, boolean magicFind) {
         lootPool.put(new LootFamily(loots), new LootChance(chance, magicFind));
+        return this;
     }
 
-    public void addLoot(Loot loot) {
+    public LootTable addLoot(Loot loot) {
         addLoot(loot, 1, false);
+        return this;
     }
 
-    public void addLoot(Loot loot, double chance) {
+    public LootTable addLoot(Loot loot, double chance) {
         addLoot(loot, chance, chance <= 0.3);
+        return this;
     }
 
-    public void addSubLootTable(LootTable table, double chance, boolean magicFind) {
+    public LootTable addSubLootTable(LootTable table, double chance, boolean magicFind) {
         addLoot(new LootableLoot(table), chance, magicFind);
+        return this;
     }
 
-    public void addSubLootTable(LootTable table, double chance) {
+    public LootTable addSubLootTable(LootTable table, double chance) {
         addSubLootTable(table, chance, false);
+        return this;
     }
 
-    public void addSubLootTable(LootTable table) {
+    public LootTable addSubLootTable(LootTable table) {
         addSubLootTable(table, 1, false);
+        return this;
     }
 
     public List<Loot> use(boolean sendMessage, @Nullable SkyblockPlayer player) {

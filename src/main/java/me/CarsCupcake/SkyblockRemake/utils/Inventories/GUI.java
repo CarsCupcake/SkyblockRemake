@@ -23,6 +23,7 @@ public class GUI {
     protected HashMap<Integer, RunnableWithParam<InventoryClickEvent>> directInventoryClickAction = new HashMap<>();
     protected final HashMap<Integer, GUIAction> playerInventoryClickAction = new HashMap<>();
     protected GUIAction closeAction;
+    @Setter
     protected InventoryGUIAction generalAction;
     protected static final HashMap<SkyblockPlayer, GUI> opened = new HashMap<>();
     protected boolean isCanceled = false;
@@ -117,9 +118,7 @@ public class GUI {
     public static boolean hasOpen(SkyblockPlayer player) {
        return getGUIs().containsKey(player);
     }
-    public void setGeneralAction(InventoryGUIAction action){
-        generalAction = action;
-    }
+
     public void swapInventory(Inventory i){
         inv = i;
         player.openInventory(inv);

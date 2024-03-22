@@ -118,6 +118,12 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private ArtifactAbility artifactAbility;
+    /**
+     * Used to not allow double accessorys
+     */
+    @Getter
+    @Setter
+    private String accessoryId = null;
     @Getter
     @Setter
     private String mapImagePath;

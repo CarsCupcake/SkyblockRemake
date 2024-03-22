@@ -38,7 +38,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryInventory;
-import me.CarsCupcake.SkyblockRemake.configs.AccessoryBag;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetMenuInv;
 
@@ -800,7 +799,7 @@ public class OpenMenu implements CommandExecutor, Listener {
         inv.setItem(50, item);
 
 
-        if (AccessoryBag.get().getInt(player.getUniqueId() + ".slots") != 0) {
+        if (player.getMaxAccessoryBagSlots() > 0) {
             item = Tools.CustomHeadTexture("http://textures.minecraft.net/texture/961a918c0c49ba8d053e522cb91abc74689367b4d8aa06bfc1ba9154730985ff");
             meta = item.getItemMeta();
             meta.setDisplayName("§aAccessory Bag");
@@ -929,7 +928,7 @@ public class OpenMenu implements CommandExecutor, Listener {
         if (event.getCurrentItem() == null) return;
         if (event.getCurrentItem().getItemMeta() == null) return;
 
-        Player player = (Player) event.getWhoClicked();
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getWhoClicked());
         event.setCancelled(true);
 
         if (event.getClickedInventory().getType() == InventoryType.PLAYER) return;
@@ -971,15 +970,11 @@ public class OpenMenu implements CommandExecutor, Listener {
             player.openInventory(CustomCraftingTableInvenotry.createInventory());
             return;
         }
-        if (event.getSlot() == 53 && AccessoryBag.get().getInt(player.getUniqueId() + ".slots") != 0) {
-
-
-            player.updateInventory();
-            AccessoryInventory inv = new AccessoryInventory(player);
-            player.openInventory(inv.invs.get(0));
-            return;
-
-
+        if (event.getSlot() == 53 && player.getMaxAccessoryBagSlots() > 0) {
+                player.updateInventory();
+                AccessoryInventory inv = new AccessoryInventory(player);
+                inv.open();
+                return;
         }
         if (event.getSlot() == 32){
             WardrobeSlot.openWardrobe(SkyblockPlayer.getSkyblockPlayer(player));
