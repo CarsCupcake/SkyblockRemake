@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.API.PlayerHealthChangeEvent;
 import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Pet;
@@ -15,6 +16,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.Skills.Skills;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.Elections;
 import me.CarsCupcake.SkyblockRemake.Skyblock.major.diana.MythologicalPerk;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.ArtifactAbility;
+import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.Powers.Powers;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.CollectHandler;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Collections.ICollection;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Commission.Commission;
@@ -43,6 +45,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -963,20 +966,20 @@ public class SkyblockPlayer extends CraftPlayer {
 
     }
     @Getter
-    private List<ItemStack> accessoryBag = new ArrayList<>();
+    private HashMap<Integer, ItemStack> accessoryBag = new HashMap<>();
     @Getter
     @Setter
     private int maxAccessoryBagSlots = 0;
     public void initAccessoryBag() {
-        maxAccessoryBagSlots = generalConfig.get().getInt("accessoryBagSlots", 0);
         accessoryBagFile = new ConfigFile(this, "accessorybag");
-
-        if (accessoryBagFile.get().getKeys(false).isEmpty()) {
+        maxAccessoryBagSlots = accessoryBagFile.get().getInt("accessoryBagSlots", 0);
+        ConfigurationSection section = accessoryBagFile.get().getConfigurationSection("accessories");
+        if (section == null || section.getKeys(false).isEmpty()) {
             return;
         }
-        for (Object o : accessoryBagFile.get().getList("", new ArrayList<>())) {
-            if (o instanceof ItemStack item) accessoryBag.add(item);
-            else sendMessage("An Error Occured while loading you Accessory Bag!\n" + o.toString());
+        for (int i = 0; i < maxAccessoryBagSlots; i++) {
+            ItemStack item = section.getItemStack(i + "");
+            if (item != null) accessoryBag.put(i, item);
         }
         updateAccessoryBag();
     }
@@ -992,9 +995,9 @@ public class SkyblockPlayer extends CraftPlayer {
         if (!accessoryBag.isEmpty()) {
             Set<String> alreadyCalculatedIds = new HashSet<>();
             Map<String, ItemRarity> accessoryIds = new HashMap<>();
-            Map<ArtifactAbility, ItemStack> artifactBaseAbility = new HashMap<>();
-            Map<String, Bundle<ArtifactAbility, ItemStack>> artifactIdAbilities = new HashMap<>();
-            for (ItemStack item : accessoryBag) {
+            Set<ItemStack> nonDupe = new HashSet<>();
+            Map<String, ItemStack> highest = new HashMap<>();
+            for (ItemStack item : accessoryBag.values()) {
                 ItemManager base = ItemHandler.getItemManager(item);
                 ItemRarity rarity = base.getRarity(item, this);
                 if (alreadyCalculatedIds.contains(base.itemID)) continue;
@@ -1006,25 +1009,49 @@ public class SkyblockPlayer extends CraftPlayer {
                         if (getMagicalPower(otherRarity) < getMagicalPower(rarity)) {
                             magicalpower -= getMagicalPower(otherRarity);
                             accessoryIds.put(base.getAccessoryId(), rarity);
-                            artifactIdAbilities.remove(base.getAccessoryId());
-                            if (base.getArtifactAbility() != null) artifactIdAbilities.put(base.getAccessoryId(), new Bundle<>(base.getArtifactAbility(), item));
+                            highest.remove(base.getAccessoryId());
+                            if (base.getArtifactAbility() != null) highest.put(base.getAccessoryId(), item);
                         }
                     } else {
                         accessoryIds.put(base.getAccessoryId(), rarity);
-                        if (base.getArtifactAbility() != null) artifactIdAbilities.put(base.getAccessoryId(), new Bundle<>(base.getArtifactAbility(), item));
+                        if (base.getArtifactAbility() != null) highest.put(base.getAccessoryId(),item);
                     }
                 } else {
-                    if (base.getArtifactAbility() != null) artifactBaseAbility.put(base.getArtifactAbility(), item);
+                    if (base.getArtifactAbility() != null) nonDupe.add(item);
                 }
                 totmagpow += magicalpower + getMagicalPower(rarity);
             }
-            for (Map.Entry<ArtifactAbility, ItemStack> entry : artifactBaseAbility.entrySet()) entry.getKey().start(this, entry.getValue());
-            for (Bundle<ArtifactAbility, ItemStack> entry : artifactIdAbilities.values()) entry.getFirst().start(this, entry.getLast());
+            for (ItemStack entry : nonDupe) {
+                ItemManager manager = ItemHandler.getItemManager(entry);
+                if (manager.getArtifactAbility() != null) {
+                    accessoryAbilities.add(manager.getArtifactAbility());
+                    manager.getArtifactAbility().start(this, entry);
+                }
+                for (Stats stat : Stats.values()) {
+                    accessoryBagStats.put(stat, Main.getItemStat(this, stat, entry));
+                }
+            }
+            for (ItemStack entry : highest.values()) {
+                ItemManager manager = ItemHandler.getItemManager(entry);
+                if (manager.getArtifactAbility() != null) {
+                    accessoryAbilities.add(manager.getArtifactAbility());
+                    manager.getArtifactAbility().start(this, entry);
+                }
+                for (Stats stat : Stats.values()) {
+                    accessoryBagStats.put(stat, Main.getItemStat(this, stat, entry));
+                }
+            }
         }
         magicalpower = totmagpow;
+        new Thread() {
+            @Override
+            public void run() {
+                saveAccessoryBag();
+            }
+        }.start();
     }
 
-    public void swapAccessoryBag(List<ItemStack> items) {
+    public void swapAccessoryBag(HashMap<Integer, ItemStack> items) {
         for(ArtifactAbility ability : accessoryAbilities) ability.stop(this);
         accessoryBag = items;
         updateAccessoryBag();
@@ -1043,7 +1070,11 @@ public class SkyblockPlayer extends CraftPlayer {
     }
 
     public void saveAccessoryBag() {
-        accessoryBagFile.get().set("", accessoryBag);
+        accessoryBagFile.get().set("accessories", null);
+        for (Map.Entry<Integer, ItemStack> entry : accessoryBag.entrySet()) {
+            accessoryBagFile.get().set("accessories." + entry.getKey(), entry.getValue());
+        }
+        accessoryBagFile.get().set("accessoryBagSlots", maxAccessoryBagSlots);
         accessoryBagFile.save();
     }
 
@@ -1063,5 +1094,27 @@ public class SkyblockPlayer extends CraftPlayer {
 		Assert.notNull(o);
 		return o.equals(player);
 	}*/
+
+    public synchronized double getStat(Stats stat) {
+        double value = this.getBaseStat(stat);
+        if (this.getItemInHand() != null && this.getItemInHand().hasItemMeta() && ItemHandler.getItemManager(this.getItemInHand()) != null && ItemHandler.getItemManager(this.getItemInHand()).type.hasInHandStats())
+            value = value + Main.getItemStat(this, stat, this.getItemInHand());
+        value += Main.getItemStat(this, stat, this.getInventory().getHelmet());
+        value += Main.getItemStat(this, stat, this.getInventory().getChestplate());
+        value += Main.getItemStat(this, stat, this.getInventory().getLeggings());
+        value += Main.getItemStat(this, stat, this.getInventory().getBoots());
+        if (this.getPetEquip() != null) value += this.getPetEquip().getStat(stat);
+        if (Powers.activepower.containsKey(this)) {
+            Powers power = Powers.activepower.get(this);
+            value += power.CalculateStats(stat, this);
+        }
+        value += this.getAccessoryBagStat(stat);
+        value += this.equipmentManager.getTotalStat(stat);
+        GetTotalStatEvent event = new GetTotalStatEvent(this, stat, value);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return stat.getBaseAmount();
+        value = event.getValue() * event.getMultiplier();
+        return value;
+    }
 
 }

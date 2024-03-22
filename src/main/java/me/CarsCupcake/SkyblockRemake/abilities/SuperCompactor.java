@@ -4,7 +4,6 @@ import me.CarsCupcake.SkyblockRemake.Items.*;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
-import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.AccessoryListener;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag.ArtifactAbility;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.InventoryBuilder;
@@ -82,7 +81,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
                     if(!hasFree) return true;
                     ItemStack s = player.getInventory().getItem(slot);
@@ -92,7 +90,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 }
                 return true;
             });
@@ -132,7 +129,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
                     if(active.size() >= 3) return true;
                     ItemStack s = player.getInventory().getItem(slot);
@@ -142,7 +138,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 }
                 return true;
             });
@@ -182,7 +177,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 } else if (actionType == GUI.GUIActions.PlayerClick) {
                     if(active.size() >= 7) return true;
                     ItemStack s = player.getInventory().getItem(slot);
@@ -192,7 +186,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                     data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                     ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                     generateInv(item, player);
-                    AccessoryListener.startupAbilitys(player);
                 }
                 return true;
             });
@@ -232,7 +225,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                         data.remove(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)));
                         ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                         generateInv(item, player);
-                        AccessoryListener.startupAbilitys(player);
                     } else if (actionType == GUI.GUIActions.PlayerClick) {
                         if(active.size() >= 12) return true;
                         ItemStack s = player.getInventory().getItem(slot);
@@ -242,7 +234,6 @@ public class SuperCompactor extends ArtifactAbility implements Listener {
                         data.set(new NamespacedKey(Main.getMain(),ItemHandler.getPDC("id", s, PersistentDataType.STRING)), PersistentDataType.INTEGER, 1);
                         ItemHandler.setPDC("active", item, PersistentDataType.TAG_CONTAINER, data);
                         generateInv(item, player);
-                        AccessoryListener.startupAbilitys(player);
                     }
                     return true;
                 });

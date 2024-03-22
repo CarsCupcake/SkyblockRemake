@@ -1,11 +1,13 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.player.AccessoryBag;
 
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
+import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.MultipleGui;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.TemplateItems;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,6 +27,7 @@ public class AccessoryInventory {
     public ArrayList<Inventory> invs = new ArrayList<>();
     public static HashMap<Player, AccessoryInventory> activeInvs = new HashMap<>();
     private final SkyblockPlayer player;
+    private int lastPageSize = 54;
 
     public AccessoryInventory(SkyblockPlayer player) {
         this.player = player;
@@ -34,10 +37,17 @@ public class AccessoryInventory {
         int list = 0;
         int invCount;
         for (invCount = 1; invCount <= invs; invCount++) {
-            Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_GRAY + "Accessory Bag (" + invCount + "/" + invs + ")");
-            for (int i = 0; i < 45; i++) {
-                if (list < slots && player.getAccessoryBag().size() > list) {
-                    ItemStack it = player.getAccessoryBag().get(list);
+            int invSlots = (slots - list > 45) ? 54 :  (9 * (1 + getNextHigher((slots - list) / 9d)));
+            if (invSlots != 54) lastPageSize = invSlots;
+            Inventory inv = Bukkit.createInventory(null, invSlots, ChatColor.DARK_GRAY + "Accessory Bag (" + invCount + "/" + invs + ")");
+            ItemStack empty = TemplateItems.EmptySlot.getItem();
+            ItemHandler.setPDC("border", empty, ItemHandler.BOOLEAN, true);
+            for (int i = invSlots - 9; i < invSlots; i++) {
+                inv.setItem(i, empty);
+            }
+            for (int i = 0; i < invSlots - 9; i++) {
+                ItemStack it = player.getAccessoryBag().get(list);
+                if (it != null) {
                     inv.setItem(i, Main.itemUpdater(it, player));
                 } else {
                     if (list >= slots) {
@@ -52,30 +62,47 @@ public class AccessoryInventory {
                     }
                 }
                 list++;
-
-
             }
             this.invs.add(inv);
         }
         activeInvs.put(player, this);
     }
 
+    private int getNextHigher(double d) {
+        int toInt = (int) d;
+        if (toInt < d) return toInt + 1;
+        return toInt;
+    }
+
     public void open() {
-        MultipleGui gui = new MultipleGui(invs, 45, 53);
+        MultipleGui gui = new MultipleGui(invs, 53, 45);
+        gui.addSpecialSlotSwap(invs.size() - 1, lastPageSize - 1, lastPageSize - 9);
         gui.setGeneralAction((slot, actionType, type) -> {
-            if (actionType == GUI.GUIActions.Click) ItemHandler.getOrDefaultPDC("border", gui.getInventory().getItem(slot), ItemHandler.BOOLEAN, false);
-            return actionType == GUI.GUIActions.PlayerClick && ItemHandler.getItemManager(player.getInventory().getItem(slot)).type != ItemType.Accessory;
+            ItemStack item = gui.getInventory().getItem(slot);
+            if (item == null || item.getType() == Material.AIR) return false;
+            if (actionType == GUI.GUIActions.Click) {
+                if ((gui.getCurrentPage() == gui.getInventories().size() - 1 && (lastPageSize - 9 == 45 || lastPageSize - 1 == 53)) || (slot == 45 || slot == 53)) return true;
+                return ItemHandler.getOrDefaultPDC("border", item, ItemHandler.BOOLEAN, false);
+            }
+            ItemManager base = ItemHandler.getItemManager(player.getInventory().getItem(slot));
+            if (base == null) return true;
+            return actionType == GUI.GUIActions.PlayerClick && base.type != ItemType.Accessory;
         });
         gui.closeAction(type -> save(gui.getInventories()));
         gui.showGUI(player);
     }
     private void save(List<Inventory> invs) {
-        List<ItemStack> newItems = new ArrayList<>();
+        HashMap<Integer, ItemStack> newItems = new HashMap<>();
+        int slot = -1;
         for (Inventory inv : invs) {
-            for (ItemStack item : inv) {
+            for (int i = 0; i < inv.getSize() - 9; i++) {
+                slot++;
+                if (slot == player.getMaxAccessoryBagSlots()) break;
+                ItemStack item = inv.getItem(i);
                 if (item == null || item.getType() == Material.AIR) continue;
-                if (ItemHandler.getOrDefaultPDC("border", item, ItemHandler.BOOLEAN, false)) continue;
-                newItems.add(item);
+                ItemManager base = ItemHandler.getItemManager(item);
+                if (base == null || base.type != ItemType.Accessory) continue;
+                newItems.put(slot, item);
             }
         }
         player.swapAccessoryBag(newItems);

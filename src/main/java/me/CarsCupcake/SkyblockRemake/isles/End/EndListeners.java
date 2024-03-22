@@ -33,8 +33,8 @@ public class EndListeners implements Listener {
             Main.getMain().getServer().getPluginManager().registerEvents(new EndListeners(), Main.getMain());
             Teleporters.registerTeleporter(new VoidSephultures());
             Teleporters.registerTeleporter(new VoidSephulturesBack());
-            Main.getMain().getServer().getPluginManager().registerEvents(new ZealotSpawning(),Main.getMain());
-            Main.getMain().getServer().getPluginManager().registerEvents(new ZealotBruiserSpawning(),Main.getMain());
+            new ZealotSpawning();
+            new ZealotBruiserSpawning();
             for (Block block : endPortalFrames)
                 new EnderAltarFrame(block.getLocation());
         }

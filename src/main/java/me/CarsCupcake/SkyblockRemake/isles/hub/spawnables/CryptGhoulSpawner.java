@@ -16,7 +16,7 @@ public class CryptGhoulSpawner extends Spawnable {
 
     @Override
     public long frequence() {
-        return 10;
+        return 10 * 20;
     }
 
     @Override

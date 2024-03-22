@@ -3,13 +3,13 @@ package me.CarsCupcake.SkyblockRemake.isles.hub.spawnables;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Spawnable;
-import me.CarsCupcake.SkyblockRemake.isles.hub.mobs.GoldenGhoul;
+import me.CarsCupcake.SkyblockRemake.isles.hub.mobs.OldWolf;
 import org.bukkit.Location;
 
-public class GoldenGhoulSpawner extends Spawnable {
+public class OldWolfSpawner extends Spawnable {
     @Override
     public Location[] getSpawnLocations() {
-        return new Location[]{new Location(Main.getMain().getServer().getWorld("world"), -101.5, 39.0, -85.5),new Location(Main.getMain().getServer().getWorld("world"), -126.5, 42.0, -136.5)};
+        return new Location[]{new Location(Main.getMain().getServer().getWorld("world"), -270.5, 90.0, 98.5),new Location(Main.getMain().getServer().getWorld("world"), -256.5, 105.0, 75.5)};
     }
 
     @Override
@@ -19,6 +19,6 @@ public class GoldenGhoulSpawner extends Spawnable {
 
     @Override
     public Class<? extends SkyblockEntity> spawnEntity() {
-        return GoldenGhoul.class;
+        return OldWolf.class;
     }
 }

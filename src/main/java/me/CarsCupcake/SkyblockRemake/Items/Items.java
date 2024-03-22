@@ -509,6 +509,8 @@ public class Items {
         manager.setLore(List.of("§7Reduces the damage taken from", "§7Wolves by §a5%§7."));
         manager.setNpcSellPrice(50);
         manager.setAccessoryId("WOLF_TALISMANS");
+        manager.setIsSkullValue(true);
+        manager.setUnstackeble(true);
     }
 
     public static class EmeraldBlade implements AbilityManager<DamagePrepairEvent> {

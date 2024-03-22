@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
+import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.Items.AbilityManager;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 
 public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent> {
+    @Setter
     private static Class<? extends SkyblockEntity> entity = null;
     public static final ArrayList<Location> locations = new ArrayList<>();
     @Override
@@ -45,7 +47,7 @@ public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent>
         int i = 0;
         for (Location location : locations){
             str.append("new Location(Main.getMain().getServer().getWorld(\"").append(location.getWorld().getName()).append("\"), ").append(location.getX()).append(", ").append(location.getY()).append(", ").append(location.getZ()).append(")");
-            if(i == locations.size())
+            if(i == locations.size() - 1)
                 str.append("}");
             else
                 str.append(",");
@@ -59,9 +61,6 @@ public class EntityLocationSetter implements AbilityManager<PlayerInteractEvent>
 
 
         return false;
-    }
-    public static void setEntity(Class<? extends SkyblockEntity> e){
-        entity = e;
     }
 
 }

@@ -17,7 +17,7 @@ public class ZombieVillagerSpawner extends Spawnable {
 
     @Override
     public long frequence() {
-        return 20;
+        return 20 * 20;
     }
 
     @Override

@@ -381,9 +381,9 @@ public class Main extends JavaPlugin {
         });
         getCommand("tentakleattack").setExecutor(new TentakleAttackCommand());
         getCommand("regenboss").setExecutor(new RegenF7Boss());
-        getCommand("acessorybag").setExecutor(new AccessoryBagQuickCommand());
-        getCommand("acessories").setExecutor(new AccessoryBagQuickCommand());
-        getCommand("acessory").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("accessorybag").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("accessories").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("accessory").setExecutor(new AccessoryBagQuickCommand());
 
 
         debug.debug("Registering Events", false);
@@ -944,25 +944,7 @@ public class Main extends JavaPlugin {
     }
 
     public synchronized static double getPlayerStat(SkyblockPlayer player, Stats stat) {
-        double value = player.getBaseStat(stat);
-        if (player.getItemInHand() != null && player.getItemInHand().hasItemMeta() && ItemHandler.getItemManager(player.getItemInHand()) != null && ItemHandler.getItemManager(player.getItemInHand()).type.hasInHandStats())
-            value = value + getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getItemInHand());
-        value += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getHelmet());
-        value += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getChestplate());
-        value += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getLeggings());
-        value += getItemStat(SkyblockPlayer.getSkyblockPlayer(player), stat, player.getInventory().getBoots());
-        if (player.getPetEquip() != null) value += player.getPetEquip().getStat(stat);
-        if (Powers.activepower.containsKey(player)) {
-            Powers power = Powers.activepower.get(player);
-            value += power.CalculateStats(stat, player);
-        }
-        value += player.getAccessoryBagStat(stat);
-        value += SkyblockPlayer.getSkyblockPlayer(player).equipmentManager.getTotalStat(stat);
-        GetTotalStatEvent event = new GetTotalStatEvent(SkyblockPlayer.getSkyblockPlayer(player), stat, value);
-        Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return stat.getBaseAmount();
-        value = event.getValue() * event.getMultiplier();
-        return value;
+        return player.getStat(stat);
     }
 
 

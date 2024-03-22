@@ -10,74 +10,75 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public abstract class Spawnable implements Listener {
+public abstract class Spawnable {
     private BukkitRunnable runnable;
-    private final HashMap<Integer, SkyblockEntity> entitys = new HashMap<>();
+    private final List<SkyblockEntity> entitys = new ArrayList<>();
     private static final ArrayList<Spawnable> a = new ArrayList<>();
-    public Spawnable(){
+
+    public Spawnable() {
         init();
         a.add(this);
     }
 
-    private void init(){
+    private void init() {
+        int i = 0;
+        for (Location location : getSpawnLocations()) {
+            SkyblockEntity entity = getNewEntity();
+            if (canSpawn(location)) {
+                entity.spawn(location);
+                entity.getEntity().addScoreboardTag("spawnId:" + i);
+                entitys.add(entity);
+            } else {
+                System.out.println("Not Allowed To Spawn!");
+                entitys.add(null);
+            }
+            i++;
+        }
         runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 respawnMissing();
             }
         };
-        runnable.runTaskTimer(Main.getMain(), 0, frequence());
+        runnable.runTaskTimer(Main.getMain(), frequence(), frequence());
     }
-    public void stop(){
+
+    public void stop() {
         try {
             runnable.cancel();
-        }catch (Exception ignored){}
-        for (SkyblockEntity entity : entitys.values())
+        } catch (Exception ignored) {
+        }
+        for (SkyblockEntity entity : entitys)
             entity.getEntity().remove();
         entitys.clear();
     }
-    private SkyblockEntity getNewEntity(){
+
+    private SkyblockEntity getNewEntity() {
         try {
-            @SuppressWarnings("deprecation")
-            SkyblockEntity e =  spawnEntity().newInstance();
+            @SuppressWarnings("deprecation") SkyblockEntity e = spawnEntity().newInstance();
             return e;
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return null;
     }
-    @EventHandler
-    public void removeDead(EntityDeathEvent event) {
-        if(!(event.getEntity() instanceof Player))
-        {
-            boolean isIn = false;
-            for(SkyblockEntity entity : entitys.values()){
-                if(entity.getEntity().equals(event.getEntity()))
-                    isIn = true;
-            }
-            if(!isIn)
-                return;
-            for (String s : event.getEntity().getScoreboardTags()){
-                if(s.startsWith("spawnId:")) {
-                    int id = Integer.parseInt(s.split(":")[1]);
-                    entitys.remove(id);
-                }
-            }
-        }
-    }
-    private void respawnMissing(){
-        for(int i = 0; i < getSpawnLocations().length; i++){
-            if(!entitys.containsKey(i)) {
+
+    private void respawnMissing() {
+        for (int i = 0; i < getSpawnLocations().length; i++) {
+            if (entitys.get(i) == null || entitys.get(i).isHasDoneDeath()) {
                 SkyblockEntity entity = getNewEntity();
-                if (canSpawn(getSpawnLocations()[i])){
+                if (canSpawn(getSpawnLocations()[i])) {
                     entity.spawn(getSpawnLocations()[i]);
                     entity.getEntity().addScoreboardTag("spawnId:" + i);
-                    entitys.put(i, entity);
+                    entitys.set(i, entity);
                 }
             }
         }
     }
-    public static void disable(){
-        for (Spawnable spawnable : a){
+
+    public static void disable() {
+        for (Spawnable spawnable : a) {
             spawnable.stop();
         }
     }
@@ -88,7 +89,9 @@ public abstract class Spawnable implements Listener {
 
 
     public abstract Location[] getSpawnLocations();
+
     public abstract long frequence();
+
     public abstract Class<? extends SkyblockEntity> spawnEntity();
 
 }
