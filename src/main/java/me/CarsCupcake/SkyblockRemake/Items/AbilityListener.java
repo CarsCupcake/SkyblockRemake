@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,11 +24,15 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 public class AbilityListener implements Listener {
 	@EventHandler
 	public void listener(PlayerInteractEvent event) {
+		if (event.getHand() == EquipmentSlot.OFF_HAND) {
+			event.setCancelled(true);
+			return;
+		}
 		AbilityManager.abilityTrigger(event);
 
 	}
 	@EventHandler
-	public void listener(EntityDamageByEntityEvent event) {
+	public void trigger2(EntityDamageByEntityEvent event) {
 		AbilityManager.abilityTrigger(event);
 	}
 	@EventHandler
@@ -35,11 +40,11 @@ public class AbilityListener implements Listener {
 		AbilityManager.abilityTrigger(event);
 	}
 	@EventHandler
-	public void a(RiftDamageEvent event){
+	public void b(RiftDamageEvent event){
 		AbilityManager.abilityTrigger(event);
 	}
 	@EventHandler
-	public void a(SkyblockDamagePlayerToEntityExecuteEvent event){
+	public void c(SkyblockDamagePlayerToEntityExecuteEvent event){
 		AbilityManager.abilityTrigger(event);
 	}
 	
