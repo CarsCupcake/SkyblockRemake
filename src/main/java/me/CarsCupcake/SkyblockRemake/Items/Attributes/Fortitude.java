@@ -27,7 +27,7 @@ public class Fortitude extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("Increases§c" + Stats.Health.getSymbol() + " Health§a" + Stats.Defense.getSymbol() + " Defense§7 by §a" + getBuff(l));
+        return List.of("§7Increases§c" + Stats.Health.getSymbol() + " Health§a" + Stats.Defense.getSymbol() + " Defense§7 by §a" + getBuff(l));
     }
     private double getBuff(int level){
         return level*0.5;

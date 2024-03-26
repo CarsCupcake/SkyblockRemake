@@ -119,7 +119,7 @@ public class MinosInquisitor extends SkyblockEntity implements Listener {
     }
 
     @Override
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.SmallNumber;
     }
 

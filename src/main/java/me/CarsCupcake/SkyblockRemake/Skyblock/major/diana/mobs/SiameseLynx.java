@@ -65,7 +65,7 @@ public class SiameseLynx extends SkyblockEntity {
     }
 
     @Override
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.SmallNumber;
     }
 

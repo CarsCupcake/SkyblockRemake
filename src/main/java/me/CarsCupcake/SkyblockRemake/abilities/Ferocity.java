@@ -71,6 +71,7 @@ public class Ferocity {
 
     public static void hit(LivingEntity e, Player player) {
         if (e == null) return;
+        if (e.isDead()) return;
         particles(e);
         playSound(e.getEyeLocation());
         if (!SkyblockEntity.livingEntity.exists(e)) new BasicEntity(e);

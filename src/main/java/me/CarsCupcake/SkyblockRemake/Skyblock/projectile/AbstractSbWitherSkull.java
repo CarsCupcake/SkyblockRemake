@@ -1,41 +1,32 @@
 package me.CarsCupcake.SkyblockRemake.Skyblock.projectile;
 
+import me.CarsCupcake.SkyblockRemake.Main;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.projectile.EntityWitherSkull;
+import net.minecraft.world.level.World;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftWitherSkull;
 import org.bukkit.craftbukkit.v1_17_R1.util.CraftVector;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class AbstractSbWitherSkull extends EntityWitherSkull implements SkyblockProjectile {
-    public AbstractSbWitherSkull(LivingEntity entity) {
-        super(EntityTypes.bb, ((CraftWorld) entity.getWorld()).getHandle());
-        ((CraftWorld) entity.getWorld()).getHandle().addEntity(this);
-        launch(entity, entity.getLocation().getDirection().normalize().multiply(0.5));
-    }
-    public AbstractSbWitherSkull(LivingEntity entity, Location location) {
-        super(((CraftWorld) entity.getWorld()).getHandle(), ((CraftLivingEntity) entity).getHandle(), location.getX(), location.getY(), location.getZ());
-        this.setYawPitch(location.getYaw(), location.getPitch());
-        ((CraftWorld) entity.getWorld()).getHandle().addEntity(this);
-        launch(entity, location);
+public abstract class AbstractSbWitherSkull extends CraftWitherSkull implements SkyblockProjectile {
+    public AbstractSbWitherSkull(Location location) {
+        this(location, EntityTypes.bb.a(((CraftWorld) location.getWorld()).getHandle()));
 
     }
-    public void setup(LivingEntity source){
-        this.setLocation(source.getLocation().getX(), source.getLocation().getY(), source.getLocation().getZ(), source.getLocation().getYaw(), source.getLocation().getPitch());
-        this.setPositionRotation(source.getLocation().getX(), source.getLocation().getY(), source.getLocation().getZ(), source.getLocation().getYaw(), source.getLocation().getPitch());
-    }
-    public void launch(@Nullable LivingEntity source,@NotNull Vector vector){
-        setup(source);
-        this.projectileSource = source;
-        this.setMot(CraftVector.toNMS(vector.normalize().multiply(0.5)));
 
-    }
-    public void launch(@Nullable LivingEntity source,@NotNull Location vector){
-        this.projectileSource = source;
-        this.setMot(CraftVector.toNMS(vector.getDirection().normalize().multiply(0.5)));
+    private AbstractSbWitherSkull(Location location, EntityWitherSkull witherSkull) {
+        super((CraftServer) Main.getMain().getServer(), witherSkull);
+        ((CraftWorld) location.getWorld()).getHandle().addEntity(entity, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        witherSkull.setPositionRotation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
+        Vector direction = location.getDirection().multiply(10);
+        ((EntityWitherSkull) entity).setDirection(direction.getX(), direction.getY(), direction.getZ());
     }
 }

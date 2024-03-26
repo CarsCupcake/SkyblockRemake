@@ -1233,8 +1233,8 @@ public class SkyblockRemakeEvents implements Listener {
                 e.getEntity().addScoreboardTag("hit:" + p.getName());
                 Calculator c = new Calculator(e.getEntity());
                 if (e.getEntity() instanceof SkyblockProjectile sbP) {
-                    c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(entity), p, sbP.getDamageBundle());
                     sbP.onRawHit((LivingEntity) e.getHitEntity());
+                    c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(entity), p, sbP.getDamageBundle());
                 } else c.entityToPlayerDamage(SkyblockEntity.livingEntity.getSbEntity(entity), p);
                 c.damagePlayer(p, DamageCause.PROJECTILE);
             }

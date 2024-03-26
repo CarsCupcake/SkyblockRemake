@@ -15,6 +15,7 @@ import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Items.Bonuses;
 import me.CarsCupcake.SkyblockRemake.Items.FullSetBonus;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import org.bukkit.util.BoundingBox;
 
 public class ArcaneVision implements FullSetBonus {
     private SkyblockPlayer player;
@@ -39,7 +40,7 @@ public class ArcaneVision implements FullSetBonus {
 		if(stackRunner != null )
 			try {
 		stackRunner.cancel();
-		}catch (Exception e) {
+		}catch (Exception ignored) {
 		
 		}
 		stackRunner = new BukkitRunnable() {
@@ -92,22 +93,19 @@ public class ArcaneVision implements FullSetBonus {
     
     public void makeVision(LivingEntity entity, ArcaneRune rune) {
     	Location loc = entity.getLocation();
-    	player.spawnParticle(rune.getParticle(), loc.add(0, 0.2, 0), 15 ,0.25, 0.7, 0.25, 0, null);
+		BoundingBox bb = entity.getBoundingBox();
+    	player.spawnParticle(rune.getParticle(), loc.add(0, (bb.getMaxY()-bb.getMinY()) / 2, 0), 7 ,(bb.getMaxX() - bb.getMinX()) / 2, (bb.getMaxY() - bb.getMinY()) / 2, (bb.getMaxZ() - bb.getMinZ()) / 2, 0, null);
     }
     private ArcaneRune getRandomRune() {
     	Random rand = new Random();
     	
     	int r = rand.nextInt(3);
-    	switch(r) {
-    	case 0:
-    		return ArcaneRune.Defender;
-    	case 1:
-    		return ArcaneRune.Mediator;
-    	case 2:
-    		return ArcaneRune.Virtuoso;
-    	default:
-    		return null;
-    	}
+        return switch (r) {
+            case 0 -> ArcaneRune.Defender;
+            case 1 -> ArcaneRune.Mediator;
+            case 2 -> ArcaneRune.Virtuoso;
+            default -> null;
+        };
     }
     
     
@@ -153,7 +151,6 @@ public class ArcaneVision implements FullSetBonus {
 
 	@Override
 	public int getPieces() {
-		// TODO Auto-generated method stub
 		return 2;
 	}
 

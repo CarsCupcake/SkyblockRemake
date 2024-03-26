@@ -46,4 +46,9 @@ public abstract class AbstracCrimsonIsleBoss extends SkyblockEntity {
         getNew(location);
         onRespawn.remove(AbstracCrimsonIsleBoss.this.getClass());
     }
+
+    @Override
+    protected NametagType getNametagType() {
+        return NametagType.Boss;
+    }
 }

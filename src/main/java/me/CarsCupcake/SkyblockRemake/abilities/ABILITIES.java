@@ -119,6 +119,7 @@ public class ABILITIES implements Listener {
         Attribute.registerAttribute(new LifeRegeneration());
         Attribute.registerAttribute(new Speed());
         Attribute.registerAttribute(new Vitality());
+        Attribute.registerAttribute(new ManaRegeneration());
         Effect.init();
         new PotionItems();
         registerEvent(new PotionListener());

@@ -159,7 +159,7 @@ public class Minotaur extends SkyblockEntity implements Listener, ChaseAndRunAwa
     }
 
     @Override
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.SmallNumber;
     }
 

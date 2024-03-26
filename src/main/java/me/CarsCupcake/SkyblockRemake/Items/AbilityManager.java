@@ -92,7 +92,10 @@ public interface AbilityManager<T extends Event> {
 
     static <T extends Event> void executeAbility(Ability ability, SkyblockPlayer player, ItemManager manager, T event) {
         Action action = Action.PHYSICAL;
-        if (!precheck(ability, player, manager, action)) return;
+        if (!precheck(ability, player, manager, action)) {
+            if (event instanceof Cancellable cancellable) cancellable.setCancelled(true);
+            return;
+        }
         try {
             Object o = ability.getAbilityManager().newInstance().triggerAbility(event);
             if (o instanceof Cancellable cancellable) {
@@ -101,6 +104,7 @@ public interface AbilityManager<T extends Event> {
         } catch (Exception e) {
             e.printStackTrace();
             player.sendMessage("§cAbility failed to execute §7(" + e.getClass().getSimpleName() + ")");
+            if (event instanceof Cancellable cancellable) cancellable.setCancelled(true);
         }
     }
 

@@ -102,7 +102,7 @@ public abstract class SkyblockEntity implements Elementable {
         return false;
     }
 
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.Normal;
     }
 
@@ -162,8 +162,8 @@ public abstract class SkyblockEntity implements Elementable {
 
     public static String getBaseName(SkyblockEntity entity) {
         if (entity instanceof Corruptable)
-            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(),((Corruptable) entity).isCorrupted(), entity.nametagType() == NametagType.SmallNumber);
-        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(), entity.nametagType() == NametagType.SmallNumber);
+            return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(),((Corruptable) entity).isCorrupted(), entity.getNametagType() == NametagType.SmallNumber);
+        else return getBaseName(entity.getName(), entity.getHealth(), entity.getMaxHealth(), entity.getLevel(), entity.getNametagType() == NametagType.SmallNumber);
     }
 
     public static void updateEntity(SkyblockEntity e) {

@@ -40,7 +40,7 @@ public class GaiaConstruct extends SkyblockEntity implements FinalDamageDesider 
     }
 
     @Override
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.SmallNumber;
     }
 

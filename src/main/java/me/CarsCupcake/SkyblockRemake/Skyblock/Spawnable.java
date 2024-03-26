@@ -31,7 +31,6 @@ public abstract class Spawnable {
                 entity.getEntity().addScoreboardTag("spawnId:" + i);
                 entitys.add(entity);
             } else {
-                System.out.println("Not Allowed To Spawn!");
                 entitys.add(null);
             }
             i++;

@@ -1,23 +1,30 @@
 package me.CarsCupcake.SkyblockRemake.isles.CrimsonIsle.boss;
 
-import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Calculator;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockEntity;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
 import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.AbstractSbWitherSkull;
+import me.CarsCupcake.SkyblockRemake.Skyblock.projectile.SkyblockProjectile;
 import me.CarsCupcake.SkyblockRemake.utils.Inventories.Items.ItemBuilder;
 import me.CarsCupcake.SkyblockRemake.utils.Pair;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.projectile.EntityWitherSkull;
+import net.minecraft.world.level.World;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftWitherSkull;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,19 +102,22 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
             @Override
             public void run() {
-                if(entity.getNearbyEntities(30, 30, 30).stream().filter(e -> e instanceof Player).findAny().isEmpty()) return;
+                if (entity.getNearbyEntities(30, 30, 30).stream().filter(e -> e instanceof Player).findAny().isEmpty())
+                    return;
                 if (cooldown <= 0) if (new Random().nextDouble() <= chance) {
                     cooldown = 2;
-                    for (int i = 0; i < 360; i += 10){
+                    for (int i = 0; i < 360; i += 5) {
                         Location l = new Location(entity.getLocation().getWorld(), entity.getLocation().getX(), entity.getLocation().getY() + 0.5, entity.getLocation().getZ(), i, 0);
-                        l = l.add(l.getDirection().normalize().multiply(0.5));
-                        new OneShotSkull(entity, l);
+                        l.add(l.getDirection().normalize());
+                        new OneShotSkull(l).setVelocity(l.getDirection().normalize().multiply(0.5));
+                        //BUG: Not shooting
+                        //TODO: fix!
                     }
                     chance = 0.4;
                     return;
                 }
                 chance += 0.1;
-                if(cooldown != 0) cooldown--;
+                if (cooldown != 0) cooldown--;
                 for (Entity e : entity.getNearbyEntities(25, 25, 25)) {
                     if (!(e instanceof Player p)) continue;
                     SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer(p);
@@ -124,34 +134,13 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
     @Override
     public String getName() {
-        return "Bladesoul";
+        return "§8§lBladesoul";
     }
 
-    @Override
-    public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-        return null;
-    }
-
-    @Override
-    public void updateNameTag() {
-        entity.setCustomNameVisible(true);
-        entity.setCustomName("§e﴾" + SkyblockEntity.getBaseName(this) + "§e﴿");
-        nameTag.setCustomName(entity.getCustomName());
-    }
-
-    @Override
-    public void damage(double damage, SkyblockPlayer player) {
-        health -= damage;
-    }
 
     @Override
     public boolean hasNoKB() {
         return true;
-    }
-
-    @Override
-    public int getTrueDamage() {
-        return 0;
     }
 
     @Override
@@ -173,12 +162,11 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
     public void spawnGuard() {
         Block b = entity.getLocation().subtract(0, 1, 0).getBlock();
-        Material t = b.getType();
-        b.setType(Material.COAL_BLOCK);
+        Tools.FakeBlock fakeBlock = Tools.placeFakeBlock(b, Material.COAL_BLOCK);
         new BukkitRunnable() {
             @Override
             public void run() {
-                b.setType(t);
+                fakeBlock.release();
                 if (entity == null || entity.isDead()) return;
                 WitherGuard witherGuard = new WitherGuard(Bladesoul.this);
                 guards.add(witherGuard);
@@ -188,7 +176,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         }.runTaskLater(Main.getMain(), 200);
     }
 
-    public void guardDeath(WitherGuard guard) {
+    private void guardDeath(WitherGuard guard) {
         guards.remove(guard);
         Calculator c = new Calculator();
         c.damage = 12_500_000;
@@ -250,6 +238,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
         @Override
         public void kill() {
+            super.kill();
             base.guardDeath(this);
         }
 
@@ -296,11 +285,6 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         }
 
         @Override
-        public int getDamage() {
-            return 0;
-        }
-
-        @Override
         public void spawn(Location loc) {
             entity = loc.getWorld().spawn(loc, Blaze.class, blaze -> {
                 blaze.setCustomNameVisible(false);
@@ -314,11 +298,6 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         @Override
         public String getName() {
             return "Dinnerbone";
-        }
-
-        @Override
-        public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-            return null;
         }
 
         @Override
@@ -342,29 +321,29 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         public boolean hasNoKB() {
             return true;
         }
-
-        @Override
-        public int getTrueDamage() {
-            return 0;
-        }
     }
 
     public static class OneShotSkull extends AbstractSbWitherSkull {
 
-        public OneShotSkull(LivingEntity entity, Location loc) {
-            super(entity, loc);
+        public OneShotSkull(Location location) {
+            super(location);
+
         }
+
+        private double damage;
 
         @Override
         public void onRawHit(LivingEntity hit) {
-            if (hit.getType() == EntityType.PLAYER)
-                SkyblockPlayer.getSkyblockPlayer((Player) hit).setHealth(0, HealthChangeReason.Force);
+            if (hit.getType() == EntityType.PLAYER) {
+                this.damage = SkyblockPlayer.getSkyblockPlayer((Player) hit).getStat(Stats.Health);
+                hit.sendMessage("§7The Wither Skull hit you for §c" + Tools.cleanDouble(damage));
+            }
 
         }
 
         @Override
         public Pair<Integer> getDamageBundle() {
-            return new Pair<>(0, 0);
+            return new Pair<>(0, (int) damage);
         }
     }
 }

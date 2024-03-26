@@ -99,7 +99,7 @@ public class MinosChampion extends SkyblockEntity implements Listener {
 
 
     @Override
-    protected NametagType nametagType() {
+    protected NametagType getNametagType() {
         return NametagType.SmallNumber;
     }
     public void updateTag() {
