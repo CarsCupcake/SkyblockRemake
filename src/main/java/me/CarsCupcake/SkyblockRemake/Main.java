@@ -15,11 +15,11 @@ import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.API.HealthChangeReason;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.ManaUpdateEvent;
-import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.PlayerManaRegenEvent;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockDamageEvent;
 import me.CarsCupcake.SkyblockRemake.Entities.BasicEntity;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.AppliedAttribute;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.AppliedAttribute;
 import me.CarsCupcake.SkyblockRemake.Items.Crafting.CustomCraftingTable;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.PetEquip;
@@ -41,7 +41,7 @@ import me.CarsCupcake.SkyblockRemake.isles.Dungeon.Boss.F7.F7Phase1;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.UltimateEnchant;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Equipment.EquipmentInvListener;
 import me.CarsCupcake.SkyblockRemake.Items.*;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.NPC.*;
 import me.CarsCupcake.SkyblockRemake.NPC.NPC;
 import me.CarsCupcake.SkyblockRemake.Skyblock.player.Potion.Potion;
@@ -384,6 +384,10 @@ public class Main extends JavaPlugin {
         getCommand("accessorybag").setExecutor(new AccessoryBagQuickCommand());
         getCommand("accessories").setExecutor(new AccessoryBagQuickCommand());
         getCommand("accessory").setExecutor(new AccessoryBagQuickCommand());
+        getCommand("setatp").setExecutor(new SetAttributes());
+        getCommand("setattributes").setExecutor(new SetAttributes());
+        getCommand("setatp").setTabCompleter(new SetAttributes.Tab());
+        getCommand("setattributes").setTabCompleter(new SetAttributes.Tab());
 
 
         debug.debug("Registering Events", false);
@@ -745,7 +749,11 @@ public class Main extends JavaPlugin {
                         if (player.currmana < mana) {
                             double manaadd = ((mana * 0.02) * player.getManaRegenMult());
                             double finalmana = manaadd + player.currmana;
-                            player.setMana(finalmana);
+                            PlayerManaRegenEvent event = new PlayerManaRegenEvent(player, mana, player.currmana, finalmana);
+                            Bukkit.getPluginManager().callEvent(event);
+                            if (!event.isCancelled()){
+                                player.setMana(event.getRegenrateAmount() * event.getMultiplier());
+                            }
 
                         }
                         if (player.currmana > mana) {

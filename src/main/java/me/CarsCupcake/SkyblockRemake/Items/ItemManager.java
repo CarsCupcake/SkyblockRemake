@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.CarsCupcake.SkyblockRemake.*;
 import me.CarsCupcake.SkyblockRemake.FishingSystem.RodType;
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.Attribute;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.requirements.Requirement;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;

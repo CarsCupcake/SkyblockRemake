@@ -16,7 +16,7 @@ public class Telikinesis extends CustomEnchantment {
 
 	@Override
 	public ItemType[] getAllowedTypes() {
-		return ItemType.values();
+		return new ItemType[0];
 	}
 
 	@Override

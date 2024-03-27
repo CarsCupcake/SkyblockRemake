@@ -26,6 +26,9 @@ public class GetTotalStatEvent extends PlayerEvent implements Cancellable {
     public void addMultiplier(double d) {
         multiplier *= d;
     }
+    public void addValue(double d) {
+        value += d;
+    }
 
     @Override
     public boolean isCancelled() {

@@ -1,6 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.abilities;
 
-import me.CarsCupcake.SkyblockRemake.Items.Attributes.*;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.*;
 import me.CarsCupcake.SkyblockRemake.Items.Gemstones.GemstoneBuffsEvent;
 import me.CarsCupcake.SkyblockRemake.Items.ItemRarity;
 import me.CarsCupcake.SkyblockRemake.Items.Pets.Abilitys.GriffinListener;

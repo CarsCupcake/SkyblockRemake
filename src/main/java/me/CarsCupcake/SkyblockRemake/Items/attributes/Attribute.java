@@ -1,31 +1,21 @@
-package me.CarsCupcake.SkyblockRemake.Items.Attributes;
+package me.CarsCupcake.SkyblockRemake.Items.attributes;
 
-import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.ItemType;
 import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
+import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
-import me.CarsCupcake.SkyblockRemake.utils.ClassUtils;
 import org.bukkit.NamespacedKey;
 import org.bukkit.craftbukkit.v1_17_R1.persistence.CraftPersistentDataContainer;
 import org.bukkit.craftbukkit.v1_17_R1.persistence.CraftPersistentDataTypeRegistry;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataContainer;
 
-import java.lang.reflect.Constructor;
 import java.util.*;
 
 import static org.bukkit.persistence.PersistentDataType.*;
@@ -42,6 +32,9 @@ public abstract class Attribute {
 
     public static void registerAttribute(Attribute atribute) {
         registeredAttributes.put(atribute.getId(), atribute);
+        if (atribute instanceof Listener listener) {
+            ABILITIES.registerEvent(listener);
+        }
     }
 
     public abstract String name();
@@ -92,9 +85,10 @@ public abstract class Attribute {
     }
 
     public static List<AppliedAttribute> getAttributes(ItemStack item) {
-        Assert.notNull(item, "item canot be null");
+        if (item == null) return new ArrayList<>();
         ItemManager manager = Items.SkyblockItems.get(ItemHandler.getPDC("id", item, STRING));
-        Assert.isTrue(manager.isAttributable(), "manager has to be attribuatble!");
+        if (manager == null) return new ArrayList<>();
+        if (!manager.isAttributable()) return new ArrayList<>();
         List<AppliedAttribute> attributes = new ArrayList<>();
         PersistentDataContainer container = ItemHandler.getOrDefaultPDC("attributes", item, TAG_CONTAINER, new CraftPersistentDataContainer(new CraftPersistentDataTypeRegistry()));
         for (NamespacedKey s : container.getKeys()) {
@@ -102,5 +96,11 @@ public abstract class Attribute {
             attributes.add(new AppliedAttribute(registeredAttributes.get(id), container.get(s, INTEGER)));
         }
         return attributes;
+    }
+    public static Attribute getAttribute(String s) {
+        return registeredAttributes.get(s);
+    }
+    public static Set<String> getAttributeIds() {
+        return registeredAttributes.keySet();
     }
 }

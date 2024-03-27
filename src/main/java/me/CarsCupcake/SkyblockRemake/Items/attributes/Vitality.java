@@ -1,4 +1,4 @@
-package me.CarsCupcake.SkyblockRemake.Items.Attributes;
+package me.CarsCupcake.SkyblockRemake.Items.attributes;
 
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
@@ -8,11 +8,11 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-public class FishingSpeed extends Attribute implements Listener {
+public class Vitality extends Attribute implements Listener {
 
     @Override
     public String name() {
-        return "Fishing Speed";
+        return "Vitality";
     }
 
     @Override
@@ -26,18 +26,18 @@ public class FishingSpeed extends Attribute implements Listener {
     }
 
     @Override
-    public List<String> lore(int level) {
-        return List.of("§7Grants §b+" + getBuff(level) + Stats.FishingSpeed.getSymbol() + " Fishing Speed");
+    public List<String> lore(int l) {
+        return List.of("§7Grants §c+" + getBuff(l) + Stats.Vitality.getSymbol() + " Vitality");
     }
-    private int getBuff(int level){
+    private double getBuff(int level){
         return level*3;
     }
 
     @EventHandler
     public void onStatGet(GetStatFromItemEvent event) {
-        if (event.getStat() != Stats.FishingSpeed) return;
+        if (event.getStat() != Stats.Vitality) return;
         for (AppliedAttribute attribute : getAttributes(event.getItem())) {
-            if (attribute.attribute() instanceof FishingSpeed magicFind) {
+            if (attribute.attribute() instanceof Vitality magicFind) {
                 event.addValue(magicFind.getBuff(attribute.level()));
             }
         }

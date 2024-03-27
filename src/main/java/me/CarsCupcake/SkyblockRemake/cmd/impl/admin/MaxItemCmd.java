@@ -5,6 +5,8 @@ import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.Items.ItemHandler;
 import me.CarsCupcake.SkyblockRemake.Items.ItemManager;
 import me.CarsCupcake.SkyblockRemake.Items.StarHandler;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.AppliedAttribute;
+import me.CarsCupcake.SkyblockRemake.Items.attributes.Attribute;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.command.Command;
@@ -14,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class MaxItemCmd implements CommandExecutor {
     @Override
@@ -33,6 +37,10 @@ public class MaxItemCmd implements CommandExecutor {
         if (manager.isDungenoizanble()) ItemHandler.dungeonize(item, true);
         if (manager.getMaxStars() > 0) StarHandler.setStars(item, manager.getMaxStars());
         if (ItemHandler.isDungeonItem(item)) StarHandler.setMasterStars(item, 5);
+        if (manager.isAttributable()) {
+            List<AppliedAttribute> attributes = Attribute.getAttributes(item);
+            Attribute.applyAttrebute(new Attribute[]{attributes.get(0).attribute(), attributes.get(1).attribute()}, new int[]{attributes.get(0).attribute().maxLevel(), attributes.get(1).attribute().maxLevel()}, item);
+        }
         Main.itemUpdater(item, player);
         return true;
     }

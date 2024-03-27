@@ -1,10 +1,12 @@
-package me.CarsCupcake.SkyblockRemake.Items.Attributes;
+package me.CarsCupcake.SkyblockRemake.Items.attributes;
 
-import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
+import me.CarsCupcake.SkyblockRemake.API.PlayerEvent.GetTotalStatEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class LifeRegeneration extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants §b+" + getBuff(l) + Stats.HealthRegen.getSymbol() + " Health Regen");
+        return List.of("§7Grants " + Tools.cleanDouble(getBuff(l)) + Stats.HealthRegen);
     }
 
     private double getBuff(int l) {
@@ -35,11 +37,13 @@ public class LifeRegeneration extends Attribute implements Listener {
     }
 
     @EventHandler
-    public void onStatGet(GetStatFromItemEvent event) {
+    public void onStatGet(GetTotalStatEvent event) {
         if (event.getStat() != Stats.HealthRegen) return;
-        for (AppliedAttribute attribute : getAttributes(event.getItem())) {
-            if (attribute.attribute() instanceof LifeRegeneration magicFind) {
-                event.addValue(magicFind.getBuff(attribute.level()));
+        for (ItemStack item : event.getPlayer().getEquipment().getArmorContents()) {
+            for (AppliedAttribute attribute : getAttributes(item)) {
+                if (attribute.attribute() instanceof LifeRegeneration magicFind) {
+                    event.addValue(magicFind.getBuff(attribute.level()));
+                }
             }
         }
     }
