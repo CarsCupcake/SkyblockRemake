@@ -32,6 +32,11 @@ public class AttackSpeed extends Attribute implements Listener {
         return List.of("§7Grants " + Tools.cleanDouble(level) + Stats.AttackSpeed);
     }
 
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Weapons};
+    }
+
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {
         if (event.getStat() != Stats.AttackSpeed) return;

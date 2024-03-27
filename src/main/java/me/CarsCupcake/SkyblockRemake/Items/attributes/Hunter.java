@@ -34,6 +34,10 @@ public class Hunter extends Attribute implements Listener {
     private double getBuff(int level){
         return level*0.1;
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.FishingRods};
+    }
 
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {

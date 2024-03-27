@@ -1177,9 +1177,8 @@ public class Main extends JavaPlugin {
             }
 
             if (manager.isAttributable()) {
-
+                lores.add(" ");
                 for (AppliedAttribute attribute : Attribute.getAttributes(item)) {
-                    lores.add(" ");
                     lores.addAll(attribute.attribute().getAttributeLore(attribute.level()));
                 }
             }
@@ -1356,7 +1355,6 @@ public class Main extends JavaPlugin {
 
 
             }
-            lores.add(" ");
             String extra = "";
             if (ItemHandler.isDungeonItem(item)) extra = "DUNGEON ";
 

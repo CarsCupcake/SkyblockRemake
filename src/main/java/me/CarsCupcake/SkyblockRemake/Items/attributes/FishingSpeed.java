@@ -34,6 +34,11 @@ public class FishingSpeed extends Attribute implements Listener {
         return level*3;
     }
 
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.FishingRods};
+    }
+
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {
         if (event.getStat() != Stats.FishingSpeed) return;

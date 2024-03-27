@@ -110,8 +110,6 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
                         Location l = new Location(entity.getLocation().getWorld(), entity.getLocation().getX(), entity.getLocation().getY() + 0.5, entity.getLocation().getZ(), i, 0);
                         l.add(l.getDirection().normalize());
                         new OneShotSkull(l).setVelocity(l.getDirection().normalize().multiply(0.5));
-                        //BUG: Not shooting
-                        //TODO: fix!
                     }
                     chance = 0.4;
                     return;
@@ -128,8 +126,10 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
 
     }
 
-    public void makeBigBoy() {
-
+    @Override
+    public void updateNameTag() {
+        super.updateNameTag();
+        nameTag.setCustomName(entity.getCustomName());
     }
 
     @Override
@@ -163,7 +163,7 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
     public void spawnGuard() {
         Block b = entity.getLocation().subtract(0, 1, 0).getBlock();
         Tools.FakeBlock fakeBlock = Tools.placeFakeBlock(b, Material.COAL_BLOCK);
-        new BukkitRunnable() {
+        new EntityRunnable() {
             @Override
             public void run() {
                 fakeBlock.release();
@@ -173,7 +173,14 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
                 witherGuard.spawn(b.getLocation().add(0, 1, 0));
                 health += 12_500_000;
             }
-        }.runTaskLater(Main.getMain(), 200);
+
+            @Override
+            public synchronized void cancel() throws IllegalStateException {
+                super.cancel();
+                if (fakeBlock.isReleased()) return;
+                fakeBlock.release();
+            }
+        }.runTaskLater(this, 200);
     }
 
     private void guardDeath(WitherGuard guard) {
@@ -227,11 +234,6 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         }
 
         @Override
-        public HashMap<ItemManager, Integer> getGarantuedDrops(SkyblockPlayer player) {
-            return null;
-        }
-
-        @Override
         public void updateNameTag() {
             entity.setCustomName(SkyblockEntity.getBaseName(this));
         }
@@ -243,18 +245,8 @@ public class Bladesoul extends AbstracCrimsonIsleBoss {
         }
 
         @Override
-        public void damage(double damage, SkyblockPlayer player) {
-            health -= damage;
-        }
-
-        @Override
         public boolean hasNoKB() {
             return true;
-        }
-
-        @Override
-        public int getTrueDamage() {
-            return 0;
         }
 
         @Override

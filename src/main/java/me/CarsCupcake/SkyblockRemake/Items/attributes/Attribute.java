@@ -7,6 +7,7 @@ import me.CarsCupcake.SkyblockRemake.Items.Items;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.abilities.ABILITIES;
+import me.CarsCupcake.SkyblockRemake.utils.Factory;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.NamespacedKey;
@@ -45,9 +46,7 @@ public abstract class Attribute {
 
     public abstract List<String> lore(int level);
 
-    public ItemType activeType() {
-        return activeType;
-    }
+    public abstract Type[] allowed();
 
     public List<String> getAttributeLore(int level) {
         ArrayList<String> lore = new ArrayList<>(List.of("§b" + name() + " " + Tools.intToRoman(level)));
@@ -65,7 +64,10 @@ public abstract class Attribute {
 
     public static void rool(ItemStack item, ItemManager manager) {
         Collection<Attribute> atr = registeredAttributes.values();
-        ArrayList<Attribute> attrebuteList = new ArrayList<>(atr);
+        List<Attribute> attrebuteList = atr.stream().filter(attribute -> {
+            for (Type type : attribute.allowed()) if (type.factor(manager)) return true;
+            return false;
+        }).toList();
         Collections.shuffle(attrebuteList);
         applyAttrebute(new Attribute[]{attrebuteList.get(0), attrebuteList.get(1)}, new int[]{1, 1}, item);
     }
@@ -102,5 +104,67 @@ public abstract class Attribute {
     }
     public static Set<String> getAttributeIds() {
         return registeredAttributes.keySet();
+    }
+    public enum Type implements Factory<ItemManager, Boolean> {
+        Weapons {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.Sword || obj.type == ItemType.Longsword || obj.type == ItemType.Bow;
+            }
+        },
+        Swords {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.Sword || obj.type == ItemType.Longsword;
+            }
+        },
+        Bows {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.Bow;
+            }
+        },
+        Armor {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.Helmet || obj.type == ItemType.Chestplate || obj.type == ItemType.Leggings || obj.type == ItemType.Boots;
+            }
+        },
+        Equipment {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.Belt || obj.type == ItemType.Necklace || obj.type == ItemType.Bracelet || obj.type == ItemType.Cloak || obj.type == ItemType.Gloves;
+            }
+        },
+        FishingArmor {
+            static String[] allowed = {"TAURUS_HELMET", "FLAMING_CHESTPLATE", "MOOGMA_LEGGINGS", "SLUG_BOOTS",
+                    "THUNDER_HELMET", "THUNDER_CHESTPLATE", "THUNDER_LEGGINGS", "THUNDER_BOOTS",
+            "MAGMA_LORD_HELMET", "MAGMA_LORD_CHESTPLATE", "MAGMA_LORD_LEGGINGS", "MAGMA_LORD_BOOTS"};
+            @Override
+            public Boolean factor(ItemManager obj) {
+                for (String s : allowed) if (obj.itemID.equals(s)) return true;
+                return false;
+            }
+        },
+        FishingEquipment {
+            static String[] allowed = {"THUNDERBOLT_NECKLACE", "MAGMA_LORD_GAUNTLET"};
+            @Override
+            public Boolean factor(ItemManager obj) {
+                for (String s : allowed) if (obj.itemID.equals(s)) return true;
+                return false;
+            }
+        },
+        FishingRods {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return obj.type == ItemType.FishingRod;
+            }
+        },
+        All {
+            @Override
+            public Boolean factor(ItemManager obj) {
+                return true;
+            }
+        }
     }
 }

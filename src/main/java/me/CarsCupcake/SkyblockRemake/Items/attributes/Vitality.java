@@ -33,6 +33,11 @@ public class Vitality extends Attribute implements Listener {
         return level*3;
     }
 
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
+
     @EventHandler
     public void onStatGet(GetStatFromItemEvent event) {
         if (event.getStat() != Stats.Vitality) return;

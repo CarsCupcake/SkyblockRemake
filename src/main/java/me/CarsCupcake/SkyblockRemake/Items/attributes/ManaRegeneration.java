@@ -28,6 +28,10 @@ public class ManaRegeneration extends Attribute implements Listener {
     public List<String> lore(int level) {
         return List.of("§7Increases your Mana Regenration", "§7by §b" + level + "%§7.");
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
     @EventHandler
     public void onStatGet(PlayerManaRegenEvent event) {
         for (ItemStack item : event.getPlayer().getEquipment().getArmorContents()) {

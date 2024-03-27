@@ -35,6 +35,11 @@ public class MagicFind extends Attribute implements Listener {
         return level * 0.5;
     }
 
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
+
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {
         if (event.getStat() != Stats.MagicFind) return;

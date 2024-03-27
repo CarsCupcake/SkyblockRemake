@@ -35,6 +35,10 @@ public class LifeRegeneration extends Attribute implements Listener {
     private double getBuff(int l) {
         return l * 1.25;
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
 
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {

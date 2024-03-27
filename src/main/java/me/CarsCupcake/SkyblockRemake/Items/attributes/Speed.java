@@ -32,6 +32,10 @@ public class Speed extends Attribute implements Listener {
     private int getBuff(int level){
         return level*5;
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
 
     @EventHandler
     public void onStatGet(GetStatFromItemEvent event) {

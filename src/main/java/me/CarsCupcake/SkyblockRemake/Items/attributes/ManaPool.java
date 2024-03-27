@@ -33,6 +33,10 @@ public class ManaPool extends Attribute implements Listener {
     private int getBuff(int level){
         return level*20;
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
 
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {

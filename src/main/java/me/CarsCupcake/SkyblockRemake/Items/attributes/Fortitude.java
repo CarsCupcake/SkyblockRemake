@@ -34,6 +34,10 @@ public class Fortitude extends Attribute implements Listener {
     private double getBuff(int level){
         return level*0.5;
     }
+    @Override
+    public Type[] allowed() {
+        return new Type[]{Type.Armor, Type.Equipment};
+    }
     @EventHandler
     public void onStatGet(GetTotalStatEvent event) {
         if (event.getStat() != Stats.Health && event.getStat() != Stats.Defense) return;
