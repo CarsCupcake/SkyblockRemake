@@ -29,7 +29,7 @@ public class Fortitude extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Increases " + Tools.cleanDouble(getBuff(l)) + Stats.Health + " " + Stats.Defense.getSymbol() + " and " + Tools.cleanDouble(getBuff(l)) + Stats.Defense);
+        return List.of("§7Increases §c+" + Tools.cleanDouble(getBuff(l)) + " " + Stats.Health + " " + " and §a+" + Tools.cleanDouble(getBuff(l)) + " " + Stats.Defense);
     }
     private double getBuff(int level){
         return level*0.5;

@@ -1,6 +1,8 @@
 package me.CarsCupcake.SkyblockRemake.Items;
 
 import lombok.SneakyThrows;
+import me.CarsCupcake.SkyblockRemake.API.Bundle;
+import me.CarsCupcake.SkyblockRemake.Items.Enchantments.CustomEnchantment;
 import me.CarsCupcake.SkyblockRemake.Main;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import me.CarsCupcake.SkyblockRemake.utils.ReflectionUtils;
@@ -14,6 +16,9 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class ItemHandler {
     public static PersistentDataType<Byte, Boolean> BOOLEAN = new PersistentDataType<>() {
@@ -42,6 +47,7 @@ public class ItemHandler {
             return aByte == 1;
         }
     };
+
     public static <T, Z> boolean hasPDC(String str, ItemStack item, PersistentDataType<T, Z> type) {
         if (item != null && item.getItemMeta() != null) {
             return item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(Main.getMain(), str), type);
@@ -93,12 +99,14 @@ public class ItemHandler {
         if (!hasEnchantment(enchantment, item)) return 0;
         return item.getItemMeta().getEnchants().get(enchantment);
     }
-    public static void setEnchant(@NotNull Enchantment enchantment, int level, ItemStack item){
+
+    public static void setEnchant(@NotNull Enchantment enchantment, int level, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(enchantment, level, true);
         item.setItemMeta(meta);
     }
-    public static void removeEnchant(@NotNull Enchantment enchantment, ItemStack item){
+
+    public static void removeEnchant(@NotNull Enchantment enchantment, ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         meta.removeEnchant(enchantment);
         item.setItemMeta(meta);
@@ -136,21 +144,36 @@ public class ItemHandler {
 
             }
     }
+
     public static ItemManager getItemManager(ItemStack item) {
-        if(item == null || !item.hasItemMeta()) return null;
+        if (item == null || !item.hasItemMeta()) return null;
         return Items.SkyblockItems.get(getPDC("id", item, PersistentDataType.STRING));
     }
+
     public static void dungeonize(ItemStack item, boolean b) {
         Assert.isTrue(getItemManager(item).isDungenoizanble(), "Item is not dungeonizable!");
         setPDC("dungeon", item, BOOLEAN, b);
     }
+
     public static boolean isDungeonItem(ItemStack item) {
         if (getItemManager(item).isDungeonItem) return true;
         if (!hasPDC("dungeon", item, BOOLEAN)) return false;
         return getPDC("dungeon", item, BOOLEAN);
     }
+
     public static boolean valid(ItemStack item) {
         return !(item == null || !item.hasItemMeta());
+    }
+
+    public static List<Bundle<CustomEnchantment, Integer>> getEnchantments(ItemStack item) {
+        List<Bundle<CustomEnchantment, Integer>> enchantments = new ArrayList<>();
+        if (!valid(item)) return enchantments;
+        for (Map.Entry<Enchantment, Integer> enchantment : item.getEnchantments().entrySet()) {
+            CustomEnchantment ench = CustomEnchantment.toCustomEnchantment(enchantment.getKey());
+            if (ench == null) continue;
+            enchantments.add(new Bundle<>(ench, enchantment.getValue()));
+        }
+        return enchantments;
     }
 
 }

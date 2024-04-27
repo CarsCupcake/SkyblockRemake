@@ -43,6 +43,7 @@ public class GUI {
     public void showGUI(SkyblockPlayer player){
         Assert.notNull(player, "Player is not allowed to be null");
         this.player = player;
+        player.setGui(this);
         player.openInventory(inv);
         opened.put(player, this);
         new BukkitRunnable() {
@@ -62,12 +63,12 @@ public class GUI {
     public void closeAction(GUIAction action){
         closeAction = action;
     }
-    public void closeInventory(){
+    public void closeInventory() {
         opened.remove(player);
-        if(player != null&& player.getOpenInventory() != null)
+        if (player.getGui() == this) player.setGui(null);
+        if(player != null && player.getOpenInventory() != null)
              player.closeInventory();
         player = null;
-
     }
     public void setCanceled(boolean bool){
         isCanceled = bool;

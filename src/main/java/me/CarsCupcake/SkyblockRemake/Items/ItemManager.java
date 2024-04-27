@@ -130,6 +130,10 @@ public class ItemManager implements ItemGenerator {
     @Getter
     @Setter
     private boolean dungenoizanble = false;
+
+    @Getter
+    @Setter
+    private boolean canHaveHotPotatoBooks = false;
     @Getter
     @Setter
     private HashMap<Integer, HashMap<Stats, Double>> dungeonStats = null;
@@ -144,6 +148,7 @@ public class ItemManager implements ItemGenerator {
         this.rarity = rarity;
         isHead = false;
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, Material material, ItemRarity rarity) {
@@ -153,6 +158,7 @@ public class ItemManager implements ItemGenerator {
         this.material = material;
         this.rarity = rarity;
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, Material material, ItemRarity rarity, boolean b) {
@@ -162,6 +168,7 @@ public class ItemManager implements ItemGenerator {
         this.material = material;
         this.rarity = rarity;
         if(b) Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, Material material, Color color, ItemRarity rarity) {
@@ -176,6 +183,7 @@ public class ItemManager implements ItemGenerator {
         isHead = false;
         enchants = new HashMap<>();
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, Material material, Color color, ItemRarity rarity) {
@@ -186,6 +194,7 @@ public class ItemManager implements ItemGenerator {
         this.rarity = rarity;
         this.color = color;
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, ItemRarity rarity, String headTexture) {
@@ -200,6 +209,7 @@ public class ItemManager implements ItemGenerator {
         material = Material.PLAYER_HEAD;
         enchants = new HashMap<>();
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
 
     }
 
@@ -213,6 +223,7 @@ public class ItemManager implements ItemGenerator {
         if (itemType == ItemType.Helmet) setUnstackeble(true);
         isHead = true;
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, ArrayList<String> lore, String abilityName, String abilityID, ArrayList<String> abilityLore, double abilityManaCost, int abilityCD, float abilitymultiplyer, int baseabilitydamage, ItemRarity rarity, String headTexture, UUID CustomUUID) {
@@ -229,8 +240,7 @@ public class ItemManager implements ItemGenerator {
         material = Material.PLAYER_HEAD;
         enchants = new HashMap<>();
         Items.SkyblockItems.put(itemID, this);
-
-
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     public ItemManager(String name, String itemID, ItemType itemType, ItemRarity rarity, String headTexture, UUID customId) {
@@ -243,6 +253,7 @@ public class ItemManager implements ItemGenerator {
         this.customUUID = customId;
         isHead = true;
         Items.SkyblockItems.put(itemID, this);
+        setCanHaveHotPotatoBooks(type == ItemType.Sword || type == ItemType.Longsword || type == ItemType.Helmet ||type == ItemType.Chestplate || type == ItemType.Leggings || type == ItemType.Boots);
     }
 
     @Deprecated

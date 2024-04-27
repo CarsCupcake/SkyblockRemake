@@ -29,7 +29,7 @@ public class LifeRegeneration extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants " + Tools.cleanDouble(getBuff(l)) + Stats.HealthRegen);
+        return List.of("§7Grants §c+" + Tools.cleanDouble(getBuff(l)) + " " + Stats.HealthRegen);
     }
 
     private double getBuff(int l) {

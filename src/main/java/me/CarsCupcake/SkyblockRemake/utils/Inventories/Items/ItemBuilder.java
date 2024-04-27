@@ -2,6 +2,7 @@ package me.CarsCupcake.SkyblockRemake.utils.Inventories.Items;
 
 import me.CarsCupcake.SkyblockRemake.Items.Enchantments.SkyblockEnchants;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.Return;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -50,6 +51,13 @@ public class ItemBuilder {
         return this;
     }
     public ItemBuilder addAllLore(List<String> lore){
+        for(String l : lore)
+            addLoreRow(l);
+        return this;
+    }
+
+    public ItemBuilder addLoreIf(Return<Boolean> predicate, String... lore) {
+        if (!predicate.run()) return this;
         for(String l : lore)
             addLoreRow(l);
         return this;

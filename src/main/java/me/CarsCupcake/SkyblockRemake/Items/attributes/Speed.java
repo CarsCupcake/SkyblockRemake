@@ -27,7 +27,7 @@ public class Speed extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants §f+" + getBuff(l) + Stats.Speed.getSymbol() + " Speed");
+        return List.of("§7Grants §f+" + getBuff(l) + " " + Stats.Speed.getSymbol() + " Speed");
     }
     private int getBuff(int level){
         return level*5;

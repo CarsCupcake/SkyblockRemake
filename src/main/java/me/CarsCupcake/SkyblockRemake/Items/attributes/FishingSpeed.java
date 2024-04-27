@@ -28,7 +28,7 @@ public class FishingSpeed extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int level) {
-        return List.of("§7Grants " + getBuff(level) + Stats.FishingSpeed);
+        return List.of("§7Grants §b+" + getBuff(level) + " " + Stats.FishingSpeed);
     }
     private int getBuff(int level){
         return level*3;

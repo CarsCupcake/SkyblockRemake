@@ -28,7 +28,7 @@ public class ManaPool extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants §b+" + getBuff(l) + "✎ Intelligence");
+        return List.of("§7Grants §b+" + getBuff(l) + " ✎ Intelligence");
     }
     private int getBuff(int level){
         return level*20;

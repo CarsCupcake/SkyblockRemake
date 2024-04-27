@@ -52,11 +52,13 @@ public class GUIListener implements Listener {
     }
     @EventHandler
     public void invClose(InventoryCloseEvent event){
-        if(!GUI.getGUIs().containsKey(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())))
+        SkyblockPlayer player = SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer());
+        if(!GUI.getGUIs().containsKey(player))
             return;
-        if(GUI.getGUIs().get(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer())).getInventory() != event.getInventory()) return;
-        GUI gui = GUI.getGUIs().get(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer()));
-        GUI.getGUIs().remove(SkyblockPlayer.getSkyblockPlayer((Player) event.getPlayer()));
+        if(GUI.getGUIs().get(player).getInventory() != event.getInventory()) return;
+        GUI gui = GUI.getGUIs().get(player);
+        GUI.getGUIs().remove(player);
+        if (gui == player.getGui()) player.setGui(null);
         gui.triggerAction(GUI.GUIActions.Close);
     }
     private boolean registerClick(Player player){

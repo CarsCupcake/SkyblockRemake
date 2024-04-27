@@ -29,7 +29,7 @@ public class AttackSpeed extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int level) {
-        return List.of("§7Grants " + Tools.cleanDouble(level) + Stats.AttackSpeed);
+        return List.of("§7Grants §e+" + Tools.cleanDouble(level) + " " + Stats.AttackSpeed);
     }
 
     @Override

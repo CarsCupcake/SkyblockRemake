@@ -28,7 +28,7 @@ public class MagicFind extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants §b+" + ((getBuff(l) % 1 == 0) ? String.format("%.0f", getBuff(l)) : getBuff(l)) + "✯ Magic Find");
+        return List.of("§7Grants §b+" + ((getBuff(l) % 1 == 0) ? String.format("%.0f", getBuff(l)) : getBuff(l)) + " ✯ Magic Find");
     }
 
     private double getBuff(int level) {

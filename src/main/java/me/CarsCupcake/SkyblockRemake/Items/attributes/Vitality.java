@@ -3,6 +3,7 @@ package me.CarsCupcake.SkyblockRemake.Items.attributes;
 import me.CarsCupcake.SkyblockRemake.API.ItemEvents.GetStatFromItemEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import me.CarsCupcake.SkyblockRemake.Skyblock.Stats;
+import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -27,7 +28,7 @@ public class Vitality extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants §c+" + getBuff(l) + Stats.Vitality.getSymbol() + " Vitality");
+        return List.of("§7Grants §c+" + Tools.cleanDouble(getBuff(l)) + " " + Stats.Vitality.getSymbol() + " Vitality");
     }
     private double getBuff(int level){
         return level*3;

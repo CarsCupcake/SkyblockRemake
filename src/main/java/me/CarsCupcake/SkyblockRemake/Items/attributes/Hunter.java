@@ -29,7 +29,7 @@ public class Hunter extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int l) {
-        return List.of("§7Grants " + Tools.cleanDouble(getBuff(l)) + Stats.SeaCreatureChance);
+        return List.of("§7Grants §3+" + Tools.cleanDouble(getBuff(l)) + " " + Stats.SeaCreatureChance);
     }
     private double getBuff(int level){
         return level*0.1;

@@ -16,7 +16,7 @@ public class LastStand extends UltimateEnchant {
     @NotNull
     @Override
     public String getName() {
-        return "Last_Stand";
+        return "Last Stand";
     }
 
     @Override

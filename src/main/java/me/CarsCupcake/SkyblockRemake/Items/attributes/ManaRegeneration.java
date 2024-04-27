@@ -26,7 +26,7 @@ public class ManaRegeneration extends Attribute implements Listener {
 
     @Override
     public List<String> lore(int level) {
-        return List.of("§7Increases your Mana Regenration", "§7by §b" + level + "%§7.");
+        return List.of("§7Increases your §bMana Regenration", "§7by §b" + level + "%§7.");
     }
     @Override
     public Type[] allowed() {

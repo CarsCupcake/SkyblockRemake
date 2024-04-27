@@ -38,6 +38,7 @@ import me.CarsCupcake.SkyblockRemake.isles.MiningSystem.MiningSys;
 import me.CarsCupcake.SkyblockRemake.isles.privateIsle.PrivateIsle;
 import me.CarsCupcake.SkyblockRemake.isles.rift.RiftPlayer;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
+import me.CarsCupcake.SkyblockRemake.utils.Inventories.GUI;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.server.level.EntityPlayer;
@@ -157,6 +158,9 @@ public class SkyblockPlayer extends CraftPlayer {
     @Getter
     @Setter
     private ConfigFile generalConfig;
+    @Getter
+    @Setter
+    private GUI gui = null;
     private ConfigFile accessoryBagFile;
 
     public SkyblockPlayer(CraftServer server, EntityPlayer entity) {
