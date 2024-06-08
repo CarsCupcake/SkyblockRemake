@@ -61,7 +61,7 @@ public class ServerGeneralPort extends Thread {
                 String line = new BufferedReader(new InputStreamReader(socket.getInputStream())).readLine();
                 System.out.println("Recieved Connection from port " + line);
                 int port = Integer.parseInt(line);
-                for (ServerInfo info : Main.getMain().getProxy().getServersCopy().values()) {
+                for (ServerInfo info : Main.getMain().getProxy().getServers().values()) {
                     if (info.getAddress().getPort() == port)
                         new ServerHandler(info);
 

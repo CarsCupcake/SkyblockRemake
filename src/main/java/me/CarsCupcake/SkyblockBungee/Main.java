@@ -45,7 +45,7 @@ public class Main extends Plugin {
     }
 
     public void checkServers() {
-        for (ServerInfo servers : main.getProxy().getServersCopy().values()) {
+        for (ServerInfo servers : main.getProxy().getServers().values()) {
             new Thread(() -> servers.ping((serverPing, throwable) -> {
                 boolean connected = ServerHandler.servers.containsKey(servers);
                 if (throwable != null) {
