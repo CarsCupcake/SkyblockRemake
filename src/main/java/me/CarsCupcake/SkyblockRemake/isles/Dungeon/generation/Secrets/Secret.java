@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.CarsCupcake.SkyblockRemake.API.Bundle;
 import me.CarsCupcake.SkyblockRemake.Main;
+import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.IRoom;
 import me.CarsCupcake.SkyblockRemake.isles.Dungeon.generation.Room;
 import me.CarsCupcake.SkyblockRemake.utils.Assert;
 import org.bukkit.Bukkit;
@@ -41,17 +42,17 @@ public abstract class Secret {
                  case "lever" -> levers.put(Integer.parseInt(String.valueOf(object.get("secretName").getAsString().charAt(0))) , new Bundle<>(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()).getBlock(), null));
                  case "chest" -> {
                      if(levers.containsKey(Integer.parseInt(String.valueOf(object.get("secretName").getAsString().charAt(0))))){
-                         ChestSecret secret = new ChestSecret(room.getRoom().relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()).getBlock(),
+                         ChestSecret secret = new ChestSecret(IRoom.relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()).getBlock(),
                                  true, room);
                          int num = Integer.parseInt(String.valueOf(object.get("secretName").getAsString().charAt(0)));
                          Bundle<Block, ChestSecret> b = levers.get(num);
                          b.setLast(secret);
                          levers.put(num, b);
                      }else
-                         new ChestSecret(room.getRoom().relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()).getBlock(),
+                         new ChestSecret(IRoom.relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()).getBlock(),
                                  room);
                  }
-                 case "Bat" -> new BatSecret(room, room.getRoom().relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()));
+                 case "Bat" -> new BatSecret(room, IRoom.relativeToActual(new Location(Bukkit.getWorld("world"), object.get("x").getAsInt(),object.get("y").getAsInt(),object.get("z").getAsInt()), room.getRotation(), room.getLocation()));
                  case "item" -> {
 
                  }

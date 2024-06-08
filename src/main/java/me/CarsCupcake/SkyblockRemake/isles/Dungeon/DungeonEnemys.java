@@ -51,13 +51,13 @@ public class DungeonEnemys {
         this.miniboss = miniboss;
     }
     public void spawnMelee(Location l, IRoom room, int rotation, Location2d base, Dungeon.MobAttributes... attributes) {
-        Dungeon.INSTANCE.spawnMob(Tools.getRandom(melee), room.relativeToActual(l, rotation, base), room, attributes);
+        Dungeon.INSTANCE.spawnMob(Tools.getRandom(melee), IRoom.relativeToActual(l, rotation, base), room, attributes);
     }
     public void spawnArcher(Location l, IRoom room, int rotation, Location2d base, Dungeon.MobAttributes... attributes) {
-        Dungeon.INSTANCE.spawnMob(Tools.getRandom(archer), room.relativeToActual(l, rotation, base), room, attributes);
+        Dungeon.INSTANCE.spawnMob(Tools.getRandom(archer), IRoom.relativeToActual(l, rotation, base), room, attributes);
     }
     public void spawnMiniboss(Location l, IRoom room, int rotation, Location2d base, Dungeon.MobAttributes... attributes) {
-        Dungeon.INSTANCE.spawnMob(Tools.getRandom(miniboss), room.relativeToActual(l, rotation, base), room, attributes);
+        Dungeon.INSTANCE.spawnMob(Tools.getRandom(miniboss), IRoom.relativeToActual(l, rotation, base), room, attributes);
     }
     public static DungeonEnemys getFloorPool() {
         return switch (Dungeon.INSTANCE.floor()) {

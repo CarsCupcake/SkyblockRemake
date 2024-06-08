@@ -25,7 +25,6 @@ public class AbilityListener implements Listener {
 	@EventHandler
 	public void listener(PlayerInteractEvent event) {
 		if (event.getHand() == EquipmentSlot.OFF_HAND) {
-			event.setCancelled(true);
 			return;
 		}
 		AbilityManager.abilityTrigger(event);

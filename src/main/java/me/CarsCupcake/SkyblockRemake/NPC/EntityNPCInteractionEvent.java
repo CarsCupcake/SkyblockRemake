@@ -1,5 +1,6 @@
 package me.CarsCupcake.SkyblockRemake.NPC;
 
+import lombok.Getter;
 import me.CarsCupcake.SkyblockRemake.API.SkyblockPlayerEvent;
 import me.CarsCupcake.SkyblockRemake.Skyblock.SkyblockPlayer;
 import org.bukkit.event.Cancellable;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class EntityNPCInteractionEvent extends EntityNPCEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private boolean isCancelled = false;
+    @Getter
     private final SkyblockPlayer player;
     public EntityNPCInteractionEvent(EntityNPC npc, SkyblockPlayer player) {
         super(npc);
@@ -34,8 +36,5 @@ public class EntityNPCInteractionEvent extends EntityNPCEvent implements Cancell
     @NotNull
     public static HandlerList getHandlerList() {
         return handlers;
-    }
-    public SkyblockPlayer getPlayer(){
-        return player;
     }
 }

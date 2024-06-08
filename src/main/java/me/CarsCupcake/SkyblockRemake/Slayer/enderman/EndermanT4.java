@@ -8,6 +8,7 @@ import me.CarsCupcake.SkyblockRemake.Skyblock.*;
 import me.CarsCupcake.SkyblockRemake.abilities.EntityAbilities;
 import me.CarsCupcake.SkyblockRemake.utils.Laser;
 import me.CarsCupcake.SkyblockRemake.utils.Tools;
+import me.CarsCupcake.SkyblockRemake.utils.runnable.EntityRunnable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
@@ -27,7 +28,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
     private int rotationPhase = 0;
     private Enderman entity;
     private BukkitRunnable aoe;
-    private BukkitRunnable tp;
+    private EntityRunnable tp;
     private boolean isInHeadsPhase = false;
     private boolean isInBeaconPhase = false;
 
@@ -68,14 +69,14 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
             }
         };
         aoe.runTaskTimer(Main.getMain(), 20, 20);
-        tp = new BukkitRunnable() {
+        tp = new EntityRunnable() {
             @Override
             public void run() {
                 EntityAbilities.voidgloomTeleport(entity, owner);
             }
 
         };
-        tp.runTaskTimer(Main.getMain(), 20 * 5, 20 * 5);
+        tp.runTaskTimer(this, 20 * 5, 20 * 5);
     }
 
     @Override
@@ -102,10 +103,6 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
     @Override
     public void kill() {
         super.kill();
-        try {
-            tp.cancel();
-        } catch (Exception ignored) {
-        }
         try {
             aoe.cancel();
         } catch (Exception ignored) {
@@ -224,7 +221,7 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
             public void run() {
                 for (Laser l : items.keySet()) {
                     Vector v = items.get(l);
-                    v.rotateAroundY(0.025);
+                    v.rotateAroundY(-0.025);
                     l.getEnd().getEntity().teleport(l.getStart().getEntity().getLocation().add(v));
                     double y = l.getStart().getEntity().getLocation().getY();
                     Location k = entity.getLocation();
@@ -257,14 +254,14 @@ public class EndermanT4 extends HighEndermanSlayer implements FinalDamageDesider
                     stand.remove();
                     entity.setAI(true);
                     cancel();
-                    tp = new BukkitRunnable() {
+                    tp = new EntityRunnable() {
                         @Override
                         public void run() {
                             EntityAbilities.voidgloomTeleport(entity, owner);
                         }
 
                     };
-                    tp.runTaskTimer(Main.getMain(), 20 * 5, 20 * 5);
+                    tp.runTaskTimer(EndermanT4.this, 20 * 5, 20 * 5);
                     isInRotationPhase = false;
 
                     for (Laser l : items.keySet())

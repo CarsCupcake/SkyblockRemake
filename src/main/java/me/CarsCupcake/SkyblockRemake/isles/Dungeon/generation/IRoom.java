@@ -38,11 +38,36 @@ public abstract class IRoom {
 
     public abstract Set<Location2d> getNextLocations(Location2d base, int rotation);
 
-    public Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
+    /*public Location relativeToActual(Location relative, int rotation, Location2d locationOfCorner) {
         Vector v = relative.toVector();
         v.rotateAroundY(Math.toRadians(rotation * 90));
         Location l = locationOfCorner.asLocation(relative.getWorld(), 0).add(v);
         return l;
+    }*/
+
+    public static Location relativeToActual(Location relative, int cornerDirection, Location2d locationOfCorner) {
+        Location corner = Generator.to3d(locationOfCorner);
+        double x = 0;
+        double z = switch (cornerDirection) {
+            case 0 -> {
+                x = relative.getX() + locationOfCorner.getMapX();
+                yield relative.getZ() + locationOfCorner.getMapY(); //.getY in a point is the MC Z coord
+            }
+            case 1 -> {
+                x = -(relative.getZ() - locationOfCorner.getMapX());
+                yield relative.getX() + locationOfCorner.getMapY();
+            }
+            case 2 -> {
+                x = -(relative.getX() - locationOfCorner.getMapX());
+                yield -(relative.getZ() - locationOfCorner.getMapY());
+            }
+            case 3 -> {
+                x = relative.getZ() + locationOfCorner.getMapX();
+                yield -(relative.getX() - locationOfCorner.getMapY());
+            }
+            default -> 0;
+        };
+        return new Location(relative.getWorld(), x, relative.getY(), z);
     }
 
     public void discover() {
